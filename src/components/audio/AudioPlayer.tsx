@@ -138,12 +138,12 @@ export function AudioPlayer() {
             </span>
           </div>
 
-          {/* Right on mobile, centered on desktop: controls */}
-          <div className="flex flex-shrink-0 items-center justify-center gap-1 md:flex-1 md:gap-2">
+          {/* Right: controls (mobile and desktop) */}
+          <div className="flex flex-shrink-0 items-center justify-center gap-1 md:gap-2">
             <button
               type="button"
               onClick={previous}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300 md:h-11 md:w-11"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
               aria-label="Prethodni ajah"
             >
               <PrevIcon />
@@ -151,7 +151,7 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={isPlaying ? pause : resume}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300 md:h-12 md:w-12"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300"
               aria-label={isPlaying ? "Pauza" : "Pusti"}
             >
               {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -159,7 +159,7 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={next}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300 md:h-11 md:w-11"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
               aria-label="Sljedeći ajah"
             >
               <NextIcon />

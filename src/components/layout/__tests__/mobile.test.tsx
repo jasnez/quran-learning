@@ -145,10 +145,18 @@ describe("AudioPlayer mobile", () => {
     const player = container.querySelector("[data-testid='audio-player']");
     const row = player?.firstElementChild?.firstElementChild;
     expect(row).toBeInTheDocument();
-    expect(row?.className).toMatch(/justify-between|md:justify-center/);
+    expect(row?.className).toMatch(/justify-between/);
     const controlsGroup = row?.children?.[1];
     expect(controlsGroup?.querySelector("[aria-label='Prethodni ajah']")).toBeInTheDocument();
     expect(controlsGroup?.className).toMatch(/flex.*items-center|ml-auto|flex-shrink-0/);
+  });
+
+  it("on desktop label is left and controls are right (same as mobile)", () => {
+    const { container } = render(<AudioPlayer />);
+    const player = container.querySelector("[data-testid='audio-player']");
+    const row = player?.firstElementChild?.firstElementChild;
+    expect(row?.className).toMatch(/justify-between/);
+    expect(row?.children?.length).toBe(2);
   });
 
   it("on mobile controls row is vertically centered (items-center)", () => {
@@ -156,6 +164,16 @@ describe("AudioPlayer mobile", () => {
     const player = container.querySelector("[data-testid='audio-player']");
     const row = player?.firstElementChild?.firstElementChild;
     expect(row?.className).toMatch(/items-center/);
+  });
+
+  it("play/pause button does not exceed row height (same size as prev/next to avoid overflow)", () => {
+    const { container } = render(<AudioPlayer />);
+    const playBtn = container.querySelector("[aria-label='Pusti'], [aria-label='Pauza']");
+    const prevBtn = container.querySelector("[aria-label='Prethodni ajah']");
+    expect(playBtn).toBeInTheDocument();
+    expect(prevBtn).toBeInTheDocument();
+    expect(playBtn?.className).not.toMatch(/h-12|w-12/);
+    expect(playBtn?.className).toMatch(/h-11|h-10|min-h-\[44px\]/);
   });
 });
 
