@@ -48,3 +48,13 @@ export type Reciter = {
   arabicName: string;
   isDefault: boolean;
 };
+
+export type SearchResult = {
+  surahId: string;
+  surahName: string;
+  ayahNumber: number;
+  ayahId: string;
+  snippet: string;
+  snippetHighlight: string;
+  arabicSnippet: string;
+};

@@ -50,6 +50,7 @@ export function AyahCard({
 
   return (
     <article
+      id={`ayah-${ayah.id.replace(":", "-")}`}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
       className={`rounded-2xl border bg-[var(--theme-card)] p-5 px-4 transition-colors duration-300 border-[var(--theme-border)] md:px-6 md:py-8 ${

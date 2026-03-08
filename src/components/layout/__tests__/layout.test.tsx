@@ -136,6 +136,11 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: /surahs/i })).toHaveAttribute("href", "/surahs");
   });
 
+  it("has Search link", () => {
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(screen.getByRole("link", { name: /pretraga/i })).toHaveAttribute("href", "/search");
+  });
+
   it("has settings control", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const settings = screen.getByRole("button", { name: /settings/i });
@@ -175,6 +180,7 @@ describe("MobileNav", () => {
   it("includes Home, Learn, Sure and Settings", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /pretraga/i })).toHaveAttribute("href", "/search");
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
     expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
