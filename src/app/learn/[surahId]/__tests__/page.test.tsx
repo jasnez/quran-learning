@@ -75,10 +75,10 @@ const mockSettings = {
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
-  repeatAyah: false,
+  repeatMode: "off" as const,
   toggleTransliteration: vi.fn(),
   toggleTranslation: vi.fn(),
-  toggleRepeatAyah: vi.fn(),
+  cycleRepeatMode: vi.fn(),
 };
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((selector: (s: typeof mockSettings) => unknown) => selector(mockSettings)),
@@ -223,12 +223,12 @@ describe("Learn Mode page", () => {
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("clicking Repeat toggle calls toggleRepeatAyah", async () => {
+  it("clicking Repeat control calls cycleRepeatMode", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     const repeatBtn = screen.getByRole("button", { name: /repeat|ponavljaj/i });
     await userEvent.click(repeatBtn);
-    expect(mockSettings.toggleRepeatAyah).toHaveBeenCalled();
+    expect(mockSettings.cycleRepeatMode).toHaveBeenCalled();
   });
 
   it("calls notFound for invalid surah id", async () => {

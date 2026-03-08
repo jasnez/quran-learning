@@ -29,7 +29,7 @@ describe("settingsStore", () => {
       showTajwidColors: true,
       selectedReciterId: "mishary-alafasy",
       playbackSpeed: 1,
-      repeatAyah: false,
+      repeatMode: "off",
       autoPlayNext: true,
     });
   });
@@ -48,7 +48,7 @@ describe("settingsStore", () => {
       expect(state.showTajwidColors).toBe(true);
       expect(state.selectedReciterId).toBe("mishary-alafasy");
       expect(state.playbackSpeed).toBe(1);
-      expect(state.repeatAyah).toBe(false);
+      expect(state.repeatMode).toBe("off");
       expect(state.autoPlayNext).toBe(true);
     });
   });
@@ -113,11 +113,15 @@ describe("settingsStore", () => {
     });
   });
 
-  describe("toggleRepeatAyah", () => {
-    it("toggles repeatAyah", () => {
-      expect(useSettingsStore.getState().repeatAyah).toBe(false);
-      useSettingsStore.getState().toggleRepeatAyah();
-      expect(useSettingsStore.getState().repeatAyah).toBe(true);
+  describe("cycleRepeatMode", () => {
+    it("cycles off -> surah -> ayah -> off", () => {
+      expect(useSettingsStore.getState().repeatMode).toBe("off");
+      useSettingsStore.getState().cycleRepeatMode();
+      expect(useSettingsStore.getState().repeatMode).toBe("surah");
+      useSettingsStore.getState().cycleRepeatMode();
+      expect(useSettingsStore.getState().repeatMode).toBe("ayah");
+      useSettingsStore.getState().cycleRepeatMode();
+      expect(useSettingsStore.getState().repeatMode).toBe("off");
     });
   });
 

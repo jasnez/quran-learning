@@ -28,11 +28,13 @@ export function AudioPlayer() {
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
 
-  const repeatAyah = useSettingsStore((s) => s.repeatAyah);
+  const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
-  const toggleRepeatAyah = useSettingsStore((s) => s.toggleRepeatAyah);
+  const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
+
+  const restartFromFirst = usePlayerStore((s) => s.restartFromFirst);
 
   const prevSrcRef = useRef<string | null>(null);
   const prevIsPlayingRef = useRef(false);
@@ -80,21 +82,24 @@ export function AudioPlayer() {
   }, [activeAudioSrc, setCurrentTime, setDuration]);
 
   // Ended: repeat or advance (ref updated in effect to avoid ref-as-render)
-  // Autoplay is surah-level: within surah we always go to next ayah; only at end of surah does autoPlayNext decide next surah vs stop.
+  // repeatMode: 'ayah' = repeat current ayah; 'surah' = at end of surah restart from first ayah; 'off' = advance or autoplay next surah.
   const onEndedRef = useRef<(() => void) | undefined>(undefined);
   useEffect(() => {
     onEndedRef.current = () => {
-      if (repeatAyah) {
+      if (repeatMode === "ayah") {
         audioManager.seek(0);
         audioManager.play().catch(() => pause());
         return;
       }
       const advanced = next();
       if (advanced) {
-        // Moved to next ayah within surah; store/source update will handle playback
         return;
       }
       // Last ayah of surah ended
+      if (repeatMode === "surah") {
+        restartFromFirst();
+        return;
+      }
       if (autoPlayNext) {
         const surahNum = usePlayerStore.getState().currentSurahId;
         const num = surahNum ? parseInt(surahNum, 10) : 0;
@@ -107,12 +112,12 @@ export function AudioPlayer() {
         pause();
       }
     };
-  }, [repeatAyah, autoPlayNext, next, pause, router]);
+  }, [repeatMode, autoPlayNext, next, pause, router, restartFromFirst]);
   useEffect(() => {
     if (!activeAudioSrc) return;
     const handler = () => onEndedRef.current?.();
     return audioManager.onEnded(handler);
-  }, [activeAudioSrc, repeatAyah, autoPlayNext, next, pause]);
+  }, [activeAudioSrc, repeatMode, autoPlayNext, next, pause, restartFromFirst]);
 
   // Playback speed when setting changes
   useEffect(() => {
@@ -174,16 +179,26 @@ export function AudioPlayer() {
             </button>
             <button
               type="button"
-              onClick={toggleRepeatAyah}
-              aria-label={repeatAyah ? "Isključi ponavljanje ajeta" : "Ponavljaj ajet"}
-              aria-pressed={repeatAyah}
+              onClick={cycleRepeatMode}
+              aria-label={
+                repeatMode === "off"
+                  ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
+                  : repeatMode === "surah"
+                    ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
+                    : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
+              }
+              aria-pressed={repeatMode !== "off"}
               className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
-                repeatAyah
+                repeatMode !== "off"
                   ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                   : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
               }`}
             >
-              <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
+              {repeatMode === "ayah" ? (
+                <RepeatOneIcon className="h-4 w-4 md:h-5 md:w-5" />
+              ) : (
+                <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
+              )}
             </button>
             <button
               type="button"
@@ -261,6 +276,18 @@ function RepeatIcon({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
       <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
+    </svg>
+  );
+}
+
+/** Repeat-one icon: loop with "1" in center (for repeat ayah state). */
+function RepeatOneIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
+      <text x="12" y="14" textAnchor="middle" fontSize="8" fontWeight="bold" fill="currentColor" fontFamily="system-ui, sans-serif">
+        1
+      </text>
     </svg>
   );
 }

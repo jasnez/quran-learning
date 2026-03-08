@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { SettingsState } from "@/types/settings";
+import type { RepeatMode } from "@/types/settings";
 
 type Theme = SettingsState["theme"];
 
@@ -12,7 +13,7 @@ type SettingsStore = SettingsState & {
   toggleTajwidColors: () => void;
   setReciter: (selectedReciterId: string | null) => void;
   setPlaybackSpeed: (playbackSpeed: number) => void;
-  toggleRepeatAyah: () => void;
+  cycleRepeatMode: () => void;
   toggleAutoPlayNext: () => void;
 };
 
@@ -24,11 +25,17 @@ const defaultState: SettingsState = {
   showTajwidColors: true,
   selectedReciterId: "mishary-alafasy",
   playbackSpeed: 1,
-  repeatAyah: false,
+  repeatMode: "off",
   autoPlayNext: true,
 };
 
 export const SETTINGS_STORAGE_KEY = "quran-learning-settings";
+
+function nextRepeatMode(current: RepeatMode): RepeatMode {
+  if (current === "off") return "surah";
+  if (current === "surah") return "ayah";
+  return "off";
+}
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
@@ -52,7 +59,8 @@ export const useSettingsStore = create<SettingsStore>()(
 
       setPlaybackSpeed: (playbackSpeed) => set({ playbackSpeed }),
 
-      toggleRepeatAyah: () => set((s) => ({ repeatAyah: !s.repeatAyah })),
+      cycleRepeatMode: () =>
+        set((s) => ({ repeatMode: nextRepeatMode(s.repeatMode) })),
 
       toggleAutoPlayNext: () => set((s) => ({ autoPlayNext: !s.autoPlayNext })),
     }),
@@ -66,9 +74,21 @@ export const useSettingsStore = create<SettingsStore>()(
         showTajwidColors: state.showTajwidColors,
         selectedReciterId: state.selectedReciterId,
         playbackSpeed: state.playbackSpeed,
-        repeatAyah: state.repeatAyah,
+        repeatMode: state.repeatMode,
         autoPlayNext: state.autoPlayNext,
       }),
+      merge: (persistedState, currentState) => {
+        const p = persistedState as unknown as Record<string, unknown>;
+        const repeatMode: RepeatMode =
+          p.repeatMode === "surah" || p.repeatMode === "ayah"
+            ? (p.repeatMode as RepeatMode)
+            : p.repeatAyah === true ? "ayah" : ((p.repeatMode as RepeatMode) ?? "off");
+        return {
+          ...currentState,
+          ...(persistedState as object),
+          repeatMode,
+        } as SettingsStore;
+      },
     }
   )
 );

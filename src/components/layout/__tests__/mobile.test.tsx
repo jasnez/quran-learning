@@ -56,7 +56,7 @@ vi.mock("@/store/settingsStore", () => ({
       showTransliteration: true,
       showTranslation: true,
       showTajwidColors: true,
-      repeatAyah: false,
+      repeatMode: "off",
       autoPlayNext: true,
       playbackSpeed: 1,
       setTheme: () => {},
@@ -65,7 +65,7 @@ vi.mock("@/store/settingsStore", () => ({
       toggleTranslation: () => {},
       toggleTajwidColors: () => {},
       setPlaybackSpeed: () => {},
-      toggleRepeatAyah: () => {},
+      cycleRepeatMode: () => {},
       toggleAutoPlayNext: () => {},
     })
   ),

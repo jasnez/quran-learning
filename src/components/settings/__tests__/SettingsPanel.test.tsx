@@ -14,7 +14,7 @@ const mockToggleTranslation = vi.fn();
 const mockToggleTajwidColors = vi.fn();
 const mockSetReciter = vi.fn();
 const mockSetPlaybackSpeed = vi.fn();
-const mockToggleRepeatAyah = vi.fn();
+const mockCycleRepeatMode = vi.fn();
 const mockToggleAutoPlayNext = vi.fn();
 
 const defaultStore = {
@@ -25,7 +25,7 @@ const defaultStore = {
   showTajwidColors: true,
   selectedReciterId: "mishary-alafasy",
   playbackSpeed: 1,
-  repeatAyah: false,
+  repeatMode: "off" as const,
   autoPlayNext: true,
   setTheme: mockSetTheme,
   setArabicFontSize: mockSetArabicFontSize,
@@ -34,7 +34,7 @@ const defaultStore = {
   toggleTajwidColors: mockToggleTajwidColors,
   setReciter: mockSetReciter,
   setPlaybackSpeed: mockSetPlaybackSpeed,
-  toggleRepeatAyah: mockToggleRepeatAyah,
+  cycleRepeatMode: mockCycleRepeatMode,
   toggleAutoPlayNext: mockToggleAutoPlayNext,
 };
 
@@ -52,7 +52,7 @@ beforeEach(() => {
   defaultStore.showTranslation = true;
   defaultStore.showTajwidColors = true;
   defaultStore.playbackSpeed = 1;
-  defaultStore.repeatAyah = false;
+  defaultStore.repeatMode = "off";
   defaultStore.autoPlayNext = true;
 });
 
@@ -100,9 +100,9 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("button", { name: /1\.5x|1,5x/i })).toBeInTheDocument();
   });
 
-  it("has repeat ayah and auto-play next toggles", () => {
+  it("has repeat mode and auto-play next controls", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByRole("switch", { name: /repeat|ponavljaj/i })).toBeInTheDocument();
+    expect(screen.getByRole("switch", { name: /ponavljanje/i })).toBeInTheDocument();
     expect(screen.getByRole("switch", { name: /auto-play|sljedeći ajet|next ayah/i })).toBeInTheDocument();
   });
 
@@ -195,11 +195,11 @@ describe("SettingsPanel", () => {
     expect(mockSetPlaybackSpeed).toHaveBeenCalledWith(1.5);
   });
 
-  it("repeat ayah switch calls toggleRepeatAyah", async () => {
+  it("repeat mode control calls cycleRepeatMode", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: /repeat|ponavljaj/i });
-    await userEvent.click(toggle);
-    expect(mockToggleRepeatAyah).toHaveBeenCalled();
+    const control = screen.getByRole("switch", { name: /ponavljanje/i });
+    await userEvent.click(control);
+    expect(mockCycleRepeatMode).toHaveBeenCalled();
   });
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {

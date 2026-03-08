@@ -1,3 +1,5 @@
+export type RepeatMode = "off" | "surah" | "ayah";
+
 export interface SettingsState {
   theme: "light" | "dark" | "sepia";
   arabicFontSize: number;
@@ -6,6 +8,6 @@ export interface SettingsState {
   showTajwidColors: boolean;
   selectedReciterId: string | null;
   playbackSpeed: number;
-  repeatAyah: boolean;
+  repeatMode: RepeatMode;
   autoPlayNext: boolean;
 }

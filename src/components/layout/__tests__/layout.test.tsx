@@ -65,10 +65,10 @@ vi.mock("@/lib/audio/audioManager", () => ({
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({
-      repeatAyah: false,
+      repeatMode: "off",
       autoPlayNext: true,
       playbackSpeed: 1,
-      toggleRepeatAyah: () => {},
+      cycleRepeatMode: () => {},
       toggleAutoPlayNext: () => {},
     })
   ),

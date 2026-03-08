@@ -57,10 +57,10 @@ vi.mock("@/store/settingsStore", () => ({
       showTransliteration: true,
       showTranslation: true,
       showTajwidColors: true,
-      repeatAyah: false,
+      repeatMode: "off",
       toggleTransliteration: vi.fn(),
       toggleTranslation: vi.fn(),
-      toggleRepeatAyah: vi.fn(),
+      cycleRepeatMode: vi.fn(),
     })
   ),
 }));

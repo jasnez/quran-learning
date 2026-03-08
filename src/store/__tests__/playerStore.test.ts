@@ -142,6 +142,26 @@ describe("playerStore", () => {
     });
   });
 
+  describe("restartFromFirst", () => {
+    it("sets current to first ayah in queue and plays", () => {
+      const a1 = mockAyah("1:1", "/a1.mp3");
+      const a2 = mockAyah("1:2", "/a2.mp3");
+      usePlayerStore.getState().setQueue([a1, a2]);
+      usePlayerStore.getState().play(a2);
+      usePlayerStore.getState().restartFromFirst();
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("1:1");
+      expect(state.activeAudioSrc).toBe("/a1.mp3");
+      expect(state.isPlaying).toBe(true);
+    });
+
+    it("does nothing when queue is empty", () => {
+      usePlayerStore.getState().restartFromFirst();
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBeNull();
+    });
+  });
+
   describe("previous", () => {
     it("moves to previous ayah in queue and plays", () => {
       const a1 = mockAyah("1:1", "/a1.mp3");

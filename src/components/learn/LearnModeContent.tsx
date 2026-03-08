@@ -17,10 +17,10 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
-  const repeatAyah = useSettingsStore((s) => s.repeatAyah);
+  const repeatMode = useSettingsStore((s) => s.repeatMode);
   const toggleTransliteration = useSettingsStore((s) => s.toggleTransliteration);
   const toggleTranslation = useSettingsStore((s) => s.toggleTranslation);
-  const toggleRepeatAyah = useSettingsStore((s) => s.toggleRepeatAyah);
+  const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
 
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
@@ -204,11 +204,17 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
           <button
             type="button"
             className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-            aria-label={repeatAyah ? "Isključi ponavljanje" : "Ponavljaj ajet"}
-            aria-pressed={repeatAyah}
-            onClick={toggleRepeatAyah}
+            aria-label={
+              repeatMode === "off"
+                ? "Ponavljaj (prvi klik: sura, drugi klik: ajet)"
+                : repeatMode === "surah"
+                  ? "Ponavljanje sure. Klik za ponavljanje ajeta."
+                  : "Ponavljanje ajeta. Klik za isključivanje."
+            }
+            aria-pressed={repeatMode !== "off"}
+            onClick={cycleRepeatMode}
           >
-            Ponavljaj
+            Ponavljaj{repeatMode !== "off" ? ` (${repeatMode === "surah" ? "sura" : "ajet"})` : ""}
           </button>
           <button
             type="button"

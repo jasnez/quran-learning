@@ -44,6 +44,7 @@ const mockPrevious = vi.fn();
 const mockSetCurrentTime = vi.fn();
 const mockSetDuration = vi.fn();
 const mockPush = vi.fn();
+const mockRestartFromFirst = vi.fn();
 
 const playerState = {
   currentSurahId: "1",
@@ -57,6 +58,7 @@ const playerState = {
   pause: mockPauseStore,
   next: mockNext,
   previous: mockPrevious,
+  restartFromFirst: mockRestartFromFirst,
   setCurrentTime: mockSetCurrentTime,
   setDuration: mockSetDuration,
 };
@@ -74,27 +76,27 @@ vi.mock("@/store/playerStore", () => {
 });
 
 vi.mock("@/store/settingsStore", () => ({
-  useSettingsStore: vi.fn((selector: (s: { repeatAyah: boolean; autoPlayNext: boolean; playbackSpeed: number; toggleRepeatAyah: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
+  useSettingsStore: vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
     selector(settingsState)
   ),
 }));
 
 let settingsState: {
-  repeatAyah: boolean;
+  repeatMode: "off" | "surah" | "ayah";
   autoPlayNext: boolean;
   playbackSpeed: number;
-  toggleRepeatAyah: () => void;
+  cycleRepeatMode: () => void;
   toggleAutoPlayNext: () => void;
 };
 
-const mockToggleRepeatAyah = vi.fn();
+const mockCycleRepeatMode = vi.fn();
 const mockToggleAutoPlayNext = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
-  settingsState = { repeatAyah: false, autoPlayNext: true, playbackSpeed: 1, toggleRepeatAyah: mockToggleRepeatAyah, toggleAutoPlayNext: mockToggleAutoPlayNext };
+  settingsState = { repeatMode: "off", autoPlayNext: true, playbackSpeed: 1, cycleRepeatMode: mockCycleRepeatMode, toggleAutoPlayNext: mockToggleAutoPlayNext };
   playerState.currentSurahId = "1";
   playerState.currentAyahId = "1:3";
   playerState.isPlaying = false;
@@ -261,6 +263,7 @@ describe("AudioPlayer", () => {
     playerState.currentSurahId = "1";
     playerState.currentAyahId = "1:7";
     settingsState.autoPlayNext = false;
+    settingsState.repeatMode = "off";
     mockNext.mockReturnValue(false);
     render(<AudioPlayer />);
     const endedHandler = mockOnEnded.mock.calls[0]?.[0];
@@ -268,6 +271,30 @@ describe("AudioPlayer", () => {
     expect(mockNext).toHaveBeenCalled();
     expect(mockPauseStore).toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("when audio ends at last ayah and repeatMode is surah, calls restartFromFirst", () => {
+    playerState.currentSurahId = "1";
+    playerState.currentAyahId = "1:7";
+    settingsState.repeatMode = "surah";
+    settingsState.autoPlayNext = false;
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    endedHandler();
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockRestartFromFirst).toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("when audio ends and repeatMode is ayah, seeks to 0 and plays (repeat ayah)", () => {
+    settingsState.repeatMode = "ayah";
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    endedHandler();
+    expect(mockSeek).toHaveBeenCalledWith(0);
+    expect(mockPlay).toHaveBeenCalled();
+    expect(mockNext).not.toHaveBeenCalled();
   });
 
   it("autoplay control is a toggle switch with thumb containing play icon", () => {
@@ -296,10 +323,40 @@ describe("AudioPlayer", () => {
     expect(thumb?.parentElement).toHaveClass("justify-start");
   });
 
-  it("shows repeat ayah toggle with accessible label", () => {
+  it("shows repeat control with accessible label (surah or ayah)", () => {
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj ajet|isključi ponavljanje|repeat/i });
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
     expect(repeatBtn).toBeInTheDocument();
+  });
+
+  it("clicking repeat control calls cycleRepeatMode", () => {
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    fireEvent.click(repeatBtn);
+    expect(mockCycleRepeatMode).toHaveBeenCalledTimes(1);
+  });
+
+  it("repeat button has pressed state when repeatMode is surah or ayah", () => {
+    settingsState.repeatMode = "surah";
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    expect(repeatBtn).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("when repeatMode is ayah, repeat button shows Repeat One icon (with 1)", () => {
+    settingsState.repeatMode = "ayah";
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    const svg = repeatBtn.querySelector("svg");
+    expect(svg).toBeInTheDocument();
+    expect(repeatBtn.textContent).toContain("1");
+  });
+
+  it("when repeatMode is off, repeat button shows loop icon without 1", () => {
+    settingsState.repeatMode = "off";
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    expect(repeatBtn.textContent).not.toContain("1");
   });
 
   it("shows autoplay next surah toggle with accessible label", () => {
@@ -308,25 +365,11 @@ describe("AudioPlayer", () => {
     expect(autoplayBtn).toBeInTheDocument();
   });
 
-  it("clicking repeat toggle calls toggleRepeatAyah", () => {
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj ajet|isključi ponavljanje|repeat/i });
-    fireEvent.click(repeatBtn);
-    expect(mockToggleRepeatAyah).toHaveBeenCalledTimes(1);
-  });
-
   it("clicking autoplay toggle calls toggleAutoPlayNext", () => {
     render(<AudioPlayer />);
     const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
     fireEvent.click(autoplayBtn);
     expect(mockToggleAutoPlayNext).toHaveBeenCalledTimes(1);
-  });
-
-  it("repeat button has pressed state when repeatAyah is true", () => {
-    settingsState.repeatAyah = true;
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
-    expect(repeatBtn).toHaveAttribute("aria-pressed", "true");
   });
 
   it("autoplay button has pressed state when autoPlayNext is true", () => {

@@ -13,6 +13,7 @@ type PlayerStore = PlayerState & {
   resume: () => void;
   next: () => boolean;
   previous: () => void;
+  restartFromFirst: () => void;
   setQueue: (ayahs: Ayah[]) => void;
   setCurrentAyah: (ayah: Ayah) => void;
   setCurrentTime: (currentTime: number) => void;
@@ -71,6 +72,18 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       currentSurahId: surahIdFromAyahId(prevAyah.id),
       currentAyahId: prevAyah.id,
       activeAudioSrc: prevAyah.audio?.url ?? null,
+      isPlaying: true,
+    });
+  },
+
+  restartFromFirst: () => {
+    const { queue } = get();
+    if (queue.length === 0) return;
+    const first = queue[0];
+    set({
+      currentSurahId: surahIdFromAyahId(first.id),
+      currentAyahId: first.id,
+      activeAudioSrc: first.audio?.url ?? null,
       isPlaying: true,
     });
   },

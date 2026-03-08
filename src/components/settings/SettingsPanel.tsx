@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
+import type { RepeatMode } from "@/types/settings";
 
 const FONT_MIN = 20;
 const FONT_MAX = 44;
@@ -26,7 +27,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
   const selectedReciterId = useSettingsStore((s) => s.selectedReciterId);
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
-  const repeatAyah = useSettingsStore((s) => s.repeatAyah);
+  const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
 
   const setTheme = useSettingsStore((s) => s.setTheme);
@@ -35,7 +36,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const toggleTranslation = useSettingsStore((s) => s.toggleTranslation);
   const toggleTajwidColors = useSettingsStore((s) => s.toggleTajwidColors);
   const setPlaybackSpeed = useSettingsStore((s) => s.setPlaybackSpeed);
-  const toggleRepeatAyah = useSettingsStore((s) => s.toggleRepeatAyah);
+  const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
 
   useEffect(() => {
@@ -192,11 +193,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   ))}
                 </div>
               </div>
-              <ToggleRow
+              <RepeatModeRow
                 id="repeat"
-                label="Ponavljaj ajet"
-                checked={repeatAyah}
-                onChange={toggleRepeatAyah}
+                repeatMode={repeatMode}
+                onCycle={cycleRepeatMode}
               />
               <ToggleRow
                 id="autoplay"
@@ -239,6 +239,46 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         </div>
       </div>
     </>
+  );
+}
+
+const REPEAT_LABELS: Record<RepeatMode, string> = {
+  off: "Isključeno",
+  surah: "Ponavljaj suru",
+  ayah: "Ponavljaj ajet",
+};
+
+function RepeatModeRow({
+  id,
+  repeatMode,
+  onCycle,
+}: {
+  id: string;
+  repeatMode: RepeatMode;
+  onCycle: () => void;
+}) {
+  const label = REPEAT_LABELS[repeatMode];
+  return (
+    <div className="flex items-center justify-between">
+      <span id={`${id}-label`} className="text-sm font-medium text-stone-700 dark:text-stone-300">
+        Ponavljanje
+      </span>
+      <button
+        id={id}
+        type="button"
+        role="switch"
+        aria-checked={repeatMode !== "off"}
+        aria-label={`Ponavljanje: ${label}. Klik za promjenu.`}
+        className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+          repeatMode !== "off"
+            ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-500"
+            : "border-stone-300 bg-white text-stone-600 hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+        }`}
+        onClick={onCycle}
+      >
+        {label}
+      </button>
+    </div>
   );
 }
 

@@ -21,7 +21,7 @@ vi.mock("@/store/playerStore", () => ({
 }));
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((sel: (s: unknown) => unknown) =>
-    sel({ repeatAyah: false, autoPlayNext: true, playbackSpeed: 1 })
+    sel({ repeatMode: "off", autoPlayNext: true, playbackSpeed: 1 })
   ),
 }));
 
