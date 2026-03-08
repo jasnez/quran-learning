@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export interface LearningProgress {
   lastSurahNumber: number;
@@ -38,6 +38,18 @@ const defaultState: LearningProgress = {
 };
 
 export const PROGRESS_STORAGE_KEY = "quran-learning-progress";
+
+/** Safe for SSR: no-op storage when localStorage is not available (e.g. on Vercel server). */
+function getProgressStorage() {
+  if (typeof window === "undefined") {
+    return {
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {},
+    };
+  }
+  return window.localStorage;
+}
 
 export const useProgressStore = create<ProgressStore>()(
   persist(
@@ -87,6 +99,7 @@ export const useProgressStore = create<ProgressStore>()(
     }),
     {
       name: PROGRESS_STORAGE_KEY,
+      storage: createJSONStorage(() => getProgressStorage()),
       partialize: (state) => ({
         lastSurahNumber: state.lastSurahNumber,
         lastAyahNumber: state.lastAyahNumber,

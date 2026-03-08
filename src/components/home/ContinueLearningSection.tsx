@@ -1,14 +1,18 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
 import { timeSince } from "@/lib/timeSince";
 
 export function ContinueLearningSection() {
-  const pos = useProgressStore((s) => s.getLastPosition());
-  const lastSurahNameLatin = useProgressStore((s) => s.lastSurahNameLatin);
-  const timestamp = useProgressStore((s) => s.timestamp);
-  const stats = useProgressStore((s) => s.getStats());
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const pos = useProgressStore((s) => (typeof s.getLastPosition === "function" ? s.getLastPosition() : null));
+  const lastSurahNameLatin = useProgressStore((s) => s.lastSurahNameLatin ?? "");
+  const timestamp = useProgressStore((s) => s.timestamp ?? "");
+  const stats = useProgressStore((s) => (typeof s.getStats === "function" ? s.getStats() : { totalTime: 0, surahsCount: 0, ayahsCount: 0 }));
 
   const hasPosition = pos !== null && pos.surahNumber >= 1;
   const readerHref = hasPosition ? `/surah/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/surah/1";
@@ -16,6 +20,18 @@ export function ContinueLearningSection() {
   const timeLabel = timestamp ? timeSince(timestamp) : "";
   const showStats = stats.totalTime > 0 || stats.surahsCount > 0 || stats.ayahsCount > 0;
   const totalMinutes = Math.floor(stats.totalTime / 60000);
+
+  if (!mounted) {
+    return (
+      <section aria-labelledby="continue-heading" className="space-y-6">
+        <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
+          <p className="text-base font-medium text-stone-800 dark:text-stone-200">
+            Dobrodošli! Počnite sa kratkim surama.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section aria-labelledby="continue-heading" className="space-y-6">
