@@ -4,6 +4,7 @@ import type { Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
+import { useProgressStore } from "@/store/progressStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
@@ -54,6 +55,7 @@ export function AyahCard({
     } else {
       setQueue(surahAyahs);
       play(ayah);
+      useProgressStore.getState().updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");
     }
   };
 

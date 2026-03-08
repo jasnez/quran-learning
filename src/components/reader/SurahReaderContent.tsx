@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
+import { useProgressStore } from "@/store/progressStore";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
@@ -20,6 +21,18 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
   const play = usePlayerStore((s) => s.play);
 
   const prevAyahIdRef = useRef<string | null>(null);
+  const progressTrackedRef = useRef(false);
+
+  // Track surah opened and last position (lightweight: once per mount)
+  useEffect(() => {
+    if (ayahs.length === 0 || progressTrackedRef.current) return;
+    const [surahPart] = ayahs[0].id.split(":");
+    const surahNumber = parseInt(surahPart, 10) || 1;
+    const ayahNumber = initialAyahNumber ?? 1;
+    progressTrackedRef.current = true;
+    useProgressStore.getState().addSurahVisited(surahNumber);
+    useProgressStore.getState().updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");
+  }, [ayahs, initialAyahNumber, surahNameLatin]);
 
   // Autoplay first ayah when navigated from "next surah" (e.g. after previous surah ended)
   useEffect(() => {

@@ -7,6 +7,7 @@ import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
+import { useProgressStore } from "@/store/progressStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { TajwidLegend } from "@/components/quran";
 
@@ -64,6 +65,10 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     }
   }, [ayahs, setQueue, setCurrentAyah, currentAyahId]);
 
+  useEffect(() => {
+    if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
+  }, [surah?.surahNumber]);
+
   if (!ayah) {
     return (
       <div className="py-12 text-center" data-empty-state>
@@ -87,6 +92,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     else {
       setQueue(ayahs);
       play(ayah);
+      useProgressStore.getState().updateLastPosition(surahNumber, ayah.ayahNumber, surah.nameLatin, "learning");
     }
   };
 

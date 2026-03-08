@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
+import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
 import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
 
@@ -38,6 +39,7 @@ export function AudioPlayer() {
 
   const prevSrcRef = useRef<string | null>(null);
   const prevIsPlayingRef = useRef(false);
+  const listeningRef = useRef<{ lastTime: number; pendingMs: number }>({ lastTime: -1, pendingMs: 0 });
 
   // Sync audio element with store: load and play/pause
   useEffect(() => {
@@ -46,6 +48,7 @@ export function AudioPlayer() {
     if (prevSrcRef.current !== resolvedSrc) {
       prevSrcRef.current = resolvedSrc;
       prevIsPlayingRef.current = isPlaying;
+      listeningRef.current = { lastTime: -1, pendingMs: 0 };
       audioManager.loadAudio(resolvedSrc);
       audioManager.setPlaybackRate(playbackSpeed);
       if (isPlaying) {
@@ -68,13 +71,33 @@ export function AudioPlayer() {
     };
   }, [activeAudioSrc, isPlaying, pause]);
 
-  // Time update and duration sync
+  // Time update and duration sync + listening time accumulation
   useEffect(() => {
     if (!activeAudioSrc) return;
     const onTimeUpdateHandler = () => {
-      setCurrentTime(audioManager.getCurrentTime());
+      const now = audioManager.getCurrentTime();
+      setCurrentTime(now);
       const d = audioManager.getDuration();
       if (Number.isFinite(d) && d > 0) setDuration(d);
+      const playing = usePlayerStore.getState().isPlaying;
+      const ref = listeningRef.current;
+      if (playing) {
+        if (ref.lastTime >= 0) {
+          const delta = now - ref.lastTime;
+          if (delta > 0 && delta < 120) ref.pendingMs += Math.round(delta * 1000);
+        }
+        ref.lastTime = now;
+        if (ref.pendingMs >= 1000) {
+          useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+          ref.pendingMs = 0;
+        }
+      } else {
+        ref.lastTime = -1;
+        if (ref.pendingMs > 0) {
+          useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+          ref.pendingMs = 0;
+        }
+      }
     };
     const unsubscribe = audioManager.onTimeUpdate(onTimeUpdateHandler);
     onTimeUpdateHandler();
@@ -91,6 +114,13 @@ export function AudioPlayer() {
         audioManager.play().catch(() => pause());
         return;
       }
+      useProgressStore.getState().incrementAyahsListened();
+      const ref = listeningRef.current;
+      if (ref.pendingMs > 0) {
+        useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+        ref.pendingMs = 0;
+      }
+      ref.lastTime = -1;
       const advanced = next();
       if (advanced) {
         return;
