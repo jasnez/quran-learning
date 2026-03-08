@@ -6,6 +6,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { getAllSurahs } from "@/lib/data";
+import { ContinueLearningSection } from "@/components/home/ContinueLearningSection";
 
 const FEATURED_SURAH_NUMBERS = [1, 112, 113, 114];
 
@@ -85,6 +86,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Continue Learning or welcome + stats */}
+      <ContinueLearningSection />
 
       {/* Featured surahs */}
       <section aria-labelledby="featured-heading">

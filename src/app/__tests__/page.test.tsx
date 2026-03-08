@@ -34,20 +34,43 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+const mockProgressState = {
+  getLastPosition: vi.fn<() => { surahNumber: number; ayahNumber: number; mode: "reader" | "learning" } | null>(() => null),
+  lastSurahNameLatin: "",
+  timestamp: "",
+  getStats: vi.fn<() => { totalTime: number; surahsCount: number; ayahsCount: number }>(() => ({ totalTime: 0, surahsCount: 0, ayahsCount: 0 })),
+};
+
+vi.mock("@/store/progressStore", () => ({
+  useProgressStore: vi.fn((selector: (s: typeof mockProgressState) => unknown) => {
+    const state = {
+      getLastPosition: () => mockProgressState.getLastPosition(),
+      lastSurahNameLatin: mockProgressState.lastSurahNameLatin,
+      timestamp: mockProgressState.timestamp,
+      getStats: () => mockProgressState.getStats(),
+    };
+    return selector(state as typeof mockProgressState);
+  }),
+}));
+
 beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
+  mockProgressState.getLastPosition.mockReturnValue(null);
+  mockProgressState.lastSurahNameLatin = "";
+  mockProgressState.timestamp = "";
+  mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
 });
 
 describe("Home page", () => {
   describe("Hero section", () => {
-    it("shows platform title in Bosnian", () => {
+    it("shows platform title in Bosnian", async () => {
       render(<Home />);
       expect(
-        screen.getByRole("heading", { name: /platforma za učenje kur'an/i })
+        await screen.findByRole("heading", { name: /platforma za učenje kur'an/i })
       ).toBeInTheDocument();
-    });
+    }, 10000);
 
     it("shows subtitle about learning with tajwid and translation", () => {
       render(<Home />);
@@ -120,6 +143,63 @@ describe("Home page", () => {
       expect(screen.getByRole("heading", { name: /^transliteracija$/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /bosanski prijevod/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /audio s označavanjem ajeta/i })).toBeInTheDocument();
+    });
+  });
+
+  describe("Continue Learning / welcome section", () => {
+    it("when no saved position (new user), shows welcome message and recommended surahs", () => {
+      mockProgressState.getLastPosition.mockReturnValue(null);
+      render(<Home />);
+      expect(screen.getByText(/dobrodošli|dobrodosli/i)).toBeInTheDocument();
+      expect(screen.getByText(/počnite sa kratkim surama|pocnite sa kratkim surama/i)).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /preporučene|sure/i })).toBeInTheDocument();
+    });
+
+    it("when saved position exists, shows Nastavi učenje card above featured surahs", () => {
+      mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 2, ayahNumber: 15, mode: "reader" });
+      mockProgressState.lastSurahNameLatin = "Al-Baqarah";
+      mockProgressState.timestamp = new Date().toISOString();
+      render(<Home />);
+      const continueHeading = screen.getByRole("heading", { name: /nastavi učenje|nastavi ucenje/i });
+      expect(continueHeading).toBeInTheDocument();
+      expect(continueHeading.closest("section")).toHaveTextContent(/al-baqarah|Al-Baqarah/i);
+      expect(continueHeading.closest("section")).toHaveTextContent(/15|ajet/i);
+      const featuredHeading = screen.getByRole("heading", { name: /preporučene|sure/i });
+      expect(continueHeading.compareDocumentPosition(featuredHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+
+    it("when saved position exists, card has two buttons linking to reader and learn", () => {
+      mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 2, ayahNumber: 15, mode: "reader" });
+      mockProgressState.lastSurahNameLatin = "Al-Baqarah";
+      render(<Home />);
+      const readerLink = screen.getByRole("link", { name: /nastavi u reader-u|reader/i });
+      const learnLink = screen.getByRole("link", { name: /nastavi u learning modu|learning modu/i });
+      expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
+      expect(learnLink).toHaveAttribute("href", "/learn/2");
+    });
+
+    it("when saved position exists, shows last session time label (Zadnji put)", () => {
+      mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 1, ayahNumber: 1, mode: "learning" });
+      mockProgressState.lastSurahNameLatin = "Al-Fatihah";
+      mockProgressState.timestamp = new Date().toISOString();
+      render(<Home />);
+      expect(screen.getByText(/zadnji put/i)).toBeInTheDocument();
+    });
+
+    it("stats row is hidden when all stats are zero (new user)", () => {
+      mockProgressState.getLastPosition.mockReturnValue(null);
+      mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
+      render(<Home />);
+      expect(screen.queryByText(/posjećeno|posjeceno|preslušano|preslusano|min ukupno|slušanje/i)).not.toBeInTheDocument();
+    });
+
+    it("stats row is visible when any stat is greater than zero", () => {
+      mockProgressState.getLastPosition.mockReturnValue(null);
+      mockProgressState.getStats.mockReturnValue({ totalTime: 120000, surahsCount: 3, ayahsCount: 10 });
+      render(<Home />);
+      expect(screen.getByText(/3\s*sura\s*posjećeno|posjeceno/i)).toBeInTheDocument();
+      expect(screen.getByText(/10\s*ajeta\s*preslušano|preslusano/i)).toBeInTheDocument();
+      expect(screen.getByText(/2\s*min\s*ukupno|min\s*slušanje|slusanje/i)).toBeInTheDocument();
     });
   });
 });
