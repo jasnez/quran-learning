@@ -36,17 +36,22 @@ vi.mock("next/link", () => ({
 
 const mockProgressState = {
   getLastPosition: vi.fn<() => { surahNumber: number; ayahNumber: number; mode: "reader" | "learning" } | null>(() => null),
+  lastSurahNumber: 0,
+  lastAyahNumber: 0,
+  lastMode: "reader" as const,
   lastSurahNameLatin: "",
   timestamp: "",
+  totalListeningTimeMs: 0,
+  surahsVisited: [] as number[],
+  ayahsListened: 0,
   getStats: vi.fn<() => { totalTime: number; surahsCount: number; ayahsCount: number }>(() => ({ totalTime: 0, surahsCount: 0, ayahsCount: 0 })),
 };
 
 vi.mock("@/store/progressStore", () => ({
   useProgressStore: vi.fn((selector: (s: typeof mockProgressState) => unknown) => {
     const state = {
+      ...mockProgressState,
       getLastPosition: () => mockProgressState.getLastPosition(),
-      lastSurahNameLatin: mockProgressState.lastSurahNameLatin,
-      timestamp: mockProgressState.timestamp,
       getStats: () => mockProgressState.getStats(),
     };
     return selector(state as typeof mockProgressState);
@@ -58,8 +63,14 @@ beforeEach(() => {
   cleanup();
   document.body.innerHTML = "";
   mockProgressState.getLastPosition.mockReturnValue(null);
+  mockProgressState.lastSurahNumber = 0;
+  mockProgressState.lastAyahNumber = 0;
+  mockProgressState.lastMode = "reader";
   mockProgressState.lastSurahNameLatin = "";
   mockProgressState.timestamp = "";
+  mockProgressState.totalListeningTimeMs = 0;
+  mockProgressState.surahsVisited = [];
+  mockProgressState.ayahsListened = 0;
   mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
 });
 
@@ -157,6 +168,9 @@ describe("Home page", () => {
 
     it("when saved position exists, shows Nastavi učenje card above featured surahs", () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 2, ayahNumber: 15, mode: "reader" });
+      mockProgressState.lastSurahNumber = 2;
+      mockProgressState.lastAyahNumber = 15;
+      mockProgressState.lastMode = "reader";
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
       mockProgressState.timestamp = new Date().toISOString();
       render(<Home />);
@@ -168,18 +182,24 @@ describe("Home page", () => {
       expect(continueHeading.compareDocumentPosition(featuredHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     });
 
-    it("when saved position exists, card has two buttons linking to reader and learn", () => {
+    it("when saved position exists, card has two buttons linking to reader and learn", async () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 2, ayahNumber: 15, mode: "reader" });
+      mockProgressState.lastSurahNumber = 2;
+      mockProgressState.lastAyahNumber = 15;
+      mockProgressState.lastMode = "reader";
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
       render(<Home />);
-      const readerLink = screen.getByRole("link", { name: /nastavi u reader-u|reader/i });
-      const learnLink = screen.getByRole("link", { name: /nastavi u learning modu|learning modu/i });
+      const readerLink = await screen.findByRole("link", { name: /nastavi u reader-u|reader/i });
+      const learnLink = await screen.findByRole("link", { name: /nastavi u learning modu|learning modu/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
       expect(learnLink).toHaveAttribute("href", "/learn/2");
     });
 
     it("when saved position exists, shows last session time label (Zadnji put)", () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 1, ayahNumber: 1, mode: "learning" });
+      mockProgressState.lastSurahNumber = 1;
+      mockProgressState.lastAyahNumber = 1;
+      mockProgressState.lastMode = "learning";
       mockProgressState.lastSurahNameLatin = "Al-Fatihah";
       mockProgressState.timestamp = new Date().toISOString();
       render(<Home />);
@@ -196,6 +216,9 @@ describe("Home page", () => {
     it("stats row is visible when any stat is greater than zero", () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       mockProgressState.getStats.mockReturnValue({ totalTime: 120000, surahsCount: 3, ayahsCount: 10 });
+      mockProgressState.totalListeningTimeMs = 120000;
+      mockProgressState.surahsVisited = [1, 2, 3];
+      mockProgressState.ayahsListened = 10;
       render(<Home />);
       expect(screen.getByText(/3\s*sura\s*posjećeno|posjeceno/i)).toBeInTheDocument();
       expect(screen.getByText(/10\s*ajeta\s*preslušano|preslusano/i)).toBeInTheDocument();

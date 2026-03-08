@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
 import { timeSince } from "@/lib/timeSince";
@@ -9,10 +9,30 @@ export function ContinueLearningSection() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const pos = useProgressStore((s) => (typeof s.getLastPosition === "function" ? s.getLastPosition() : null));
+  const lastSurahNumber = useProgressStore((s) => s.lastSurahNumber);
+  const lastAyahNumber = useProgressStore((s) => s.lastAyahNumber);
+  const lastMode = useProgressStore((s) => s.lastMode);
   const lastSurahNameLatin = useProgressStore((s) => s.lastSurahNameLatin ?? "");
   const timestamp = useProgressStore((s) => s.timestamp ?? "");
-  const stats = useProgressStore((s) => (typeof s.getStats === "function" ? s.getStats() : { totalTime: 0, surahsCount: 0, ayahsCount: 0 }));
+  const totalListeningTimeMs = useProgressStore((s) => s.totalListeningTimeMs);
+  const surahsVisited = useProgressStore((s) => s.surahsVisited);
+  const ayahsListened = useProgressStore((s) => s.ayahsListened);
+
+  const pos = useMemo(
+    () =>
+      lastSurahNumber >= 1
+        ? { surahNumber: lastSurahNumber, ayahNumber: lastAyahNumber, mode: lastMode }
+        : null,
+    [lastSurahNumber, lastAyahNumber, lastMode]
+  );
+  const stats = useMemo(
+    () => ({
+      totalTime: totalListeningTimeMs,
+      surahsCount: Array.isArray(surahsVisited) ? surahsVisited.length : 0,
+      ayahsCount: ayahsListened,
+    }),
+    [totalListeningTimeMs, surahsVisited, ayahsListened]
+  );
 
   const hasPosition = pos !== null && pos.surahNumber >= 1;
   const readerHref = hasPosition ? `/surah/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/surah/1";
