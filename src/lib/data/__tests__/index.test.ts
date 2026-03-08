@@ -41,6 +41,47 @@ describe("getAllSurahs", () => {
       expect(s.id).toBe(String(i + 1));
     });
   });
+
+  it("last surah is 114 An-Nas (En-Nas)", () => {
+    const surahs = getAllSurahs();
+    const last = surahs[113];
+    expect(last).toMatchObject({
+      id: "114",
+      surahNumber: 114,
+      slug: "an-nas",
+      nameLatin: "An-Nas",
+      nameBosnian: "En-Nas",
+      revelationType: "meccan",
+      ayahCount: 6,
+    });
+    expect(last.nameArabic).toBe("الناس");
+  });
+
+  it("every surah has non-empty required string fields", () => {
+    const surahs = getAllSurahs();
+    surahs.forEach((s, i) => {
+      expect(s.id, `surah ${i + 1} id`).toBeTruthy();
+      expect(s.slug, `surah ${i + 1} slug`).toBeTruthy();
+      expect(s.nameArabic, `surah ${i + 1} nameArabic`).toBeTruthy();
+      expect(s.nameLatin, `surah ${i + 1} nameLatin`).toBeTruthy();
+      expect(s.nameBosnian, `surah ${i + 1} nameBosnian`).toBeTruthy();
+    });
+  });
+
+  it("every surah has positive ayahCount", () => {
+    const surahs = getAllSurahs();
+    surahs.forEach((s, i) => {
+      expect(s.ayahCount, `surah ${i + 1} ayahCount`).toBeGreaterThan(0);
+      expect(Number.isInteger(s.ayahCount), `surah ${i + 1} ayahCount integer`).toBe(true);
+    });
+  });
+
+  it("slugs are unique", () => {
+    const surahs = getAllSurahs();
+    const slugs = surahs.map((s) => s.slug);
+    const unique = new Set(slugs);
+    expect(unique.size).toBe(114);
+  });
 });
 
 describe("getSurahByNumber", () => {
