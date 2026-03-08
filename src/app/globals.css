@@ -62,3 +62,14 @@ body {
   line-height: 1.9;
   letter-spacing: 0.02em;
 }
+
+/* Brief highlight for ayah opened from search (?ayah=N) */
+[data-highlight-from-search="true"] {
+  background-color: rgb(254 243 199 / 0.6) !important;
+  transition: background-color 1.5s ease-out;
+}
+
+.dark [data-highlight-from-search="true"],
+[data-theme="dark"] [data-highlight-from-search="true"] {
+  background-color: rgb(120 53 15 / 0.35) !important;
+}

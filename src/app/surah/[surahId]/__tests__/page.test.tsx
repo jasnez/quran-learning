@@ -233,6 +233,16 @@ describe("Surah Reader page", () => {
     expect(container.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
   });
 
+  it("accepts searchParams.ayah and still renders content (scroll/highlight handled in client)", async () => {
+    const Page = await SurahReaderPage({
+      params: Promise.resolve({ surahId: "1" }),
+      searchParams: Promise.resolve({ ayah: "2" }),
+    });
+    render(Page);
+    expect(screen.getByText("الفاتحة")).toBeInTheDocument();
+    expect(document.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
+  });
+
   it("when current ayah is playing, scrolls active card into view with smooth behavior", async () => {
     const scrollIntoViewMock = vi.fn();
     Element.prototype.scrollIntoView = scrollIntoViewMock;

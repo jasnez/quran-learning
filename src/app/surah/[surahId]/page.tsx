@@ -3,7 +3,10 @@ import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
 
-type PageProps = { params: Promise<{ surahId: string }> };
+type PageProps = {
+  params: Promise<{ surahId: string }>;
+  searchParams?: Promise<{ ayah?: string }>;
+};
 
 export async function generateMetadata({ params }: PageProps) {
   const { surahId } = await params;
@@ -22,8 +25,13 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function SurahReaderPage({ params }: PageProps) {
+export default async function SurahReaderPage({ params, searchParams }: PageProps) {
   const { surahId } = await params;
+  const resolvedSearchParams = searchParams != null ? await searchParams : {};
+  const ayahParam = resolvedSearchParams?.ayah;
+  const initialAyahNumber = ayahParam != null ? parseInt(ayahParam, 10) : undefined;
+  const validInitialAyah = Number.isInteger(initialAyahNumber) && (initialAyahNumber as number) >= 1 ? (initialAyahNumber as number) : undefined;
+
   const surahNumber = parseInt(surahId, 10);
 
   if (Number.isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
@@ -54,7 +62,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
     <main className="mx-auto max-w-[800px] px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <section className="mt-12">
-        <SurahReaderContent ayahs={ayahs} />
+        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} />
       </section>
     </main>
   );

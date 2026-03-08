@@ -7,9 +7,9 @@ import { usePlayerStore } from "@/store/playerStore";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
-type SurahReaderContentProps = { ayahs: Ayah[] };
+type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number };
 
-export function SurahReaderContent({ ayahs }: SurahReaderContentProps) {
+export function SurahReaderContent({ ayahs, initialAyahNumber }: SurahReaderContentProps) {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
@@ -18,6 +18,26 @@ export function SurahReaderContent({ ayahs }: SurahReaderContentProps) {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
 
   const prevAyahIdRef = useRef<string | null>(null);
+
+  // Scroll to and briefly highlight ayah when opened from search (?ayah=N)
+  useEffect(() => {
+    if (initialAyahNumber == null || ayahs.length === 0) return;
+    const surahId = ayahs[0].id.split(":")[0];
+    const id = `${surahId}:${initialAyahNumber}`;
+    const el = document.querySelector(`[data-ayah-id="${id}"]`);
+    if (!el) return;
+    const rafId = requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.setAttribute("data-highlight-from-search", "true");
+    });
+    const timeoutId = setTimeout(() => {
+      document.querySelector(`[data-ayah-id="${id}"]`)?.removeAttribute("data-highlight-from-search");
+    }, 2000);
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
+    };
+  }, [initialAyahNumber, ayahs]);
 
   // Scroll active ayah into view only when transitioning between ayahs (not on mount or manual scroll)
   useEffect(() => {
