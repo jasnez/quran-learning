@@ -5,6 +5,18 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import Home from "../page";
+import type { SurahSummary } from "@/types/quran";
+
+const mockSurahs: SurahSummary[] = [
+  { id: "1", surahNumber: 1, slug: "al-fatiha", nameArabic: "الفاتحة", nameLatin: "Al-Fatihah", nameBosnian: "Al-Fatiha", revelationType: "meccan", ayahCount: 7 },
+  { id: "112", surahNumber: 112, slug: "al-ikhlas", nameArabic: "الإخلاص", nameLatin: "Al-Ikhlas", nameBosnian: "El-Ihlas", revelationType: "meccan", ayahCount: 4 },
+  { id: "113", surahNumber: 113, slug: "al-falaq", nameArabic: "الفلق", nameLatin: "Al-Falaq", nameBosnian: "El-Felek", revelationType: "meccan", ayahCount: 5 },
+  { id: "114", surahNumber: 114, slug: "an-nas", nameArabic: "الناس", nameLatin: "An-Nas", nameBosnian: "En-Nas", revelationType: "meccan", ayahCount: 6 },
+];
+
+vi.mock("@/lib/data", () => ({
+  getAllSurahs: vi.fn(() => mockSurahs),
+}));
 
 vi.mock("next/link", () => ({
   default: ({
