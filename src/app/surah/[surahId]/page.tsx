@@ -62,7 +62,7 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
     <main className="mx-auto max-w-[800px] px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <section className="mt-12">
-        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} />
+        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} surahNameLatin={surah.nameLatin} />
       </section>
     </main>
   );

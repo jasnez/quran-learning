@@ -143,6 +143,7 @@ describe("AyahCard mobile", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={[mockAyah]}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -158,6 +159,7 @@ describe("AyahCard mobile", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={[mockAyah]}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -182,6 +184,7 @@ describe("Arabic font size on mobile", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={[mockAyah]}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={20}
         showTransliteration={false}
         showTranslation={false}

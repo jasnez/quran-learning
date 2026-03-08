@@ -5,6 +5,7 @@ import { Footer } from "./Footer";
 import { MobileNav } from "./MobileNav";
 import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
+import { Toast } from "@/components/ui/Toast";
 import { SettingsOpenProvider, useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
 function SettingsPanelGate() {
@@ -23,6 +24,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Footer />
         <AudioPlayer />
         <MobileNav />
+        <Toast />
       </div>
       <SettingsPanelGate />
     </SettingsOpenProvider>

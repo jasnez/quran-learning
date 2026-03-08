@@ -97,6 +97,7 @@ describe("Active ayah highlight animation", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={[mockAyah]}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}

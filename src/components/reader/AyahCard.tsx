@@ -2,6 +2,8 @@
 
 import type { Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
+import { useBookmarkStore } from "@/store/bookmarkStore";
+import { useToastStore } from "@/store/toastStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
@@ -10,15 +12,22 @@ const ARABIC_MIN_MOBILE_PX = 22;
 type AyahCardProps = {
   ayah: Ayah;
   surahAyahs: Ayah[];
+  surahNameLatin: string;
   arabicFontSize: number;
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
 };
 
+function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
+  const [s, a] = id.split(":").map(Number);
+  return { surahNumber: s ?? 1, ayahNumber: a ?? 1 };
+}
+
 export function AyahCard({
   ayah,
   surahAyahs,
+  surahNameLatin,
   arabicFontSize,
   showTransliteration,
   showTranslation,
@@ -29,6 +38,11 @@ export function AyahCard({
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
+
+  const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
+  const { surahNumber, ayahNumber } = parseAyahId(ayah.id);
+  const bookmarked = useBookmarkStore((s) => s.isBookmarked(surahNumber, ayahNumber));
+  const showToast = useToastStore((s) => s.showToast);
 
   const isThisAyahPlaying = currentAyahId === ayah.id && isPlaying;
   const isMobile = useIsMobile();
@@ -41,6 +55,12 @@ export function AyahCard({
       setQueue(surahAyahs);
       play(ayah);
     }
+  };
+
+  const handleBookmark = () => {
+    const wasBookmarked = bookmarked;
+    toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText);
+    showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
   };
 
   const segments =
@@ -75,11 +95,16 @@ export function AyahCard({
           )}
           <button
             type="button"
-            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            onClick={handleBookmark}
+            className={`min-h-[44px] min-w-[44px] rounded-lg p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
+              bookmarked
+                ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
+                : "text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            }`}
             aria-label="Bookmark"
-            title="Bookmark"
+            title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
           >
-            <BookmarkIcon />
+            <BookmarkIcon filled={bookmarked} />
           </button>
           <button
             type="button"
@@ -115,9 +140,21 @@ export function AyahCard({
   );
 }
 
-function BookmarkIcon() {
+function BookmarkIcon({ filled }: { filled?: boolean }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="transition-transform duration-200"
+      aria-hidden
+    >
       <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
     </svg>
   );

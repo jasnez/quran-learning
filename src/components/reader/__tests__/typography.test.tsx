@@ -57,6 +57,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -73,6 +74,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -90,6 +92,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -106,6 +109,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -121,6 +125,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -136,6 +141,7 @@ describe("AyahCard typography and spacing", () => {
       <AyahCard
         ayah={mockAyah}
         surahAyahs={mockAyahs}
+        surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
         showTranslation={true}
@@ -151,7 +157,7 @@ describe("AyahCard typography and spacing", () => {
 
 describe("SurahReaderContent card spacing", () => {
   it("ayah list has generous gap between cards", () => {
-    const { container } = render(<SurahReaderContent ayahs={mockAyahs} />);
+    const { container } = render(<SurahReaderContent ayahs={mockAyahs} surahNameLatin="Al-Fatihah" />);
     const lists = container.querySelectorAll("ul");
     const ayahList = Array.from(lists).find((ul) => ul.querySelector("article"));
     expect(ayahList).toBeInTheDocument();

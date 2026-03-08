@@ -7,9 +7,9 @@ import { usePlayerStore } from "@/store/playerStore";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
-type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number };
+type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string };
 
-export function SurahReaderContent({ ayahs, initialAyahNumber }: SurahReaderContentProps) {
+export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin }: SurahReaderContentProps) {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
@@ -76,6 +76,7 @@ export function SurahReaderContent({ ayahs, initialAyahNumber }: SurahReaderCont
           <AyahCard
             ayah={ayah}
             surahAyahs={ayahs}
+            surahNameLatin={surahNameLatin}
             arabicFontSize={arabicFontSize}
             showTransliteration={showTransliteration}
             showTranslation={showTranslation}

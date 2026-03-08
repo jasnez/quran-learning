@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
+import { useBookmarkStore } from "@/store/bookmarkStore";
+import { useToastStore } from "@/store/toastStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { TajwidLegend } from "@/components/quran";
 
@@ -29,6 +31,9 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const next = usePlayerStore((s) => s.next);
   const previous = usePlayerStore((s) => s.previous);
 
+  const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
+  const showToast = useToastStore((s) => s.showToast);
+
   const currentIndex = useMemo(() => {
     const idx = ayahs.findIndex((a) => a.id === currentAyahId);
     return idx >= 0 ? idx : 0;
@@ -38,6 +43,17 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const isThisAyahPlaying = currentAyahId === ayah?.id && isPlaying;
   const canGoPrev = currentIndex > 0;
   const canGoNext = currentIndex < ayahs.length - 1;
+
+  const surahNumber = surah.surahNumber;
+  const ayahNumber = ayah?.ayahNumber ?? 1;
+  const bookmarked = useBookmarkStore((s) => s.isBookmarked(surahNumber, ayahNumber));
+
+  const handleBookmark = () => {
+    if (!ayah) return;
+    const wasBookmarked = bookmarked;
+    toggleBookmark(surahNumber, ayahNumber, surah.nameLatin, ayah.arabicText);
+    showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
+  };
 
   useEffect(() => {
     if (ayahs.length === 0) return;
@@ -155,6 +171,19 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
           </button>
           <button
             type="button"
+            onClick={handleBookmark}
+            className={`rounded-xl p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
+              bookmarked
+                ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
+                : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            }`}
+            aria-label={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
+            title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
+          >
+            <BookmarkIcon filled={bookmarked} />
+          </button>
+          <button
+            type="button"
             className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 dark:bg-emerald-500 dark:hover:bg-emerald-400"
             aria-label={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
             onClick={handlePlayPause}
@@ -232,6 +261,26 @@ function BookIcon() {
       <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
       <path d="M8 7h8" />
       <path d="M8 11h8" />
+    </svg>
+  );
+}
+
+function BookmarkIcon({ filled }: { filled?: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="transition-transform duration-200"
+      aria-hidden
+    >
+      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
     </svg>
   );
 }

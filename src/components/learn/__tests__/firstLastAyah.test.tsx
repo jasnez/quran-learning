@@ -4,6 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
@@ -64,6 +65,26 @@ vi.mock("@/store/settingsStore", () => ({
   ),
 }));
 
+const mockToggleBookmark = vi.fn();
+const mockIsBookmarked = vi.fn();
+vi.mock("@/store/bookmarkStore", () => ({
+  useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) =>
+    sel({
+      toggleBookmark: mockToggleBookmark,
+      isBookmarked: mockIsBookmarked,
+    })
+  ),
+}));
+
+const mockShowToast = vi.fn();
+vi.mock("@/store/toastStore", () => ({
+  useToastStore: vi.fn((sel: (s: unknown) => unknown) =>
+    sel({
+      showToast: mockShowToast,
+    })
+  ),
+}));
+
 const defaultPlayerState = {
   currentAyahId: "1:1" as string | null,
   isPlaying: false,
@@ -78,6 +99,7 @@ const defaultPlayerState = {
 beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
+  mockIsBookmarked.mockReturnValue(false);
   vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
     sel(defaultPlayerState)
   );
@@ -110,6 +132,25 @@ describe("Learning mode first/last ayah", () => {
     expect(
       screen.getByText(/podaci za ovu suru.*uskoro|dostupni.*uskoro/i)
     ).toBeInTheDocument();
+  });
+});
+
+describe("Learn mode bookmark", () => {
+  it("shows bookmark button for current ayah", () => {
+    render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    expect(
+      screen.getByRole("button", { name: /dodaj u označene|ukloni iz označenih|bookmark/i })
+    ).toBeInTheDocument();
+  });
+
+  it("clicking bookmark calls toggleBookmark and showToast", async () => {
+    const user = userEvent.setup();
+    mockIsBookmarked.mockReturnValue(false);
+    render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const btn = screen.getByRole("button", { name: /dodaj u označene|označene|bookmark/i });
+    await user.click(btn);
+    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ");
+    expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u oznacene");
   });
 });
 
