@@ -11,7 +11,7 @@ type PlayerStore = PlayerState & {
   play: (ayah: Ayah) => void;
   pause: () => void;
   resume: () => void;
-  next: () => void;
+  next: () => boolean;
   previous: () => void;
   setQueue: (ayahs: Ayah[]) => void;
   setCurrentAyah: (ayah: Ayah) => void;
@@ -50,7 +50,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const idx = queue.findIndex((a) => a.id === currentAyahId);
     if (idx < 0 || idx >= queue.length - 1) {
       set({ isPlaying: false });
-      return;
+      return false;
     }
     const nextAyah = queue[idx + 1];
     set({
@@ -59,6 +59,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       activeAudioSrc: nextAyah.audio?.url ?? null,
       isPlaying: true,
     });
+    return true;
   },
 
   previous: () => {

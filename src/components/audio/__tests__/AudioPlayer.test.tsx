@@ -43,6 +43,7 @@ const mockNext = vi.fn();
 const mockPrevious = vi.fn();
 const mockSetCurrentTime = vi.fn();
 const mockSetDuration = vi.fn();
+const mockPush = vi.fn();
 
 const playerState = {
   currentSurahId: "1",
@@ -60,11 +61,17 @@ const playerState = {
   setDuration: mockSetDuration,
 };
 
-vi.mock("@/store/playerStore", () => ({
-  usePlayerStore: vi.fn((selector: (s: typeof playerState) => unknown) =>
-    selector(playerState)
-  ),
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mockPush }),
 }));
+
+vi.mock("@/store/playerStore", () => {
+  const storeFn = vi.fn((selector: (s: typeof playerState) => unknown) =>
+    selector(playerState)
+  );
+  (storeFn as { getState: () => typeof playerState }).getState = () => ({ ...playerState });
+  return { usePlayerStore: storeFn };
+});
 
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((selector: (s: { repeatAyah: boolean; autoPlayNext: boolean; playbackSpeed: number }) => unknown) =>
@@ -203,5 +210,28 @@ describe("AudioPlayer", () => {
     settingsState.playbackSpeed = 1.5;
     rerender(<AudioPlayer />);
     expect(mockPause).not.toHaveBeenCalled();
+  });
+
+  it("when audio ends at last ayah and autoPlayNext is true, navigates to next surah with autoplay", () => {
+    playerState.currentSurahId = "1";
+    playerState.currentAyahId = "1:7";
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    expect(typeof endedHandler).toBe("function");
+    endedHandler();
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockPush).toHaveBeenCalledWith("/surah/2?autoplay=1");
+  });
+
+  it("when audio ends at last ayah and surah is 114, does not navigate", () => {
+    playerState.currentSurahId = "114";
+    playerState.currentAyahId = "114:6";
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    endedHandler();
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
   });
 });

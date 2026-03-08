@@ -25,6 +25,10 @@ const mockAyah: Ayah = {
   audio: { reciterId: "mishary-alafasy", url: "/a.mp3", durationMs: 0 },
 } as Ayah;
 
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+  useRouter: () => ({ push: vi.fn() }),
+}));
 vi.mock("@/store/playerStore", () => ({
   usePlayerStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({

@@ -6,6 +6,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
 import { AudioPlayer } from "../AudioPlayer";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
 vi.mock("@/store/playerStore", () => ({
   usePlayerStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({

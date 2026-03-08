@@ -7,17 +7,26 @@ import { usePlayerStore } from "@/store/playerStore";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
-type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string };
+type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string; initialAutoplay?: boolean };
 
-export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin }: SurahReaderContentProps) {
+export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, initialAutoplay }: SurahReaderContentProps) {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const setQueue = usePlayerStore((s) => s.setQueue);
+  const play = usePlayerStore((s) => s.play);
 
   const prevAyahIdRef = useRef<string | null>(null);
+
+  // Autoplay first ayah when navigated from "next surah" (e.g. after previous surah ended)
+  useEffect(() => {
+    if (!initialAutoplay || ayahs.length === 0) return;
+    setQueue(ayahs);
+    play(ayahs[0]);
+  }, [initialAutoplay, ayahs, setQueue, play]);
 
   // Scroll to and briefly highlight ayah when opened from search (?ayah=N)
   useEffect(() => {
@@ -27,7 +36,9 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin }:
     const el = document.querySelector(`[data-ayah-id="${id}"]`);
     if (!el) return;
     const rafId = requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       el.setAttribute("data-highlight-from-search", "true");
     });
     const timeoutId = setTimeout(() => {
@@ -46,7 +57,9 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin }:
     prevAyahIdRef.current = currentAyahId;
     if (prev !== null && prev !== currentAyahId) {
       const el = document.querySelector(`[data-ayah-id="${currentAyahId}"]`);
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (el && typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   }, [currentAyahId, isPlaying]);
 

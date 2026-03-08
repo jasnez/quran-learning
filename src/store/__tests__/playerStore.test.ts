@@ -116,10 +116,29 @@ describe("playerStore", () => {
       usePlayerStore.getState().setQueue([a1]);
       usePlayerStore.getState().play(a1);
       expect(usePlayerStore.getState().isPlaying).toBe(true);
-      usePlayerStore.getState().next();
+      const advanced = usePlayerStore.getState().next();
       const state = usePlayerStore.getState();
+      expect(advanced).toBe(false);
       expect(state.currentAyahId).toBe("1:1");
       expect(state.isPlaying).toBe(false);
+    });
+
+    it("returns true when it advanced to next ayah", () => {
+      const a1 = mockAyah("1:1", "/a1.mp3");
+      const a2 = mockAyah("1:2", "/a2.mp3");
+      usePlayerStore.getState().setQueue([a1, a2]);
+      usePlayerStore.getState().play(a1);
+      const advanced = usePlayerStore.getState().next();
+      expect(advanced).toBe(true);
+      expect(usePlayerStore.getState().currentAyahId).toBe("1:2");
+    });
+
+    it("returns false when at last ayah and did not advance", () => {
+      const a1 = mockAyah("1:1", "/a1.mp3");
+      usePlayerStore.getState().setQueue([a1]);
+      usePlayerStore.getState().play(a1);
+      const advanced = usePlayerStore.getState().next();
+      expect(advanced).toBe(false);
     });
   });
 

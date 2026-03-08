@@ -5,7 +5,7 @@ import { SurahHeader, SurahReaderContent } from "@/components/reader";
 
 type PageProps = {
   params: Promise<{ surahId: string }>;
-  searchParams?: Promise<{ ayah?: string }>;
+  searchParams?: Promise<{ ayah?: string; autoplay?: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -29,6 +29,7 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
   const { surahId } = await params;
   const resolvedSearchParams = searchParams != null ? await searchParams : {};
   const ayahParam = resolvedSearchParams?.ayah;
+  const autoplay = resolvedSearchParams?.autoplay === "1";
   const initialAyahNumber = ayahParam != null ? parseInt(ayahParam, 10) : undefined;
   const validInitialAyah = Number.isInteger(initialAyahNumber) && (initialAyahNumber as number) >= 1 ? (initialAyahNumber as number) : undefined;
 
@@ -62,7 +63,7 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
     <main className="mx-auto max-w-[800px] px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <section className="mt-12">
-        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} surahNameLatin={surah.nameLatin} />
+        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} surahNameLatin={surah.nameLatin} initialAutoplay={autoplay} />
       </section>
     </main>
   );

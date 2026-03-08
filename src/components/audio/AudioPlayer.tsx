@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import * as audioManager from "@/lib/audio/audioManager";
@@ -13,6 +14,7 @@ function ayahNumberFromId(ayahId: string | null): string {
 }
 
 export function AudioPlayer() {
+  const router = useRouter();
   const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
   const currentSurahId = usePlayerStore((s) => s.currentSurahId);
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
@@ -85,12 +87,19 @@ export function AudioPlayer() {
         return;
       }
       if (autoPlayNext) {
-        next();
+        const advanced = next();
+        if (!advanced) {
+          const surahNum = usePlayerStore.getState().currentSurahId;
+          const num = surahNum ? parseInt(surahNum, 10) : 0;
+          if (num >= 1 && num < 114) {
+            router.push(`/surah/${num + 1}?autoplay=1`);
+          }
+        }
         return;
       }
       pause();
     };
-  }, [repeatAyah, autoPlayNext, next, pause]);
+  }, [repeatAyah, autoPlayNext, next, pause, router]);
   useEffect(() => {
     if (!activeAudioSrc) return;
     const handler = () => onEndedRef.current?.();

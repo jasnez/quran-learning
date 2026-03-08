@@ -243,6 +243,18 @@ describe("Surah Reader page", () => {
     expect(document.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
   });
 
+  it("when searchParams.autoplay is 1, sets queue and plays first ayah on mount", async () => {
+    const Page = await SurahReaderPage({
+      params: Promise.resolve({ surahId: "1" }),
+      searchParams: Promise.resolve({ autoplay: "1" }),
+    });
+    render(Page);
+    await waitFor(() => {
+      expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
+      expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
+    });
+  });
+
   it("when current ayah is playing, scrolls active card into view with smooth behavior", async () => {
     const scrollIntoViewMock = vi.fn();
     Element.prototype.scrollIntoView = scrollIntoViewMock;
