@@ -3,6 +3,7 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { MobileNav } from "./MobileNav";
+import { BackToTop } from "./BackToTop";
 import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { Toast } from "@/components/ui/Toast";
@@ -28,6 +29,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>
         <Footer />
+        <BackToTop />
         <AudioPlayer />
         <MobileNav />
         <Toast />
