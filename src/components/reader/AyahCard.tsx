@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
@@ -48,6 +49,25 @@ export function AyahCard({
   const isThisAyahPlaying = currentAyahId === ayah.id && isPlaying;
   const isMobile = useIsMobile();
   const effectiveFontSize = isMobile ? Math.max(ARABIC_MIN_MOBILE_PX, arabicFontSize) : arabicFontSize;
+  const cardRef = useRef<HTMLElement>(null);
+  const hasMarkedReadRef = useRef(false);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || hasMarkedReadRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry?.isIntersecting && !hasMarkedReadRef.current) {
+          hasMarkedReadRef.current = true;
+          useProgressStore.getState().markAyahRead(surahNumber, ayahNumber, surahAyahs.length);
+        }
+      },
+      { rootMargin: "50px", threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ayah.id, surahNumber, ayahNumber, surahAyahs.length]);
 
   const handlePlayPause = () => {
     if (isThisAyahPlaying) {
@@ -72,6 +92,7 @@ export function AyahCard({
 
   return (
     <article
+      ref={cardRef}
       id={`ayah-${ayah.id.replace(":", "-")}`}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}

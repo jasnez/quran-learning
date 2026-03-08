@@ -69,6 +69,12 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
   }, [surah?.surahNumber]);
 
+  useEffect(() => {
+    if (ayah && ayahs.length > 0) {
+      useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber, ayahs.length);
+    }
+  }, [surahNumber, ayah?.ayahNumber, ayah?.id, ayahs.length]);
+
   if (!ayah) {
     return (
       <div className="py-12 text-center" data-empty-state>

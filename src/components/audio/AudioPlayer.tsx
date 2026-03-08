@@ -89,12 +89,22 @@ export function AudioPlayer() {
         ref.lastTime = now;
         if (ref.pendingMs >= 1000) {
           useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+          const surahId = usePlayerStore.getState().currentSurahId;
+          if (surahId) {
+            const num = parseInt(surahId, 10);
+            if (Number.isInteger(num) && num >= 1) useProgressStore.getState().addSurahTimeSpent(num, ref.pendingMs);
+          }
           ref.pendingMs = 0;
         }
       } else {
         ref.lastTime = -1;
         if (ref.pendingMs > 0) {
           useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+          const surahId = usePlayerStore.getState().currentSurahId;
+          if (surahId) {
+            const num = parseInt(surahId, 10);
+            if (Number.isInteger(num) && num >= 1) useProgressStore.getState().addSurahTimeSpent(num, ref.pendingMs);
+          }
           ref.pendingMs = 0;
         }
       }
@@ -115,9 +125,25 @@ export function AudioPlayer() {
         return;
       }
       useProgressStore.getState().incrementAyahsListened();
+      const playerState = usePlayerStore.getState();
+      const ayahId = playerState.currentAyahId;
+      if (ayahId) {
+        const [s, a] = ayahId.split(":").map(Number);
+        const surahNum = s && !Number.isNaN(s) ? s : 0;
+        const ayahNum = a && !Number.isNaN(a) ? a : 0;
+        const queueLen = playerState.queue?.length ?? 0;
+        if (surahNum >= 1 && ayahNum >= 1) {
+          useProgressStore.getState().markAyahListened(surahNum, ayahNum, queueLen > 0 ? queueLen : undefined);
+        }
+      }
       const ref = listeningRef.current;
       if (ref.pendingMs > 0) {
         useProgressStore.getState().incrementListeningTime(ref.pendingMs);
+        const surahId = usePlayerStore.getState().currentSurahId;
+        if (surahId) {
+          const num = parseInt(surahId, 10);
+          if (Number.isInteger(num) && num >= 1) useProgressStore.getState().addSurahTimeSpent(num, ref.pendingMs);
+        }
         ref.pendingMs = 0;
       }
       ref.lastTime = -1;
