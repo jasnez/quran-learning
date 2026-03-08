@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
+import { useShallow } from "zustand/react/shallow";
 import { timeSince } from "@/lib/timeSince";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 
@@ -43,7 +44,7 @@ export function ContinueLearningSection() {
   const timeLabel = timestamp ? timeSince(timestamp) : "";
   const showStats = stats.totalTime > 0 || stats.surahsCount > 0 || stats.ayahsCount > 0;
   const totalMinutes = Math.floor(stats.totalTime / 60000);
-  const overall = useProgressStore((s) => s.getOverallProgress());
+  const overall = useProgressStore(useShallow((s) => s.getOverallProgress()));
   const showOverallStats =
     overall.totalSurahsStarted > 0 ||
     overall.totalAyahsListened > 0 ||

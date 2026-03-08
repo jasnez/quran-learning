@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { SurahSummary } from "@/types/quran";
 import { useProgressStore } from "@/store/progressStore";
+import { useShallow } from "zustand/react/shallow";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 
 const TOTAL_AYAHS_QURAN = 6236;
@@ -15,7 +16,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
   const [filter, setFilter] = useState<FilterKind>("sve");
   const [sort, setSort] = useState<SortKind>("surah");
 
-  const overall = useProgressStore((s) => s.getOverallProgress());
+  const overall = useProgressStore(useShallow((s) => s.getOverallProgress()));
   const progressMap = useProgressStore((s) => s.surahProgressMap);
   const totalTimeMs = useProgressStore((s) => s.totalListeningTimeMs);
 
