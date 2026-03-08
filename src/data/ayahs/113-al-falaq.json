@@ -1,0 +1,106 @@
+{
+  "surah": {
+    "id": "113",
+    "surahNumber": 113,
+    "slug": "al-falaq",
+    "nameArabic": "الفلق",
+    "nameLatin": "Al-Falaq",
+    "nameBosnian": "El-Felek",
+    "revelationType": "meccan",
+    "ayahCount": 5
+  },
+  "ayahs": [
+    {
+      "id": "113:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6226,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+      "transliteration": "Qul aAAoothu birabbi alfalaq",
+      "translationBosnian": "Reci: \"Utječem se Gospodaru svitanja",
+      "tajwidSegments": [
+        { "text": "قُلْ", "rule": "qalqalah" },
+        { "text": " أَعُوذُ بِرَبِّ ٱلْفَلَقِ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/113001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "113:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6227,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "مِن شَرِّ مَا خَلَقَ",
+      "transliteration": "Min sharri ma khalaq",
+      "translationBosnian": "od zla onoga što On stvara,",
+      "tajwidSegments": [
+        { "text": "مِن شَرِّ مَا خَلَقَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/113002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "113:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6228,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+      "transliteration": "Wamin sharri ghasiqin ithawaqab",
+      "translationBosnian": "i od zla mrkle noći kada razastre tmine,",
+      "tajwidSegments": [
+        { "text": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/113003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "113:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6229,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ",
+      "transliteration": "Wamin sharri annaffathatifee alAAuqad",
+      "translationBosnian": "i od zla onih koje u čvorove pušu",
+      "tajwidSegments": [
+        { "text": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ", "rule": "ghunnah" },
+        { "text": " فِى ٱلْعُقَدِ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/113004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "113:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6230,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+      "transliteration": "Wamin sharri hasidin itha hasad",
+      "translationBosnian": "i od zla zavidljivca kad zavist ne krije!\"",
+      "tajwidSegments": [
+        { "text": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/113005.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

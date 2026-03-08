@@ -1,0 +1,124 @@
+{
+  "surah": {
+    "id": "114",
+    "surahNumber": 114,
+    "slug": "an-nas",
+    "nameArabic": "الناس",
+    "nameLatin": "An-Nas",
+    "nameBosnian": "En-Nas",
+    "revelationType": "meccan",
+    "ayahCount": 6
+  },
+  "ayahs": [
+    {
+      "id": "114:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6231,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+      "transliteration": "Qul aAAoothu birabbi annas",
+      "translationBosnian": "Reci: \"Tražim zaštitu Gospodara ljudi,",
+      "tajwidSegments": [
+        { "text": "قُلْ", "rule": "qalqalah" },
+        { "text": " أَعُوذُ بِرَبِّ ٱلنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "114:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6232,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "مَلِكِ ٱلنَّاسِ",
+      "transliteration": "Maliki annas",
+      "translationBosnian": "Vladara ljudi,",
+      "tajwidSegments": [
+        { "text": "مَلِكِ ٱلنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "114:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6233,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "إِلَـٰهِ ٱلنَّاسِ",
+      "transliteration": "Ilahi annas",
+      "translationBosnian": "Boga ljudi,",
+      "tajwidSegments": [
+        { "text": "إِلَـٰهِ ٱلنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "114:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6234,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
+      "transliteration": "Min sharri alwaswasi alkhannas",
+      "translationBosnian": "od zla šejtana-napasnika,",
+      "tajwidSegments": [
+        { "text": "مِن شَرِّ ٱلْوَسْوَاسِ", "rule": "normal" },
+        { "text": " ٱلْخَنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "114:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6235,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+      "transliteration": "Allathee yuwaswisu fee sudoori annas",
+      "translationBosnian": "koji zle misli unosi u srca ljudi –",
+      "tajwidSegments": [
+        { "text": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "114:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 6236,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ",
+      "transliteration": "Mina aljinnati wannas",
+      "translationBosnian": "od džina i od ljudi!\"",
+      "tajwidSegments": [
+        { "text": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ", "rule": "ghunnah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/114006.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "surah": {
+    "id": "112",
+    "surahNumber": 112,
+    "slug": "al-ikhlas",
+    "nameArabic": "الإخلاص",
+    "nameLatin": "Al-Ikhlas",
+    "nameBosnian": "El-Ihlas",
+    "revelationType": "meccan",
+    "ayahCount": 4
+  },
+  "ayahs": [
+    {
+      "id": "112:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6222,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+      "transliteration": "Qul huwa Allahu ahad",
+      "translationBosnian": "Reci: \"On je Allah – Jedan!",
+      "tajwidSegments": [
+        { "text": "قُلْ", "rule": "qalqalah" },
+        { "text": " هُوَ ٱللَّهُ أَحَدٌ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/112001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "112:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6223,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "ٱللَّهُ ٱلصَّمَدُ",
+      "transliteration": "Allahu assamad",
+      "translationBosnian": "Allah je Utočište svakom!",
+      "tajwidSegments": [
+        { "text": "ٱللَّهُ ٱلصَّمَدُ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/112002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "112:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6224,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+      "transliteration": "Lam yalid walam yoolad",
+      "translationBosnian": "Nije rodio i rođen nije,",
+      "tajwidSegments": [
+        { "text": "لَمْ يَلِدْ", "rule": "qalqalah" },
+        { "text": " وَلَمْ يُولَدْ", "rule": "qalqalah" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/112003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "112:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6225,
+      "juz": 30,
+      "page": 604,
+      "arabicText": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ",
+      "transliteration": "Walam yakun lahu kufuwan ahad",
+      "translationBosnian": "i niko Mu ravan nije!\"",
+      "tajwidSegments": [
+        { "text": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/112004.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

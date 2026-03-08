@@ -1,0 +1,140 @@
+{
+  "surah": {
+    "id": "1",
+    "surahNumber": 1,
+    "slug": "al-fatiha",
+    "nameArabic": "الفاتحة",
+    "nameLatin": "Al-Fatihah",
+    "nameBosnian": "Al-Fatiha",
+    "revelationType": "meccan",
+    "ayahCount": 7
+  },
+  "ayahs": [
+    {
+      "id": "1:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 1,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "transliteration": "Bismi Allahi arrahmani arraheem",
+      "translationBosnian": "U ime Allaha, Milostivog, Samilosnog!",
+      "tajwidSegments": [
+        { "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 2,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+      "transliteration": "Alhamdu lillahi rabbi alAAalameen",
+      "translationBosnian": "Tebe, Allaha, Gospodara svjetova, hvalimo,",
+      "tajwidSegments": [
+        { "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 3,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "transliteration": "Arrahmani arraheem",
+      "translationBosnian": "Milostivog, Samilosnog,",
+      "tajwidSegments": [
+        { "text": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 4,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+      "transliteration": "Maliki yawmi addeen",
+      "translationBosnian": "Vladara Dana sudnjeg,",
+      "tajwidSegments": [
+        { "text": "مَـٰلِكِ يَوْمِ ٱلدِّينِ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 5,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "transliteration": "Iyyaka naAAbudu wa-iyyaka nastaAAeen",
+      "translationBosnian": "Tebi se klanjamo i od Tebe pomoć tražimo!",
+      "tajwidSegments": [
+        { "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 6,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+      "transliteration": "Ihdina assirata almustaqeem",
+      "translationBosnian": "Uputi nas na Pravi put,",
+      "tajwidSegments": [
+        { "text": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "1:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 7,
+      "juz": 1,
+      "page": 1,
+      "arabicText": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+      "transliteration": "Sirata allatheena anAAamta AAalayhim ghayri almaghdoobi AAalayhim wala addalleen",
+      "translationBosnian": "na Put onih kojima si milost Svoju darovao, a ne onih koji su protiv sebe srdžbu izazvali, niti onih koji su zalutali!",
+      "tajwidSegments": [
+        { "text": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ", "rule": "normal" }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/001007.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so settingsStore.theme controls it */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root,
+[data-theme="light"] {
+  --theme-bg: #FAFAF5;
+  --theme-card: #FFFFFF;
+  --theme-text: #1A1A1A;
+  --theme-text-muted: #525252;
+  --theme-accent: #047857;
+  --theme-border: #e5e5e5;
+  --background: var(--theme-bg);
+  --foreground: var(--theme-text);
+}
+
+[data-theme="dark"] {
+  --theme-bg: #111111;
+  --theme-card: #252525;
+  --theme-text: #E5E5E5;
+  --theme-text-muted: #a3a3a3;
+  --theme-accent: #34d399;
+  --theme-border: #404040;
+  --background: var(--theme-bg);
+  --foreground: var(--theme-text);
+}
+
+[data-theme="sepia"] {
+  --theme-bg: #F5ECD7;
+  --theme-card: #FDF6E3;
+  --theme-text: #3B2E1A;
+  --theme-text-muted: #6b5344;
+  --theme-accent: #6b7c2e;
+  --theme-border: #e8dcc8;
+  --background: var(--theme-bg);
+  --foreground: var(--theme-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-arabic: var(--font-amiri), serif;
+}
+
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
