@@ -30,6 +30,8 @@ export function AudioPlayer() {
 
   const repeatAyah = useSettingsStore((s) => s.repeatAyah);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
+  const toggleRepeatAyah = useSettingsStore((s) => s.toggleRepeatAyah);
+  const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
 
   const prevSrcRef = useRef<string | null>(null);
@@ -164,6 +166,32 @@ export function AudioPlayer() {
             >
               <NextIcon />
             </button>
+            <button
+              type="button"
+              onClick={toggleRepeatAyah}
+              aria-label={repeatAyah ? "Isključi ponavljanje ajeta" : "Ponavljaj ajet"}
+              aria-pressed={repeatAyah}
+              className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
+                repeatAyah
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                  : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              }`}
+            >
+              <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={toggleAutoPlayNext}
+              aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
+              aria-pressed={autoPlayNext}
+              className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
+                autoPlayNext
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                  : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              }`}
+            >
+              <AutoPlayIcon className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
           </div>
         </div>
 
@@ -213,6 +241,22 @@ function NextIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
       <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+    </svg>
+  );
+}
+
+function RepeatIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
+    </svg>
+  );
+}
+
+function AutoPlayIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
     </svg>
   );
 }

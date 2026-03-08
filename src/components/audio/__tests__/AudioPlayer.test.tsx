@@ -74,18 +74,27 @@ vi.mock("@/store/playerStore", () => {
 });
 
 vi.mock("@/store/settingsStore", () => ({
-  useSettingsStore: vi.fn((selector: (s: { repeatAyah: boolean; autoPlayNext: boolean; playbackSpeed: number }) => unknown) =>
+  useSettingsStore: vi.fn((selector: (s: { repeatAyah: boolean; autoPlayNext: boolean; playbackSpeed: number; toggleRepeatAyah: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
     selector(settingsState)
   ),
 }));
 
-let settingsState: { repeatAyah: boolean; autoPlayNext: boolean; playbackSpeed: number };
+let settingsState: {
+  repeatAyah: boolean;
+  autoPlayNext: boolean;
+  playbackSpeed: number;
+  toggleRepeatAyah: () => void;
+  toggleAutoPlayNext: () => void;
+};
+
+const mockToggleRepeatAyah = vi.fn();
+const mockToggleAutoPlayNext = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
-  settingsState = { repeatAyah: false, autoPlayNext: true, playbackSpeed: 1 };
+  settingsState = { repeatAyah: false, autoPlayNext: true, playbackSpeed: 1, toggleRepeatAyah: mockToggleRepeatAyah, toggleAutoPlayNext: mockToggleAutoPlayNext };
   playerState.currentSurahId = "1";
   playerState.currentAyahId = "1:3";
   playerState.isPlaying = false;
@@ -152,7 +161,7 @@ describe("AudioPlayer", () => {
 
   it("Next button calls store next", () => {
     render(<AudioPlayer />);
-    const nextBtn = screen.getByRole("button", { name: /sljede/i });
+    const nextBtn = screen.getByRole("button", { name: /sljedeći ajah/i });
     fireEvent.click(nextBtn);
     expect(mockNext).toHaveBeenCalled();
   });
@@ -233,5 +242,45 @@ describe("AudioPlayer", () => {
     endedHandler();
     expect(mockNext).toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("shows repeat ayah toggle with accessible label", () => {
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj ajet|isključi ponavljanje|repeat/i });
+    expect(repeatBtn).toBeInTheDocument();
+  });
+
+  it("shows autoplay next surah toggle with accessible label", () => {
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    expect(autoplayBtn).toBeInTheDocument();
+  });
+
+  it("clicking repeat toggle calls toggleRepeatAyah", () => {
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj ajet|isključi ponavljanje|repeat/i });
+    fireEvent.click(repeatBtn);
+    expect(mockToggleRepeatAyah).toHaveBeenCalledTimes(1);
+  });
+
+  it("clicking autoplay toggle calls toggleAutoPlayNext", () => {
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    fireEvent.click(autoplayBtn);
+    expect(mockToggleAutoPlayNext).toHaveBeenCalledTimes(1);
+  });
+
+  it("repeat button has pressed state when repeatAyah is true", () => {
+    settingsState.repeatAyah = true;
+    render(<AudioPlayer />);
+    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    expect(repeatBtn).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("autoplay button has pressed state when autoPlayNext is true", () => {
+    settingsState.autoPlayNext = true;
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
   });
 });

@@ -68,6 +68,8 @@ vi.mock("@/store/settingsStore", () => ({
       repeatAyah: false,
       autoPlayNext: true,
       playbackSpeed: 1,
+      toggleRepeatAyah: () => {},
+      toggleAutoPlayNext: () => {},
     })
   ),
 }));
