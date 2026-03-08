@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import * as audioManager from "@/lib/audio/audioManager";
+import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
 
 function ayahNumberFromId(ayahId: string | null): string {
   if (!ayahId) return "—";
@@ -34,25 +35,32 @@ export function AudioPlayer() {
 
   // Sync audio element with store: load and play/pause
   useEffect(() => {
-    if (!activeAudioSrc) return;
-    if (prevSrcRef.current !== activeAudioSrc) {
-      prevSrcRef.current = activeAudioSrc;
+    const resolvedSrc = getResolvedAudioUrl(activeAudioSrc);
+    if (!resolvedSrc) return;
+    if (prevSrcRef.current !== resolvedSrc) {
+      prevSrcRef.current = resolvedSrc;
       prevIsPlayingRef.current = isPlaying;
-      audioManager.loadAudio(activeAudioSrc);
+      audioManager.loadAudio(resolvedSrc);
       audioManager.setPlaybackRate(playbackSpeed);
-      if (isPlaying) audioManager.play();
-      else audioManager.pause();
+      if (isPlaying) {
+        audioManager.play().catch(() => pause());
+      } else {
+        audioManager.pause();
+      }
     } else {
       if (isPlaying !== prevIsPlayingRef.current) {
         prevIsPlayingRef.current = isPlaying;
-        if (isPlaying) audioManager.play();
-        else audioManager.pause();
+        if (isPlaying) {
+          audioManager.play().catch(() => pause());
+        } else {
+          audioManager.pause();
+        }
       }
     }
     return () => {
       audioManager.pause();
     };
-  }, [activeAudioSrc, isPlaying, playbackSpeed]);
+  }, [activeAudioSrc, isPlaying, playbackSpeed, pause]);
 
   // Time update and duration sync
   useEffect(() => {
@@ -73,7 +81,7 @@ export function AudioPlayer() {
     onEndedRef.current = () => {
       if (repeatAyah) {
         audioManager.seek(0);
-        audioManager.play();
+        audioManager.play().catch(() => pause());
         return;
       }
       if (autoPlayNext) {

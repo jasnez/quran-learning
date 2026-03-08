@@ -36,7 +36,9 @@ export async function fetchVersesByChapter(
     url.searchParams.set("per_page", String(PER_PAGE));
     url.searchParams.set("page", String(page));
 
-    const res = await fetch(url.toString());
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 86400 },
+    });
     if (!res.ok) {
       throw new Error(
         `Quran API error: ${res.status} ${res.statusText} for chapter ${chapterNumber}`
@@ -63,6 +65,7 @@ function getAyahNumberGlobal(chapterNumber: number, verseNumber: number): number
 }
 
 function mapVersesToAyahs(verses: QuranApiVersesResponse["verses"], chapterNumber: number): Ayah[] {
+  const surahPad = String(chapterNumber).padStart(3, "0");
   return verses.map((v) => {
     const transliteration =
       v.translations?.find((t) => t.resource_id === TRANSLITERATION_RESOURCE_ID)
@@ -71,6 +74,8 @@ function mapVersesToAyahs(verses: QuranApiVersesResponse["verses"], chapterNumbe
       v.translations?.find((t) => t.resource_id === BOSNIAN_KORKUT_TRANSLATION_ID)
         ?.text ?? "";
     const ayahNumberGlobal = getAyahNumberGlobal(chapterNumber, v.verse_number);
+    const versePad = String(v.verse_number).padStart(3, "0");
+    const audioPath = `/audio/mishary-alafasy/${surahPad}${versePad}.mp3`;
     return {
       id: v.verse_key,
       ayahNumber: v.verse_number,
@@ -82,8 +87,8 @@ function mapVersesToAyahs(verses: QuranApiVersesResponse["verses"], chapterNumbe
       translationBosnian: stripHtml(translationBosnian),
       tajwidSegments: [],
       audio: {
-        reciterId: "",
-        url: "",
+        reciterId: "mishary-alafasy",
+        url: audioPath,
         durationMs: 0,
       },
     };

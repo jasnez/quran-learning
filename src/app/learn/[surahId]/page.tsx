@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSurahByNumber } from "@/lib/data";
+import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { LearnModeContent } from "@/components/learn/LearnModeContent";
 
 type PageProps = { params: Promise<{ surahId: string }> };
@@ -38,7 +39,16 @@ export default async function LearnPage({ params }: PageProps) {
     return null;
   }
 
-  const { surah, ayahs } = detail;
+  let { surah, ayahs } = detail;
+
+  // Za sure bez lokalnog JSON-a učitaj ajate s Quran.com API-ja (pun sadržaj za svih 114 sura)
+  if (ayahs.length === 0) {
+    try {
+      ayahs = await fetchVersesByChapter(surahNumber);
+    } catch {
+      // Ostavi prazan niz; LearnModeContent prikazat će poruku o nedostupnosti
+    }
+  }
 
   return (
     <main className="mx-auto min-h-screen max-w-[700px] px-4 py-6 flex flex-col">

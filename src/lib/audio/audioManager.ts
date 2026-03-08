@@ -18,8 +18,8 @@ export function loadAudio(url: string): void {
   audio.load();
 }
 
-export function play(): void {
-  getInstance().play();
+export function play(): Promise<void> {
+  return getInstance().play();
 }
 
 export function pause(): void {

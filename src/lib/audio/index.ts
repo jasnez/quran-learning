@@ -11,3 +11,4 @@ export {
   getDuration,
   destroy,
 } from "./audioManager";
+export { getResolvedAudioUrl } from "./getResolvedAudioUrl";
