@@ -13,17 +13,8 @@
 3. **Audio**  
    Reprodukcija audio zapisa **nije** povezana s prikazom tajwid pravila. Audio samo pušta ajet; nema „highlighta” trenutne riječi tijekom puštanja. Tajwid boje su statične – ovise isključivo o tome što je u `tajwidSegments` za taj ajet.
 
-## Zašto na produkciji ne vidite obojena pravila
+## Zašto na produkciji možda ne vidite obojena pravila
 
-- **Lokalni JSON** (sure 1, 112, 113, 114): svaki ajet ima samo jedan segment s `"rule": "normal"`, dakle cijeli ajet je prikazan uobičajenom bojom – nema mad/ghunnah/ikhfa/qalqalah.
-- **API** (sure 2–111): `tajwidSegments` je prazan niz; u kodu se koristi fallback: jedan segment = cijeli arapski tekst + `"normal"`.  
-Zbog toga **nigdje** u aplikaciji trenutno nema „pravih” tajwid anotacija (samo „normal”), pa se nikad ne prikazuju druge boje, čak ni kada je „Tajwid boje” uključeno.
-
-## Što treba za prikaz pravila
-
-Potreban je **izvor tajwid anotacija** po ajetu (ili po riječi):
-
-- Ručno ili skriptom popuniti `tajwidSegments` u lokalnim JSON fajlovima (razbiti tekst na segmente i dodati `rule` za mad, ghunnah, ikhfa, qalqalah), **ili**
-- Koristiti eksterni API/datoteku koji za svaki ajet vraća segmentirane podatke (npr. Tanzil XML s tajwid markupom, ako postoji sličan API u JSON obliku), pa ih mapirati u `tajwidSegments` u `fetch-verses` ili u podacima.
-
-Dok takvi podaci nisu uključeni, „Tajwid boje” i legenda objašnjavaju što bi koja boja značila, ali će cijeli tekst i dalje biti prikazan kao „normalan”.
+- **Lokalni JSON** (sure 1, 112, 113, 114): u njima su ručno dodani `tajwidSegments` s pravilima (Al-Fatiha i kratke sure imaju mad, ghunnah, ikhfa, qalqalah gdje je primjenjivo).
+- **API** (sure 2–111): od uvođenja integracije s [cpfair/quran-tajweed](https://github.com/cpfair/quran-tajweed) anotacije se učitavaju s njihovog JSON-a (indeksi po versu) i mapiraju u `tajwidSegments` (mad, ghunnah, ikhfa, qalqalah). Prvi učitana sura 2–111 na serveru povuče taj JSON (~5,5 MB) i cacheira ga; nakon toga sve sure 2–111 imaju obojene segmente kada je „Tajwid boje” uključeno.
+- Ako tekst ajeta s API-ja (Quran.com) ne odgovara 1:1 tekstu za koji su računati cpfair indeksi (Tanzil Uthmani), pojedini segmenti mogu biti pomaknuti ili prazni; u tom slučaju fallback je jedan segment „normal”.

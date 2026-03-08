@@ -6,6 +6,11 @@ import {
   AYAH_COUNT_PER_SURAH,
 } from "./constants";
 import type { QuranApiVersesResponse } from "./api-types";
+import {
+  getTajweedData,
+  getAnnotationsForVerse,
+  buildTajwidSegments,
+} from "./tajweed-data";
 
 const VERSE_FIELDS = "text_uthmani";
 const PER_PAGE = 50;
@@ -16,6 +21,7 @@ const TRANSLATION_IDS = `${TRANSLITERATION_RESOURCE_ID},${BOSNIAN_KORKUT_TRANSLA
 /**
  * Fetches verses for a chapter from Quran.com API with Arabic text,
  * transliteration (resource_id 57), and Bosnian translation by Besim Korkut (resource_id 126).
+ * Tajwid segments for surahs 2–111 are built from cpfair/quran-tajweed annotations.
  */
 export async function fetchVersesByChapter(
   chapterNumber: number
@@ -27,6 +33,9 @@ export async function fetchVersesByChapter(
   const allAyahs: Ayah[] = [];
   let page = 1;
   let hasMore = true;
+
+  const useTajweedFromApi = chapterNumber >= 2 && chapterNumber <= 111;
+  const tajweedData = useTajweedFromApi ? await getTajweedData() : [];
 
   while (hasMore) {
     const base = QURAN_API_BASE.replace(/\/$/, "");
@@ -46,7 +55,7 @@ export async function fetchVersesByChapter(
     }
 
     const data: QuranApiVersesResponse = await res.json();
-    const mappedAyahs = mapVersesToAyahs(data.verses, chapterNumber);
+    const mappedAyahs = mapVersesToAyahs(data.verses, chapterNumber, tajweedData);
     allAyahs.push(...mappedAyahs);
 
     hasMore = data.pagination.next_page != null;
@@ -64,7 +73,11 @@ function getAyahNumberGlobal(chapterNumber: number, verseNumber: number): number
   return sum + verseNumber;
 }
 
-function mapVersesToAyahs(verses: QuranApiVersesResponse["verses"], chapterNumber: number): Ayah[] {
+function mapVersesToAyahs(
+  verses: QuranApiVersesResponse["verses"],
+  chapterNumber: number,
+  tajweedData: Awaited<ReturnType<typeof getTajweedData>>
+): Ayah[] {
   const surahPad = String(chapterNumber).padStart(3, "0");
   return verses.map((v) => {
     const transliteration =
@@ -76,16 +89,19 @@ function mapVersesToAyahs(verses: QuranApiVersesResponse["verses"], chapterNumbe
     const ayahNumberGlobal = getAyahNumberGlobal(chapterNumber, v.verse_number);
     const versePad = String(v.verse_number).padStart(3, "0");
     const audioPath = `/audio/mishary-alafasy/${surahPad}${versePad}.mp3`;
+    const arabicText = v.text_uthmani ?? "";
+    const annotations = getAnnotationsForVerse(tajweedData, chapterNumber, v.verse_number);
+    const tajwidSegments = buildTajwidSegments(arabicText, annotations);
     return {
       id: v.verse_key,
       ayahNumber: v.verse_number,
       ayahNumberGlobal,
       juz: v.juz_number,
       page: v.page_number,
-      arabicText: v.text_uthmani ?? "",
+      arabicText,
       transliteration,
       translationBosnian: stripHtml(translationBosnian),
-      tajwidSegments: [],
+      tajwidSegments,
       audio: {
         reciterId: "mishary-alafasy",
         url: audioPath,
