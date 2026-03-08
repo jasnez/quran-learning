@@ -41,6 +41,9 @@ export function TajwidLegend() {
           open ? "max-h-96 border-t border-stone-200/80 dark:border-stone-700/80" : "max-h-0"
         }`}
       >
+        <p className="px-4 pt-3 text-xs text-stone-500 dark:text-stone-400">
+          Boje se prikazuju kada u podacima ajeta postoje anotacije (mad, ghunnah, ikhfa, qalqalah). Ako ajet nema anotacije, cijeli tekst ostaje uobičajene boje.
+        </p>
         <ul className="space-y-2.5 p-4 list-none" role="list">
           {TAJWID_RULES.map((rule) => (
             <li

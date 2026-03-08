@@ -20,7 +20,11 @@
       "transliteration": "Bismi Allahi arrahmani arraheem",
       "translationBosnian": "U ime Allaha, Milostivog, Samilosnog!",
       "tajwidSegments": [
-        { "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ", "rule": "normal" }
+        { "text": "بِسْمِ ", "rule": "normal" },
+        { "text": "ٱللَّ", "rule": "mad" },
+        { "text": "هِ ", "rule": "normal" },
+        { "text": "ٱلرَّحْمَـٰنِ ", "rule": "mad" },
+        { "text": "ٱلرَّحِيمِ", "rule": "normal" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -38,7 +42,10 @@
       "transliteration": "Alhamdu lillahi rabbi alAAalameen",
       "translationBosnian": "Tebe, Allaha, Gospodara svjetova, hvalimo,",
       "tajwidSegments": [
-        { "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ", "rule": "normal" }
+        { "text": "ٱلْحَمْدُ ", "rule": "normal" },
+        { "text": "لِلَّهِ ", "rule": "mad" },
+        { "text": "رَبِّ ", "rule": "normal" },
+        { "text": "ٱلْعَـٰلَمِينَ", "rule": "mad" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -56,7 +63,8 @@
       "transliteration": "Arrahmani arraheem",
       "translationBosnian": "Milostivog, Samilosnog,",
       "tajwidSegments": [
-        { "text": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ", "rule": "normal" }
+        { "text": "ٱلرَّحْمَـٰنِ ", "rule": "mad" },
+        { "text": "ٱلرَّحِيمِ", "rule": "normal" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -74,7 +82,9 @@
       "transliteration": "Maliki yawmi addeen",
       "translationBosnian": "Vladara Dana sudnjeg,",
       "tajwidSegments": [
-        { "text": "مَـٰلِكِ يَوْمِ ٱلدِّينِ", "rule": "normal" }
+        { "text": "مَـٰلِكِ ", "rule": "mad" },
+        { "text": "يَوْمِ ", "rule": "normal" },
+        { "text": "ٱلدِّينِ", "rule": "qalqalah" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -92,7 +102,10 @@
       "transliteration": "Iyyaka naAAbudu wa-iyyaka nastaAAeen",
       "translationBosnian": "Tebi se klanjamo i od Tebe pomoć tražimo!",
       "tajwidSegments": [
-        { "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "rule": "normal" }
+        { "text": "إِيَّاكَ ", "rule": "normal" },
+        { "text": "نَعْبُدُ ", "rule": "ikhfa" },
+        { "text": "وَإِيَّاكَ ", "rule": "normal" },
+        { "text": "نَسْتَعِينُ", "rule": "ghunnah" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -110,7 +123,9 @@
       "transliteration": "Ihdina assirata almustaqeem",
       "translationBosnian": "Uputi nas na Pravi put,",
       "tajwidSegments": [
-        { "text": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ", "rule": "normal" }
+        { "text": "ٱهْدِنَا ", "rule": "ikhfa" },
+        { "text": "ٱلصِّرَٰطَ ", "rule": "normal" },
+        { "text": "ٱلْمُسْتَقِيمَ", "rule": "qalqalah" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -128,7 +143,10 @@
       "transliteration": "Sirata allatheena anAAamta AAalayhim ghayri almaghdoobi AAalayhim wala addalleen",
       "translationBosnian": "na Put onih kojima si milost Svoju darovao, a ne onih koji su protiv sebe srdžbu izazvali, niti onih koji su zalutali!",
       "tajwidSegments": [
-        { "text": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ", "rule": "normal" }
+        { "text": "صِرَٰطَ ", "rule": "mad" },
+        { "text": "ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ ", "rule": "normal" },
+        { "text": "غَيْرِ ", "rule": "ghunnah" },
+        { "text": "ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ", "rule": "normal" }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
