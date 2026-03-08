@@ -4,6 +4,9 @@ import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
 import { timeSince } from "@/lib/timeSince";
+import { formatListeningTime } from "@/lib/formatListeningTime";
+
+const TOTAL_AYAHS_QURAN = 6236;
 
 export function ContinueLearningSection() {
   const [mounted, setMounted] = useState(false);
@@ -40,6 +43,12 @@ export function ContinueLearningSection() {
   const timeLabel = timestamp ? timeSince(timestamp) : "";
   const showStats = stats.totalTime > 0 || stats.surahsCount > 0 || stats.ayahsCount > 0;
   const totalMinutes = Math.floor(stats.totalTime / 60000);
+  const overall = useProgressStore((s) => s.getOverallProgress());
+  const showOverallStats =
+    overall.totalSurahsStarted > 0 ||
+    overall.totalAyahsListened > 0 ||
+    overall.totalAyahsRead > 0 ||
+    stats.totalTime > 0;
 
   if (!mounted) {
     return (
@@ -103,7 +112,7 @@ export function ContinueLearningSection() {
         </div>
       )}
 
-      {showStats && (
+      {showStats && !showOverallStats && (
         <div
           className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-400"
           data-testid="progress-stats-row"
@@ -113,6 +122,46 @@ export function ContinueLearningSection() {
           <span>{stats.ayahsCount} ajeta preslušano</span>
           <span aria-hidden>·</span>
           <span>{totalMinutes} min ukupno slušanje</span>
+        </div>
+      )}
+
+      {showOverallStats && mounted && (
+        <div
+          className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+          data-testid="overall-stats-cards"
+        >
+          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              Sure započeto
+            </p>
+            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+              {overall.totalSurahsStarted}
+            </p>
+          </div>
+          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              Ajeta preslušano
+            </p>
+            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+              {overall.totalAyahsListened}
+            </p>
+          </div>
+          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              Ukupno slušanje
+            </p>
+            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+              {formatListeningTime(stats.totalTime)}
+            </p>
+          </div>
+          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              Napredak
+            </p>
+            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+              {overall.totalAyahsListened}/{TOTAL_AYAHS_QURAN} ajeta
+            </p>
+          </div>
         </div>
       )}
     </section>

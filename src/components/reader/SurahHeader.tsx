@@ -2,6 +2,7 @@
 
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
+import { useProgressStore } from "@/store/progressStore";
 
 const revelationLabel: Record<string, string> = {
   meccan: "Meka",
@@ -13,6 +14,12 @@ type SurahHeaderProps = { surah: SurahSummary; ayahs?: Ayah[] };
 export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
+  const progress = useProgressStore((s) => s.getSurahProgress(surah.surahNumber));
+
+  const totalAyahs = ayahs.length > 0 ? ayahs.length : surah.ayahCount;
+  const listened = progress?.ayahsListened.size ?? 0;
+  const percent = totalAyahs > 0 ? Math.round((listened / totalAyahs) * 100) : 0;
+  const showProgress = listened > 0 && totalAyahs > 0;
 
   const handlePlayFullSurah = () => {
     if (ayahs.length === 0) return;
@@ -41,6 +48,19 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
       <p className="mt-2 text-sm text-stone-500 dark:text-stone-500">
         {surah.ayahCount} ajeta · {revelationLabel[surah.revelationType] ?? surah.revelationType}
       </p>
+      {showProgress && (
+        <div className="mt-4" aria-label={`${listened} od ${totalAyahs} ajeta preslušano`}>
+          <p className="text-xs text-stone-500 dark:text-stone-400">
+            {listened}/{totalAyahs} ajeta preslušano
+          </p>
+          <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-stone-200 dark:bg-stone-700">
+            <div
+              className="h-full rounded-full bg-emerald-500 dark:bg-emerald-600"
+              style={{ width: `${Math.min(100, percent)}%` }}
+            />
+          </div>
+        </div>
+      )}
       {ayahs.length > 0 && (
         <div className="mt-6">
           <button

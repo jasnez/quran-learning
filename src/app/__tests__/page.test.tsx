@@ -45,6 +45,12 @@ const mockProgressState = {
   surahsVisited: [] as number[],
   ayahsListened: 0,
   getStats: vi.fn<() => { totalTime: number; surahsCount: number; ayahsCount: number }>(() => ({ totalTime: 0, surahsCount: 0, ayahsCount: 0 })),
+  getOverallProgress: vi.fn(() => ({
+    totalSurahsStarted: 0,
+    totalAyahsListened: 0,
+    totalAyahsRead: 0,
+    overallCompletionPercent: 0,
+  })),
 };
 
 vi.mock("@/store/progressStore", () => ({
@@ -53,6 +59,7 @@ vi.mock("@/store/progressStore", () => ({
       ...mockProgressState,
       getLastPosition: () => mockProgressState.getLastPosition(),
       getStats: () => mockProgressState.getStats(),
+      getOverallProgress: () => mockProgressState.getOverallProgress(),
     };
     return selector(state as typeof mockProgressState);
   }),
@@ -72,6 +79,12 @@ beforeEach(() => {
   mockProgressState.surahsVisited = [];
   mockProgressState.ayahsListened = 0;
   mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
+  mockProgressState.getOverallProgress.mockReturnValue({
+    totalSurahsStarted: 0,
+    totalAyahsListened: 0,
+    totalAyahsRead: 0,
+    overallCompletionPercent: 0,
+  });
 });
 
 describe("Home page", () => {
@@ -213,16 +226,24 @@ describe("Home page", () => {
       expect(screen.queryByText(/posjećeno|posjeceno|preslušano|preslusano|min ukupno|slušanje/i)).not.toBeInTheDocument();
     });
 
-    it("stats row is visible when any stat is greater than zero", () => {
+    it("stats row is visible when any stat is greater than zero", async () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       mockProgressState.getStats.mockReturnValue({ totalTime: 120000, surahsCount: 3, ayahsCount: 10 });
+      mockProgressState.getOverallProgress.mockReturnValue({
+        totalSurahsStarted: 3,
+        totalAyahsListened: 10,
+        totalAyahsRead: 0,
+        overallCompletionPercent: 0.16,
+      });
       mockProgressState.totalListeningTimeMs = 120000;
       mockProgressState.surahsVisited = [1, 2, 3];
       mockProgressState.ayahsListened = 10;
       render(<Home />);
-      expect(screen.getByText(/3\s*sura\s*posjećeno|posjeceno/i)).toBeInTheDocument();
-      expect(screen.getByText(/10\s*ajeta\s*preslušano|preslusano/i)).toBeInTheDocument();
-      expect(screen.getByText(/2\s*min\s*ukupno|min\s*slušanje|slusanje/i)).toBeInTheDocument();
+      const cards = await screen.findByTestId("overall-stats-cards");
+      expect(cards).toBeInTheDocument();
+      expect(cards).toHaveTextContent("3");
+      expect(cards).toHaveTextContent("10");
+      expect(cards).toHaveTextContent("10/6236");
     });
   });
 });

@@ -90,12 +90,34 @@ vi.mock("@/store/playerStore", () => ({
   usePlayerStore: vi.fn((selector: (s: typeof playerState) => unknown) => selector(playerState)),
 }));
 
+const hoistedProgress = vi.hoisted(() => {
+  const mockGetSurahProgress = vi.fn();
+  const progressStateStub = {
+    markAyahRead: vi.fn(),
+    updateLastPosition: vi.fn(),
+    addSurahVisited: vi.fn(),
+  };
+  return { mockGetSurahProgress, progressStateStub };
+});
+
+vi.mock("@/store/progressStore", () => {
+  const useProgressStoreMock = vi.fn(
+    (selector: (s: { getSurahProgress: typeof hoistedProgress.mockGetSurahProgress }) => unknown) =>
+      selector({ getSurahProgress: hoistedProgress.mockGetSurahProgress })
+  );
+  (useProgressStoreMock as { getState: () => typeof hoistedProgress.progressStateStub }).getState = () =>
+    hoistedProgress.progressStateStub;
+  return { useProgressStore: useProgressStoreMock };
+});
+
 beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
   playerState.currentAyahId = null;
   playerState.isPlaying = false;
+  hoistedProgress.mockGetSurahProgress.mockReturnValue(undefined);
 });
+
 
 describe("Surah Reader page", () => {
   it("shows SurahHeader with nameArabic, nameLatin, nameBosnian", async () => {
@@ -121,6 +143,27 @@ describe("Surah Reader page", () => {
     btn.click();
     expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
+  });
+
+  it("when progress exists, SurahHeader shows X/Y ajeta preslušano and progress bar", async () => {
+    hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
+      num === 1
+        ? {
+            surahNumber: 1,
+            totalAyahs: 2,
+            ayahsListened: new Set([1]),
+            ayahsRead: new Set(),
+            completionPercent: 50,
+            lastAccessedAt: "",
+            timeSpentMs: 0,
+          }
+        : undefined
+    );
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    expect(screen.getByText(/1\/2 ajeta preslušano/i)).toBeInTheDocument();
+    const progressRegion = screen.getByLabelText(/1 od 2 ajeta preslušano/i);
+    expect(progressRegion).toBeInTheDocument();
   });
 
   it("renders an AyahCard for each ayah", async () => {

@@ -80,6 +80,9 @@ export function Header() {
             <Link href="/surahs" className={TEXT_LINK}>
               Surahs
             </Link>
+            <Link href="/progress" className={TEXT_LINK}>
+              Progress
+            </Link>
             <Link href="/bookmarks" className={TEXT_LINK}>
               Bookmarks
             </Link>

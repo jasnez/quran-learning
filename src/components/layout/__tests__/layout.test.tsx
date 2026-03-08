@@ -31,24 +31,25 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
 }));
 
-vi.mock("@/store/playerStore", () => ({
-  usePlayerStore: vi.fn((sel: (s: unknown) => unknown) =>
-    sel({
-      activeAudioSrc: "https://example.com/audio.mp3",
-      currentSurahId: "1",
-      currentAyahId: "1:1",
-      isPlaying: false,
-      currentTime: 0,
-      duration: 10,
-      resume: () => {},
-      pause: () => {},
-      next: () => {},
-      previous: () => {},
-      setCurrentTime: () => {},
-      setDuration: () => {},
-    })
-  ),
-}));
+vi.mock("@/store/playerStore", () => {
+  const state = {
+    activeAudioSrc: "https://example.com/audio.mp3",
+    currentSurahId: "1",
+    currentAyahId: "1:1",
+    isPlaying: false,
+    currentTime: 0,
+    duration: 10,
+    resume: () => {},
+    pause: () => {},
+    next: () => {},
+    previous: () => {},
+    setCurrentTime: () => {},
+    setDuration: () => {},
+  };
+  const usePlayerStoreMock = vi.fn((sel: (s: unknown) => unknown) => sel(state));
+  (usePlayerStoreMock as { getState: () => typeof state }).getState = () => state;
+  return { usePlayerStore: usePlayerStoreMock };
+});
 
 vi.mock("@/lib/audio/audioManager", () => ({
   loadAudio: () => {},
@@ -162,6 +163,11 @@ describe("Header", () => {
     expect(links.some((el) => (el as HTMLAnchorElement).getAttribute("href") === "/bookmarks")).toBe(true);
   });
 
+  it("has Progress link", () => {
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
+  });
+
   it("has settings control", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const settings = screen.getByRole("button", { name: /settings/i });
@@ -226,12 +232,13 @@ describe("MobileNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Home, Learn, Sure, Bookmarks and Settings", () => {
+  it("includes Home, Learn, Sure, Progress, Bookmarks and Settings", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /pretraga/i })).toHaveAttribute("href", "/search");
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
+    expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
     expect(screen.getByRole("link", { name: /označeno/i })).toHaveAttribute("href", "/bookmarks");
     expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
   });

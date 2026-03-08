@@ -14,3 +14,16 @@ if (typeof window !== "undefined") {
     })),
   });
 }
+
+// jsdom does not provide IntersectionObserver; required by AyahCard
+if (typeof globalThis.IntersectionObserver === "undefined") {
+  (globalThis as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver = class MockIntersectionObserver {
+    observe = vi.fn();
+    disconnect = vi.fn();
+    unobserve = vi.fn();
+    root = null;
+    rootMargin = "";
+    thresholds: number[] = [];
+    takeRecords = vi.fn();
+  } as unknown as typeof IntersectionObserver;
+}
