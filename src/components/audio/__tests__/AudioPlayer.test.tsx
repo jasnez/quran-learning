@@ -21,7 +21,7 @@ const endedCleanup = vi.fn();
 
 vi.mock("@/lib/audio/audioManager", () => ({
   loadAudio: (url: string) => mockLoadAudio(url),
-  play: () => mockPlay(),
+  play: () => Promise.resolve(mockPlay()),
   pause: () => mockPause(),
   seek: (t: number) => mockSeek(t),
   setPlaybackRate: (s: number) => mockSetPlaybackRate(s),

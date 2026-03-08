@@ -60,7 +60,7 @@ export function AudioPlayer() {
     return () => {
       audioManager.pause();
     };
-  }, [activeAudioSrc, isPlaying, playbackSpeed, pause]);
+  }, [activeAudioSrc, isPlaying, pause]);
 
   // Time update and duration sync
   useEffect(() => {

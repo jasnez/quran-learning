@@ -173,7 +173,8 @@ describe("Surah Reader page", () => {
   it("applies tajwid colors when showTajwidColors is true and ayah has segments", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     const { container } = render(Page);
-    const spanWithMad = container.querySelector("span.text-emerald-600, span[class*='text-emerald']");
+    const article = container.querySelector("article");
+    const spanWithMad = article?.querySelector("span.text-emerald-600, span[class*='text-emerald']");
     expect(spanWithMad).toBeInTheDocument();
     expect(spanWithMad?.textContent).toMatch(/ٱللَّهِ/);
   });

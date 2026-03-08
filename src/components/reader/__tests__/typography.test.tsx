@@ -152,8 +152,9 @@ describe("AyahCard typography and spacing", () => {
 describe("SurahReaderContent card spacing", () => {
   it("ayah list has generous gap between cards", () => {
     const { container } = render(<SurahReaderContent ayahs={mockAyahs} />);
-    const list = container.querySelector("ul");
-    expect(list).toBeInTheDocument();
-    expect(list?.className).toMatch(/space-y-1[0-6]/);
+    const lists = container.querySelectorAll("ul");
+    const ayahList = Array.from(lists).find((ul) => ul.querySelector("article"));
+    expect(ayahList).toBeInTheDocument();
+    expect(ayahList?.className).toMatch(/space-y-1[0-6]/);
   });
 });

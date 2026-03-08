@@ -9,6 +9,7 @@ import { Header } from "../Header";
 import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { AyahCard } from "@/components/reader/AyahCard";
+import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
 import type { Ayah } from "@/types/quran";
 
 const mockAyah: Ayah = {
@@ -93,7 +94,11 @@ beforeEach(() => {
 
 describe("Header mobile", () => {
   it("sticky header has compact height 48-52px", () => {
-    const { container } = render(<Header />);
+    const { container } = render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
     const header = container.querySelector("header");
     const inner = header?.querySelector("div");
     expect(inner?.className).toMatch(/h-12|h-\[48px\]|h-\[52px\]|max-h-\[52px\]/);
