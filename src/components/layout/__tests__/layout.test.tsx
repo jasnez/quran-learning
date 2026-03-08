@@ -153,6 +153,34 @@ describe("Header", () => {
     const settings = screen.getByRole("button", { name: /settings/i });
     expect(settings).toBeInTheDocument();
   });
+
+  it("has distinct brand and navigation sections", () => {
+    const { container } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    const header = container.querySelector("header[role='banner']");
+    const inner = header?.firstElementChild;
+    expect(inner).toBeInTheDocument();
+    // Two main groups: brand (flex-1) and nav
+    const children = inner?.children ?? [];
+    expect(children.length).toBeGreaterThanOrEqual(2);
+    const nav = header?.querySelector("nav[aria-label='Main navigation']");
+    expect(nav).toBeInTheDocument();
+  });
+
+  it("nav has spacing between items", () => {
+    const { container } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    const nav = container.querySelector("nav[aria-label='Main navigation']");
+    expect(nav).toBeInTheDocument();
+    expect(nav?.className).toMatch(/gap-/);
+  });
+
+  it("uses separators or grouping for visual distinction on desktop", () => {
+    const { container } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    const nav = container.querySelector("nav[aria-label='Main navigation']");
+    expect(nav).toBeInTheDocument();
+    const hasSeparator = !!nav?.querySelector("[role='separator']");
+    const hasMultipleGroups = (nav?.children.length ?? 0) >= 2;
+    expect(hasSeparator || hasMultipleGroups).toBe(true);
+  });
 });
 
 describe("Footer", () => {

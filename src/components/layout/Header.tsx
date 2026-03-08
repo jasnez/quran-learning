@@ -7,9 +7,16 @@ import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
 const LINK_HOVER = "hover:text-emerald-800 dark:hover:text-emerald-200";
+const ICON_BTN =
+  "flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200 sm:min-h-[36px] sm:min-w-[36px]";
+const TEXT_LINK =
+  "hidden text-sm font-medium text-stone-600 transition-colors dark:text-stone-400 sm:inline-flex sm:py-2 sm:px-1 " +
+  LINK_HOVER;
+const SEPARATOR =
+  "hidden h-5 w-px shrink-0 bg-[var(--theme-border)] sm:block";
 
 export function Header() {
-  const { isOpen: settingsOpen, open: openSettings, close: closeSettings } = useSettingsOpen();
+  const { isOpen: settingsOpen, open: openSettings } = useSettingsOpen();
   const pathname = usePathname();
   const isSurahPage = pathname?.startsWith("/surah/");
   const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
@@ -18,17 +25,17 @@ export function Header() {
   const pause = usePlayerStore((s) => s.pause);
 
   return (
-    <>
-      <header
+    <header
       role="banner"
       className="sticky top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90"
     >
-      <div className="mx-auto flex h-12 max-h-[52px] max-w-4xl items-center justify-between gap-4 px-4">
-        <div className="flex min-w-0 flex-1 items-center gap-2">
+      <div className="mx-auto flex h-12 max-h-[52px] max-w-4xl items-center justify-between gap-6 px-4 sm:px-5">
+        {/* Brand */}
+        <div className="flex min-w-0 flex-1 items-center gap-3">
           {isSurahPage && (
             <Link
               href="/surahs"
-              className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+              className={`${ICON_BTN} shrink-0`}
               aria-label="Nazad na listu sura"
             >
               <BackIcon className="h-5 w-5" />
@@ -36,72 +43,70 @@ export function Header() {
           )}
           <Link
             href="/"
-            className={`min-w-0 truncate font-semibold ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
+            className={`min-w-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
             aria-label="Quran Learning home"
           >
             Quran Learning
           </Link>
         </div>
 
+        {/* Navigation */}
         <nav
-          className="flex flex-shrink-0 items-center gap-2"
+          className="flex flex-shrink-0 items-center gap-3 sm:gap-4"
           aria-label="Main navigation"
         >
           {activeAudioSrc && (
+            <>
+              <button
+                type="button"
+                className={ICON_BTN}
+                aria-label={isPlaying ? "Pauza" : "Pusti"}
+                onClick={() => (isPlaying ? pause() : resume())}
+              >
+                {isPlaying ? (
+                  <PauseIcon className="h-5 w-5" />
+                ) : (
+                  <PlayIcon className="h-5 w-5" />
+                )}
+              </button>
+              <span role="separator" aria-hidden className={SEPARATOR} />
+            </>
+          )}
+
+          <div className="hidden items-center gap-5 sm:flex">
+            <Link href="/" className={TEXT_LINK}>
+              Home
+            </Link>
+            <Link href="/surahs" className={TEXT_LINK}>
+              Surahs
+            </Link>
+            <Link href="/bookmarks" className={TEXT_LINK}>
+              Bookmarks
+            </Link>
+          </div>
+
+          <span role="separator" aria-hidden className={SEPARATOR} />
+
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link href="/search" className={ICON_BTN} aria-label="Pretraga">
+              <SearchIcon className="h-5 w-5" />
+            </Link>
+            <Link href="/bookmarks" className={ICON_BTN} aria-label="Označeni ajeti">
+              <BookmarkNavIcon className="h-5 w-5" />
+            </Link>
             <button
               type="button"
-              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
-              aria-label={isPlaying ? "Pauza" : "Pusti"}
-              onClick={() => (isPlaying ? pause() : resume())}
+              className={ICON_BTN}
+              aria-label="Settings"
+              aria-expanded={settingsOpen}
+              onClick={() => openSettings()}
             >
-              {isPlaying ? <PauseIcon className="h-5 w-5" /> : <PlayIcon className="h-5 w-5" />}
+              <SettingsIcon className="h-5 w-5" />
             </button>
-          )}
-          <Link
-            href="/"
-            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/search"
-            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200 sm:min-h-[36px] sm:min-w-[36px]"
-            aria-label="Pretraga"
-          >
-            <SearchIcon className="h-5 w-5" />
-          </Link>
-          <Link
-            href="/surahs"
-            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
-          >
-            Surahs
-          </Link>
-          <Link
-            href="/bookmarks"
-            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
-          >
-            Bookmarks
-          </Link>
-          <Link
-            href="/bookmarks"
-            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200 sm:min-h-[36px] sm:min-w-[36px]"
-            aria-label="Označeni ajeti"
-          >
-            <BookmarkNavIcon className="h-5 w-5" />
-          </Link>
-          <button
-            type="button"
-            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
-            aria-label="Settings"
-            aria-expanded={settingsOpen}
-            onClick={() => openSettings()}
-          >
-            <SettingsIcon className="h-5 w-5" />
-          </button>
+          </div>
         </nav>
       </div>
     </header>
-    </>
   );
 }
 
