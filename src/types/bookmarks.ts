@@ -7,6 +7,8 @@ export interface Bookmark {
   note?: string;
   createdAt: string;
   collectionId?: string;
+  /** Optional Bosnian translation preview (truncated when stored). */
+  translationBosnian?: string;
 }
 
 export interface BookmarkCollection {

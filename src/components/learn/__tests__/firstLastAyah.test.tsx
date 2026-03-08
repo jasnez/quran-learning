@@ -149,7 +149,7 @@ describe("Learn mode bookmark", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = screen.getByRole("button", { name: /dodaj u označene|označene|bookmark/i });
     await user.click(btn);
-    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ");
+    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
     expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u oznacene");
   });
 });

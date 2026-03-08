@@ -16,6 +16,7 @@ export function MobileNav() {
   const isSurahs = pathname?.startsWith("/surahs");
   const isLearn = pathname?.startsWith("/learn");
   const isSearch = pathname === "/search";
+  const isBookmarks = pathname === "/bookmarks";
 
   return (
     <nav
@@ -54,6 +55,14 @@ export function MobileNav() {
       >
         <BookIcon className="h-5 w-5" />
         <span>Sure</span>
+      </Link>
+      <Link
+        href="/bookmarks"
+        className={`flex-1 ${base} ${isBookmarks ? active : inactive}`}
+        aria-current={isBookmarks ? "page" : undefined}
+      >
+        <BookmarkIcon className="h-5 w-5" />
+        <span>Označeno</span>
       </Link>
       <button
         type="button"
@@ -140,6 +149,25 @@ function BookIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+      />
+    </svg>
+  );
+}
+
+function BookmarkIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"
       />
     </svg>
   );

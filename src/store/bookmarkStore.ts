@@ -3,14 +3,15 @@ import { persist } from "zustand/middleware";
 import type { Bookmark, BookmarkCollection } from "@/types/bookmarks";
 
 const ARABIC_PREVIEW_LENGTH = 50;
+const TRANSLATION_PREVIEW_LENGTH = 80;
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  return text.slice(0, max);
+}
 
 function bookmarkId(surahNumber: number, ayahNumber: number): string {
   return `${surahNumber}-${ayahNumber}`;
-}
-
-function truncateArabic(text: string): string {
-  if (text.length <= ARABIC_PREVIEW_LENGTH) return text;
-  return text.slice(0, ARABIC_PREVIEW_LENGTH);
 }
 
 type BookmarkState = {
@@ -23,14 +24,16 @@ type BookmarkActions = {
     surahNumber: number,
     ayahNumber: number,
     surahNameLatin: string,
-    arabicText: string
+    arabicText: string,
+    translationBosnian?: string
   ) => void;
   removeBookmark: (surahNumber: number, ayahNumber: number) => void;
   toggleBookmark: (
     surahNumber: number,
     ayahNumber: number,
     surahNameLatin: string,
-    arabicText: string
+    arabicText: string,
+    translationBosnian?: string
   ) => void;
   isBookmarked: (surahNumber: number, ayahNumber: number) => boolean;
   updateBookmarkNote: (id: string, note: string) => void;
@@ -49,7 +52,7 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
       bookmarks: [],
       collections: [],
 
-      addBookmark: (surahNumber, ayahNumber, surahNameLatin, arabicText) => {
+      addBookmark: (surahNumber, ayahNumber, surahNameLatin, arabicText, translationBosnian) => {
         const id = bookmarkId(surahNumber, ayahNumber);
         if (get().bookmarks.some((b) => b.id === id)) return;
         const bookmark: Bookmark = {
@@ -57,8 +60,11 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
           surahNumber,
           ayahNumber,
           surahNameLatin,
-          arabicText: truncateArabic(arabicText),
+          arabicText: truncate(arabicText, ARABIC_PREVIEW_LENGTH),
           createdAt: new Date().toISOString(),
+          ...(translationBosnian != null && translationBosnian !== ""
+            ? { translationBosnian: truncate(translationBosnian, TRANSLATION_PREVIEW_LENGTH) }
+            : {}),
         };
         set((s) => ({ bookmarks: [...s.bookmarks, bookmark] }));
       },
@@ -70,11 +76,11 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
         }));
       },
 
-      toggleBookmark: (surahNumber, ayahNumber, surahNameLatin, arabicText) => {
+      toggleBookmark: (surahNumber, ayahNumber, surahNameLatin, arabicText, translationBosnian) => {
         if (get().isBookmarked(surahNumber, ayahNumber)) {
           get().removeBookmark(surahNumber, ayahNumber);
         } else {
-          get().addBookmark(surahNumber, ayahNumber, surahNameLatin, arabicText);
+          get().addBookmark(surahNumber, ayahNumber, surahNameLatin, arabicText, translationBosnian);
         }
       },
 

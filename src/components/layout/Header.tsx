@@ -76,6 +76,19 @@ export function Header() {
           >
             Surahs
           </Link>
+          <Link
+            href="/bookmarks"
+            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
+          >
+            Bookmarks
+          </Link>
+          <Link
+            href="/bookmarks"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200 sm:min-h-[36px] sm:min-w-[36px]"
+            aria-label="Označeni ajeti"
+          >
+            <BookmarkNavIcon className="h-5 w-5" />
+          </Link>
           <button
             type="button"
             className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
@@ -154,6 +167,25 @@ function SearchIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      />
+    </svg>
+  );
+}
+
+function BookmarkNavIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"
       />
     </svg>
   );

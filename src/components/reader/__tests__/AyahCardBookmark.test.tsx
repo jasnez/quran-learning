@@ -94,7 +94,7 @@ describe("AyahCard bookmark", () => {
     mockIsBookmarked.mockReturnValue(false);
     render(<AyahCard {...defaultProps} />);
     await user.click(screen.getByRole("button", { name: /bookmark/i }));
-    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ");
+    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
     expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u oznacene");
   });
 
@@ -103,7 +103,7 @@ describe("AyahCard bookmark", () => {
     mockIsBookmarked.mockReturnValue(true);
     render(<AyahCard {...defaultProps} />);
     await user.click(screen.getByRole("button", { name: /bookmark/i }));
-    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ");
+    expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
     expect(mockShowToast).toHaveBeenCalledWith("Ajet uklonjen iz oznacenih");
   });
 

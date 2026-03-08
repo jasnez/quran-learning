@@ -59,7 +59,7 @@ export function AyahCard({
 
   const handleBookmark = () => {
     const wasBookmarked = bookmarked;
-    toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText);
+    toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText, ayah.translationBosnian);
     showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
   };
 

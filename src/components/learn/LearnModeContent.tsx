@@ -51,7 +51,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const handleBookmark = () => {
     if (!ayah) return;
     const wasBookmarked = bookmarked;
-    toggleBookmark(surahNumber, ayahNumber, surah.nameLatin, ayah.arabicText);
+    toggleBookmark(surahNumber, ayahNumber, surah.nameLatin, ayah.arabicText, ayah.translationBosnian);
     showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
   };
 
