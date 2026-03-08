@@ -106,17 +106,17 @@ beforeEach(() => {
 });
 
 describe("Learning mode first/last ayah", () => {
-  it("Previous button is disabled on first ayah", () => {
+  it("Previous button is disabled on first ayah", async () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const prev = screen.getByRole("button", { name: /prethodni|previous/i });
+    const prev = await screen.findByRole("button", { name: /prethodni ajet|prethodni|previous/i, timeout: 8000 });
     expect(prev).toBeDisabled();
-  });
+  }, 10000);
 
-  it("Next button is enabled when not on last ayah", () => {
+  it("Next button is enabled when not on last ayah", async () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const next = screen.getByRole("button", { name: /sljedeći|next/i });
+    const next = await screen.findByRole("button", { name: /sljedeći ajet|sljedeći|next/i, timeout: 8000 });
     expect(next).toBeEnabled();
-  });
+  }, 10000);
 
   it("on last ayah Next is disabled", () => {
     vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>

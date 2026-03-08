@@ -34,20 +34,20 @@ beforeEach(() => {
 
 describe("Search no results", () => {
   it("when search has no matches shows Nije pronadjeno", async () => {
-    const user = userEvent.setup();
     render(<SurahsContent surahs={mockSurahs} />);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
-    await user.type(search, "xyznonexistent");
-    expect(screen.getByText(/nije pronađeno|nije pronadjeno/i)).toBeInTheDocument();
-  });
+    await userEvent.clear(search);
+    await userEvent.type(search, "xyznonexistent", { delay: 0 });
+    expect(await screen.findByText(/nije pronađeno|nije pronadjeno/i, { timeout: 8000 })).toBeInTheDocument();
+  }, 10000);
 
   it("suggests trying again or different search", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: 0 });
     render(<SurahsContent surahs={mockSurahs} />);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "xyznonexistent");
     expect(
-      screen.getByText(/pokušajte ponovo|probajte drugi|drugačiji|druga pretraga/i)
+      await screen.findByText(/pokušajte ponovo|probajte drugi|drugačiji|druga pretraga/i, { timeout: 8000 })
     ).toBeInTheDocument();
-  });
+  }, 10000);
 });

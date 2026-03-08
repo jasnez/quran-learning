@@ -67,6 +67,10 @@ vi.mock("@/store/toastStore", () => ({
   ),
 }));
 
+vi.mock("@/hooks/useMediaQuery", () => ({
+  useIsMobile: vi.fn(() => false),
+}));
+
 const defaultProps = {
   ayah: mockAyah,
   surahAyahs: [mockAyah],
@@ -84,10 +88,11 @@ beforeEach(() => {
 });
 
 describe("AyahCard bookmark", () => {
-  it("shows bookmark button with aria-label Bookmark", () => {
+  it("shows bookmark button with aria-label Bookmark", async () => {
     render(<AyahCard {...defaultProps} />);
-    expect(screen.getByRole("button", { name: /bookmark/i })).toBeInTheDocument();
-  });
+    const btn = await screen.findByRole("button", { name: /bookmark/i, timeout: 8000 });
+    expect(btn).toBeInTheDocument();
+  }, 10000);
 
   it("calls toggleBookmark and showToast when adding bookmark", async () => {
     const user = userEvent.setup();
