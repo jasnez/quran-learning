@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { searchAyahsAction } from "./actions";
 import type { SearchResult } from "@/types/quran";
@@ -8,11 +8,13 @@ import type { SearchResult } from "@/types/quran";
 const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
 const EMPTY_MESSAGE = "Nije pronađeno. Pokušajte sa drugim pojmom.";
 const MIN_QUERY_LEN = 1;
+const DEBOUNCE_MS = 300;
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const runSearch = useCallback(async (q: string) => {
     const trimmed = q.trim();
@@ -27,15 +29,31 @@ export default function SearchPage() {
     setStatus("done");
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    if (value.trim().length >= MIN_QUERY_LEN) {
-      runSearch(value);
-    } else {
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+    }
+
+    if (value.trim().length < MIN_QUERY_LEN) {
       setResults([]);
       setStatus("done");
+      return;
     }
+
+    debounceRef.current = setTimeout(() => {
+      debounceRef.current = null;
+      runSearch(value);
+    }, DEBOUNCE_MS);
   };
 
   const showEmpty =
