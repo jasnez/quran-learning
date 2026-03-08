@@ -125,7 +125,15 @@ describe("AudioPlayer mobile", () => {
   it("is positioned at bottom for thumb reach", () => {
     const { container } = render(<AudioPlayer />);
     const player = container.querySelector("[data-testid='audio-player']");
-    expect(player?.className).toMatch(/sticky.*bottom-0|fixed.*bottom-0|bottom-0/);
+    expect(player?.className).toMatch(/sticky.*bottom|fixed.*bottom|bottom-0|bottom-14|bottom-\[56px\]/);
+  });
+
+  it("on mobile sits above mobile nav so controls are not covered", () => {
+    const { container } = render(<AudioPlayer />);
+    const player = container.querySelector("[data-testid='audio-player']");
+    expect(player).toBeInTheDocument();
+    // On small viewports player must have bottom offset (e.g. 56px) so it appears above MobileNav
+    expect(player?.className).toMatch(/max-md:bottom-14|max-sm:bottom-14|bottom-14|bottom-\[56px\]/);
   });
 });
 

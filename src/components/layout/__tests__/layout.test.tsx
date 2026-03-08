@@ -116,6 +116,17 @@ describe("AppShell", () => {
     expect(wrapper).not.toHaveClass("max-w-2xl");
     expect(wrapper?.className).toMatch(/max-w-7xl/);
   });
+
+  it("on mobile when audio is visible main has extra bottom padding so content is not under audio bar", () => {
+    const { container } = render(
+      <AppShell>
+        <span>Content</span>
+      </AppShell>
+    );
+    const main = container.querySelector("main");
+    expect(main).toBeInTheDocument();
+    expect(main?.className).toMatch(/max-md:pb-\[126px\]/);
+  });
 });
 
 describe("Header", () => {
