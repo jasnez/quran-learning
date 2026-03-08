@@ -80,6 +80,7 @@ export function AudioPlayer() {
   }, [activeAudioSrc, setCurrentTime, setDuration]);
 
   // Ended: repeat or advance (ref updated in effect to avoid ref-as-render)
+  // Autoplay is surah-level: within surah we always go to next ayah; only at end of surah does autoPlayNext decide next surah vs stop.
   const onEndedRef = useRef<(() => void) | undefined>(undefined);
   useEffect(() => {
     onEndedRef.current = () => {
@@ -88,18 +89,23 @@ export function AudioPlayer() {
         audioManager.play().catch(() => pause());
         return;
       }
-      if (autoPlayNext) {
-        const advanced = next();
-        if (!advanced) {
-          const surahNum = usePlayerStore.getState().currentSurahId;
-          const num = surahNum ? parseInt(surahNum, 10) : 0;
-          if (num >= 1 && num < 114) {
-            router.push(`/surah/${num + 1}?autoplay=1`);
-          }
-        }
+      const advanced = next();
+      if (advanced) {
+        // Moved to next ayah within surah; store/source update will handle playback
         return;
       }
-      pause();
+      // Last ayah of surah ended
+      if (autoPlayNext) {
+        const surahNum = usePlayerStore.getState().currentSurahId;
+        const num = surahNum ? parseInt(surahNum, 10) : 0;
+        if (num >= 1 && num < 114) {
+          router.push(`/surah/${num + 1}?autoplay=1`);
+        } else {
+          pause();
+        }
+      } else {
+        pause();
+      }
     };
   }, [repeatAyah, autoPlayNext, next, pause, router]);
   useEffect(() => {
@@ -184,13 +190,19 @@ export function AudioPlayer() {
               onClick={toggleAutoPlayNext}
               aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
               aria-pressed={autoPlayNext}
-              className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
+              className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
                 autoPlayNext
-                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                  : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                  ? "justify-end bg-stone-800 dark:bg-stone-200"
+                  : "justify-start bg-stone-200 dark:bg-stone-600"
               }`}
             >
-              <AutoPlayIcon className="h-4 w-4 md:h-5 md:w-5" />
+              <span
+                data-autoplay-thumb
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-stone-800 text-white shadow md:h-8 md:w-8 dark:bg-stone-200 dark:text-stone-900"
+                aria-hidden
+              >
+                <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </span>
             </button>
           </div>
         </div>
@@ -213,9 +225,9 @@ export function AudioPlayer() {
   );
 }
 
-function PlayIcon() {
+function PlayIcon({ className }: { className?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5 md:h-6 md:w-6"} aria-hidden>
       <path d="M8 5v14l11-7L8 5z" />
     </svg>
   );
@@ -249,14 +261,6 @@ function RepeatIcon({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
       <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
-    </svg>
-  );
-}
-
-function AutoPlayIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
     </svg>
   );
 }

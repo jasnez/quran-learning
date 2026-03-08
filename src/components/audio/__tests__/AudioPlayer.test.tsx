@@ -244,6 +244,58 @@ describe("AudioPlayer", () => {
     expect(mockPush).not.toHaveBeenCalled();
   });
 
+  it("when audio ends and not at last ayah, advances to next ayah and does not pause (autoplay is surah-level)", () => {
+    playerState.currentSurahId = "1";
+    playerState.currentAyahId = "1:3";
+    settingsState.autoPlayNext = false;
+    mockNext.mockReturnValue(true);
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    endedHandler();
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockPauseStore).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("when audio ends at last ayah and autoPlayNext is false, pauses and does not navigate", () => {
+    playerState.currentSurahId = "1";
+    playerState.currentAyahId = "1:7";
+    settingsState.autoPlayNext = false;
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    const endedHandler = mockOnEnded.mock.calls[0]?.[0];
+    endedHandler();
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockPauseStore).toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("autoplay control is a toggle switch with thumb containing play icon", () => {
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
+    expect(thumb).toBeInTheDocument();
+    expect(autoplayBtn.querySelector("[data-autoplay-thumb] svg")).toBeInTheDocument();
+  });
+
+  it("autoplay switch thumb is on right when on", () => {
+    settingsState.autoPlayNext = true;
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
+    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
+    expect(thumb?.parentElement).toHaveClass("justify-end");
+  });
+
+  it("autoplay switch thumb is on left when off", () => {
+    settingsState.autoPlayNext = false;
+    render(<AudioPlayer />);
+    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    expect(autoplayBtn).toHaveAttribute("aria-pressed", "false");
+    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
+    expect(thumb?.parentElement).toHaveClass("justify-start");
+  });
+
   it("shows repeat ayah toggle with accessible label", () => {
     render(<AudioPlayer />);
     const repeatBtn = screen.getByRole("button", { name: /ponavljaj ajet|isključi ponavljanje|repeat/i });
