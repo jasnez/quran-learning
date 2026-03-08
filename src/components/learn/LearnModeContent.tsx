@@ -6,6 +6,7 @@ import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
+import { TajwidLegend } from "@/components/quran";
 
 type LearnModeContentProps = { surah: SurahSummary; ayahs: Ayah[] };
 
@@ -132,6 +133,11 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
 
       {/* Bottom controls */}
       <footer className="flex flex-shrink-0 flex-col gap-4 border-t border-stone-200/80 pt-6 dark:border-stone-700/80">
+        {showTajwidColors && (
+          <div className="rounded-xl border border-stone-200/80 bg-stone-50/60 dark:border-stone-700/80 dark:bg-stone-900/40">
+            <TajwidLegend />
+          </div>
+        )}
         {!canGoNext && ayahs.length > 0 && (
           <p className="text-center text-sm text-stone-500 dark:text-stone-400" role="status">
             Završili ste ovu suru.

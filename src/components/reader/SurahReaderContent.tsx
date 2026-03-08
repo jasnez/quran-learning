@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
+import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
 type SurahReaderContentProps = { ayahs: Ayah[] };
@@ -43,7 +44,13 @@ export function SurahReaderContent({ ayahs }: SurahReaderContentProps) {
   }
 
   return (
-    <ul className="space-y-14 list-none" role="list">
+    <>
+      {showTajwidColors && (
+        <div className="mb-8">
+          <TajwidLegend />
+        </div>
+      )}
+      <ul className="space-y-14 list-none" role="list">
       {ayahs.map((ayah) => (
         <li key={ayah.id}>
           <AyahCard
@@ -57,6 +64,7 @@ export function SurahReaderContent({ ayahs }: SurahReaderContentProps) {
         </li>
       ))}
     </ul>
+    </>
   );
 }
 
