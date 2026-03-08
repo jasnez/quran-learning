@@ -9,6 +9,14 @@ import { getAllSurahs } from "@/lib/data";
 
 const FEATURED_SURAH_NUMBERS = [1, 112, 113, 114];
 
+/** Kratke napomene za preporučene sure (zahtjev: kratka napomena na karticama). */
+const FEATURED_SURAH_NOTES: Record<number, string> = {
+  1: "Otvaranje Kur'ana; uči se u svakoj rekiji.",
+  112: "Čistoća vjerovanja u Jednost Boga.",
+  113: "Traženje utočišta u Allaha od zla izvana.",
+  114: "Traženje utočišta u Allaha od zla iznutra.",
+};
+
 export default function Home() {
   const allSurahs = getAllSurahs();
   const featuredSurahs = allSurahs.filter((s) =>
@@ -25,19 +33,45 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 flex items-center justify-end opacity-[0.03] dark:opacity-[0.05]">
           <div className="h-[280px] w-[280px] rounded-full border-[80px] border-emerald-900/20 dark:border-emerald-800/20" />
         </div>
+        <div
+          className="pointer-events-none absolute inset-0 flex justify-end items-start pt-8 md:pt-12 opacity-[0.07] dark:opacity-[0.10]"
+          aria-hidden
+        >
+          <svg
+            className="h-48 w-64 md:h-56 md:w-80 text-emerald-900 dark:text-emerald-800"
+            viewBox="0 0 160 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
+          >
+            <path
+              d="M 160 120 V 20 Q 160 0 140 0 H 20 Q 0 0 0 20 V 120"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              fill="none"
+            />
+            <path
+              d="M 150 120 V 28 Q 150 12 132 12 H 28 Q 12 12 12 28 V 120"
+              stroke="currentColor"
+              strokeWidth="1"
+              fill="none"
+              opacity="0.6"
+            />
+          </svg>
+        </div>
         <div className="relative">
           <h1
             id="hero-title"
             className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-4xl"
           >
-            Quran Learning Platform
+            Platforma za učenje Kur&apos;ana
           </h1>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-stone-600 dark:text-stone-400">
             Uči Kur&apos;an uz tajwid pomagala, transliteraciju, prijevod i audio.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
-              href="/surahs"
+              href="/learn/1"
               className="inline-flex h-12 items-center justify-center rounded-full bg-emerald-800 px-6 text-sm font-medium text-white transition-colors hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600"
             >
               Počni učiti
@@ -75,8 +109,13 @@ export default function Home() {
                 {surah.nameArabic}
               </span>
               <span className="mt-1 text-sm font-medium text-stone-600 dark:text-stone-400">
-                {surah.nameLatin}
+                {surah.nameBosnian}
               </span>
+              {FEATURED_SURAH_NOTES[surah.surahNumber] && (
+                <p className="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-500">
+                  {FEATURED_SURAH_NOTES[surah.surahNumber]}
+                </p>
+              )}
               <span className="mt-2 text-xs text-stone-500 dark:text-stone-500">
                 {surah.ayahCount} ajeta
               </span>
@@ -91,7 +130,7 @@ export default function Home() {
           id="features-heading"
           className="text-xl font-medium text-stone-900 dark:text-stone-100 md:text-2xl"
         >
-          Što nudi platforma
+          Šta nudi platforma
         </h2>
         <div className="mt-10 grid gap-8 sm:grid-cols-2">
           <div className="flex gap-4">

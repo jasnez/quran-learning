@@ -50,6 +50,9 @@ Pregled stanja u odnosu na zahtjeve i testiranje [produkcije](https://quran-lear
 ## Što ručno provjeriti nakon deploya
 
 1. **Audio:** [Surah 1](https://quran-learning-sigma.vercel.app/surah/1) → „Pusti audio” na ajetu – treba se čuti zvuk.
-2. **Postavke:** Tema, veličina fonta, transliteracija, prijevod, Tajwid boje, brzina, Ponavljaj/Auto sljedeći – vrijednosti se zadržavaju nakon osvježavanja (localStorage).
-3. **Rute:** `/`, `/surahs`, `/surah/1`, `/surah/2`, `/learn/1`, `/learn/2` – učitavaju bez crasha; za sve sure očekivani su podaci (sura 2+ s API-ja pri prvoj posjeti).
-4. **Tajwid:** Sura 1, uključi „Tajwid boje” u Postavkama – trebaju se vidjeti obojeni segmenti i „Legenda tajwida” (collapsible). Na suri 2 s uključenim Tajwid bojama tekst ostaje bez boja (očekivano dok API ne šalje anotacije).
+2. **Sticky (fixed) audio player:** Otvori `/surah/1`, klikni „Pusti audio” na bilo kojem ajetu – na dnu ekrana treba se pojaviti trajni audio player (Surah 1 · Ajah X, play/pauza, prethodni/sljedeći, traka trajanja). Player ostaje vidljiv dok se skrola i nestaje kad se audio zaustavi ili kad nema aktivnog izvora.
+3. **Sticky top bar (Reader):** Otvori `/surah/1`, skrolaj – header ostaje na vrhu. Na stranici sure u headeru su: Back (strelica nazad → lista sura), „Quran Learning”, play/pause (kad se pušta audio), Home, Surahs, Postavke.
+4. **Surah header (vrh Reader stranice):** Na `/surah/1` na vrhu (ispod app headera) vidi se blok s arapskim, latinskim i bosanskim nazivom sure, meta (X ajeta · Meka/Medina) i dugme „Pusti cijelu suru”. Klik na „Pusti cijelu suru” pokreće reprodukciju od prvog ajeta i prikazuje sticky audio player.
+5. **Postavke:** Tema, veličina fonta, transliteracija, prijevod, Tajwid boje, brzina, Ponavljaj/Auto sljedeći – vrijednosti se zadržavaju nakon osvježavanja (localStorage).
+6. **Rute:** `/`, `/surahs`, `/surah/1`, `/surah/2`, `/learn/1`, `/learn/2` – učitavaju bez crasha; za sve sure očekivani su podaci (sura 2+ s API-ja pri prvoj posjeti).
+7. **Tajwid:** Sura 1, uključi „Tajwid boje” u Postavkama – trebaju se vidjeti obojeni segmenti i „Legenda tajwida” (collapsible). Na suri 2 s uključenim Tajwid bojama tekst ostaje bez boja (očekivano dok API ne šalje anotacije).

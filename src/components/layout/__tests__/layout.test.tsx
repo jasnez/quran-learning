@@ -8,6 +8,7 @@ import { AppShell } from "../AppShell";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { MobileNav } from "../MobileNav";
+import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -119,24 +120,24 @@ describe("AppShell", () => {
 
 describe("Header", () => {
   it("shows app name or logo", () => {
-    render(<Header />);
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const link = screen.getByRole("link", { name: /quran learning/i });
     expect(link).toBeInTheDocument();
   });
 
   it("has Home link", () => {
-    render(<Header />);
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const homeLink = screen.getByRole("link", { name: /^home$/i });
     expect(homeLink).toHaveAttribute("href", "/");
   });
 
   it("has Surahs link", () => {
-    render(<Header />);
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /surahs/i })).toHaveAttribute("href", "/surahs");
   });
 
   it("has settings control", () => {
-    render(<Header />);
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const settings = screen.getByRole("button", { name: /settings/i });
     expect(settings).toBeInTheDocument();
   });
@@ -166,14 +167,16 @@ describe("Footer", () => {
 
 describe("MobileNav", () => {
   it("renders and is accessible", () => {
-    render(<MobileNav />);
+    render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     const nav = screen.getByRole("navigation", { name: /mobile/i });
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Home and Surahs links", () => {
-    render(<MobileNav />);
+  it("includes Home, Learn, Sure and Settings", () => {
+    render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /surahs/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
+    expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
+    expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
   });
 });

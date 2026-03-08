@@ -113,6 +113,16 @@ describe("Surah Reader page", () => {
     expect(screen.getByText(/meka|meccan/i)).toBeInTheDocument();
   });
 
+  it("shows Play full surah button when ayahs are present", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    const btn = screen.getByRole("button", { name: /pusti cijelu suru/i });
+    expect(btn).toBeInTheDocument();
+    btn.click();
+    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
+    expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
+  });
+
   it("renders an AyahCard for each ayah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);

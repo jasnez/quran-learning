@@ -30,24 +30,24 @@ beforeEach(() => {
 
 describe("Home page", () => {
   describe("Hero section", () => {
-    it("shows platform name Quran Learning Platform", () => {
+    it("shows platform title in Bosnian", () => {
       render(<Home />);
       expect(
-        screen.getByRole("heading", { name: /quran learning platform/i })
+        screen.getByRole("heading", { name: /platforma za učenje kur'an/i })
       ).toBeInTheDocument();
     });
 
     it("shows subtitle about learning with tajwid and translation", () => {
       render(<Home />);
-      const hero = screen.getByRole("heading", { name: /quran learning platform/i }).closest("section");
+      const hero = screen.getByRole("heading", { name: /platforma za učenje kur'an/i }).closest("section");
       expect(hero).toBeInTheDocument();
       expect(hero).toHaveTextContent(/uči kur'an|tajwid|transliteracij|prijevod|audio/i);
     });
 
-    it("has primary CTA Počni učiti linking to /surahs", () => {
+    it("has primary CTA Počni učiti linking to learn page (first surah)", () => {
       render(<Home />);
       const cta = screen.getByRole("link", { name: /počni učit/i });
-      expect(cta).toHaveAttribute("href", "/surahs");
+      expect(cta).toHaveAttribute("href", "/learn/1");
     });
 
     it("has secondary CTA Pregled sura", () => {
@@ -67,7 +67,7 @@ describe("Home page", () => {
 
     it("shows 4 surah cards", () => {
       render(<Home />);
-      const linksToSurah = screen.getAllByRole("link", { name: /al-fatiha|al-ikhlas|al-falaq|an-nas/i });
+      const linksToSurah = screen.getAllByRole("link", { name: /al-fatiha|el-ihlas|el-felek|en-nas/i });
       expect(linksToSurah.length).toBeGreaterThanOrEqual(4);
     });
 
@@ -77,16 +77,27 @@ describe("Home page", () => {
       expect(link).toHaveAttribute("href", "/surah/1");
     });
 
-    it("links to reader for Al-Ikhlas, Al-Falaq, An-Nas", () => {
+    it("links to reader for El-Ihlas, El-Felek, En-Nas", () => {
       render(<Home />);
-      expect(screen.getByRole("link", { name: /al-ikhlas/i })).toHaveAttribute("href", "/surah/112");
-      expect(screen.getByRole("link", { name: /al-falaq/i })).toHaveAttribute("href", "/surah/113");
-      expect(screen.getByRole("link", { name: /an-nas/i })).toHaveAttribute("href", "/surah/114");
+      expect(screen.getByRole("link", { name: /el-ihlas/i })).toHaveAttribute("href", "/surah/112");
+      expect(screen.getByRole("link", { name: /el-felek/i })).toHaveAttribute("href", "/surah/113");
+      expect(screen.getByRole("link", { name: /en-nas/i })).toHaveAttribute("href", "/surah/114");
     });
 
     it("shows ayah count for at least one surah", () => {
       render(<Home />);
       expect(screen.getByText(/7\s*ajeta|7 ayah/i)).toBeInTheDocument();
+    });
+
+    it("shows Bosnian name (nameBosnian) on featured cards", () => {
+      render(<Home />);
+      expect(screen.getByText("Al-Fatiha")).toBeInTheDocument();
+      expect(screen.getByText("El-Ihlas")).toBeInTheDocument();
+    });
+
+    it("shows short note for at least one featured surah", () => {
+      render(<Home />);
+      expect(screen.getByText(/otvaranje kur'an/i)).toBeInTheDocument();
     });
   });
 

@@ -1,14 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { SettingsPanel } from "@/components/settings/SettingsPanel";
+import { usePathname } from "next/navigation";
+import { usePlayerStore } from "@/store/playerStore";
+import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
 const LINK_HOVER = "hover:text-emerald-800 dark:hover:text-emerald-200";
 
 export function Header() {
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { isOpen: settingsOpen, open: openSettings, close: closeSettings } = useSettingsOpen();
+  const pathname = usePathname();
+  const isSurahPage = pathname?.startsWith("/surah/");
+  const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
+  const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const resume = usePlayerStore((s) => s.resume);
+  const pause = usePlayerStore((s) => s.pause);
+
   return (
     <>
       <header
@@ -16,44 +24,88 @@ export function Header() {
       className="sticky top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90"
     >
       <div className="mx-auto flex h-12 max-h-[52px] max-w-4xl items-center justify-between gap-4 px-4">
-        <Link
-          href="/"
-          className={`font-semibold ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
-          aria-label="Quran Learning home"
-        >
-          Quran Learning
-        </Link>
-
-        <nav
-          className="flex items-center gap-6"
-          aria-label="Main navigation"
-        >
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          {isSurahPage && (
+            <Link
+              href="/surahs"
+              className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+              aria-label="Nazad na listu sura"
+            >
+              <BackIcon className="h-5 w-5" />
+            </Link>
+          )}
           <Link
             href="/"
-            className={`text-sm text-stone-600 transition-colors dark:text-stone-400 ${LINK_HOVER}`}
+            className={`min-w-0 truncate font-semibold ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
+            aria-label="Quran Learning home"
+          >
+            Quran Learning
+          </Link>
+        </div>
+
+        <nav
+          className="flex flex-shrink-0 items-center gap-2"
+          aria-label="Main navigation"
+        >
+          {activeAudioSrc && (
+            <button
+              type="button"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+              aria-label={isPlaying ? "Pauza" : "Pusti"}
+              onClick={() => (isPlaying ? pause() : resume())}
+            >
+              {isPlaying ? <PauseIcon className="h-5 w-5" /> : <PlayIcon className="h-5 w-5" />}
+            </button>
+          )}
+          <Link
+            href="/"
+            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
           >
             Home
           </Link>
           <Link
             href="/surahs"
-            className={`text-sm text-stone-600 transition-colors dark:text-stone-400 ${LINK_HOVER}`}
+            className={`hidden text-sm text-stone-600 transition-colors dark:text-stone-400 sm:block ${LINK_HOVER}`}
           >
             Surahs
           </Link>
           <button
             type="button"
-            className="min-h-[44px] min-w-[44px] rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
             aria-label="Settings"
             aria-expanded={settingsOpen}
-            onClick={() => setSettingsOpen(true)}
+            onClick={() => openSettings()}
           >
             <SettingsIcon className="h-5 w-5" />
           </button>
         </nav>
       </div>
     </header>
-      <SettingsPanel isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </>
+  );
+}
+
+function BackIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  );
+}
+
+function PlayIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M8 5v14l11-7L8 5z" />
+    </svg>
+  );
+}
+
+function PauseIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+    </svg>
   );
 }
 
