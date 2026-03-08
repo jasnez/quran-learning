@@ -139,6 +139,24 @@ describe("AudioPlayer mobile", () => {
     // On small viewports player must have bottom offset (e.g. 56px) so it appears above MobileNav
     expect(player?.className).toMatch(/max-md:bottom-14|max-sm:bottom-14|bottom-14|bottom-\[56px\]/);
   });
+
+  it("on mobile label (surah and ayah) is on the left and controls on the right", () => {
+    const { container } = render(<AudioPlayer />);
+    const player = container.querySelector("[data-testid='audio-player']");
+    const row = player?.firstElementChild?.firstElementChild;
+    expect(row).toBeInTheDocument();
+    expect(row?.className).toMatch(/justify-between|md:justify-center/);
+    const controlsGroup = row?.children?.[1];
+    expect(controlsGroup?.querySelector("[aria-label='Prethodni ajah']")).toBeInTheDocument();
+    expect(controlsGroup?.className).toMatch(/flex.*items-center|ml-auto|flex-shrink-0/);
+  });
+
+  it("on mobile controls row is vertically centered (items-center)", () => {
+    const { container } = render(<AudioPlayer />);
+    const player = container.querySelector("[data-testid='audio-player']");
+    const row = player?.firstElementChild?.firstElementChild;
+    expect(row?.className).toMatch(/items-center/);
+  });
 });
 
 describe("Total sticky height", () => {

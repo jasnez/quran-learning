@@ -130,16 +130,16 @@ export function AudioPlayer() {
       aria-label="Audio player"
     >
       <div className="mx-auto flex max-h-[70px] max-w-4xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
-        <div className="flex min-h-0 flex-1 items-center gap-2 md:gap-4">
-          {/* Left: label */}
+        <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4">
+          {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="min-w-0 flex-shrink text-xs text-stone-500 dark:text-stone-400 md:text-sm">
             <span className="truncate">
               Surah {currentSurahId ?? "—"} · Ajah {ayahNum}
             </span>
           </div>
 
-          {/* Center: controls */}
-          <div className="flex flex-1 items-center justify-center gap-1 md:gap-2">
+          {/* Right on mobile, centered on desktop: controls */}
+          <div className="flex flex-shrink-0 items-center justify-center gap-1 md:flex-1 md:gap-2">
             <button
               type="button"
               onClick={previous}
