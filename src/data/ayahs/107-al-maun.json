@@ -1,0 +1,273 @@
+{
+  "surah": {
+    "id": "107",
+    "surahNumber": 107,
+    "slug": "al-maun",
+    "nameArabic": "الماعون",
+    "nameLatin": "Al-Ma'un",
+    "nameBosnian": "El-Maun",
+    "revelationType": "meccan",
+    "ayahCount": 7
+  },
+  "ayahs": [
+    {
+      "id": "107:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6198,
+      "juz": 30,
+      "page": 602,
+      "arabicText": " أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّينِ",
+      "transliteration": "Araayta allathee yukaththibu biddeen",
+      "translationBosnian": "Znaš li ti onoga koji onaj svijet poriče?",
+      "tajwidSegments": [
+        {
+          "text": " أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّينِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6199,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "فَذَٰلِكَ ٱلَّذِى يَدُعُّ ٱلْيَتِيمَ",
+      "transliteration": "Fathalika allathee yaduAAAAualyateem",
+      "translationBosnian": "Pa to je onaj koji grubo odbija siroče,",
+      "tajwidSegments": [
+        {
+          "text": "فَذَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "لِكَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِى يَدُعُّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْيَتِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6200,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "وَلَا يَحُضُّ عَلَىٰ طَعَامِ ٱلْمِسْكِينِ",
+      "transliteration": "Wala yahuddu AAalataAAami almiskeen",
+      "translationBosnian": "i koji da se nahrani siromah – ne podstiče.",
+      "tajwidSegments": [
+        {
+          "text": "وَلَا يَحُضُّ عَلَىٰ طَعَامِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمِسْكِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6201,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "فَوَيْلٌ لِّلْمُصَلِّينَ",
+      "transliteration": "Fawaylun lilmusalleen",
+      "translationBosnian": "A teško onima koji, kada molitvu obavljaju,",
+      "tajwidSegments": [
+        {
+          "text": "فَوَيْل",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ لِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمُصَلِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6202,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "ٱلَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ",
+      "transliteration": "Allatheena hum AAan salatihimsahoon",
+      "translationBosnian": "molitvu svoju kako treba ne izvršavaju,",
+      "tajwidSegments": [
+        {
+          "text": "ٱلَّذِينَ هُمْ عَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن صَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "لَاتِهِمْ سَاهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 6203,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "ٱلَّذِينَ هُمْ يُرَآءُونَ",
+      "transliteration": "Allatheena hum yuraoon",
+      "translationBosnian": "koji se samo pretvaraju",
+      "tajwidSegments": [
+        {
+          "text": "ٱلَّذِينَ هُمْ يُرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "107:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 6204,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "وَيَمْنَعُونَ ٱلْمَاعُونَ",
+      "transliteration": "WayamnaAAoona almaAAoon",
+      "translationBosnian": "i nikome ništa ni u naruč ne daju!",
+      "tajwidSegments": [
+        {
+          "text": "وَيَمْنَعُونَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَاعُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/107007.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

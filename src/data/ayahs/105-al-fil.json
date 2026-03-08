@@ -1,0 +1,187 @@
+{
+  "surah": {
+    "id": "105",
+    "surahNumber": 105,
+    "slug": "al-fil",
+    "nameArabic": "الفيل",
+    "nameLatin": "Al-Fil",
+    "nameBosnian": "El-Fil",
+    "revelationType": "meccan",
+    "ayahCount": 5
+  },
+  "ayahs": [
+    {
+      "id": "105:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6189,
+      "juz": 30,
+      "page": 601,
+      "arabicText": " أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَـٰبِ ٱلْفِيلِ",
+      "transliteration": "Alam tara kayfa faAAala rabbuka bi-as-habialfeel",
+      "translationBosnian": "Zar nisi čuo šta je sa vlasnicima slona Gospodar tvoj uradio!",
+      "tajwidSegments": [
+        {
+          "text": " أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَـٰبِ ٱلْفِيلِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/105001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "105:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6190,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "أَلَمْ يَجْعَلْ كَيْدَهُمْ فِى تَضْلِيلٍ",
+      "transliteration": "Alam yajAAal kaydahum fee tadleel",
+      "translationBosnian": "Zar lukavstvo njihovo nije omeo",
+      "tajwidSegments": [
+        {
+          "text": "أَلَمْ يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "عَلْ كَيْدَهُمْ فِى تَضْلِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "لٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/105002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "105:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6191,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ",
+      "transliteration": "Waarsala AAalayhim tayran ababeel",
+      "translationBosnian": "i protiv njih jata ptica poslao,",
+      "tajwidSegments": [
+        {
+          "text": "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "لَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/105003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "105:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6192,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ",
+      "transliteration": "Tarmeehim bihijaratin minsijjeel",
+      "translationBosnian": "Koje su na njih grumenje od gline pečene bacale,",
+      "tajwidSegments": [
+        {
+          "text": "تَرْمِيهِ",
+          "rule": "normal"
+        },
+        {
+          "text": "م بِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "حِجَارَة",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ن سِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "جِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "لٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/105004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "105:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6193,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍۭ",
+      "transliteration": "FajaAAalahum kaAAasfin ma/kool",
+      "translationBosnian": "pa ih On kao lišće koje su crvi istočili učinio?",
+      "tajwidSegments": [
+        {
+          "text": "فَجَعَلَهُمْ كَعَصْف",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "أْكُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "لٍۭ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/105005.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

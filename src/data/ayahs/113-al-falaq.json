@@ -16,12 +16,14 @@
       "ayahNumberGlobal": 6226,
       "juz": 30,
       "page": 604,
-      "arabicText": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+      "arabicText": " قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
       "transliteration": "Qul aAAoothu birabbi alfalaq",
       "translationBosnian": "Reci: \"Utječem se Gospodaru svitanja",
       "tajwidSegments": [
-        { "text": "قُلْ", "rule": "qalqalah" },
-        { "text": " أَعُوذُ بِرَبِّ ٱلْفَلَقِ", "rule": "normal" }
+        {
+          "text": " قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -35,11 +37,30 @@
       "ayahNumberGlobal": 6227,
       "juz": 30,
       "page": 604,
-      "arabicText": "مِن شَرِّ مَا خَلَقَ",
+      "arabicText": "مِن شَرِّ مَا خَلَقَ",
       "transliteration": "Min sharri ma khalaq",
       "translationBosnian": "od zla onoga što On stvara,",
       "tajwidSegments": [
-        { "text": "مِن شَرِّ مَا خَلَقَ", "rule": "normal" }
+        {
+          "text": "مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رِّ مَا خَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -53,11 +74,30 @@
       "ayahNumberGlobal": 6228,
       "juz": 30,
       "page": 604,
-      "arabicText": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+      "arabicText": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
       "transliteration": "Wamin sharri ghasiqin ithawaqab",
       "translationBosnian": "i od zla mrkle noći kada razastre tmine,",
       "tajwidSegments": [
-        { "text": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", "rule": "normal" }
+        {
+          "text": "وَمِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رِّ غَاسِقٍ إِذَا وَقَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -71,12 +111,70 @@
       "ayahNumberGlobal": 6229,
       "juz": 30,
       "page": 604,
-      "arabicText": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ",
+      "arabicText": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ",
       "transliteration": "Wamin sharri annaffathatifee alAAuqad",
       "translationBosnian": "i od zla onih koje u čvorove pušu",
       "tajwidSegments": [
-        { "text": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ", "rule": "ghunnah" },
-        { "text": " فِى ٱلْعُقَدِ", "rule": "normal" }
+        {
+          "text": "وَمِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رِّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "فَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰث",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰتِ فِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ى",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْعُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َدِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -90,11 +188,30 @@
       "ayahNumberGlobal": 6230,
       "juz": 30,
       "page": 604,
-      "arabicText": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+      "arabicText": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
       "transliteration": "Wamin sharri hasidin itha hasad",
       "translationBosnian": "i od zla zavidljivca kad zavist ne krije!\"",
       "tajwidSegments": [
-        { "text": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", "rule": "normal" }
+        {
+          "text": "وَمِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رِّ حَاسِدٍ إِذَا حَسَ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",

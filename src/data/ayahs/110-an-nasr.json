@@ -1,0 +1,133 @@
+{
+  "surah": {
+    "id": "110",
+    "surahNumber": 110,
+    "slug": "an-nasr",
+    "nameArabic": "النصر",
+    "nameLatin": "An-Nasr",
+    "nameBosnian": "En-Nasr",
+    "revelationType": "medinan",
+    "ayahCount": 3
+  },
+  "ayahs": [
+    {
+      "id": "110:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6214,
+      "juz": 30,
+      "page": 603,
+      "arabicText": " إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
+      "transliteration": "Itha jaa nasru Allahiwalfath",
+      "translationBosnian": "Kada Allahova pomoć i pobjeda dođu,",
+      "tajwidSegments": [
+        {
+          "text": " إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/110001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "110:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6215,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "وَرَأَيْتَ ٱلنَّاسَ يَدْخُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًا",
+      "transliteration": "Waraayta annasa yadkhuloonafee deeni Allahi afwaja",
+      "translationBosnian": "i vidiš ljude kako u skupinama u Allahovu vjeru ulaze –",
+      "tajwidSegments": [
+        {
+          "text": "وَرَأَيْتَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "اسَ يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "خُلُونَ فِى دِينِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ أَفْوَاجًا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/110002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "110:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6216,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِنَّهُۥ كَانَ تَوَّابًۢا",
+      "transliteration": "Fasabbih bihamdi rabbika wastaghfirhuinnahu kana tawwaba",
+      "translationBosnian": "ti veličaj Gospodara svoga hvaleći Ga i moli Ga da ti oprosti, On je uvijek pokajanje primao.",
+      "tajwidSegments": [
+        {
+          "text": "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "سْتَغْفِرْهُ ۚ ",
+          "rule": "normal"
+        },
+        {
+          "text": "إِن",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ه",
+          "rule": "mad"
+        },
+        {
+          "text": "ُۥ كَانَ تَوَّابًۢا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/110003.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

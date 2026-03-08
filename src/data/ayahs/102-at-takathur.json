@@ -1,0 +1,326 @@
+{
+  "surah": {
+    "id": "102",
+    "surahNumber": 102,
+    "slug": "at-takathur",
+    "nameArabic": "التكاثر",
+    "nameLatin": "At-Takathur",
+    "nameBosnian": "Et-Tekasur",
+    "revelationType": "meccan",
+    "ayahCount": 8
+  },
+  "ayahs": [
+    {
+      "id": "102:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6169,
+      "juz": 30,
+      "page": 600,
+      "arabicText": " أَلْهَىٰكُمُ ٱلتَّكَاثُرُ",
+      "transliteration": "Alhakumu attakathur",
+      "translationBosnian": "Zaokuplja vas nastojanje da što imućniji budete",
+      "tajwidSegments": [
+        {
+          "text": " أَلْهَىٰكُمُ ٱلتَّكَاثُرُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6170,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "حَتَّىٰ زُرْتُمُ ٱلْمَقَابِرَ",
+      "transliteration": "Hatta zurtumu almaqabir",
+      "translationBosnian": "sve dok grobove ne naselite.",
+      "tajwidSegments": [
+        {
+          "text": "حَتَّىٰ زُرْتُمُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَقَابِرَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6171,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "كَلَّا سَوْفَ تَعْلَمُونَ",
+      "transliteration": "Kalla sawfa taAAlamoon",
+      "translationBosnian": "A ne valja tako, saznaćete svakako!",
+      "tajwidSegments": [
+        {
+          "text": "كَلَّا سَوْفَ تَعْلَمُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6172,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ",
+      "transliteration": "Thumma kalla sawfa taAAlamoon",
+      "translationBosnian": "I još jednom, ne valja tako! Saznaćete sigurno!",
+      "tajwidSegments": [
+        {
+          "text": "ثُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " كَلَّا سَوْفَ تَعْلَمُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6173,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ ٱلْيَقِينِ",
+      "transliteration": "Kalla law taAAlamoona AAilma alyaqeen",
+      "translationBosnian": "Ne valja tako, neka znate pouzdano,",
+      "tajwidSegments": [
+        {
+          "text": "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْيَقِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 6174,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "لَتَرَوُنَّ ٱلْجَحِيمَ",
+      "transliteration": "Latarawunna aljaheem",
+      "translationBosnian": "Džehennem ćete vidjeti jasno!",
+      "tajwidSegments": [
+        {
+          "text": "لَتَرَوُ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْجَحِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 6175,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "ثُمَّ لَتَرَوُنَّهَا عَيْنَ ٱلْيَقِينِ",
+      "transliteration": "Thumma latarawunnaha AAayna alyaqeen",
+      "translationBosnian": "I još jednom, doista ćete ga vidjeti očigledno!",
+      "tajwidSegments": [
+        {
+          "text": "ثُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " لَتَرَوُ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "هَا عَيْنَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْيَقِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102007.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "102:8",
+      "ayahNumber": 8,
+      "ayahNumberGlobal": 6176,
+      "juz": 30,
+      "page": 600,
+      "arabicText": "ثُمَّ لَتُسْـَٔلُنَّ يَوْمَئِذٍ عَنِ ٱلنَّعِيمِ",
+      "transliteration": "Thumma latus-alunna yawma-ithin AAaniannaAAeem",
+      "translationBosnian": "Zatim ćete toga dana za sladak život biti pitani sigurno!",
+      "tajwidSegments": [
+        {
+          "text": "ثُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " لَتُسْـَٔلُ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " يَوْمَئِذٍ عَنِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "عِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/102008.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

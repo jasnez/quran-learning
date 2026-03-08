@@ -46,6 +46,22 @@ npm run lint
 npm test
 ```
 
+## Generating ayah data
+
+Ayah JSON files (`src/data/ayahs/NNN-slug.json`) include Arabic text, transliteration, and Bosnian translation (Besim Korkut) from the Quran.com API. To (re)generate them:
+
+```bash
+cd quran-learning
+
+# Generiše samo sure koje nemaju JSON
+npm run generate:ayahs
+
+# Prepiše sve 114 sura (uključujući 1, 112, 113, 114)
+npm run generate:ayahs -- --force
+```
+
+Without `--force`, existing files are skipped. With `--force`, all 114 surahs are fetched and written (takes about 1 minute).
+
 ## Routes
 
 | Route | Description |

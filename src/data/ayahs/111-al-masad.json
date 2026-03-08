@@ -1,0 +1,227 @@
+{
+  "surah": {
+    "id": "111",
+    "surahNumber": 111,
+    "slug": "al-masad",
+    "nameArabic": "المسد",
+    "nameLatin": "Al-Masad",
+    "nameBosnian": "El-Mesed",
+    "revelationType": "meccan",
+    "ayahCount": 5
+  },
+  "ayahs": [
+    {
+      "id": "111:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6217,
+      "juz": 30,
+      "page": 603,
+      "arabicText": " تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ",
+      "transliteration": "Tabbat yada abee lahabin watab",
+      "translationBosnian": "Neka propadne Ebu Leheb, i propao je!",
+      "tajwidSegments": [
+        {
+          "text": " تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/111001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "111:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6218,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "مَآ أَغْنَىٰ عَنْهُ مَالُهُۥ وَمَا كَسَبَ",
+      "transliteration": "Ma aghna AAanhu maluhuwama kasab",
+      "translationBosnian": "Neće mu biti od koristi blago njegovo, a ni ono što je stekao,",
+      "tajwidSegments": [
+        {
+          "text": "مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَغْنَىٰ عَنْهُ مَالُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " وَمَا كَسَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/111002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "111:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6219,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ",
+      "transliteration": "Sayasla naran thatalahab",
+      "translationBosnian": "ući će on, sigurno, u vatru rasplamsalu,",
+      "tajwidSegments": [
+        {
+          "text": "سَيَصْلَىٰ نَار",
+          "rule": "normal"
+        },
+        {
+          "text": "ًا ذَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "اتَ لَهَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/111003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "111:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6220,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "وَٱمْرَأَتُهُۥ حَمَّالَةَ ٱلْحَطَبِ",
+      "transliteration": "Wamraatuhu hammalata alhatab",
+      "translationBosnian": "i žena njegova, koja spletkari;",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "مْرَأَتُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " حَ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "الَةَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْحَطَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/111004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "111:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6221,
+      "juz": 30,
+      "page": 603,
+      "arabicText": "فِى جِيدِهَا حَبْلٌ مِّن مَّسَدٍۭ",
+      "transliteration": "Fee jeediha hablun min masad",
+      "translationBosnian": "o vratu njenu biće uže od ličine usukane!",
+      "tajwidSegments": [
+        {
+          "text": "فِى جِيدِهَا حَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ن مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "سَ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ٍۭ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/111005.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

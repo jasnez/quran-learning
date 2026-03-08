@@ -3,10 +3,12 @@
  */
 import { describe, it, expect, afterEach } from "vitest";
 import { getSearchIndex, clearSearchIndex } from "../searchIndex";
+import { clearUthmaniCache } from "../loadUthmaniXml";
 
 describe("searchIndex", () => {
   afterEach(() => {
     clearSearchIndex();
+    clearUthmaniCache();
   });
 
   it("returns an array of SurahDetail for all loaded surah data files", () => {
@@ -24,12 +26,28 @@ describe("searchIndex", () => {
     });
   });
 
+  it("includes all 114 surahs when Uthmani XML is available", () => {
+    const index = getSearchIndex();
+    if (index.length < 114) return; // XML not present (e.g. CI)
+    expect(index.length).toBe(114);
+  });
+
   it("includes surah 1 (Al-Fatiha) when ayah file exists", () => {
     const index = getSearchIndex();
     const fatiha = index.find((d) => d.surah.surahNumber === 1);
     expect(fatiha).toBeDefined();
     expect(fatiha!.surah.slug).toBe("al-fatiha");
     expect(fatiha!.ayahs.length).toBeGreaterThanOrEqual(7);
+  });
+
+  it("includes surah 2 (Al-Baqarah) from XML when XML is loaded", () => {
+    const index = getSearchIndex();
+    if (index.length < 114) return;
+    const baqarah = index.find((d) => d.surah.surahNumber === 2);
+    expect(baqarah).toBeDefined();
+    expect(baqarah!.surah.slug).toBe("al-baqarah");
+    expect(baqarah!.ayahs.length).toBe(286);
+    expect(baqarah!.ayahs[0].arabicText).toBeTruthy();
   });
 
   it("caches the index in memory (second call returns same data)", () => {

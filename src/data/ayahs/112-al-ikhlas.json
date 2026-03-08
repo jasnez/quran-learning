@@ -16,12 +16,14 @@
       "ayahNumberGlobal": 6222,
       "juz": 30,
       "page": 604,
-      "arabicText": "قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+      "arabicText": " قُلْ هُوَ ٱللَّهُ أَحَدٌ",
       "transliteration": "Qul huwa Allahu ahad",
       "translationBosnian": "Reci: \"On je Allah – Jedan!",
       "tajwidSegments": [
-        { "text": "قُلْ", "rule": "qalqalah" },
-        { "text": " هُوَ ٱللَّهُ أَحَدٌ", "rule": "normal" }
+        {
+          "text": " قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -35,11 +37,34 @@
       "ayahNumberGlobal": 6223,
       "juz": 30,
       "page": 604,
-      "arabicText": "ٱللَّهُ ٱلصَّمَدُ",
+      "arabicText": "ٱللَّهُ ٱلصَّمَدُ",
       "transliteration": "Allahu assamad",
       "translationBosnian": "Allah je Utočište svakom!",
       "tajwidSegments": [
-        { "text": "ٱللَّهُ ٱلصَّمَدُ", "rule": "normal" }
+        {
+          "text": "ٱللَّهُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "صَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ُ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -57,8 +82,22 @@
       "transliteration": "Lam yalid walam yoolad",
       "translationBosnian": "Nije rodio i rođen nije,",
       "tajwidSegments": [
-        { "text": "لَمْ يَلِدْ", "rule": "qalqalah" },
-        { "text": " وَلَمْ يُولَدْ", "rule": "qalqalah" }
+        {
+          "text": "لَمْ يَلِ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": " وَلَمْ يُولَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -72,11 +111,38 @@
       "ayahNumberGlobal": 6225,
       "juz": 30,
       "page": 604,
-      "arabicText": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ",
+      "arabicText": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ",
       "transliteration": "Walam yakun lahu kufuwan ahad",
       "translationBosnian": "i niko Mu ravan nije!\"",
       "tajwidSegments": [
-        { "text": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ", "rule": "normal" }
+        {
+          "text": "وَلَمْ يَكُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن لَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "هُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " كُفُوًا أَحَ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ٌۢ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",

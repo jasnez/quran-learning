@@ -16,15 +16,62 @@
       "ayahNumberGlobal": 1,
       "juz": 1,
       "page": 1,
-      "arabicText": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "arabicText": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
       "transliteration": "Bismi Allahi arrahmani arraheem",
       "translationBosnian": "U ime Allaha, Milostivog, Samilosnog!",
       "tajwidSegments": [
-        { "text": "بِسْمِ ", "rule": "normal" },
-        { "text": "ٱللَّ", "rule": "mad" },
-        { "text": "هِ ", "rule": "normal" },
-        { "text": "ٱلرَّحْمَـٰنِ ", "rule": "mad" },
-        { "text": "ٱلرَّحِيمِ", "rule": "normal" }
+        {
+          "text": "بِسْمِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "رَّحْمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لرَّح",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "يمِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -38,14 +85,38 @@
       "ayahNumberGlobal": 2,
       "juz": 1,
       "page": 1,
-      "arabicText": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+      "arabicText": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
       "transliteration": "Alhamdu lillahi rabbi alAAalameen",
       "translationBosnian": "Tebe, Allaha, Gospodara svjetova, hvalimo,",
       "tajwidSegments": [
-        { "text": "ٱلْحَمْدُ ", "rule": "normal" },
-        { "text": "لِلَّهِ ", "rule": "mad" },
-        { "text": "رَبِّ ", "rule": "normal" },
-        { "text": "ٱلْعَـٰلَمِينَ", "rule": "mad" }
+        {
+          "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْعَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰلَم",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "ينَ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -59,12 +130,50 @@
       "ayahNumberGlobal": 3,
       "juz": 1,
       "page": 1,
-      "arabicText": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "arabicText": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
       "transliteration": "Arrahmani arraheem",
       "translationBosnian": "Milostivog, Samilosnog,",
       "tajwidSegments": [
-        { "text": "ٱلرَّحْمَـٰنِ ", "rule": "mad" },
-        { "text": "ٱلرَّحِيمِ", "rule": "normal" }
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "رَّحْمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لرَّح",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "يمِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -78,13 +187,42 @@
       "ayahNumberGlobal": 4,
       "juz": 1,
       "page": 1,
-      "arabicText": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+      "arabicText": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
       "transliteration": "Maliki yawmi addeen",
       "translationBosnian": "Vladara Dana sudnjeg,",
       "tajwidSegments": [
-        { "text": "مَـٰلِكِ ", "rule": "mad" },
-        { "text": "يَوْمِ ", "rule": "normal" },
-        { "text": "ٱلدِّينِ", "rule": "qalqalah" }
+        {
+          "text": "مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰلِكِ يَوْمِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لدّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "ينِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -98,14 +236,22 @@
       "ayahNumberGlobal": 5,
       "juz": 1,
       "page": 1,
-      "arabicText": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "arabicText": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
       "transliteration": "Iyyaka naAAbudu wa-iyyaka nastaAAeen",
       "translationBosnian": "Tebi se klanjamo i od Tebe pomoć tražimo!",
       "tajwidSegments": [
-        { "text": "إِيَّاكَ ", "rule": "normal" },
-        { "text": "نَعْبُدُ ", "rule": "ikhfa" },
-        { "text": "وَإِيَّاكَ ", "rule": "normal" },
-        { "text": "نَسْتَعِينُ", "rule": "ghunnah" }
+        {
+          "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نُ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -119,13 +265,50 @@
       "ayahNumberGlobal": 6,
       "juz": 1,
       "page": 1,
-      "arabicText": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+      "arabicText": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
       "transliteration": "Ihdina assirata almustaqeem",
       "translationBosnian": "Uputi nas na Pravi put,",
       "tajwidSegments": [
-        { "text": "ٱهْدِنَا ", "rule": "ikhfa" },
-        { "text": "ٱلصِّرَٰطَ ", "rule": "normal" },
-        { "text": "ٱلْمُسْتَقِيمَ", "rule": "qalqalah" }
+        {
+          "text": "ٱهْدِنَا ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "صِّرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "طَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمُسْتَقِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مَ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -139,14 +322,66 @@
       "ayahNumberGlobal": 7,
       "juz": 1,
       "page": 1,
-      "arabicText": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+      "arabicText": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
       "transliteration": "Sirata allatheena anAAamta AAalayhim ghayri almaghdoobi AAalayhim wala addalleen",
       "translationBosnian": "na Put onih kojima si milost Svoju darovao, a ne onih koji su protiv sebe srdžbu izazvali, niti onih koji su zalutali!",
       "tajwidSegments": [
-        { "text": "صِرَٰطَ ", "rule": "mad" },
-        { "text": "ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ ", "rule": "normal" },
-        { "text": "غَيْرِ ", "rule": "ghunnah" },
-        { "text": "ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ", "rule": "normal" }
+        {
+          "text": "صِرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "طَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَغْضُوبِ عَلَيْهِمْ وَلَا ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "ضَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "لِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",

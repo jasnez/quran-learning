@@ -1,0 +1,1369 @@
+{
+  "surah": {
+    "id": "62",
+    "surahNumber": 62,
+    "slug": "al-jumuah",
+    "nameArabic": "الجمعة",
+    "nameLatin": "Al-Jumu'ah",
+    "nameBosnian": "El-Džumua",
+    "revelationType": "medinan",
+    "ayahCount": 11
+  },
+  "ayahs": [
+    {
+      "id": "62:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 5178,
+      "juz": 28,
+      "page": 553,
+      "arabicText": " يُسَبِّحُ لِلَّهِ مَا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ٱلْمَلِكِ ٱلْقُدُّوسِ ٱلْعَزِيزِ ٱلْحَكِيمِ",
+      "transliteration": "Yusabbihu lillahi ma feeassamawati wama fee al-ardialmaliki alquddoosi alAAazeezi alhakeem",
+      "translationBosnian": "Ono što je na nebesima i ono što je na Zemlji hvali Allaha, Vladara, Svetoga, Silnoga, Mudroga!",
+      "tajwidSegments": [
+        {
+          "text": " يُسَبِّحُ لِلَّهِ مَا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ٱلْمَلِكِ ٱلْقُدُّوسِ ٱلْعَزِيزِ ٱلْحَكِيمِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 5179,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "هُوَ ٱلَّذِى بَعَثَ فِى ٱلْأُمِّيِّـۧنَ رَسُولًا مِّنْهُمْ يَتْلُوا۟ عَلَيْهِمْ ءَايَـٰتِهِۦ وَيُزَكِّيهِمْ وَيُعَلِّمُهُمُ ٱلْكِتَـٰبَ وَٱلْحِكْمَةَ وَإِن كَانُوا۟ مِن قَبْلُ لَفِى ضَلَـٰلٍ مُّبِينٍ",
+      "transliteration": "Huwa allathee baAAatha feeal-ommiyyeena rasoolan minhum yatloo AAalayhim ayatihiwayuzakkeehim wayuAAallimuhumu alkitaba walhikmatawa-in kanoo min qablu lafee dalalin mubeen",
+      "translationBosnian": "On je neukima poslao Poslanika, jednog između njih, da im ajete Njegove kazuje i da ih očisti i da ih Knjizi i mudrosti nauči, jer su prije bili u očitoj zabludi,",
+      "tajwidSegments": [
+        {
+          "text": "هُوَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِى بَعَثَ فِى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "يِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ۧنَ رَسُو",
+          "rule": "normal"
+        },
+        {
+          "text": "لًا مّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ِنْهُمْ يَتْلُ",
+          "rule": "normal"
+        },
+        {
+          "text": "وا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ عَلَيْهِمْ ءَاي",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰتِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ه",
+          "rule": "mad"
+        },
+        {
+          "text": "ِۦ وَيُزَكِّيهِمْ وَيُعَلِّمُهُم",
+          "rule": "normal"
+        },
+        {
+          "text": "ُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْكِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ت",
+          "rule": "mad"
+        },
+        {
+          "text": "َـٰبَ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "وَٱلْحِكْمَةَ و",
+          "rule": "normal"
+        },
+        {
+          "text": "َإِن",
+          "rule": "ikhfa"
+        },
+        {
+          "text": " كَا",
+          "rule": "normal"
+        },
+        {
+          "text": "نُ",
+          "rule": "normal"
+        },
+        {
+          "text": "وا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " مِن",
+          "rule": "ikhfa"
+        },
+        {
+          "text": " ق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َبْلُ لَفِى ض",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "َـٰلٍ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " م",
+          "rule": "normal"
+        },
+        {
+          "text": "ّ",
+          "rule": "mad"
+        },
+        {
+          "text": "ُبِينٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 5180,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "وَءَاخَرِينَ مِنْهُمْ لَمَّا يَلْحَقُوا۟ بِهِمْ ۚ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ",
+      "transliteration": "Waakhareena minhum lamma yalhaqoobihim wahuwa alAAazeezu alhakeem",
+      "translationBosnian": "i drugima koji im se još nisu priključili – On je Silni i Mudri.",
+      "tajwidSegments": [
+        {
+          "text": "وَءَاخَرِينَ مِنْهُمْ لَ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا يَلْحَقُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " بِهِمْ ۚ وَهُو",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْعَزِيز",
+          "rule": "normal"
+        },
+        {
+          "text": "ُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْحَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ك",
+          "rule": "mad"
+        },
+        {
+          "text": "ِيمُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 5181,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "ذَٰلِكَ فَضْلُ ٱللَّهِ يُؤْتِيهِ مَن يَشَآءُ ۚ وَٱللَّهُ ذُو ٱلْفَضْلِ ٱلْعَظِيمِ",
+      "transliteration": "Thalika fadlu Allahiyu/teehi man yashao wallahu thooalfadli alAAatheem",
+      "translationBosnian": "To je Allahova milost koju On daje onome kome hoće – a u Allaha je milost velika.",
+      "tajwidSegments": [
+        {
+          "text": "ذَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "لِكَ فَضْلُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ يُؤْتِيهِ مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن يَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "شَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءُ ۚ ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱللَّهُ ذُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْفَضْل",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْعَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ظ",
+          "rule": "mad"
+        },
+        {
+          "text": "ِيمِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 5182,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "مَثَلُ ٱلَّذِينَ حُمِّلُوا۟ ٱلتَّوْرَىٰةَ ثُمَّ لَمْ يَحْمِلُوهَا كَمَثَلِ ٱلْحِمَارِ يَحْمِلُ أَسْفَارًۢا ۚ بِئْسَ مَثَلُ ٱلْقَوْمِ ٱلَّذِينَ كَذَّبُوا۟ بِـَٔايَـٰتِ ٱللَّهِ ۚ وَٱللَّهُ لَا يَهْدِى ٱلْقَوْمَ ٱلظَّـٰلِمِينَ",
+      "transliteration": "Mathalu allatheena hummiloo attawratathumma lam yahmilooha kamathali alhimariyahmilu asfaran bi/sa mathalu alqawmi allatheenakaththaboo bi-ayati Allahi wallahula yahdee alqawma aththalimeen",
+      "translationBosnian": "Oni kojima je naređeno da prema Tevratu postupaju, pa ne postupaju, slični su magarcu koji knjige nosi. O kako su loši oni koji poriču Allahove ajete! – A Allah neće ukazati na Pravi put narodu koji neće da vjeruje.",
+      "tajwidSegments": [
+        {
+          "text": "مَثَلُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِينَ حُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "لُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "تَّوْرَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ةَ ثُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " لَمْ يَحْمِلُوهَا كَمَثَلِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْحِمَارِ يَحْمِلُ أَسْفَار",
+          "rule": "normal"
+        },
+        {
+          "text": "ًۢا ۚ",
+          "rule": "normal"
+        },
+        {
+          "text": " بِئْسَ مَثَل",
+          "rule": "normal"
+        },
+        {
+          "text": "ُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْقَوْم",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلَّذِينَ كَذَّب",
+          "rule": "normal"
+        },
+        {
+          "text": "ُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟ بِـَٔا",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "َـٰ",
+          "rule": "normal"
+        },
+        {
+          "text": "ت",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ ٱللَّهِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۚ وَٱللَّهُ لَا يَه",
+          "rule": "normal"
+        },
+        {
+          "text": "ْ",
+          "rule": "normal"
+        },
+        {
+          "text": "دِى ٱلْقَ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "ْ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "mad"
+        },
+        {
+          "text": "لظَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰلِمِينَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 5183,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "قُلْ يَـٰٓأَيُّهَا ٱلَّذِينَ هَادُوٓا۟ إِن زَعَمْتُمْ أَنَّكُمْ أَوْلِيَآءُ لِلَّهِ مِن دُونِ ٱلنَّاسِ فَتَمَنَّوُا۟ ٱلْمَوْتَ إِن كُنتُمْ صَـٰدِقِينَ",
+      "transliteration": "Qul ya ayyuha allatheenahadoo in zaAAamtum annakum awliyao lillahimin dooni annasi fatamannawoo almawta in kuntum sadiqeen",
+      "translationBosnian": "Reci: \"O Jevreji, ako tvrdite da ste vi od ljudi jedini Allahovi miljenici, onda smrt poželite, ako istinu govorite.\"",
+      "tajwidSegments": [
+        {
+          "text": "قُلْ يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓأَيُّهَا",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلَّذِينَ هَاد",
+          "rule": "normal"
+        },
+        {
+          "text": "ُو",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ إ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِن ز",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َعَمْتُمْ أ",
+          "rule": "normal"
+        },
+        {
+          "text": "َنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َكُمْ أَوْلِي",
+          "rule": "normal"
+        },
+        {
+          "text": "َا",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓءُ لِلَّهِ م",
+          "rule": "normal"
+        },
+        {
+          "text": "ِن د",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ُونِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َاسِ فَتَم",
+          "rule": "normal"
+        },
+        {
+          "text": "َنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َو",
+          "rule": "normal"
+        },
+        {
+          "text": "ُا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْمَوْتَ إ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِن ك",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ُنت",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ُمْ ص",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰدِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ق",
+          "rule": "mad"
+        },
+        {
+          "text": "ِينَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 5184,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "وَلَا يَتَمَنَّوْنَهُۥٓ أَبَدًۢا بِمَا قَدَّمَتْ أَيْدِيهِمْ ۚ وَٱللَّهُ عَلِيمٌۢ بِٱلظَّـٰلِمِينَ",
+      "transliteration": "Wala yatamannawnahu abadan bimaqaddamat aydeehim wallahu AAaleemun biththalimeen",
+      "translationBosnian": "A zbog onoga što ruke njihove čine neće je nikad poželjeti, Allah dobro zna nevjernike.",
+      "tajwidSegments": [
+        {
+          "text": "وَلَا يَتَمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "وْنَهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥٓ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَبَد",
+          "rule": "normal"
+        },
+        {
+          "text": "ًۢا ب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِمَا قَدَّمَتْ أَيْدِيهِمْ ۚ ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱللَّهُ عَلِ",
+          "rule": "normal"
+        },
+        {
+          "text": "يمٌۢ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلظ",
+          "rule": "normal"
+        },
+        {
+          "text": "ّ",
+          "rule": "mad"
+        },
+        {
+          "text": "َـٰل",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "مِينَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062007.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:8",
+      "ayahNumber": 8,
+      "ayahNumberGlobal": 5185,
+      "juz": 28,
+      "page": 553,
+      "arabicText": "قُلْ إِنَّ ٱلْمَوْتَ ٱلَّذِى تَفِرُّونَ مِنْهُ فَإِنَّهُۥ مُلَـٰقِيكُمْ ۖ ثُمَّ تُرَدُّونَ إِلَىٰ عَـٰلِمِ ٱلْغَيْبِ وَٱلشَّهَـٰدَةِ فَيُنَبِّئُكُم بِمَا كُنتُمْ تَعْمَلُونَ",
+      "transliteration": "Qul inna almawta allathee tafirroonaminhu fa-innahu mulaqeekum thumma turaddoona ila AAalimialghaybi washshahadati fayunabbi-okum bimakuntum taAAmaloon",
+      "translationBosnian": "Reci: \"Smrt od koje bježite zaista će vas stići. Zatim ćete Onome koji poznaje i nevidljivi i vidljivi svijet vraćeni biti i On će vas o onome što ste radili obavijestiti.\"",
+      "tajwidSegments": [
+        {
+          "text": "قُلْ إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَوْتَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِى تَفِرُّونَ مِنْهُ فَإِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "هُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " مُلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰقِيكُمْ ۖ",
+          "rule": "normal"
+        },
+        {
+          "text": " ثُ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "مَّ تُرَدُّونَ إِلَىٰ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "mad"
+        },
+        {
+          "text": "عَـٰل",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": "مِ ٱلْغَيْب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "وَٱلش",
+          "rule": "normal"
+        },
+        {
+          "text": "ّ",
+          "rule": "mad"
+        },
+        {
+          "text": "َهَـٰدَةِ فَيُنَبّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِئُك",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ُم بِم",
+          "rule": "normal"
+        },
+        {
+          "text": "َا ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "كُنتُمْ تَع",
+          "rule": "normal"
+        },
+        {
+          "text": "ْ",
+          "rule": "mad"
+        },
+        {
+          "text": "مَلُونَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062008.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:9",
+      "ayahNumber": 9,
+      "ayahNumberGlobal": 5186,
+      "juz": 28,
+      "page": 554,
+      "arabicText": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوٓا۟ إِذَا نُودِىَ لِلصَّلَوٰةِ مِن يَوْمِ ٱلْجُمُعَةِ فَٱسْعَوْا۟ إِلَىٰ ذِكْرِ ٱللَّهِ وَذَرُوا۟ ٱلْبَيْعَ ۚ ذَٰلِكُمْ خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ",
+      "transliteration": "Ya ayyuha allatheena amanooitha noodiya lissalati min yawmialjumuAAati fasAAaw ila thikri Allahiwatharoo albayAAa thalikum khayrun lakum in kuntumtaAAlamoon",
+      "translationBosnian": "O vjernici, kada se u petak na molitvu pozove, kupoprodaju ostavite i pođite molitvu obaviti; to vam je bolje, neka znate!",
+      "tajwidSegments": [
+        {
+          "text": "يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓأَيُّهَا",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلَّذِينَ ءَامَن",
+          "rule": "normal"
+        },
+        {
+          "text": "ُو",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ إِذَا نُودِىَ ل",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": "لصَّل",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰةِ م",
+          "rule": "normal"
+        },
+        {
+          "text": "ِن ي",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َوْمِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْجُمُعَةِ ف",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱسْعَو",
+          "rule": "normal"
+        },
+        {
+          "text": "ْا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ إِلَىٰ ذِكْرِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱللَّهِ وَذَرُ",
+          "rule": "normal"
+        },
+        {
+          "text": "وا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْبَيْعَ ۚ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "mad"
+        },
+        {
+          "text": "ذَٰلِكُمْ خَ",
+          "rule": "normal"
+        },
+        {
+          "text": "يْرٌ ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّكُمْ",
+          "rule": "normal"
+        },
+        {
+          "text": " إِن",
+          "rule": "ikhfa"
+        },
+        {
+          "text": " كُ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "نتُمْ تَعْل",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "مُونَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062009.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:10",
+      "ayahNumber": 10,
+      "ayahNumberGlobal": 5187,
+      "juz": 28,
+      "page": 554,
+      "arabicText": "فَإِذَا قُضِيَتِ ٱلصَّلَوٰةُ فَٱنتَشِرُوا۟ فِى ٱلْأَرْضِ وَٱبْتَغُوا۟ مِن فَضْلِ ٱللَّهِ وَٱذْكُرُوا۟ ٱللَّهَ كَثِيرًا لَّعَلَّكُمْ تُفْلِحُونَ",
+      "transliteration": "Fa-itha qudiyati assalatufantashiroo fee al-ardi wabtaghoo min fadliAllahi wathkuroo Allaha katheeranlaAAallakum tuflihoon",
+      "translationBosnian": "A kad se molitva obavi, onda se po zemlji raziđite i Allahovu blagodat tražite i Allaha mnogo spominjite, da biste postigli što želite.",
+      "tajwidSegments": [
+        {
+          "text": "فَإِذَا قُضِيَتِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "صَّلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ةُ فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "نتَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "شِرُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " فِى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأَرْضِ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "تَغُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن فَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ضْلِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ذْكُرُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهَ كَثِير",
+          "rule": "normal"
+        },
+        {
+          "text": "ًا لَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "عَلَّكُمْ تُفْلِحُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062010.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "62:11",
+      "ayahNumber": 11,
+      "ayahNumberGlobal": 5188,
+      "juz": 28,
+      "page": 554,
+      "arabicText": "وَإِذَا رَأَوْا۟ تِجَـٰرَةً أَوْ لَهْوًا ٱنفَضُّوٓا۟ إِلَيْهَا وَتَرَكُوكَ قَآئِمًا ۚ قُلْ مَا عِندَ ٱللَّهِ خَيْرٌ مِّنَ ٱللَّهْوِ وَمِنَ ٱلتِّجَـٰرَةِ ۚ وَٱللَّهُ خَيْرُ ٱلرَّٰزِقِينَ",
+      "transliteration": "Wa-itha raaw tijaratan awlahwan infaddoo ilayha watarakooka qa-imanqul ma AAinda Allahi khayrun mina allahwi wamina attijaratiwallahu khayru arraziqeen",
+      "translationBosnian": "Ali kad oni kakvu robu trgovačku ili veselje ugledaju, pohrle mu i tebe ostave sama da stojiš. Reci: \"Ono što je u Allaha bolje je i od veselja i od trgovine.\" – A Allah najbolju opskrbu daje.",
+      "tajwidSegments": [
+        {
+          "text": "وَإِذَا رَأَوْ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " تِجَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰرَةً أَوْ لَهْوًا",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱنف",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َضّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ُو",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ إِلَيْهَا وَتَرَكُوكَ ق",
+          "rule": "normal"
+        },
+        {
+          "text": "َا",
+          "rule": "mad"
+        },
+        {
+          "text": "ٓئِ",
+          "rule": "normal"
+        },
+        {
+          "text": "مًا ۚ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": " قُلْ مَا",
+          "rule": "normal"
+        },
+        {
+          "text": " عِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ن",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "normal"
+        },
+        {
+          "text": "َ ٱللَّهِ خَ",
+          "rule": "normal"
+        },
+        {
+          "text": "يْرٌ ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "مِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱللَّهْوِ وَمِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلتّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "جَـٰرَة",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ۚ وَٱللَّهُ خ",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "normal"
+        },
+        {
+          "text": "ْرُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٱلرّ",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰزِقِينَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/062011.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

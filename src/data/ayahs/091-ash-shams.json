@@ -1,0 +1,613 @@
+{
+  "surah": {
+    "id": "91",
+    "surahNumber": 91,
+    "slug": "ash-shams",
+    "nameArabic": "الشمس",
+    "nameLatin": "Ash-Shams",
+    "nameBosnian": "Eš-Šems",
+    "revelationType": "meccan",
+    "ayahCount": 15
+  },
+  "ayahs": [
+    {
+      "id": "91:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6044,
+      "juz": 30,
+      "page": 595,
+      "arabicText": " وَٱلشَّمْسِ وَضُحَىٰهَا",
+      "transliteration": "Washshamsi waduhaha",
+      "translationBosnian": "Tako Mi Sunca i svjetla njegova,",
+      "tajwidSegments": [
+        {
+          "text": " وَٱلشَّمْسِ وَضُحَىٰهَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6045,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَٱلْقَمَرِ إِذَا تَلَىٰهَا",
+      "transliteration": "Walqamari itha talaha",
+      "translationBosnian": "i Mjeseca kada ga prati,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْقَمَرِ إِذَا تَلَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6046,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَٱلنَّهَارِ إِذَا جَلَّىٰهَا",
+      "transliteration": "Wannahari itha jallaha",
+      "translationBosnian": "i dana kada ga vidljivim učini,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "هَارِ إِذَا جَلَّى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 6047,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَٱلَّيْلِ إِذَا يَغْشَىٰهَا",
+      "transliteration": "Wallayli itha yaghshaha",
+      "translationBosnian": "i noći kada ga zakloni,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّيْلِ إِذَا يَغْشَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 6048,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَٱلسَّمَآءِ وَمَا بَنَىٰهَا",
+      "transliteration": "Wassama-i wama banaha",
+      "translationBosnian": "i neba i Onoga koji ga sazda,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "سَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ وَمَا بَنَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 6049,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَٱلْأَرْضِ وَمَا طَحَىٰهَا",
+      "transliteration": "Wal-ardi wama tahaha",
+      "translationBosnian": "i Zemlje i Onoga koji je ravnom učini,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأَرْضِ وَمَا طَحَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 6050,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَنَفْسٍ وَمَا سَوَّىٰهَا",
+      "transliteration": "Wanafsin wama sawwaha",
+      "translationBosnian": "i duše i Onoga koji je stvori",
+      "tajwidSegments": [
+        {
+          "text": "وَنَفْس",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "مَا سَوَّى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091007.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:8",
+      "ayahNumber": 8,
+      "ayahNumberGlobal": 6051,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا",
+      "transliteration": "Faalhamaha fujooraha wataqwaha",
+      "translationBosnian": "pa joj put dobra i put zla shvatljivim učini,",
+      "tajwidSegments": [
+        {
+          "text": "فَأَلْهَمَهَا فُجُورَهَا وَتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "وَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091008.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:9",
+      "ayahNumber": 9,
+      "ayahNumberGlobal": 6052,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "قَدْ أَفْلَحَ مَن زَكَّىٰهَا",
+      "transliteration": "Qad aflaha man zakkaha",
+      "translationBosnian": "uspjeće samo onaj ko je očisti,",
+      "tajwidSegments": [
+        {
+          "text": "قَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": " أَفْلَحَ مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن زَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "كَّى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091009.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:10",
+      "ayahNumber": 10,
+      "ayahNumberGlobal": 6053,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَقَدْ خَابَ مَن دَسَّىٰهَا",
+      "transliteration": "Waqad khaba man dassaha",
+      "translationBosnian": "a biće izgubljen onaj ko je na stranputicu odvodi!",
+      "tajwidSegments": [
+        {
+          "text": "وَقَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": " خَابَ مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن دَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "سَّى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091010.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:11",
+      "ayahNumber": 11,
+      "ayahNumberGlobal": 6054,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "كَذَّبَتْ ثَمُودُ بِطَغْوَىٰهَآ",
+      "transliteration": "Kaththabat thamoodu bitaghwaha",
+      "translationBosnian": "Semud je zbog obijesti svoje poricao:",
+      "tajwidSegments": [
+        {
+          "text": "كَذَّبَتْ ثَمُودُ بِطَغْوَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَآ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091011.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:12",
+      "ayahNumber": 12,
+      "ayahNumberGlobal": 6055,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "إِذِ ٱنۢبَعَثَ أَشْقَىٰهَا",
+      "transliteration": "Ithi inbaAAatha ashqaha",
+      "translationBosnian": "kad se jedan nesretnik između njih podigao,",
+      "tajwidSegments": [
+        {
+          "text": "إِذِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن",
+          "rule": "normal"
+        },
+        {
+          "text": "ۢب",
+          "rule": "normal"
+        },
+        {
+          "text": "َعَثَ أَشْقَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091012.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:13",
+      "ayahNumber": 13,
+      "ayahNumberGlobal": 6056,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "فَقَالَ لَهُمْ رَسُولُ ٱللَّهِ نَاقَةَ ٱللَّهِ وَسُقْيَـٰهَا",
+      "transliteration": "Faqala lahum rasoolu Allahi naqataAllahi wasuqyaha",
+      "translationBosnian": "Allahov poslanik im je doviknuo: \"Brinite se o Allahovoj kamili i vremenu kad treba da pije!\",",
+      "tajwidSegments": [
+        {
+          "text": "فَقَالَ لَهُمْ رَسُولُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ نَاقَةَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "للَّهِ وَسُ",
+          "rule": "normal"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰهَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091013.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:14",
+      "ayahNumber": 14,
+      "ayahNumberGlobal": 6057,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمْدَمَ عَلَيْهِمْ رَبُّهُم بِذَنۢبِهِمْ فَسَوَّىٰهَا",
+      "transliteration": "Fakaththaboohu faAAaqaroohafadamdama AAalayhim rabbuhum bithanbihim fasawwaha",
+      "translationBosnian": "ali mu oni nisu povjerovali, već su je zaklali – i Gospodar njihov ih je zbog grijeha njihovih uništio i do posljednjeg istrijebio,",
+      "tajwidSegments": [
+        {
+          "text": "فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمْدَمَ عَلَيْهِمْ رَبُّهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "م بِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ذَن",
+          "rule": "normal"
+        },
+        {
+          "text": "ۢب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِهِمْ فَسَوَّى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091014.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "91:15",
+      "ayahNumber": 15,
+      "ayahNumberGlobal": 6058,
+      "juz": 30,
+      "page": 595,
+      "arabicText": "وَلَا يَخَافُ عُقْبَـٰهَا",
+      "transliteration": "Wala yakhafu AAuqbaha",
+      "translationBosnian": "i ne strahujući zbog toga od odgovornosti.",
+      "tajwidSegments": [
+        {
+          "text": "وَلَا يَخَافُ عُ",
+          "rule": "normal"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "بَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰهَا",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/091015.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

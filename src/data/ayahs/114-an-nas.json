@@ -16,12 +16,14 @@
       "ayahNumberGlobal": 6231,
       "juz": 30,
       "page": 604,
-      "arabicText": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+      "arabicText": " قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
       "transliteration": "Qul aAAoothu birabbi annas",
       "translationBosnian": "Reci: \"Tražim zaštitu Gospodara ljudi,",
       "tajwidSegments": [
-        { "text": "قُلْ", "rule": "qalqalah" },
-        { "text": " أَعُوذُ بِرَبِّ ٱلنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": " قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -35,11 +37,34 @@
       "ayahNumberGlobal": 6232,
       "juz": 30,
       "page": 604,
-      "arabicText": "مَلِكِ ٱلنَّاسِ",
+      "arabicText": "مَلِكِ ٱلنَّاسِ",
       "transliteration": "Maliki annas",
       "translationBosnian": "Vladara ljudi,",
       "tajwidSegments": [
-        { "text": "مَلِكِ ٱلنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": "مَلِكِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "سِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -53,11 +78,42 @@
       "ayahNumberGlobal": 6233,
       "juz": 30,
       "page": 604,
-      "arabicText": "إِلَـٰهِ ٱلنَّاسِ",
+      "arabicText": "إِلَـٰهِ ٱلنَّاسِ",
       "transliteration": "Ilahi annas",
       "translationBosnian": "Boga ljudi,",
       "tajwidSegments": [
-        { "text": "إِلَـٰهِ ٱلنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": "إِلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰهِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "اسِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -71,12 +127,50 @@
       "ayahNumberGlobal": 6234,
       "juz": 30,
       "page": 604,
-      "arabicText": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
+      "arabicText": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
       "transliteration": "Min sharri alwaswasi alkhannas",
       "translationBosnian": "od zla šejtana-napasnika,",
       "tajwidSegments": [
-        { "text": "مِن شَرِّ ٱلْوَسْوَاسِ", "rule": "normal" },
-        { "text": " ٱلْخَنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": "مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رِّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْوَسْوَاسِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْخَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "سِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -90,11 +184,34 @@
       "ayahNumberGlobal": 6235,
       "juz": 30,
       "page": 604,
-      "arabicText": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+      "arabicText": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
       "transliteration": "Allathee yuwaswisu fee sudoori annas",
       "translationBosnian": "koji zle misli unosi u srca ljudi –",
       "tajwidSegments": [
-        { "text": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "سِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",
@@ -108,11 +225,50 @@
       "ayahNumberGlobal": 6236,
       "juz": 30,
       "page": 604,
-      "arabicText": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ",
+      "arabicText": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ",
       "transliteration": "Mina aljinnati wannas",
       "translationBosnian": "od džina i od ljudi!\"",
       "tajwidSegments": [
-        { "text": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ", "rule": "ghunnah" }
+        {
+          "text": "مِنَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْجِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ةِ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "سِ",
+          "rule": "normal"
+        }
       ],
       "audio": {
         "reciterId": "mishary-alafasy",

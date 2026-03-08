@@ -1,0 +1,3688 @@
+{
+  "surah": {
+    "id": "55",
+    "surahNumber": 55,
+    "slug": "ar-rahman",
+    "nameArabic": "الرحمن",
+    "nameLatin": "Ar-Rahman",
+    "nameBosnian": "Er-Rahman",
+    "revelationType": "medinan",
+    "ayahCount": 78
+  },
+  "ayahs": [
+    {
+      "id": "55:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 4902,
+      "juz": 27,
+      "page": 531,
+      "arabicText": " ٱلرَّحْمَـٰنُ",
+      "transliteration": "Arrahman",
+      "translationBosnian": "Milostivi",
+      "tajwidSegments": [
+        {
+          "text": " ٱلرَّحْمَـٰنُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 4903,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "عَلَّمَ ٱلْقُرْءَانَ",
+      "transliteration": "AAallama alqur-an",
+      "translationBosnian": "poučava Kur'anu,",
+      "tajwidSegments": [
+        {
+          "text": "عَلَّمَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْقُرْءَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 4904,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "خَلَقَ ٱلْإِنسَـٰنَ",
+      "transliteration": "Khalaqa al-insan",
+      "translationBosnian": "stvara čovjeka,",
+      "tajwidSegments": [
+        {
+          "text": "خَلَقَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْإِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نسَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055003.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:4",
+      "ayahNumber": 4,
+      "ayahNumberGlobal": 4905,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "عَلَّمَهُ ٱلْبَيَانَ",
+      "transliteration": "AAallamahu albayan",
+      "translationBosnian": "uči ga govoru.",
+      "tajwidSegments": [
+        {
+          "text": "عَلَّمَهُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْبَيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055004.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:5",
+      "ayahNumber": 5,
+      "ayahNumberGlobal": 4906,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "ٱلشَّمْسُ وَٱلْقَمَرُ بِحُسْبَانٍ",
+      "transliteration": "Ashshamsu walqamaru bihusban",
+      "translationBosnian": "Sunce i Mjesec utvrđenim putanjama plove,",
+      "tajwidSegments": [
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "شَّمْسُ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْقَمَرُ بِحُسْبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055005.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:6",
+      "ayahNumber": 6,
+      "ayahNumberGlobal": 4907,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَٱلنَّجْمُ وَٱلشَّجَرُ يَسْجُدَانِ",
+      "transliteration": "Wannajmu washshajaru yasjudan",
+      "translationBosnian": "i trava i drveće se pokoravaju,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "مُ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "شَّجَرُ يَسْجُدَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055006.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:7",
+      "ayahNumber": 7,
+      "ayahNumberGlobal": 4908,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ",
+      "transliteration": "Wassamaa rafaAAahawawadaAAa almeezan",
+      "translationBosnian": "a nebo je digao. I postavio je terazije",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "سَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءَ رَفَعَهَا وَوَضَعَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمِيزَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055007.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:8",
+      "ayahNumber": 8,
+      "ayahNumberGlobal": 4909,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ",
+      "transliteration": "Alla tatghaw fee almeezan",
+      "translationBosnian": "da ne prelazite granice u mjerenju –",
+      "tajwidSegments": [
+        {
+          "text": "أَلَّا تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "طْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "غَوْ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " فِى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمِيزَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055008.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:9",
+      "ayahNumber": 9,
+      "ayahNumberGlobal": 4910,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ",
+      "transliteration": "Waaqeemoo alwazna bilqisti walatukhsiroo almeezan",
+      "translationBosnian": "i pravo mjerite i na teraziji ne zakidajte!",
+      "tajwidSegments": [
+        {
+          "text": "وَأَقِيمُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْوَزْنَ بِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْقِسْطِ وَلَا تُخْسِرُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمِيزَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055009.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:10",
+      "ayahNumber": 10,
+      "ayahNumberGlobal": 4911,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ",
+      "transliteration": "Wal-arda wadaAAahalil-anam",
+      "translationBosnian": "A Zemlju je za stvorenja razastro,",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأَرْضَ وَضَعَهَا لِلْأَنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "مِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055010.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:11",
+      "ayahNumber": 11,
+      "ayahNumberGlobal": 4912,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "فِيهَا فَـٰكِهَةٌ وَٱلنَّخْلُ ذَاتُ ٱلْأَكْمَامِ",
+      "transliteration": "Feeha fakihatun wannakhluthatu al-akmam",
+      "translationBosnian": "na njoj ima voća i palmi sa plodom u čaškama",
+      "tajwidSegments": [
+        {
+          "text": "فِيهَا فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰكِهَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ةٌ و",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َخْلُ ذَاتُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْأَكْم",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "امِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055011.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:12",
+      "ayahNumber": 12,
+      "ayahNumberGlobal": 4913,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَٱلْحَبُّ ذُو ٱلْعَصْفِ وَٱلرَّيْحَانُ",
+      "transliteration": "Walhabbu thoo alAAasfiwarrayhan",
+      "translationBosnian": "i žita sa lišćem i miomirisna cvijeća –",
+      "tajwidSegments": [
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْحَبُّ ذُو ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْعَصْفِ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "رَّيْحَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055012.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:13",
+      "ayahNumber": 13,
+      "ayahNumberGlobal": 4914,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055013.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:14",
+      "ayahNumber": 14,
+      "ayahNumberGlobal": 4915,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "خَلَقَ ٱلْإِنسَـٰنَ مِن صَلْصَـٰلٍ كَٱلْفَخَّارِ",
+      "transliteration": "Khalaqa al-insana min salsalinkalfakhkhar",
+      "translationBosnian": "On je čovjeka od sasušene ilovače, kao što je grnčarija, stvorio",
+      "tajwidSegments": [
+        {
+          "text": "خَلَقَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْإِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نسَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنَ م",
+          "rule": "normal"
+        },
+        {
+          "text": "ِن ص",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َلْص",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰلٍ ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ك",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱلْفَخ",
+          "rule": "normal"
+        },
+        {
+          "text": "ّ",
+          "rule": "mad"
+        },
+        {
+          "text": "َارِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055014.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:15",
+      "ayahNumber": 15,
+      "ayahNumberGlobal": 4916,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "وَخَلَقَ ٱلْجَآنَّ مِن مَّارِجٍ مِّن نَّارٍ",
+      "transliteration": "Wakhalaqa aljanna min marijinmin nar",
+      "translationBosnian": "a džina od plamene vatre –",
+      "tajwidSegments": [
+        {
+          "text": "وَخَلَقَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْجَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ارِج",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ن نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "رٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055015.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:16",
+      "ayahNumber": 16,
+      "ayahNumberGlobal": 4917,
+      "juz": 27,
+      "page": 531,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055016.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:17",
+      "ayahNumber": 17,
+      "ayahNumberGlobal": 4918,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "رَبُّ ٱلْمَشْرِقَيْنِ وَرَبُّ ٱلْمَغْرِبَيْنِ",
+      "transliteration": "Rabbu almashriqayni warabbu almaghribayn",
+      "translationBosnian": "Gospodara dva istoka i dva zapada –",
+      "tajwidSegments": [
+        {
+          "text": "رَبُّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَشْرِقَيْنِ وَرَبُّ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَغْرِبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "ْنِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055017.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:18",
+      "ayahNumber": 18,
+      "ayahNumberGlobal": 4919,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055018.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:19",
+      "ayahNumber": 19,
+      "ayahNumberGlobal": 4920,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "مَرَجَ ٱلْبَحْرَيْنِ يَلْتَقِيَانِ",
+      "transliteration": "Maraja albahrayni yaltaqiyan",
+      "translationBosnian": "Pustio je dva mora da se dodiruju,",
+      "tajwidSegments": [
+        {
+          "text": "مَرَجَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْبَحْرَيْنِ يَلْتَقِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055019.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:20",
+      "ayahNumber": 20,
+      "ayahNumberGlobal": 4921,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "بَيْنَهُمَا بَرْزَخٌ لَّا يَبْغِيَانِ",
+      "transliteration": "Baynahuma barzakhun la yabghiyan",
+      "translationBosnian": "između njih je pregrada i ona se ne miješaju –",
+      "tajwidSegments": [
+        {
+          "text": "بَيْنَهُمَا بَرْزَخ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ لَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "غِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055020.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:21",
+      "ayahNumber": 21,
+      "ayahNumberGlobal": 4922,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055021.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:22",
+      "ayahNumber": 22,
+      "ayahNumberGlobal": 4923,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "يَخْرُجُ مِنْهُمَا ٱللُّؤْلُؤُ وَٱلْمَرْجَانُ",
+      "transliteration": "Yakhruju minhuma allu/luo walmarjan",
+      "translationBosnian": "Iz njih se vadi biser i merdžan –",
+      "tajwidSegments": [
+        {
+          "text": "يَخْرُجُ مِنْهُمَا ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "لُّؤْلُؤُ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَرْجَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055022.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:23",
+      "ayahNumber": 23,
+      "ayahNumberGlobal": 4924,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththibani",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055023.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:24",
+      "ayahNumber": 24,
+      "ayahNumberGlobal": 4925,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "وَلَهُ ٱلْجَوَارِ ٱلْمُنشَـَٔاتُ فِى ٱلْبَحْرِ كَٱلْأَعْلَـٰمِ",
+      "transliteration": "Walahu aljawari almunshaatufee albahri kal-aAAlam",
+      "translationBosnian": "Njegove su i lađe koje se kao brda visoko po moru uzdižu –",
+      "tajwidSegments": [
+        {
+          "text": "وَلَهُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْجَوَارِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمُ",
+          "rule": "normal"
+        },
+        {
+          "text": "نشَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ـَٔاتُ فِى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْبَحْرِ كَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأَعْلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰمِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055024.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:25",
+      "ayahNumber": 25,
+      "ayahNumberGlobal": 4926,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055025.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:26",
+      "ayahNumber": 26,
+      "ayahNumberGlobal": 4927,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "كُلُّ مَنْ عَلَيْهَا فَانٍ",
+      "transliteration": "Kullu man AAalayha fan",
+      "translationBosnian": "Sve što je na Zemlji prolazno je,",
+      "tajwidSegments": [
+        {
+          "text": "كُلُّ مَنْ عَلَيْهَا فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055026.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:27",
+      "ayahNumber": 27,
+      "ayahNumberGlobal": 4928,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَـٰلِ وَٱلْإِكْرَامِ",
+      "transliteration": "Wayabqa wajhu rabbika thooaljalali wal-ikram",
+      "translationBosnian": "a ostaje Lice tvoga Gospodara, Veličanstveno i Plemenito,",
+      "tajwidSegments": [
+        {
+          "text": "وَيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "قَىٰ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "هُ رَبِّكَ ذُو ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْجَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰلِ و",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْإِكْر",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "امِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055027.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:28",
+      "ayahNumber": 28,
+      "ayahNumberGlobal": 4929,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055028.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:29",
+      "ayahNumber": 29,
+      "ayahNumberGlobal": 4930,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "يَسْـَٔلُهُۥ مَن فِى ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ ۚ كُلَّ يَوْمٍ هُوَ فِى شَأْنٍ",
+      "transliteration": "Yas-aluhu man fee assamawatiwal-ardi kulla yawmin huwa fee sha/n",
+      "translationBosnian": "Njemu se mole oni koji su na nebesima i na Zemlji; svakog časa On se zanima nečim –",
+      "tajwidSegments": [
+        {
+          "text": "يَسْـَٔلُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن فِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "سَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰو",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰتِ و",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْأَرْضِ ۚ كُلَّ يَوْمٍ هُوَ فِى شَأْنٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055029.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:30",
+      "ayahNumber": 30,
+      "ayahNumberGlobal": 4931,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055030.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:31",
+      "ayahNumber": 31,
+      "ayahNumberGlobal": 4932,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "سَنَفْرُغُ لَكُمْ أَيُّهَ ٱلثَّقَلَانِ",
+      "transliteration": "Sanafrughu lakum ayyuha aththaqalan",
+      "translationBosnian": "Polagaćete Mi račun, o ljudi i džini –",
+      "tajwidSegments": [
+        {
+          "text": "سَنَفْرُغُ لَكُمْ أَيُّهَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "ثَّقَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055031.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:32",
+      "ayahNumber": 32,
+      "ayahNumberGlobal": 4933,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055032.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:33",
+      "ayahNumber": 33,
+      "ayahNumberGlobal": 4934,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "يَـٰمَعْشَرَ ٱلْجِنِّ وَٱلْإِنسِ إِنِ ٱسْتَطَعْتُمْ أَن تَنفُذُوا۟ مِنْ أَقْطَارِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ فَٱنفُذُوا۟ ۚ لَا تَنفُذُونَ إِلَّا بِسُلْطَـٰنٍ",
+      "transliteration": "Ya maAAshara aljinni wal-insiini istataAAtum an tanfuthoo min aqtari assamawatiwal-ardi fanfuthoo la tanfuthoonailla bisultan",
+      "translationBosnian": "O družine džina i ljudi, ako možete da preko granica nebesa i Zemlje prodrete, prodrite, moći ćete prodrijeti jedino uz veliku moć! –",
+      "tajwidSegments": [
+        {
+          "text": "يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰمَعْشَرَ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْج",
+          "rule": "normal"
+        },
+        {
+          "text": "ِنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ِ و",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْإ",
+          "rule": "normal"
+        },
+        {
+          "text": "ِنس",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ِ إِنِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱسْتَطَعْتُمْ أ",
+          "rule": "normal"
+        },
+        {
+          "text": "َن ت",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َنف",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ُذُ",
+          "rule": "normal"
+        },
+        {
+          "text": "وا",
+          "rule": "normal"
+        },
+        {
+          "text": "۟ مِنْ أ",
+          "rule": "normal"
+        },
+        {
+          "text": "َق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ْطَارِ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لسَّم",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "َٰتِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱلْأَرْضِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ف",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱن",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "فُذ",
+          "rule": "normal"
+        },
+        {
+          "text": "ُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟ ۚ لَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا ت",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َنفُذُونَ إِلَّا بِسُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "mad"
+        },
+        {
+          "text": "ْطَـٰنٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055033.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:34",
+      "ayahNumber": 34,
+      "ayahNumberGlobal": 4935,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055034.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:35",
+      "ayahNumber": 35,
+      "ayahNumberGlobal": 4936,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "يُرْسَلُ عَلَيْكُمَا شُوَاظٌ مِّن نَّارٍ وَنُحَاسٌ فَلَا تَنتَصِرَانِ",
+      "transliteration": "Yursalu AAalaykuma shuwathunmin narin wanuhasun fala tantasiran",
+      "translationBosnian": "Na vas će se ognjen plamen i rastopljeni mjed prolivati, i vi se nećete moći odbraniti –",
+      "tajwidSegments": [
+        {
+          "text": "يُرْسَلُ عَلَيْكُمَا شُوَاظ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ن نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ار",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نُحَاس",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ فَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "لَا تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نتَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "صِرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055035.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:36",
+      "ayahNumber": 36,
+      "ayahNumberGlobal": 4937,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055036.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:37",
+      "ayahNumber": 37,
+      "ayahNumberGlobal": 4938,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَإِذَا ٱنشَقَّتِ ٱلسَّمَآءُ فَكَانَتْ وَرْدَةً كَٱلدِّهَانِ",
+      "transliteration": "Fa-itha inshaqqati assamaofakanat wardatan kaddihan",
+      "translationBosnian": "A kad se nebo razdvoji i kao ucvrkan zejtin rumeno postane –",
+      "tajwidSegments": [
+        {
+          "text": "فَإِذَا ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "نشَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "قَّتِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "سَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءُ فَكَانَتْ وَرْدَة",
+          "rule": "normal"
+        },
+        {
+          "text": "ً كَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "دِّهَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055037.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:38",
+      "ayahNumber": 38,
+      "ayahNumberGlobal": 4939,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055038.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:39",
+      "ayahNumber": 39,
+      "ayahNumberGlobal": 4940,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَيَوْمَئِذٍ لَّا يُسْـَٔلُ عَن ذَنۢبِهِۦٓ إِنسٌ وَلَا جَآنٌّ",
+      "transliteration": "Fayawma-ithin la yus-alu AAan thanbihiinsun wala jan",
+      "translationBosnian": "tog Dana ljudi i džini za grijehe svoje neće biti pitani –",
+      "tajwidSegments": [
+        {
+          "text": "فَيَوْمَئِذٍ لَّا يُسْـَٔلُ عَن ذَنۢبِهِۦٓ إِنسٌ وَلَا جَآنٌّ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055039.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:40",
+      "ayahNumber": 40,
+      "ayahNumberGlobal": 4941,
+      "juz": 27,
+      "page": 532,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055040.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:41",
+      "ayahNumber": 41,
+      "ayahNumberGlobal": 4942,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "يُعْرَفُ ٱلْمُجْرِمُونَ بِسِيمَـٰهُمْ فَيُؤْخَذُ بِٱلنَّوَٰصِى وَٱلْأَقْدَامِ",
+      "transliteration": "YuAArafu almujrimoona biseemahumfayu/khathu binnawasee wal-aqdam",
+      "translationBosnian": "a grješnici će se po biljezima svojim poznati, pa će za kike i noge ščepani biti –",
+      "tajwidSegments": [
+        {
+          "text": "يُعْرَفُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمُ",
+          "rule": "normal"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رِمُونَ بِسِيمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰهُمْ فَيُؤْخَذُ ب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َو",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰصِى و",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْأ",
+          "rule": "normal"
+        },
+        {
+          "text": "َق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ْد",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "امِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055041.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:42",
+      "ayahNumber": 42,
+      "ayahNumberGlobal": 4943,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055042.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:43",
+      "ayahNumber": 43,
+      "ayahNumberGlobal": 4944,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "هَـٰذِهِۦ جَهَنَّمُ ٱلَّتِى يُكَذِّبُ بِهَا ٱلْمُجْرِمُونَ",
+      "transliteration": "Hathihi jahannamu allatee yukaththibubiha almujrimoon",
+      "translationBosnian": "\"Evo, to je Džehennem koji su grješnici poricali!\"",
+      "tajwidSegments": [
+        {
+          "text": "هَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰذِه",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "mad"
+        },
+        {
+          "text": "ۦ جَه",
+          "rule": "normal"
+        },
+        {
+          "text": "َنّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َمُ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلَّتِى يُكَذِّبُ بِهَا",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْم",
+          "rule": "normal"
+        },
+        {
+          "text": "ُج",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ْرِم",
+          "rule": "normal"
+        },
+        {
+          "text": "ُ",
+          "rule": "mad"
+        },
+        {
+          "text": "ونَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055043.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:44",
+      "ayahNumber": 44,
+      "ayahNumberGlobal": 4945,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "يَطُوفُونَ بَيْنَهَا وَبَيْنَ حَمِيمٍ ءَانٍ",
+      "transliteration": "Yatoofoona baynaha wabayna hameeminan",
+      "translationBosnian": "I između vatre i ključale vode oni će kružiti –",
+      "tajwidSegments": [
+        {
+          "text": "يَطُوفُونَ بَيْنَهَا وَبَيْنَ حَمِيمٍ ءَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055044.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:45",
+      "ayahNumber": 45,
+      "ayahNumberGlobal": 4946,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055045.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:46",
+      "ayahNumber": 46,
+      "ayahNumberGlobal": 4947,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "وَلِمَنْ خَافَ مَقَامَ رَبِّهِۦ جَنَّتَانِ",
+      "transliteration": "Waliman khafa maqama rabbihijannatan",
+      "translationBosnian": "A za onoga koji se stajanja pred Gospodarom svojim bojao, biće dva perivoja –",
+      "tajwidSegments": [
+        {
+          "text": "وَلِمَنْ خَافَ مَقَامَ رَبِّهِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۦ",
+          "rule": "mad"
+        },
+        {
+          "text": " جَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055046.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:47",
+      "ayahNumber": 47,
+      "ayahNumberGlobal": 4948,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055047.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:48",
+      "ayahNumber": 48,
+      "ayahNumberGlobal": 4949,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "ذَوَاتَآ أَفْنَانٍ",
+      "transliteration": "Thawata afnan",
+      "translationBosnian": "puna stabala granatih –",
+      "tajwidSegments": [
+        {
+          "text": "ذَوَاتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَفْنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055048.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:49",
+      "ayahNumber": 49,
+      "ayahNumberGlobal": 4950,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055049.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:50",
+      "ayahNumber": 50,
+      "ayahNumberGlobal": 4951,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فِيهِمَا عَيْنَانِ تَجْرِيَانِ",
+      "transliteration": "Feehima AAaynani tajriyan",
+      "translationBosnian": "u kojima su dva izvora koja teku -",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِمَا عَيْنَانِ تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055050.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:51",
+      "ayahNumber": 51,
+      "ayahNumberGlobal": 4952,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055051.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:52",
+      "ayahNumber": 52,
+      "ayahNumberGlobal": 4953,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فِيهِمَا مِن كُلِّ فَـٰكِهَةٍ زَوْجَانِ",
+      "transliteration": "Feehima min kulli fakihatinzawjan",
+      "translationBosnian": "u njima će od svakog voća po dvije vrste biti –",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِمَا مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن كُ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "لِّ فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰكِهَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ةٍ ز",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َوْج",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "انِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055052.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:53",
+      "ayahNumber": 53,
+      "ayahNumberGlobal": 4954,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055053.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:54",
+      "ayahNumber": 54,
+      "ayahNumberGlobal": 4955,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "مُتَّكِـِٔينَ عَلَىٰ فُرُشٍۭ بَطَآئِنُهَا مِنْ إِسْتَبْرَقٍ ۚ وَجَنَى ٱلْجَنَّتَيْنِ دَانٍ",
+      "transliteration": "Muttaki-eena AAala furushin bata-inuhamin istabraqin wajana aljannatayni dan",
+      "translationBosnian": "Odmaraće se na posteljama čije će postave od kadife biti, a plodovi u oba perivoja nadohvat ruke će stajati –",
+      "tajwidSegments": [
+        {
+          "text": "مُتَّكِـِٔينَ عَلَىٰ فُرُش",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍۭ ب",
+          "rule": "normal"
+        },
+        {
+          "text": "َطَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ئِنُهَا مِنْ إِسْتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رَق",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ ۚ ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "وَجَنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ى",
+          "rule": "normal"
+        },
+        {
+          "text": " ٱلْ",
+          "rule": "normal"
+        },
+        {
+          "text": "جَن",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َّتَيْنِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "mad"
+        },
+        {
+          "text": "َانٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055054.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:55",
+      "ayahNumber": 55,
+      "ayahNumberGlobal": 4956,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055055.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:56",
+      "ayahNumber": 56,
+      "ayahNumberGlobal": 4957,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فِيهِنَّ قَـٰصِرَٰتُ ٱلطَّرْفِ لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ",
+      "transliteration": "Feehinna qasiratu attarfilam yatmithhunna insun qablahum wala jan",
+      "translationBosnian": "U njima će biti one koje preda se gledaju, one koje, prije njih, ni čovjek ni džin nije dodirnuo –",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِنَّ قَـٰصِرَٰتُ ٱلطَّرْفِ لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055056.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:57",
+      "ayahNumber": 57,
+      "ayahNumberGlobal": 4958,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055057.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:58",
+      "ayahNumber": 58,
+      "ayahNumberGlobal": 4959,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "كَأَنَّهُنَّ ٱلْيَاقُوتُ وَٱلْمَرْجَانُ",
+      "transliteration": "Kaannahunna alyaqootu walmarjan",
+      "translationBosnian": "biće kao rubin i biser –",
+      "tajwidSegments": [
+        {
+          "text": "كَأَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "هُ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْيَاقُوتُ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْمَرْجَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055058.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:59",
+      "ayahNumber": 59,
+      "ayahNumberGlobal": 4960,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055059.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:60",
+      "ayahNumber": 60,
+      "ayahNumberGlobal": 4961,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "هَلْ جَزَآءُ ٱلْإِحْسَـٰنِ إِلَّا ٱلْإِحْسَـٰنُ",
+      "transliteration": "Hal jazao al-ihsani illaal-ihsan",
+      "translationBosnian": "Zar nagrada za dobro učinjeno djelo može biti nešto drugo do dobro?! –",
+      "tajwidSegments": [
+        {
+          "text": "هَلْ جَزَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءُ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْإِحْسَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنِ إِلَّا",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْإِحْس",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰنُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055060.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:61",
+      "ayahNumber": 61,
+      "ayahNumberGlobal": 4962,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055061.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:62",
+      "ayahNumber": 62,
+      "ayahNumberGlobal": 4963,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "وَمِن دُونِهِمَا جَنَّتَانِ",
+      "transliteration": "Wamin doonihima jannatan",
+      "translationBosnian": "Osim ta dva, biće još dva neznatnija perivoja –",
+      "tajwidSegments": [
+        {
+          "text": "وَمِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن دُ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ونِهِمَا جَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055062.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:63",
+      "ayahNumber": 63,
+      "ayahNumberGlobal": 4964,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055063.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:64",
+      "ayahNumber": 64,
+      "ayahNumberGlobal": 4965,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "مُدْهَآمَّتَانِ",
+      "transliteration": "Mudhammatan",
+      "translationBosnian": "modrozelena –",
+      "tajwidSegments": [
+        {
+          "text": "مُ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "هَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055064.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:65",
+      "ayahNumber": 65,
+      "ayahNumberGlobal": 4966,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055065.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:66",
+      "ayahNumber": 66,
+      "ayahNumberGlobal": 4967,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فِيهِمَا عَيْنَانِ نَضَّاخَتَانِ",
+      "transliteration": "Feehima AAaynani naddakhatan",
+      "translationBosnian": "sa izvorima koji prskaju, u svakom –",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِمَا عَيْنَانِ نَضَّاخَتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055066.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:67",
+      "ayahNumber": 67,
+      "ayahNumberGlobal": 4968,
+      "juz": 27,
+      "page": 533,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055067.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:68",
+      "ayahNumber": 68,
+      "ayahNumberGlobal": 4969,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فِيهِمَا فَـٰكِهَةٌ وَنَخْلٌ وَرُمَّانٌ",
+      "transliteration": "Feehima fakihatun wanakhlunwarumman",
+      "translationBosnian": "u njima će biti voća, i palmi, i šipaka –",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِمَا فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰكِهَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ةٌ و",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َنَخْ",
+          "rule": "normal"
+        },
+        {
+          "text": "لٌ و",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َر",
+          "rule": "normal"
+        },
+        {
+          "text": "ُمّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "انٌ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055068.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:69",
+      "ayahNumber": 69,
+      "ayahNumberGlobal": 4970,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055069.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:70",
+      "ayahNumber": 70,
+      "ayahNumberGlobal": 4971,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فِيهِنَّ خَيْرَٰتٌ حِسَانٌ",
+      "transliteration": "Feehinna khayratun hisan",
+      "translationBosnian": "u njima će biti ljepotica naravi divnih –",
+      "tajwidSegments": [
+        {
+          "text": "فِيهِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " خَيْرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "تٌ حِسَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٌ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055070.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:71",
+      "ayahNumber": 71,
+      "ayahNumberGlobal": 4972,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055071.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:72",
+      "ayahNumber": 72,
+      "ayahNumberGlobal": 4973,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "حُورٌ مَّقْصُورَٰتٌ فِى ٱلْخِيَامِ",
+      "transliteration": "Hoorun maqsooratun feealkhiyam",
+      "translationBosnian": "hurija u šatorima skrivenih –",
+      "tajwidSegments": [
+        {
+          "text": "حُور",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "صُورَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ت",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ فِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ى ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْخِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "مِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055072.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:73",
+      "ayahNumber": 73,
+      "ayahNumberGlobal": 4974,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?! –",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055073.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:74",
+      "ayahNumber": 74,
+      "ayahNumberGlobal": 4975,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ",
+      "transliteration": "Lam yatmithhunna insun qablahum walajan",
+      "translationBosnian": "koje prije njih ni čovjek ni džin nije dodirnuo –",
+      "tajwidSegments": [
+        {
+          "text": "لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055074.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:75",
+      "ayahNumber": 75,
+      "ayahNumberGlobal": 4976,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055075.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:76",
+      "ayahNumber": 76,
+      "ayahNumberGlobal": 4977,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "مُتَّكِـِٔينَ عَلَىٰ رَفْرَفٍ خُضْرٍ وَعَبْقَرِىٍّ حِسَانٍ",
+      "transliteration": "Muttaki-eena AAala rafrafin khudrinwaAAabqariyyin hisan",
+      "translationBosnian": "Oni će biti naslonjeni na uzglavlja zelena, prekrivena ćilimima čarobnim i prekrasnim –",
+      "tajwidSegments": [
+        {
+          "text": "مُتَّكِـِٔينَ عَلَىٰ رَفْرَفٍ خُضْر",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "عَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "قَرِىٍّ حِسَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055076.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:77",
+      "ayahNumber": 77,
+      "ayahNumberGlobal": 4978,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "transliteration": "Fabi-ayyi ala-i rabbikumatukaththiban",
+      "translationBosnian": "pa, koju blagodat Gospodara svoga poričete?!",
+      "tajwidSegments": [
+        {
+          "text": "فَبِأَىِّ ءَالَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءِ رَبِّكُمَا تُكَذِّبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055077.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "55:78",
+      "ayahNumber": 78,
+      "ayahNumberGlobal": 4979,
+      "juz": 27,
+      "page": 534,
+      "arabicText": "تَبَـٰرَكَ ٱسْمُ رَبِّكَ ذِى ٱلْجَلَـٰلِ وَٱلْإِكْرَامِ",
+      "transliteration": "Tabaraka ismu rabbika theealjalali wal-ikram",
+      "translationBosnian": "Neka je uzvišeno ime Gospodara tvoga, Veličanstvenog i Plemenitog!",
+      "tajwidSegments": [
+        {
+          "text": "تَبَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰرَكَ",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱسْمُ رَبِّكَ ذِى",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلْجَل",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰلِ ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "normal"
+        },
+        {
+          "text": "َٱلْإِكْ",
+          "rule": "normal"
+        },
+        {
+          "text": "ر",
+          "rule": "mad"
+        },
+        {
+          "text": "َامِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/055078.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "surah": {
+    "id": "108",
+    "surahNumber": 108,
+    "slug": "al-kawthar",
+    "nameArabic": "الكوثر",
+    "nameLatin": "Al-Kawthar",
+    "nameBosnian": "El-Kevser",
+    "revelationType": "meccan",
+    "ayahCount": 3
+  },
+  "ayahs": [
+    {
+      "id": "108:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6205,
+      "juz": 30,
+      "page": 602,
+      "arabicText": " إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ",
+      "transliteration": "Inna aAAtaynakaalkawthar",
+      "translationBosnian": "Mi smo ti, uistinu, Kevser dali!",
+      "tajwidSegments": [
+        {
+          "text": " إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/108001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "108:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6206,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "فَصَلِّ لِرَبِّكَ وَٱنْحَرْ",
+      "transliteration": "Fasalli lirabbika wanhar",
+      "translationBosnian": "zato se Gospodaru svome moli i kurban kolji,",
+      "tajwidSegments": [
+        {
+          "text": "فَصَلِّ لِرَبِّكَ وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "نْحَرْ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/108002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "108:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6207,
+      "juz": 30,
+      "page": 602,
+      "arabicText": "إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ",
+      "transliteration": "Inna shani-aka huwa al-abtar",
+      "translationBosnian": "onaj koji tebe mrzi sigurno će on bez spomena ostati.",
+      "tajwidSegments": [
+        {
+          "text": "إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " شَانِئَكَ هُوَ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْأَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "تَرُ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/108003.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}

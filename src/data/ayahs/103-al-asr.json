@@ -1,0 +1,201 @@
+{
+  "surah": {
+    "id": "103",
+    "surahNumber": 103,
+    "slug": "al-asr",
+    "nameArabic": "العصر",
+    "nameLatin": "Al-'Asr",
+    "nameBosnian": "El-Asr",
+    "revelationType": "meccan",
+    "ayahCount": 3
+  },
+  "ayahs": [
+    {
+      "id": "103:1",
+      "ayahNumber": 1,
+      "ayahNumberGlobal": 6177,
+      "juz": 30,
+      "page": 601,
+      "arabicText": " وَٱلْعَصْرِ",
+      "transliteration": "WalAAasr",
+      "translationBosnian": "Tako mi vremena –",
+      "tajwidSegments": [
+        {
+          "text": " وَٱلْعَصْرِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/103001.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "103:2",
+      "ayahNumber": 2,
+      "ayahNumberGlobal": 6178,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ",
+      "transliteration": "Inna al-insana lafee khusr",
+      "translationBosnian": "čovjek, doista, gubi,",
+      "tajwidSegments": [
+        {
+          "text": "إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لْإِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نسَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰنَ لَفِى خُسْرٍ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/103002.mp3",
+        "durationMs": 0
+      }
+    },
+    {
+      "id": "103:3",
+      "ayahNumber": 3,
+      "ayahNumberGlobal": 6179,
+      "juz": 30,
+      "page": 601,
+      "arabicText": "إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ",
+      "transliteration": "Illa allatheena amanoowaAAamiloo assalihati watawasaw bilhaqqiwatawasaw bissabr",
+      "translationBosnian": "samo ne oni koji vjeruju i dobra djela čine, i koji jedni drugima istinu preporučuju i koji jedni drugima preporučuju strpljenje.",
+      "tajwidSegments": [
+        {
+          "text": "إِلَّا ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "لَّذِينَ ءَامَنُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " وَعَمِلُو",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟",
+          "rule": "normal"
+        },
+        {
+          "text": " ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "ل",
+          "rule": "normal"
+        },
+        {
+          "text": "صَّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـ",
+          "rule": "mad"
+        },
+        {
+          "text": "ٰلِح",
+          "rule": "normal"
+        },
+        {
+          "text": "َ",
+          "rule": "mad"
+        },
+        {
+          "text": "ـٰتِ وَتَوَاصَ",
+          "rule": "normal"
+        },
+        {
+          "text": "وْ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِٱلْحَقِّ وَتَوَاصَ",
+          "rule": "normal"
+        },
+        {
+          "text": "وْ",
+          "rule": "normal"
+        },
+        {
+          "text": "ا۟ ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "normal"
+        },
+        {
+          "text": "ِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٱلص",
+          "rule": "normal"
+        },
+        {
+          "text": "َّ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "بْرِ",
+          "rule": "normal"
+        }
+      ],
+      "audio": {
+        "reciterId": "mishary-alafasy",
+        "url": "/audio/mishary-alafasy/103003.mp3",
+        "durationMs": 0
+      }
+    }
+  ]
+}
