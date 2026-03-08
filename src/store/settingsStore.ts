@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { SettingsState } from "@/types/settings";
 import type { RepeatMode } from "@/types/settings";
+import { getSafeStorage } from "./safeStorage";
 
 type Theme = SettingsState["theme"];
 
@@ -66,6 +67,7 @@ export const useSettingsStore = create<SettingsStore>()(
     }),
     {
       name: SETTINGS_STORAGE_KEY,
+      storage: createJSONStorage(() => getSafeStorage()),
       partialize: (state) => ({
         theme: state.theme,
         arabicFontSize: state.arabicFontSize,

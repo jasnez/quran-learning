@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { Bookmark, BookmarkCollection } from "@/types/bookmarks";
+import { getSafeStorage } from "./safeStorage";
 
 const ARABIC_PREVIEW_LENGTH = 50;
 const TRANSLATION_PREVIEW_LENGTH = 80;
@@ -136,6 +137,7 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
     }),
     {
       name: BOOKMARK_STORAGE_KEY,
+      storage: createJSONStorage(() => getSafeStorage()),
       partialize: (state) => ({
         bookmarks: state.bookmarks,
         collections: state.collections,
