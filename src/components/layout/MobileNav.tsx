@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 
 const base =
   "flex flex-col items-center justify-center gap-1 py-2 text-xs transition-colors ";
@@ -14,9 +15,29 @@ export function MobileNav() {
   const isSurahs = pathname?.startsWith("/surahs");
   const isProgress = pathname === "/progress";
   const isLearn = pathname?.startsWith("/learn");
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const close = () => setMoreOpen(false);
+    const onDocClick = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) close();
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("click", onDocClick, true);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [moreOpen]);
 
   return (
-    <nav
+    <>
+      <nav
       role="navigation"
       aria-label="Mobile navigation"
       className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
@@ -45,6 +66,43 @@ export function MobileNav() {
         <BookIcon className="h-5 w-5" />
         <span>Sure</span>
       </Link>
+      <div className="relative flex flex-1 flex-col" ref={moreRef}>
+        <button
+          type="button"
+          onClick={() => setMoreOpen((o) => !o)}
+          aria-expanded={moreOpen}
+          aria-haspopup="true"
+          aria-label="Više opcija"
+          className={`flex-1 ${base} ${inactive}`}
+        >
+          <MoreIcon className="h-5 w-5" />
+          <span>Više</span>
+        </button>
+        {moreOpen && (
+          <div
+            role="menu"
+            aria-label="Više opcija"
+            className="absolute bottom-full left-1/2 mb-1 min-w-[160px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
+          >
+            <Link
+              href="/test/1"
+              role="menuitem"
+              onClick={() => setMoreOpen(false)}
+              className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+            >
+              Kviz
+            </Link>
+            <Link
+              href="/tajwid"
+              role="menuitem"
+              onClick={() => setMoreOpen(false)}
+              className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+            >
+              Tajwid lekcije
+            </Link>
+          </div>
+        )}
+      </div>
       <Link
         href="/progress"
         className={`flex-1 ${base} ${isProgress ? active : inactive}`}
@@ -54,6 +112,7 @@ export function MobileNav() {
         <span>Progress</span>
       </Link>
     </nav>
+    </>
   );
 }
 
@@ -166,6 +225,23 @@ function ProgressIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+      />
+    </svg>
+  );
+}
+
+function MoreIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
+      <path
+        fillRule="evenodd"
+        d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+        clipRule="evenodd"
       />
     </svg>
   );

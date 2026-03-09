@@ -163,15 +163,14 @@ describe("Header", () => {
     expect(link).toBeInTheDocument();
   });
 
-  it("has Home link", () => {
-    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const homeLink = screen.getByRole("link", { name: /^home$/i });
-    expect(homeLink).toHaveAttribute("href", "/");
-  });
-
   it("has Surahs link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /surahs/i })).toHaveAttribute("href", "/surahs");
+  });
+
+  it("has Quiz link", () => {
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(screen.getByRole("link", { name: /quiz/i })).toHaveAttribute("href", "/test/1");
   });
 
   it("has Search link", () => {
@@ -255,14 +254,27 @@ describe("MobileNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Home, Learn, Sure and Progress (search, bookmarks and settings are in header)", () => {
+  it("includes Home, Learn, Sure, Više and Progress (search, bookmarks and settings are in header)", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
+    expect(screen.getByRole("button", { name: /više/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
     expect(screen.queryByRole("link", { name: /pretraga/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /označeno/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /postavke/i })).not.toBeInTheDocument();
+  });
+
+  it("Više button opens menu with Kviz and Tajwid lekcije", async () => {
+    render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
+    const moreBtn = screen.getByRole("button", { name: /više/i });
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    const user = (await import("@testing-library/user-event")).default;
+    await user.click(moreBtn);
+    const menu = screen.getByRole("menu", { name: /više opcija/i });
+    expect(menu).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
+    expect(screen.getByRole("menuitem", { name: /tajwid lekcije/i })).toHaveAttribute("href", "/tajwid");
   });
 });
