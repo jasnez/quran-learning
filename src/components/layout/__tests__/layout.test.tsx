@@ -109,7 +109,7 @@ describe("AppShell", () => {
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
   });
 
-  it("scroll container is flex column with min height for sticky footer", () => {
+  it("scroll container is flex column with viewport height for scrolling and sticky footer", () => {
     const { container } = render(
       <AppShell>
         <span>x</span>
@@ -118,7 +118,7 @@ describe("AppShell", () => {
     const scrollEl = container.querySelector("[data-scroll-container]");
     expect(scrollEl).toBeInTheDocument();
     expect(scrollEl?.className).toMatch(/flex.*flex-col|flex-col/);
-    expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh/);
+    expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh|h-dvh/);
   });
 
   it("main has flex-1 so footer sits at bottom when content is short", () => {
