@@ -109,6 +109,12 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
         </div>
         <div className="flex items-center gap-2">
           <Link
+            href={`/learn/${surahNumber}`}
+            className="rounded-full border-2 border-emerald-600 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+          >
+            Režim učenja
+          </Link>
+          <Link
             href="/surahs"
             className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
           >

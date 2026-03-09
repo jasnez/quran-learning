@@ -244,4 +244,13 @@ describe("Learn Mode page", () => {
     expect(main).toBeInTheDocument();
     expect(main?.className).toMatch(/max-w|mx-auto|700/);
   });
+
+  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljaj)", async () => {
+    const Page = await LearnPage({ params: Promise.resolve({ surahId: "2" }) });
+    render(Page);
+    expect(screen.getByRole("button", { name: /riječ po riječ/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /transliteracija|transliteraci/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /prijevod/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ponavljaj/i })).toBeInTheDocument();
+  });
 });

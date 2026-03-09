@@ -276,6 +276,20 @@ describe("Surah Reader page", () => {
     expect(container.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
   });
 
+  it("has link to learning mode for this surah", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    expect(learnLink).toHaveAttribute("href", "/learn/1");
+  });
+
+  it("has link to learning mode for surah 2 pointing to /learn/2", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    render(Page);
+    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    expect(learnLink).toHaveAttribute("href", "/learn/2");
+  });
+
   it("accepts searchParams.ayah and still renders content (scroll/highlight handled in client)", async () => {
     const Page = await SurahReaderPage({
       params: Promise.resolve({ surahId: "1" }),
