@@ -8,4 +8,6 @@ export interface PlayerState {
   currentTime: number;
   duration: number;
   activeAudioSrc: string | null;
+  /** When set, AudioPlayer will seek to this time (seconds) on next frame and clear it. */
+  pendingSeekToSeconds: number | null;
 }

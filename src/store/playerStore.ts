@@ -29,6 +29,7 @@ type PlayerStore = PlayerState & {
   setCurrentAyah: (ayah: Ayah) => void;
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
+  setPendingSeek: (seconds: number | null) => void;
   stop: () => void;
 };
 
@@ -40,6 +41,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   currentTime: 0,
   duration: 0,
   activeAudioSrc: null,
+  pendingSeekToSeconds: null,
 
   play: (ayah) => {
     const { queue } = get();
@@ -116,6 +118,8 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   setCurrentTime: (currentTime) => set({ currentTime }),
 
   setDuration: (duration) => set({ duration }),
+
+  setPendingSeek: (pendingSeekToSeconds) => set({ pendingSeekToSeconds }),
 
   stop: () => set({ isPlaying: false, activeAudioSrc: null }),
 }));

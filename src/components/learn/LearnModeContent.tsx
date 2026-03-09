@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import type { SurahSummary, Ayah } from "@/types/quran";
+import type { SurahSummary, Ayah, Word } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
+import * as audioManager from "@/lib/audio/audioManager";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
+import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
 import { TajwidLegend } from "@/components/quran";
 
 type LearnModeContentProps = { surah: SurahSummary; ayahs: Ayah[] };
@@ -24,13 +26,18 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
 
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
+  const currentTime = usePlayerStore((s) => s.currentTime);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const setCurrentAyah = usePlayerStore((s) => s.setCurrentAyah);
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
+  const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
+  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
   const next = usePlayerStore((s) => s.next);
   const previous = usePlayerStore((s) => s.previous);
+
+  const [words, setWords] = useState<Word[]>([]);
 
   const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
   const showToast = useToastStore((s) => s.showToast);
@@ -66,6 +73,22 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   }, [ayahs, setQueue, setCurrentAyah, currentAyahId]);
 
   useEffect(() => {
+    if (surah.surahNumber < 1 || surah.surahNumber > 114) return;
+    let cancelled = false;
+    fetch(`/api/surahs/${surah.surahNumber}/words`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: Word[]) => {
+        if (!cancelled) setWords(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setWords([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [surah.surahNumber]);
+
+  useEffect(() => {
     if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
   }, [surah?.surahNumber]);
 
@@ -92,6 +115,26 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     ayah.tajwidSegments?.length > 0
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
+
+  const wordsForAyah = useMemo(() => {
+    const list = words.filter((w) => w.ayahKey === ayah.id);
+    return [...list].sort((a, b) => a.wordOrder - b.wordOrder);
+  }, [words, ayah.id]);
+
+  const useWordByWord = wordsForAyah.length > 0;
+  const currentTimeMs = currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0;
+
+  const handleSeekWord = (word: Word) => {
+    const seconds = word.startTimeMs / 1000;
+    if (currentAyahId === ayah.id) {
+      audioManager.seek(seconds);
+      setCurrentTime(seconds);
+    } else {
+      setPendingSeek(seconds);
+      setQueue(ayahs);
+      play(ayah);
+    }
+  };
 
   const handlePlayPause = () => {
     if (isThisAyahPlaying) pause();
@@ -141,11 +184,22 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
       {/* Center: Arabic (very large), transliteration, translation */}
       <section className="flex flex-1 flex-col justify-center py-8" aria-label="Trenutni ajet">
         <article className="rounded-2xl border border-stone-200/80 bg-white/50 px-6 py-10 dark:border-stone-700/80 dark:bg-stone-900/20">
-          <TajwidTextRenderer
-            segments={segments}
-            showColors={showTajwidColors}
-            style={{ fontSize: `${learnFontSize}px` }}
-          />
+          {useWordByWord ? (
+            <WordByWordRenderer
+              words={wordsForAyah}
+              currentTimeMs={currentTimeMs}
+              onSeek={handleSeekWord}
+              showInterlinear
+              className="text-center"
+              style={{ fontSize: `${learnFontSize}px` }}
+            />
+          ) : (
+            <TajwidTextRenderer
+              segments={segments}
+              showColors={showTajwidColors}
+              style={{ fontSize: `${learnFontSize}px` }}
+            />
+          )}
           {showTransliteration && ayah.transliteration && (
             <p className="mt-8 text-center text-lg leading-relaxed text-stone-500 dark:text-stone-400">
               {ayah.transliteration}

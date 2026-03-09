@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { Ayah } from "@/types/quran";
+import type { Ayah, Word } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
+import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 const ARABIC_MIN_MOBILE_PX = 22;
@@ -19,6 +20,13 @@ type AyahCardProps = {
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
+  /** Words for this ayah when word-level sync is available */
+  words?: Word[];
+  wordLevelSync?: boolean;
+  /** Current playback time in ms (only set when this ayah is the active one) */
+  currentTimeMs?: number;
+  /** Called when user clicks a word to seek (word-level mode) */
+  onSeekWord?: (word: Word) => void;
 };
 
 function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
@@ -34,6 +42,10 @@ export function AyahCard({
   showTransliteration,
   showTranslation,
   showTajwidColors,
+  words,
+  wordLevelSync,
+  currentTimeMs = 0,
+  onSeekWord,
 }: AyahCardProps) {
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
@@ -90,6 +102,8 @@ export function AyahCard({
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
 
+  const useWordByWord = Boolean(wordLevelSync && words && words.length > 0);
+
   return (
     <article
       ref={cardRef}
@@ -142,11 +156,22 @@ export function AyahCard({
       </div>
 
       {/* Arabic */}
-      <TajwidTextRenderer
-        segments={segments}
-        showColors={showTajwidColors}
-        style={{ fontSize: `${effectiveFontSize}px` }}
-      />
+      {useWordByWord ? (
+        <WordByWordRenderer
+          words={words!}
+          currentTimeMs={currentTimeMs}
+          onSeek={onSeekWord}
+          showInterlinear={false}
+          className="text-center"
+          style={{ fontSize: `${effectiveFontSize}px` }}
+        />
+      ) : (
+        <TajwidTextRenderer
+          segments={segments}
+          showColors={showTajwidColors}
+          style={{ fontSize: `${effectiveFontSize}px` }}
+        />
+      )}
 
       {showTransliteration && ayah.transliteration && (
         <p className="mt-8 text-center text-base leading-relaxed text-stone-500 dark:text-stone-400">

@@ -28,6 +28,7 @@ export function AudioPlayer() {
   const previous = usePlayerStore((s) => s.previous);
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
+  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
 
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
@@ -70,6 +71,26 @@ export function AudioPlayer() {
       audioManager.pause();
     };
   }, [activeAudioSrc, isPlaying, pause]);
+
+  // High-frequency time sync for word-by-word highlighting (~60fps when playing)
+  useEffect(() => {
+    if (!activeAudioSrc || !isPlaying) return;
+    let rafId: number;
+    const tick = () => {
+      const p = usePlayerStore.getState().pendingSeekToSeconds;
+      if (p != null) {
+        usePlayerStore.getState().setPendingSeek(null);
+        audioManager.seek(p);
+        setCurrentTime(p);
+      } else {
+        const now = audioManager.getCurrentTime();
+        setCurrentTime(now);
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [activeAudioSrc, isPlaying, setCurrentTime]);
 
   // Time update and duration sync + listening time accumulation
   useEffect(() => {

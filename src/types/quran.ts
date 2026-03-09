@@ -5,6 +5,8 @@ export type TajwidRule = "normal" | "mad" | "ghunnah" | "ikhfa" | "qalqalah";
 export type Word = {
   id: number;
   ayahId: number;
+  /** Ayah key for grouping, e.g. "1:1". Set when words are fetched per surah. */
+  ayahKey?: string;
   wordOrder: number;
   textArabic: string;
   transliteration?: string;

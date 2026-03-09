@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import type { Ayah } from "@/types/quran";
+import { useEffect, useRef, useState, useMemo } from "react";
+import type { Ayah, Word } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
+import * as audioManager from "@/lib/audio/audioManager";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
@@ -16,12 +17,64 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
+  const currentTime = usePlayerStore((s) => s.currentTime);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
+  const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
+  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
+
+  const [words, setWords] = useState<Word[]>([]);
+  const [wordLevelSync, setWordLevelSync] = useState(false);
 
   const prevAyahIdRef = useRef<string | null>(null);
   const progressTrackedRef = useRef(false);
+
+  const surahNumber = ayahs.length > 0 ? parseInt(ayahs[0].id.split(":")[0], 10) : 0;
+
+  useEffect(() => {
+    if (surahNumber < 1 || surahNumber > 114) return;
+    let cancelled = false;
+    fetch(`/api/surahs/${surahNumber}/words`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data: Word[]) => {
+        if (!cancelled) setWords(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setWords([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [surahNumber]);
+
+  const wordsByAyahKey = useMemo(() => {
+    const map = new Map<string, Word[]>();
+    for (const w of words) {
+      const key = w.ayahKey;
+      if (!key) continue;
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(w);
+    }
+    for (const arr of map.values()) {
+      arr.sort((a, b) => a.wordOrder - b.wordOrder);
+    }
+    return map;
+  }, [words]);
+
+  const hasWordData = words.length > 0;
+
+  const handleSeekWord = (word: Word, ayah: Ayah) => {
+    const seconds = word.startTimeMs / 1000;
+    if (currentAyahId === ayah.id) {
+      audioManager.seek(seconds);
+      setCurrentTime(seconds);
+    } else {
+      setPendingSeek(seconds);
+      setQueue(ayahs);
+      play(ayah);
+    }
+  };
 
   // Track surah opened and last position (lightweight: once per mount)
   useEffect(() => {
@@ -96,6 +149,41 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
           <TajwidLegend />
         </div>
       )}
+      {hasWordData && (
+        <div className="mb-6 flex items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3">
+          <span className="text-sm text-stone-600 dark:text-stone-400">
+            Sinhronizacija s audioom
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={!wordLevelSync}
+              onClick={() => setWordLevelSync(false)}
+              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                !wordLevelSync
+                  ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                  : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+              }`}
+            >
+              Po ajetu
+            </button>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={wordLevelSync}
+              onClick={() => setWordLevelSync(true)}
+              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                wordLevelSync
+                  ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                  : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+              }`}
+            >
+              Po riječi
+            </button>
+          </div>
+        </div>
+      )}
       <ul className="space-y-14 list-none" role="list">
       {ayahs.map((ayah) => (
         <li key={ayah.id}>
@@ -107,6 +195,10 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
             showTransliteration={showTransliteration}
             showTranslation={showTranslation}
             showTajwidColors={showTajwidColors}
+            words={wordsByAyahKey.get(ayah.id)}
+            wordLevelSync={wordLevelSync}
+            currentTimeMs={currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0}
+            onSeekWord={wordLevelSync ? (word) => handleSeekWord(word, ayah) : undefined}
           />
         </li>
       ))}

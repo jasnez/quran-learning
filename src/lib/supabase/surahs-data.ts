@@ -194,10 +194,16 @@ type WordRow = {
   tajwid_rule: string;
 };
 
-function rowToWord(row: WordRow): Word {
+function rowToWord(
+  row: WordRow,
+  surahNumber: number,
+  ayahNumByAyahId: Map<number, number>
+): Word {
+  const ayahNum = ayahNumByAyahId.get(row.ayah_id);
   return {
     id: row.id,
     ayahId: row.ayah_id,
+    ayahKey: ayahNum != null ? `${surahNumber}:${ayahNum}` : undefined,
     wordOrder: row.word_order,
     textArabic: row.text_arabic,
     transliteration: row.transliteration ?? undefined,
@@ -222,11 +228,13 @@ export async function fetchWordsFromDb(surahNumber: number): Promise<Word[]> {
 
   const { data: ayahRows, error: ayahErr } = await supabase
     .from("ayahs")
-    .select("id")
+    .select("id, ayah_number_in_surah")
     .eq("surah_id", surahId)
     .order("ayah_number_in_surah", { ascending: true });
   if (ayahErr) throw new Error(`Failed to fetch ayahs: ${ayahErr.message}`);
-  const ayahIds = ((ayahRows ?? []) as { id: number }[]).map((a) => a.id);
+  const ayahRowsTyped = (ayahRows ?? []) as { id: number; ayah_number_in_surah: number }[];
+  const ayahIds = ayahRowsTyped.map((a) => a.id);
+  const ayahNumByAyahId = new Map(ayahRowsTyped.map((a) => [a.id, a.ayah_number_in_surah]));
   if (ayahIds.length === 0) return [];
 
   const { data: wordRows, error: wordErr } = await supabase
@@ -236,5 +244,7 @@ export async function fetchWordsFromDb(surahNumber: number): Promise<Word[]> {
     .order("ayah_id", { ascending: true })
     .order("word_order", { ascending: true });
   if (wordErr) throw new Error(`Failed to fetch words: ${wordErr.message}`);
-  return ((wordRows ?? []) as WordRow[]).map(rowToWord);
+  return ((wordRows ?? []) as WordRow[]).map((row) =>
+    rowToWord(row, surahNumber, ayahNumByAyahId)
+  );
 }
