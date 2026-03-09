@@ -9,6 +9,7 @@ import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
 import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
 import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
+import { mapDbWordsToQuranComWords } from "@/lib/quran/tajwidWordMapping";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
@@ -288,7 +289,12 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
       <ul className="space-y-14 list-none" role="list">
       {ayahs.map((ayah) => {
         const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
-        const chapterWords = wordDataMap.get(ayah.id);
+        const rawChapterWords = wordDataMap.get(ayah.id);
+        const dbWordsForAyah = wordsByAyahKey.get(ayah.id);
+        const chapterWords =
+          rawChapterWords && dbWordsForAyah
+            ? mapDbWordsToQuranComWords(dbWordsForAyah, rawChapterWords)
+            : rawChapterWords;
         const useChapterRenderer = wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
         return (
         <li key={ayah.id}>

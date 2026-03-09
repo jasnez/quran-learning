@@ -2,6 +2,8 @@
 
 import { memo, useMemo } from "react";
 import type { WordData, WordTimingSegment } from "@/types/wordByWord";
+import type { TajwidRule } from "@/types/quran";
+import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
 
 export type WordByWordChapterRendererProps = {
   verseKey: string;
@@ -25,7 +27,7 @@ function WordSpan({
   segment,
   showInterlinear,
 }: {
-  word: WordData;
+  word: WordData & { tajwidRule?: TajwidRule };
   isActive: boolean;
   isPast: boolean;
   onWordClick?: (wordPosition: number, startMs: number) => void;
@@ -61,6 +63,7 @@ function WordSpan({
         ${isActive ? "bg-amber-200/60 dark:bg-amber-700/40 scale-105" : ""}
         ${isPast ? "opacity-60" : ""}
         ${!isActive && !isPast ? "hover:bg-gray-100 dark:hover:bg-gray-800" : ""}
+        ${word.tajwidRule ? tajwidRuleClasses[word.tajwidRule] : ""}
       `}
     >
       {word.textUthmani}
