@@ -36,11 +36,18 @@ function mapTimestamp(ts: {
     verseKey: ts.verse_key,
     timestampFrom: ts.timestamp_from,
     timestampTo: ts.timestamp_to,
-    segments: (ts.segments ?? []).map((seg: number[]) => ({
-      wordPosition: seg[0],
-      startMs: seg[1],
-      endMs: seg[2],
-    })),
+    segments: (ts.segments ?? [])
+      .filter(
+        (seg): seg is [number, number, number] =>
+          Array.isArray(seg) && seg.length >= 3
+      )
+      .map(
+        (seg: [number, number, number]): WordTimingSegment => ({
+          wordPosition: seg[0],
+          startMs: seg[1],
+          endMs: seg[2],
+        })
+      ),
   };
 }
 
@@ -55,15 +62,27 @@ export async function fetchChapterAudioData(
     throw new Error(`Chapter audio fetch failed: ${response.status}`);
   }
   const data = await response.json();
-  const audioFile = data.audio_file;
+  // Quran Foundation API currently returns { audio_files: [...] } even for a single chapter.
+  // Older examples used { audio_file }. Support both shapes for robustness.
+  const audioFile =
+    data.audio_file ??
+    (Array.isArray(data.audio_files) ? data.audio_files[0] : undefined);
   if (!audioFile?.audio_url) {
     throw new Error("Invalid chapter audio response");
   }
 
+  const rawTimings =
+    audioFile.timestamps ?? audioFile.verse_timings ?? [];
+
   const result: ChapterAudioData = {
     chapterId: audioFile.chapter_id,
     audioUrl: audioFile.audio_url,
-    timestamps: (audioFile.timestamps ?? []).map(mapTimestamp),
+    timestamps: (rawTimings as {
+      verse_key: string;
+      timestamp_from: number;
+      timestamp_to: number;
+      segments?: number[][];
+    }[]).map(mapTimestamp),
   };
   chapterAudioCache.set(surahNumber, result);
   return result;
