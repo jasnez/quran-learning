@@ -118,6 +118,18 @@ vi.mock("@/lib/api/client", () => ({
   fetchReciters: vi.fn(() => Promise.resolve(recitersFixture)),
 }));
 
+vi.mock("@/lib/supabase/surahs-data", () => ({
+  fetchSurahsFromDb: vi.fn(() => Promise.resolve(surahsFixture)),
+  fetchSurahDetailFromDb: vi.fn((n: number) => {
+    if (n === 1) return Promise.resolve(surah1Detail);
+    if (n === 2) return Promise.resolve(surah2Detail);
+    if (n === 112) return Promise.resolve(surah112Detail);
+    if (n === 113) return Promise.resolve(surah113Detail);
+    if (n === 114) return Promise.resolve(surah114Detail);
+    return Promise.resolve({ surah: surahsFixture[n - 1], ayahs: [] });
+  }),
+}));
+
 describe("getAllSurahs", () => {
   it("returns an array of 114 surahs", async () => {
     const surahs = await getAllSurahs();
