@@ -92,13 +92,21 @@ describe("AppShell", () => {
   });
 
   it("includes Header", () => {
-    render(<AppShell><span>x</span></AppShell>);
+    render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
     expect(screen.getByRole("banner")).toBeInTheDocument();
   });
 
-  it("includes Footer", () => {
-    render(<AppShell><span>x</span></AppShell>);
-    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+  it("does not render a global Footer inside AppShell", () => {
+    render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
+    expect(screen.queryByRole("contentinfo")).not.toBeInTheDocument();
   });
 
   it("includes an audio player region", () => {
