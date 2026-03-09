@@ -44,6 +44,8 @@ git push origin main
 
 ## Korak 3: Vercel – Environment Variables
 
+**Važno:** Ove varijable moraju biti postavljene **prije** ili **za vrijeme** builda. Ako vidiš praznu stranicu ili grešku „Nešto nije u redu”, provjeri da su sve tri varijable dodane za **Production** (ne samo Preview), pa u **Deployments** odaberi **Redeploy** (potpuni novi build, ne „Redeploy with existing build”).
+
 U projektu: **Settings** → **Environment Variables**. Za **Production** (i po želji **Preview**) dodaj tri varijable:
 
 **1. NEXT_PUBLIC_SUPABASE_URL**  
