@@ -8,6 +8,21 @@ import type {
 const AUDIO_API = "https://api.qurancdn.com/api/qdc/audio/reciters/7/audio_files";
 const VERSES_API = "https://api.quran.com/api/v4/verses/by_chapter";
 
+/** Use proxy in browser to avoid CORS; direct URLs for server/tests. */
+function getAudioApiUrl(surahNumber: number): string {
+  if (typeof window !== "undefined") {
+    return `/api/quran/chapter-audio?chapter=${surahNumber}`;
+  }
+  return `${AUDIO_API}?chapter=${surahNumber}&segments=true`;
+}
+
+function getVersesApiUrl(surahNumber: number): string {
+  if (typeof window !== "undefined") {
+    return `/api/quran/chapter-words?chapter=${surahNumber}`;
+  }
+  return `${VERSES_API}/${surahNumber}?language=en&words=true&word_fields=text_uthmani&per_page=300`;
+}
+
 const chapterAudioCache = new Map<number, ChapterAudioData>();
 const wordDataCache = new Map<number, Map<string, WordData[]>>();
 
@@ -35,9 +50,7 @@ export async function fetchChapterAudioData(
   const cached = chapterAudioCache.get(surahNumber);
   if (cached) return cached;
 
-  const response = await fetch(
-    `${AUDIO_API}?chapter=${surahNumber}&segments=true`
-  );
+  const response = await fetch(getAudioApiUrl(surahNumber));
   if (!response.ok) {
     throw new Error(`Chapter audio fetch failed: ${response.status}`);
   }
@@ -62,9 +75,7 @@ export async function fetchWordData(
   const cached = wordDataCache.get(surahNumber);
   if (cached) return cached;
 
-  const response = await fetch(
-    `${VERSES_API}/${surahNumber}?language=en&words=true&word_fields=text_uthmani&per_page=300`
-  );
+  const response = await fetch(getVersesApiUrl(surahNumber));
   if (!response.ok) {
     throw new Error(`Word data fetch failed: ${response.status}`);
   }
