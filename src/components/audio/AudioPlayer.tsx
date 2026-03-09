@@ -26,6 +26,7 @@ export function AudioPlayer() {
   const pause = usePlayerStore((s) => s.pause);
   const next = usePlayerStore((s) => s.next);
   const previous = usePlayerStore((s) => s.previous);
+  const stop = usePlayerStore((s) => s.stop);
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
   const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
@@ -309,6 +310,17 @@ export function AudioPlayer() {
             </button>
             <button
               type="button"
+              onClick={() => {
+                audioManager.pause();
+                stop();
+              }}
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              aria-label="Zaustavi"
+            >
+              <StopIcon />
+            </button>
+            <button
+              type="button"
               onClick={cycleRepeatMode}
               aria-label={
                 repeatMode === "off"
@@ -398,6 +410,14 @@ function NextIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
       <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+    </svg>
+  );
+}
+
+function StopIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
+      <path d="M6 6h12v12H6V6z" />
     </svg>
   );
 }

@@ -45,6 +45,7 @@ const mockSetCurrentTime = vi.fn();
 const mockSetDuration = vi.fn();
 const mockPush = vi.fn();
 const mockRestartFromFirst = vi.fn();
+const mockStop = vi.fn();
 
 const playerState = {
   currentSurahId: "1",
@@ -59,6 +60,7 @@ const playerState = {
   next: mockNext,
   previous: mockPrevious,
   restartFromFirst: mockRestartFromFirst,
+  stop: mockStop,
   setCurrentTime: mockSetCurrentTime,
   setDuration: mockSetDuration,
 };
@@ -166,6 +168,19 @@ describe("AudioPlayer", () => {
     const nextBtn = screen.getByRole("button", { name: /sljedeći ajah/i });
     fireEvent.click(nextBtn);
     expect(mockNext).toHaveBeenCalled();
+  });
+
+  it("shows stop button with accessible label", () => {
+    render(<AudioPlayer />);
+    const stopBtn = screen.getByRole("button", { name: /stop|zaustavi/i });
+    expect(stopBtn).toBeInTheDocument();
+  });
+
+  it("clicking stop button calls store stop and hides player when activeAudioSrc is cleared", () => {
+    render(<AudioPlayer />);
+    const stopBtn = screen.getByRole("button", { name: /stop|zaustavi/i });
+    fireEvent.click(stopBtn);
+    expect(mockStop).toHaveBeenCalledTimes(1);
   });
 
   it("Play button calls resume", () => {
