@@ -1,16 +1,20 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 const ENV_KEY = "NEXT_PUBLIC_AUDIO_CDN_URL";
+const PROXY_KEY = "NEXT_PUBLIC_AUDIO_VIA_PROXY";
 
 describe("buildAudioUrl", () => {
   let originalEnv: string | undefined;
+  let originalProxy: string | undefined;
 
   beforeEach(() => {
     originalEnv = process.env[ENV_KEY];
+    originalProxy = process.env[PROXY_KEY];
   });
 
   afterEach(() => {
     process.env[ENV_KEY] = originalEnv;
+    process.env[PROXY_KEY] = originalProxy;
     vi.resetModules();
   });
 
@@ -72,5 +76,24 @@ describe("buildAudioUrl", () => {
     expect(buildAudioUrl("mishary-alafasy/001001.mp3")).toBe(
       "https://cdn.example.com/audio/mishary-alafasy/001001.mp3"
     );
+  });
+
+  it("when NEXT_PUBLIC_AUDIO_VIA_PROXY=1, returns /api/audio?path=... (no CORS)", async () => {
+    process.env[ENV_KEY] = "https://cdn.example.com/audio";
+    process.env.NEXT_PUBLIC_AUDIO_VIA_PROXY = "1";
+    vi.resetModules();
+    const { buildAudioUrl } = await import("../reciterUtils");
+    expect(buildAudioUrl("/audio/mishary-alafasy/001001.mp3")).toBe(
+      "/api/audio?path=mishary-alafasy%2F001001.mp3"
+    );
+  });
+
+  it("returns /api/audio?path=... unchanged when already proxy URL", async () => {
+    process.env[ENV_KEY] = "https://cdn.example.com/audio";
+    process.env.NEXT_PUBLIC_AUDIO_VIA_PROXY = "1";
+    vi.resetModules();
+    const { buildAudioUrl } = await import("../reciterUtils");
+    const proxyUrl = "/api/audio?path=mishary-alafasy%2F001001.mp3";
+    expect(buildAudioUrl(proxyUrl)).toBe(proxyUrl);
   });
 });

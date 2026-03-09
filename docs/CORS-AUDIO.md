@@ -1,8 +1,26 @@
 # CORS setup for audio playback
 
-So the browser can load audio from Supabase Storage, add your app origins to CORS.
+So the browser can load audio from Supabase Storage, add your app origins to CORS **if your Supabase plan exposes CORS in the dashboard**.
 
-## Steps
+---
+
+## Ako u Supabaseu NEMA CORS u UI-u
+
+1. **Prvo probaj bez CORS**  
+   Na produkciji otvori Suru 1 i klikni Play. Često public Storage URL radi za `<audio src="...">` i bez CORS postavki. Ako se zvuk čuje, ne trebaš ništa mijenjati.
+
+2. **Ako dobiješ CORS grešku u konzoli (F12)**  
+   Uključi **audio proxy** kroz našu aplikaciju – browser tada ne radi zahtjev prema Supabaseu, nego prema našem API-ju (ista domena, nema CORS).
+
+   U Vercelu (i u `.env.local` za lokalno) dodaj env varijablu:
+   - **Key:** `NEXT_PUBLIC_AUDIO_VIA_PROXY`
+   - **Value:** `1`
+
+   Zatim **Redeploy**. Audio će ići preko `/api/audio?path=...` (naša domena), pa CORS u Supabaseu nije potreban.
+
+---
+
+## Steps (ako CORS postoji u dashboardu)
 
 1. **Open API settings**  
    [Supabase → your project → Settings → API](https://supabase.com/dashboard/project/xivwzevkvpjwtgjvujyr/settings/api)

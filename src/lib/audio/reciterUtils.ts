@@ -1,13 +1,20 @@
 /**
  * Builds a full audio URL from a relative path or returns absolute URLs unchanged.
  * Uses NEXT_PUBLIC_AUDIO_CDN_URL when set (e.g. Supabase Storage public URL).
- * Relative paths like /audio/mishary-alafasy/001001.mp3 become CDN_BASE/mishary-alafasy/001001.mp3.
+ * If NEXT_PUBLIC_AUDIO_VIA_PROXY=1, uses /api/audio?path=... to avoid CORS (no dashboard CORS needed).
+ * Relative paths like /audio/mishary-alafasy/001001.mp3 become CDN_BASE/mishary-alafasy/001001.mp3
+ * or /api/audio?path=mishary-alafasy/001001.mp3 when proxy is enabled.
  */
 
 const CDN_BASE =
   typeof process !== "undefined"
     ? (process.env.NEXT_PUBLIC_AUDIO_CDN_URL ?? "").replace(/\/$/, "")
     : "";
+
+const USE_PROXY =
+  typeof process !== "undefined" &&
+  (process.env.NEXT_PUBLIC_AUDIO_VIA_PROXY === "1" ||
+    process.env.NEXT_PUBLIC_AUDIO_VIA_PROXY === "true");
 
 /** Strip leading slashes and optional "audio/" so path is reciterId/file.mp3 for CDN. */
 function relativePathForCdn(url: string): string {
@@ -29,8 +36,14 @@ export function buildAudioUrl(url: string | null | undefined): string {
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
   }
+  if (trimmed.startsWith("/api/audio?")) {
+    return trimmed;
+  }
   const path = relativePathForCdn(trimmed);
   if (CDN_BASE) {
+    if (USE_PROXY && path) {
+      return `/api/audio?path=${encodeURIComponent(path)}`;
+    }
     return path ? `${CDN_BASE}/${path}` : CDN_BASE;
   }
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;

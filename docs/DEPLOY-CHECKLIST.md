@@ -78,6 +78,19 @@ Klikni **Save**.
 
 ## Korak 5: Supabase – CORS (za audio s produkcije)
 
+**Ako u Supabase dashboardu nema CORS / Allowed origins** (što je ustanovljeno):
+
+1. **Prvo probaj bez ikakvih promjena**  
+   Na **https://quran-learning-sigma.vercel.app** otvori Suru 1 i klikni Play. Ako se zvuk čuje, gotovo – CORS ti ne treba.
+
+2. **Ako u konzoli (F12) vidiš CORS grešku**  
+   U Vercelu u **Environment Variables** dodaj:
+   - Key: `NEXT_PUBLIC_AUDIO_VIA_PROXY`
+   - Value: `1`  
+   Zatim **Redeploy**. Audio će ići preko naše API rute (`/api/audio`), ista domena – CORS u Supabaseu nije potreban. Detalji: **docs/CORS-AUDIO.md**.
+
+**Ako ipak vidiš CORS u Supabaseu** (Settings → API):
+
 1. Otvori **[Supabase Dashboard](https://supabase.com/dashboard)** → svoj projekt **Quran-learning**.
 2. **Settings** (zupčanik) → **API** (ili **Configuration**).
 3. Pronađi **CORS** / **Allowed origins**.
