@@ -224,7 +224,7 @@ function generateQuestionsForType(
           surahNumber: surah.surahNumber,
           surahNameLatin: surah.nameLatin,
           ayahNumber: ayah.ayahNumber,
-          audioUrl: ayah.audio.url,
+          audioUrl: resolveAyahAudioUrl(ayah),
           options,
           correctIndex: correctIndex < 0 ? 0 : correctIndex,
           explanation: `Tačan odgovor je ajet ${ayah.ayahNumber} iz sure ${surah.nameLatin}.`,
@@ -319,4 +319,16 @@ function shuffleArray<T>(arr: T[]): T[] {
   }
   return copy;
 }
+
+function resolveAyahAudioUrl(ayah: Ayah): string {
+  const direct = (ayah.audio?.url ?? "").trim();
+  if (direct) return direct;
+  // Fallback: use same pattern as main player (/audio/RECITER/SSSAAA.mp3)
+  const [s, a] = ayah.id.split(":").map(Number);
+  const surahNum = s && Number.isFinite(s) ? s : 1;
+  const ayahNum = a && Number.isFinite(a) ? a : 1;
+  const pad = (n: number) => String(n).padStart(3, "0");
+  return `/audio/mishary-alafasy/${pad(surahNum)}${pad(ayahNum)}.mp3`;
+}
+
 
