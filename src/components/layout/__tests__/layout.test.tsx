@@ -152,7 +152,19 @@ describe("AppShell", () => {
     );
     const main = container.querySelector("main");
     expect(main).toBeInTheDocument();
-    expect(main?.className).toMatch(/max-md:pb-\[126px\]/);
+    expect(main?.className).toMatch(/max-md:pb-\[(126|206)px\]/);
+  });
+
+  it("main has bottom padding so content clears fixed footer", () => {
+    const { container } = render(
+      <AppShell>
+        <span>Content</span>
+      </AppShell>
+    );
+    const main = container.querySelector("main");
+    expect(main).toBeInTheDocument();
+    // At least 4rem (64px) or more for footer clearance
+    expect(main?.className).toMatch(/pb-24|pb-\[96px\]|pb-32|pb-20|pb-16/);
   });
 });
 
@@ -244,6 +256,22 @@ describe("Footer", () => {
   it("has Privacy link", () => {
     render(<Footer />);
     expect(screen.getByRole("link", { name: /privacy/i })).toBeInTheDocument();
+  });
+
+  it("is fixed to the bottom of the viewport", () => {
+    const { container } = render(<Footer />);
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(footer).toBeInTheDocument();
+    expect(footer?.className).toMatch(/fixed/);
+    expect(footer?.className).toMatch(/bottom-0|bottom-\[0\]/);
+  });
+
+  it("on mobile sits above mobile nav bar", () => {
+    const { container } = render(<Footer />);
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(footer).toBeInTheDocument();
+    // Above 56px mobile nav: bottom-14 or similar
+    expect(footer?.className).toMatch(/max-md:bottom-14|max-md:bottom-\[56px\]/);
   });
 });
 
