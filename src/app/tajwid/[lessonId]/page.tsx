@@ -9,11 +9,12 @@ import { TajwidQuiz } from "@/components/tajwid/TajwidQuiz";
 import { LessonProgressTracker } from "@/components/tajwid/LessonProgressTracker";
 
 type LessonPageProps = {
-  params: { lessonId: string };
+  params: Promise<{ lessonId: string }>;
 };
 
 export default async function LessonPage({ params }: LessonPageProps) {
-  const lesson = await getTajwidLessonBySlug(params.lessonId);
+  const { lessonId } = await params;
+  const lesson = await getTajwidLessonBySlug(lessonId);
   if (!lesson) notFound();
 
   const all = await getAllTajwidLessons();

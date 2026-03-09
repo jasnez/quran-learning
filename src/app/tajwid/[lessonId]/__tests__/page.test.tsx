@@ -106,7 +106,9 @@ beforeEach(() => {
 
 describe("Tajwid lesson detail page", () => {
   it("renders lesson title and subtitle", async () => {
-    const Page = await LessonPage({ params: { lessonId: "mad-duljenje" } });
+    const Page = await LessonPage({
+      params: Promise.resolve({ lessonId: "mad-duljenje" }),
+    });
     render(Page);
     expect(
       screen.getByRole("heading", { name: /mad \(duljenje\)/i })
@@ -117,7 +119,9 @@ describe("Tajwid lesson detail page", () => {
   });
 
   it("shows definition and examples", async () => {
-    const Page = await LessonPage({ params: { lessonId: "mad-duljenje" } });
+    const Page = await LessonPage({
+      params: Promise.resolve({ lessonId: "mad-duljenje" }),
+    });
     render(Page);
     expect(screen.getByText(/Definicija\./i)).toBeInTheDocument();
     expect(
@@ -126,7 +130,9 @@ describe("Tajwid lesson detail page", () => {
   });
 
   it("shows quiz questions", async () => {
-    const Page = await LessonPage({ params: { lessonId: "mad-duljenje" } });
+    const Page = await LessonPage({
+      params: Promise.resolve({ lessonId: "mad-duljenje" }),
+    });
     render(Page);
     expect(
       screen.getByText(/Šta znači Mad u tedžvidu\?/i)

@@ -80,6 +80,9 @@ export function Header() {
             <Link href="/surahs" className={TEXT_LINK}>
               Surahs
             </Link>
+            <Link href="/test/1" className={TEXT_LINK}>
+              Test
+            </Link>
             <Link href="/tajwid" className={TEXT_LINK}>
               Tajwid lekcije
             </Link>

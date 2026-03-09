@@ -29,6 +29,21 @@ export interface TajwidLessonProgress {
   completedAt?: string;
 }
 
+export type TestType =
+  | "listen_identify"
+  | "complete_ayah"
+  | "translation_match"
+  | "tajwid_identify";
+
+export interface TestResultEntry {
+  surahNumber: number;
+  surahNameLatin: string;
+  testType: TestType;
+  score: number;
+  total: number;
+  timestamp: string;
+}
+
 export interface LearningProgress {
   lastSurahNumber: number;
   lastAyahNumber: number;
@@ -41,6 +56,7 @@ export interface LearningProgress {
   surahProgressMap: Record<number, SurahProgress>;
   /** Key = lesson slug */
   tajwidLessonProgress: Record<string, TajwidLessonProgress>;
+  testResults: TestResultEntry[];
 }
 
 type ProgressStore = LearningProgress & {
@@ -69,6 +85,8 @@ type ProgressStore = LearningProgress & {
   markTajwidLessonStarted: (lessonSlug: string) => void;
   markTajwidLessonCompleted: (lessonSlug: string, quizScore: number, quizTotal: number) => void;
   getTajwidLessonStatus: (lessonSlug: string) => TajwidLessonProgress | undefined;
+  addTestResult: (result: Omit<TestResultEntry, "timestamp">) => void;
+  getTestResultsForSurah: (surahNumber: number) => TestResultEntry[];
 };
 
 const TOTAL_AYAHS_IN_QURAN = 6236;
@@ -112,6 +130,7 @@ const defaultState: LearningProgress = {
   ayahsListened: 0,
   surahProgressMap: {},
   tajwidLessonProgress: {},
+  testResults: [],
 };
 
 export const PROGRESS_STORAGE_KEY = "quran-learning-progress";
@@ -255,6 +274,20 @@ export const useProgressStore = create<ProgressStore>()(
         }),
 
       getTajwidLessonStatus: (lessonSlug) => get().tajwidLessonProgress[lessonSlug],
+
+      addTestResult: (result) =>
+        set((s) => ({
+          testResults: [
+            {
+              ...result,
+              timestamp: new Date().toISOString(),
+            },
+            ...s.testResults,
+          ].slice(0, 100),
+        })),
+
+      getTestResultsForSurah: (surahNumber) =>
+        get().testResults.filter((r) => r.surahNumber === surahNumber),
     }),
     {
       name: PROGRESS_STORAGE_KEY,
@@ -275,6 +308,7 @@ export const useProgressStore = create<ProgressStore>()(
           ayahsListened: state.ayahsListened,
           surahProgressMap: serializedMap,
           tajwidLessonProgress: state.tajwidLessonProgress ?? {},
+          testResults: state.testResults ?? [],
         };
       },
       merge: (persistedState, currentState) => {
@@ -295,6 +329,7 @@ export const useProgressStore = create<ProgressStore>()(
           ...persisted,
           surahProgressMap,
           tajwidLessonProgress: (persisted.tajwidLessonProgress ?? currentState.tajwidLessonProgress ?? {}) as Record<string, TajwidLessonProgress>,
+          testResults: persisted.testResults ?? currentState.testResults ?? [],
         } as ProgressStore;
       },
     }
