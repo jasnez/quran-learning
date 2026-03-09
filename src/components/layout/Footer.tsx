@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer
       role="contentinfo"
-      className="fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200 bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50 max-md:bottom-14"
+      className="border-t border-stone-200 bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50"
     >
       <div className="mx-auto max-w-4xl px-4 py-8">
         <nav
