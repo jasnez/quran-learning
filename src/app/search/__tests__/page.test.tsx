@@ -40,18 +40,20 @@ vi.mock("next/navigation", () => ({
   useRouter: vi.fn(() => ({ push: vi.fn() })),
 }));
 
-vi.mock("../actions", () => ({
-  searchAyahsAction: vi.fn((q: string) => {
-    if (!q || q.length < 2) return Promise.resolve([]);
-    if (q.toLowerCase().includes("milostiv")) return Promise.resolve(mockSearchResults);
-    return Promise.resolve([]);
-  }),
+const mockSearchAyahs = vi.fn((q: string, _opts?: { signal?: AbortSignal }) => {
+  if (!q || q.length < 3) return Promise.resolve([]);
+  if (q.toLowerCase().includes("milostiv")) return Promise.resolve(mockSearchResults);
+  return Promise.resolve([]);
+});
+vi.mock("@/lib/api/client", () => ({
+  searchAyahs: (query: string, opts?: { signal?: AbortSignal }) => mockSearchAyahs(query, opts),
 }));
 
 beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
+  localStorage.clear();
 });
 
 describe("Search page", () => {
@@ -64,12 +66,9 @@ describe("Search page", () => {
 
   it("shows empty state when no query has been entered", () => {
     render(<SearchPage />);
-    expect(
-      screen.getByText(/nije pronađeno|pronadjeno/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/pokušajte sa drugim pojmom|pokusajte/i)
-    ).toBeInTheDocument();
+    const emptyEl = document.getElementById("search-empty");
+    expect(emptyEl).toBeInTheDocument();
+    expect(emptyEl?.textContent).toMatch(/unesite pojam|upisati|pretraž/i);
   });
 
   it("shows no results message when search returns empty", async () => {
@@ -132,12 +131,12 @@ describe("Search page", () => {
     expect(mark?.textContent?.toLowerCase()).toMatch(/milostiv/);
   });
 
-  it("results list is keyboard navigable (role list, tabindex for focus)", async () => {
+  it("results list is keyboard navigable (listbox, tabindex for focus)", async () => {
     const user = userEvent.setup();
     render(<SearchPage />);
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
-    const list = await screen.findByRole("list");
+    const list = await screen.findByRole("listbox");
     expect(list).toBeInTheDocument();
     const links = screen.getAllByRole("link", { href: /\/surah\/\d+\?ayah=\d+/ });
     expect(links.length).toBeGreaterThanOrEqual(1);
@@ -154,5 +153,63 @@ describe("Search page", () => {
       expect(el?.textContent).toMatch(/allah|rahman|nedavne/i);
     });
     vi.mocked(Storage.prototype.getItem).mockRestore();
+  });
+
+  it("clicking a recent search term runs search immediately", async () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation((key: string) =>
+      key === "quran-search-recent" ? JSON.stringify(["milostivog"]) : null
+    );
+    render(<SearchPage />);
+    await waitFor(() => {
+      expect(document.querySelector("[data-recent-searches]")).toBeInTheDocument();
+    });
+    const recentBtn = screen.getByRole("button", { name: "milostivog" });
+    await userEvent.click(recentBtn);
+    await waitFor(() => {
+      expect(mockSearchAyahs).toHaveBeenCalledWith("milostivog", expect.any(Object));
+    });
+    vi.mocked(Storage.prototype.getItem).mockRestore();
+  });
+
+  it("when input is empty, shows hint to enter search term (not no-results message)", () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => null);
+    render(<SearchPage />);
+    const emptyEl = document.getElementById("search-empty");
+    expect(emptyEl).toBeInTheDocument();
+    expect(emptyEl?.textContent?.toLowerCase()).toMatch(/unesite|upisati|pretraž|pojam/i);
+    expect(emptyEl?.textContent?.toLowerCase()).not.toMatch(/nije pronađeno|pronadjeno/i);
+    vi.mocked(Storage.prototype.getItem).mockRestore();
+  });
+
+  it("Escape key clears input and results", async () => {
+    const user = userEvent.setup();
+    render(<SearchPage />);
+    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    await user.type(input, "milostiv");
+    await screen.findByRole("listbox");
+    await user.keyboard("{Escape}");
+    expect(input).toHaveValue("");
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  it("does not run search for Latin query shorter than 3 characters", async () => {
+    const user = userEvent.setup();
+    render(<SearchPage />);
+    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    await user.type(input, "ab");
+    await waitFor(() => {
+      expect(mockSearchAyahs).not.toHaveBeenCalled();
+    });
+  });
+
+  it("input has aria-expanded and aria-controls when results are shown", async () => {
+    const user = userEvent.setup();
+    render(<SearchPage />);
+    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    expect(input).toHaveAttribute("aria-expanded", "false");
+    await user.type(input, "milostiv");
+    await screen.findByRole("listbox");
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(input).toHaveAttribute("aria-controls", "search-results-list");
   });
 });

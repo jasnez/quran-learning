@@ -3,15 +3,25 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { searchAyahsAction } from "./actions";
+import { searchAyahs } from "@/lib/api/client";
 import type { SearchResult } from "@/types/quran";
 
 const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
-const EMPTY_MESSAGE = "Nije pronađeno. Pokušajte sa drugim pojmom.";
-const MIN_QUERY_LEN = 1;
+const EMPTY_HINT = "Unesite pojam za pretragu (npr. Milostivog, Allah).";
+const NO_RESULTS_MESSAGE = "Nije pronađeno. Pokušajte sa drugim pojmom.";
+const MIN_QUERY_LEN_LATIN = 3;
+const MIN_QUERY_LEN_ARABIC = 1;
 const DEBOUNCE_MS = 300;
 const RECENT_KEY = "quran-search-recent";
 const RECENT_MAX = 5;
+
+/** Minimum number of characters to run search. Latin script: 3 to reduce noise; Arabic: 1. */
+function getMinQueryLength(q: string): number {
+  const trimmed = q.trim();
+  if (!trimmed) return MIN_QUERY_LEN_LATIN;
+  const hasArabic = /[\u0600-\u06FF]/.test(trimmed);
+  return hasArabic ? MIN_QUERY_LEN_ARABIC : MIN_QUERY_LEN_LATIN;
+}
 
 function getRecent(): string[] {
   if (typeof window === "undefined") return [];
@@ -43,8 +53,11 @@ export default function SearchPage() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const linkRefsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const LISTBOX_ID = "search-results-list";
+  const getResultId = (idx: number) => `search-result-${idx}`;
 
   useEffect(() => {
     setRecentSearches(getRecent());
@@ -52,23 +65,37 @@ export default function SearchPage() {
 
   const runSearch = useCallback(async (q: string) => {
     const trimmed = q.trim();
-    if (trimmed.length < MIN_QUERY_LEN) {
+    const minLen = getMinQueryLength(trimmed);
+    if (trimmed.length < minLen) {
       setResults([]);
       setStatus("done");
       return;
     }
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     setStatus("loading");
-    const data = await searchAyahsAction(trimmed);
-    setResults(data);
-    setStatus("done");
-    setSelectedIndex(0);
-    if (data.length > 0) pushRecent(trimmed);
-    setRecentSearches(getRecent());
+    try {
+      const data = await searchAyahs(trimmed, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResults(data);
+      setStatus("done");
+      setSelectedIndex(0);
+      if (data.length > 0) pushRecent(trimmed);
+      setRecentSearches(getRecent());
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      setResults([]);
+      setStatus("done");
+    } finally {
+      if (abortControllerRef.current === controller) abortControllerRef.current = null;
+    }
   }, []);
 
   useEffect(() => {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
+      abortControllerRef.current?.abort();
     };
   }, []);
 
@@ -81,7 +108,7 @@ export default function SearchPage() {
       debounceRef.current = null;
     }
 
-    if (value.trim().length < MIN_QUERY_LEN) {
+    if (value.trim().length < getMinQueryLength(value)) {
       setResults([]);
       setStatus("done");
       setRecentSearches(getRecent());
@@ -105,6 +132,14 @@ export default function SearchPage() {
   }, [selectedIndex, results.length]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setQuery("");
+      setResults([]);
+      setStatus("idle");
+      setRecentSearches(getRecent());
+      return;
+    }
     if (results.length === 0) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -127,8 +162,11 @@ export default function SearchPage() {
 
   const showEmpty =
     (status === "idle" || status === "done") &&
-    (query.trim().length < MIN_QUERY_LEN || results.length === 0);
+    (query.trim().length < getMinQueryLength(query) || results.length === 0);
+  const isEmptyInput = query.trim().length < getMinQueryLength(query);
+  const emptyMessage = isEmptyInput ? EMPTY_HINT : NO_RESULTS_MESSAGE;
   const showRecent = query.trim().length === 0 && recentSearches.length > 0;
+  const hasResults = results.length > 0;
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
@@ -145,6 +183,11 @@ export default function SearchPage() {
           onKeyDown={handleKeyDown}
           placeholder={PLACEHOLDER}
           autoComplete="off"
+          role="combobox"
+          aria-expanded={hasResults}
+          aria-controls={LISTBOX_ID}
+          aria-activedescendant={hasResults && results[selectedIndex] ? getResultId(selectedIndex) : undefined}
+          aria-autocomplete="list"
           className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-500"
           aria-describedby={showEmpty ? "search-empty" : undefined}
         />
@@ -156,7 +199,10 @@ export default function SearchPage() {
                 key={term}
                 type="button"
                 className="rounded-lg bg-stone-100 px-3 py-1.5 text-sm text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
-                onClick={() => setQuery(term)}
+                onClick={() => {
+                  setQuery(term);
+                  runSearch(term);
+                }}
               >
                 {term}
               </button>
@@ -177,20 +223,22 @@ export default function SearchPage() {
             id="search-empty"
             className="text-center text-stone-500 dark:text-stone-400"
           >
-            {EMPTY_MESSAGE}
+            {emptyMessage}
           </p>
         )}
 
         {status === "done" && results.length > 0 && (
           <ul
+            id={LISTBOX_ID}
             ref={listRef}
             className="space-y-4 list-none"
-            role="list"
+            role="listbox"
             tabIndex={0}
             onKeyDown={handleKeyDown}
+            aria-label="Rezultati pretrage"
           >
             {results.map((r, idx) => (
-              <li key={r.ayahId}>
+              <li key={r.ayahId} id={getResultId(idx)} role="option" aria-selected={idx === selectedIndex}>
                 <Link
                   ref={(el) => { linkRefsRef.current[idx] = el; }}
                   href={`/surah/${r.surahId}?ayah=${r.ayahNumber}#ayah-${r.surahId}-${r.ayahNumber}`}

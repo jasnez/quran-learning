@@ -38,12 +38,17 @@ export async function fetchSurahDetail(surahNumber: number): Promise<SurahDetail
 
 /**
  * Full-text search across ayahs, translations, transliterations (PostgreSQL ILIKE).
+ * Pass { signal } to cancel when a new search is started (e.g. AbortController).
  */
-export async function searchAyahs(query: string): Promise<SearchResult[]> {
+export async function searchAyahs(
+  query: string,
+  options?: { signal?: AbortSignal }
+): Promise<SearchResult[]> {
   const trimmed = query.trim();
   if (!trimmed) return [];
   const data = await apiFetch<SearchResponse>(
-    "/api/search?q=" + encodeURIComponent(trimmed)
+    "/api/search?q=" + encodeURIComponent(trimmed),
+    { signal: options?.signal }
   );
   return data.results;
 }
