@@ -294,19 +294,14 @@ describe("Header", () => {
 });
 
 describe("Footer", () => {
-  it("has link Početna", () => {
+  it("has link Izvori", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /početna|pocetna|home/i })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: /izvori/i })).toHaveAttribute("href", "/sources");
   });
 
-  it("has link Sure", () => {
+  it("has link Kontakt", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
-  });
-
-  it("has link Nastavi učenje", () => {
-    render(<Footer />);
-    expect(screen.getByRole("link", { name: /nastavi učenje|nastavi ucenje/i })).toHaveAttribute("href", "/learn/1");
+    expect(screen.getByRole("link", { name: /kontakt/i })).toHaveAttribute("href", "/contact");
   });
 
   it("has link O platformi", () => {

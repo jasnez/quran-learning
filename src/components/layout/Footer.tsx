@@ -27,22 +27,16 @@ export function Footer() {
             aria-label="Footer navigacija"
           >
             <Link
-              href="/"
+              href="/sources"
               className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
             >
-              Početna
+              Izvori
             </Link>
             <Link
-              href="/surahs"
+              href="/contact"
               className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
             >
-              Sure
-            </Link>
-            <Link
-              href="/learn/1"
-              className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
-            >
-              Nastavi učenje
+              Kontakt
             </Link>
             <Link
               href="/about"
