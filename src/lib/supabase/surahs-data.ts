@@ -116,28 +116,46 @@ export async function fetchSurahDetailFromDb(surahNumber: number): Promise<Surah
   const surah = rowToSurahSummary(surahRow);
   const surahId = (surahRow as { id: number }).id;
 
+  const { data: ayahRows, error: ayahErr } = await supabase
+    .from("ayahs")
+    .select("id, ayah_number_in_surah, ayah_number_global, juz_number, page_number, arabic_text")
+    .eq("surah_id", surahId)
+    .order("ayah_number_in_surah", { ascending: true });
+  if (ayahErr) {
+    throw new Error(`Failed to fetch ayahs: ${ayahErr.message}`);
+  }
+  const ayahsData = (ayahRows ?? []) as AyahRow[];
+  const ayahIds = ayahsData.map((a) => a.id);
+  if (ayahIds.length === 0) {
+    return { surah, ayahs: [] };
+  }
+
   const [
-    { data: ayahRows, error: ayahErr },
     { data: transRows },
     { data: transLitRows },
     { data: tajwidRows },
     { data: audioRows },
   ] = await Promise.all([
     supabase
-      .from("ayahs")
-      .select("id, ayah_number_in_surah, ayah_number_global, juz_number, page_number, arabic_text")
-      .eq("surah_id", surahId)
-      .order("ayah_number_in_surah", { ascending: true }),
-    supabase.from("translations").select("ayah_id, translation_text").eq("language_code", "bs"),
-    supabase.from("transliterations").select("ayah_id, text").eq("language_code", "standard"),
-    supabase.from("tajwid_markup").select("ayah_id, markup_payload").eq("rule_system", "tajwid_5_mvp"),
-    supabase.from("audio_tracks").select("ayah_id, reciter_id, file_url, duration_ms"),
+      .from("translations")
+      .select("ayah_id, translation_text")
+      .eq("language_code", "bs")
+      .in("ayah_id", ayahIds),
+    supabase
+      .from("transliterations")
+      .select("ayah_id, text")
+      .eq("language_code", "standard")
+      .in("ayah_id", ayahIds),
+    supabase
+      .from("tajwid_markup")
+      .select("ayah_id, markup_payload")
+      .eq("rule_system", "tajwid_5_mvp")
+      .in("ayah_id", ayahIds),
+    supabase
+      .from("audio_tracks")
+      .select("ayah_id, reciter_id, file_url, duration_ms")
+      .in("ayah_id", ayahIds),
   ]);
-  if (ayahErr) {
-    throw new Error(`Failed to fetch ayahs: ${ayahErr.message}`);
-  }
-
-  const ayahsData = (ayahRows ?? []) as AyahRow[];
   const transByAyah = new Map<number, TranslationRow>();
   (transRows ?? []).forEach((r: TranslationRow) => transByAyah.set(r.ayah_id, r));
   const transLitByAyah = new Map<number, TransliterationRow>();
