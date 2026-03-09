@@ -1,0 +1,47 @@
+{
+  "id": "ghunnah",
+  "title": "Ghunnah – nazalni zvuk",
+  "titleArabic": "الغنة",
+  "description": "Prepoznaj i uvježbaj nazalni (nosni) zvuk na nuntu i mimi.",
+  "ruleType": "ghunnah",
+  "explanation": "Ghunnah je nazalni, nosni zvuk koji traje oko 2 hareketa i javlja se na slovima ن (nun) i م (mim) kada su sa šeddom ili u određenim kombinacijama sa drugim slovima. Kod početnika se najlakše uči na primjeru riječi \"إِنَّ\" ili \"ثُمَّ\" gdje se jasno čuje nosni prizvuk. Važno je da ghunnah ne bude prekratka (da nestane), ali ni preduga – cilj je blago produžen nosni zvuk koji uljepšava učenje.",
+  "examples": [
+    {
+      "arabicText": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "transliteration": "Iyyāka naʿbudu wa-iyyāka nastaʿīn",
+      "highlightIndices": [1, 5],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3#1:5"
+    },
+    {
+      "arabicText": "ثُمَّ إِلَيْنَا مَرْجِعُهُمْ",
+      "transliteration": "Thumma ilaynā marjiʿuhum",
+      "highlightIndices": [0],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/32.mp3#32:14"
+    }
+  ],
+  "practiceAyahs": [
+    { "surahNumber": 1, "ayahNumber": 5, "relevantWordIndices": [1, 3] },
+    { "surahNumber": 2, "ayahNumber": 3, "relevantWordIndices": [2] }
+  ],
+  "quiz": [
+    {
+      "question": "Na kojim slovima se javlja ghunnah?",
+      "options": [
+        "Na svim slovima s harfom elif",
+        "Na slovima nun i mim",
+        "Samo na slovu ra"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Kako se opisuje trajanje ghunnaha?",
+      "options": [
+        "Vrlo kratko, bez produženja",
+        "Oko 2 hareketa nazalnog zvuka",
+        "Najmanje 6 hareketa"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}
+

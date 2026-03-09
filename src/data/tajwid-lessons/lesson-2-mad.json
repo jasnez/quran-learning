@@ -1,0 +1,47 @@
+{
+  "id": "mad",
+  "title": "Mad – duljenje samoglasnika",
+  "titleArabic": "المد",
+  "description": "Nauči kada i koliko produžiti glas prilikom učenja Kur’ana.",
+  "ruleType": "mad",
+  "explanation": "Mad znači produžavanje glasa na određenim slovima, najčešće na alifu, wawu i ja kada su nosioci produženja. Osnova je da se harf sa sukunom ili harf dužine pojavi nakon samoglasnika iste vrste. Duljenje može biti kratko (2 hareketa) ili duže (4–6 hareketa), ovisno o vrsti mada. U praksi, početnik treba prvo naučiti da jasno čuje i osjeti osnovno produženje od 2 hareketa, a tek kasnije razlikovati posebne vrste (mad muttasil, munfasil, itd.). Najvažnije je da glas ne bude ni prekratak ni pretjerano dug – cilj je ravnoteža i jasnoća.",
+  "examples": [
+    {
+      "arabicText": "مَالِكِ يَوْمِ الدِّينِ",
+      "transliteration": "Māliki yawmi d-dīn",
+      "highlightIndices": [0, 3],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3#1:4"
+    },
+    {
+      "arabicText": "وَلَا الضَّالِّينَ",
+      "transliteration": "Wa lā ḍ-ḍāllīn",
+      "highlightIndices": [1, 2],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3#1:7"
+    }
+  ],
+  "practiceAyahs": [
+    { "surahNumber": 1, "ayahNumber": 4, "relevantWordIndices": [0, 3] },
+    { "surahNumber": 1, "ayahNumber": 7, "relevantWordIndices": [7, 8] }
+  ],
+  "quiz": [
+    {
+      "question": "Šta je osnovni cilj pravila Mad?",
+      "options": [
+        "Da se glas što više skrati",
+        "Da se glas produži tamo gdje je to propisano",
+        "Da se sva slova čitaju jednako dugo"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Koliko obično traje osnovni mad (bez posebnih vrsta)?",
+      "options": [
+        "1 hareket",
+        "2 hareketa",
+        "8 hareketa"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}
+

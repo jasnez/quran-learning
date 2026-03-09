@@ -1,0 +1,47 @@
+{
+  "id": "ikhfa",
+  "title": "Ikhfa – skriveni nazalni zvuk",
+  "titleArabic": "الإخفاء",
+  "description": "Pravilo kada se nun sa sukunom ili tenvinom izgovara skriveno, između jasnog i potpunog idghama.",
+  "ruleType": "ikhfa",
+  "explanation": "Ikhfa znači \"skrivanje\". Dešava se kada nakon nuna sakina (نْ) ili tenvina (ً ٍ ٌ) dođe jedno od 15 slova ikhfe. Tada se glas nuna ne izgovori jasno kao \"n\", ali se ne potpuno stapa kao kod idghama, već se pravi skriveni nazalni zvuk u trajanju od 2 hareketa, prilagođen sljedećem harfu. U praksi, počni tako što ćeš osvijestiti da jezik ne dodiruje potpuno nepce kao kod jasnog n, ali se nosni zvuk i dalje jasno čuje.",
+  "examples": [
+    {
+      "arabicText": "إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ",
+      "transliteration": "Inna llāha ġafūrun raḥīm",
+      "highlightIndices": [2],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/2.mp3#2:173"
+    },
+    {
+      "arabicText": "سَمِيعٌ بَصِيرٌ",
+      "transliteration": "Samīʿun baṣīr",
+      "highlightIndices": [0],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/4.mp3#4:58"
+    }
+  ],
+  "practiceAyahs": [
+    { "surahNumber": 2, "ayahNumber": 173, "relevantWordIndices": [2] },
+    { "surahNumber": 4, "ayahNumber": 58, "relevantWordIndices": [0] }
+  ],
+  "quiz": [
+    {
+      "question": "Šta se dešava sa glasom n-zvuka kod ikhfe?",
+      "options": [
+        "Potpuno nestane",
+        "Izgovara se jasno kao \"n\" bez nazalnog zvuka",
+        "Djelimično se skriva uz nazalni zvuk oko 2 hareketa"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Koje kombinacije pokreću pravilo ikhfe?",
+      "options": [
+        "Nun sakina ili tenvin prije određenih slova",
+        "Samo mim sa šeddom",
+        "Bilo koji sukun prije elifa"
+      ],
+      "correctIndex": 0
+    }
+  ]
+}
+

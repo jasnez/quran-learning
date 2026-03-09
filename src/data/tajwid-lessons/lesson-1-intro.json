@@ -1,0 +1,47 @@
+{
+  "id": "intro",
+  "title": "Uvod u tajwid i normalan tekst",
+  "titleArabic": "مقدمة في التجويد والنص العادي",
+  "description": "Zašto je važno učiti Kur’an s pravilnim tedžvidom i šta znači \"normalan\" tekst.",
+  "ruleType": "normal",
+  "explanation": "Tajwid znači \"uljepšavanje\" učenja Kur’ana – izgovor svakog slova na njegovom mjestu, s pravim izlaznim organom i trajanjem. U ovom uvodu učiš razliku između običnog čitanja i čitanja s pravilima tedžvida. Normalan tekst je sve ono u ajetu na šta se ne primjenjuje posebno pravilo (mad, ghunnah, ikhfa, qalqalah). To je \"osnovni\" način čitanja. Pravila se uvijek dodaju na ovu normalnu osnovu, a ne zamjenjuju je. Kada vidiš ajet obojen bojama, dijelovi bez boje i dalje moraju biti izgovoreni jasno, sporo i sa pažnjom – to je tvoj temelj.",
+  "examples": [
+    {
+      "arabicText": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+      "transliteration": "Al-ḥamdu lillāhi rabbi l-ʿālamīn",
+      "highlightIndices": [],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3#1:2"
+    },
+    {
+      "arabicText": "إِيَّاكَ نَعْبُدُ",
+      "transliteration": "Iyyāka naʿbudu",
+      "highlightIndices": [],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3#1:5"
+    }
+  ],
+  "practiceAyahs": [
+    { "surahNumber": 1, "ayahNumber": 2, "relevantWordIndices": [0, 1, 2, 3] },
+    { "surahNumber": 1, "ayahNumber": 5, "relevantWordIndices": [1, 2, 3] }
+  ],
+  "quiz": [
+    {
+      "question": "Šta znači pojam tajwid?",
+      "options": [
+        "Ubrzano čitanje Kur’ana",
+        "Uljepšano i pravilno čitanje Kur’ana",
+        "Čitanje Kur’ana bez zaustavljanja"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Šta podrazumijevamo pod \"normalnim\" tekstom u tedžvidu?",
+      "options": [
+        "Dijelove ajeta na koje se ne primjenjuje posebno pravilo",
+        "Tekst koji se čita tiho",
+        "Tekst koji se uči samo napamet"
+      ],
+      "correctIndex": 0
+    }
+  ]
+}
+

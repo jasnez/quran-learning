@@ -1,0 +1,47 @@
+{
+  "id": "qalqalah",
+  "title": "Qalqalah – odskok zvuka",
+  "titleArabic": "القلقلة",
+  "description": "Pravilo drhtaja / odskoka glasa na određenim sukunisanim slovima.",
+  "ruleType": "qalqalah",
+  "explanation": "Qalqalah doslovno znači \"potres\" ili \"odskok\". Javlja se na slovima ق، ط، ب، ج، د kada nose sukun (ili su na kraju riječi bez izgovorenog vokala). Umjesto da se glas naglo prekine, pravi se lagani odskok – kratko odsječen glas koji čini učenje jasnim i ugodnim. Postoji manja i veća qalqalah u zavisnosti od jačine zaustavljanja, ali za početak je dovoljno naučiti da ova slova nikad ne \"progutamo\" na kraju riječi.",
+  "examples": [
+    {
+      "arabicText": "قَدْ أَفْلَحَ الْمُؤْمِنُونَ",
+      "transliteration": "Qad aflaḥa l-muʾminūn",
+      "highlightIndices": [0],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/23.mp3#23:1"
+    },
+    {
+      "arabicText": "تَبَّتْ يَدَا أَبِي لَهَبٍ",
+      "transliteration": "Tabbat yadā ʾabī lahab",
+      "highlightIndices": [0, 2],
+      "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/111.mp3#111:1"
+    }
+  ],
+  "practiceAyahs": [
+    { "surahNumber": 23, "ayahNumber": 1, "relevantWordIndices": [0] },
+    { "surahNumber": 111, "ayahNumber": 1, "relevantWordIndices": [0, 2] }
+  ],
+  "quiz": [
+    {
+      "question": "Na kojim slovima se javlja qalqalah?",
+      "options": [
+        "Na svim sukunisanim slovima",
+        "Na slovima ق، ط، ب، ج، د kada imaju sukun",
+        "Samo na slovu ق"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Kako se opisuje zvuk qalqahe?",
+      "options": [
+        "Potpuno bez zvuka",
+        "Nazalni produženi glas",
+        "Kratki odskok / drhtaj glasa pri zaustavljanju"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}
+
