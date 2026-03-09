@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useScrollContainer } from "@/contexts/ScrollContainerContext";
 
 export type StickyHeaderState = {
   /** True when near the very top of the page. */
@@ -24,7 +25,7 @@ const DEFAULT_STATE: StickyHeaderState = {
   hasShadow: false,
 };
 
-function getScrollTop(): number {
+function getWindowScrollTop(): number {
   if (typeof window === "undefined") return 0;
   return (
     window.scrollY ??
@@ -37,17 +38,24 @@ function getScrollTop(): number {
 
 /**
  * Sticky header behaviour following modern UX patterns:
+ * - Uses app scroll container when available (so mobile/browser scroll is the app scroll).
  * - At top: header fully visible, no shadow.
  * - Scroll down past threshold: header slides up (hidden) to free space.
  * - Scroll up: header slides back in, with subtle shadow for context.
  */
 export function useStickyHeader(options: Options = {}): StickyHeaderState {
   const { threshold = 48, deltaThreshold = 10 } = options;
+  const scrollContext = useScrollContainer();
   const [state, setState] = useState<StickyHeaderState>(DEFAULT_STATE);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const el = scrollContext?.scrollContainerRef?.current ?? null;
+
+    const getScrollTop = (): number => {
+      if (el) return el.scrollTop;
+      return getWindowScrollTop();
+    };
 
     const handleScroll = () => {
       const current = getScrollTop();
@@ -89,6 +97,11 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
 
     handleScroll();
 
+    if (el) {
+      el.addEventListener("scroll", handleScroll, { passive: true });
+      return () => el.removeEventListener("scroll", handleScroll);
+    }
+
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     } as AddEventListenerOptions);
@@ -99,7 +112,7 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("scroll", handleScroll);
     };
-  }, [threshold, deltaThreshold]);
+  }, [threshold, deltaThreshold, scrollContext?.scrollContainerRef]);
 
   return state;
 }

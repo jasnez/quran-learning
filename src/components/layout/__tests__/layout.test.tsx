@@ -108,11 +108,20 @@ describe("AppShell", () => {
   });
 
   it("when audio player is visible and user scrolled, BackToTop sits above player (data-above-player)", async () => {
-    let scrollY = 0;
-    Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
-    scrollY = 500;
+    let scrollY = 500;
     const { container } = render(<AppShell><span>x</span></AppShell>);
-    fireEvent.scroll(window);
+    const scrollEl = container.querySelector("[data-scroll-container]");
+    if (scrollEl) {
+      Object.defineProperty(scrollEl, "scrollTop", {
+        configurable: true,
+        get: () => scrollY,
+        set: (v: number) => { scrollY = v; },
+      });
+      fireEvent.scroll(scrollEl);
+    } else {
+      Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
+      fireEvent.scroll(window);
+    }
     await waitFor(() => {
       const btn = container.querySelector("[data-testid='back-to-top']");
       expect(btn).toBeInTheDocument();

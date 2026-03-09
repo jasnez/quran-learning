@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePlayerStore } from "@/store/playerStore";
+import { useScrollContainer } from "@/contexts/ScrollContainerContext";
 
 const DEFAULT_THRESHOLD = 400;
 
@@ -12,16 +13,34 @@ type BackToTopProps = {
 export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProps) {
   const [visible, setVisible] = useState(false);
   const hasAudio = usePlayerStore((s) => !!s.activeAudioSrc);
+  const scrollContext = useScrollContainer();
 
   useEffect(() => {
-    const check = () => setVisible(window.scrollY > scrollThreshold);
+    const container = scrollContext?.scrollContainerRef?.current;
+
+    const check = () => {
+      const top = container ? container.scrollTop : window.scrollY;
+      setVisible(top > scrollThreshold);
+    };
+
     check();
+
+    if (container) {
+      container.addEventListener("scroll", check, { passive: true });
+      return () => container.removeEventListener("scroll", check);
+    }
+
     window.addEventListener("scroll", check, { passive: true });
     return () => window.removeEventListener("scroll", check);
-  }, [scrollThreshold]);
+  }, [scrollThreshold, scrollContext?.scrollContainerRef]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const container = scrollContext?.scrollContainerRef?.current;
+    if (container) {
+      container.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   if (!visible) return null;
