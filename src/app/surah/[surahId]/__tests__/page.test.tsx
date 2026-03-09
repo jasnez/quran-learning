@@ -125,7 +125,7 @@ describe("Surah Reader page", () => {
     render(Page);
     expect(screen.getByText("الفاتحة")).toBeInTheDocument();
     expect(screen.getByText(/Al-Fatihah/)).toBeInTheDocument();
-    expect(screen.getByText(/Al-Fatiha/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Al-Fatiha/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("shows meta info: ayah count and revelation type", async () => {

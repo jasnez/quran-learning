@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
@@ -52,6 +53,26 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
 
   let { surah, ayahs } = detail;
 
+  // Prethodna / sljedeća sura za navigaciju
+  let prevSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;
+  let nextSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;
+  if (surahNumber > 1) {
+    try {
+      const prev = await getSurahByNumber(surahNumber - 1);
+      prevSurah = { surahNumber: prev.surah.surahNumber, nameLatin: prev.surah.nameLatin, nameBosnian: prev.surah.nameBosnian };
+    } catch {
+      // ignore
+    }
+  }
+  if (surahNumber < 114) {
+    try {
+      const next = await getSurahByNumber(surahNumber + 1);
+      nextSurah = { surahNumber: next.surah.surahNumber, nameLatin: next.surah.nameLatin, nameBosnian: next.surah.nameBosnian };
+    } catch {
+      // ignore
+    }
+  }
+
   // Fallback: if no ayahs in DB (e.g. not seeded), try Quran.com API
   if (ayahs.length === 0) {
     try {
@@ -64,6 +85,46 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
   return (
     <main className="mx-auto max-w-[800px] px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
+      <nav
+        className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--theme-border)] pb-4 text-sm"
+        aria-label="Navigacija između sura"
+      >
+        <div className="flex items-center gap-2">
+          {prevSurah ? (
+            <Link
+              href={`/surah/${prevSurah.surahNumber}`}
+              className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+            >
+              <span aria-hidden>←</span>
+              <span>Prethodna: {prevSurah.nameBosnian ?? prevSurah.nameLatin}</span>
+            </Link>
+          ) : (
+            <Link
+              href="/surahs"
+              className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+            >
+              Pregled sura
+            </Link>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/surahs"
+            className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+          >
+            Sve sure
+          </Link>
+          {nextSurah && (
+            <Link
+              href={`/surah/${nextSurah.surahNumber}`}
+              className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+            >
+              <span>Sljedeća: {nextSurah.nameBosnian ?? nextSurah.nameLatin}</span>
+              <span aria-hidden>→</span>
+            </Link>
+          )}
+        </div>
+      </nav>
       <section className="mt-12">
         <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} surahNameLatin={surah.nameLatin} initialAutoplay={autoplay} />
       </section>
