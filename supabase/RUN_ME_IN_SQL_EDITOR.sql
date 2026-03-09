@@ -82,6 +82,19 @@ CREATE TABLE IF NOT EXISTS audio_tracks (
   UNIQUE(ayah_id, reciter_id)
 );
 
+CREATE TABLE IF NOT EXISTS words (
+  id SERIAL PRIMARY KEY,
+  ayah_id INTEGER REFERENCES ayahs(id),
+  word_order INTEGER NOT NULL,
+  text_arabic VARCHAR(255) NOT NULL,
+  transliteration VARCHAR(255),
+  translation_short VARCHAR(500),
+  start_time_ms INTEGER NOT NULL,
+  end_time_ms INTEGER NOT NULL,
+  tajwid_rule VARCHAR(50) DEFAULT 'normal',
+  UNIQUE(ayah_id, word_order)
+);
+
 -- ----- 2. User tables -----
 CREATE TABLE IF NOT EXISTS user_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -133,6 +146,7 @@ CREATE INDEX IF NOT EXISTS idx_translations_ayah_id_language ON translations(aya
 CREATE INDEX IF NOT EXISTS idx_user_bookmarks_user_id ON user_bookmarks(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_progress_user_id_ayah_id ON user_progress(user_id, ayah_id);
 CREATE INDEX IF NOT EXISTS idx_audio_tracks_ayah_reciter ON audio_tracks(ayah_id, reciter_id);
+CREATE INDEX IF NOT EXISTS idx_words_ayah_id ON words(ayah_id);
 
 -- ----- 4. RLS -----
 ALTER TABLE surahs ENABLE ROW LEVEL SECURITY;
@@ -142,6 +156,7 @@ ALTER TABLE transliterations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tajwid_markup ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reciters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audio_tracks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE words ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_bookmarks ENABLE ROW LEVEL SECURITY;
@@ -161,6 +176,8 @@ DROP POLICY IF EXISTS "reciters_select_public" ON reciters;
 CREATE POLICY "reciters_select_public" ON reciters FOR SELECT USING (true);
 DROP POLICY IF EXISTS "audio_tracks_select_public" ON audio_tracks;
 CREATE POLICY "audio_tracks_select_public" ON audio_tracks FOR SELECT USING (true);
+DROP POLICY IF EXISTS "words_select_public" ON words;
+CREATE POLICY "words_select_public" ON words FOR SELECT USING (true);
 
 DROP POLICY IF EXISTS "user_profiles_select_own" ON user_profiles;
 CREATE POLICY "user_profiles_select_own" ON user_profiles FOR SELECT USING (auth.uid() = id);

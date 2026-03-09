@@ -13,9 +13,11 @@
     "generate:ayahs": "tsx scripts/generate-ayahs-json.ts",
     "seed": "tsx scripts/seed-database.ts",
     "seed:full": "tsx scripts/seed-full-quran.ts",
+    "seed:words": "tsx scripts/seed-words.ts",
     "upload:audio": "tsx scripts/upload-audio-to-storage.ts",
     "download:audio-sample": "tsx scripts/download-audio-sample.ts",
-    "deploy:check": "npm run test && npm run build"
+    "deploy:check": "npm run test && npm run build",
+    "verify:schema": "tsx scripts/verify-supabase-schema.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",

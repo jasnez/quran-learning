@@ -8,8 +8,10 @@ import type {
   SurahSummary,
   SurahDetail,
   Ayah,
-  TajwidSegment,
   AyahAudio,
+  TajwidRule,
+  TajwidSegment,
+  Word,
 } from "@/types/quran";
 
 const DEFAULT_RECITER_ID = "mishary-alafasy";
@@ -178,4 +180,61 @@ export async function fetchSurahDetailFromDb(surahNumber: number): Promise<Surah
     )
   );
   return { surah, ayahs };
+}
+
+type WordRow = {
+  id: number;
+  ayah_id: number;
+  word_order: number;
+  text_arabic: string;
+  transliteration: string | null;
+  translation_short: string | null;
+  start_time_ms: number;
+  end_time_ms: number;
+  tajwid_rule: string;
+};
+
+function rowToWord(row: WordRow): Word {
+  return {
+    id: row.id,
+    ayahId: row.ayah_id,
+    wordOrder: row.word_order,
+    textArabic: row.text_arabic,
+    transliteration: row.transliteration ?? undefined,
+    translationShort: row.translation_short ?? undefined,
+    startTimeMs: row.start_time_ms,
+    endTimeMs: row.end_time_ms,
+    tajwidRule: (row.tajwid_rule as TajwidRule) || "normal",
+  };
+}
+
+export async function fetchWordsFromDb(surahNumber: number): Promise<Word[]> {
+  const supabase = getSupabaseClient();
+  const { data: surahRow, error: surahErr } = await supabase
+    .from("surahs")
+    .select("id")
+    .eq("surah_number", surahNumber)
+    .maybeSingle();
+  if (surahErr || !surahRow) {
+    throw new Error(surahErr ? `Surah not found: ${surahErr.message}` : "Surah not found");
+  }
+  const surahId = (surahRow as { id: number }).id;
+
+  const { data: ayahRows, error: ayahErr } = await supabase
+    .from("ayahs")
+    .select("id")
+    .eq("surah_id", surahId)
+    .order("ayah_number_in_surah", { ascending: true });
+  if (ayahErr) throw new Error(`Failed to fetch ayahs: ${ayahErr.message}`);
+  const ayahIds = ((ayahRows ?? []) as { id: number }[]).map((a) => a.id);
+  if (ayahIds.length === 0) return [];
+
+  const { data: wordRows, error: wordErr } = await supabase
+    .from("words")
+    .select("id, ayah_id, word_order, text_arabic, transliteration, translation_short, start_time_ms, end_time_ms, tajwid_rule")
+    .in("ayah_id", ayahIds)
+    .order("ayah_id", { ascending: true })
+    .order("word_order", { ascending: true });
+  if (wordErr) throw new Error(`Failed to fetch words: ${wordErr.message}`);
+  return ((wordRows ?? []) as WordRow[]).map(rowToWord);
 }

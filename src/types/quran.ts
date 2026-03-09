@@ -2,6 +2,18 @@ export type RevelationType = "meccan" | "medinan";
 
 export type TajwidRule = "normal" | "mad" | "ghunnah" | "ikhfa" | "qalqalah";
 
+export type Word = {
+  id: number;
+  ayahId: number;
+  wordOrder: number;
+  textArabic: string;
+  transliteration?: string;
+  translationShort?: string;
+  startTimeMs: number;
+  endTimeMs: number;
+  tajwidRule: TajwidRule;
+};
+
 export type SurahSummary = {
   id: string;
   surahNumber: number;
