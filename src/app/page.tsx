@@ -34,35 +34,6 @@ export default async function Home() {
         aria-labelledby="hero-title"
       >
         <div className="pointer-events-none absolute inset-0 rounded-2xl bg-white/50 dark:bg-stone-900/70" aria-hidden />
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-end opacity-[0.03] dark:opacity-[0.05]">
-          <div className="h-[280px] w-[280px] rounded-full border-[80px] border-emerald-900/20 dark:border-emerald-800/20" />
-        </div>
-        <div
-          className="pointer-events-none absolute inset-0 flex justify-end items-start pt-8 md:pt-12 opacity-[0.07] dark:opacity-[0.10]"
-          aria-hidden
-        >
-          <svg
-            className="h-48 w-64 md:h-56 md:w-80 text-emerald-900 dark:text-emerald-800"
-            viewBox="0 0 160 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden
-          >
-            <path
-              d="M 160 120 V 20 Q 160 0 140 0 H 20 Q 0 0 0 20 V 120"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              fill="none"
-            />
-            <path
-              d="M 150 120 V 28 Q 150 12 132 12 H 28 Q 12 12 12 28 V 120"
-              stroke="currentColor"
-              strokeWidth="1"
-              fill="none"
-              opacity="0.6"
-            />
-          </svg>
-        </div>
         <div className="relative">
           <h1
             id="hero-title"
