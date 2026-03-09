@@ -25,8 +25,10 @@ type AyahCardProps = {
   wordLevelSync?: boolean;
   /** Current playback time in ms (only set when this ayah is the active one) */
   currentTimeMs?: number;
-  /** Called when user clicks a word to seek (word-level mode) */
-  onSeekWord?: (word: Word) => void;
+  /** Duration of the current ayah's audio clip in ms (for scaling word timeline to match audio) */
+  audioDurationMs?: number;
+  /** Called when user clicks a word to seek (word-level mode). Pass seekSeconds so parent can seek to correct position. */
+  onSeekWord?: (word: Word, seekSeconds: number) => void;
 };
 
 function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
@@ -45,6 +47,7 @@ export function AyahCard({
   words,
   wordLevelSync,
   currentTimeMs = 0,
+  audioDurationMs,
   onSeekWord,
 }: AyahCardProps) {
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
@@ -160,7 +163,19 @@ export function AyahCard({
         <WordByWordRenderer
           words={words!}
           currentTimeMs={currentTimeMs}
-          onSeek={onSeekWord}
+          audioDurationMs={audioDurationMs}
+          onSeek={
+            onSeekWord
+              ? (word) => {
+                  const refMs = Math.max(...words!.map((w) => w.endTimeMs));
+                  const seekSeconds =
+                    refMs > 0 && audioDurationMs != null && audioDurationMs > 0
+                      ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
+                      : word.startTimeMs / 1000;
+                  onSeekWord(word, seekSeconds);
+                }
+              : undefined
+          }
           showInterlinear={false}
           className="text-center"
           style={{ fontSize: `${effectiveFontSize}px` }}

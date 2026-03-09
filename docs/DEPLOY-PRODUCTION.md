@@ -76,6 +76,7 @@ Ako u dashboardu nema CORS polja, probaj pustiti audio na produkciji – često 
    - [ ] Otvori **Sura 1** (Al-Fatiha).
    - [ ] Klikni **Pusti cijelu suru** ili **Play** na ajetu – čuje se zvuk, na dnu se vidi audio player (traka s play/pause, prethodni/sljedeći, progress).
    - [ ] Ako ne čuješ zvuk: F12 → **Console** – ako piše CORS ili 403/404, provjeri CORS u Supabaseu i da je `NEXT_PUBLIC_AUDIO_CDN_URL` točno postavljen na Vercelu.
+   - [ ] **Word-by-word highlight:** ako vidiš toggle „Po ajetu / Po riječi” i odabereš „Po riječi”, riječi se highlightaju uz audio. Ako toggle ne postoji, u Supabaseu pokreni SQL iz `supabase/CREATE_WORDS_TABLE.sql`, pa lokalno `npm run seed:words` (s .env.local koji pokazuje na istu Supabase bazu kao produkcija).
 
 ---
 

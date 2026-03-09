@@ -20,6 +20,7 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const currentTime = usePlayerStore((s) => s.currentTime);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const duration = usePlayerStore((s) => s.duration);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
@@ -74,13 +75,12 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
 
   const hasWordData = wordsByAyahKey.size > 0;
 
-  const handleSeekWord = (word: Word, ayah: Ayah) => {
-    const seconds = word.startTimeMs / 1000;
+  const handleSeekWord = (word: Word, ayah: Ayah, seekSeconds: number) => {
     if (currentAyahId === ayah.id) {
-      audioManager.seek(seconds);
-      setCurrentTime(seconds);
+      audioManager.seek(seekSeconds);
+      setCurrentTime(seekSeconds);
     } else {
-      setPendingSeek(seconds);
+      setPendingSeek(seekSeconds);
       setQueue(ayahs);
       play(ayah);
     }
@@ -208,7 +208,8 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
             words={wordsByAyahKey.get(ayah.id)}
             wordLevelSync={wordLevelSync}
             currentTimeMs={currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0}
-            onSeekWord={wordLevelSync ? (word) => handleSeekWord(word, ayah) : undefined}
+            audioDurationMs={currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined}
+            onSeekWord={wordLevelSync ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds) : undefined}
           />
         </li>
       ))}

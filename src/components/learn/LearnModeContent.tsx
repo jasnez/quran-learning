@@ -28,6 +28,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
 
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const currentTime = usePlayerStore((s) => s.currentTime);
+  const duration = usePlayerStore((s) => s.duration);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const setCurrentAyah = usePlayerStore((s) => s.setCurrentAyah);
@@ -125,14 +126,21 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
 
   const useWordByWord = wordsForAyah.length > 0;
   const currentTimeMs = currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0;
+  const audioDurationMs =
+    currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined;
 
   const handleSeekWord = (word: Word) => {
-    const seconds = word.startTimeMs / 1000;
+    const refMs =
+      wordsForAyah.length > 0 ? Math.max(...wordsForAyah.map((w) => w.endTimeMs)) : 0;
+    const seekSeconds =
+      refMs > 0 && audioDurationMs != null && audioDurationMs > 0
+        ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
+        : word.startTimeMs / 1000;
     if (currentAyahId === ayah.id) {
-      audioManager.seek(seconds);
-      setCurrentTime(seconds);
+      audioManager.seek(seekSeconds);
+      setCurrentTime(seekSeconds);
     } else {
-      setPendingSeek(seconds);
+      setPendingSeek(seekSeconds);
       setQueue(ayahs);
       play(ayah);
     }
@@ -190,6 +198,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
             <WordByWordRenderer
               words={wordsForAyah}
               currentTimeMs={currentTimeMs}
+              audioDurationMs={audioDurationMs}
               onSeek={handleSeekWord}
               showInterlinear
               className="text-center"

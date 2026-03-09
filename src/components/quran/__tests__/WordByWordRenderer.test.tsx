@@ -65,6 +65,19 @@ describe("WordByWordRenderer", () => {
     spans.forEach((s) => expect(s).toHaveAttribute("data-active", "false"));
   });
 
+  it("scales word timeline to audioDurationMs so highlight stays in sync with longer clip", () => {
+    const { container } = render(
+      <WordByWordRenderer
+        words={mockWords}
+        currentTimeMs={1200}
+        audioDurationMs={2400}
+      />
+    );
+    const spans = container.querySelectorAll('[data-word-id]');
+    expect(spans[0]).toHaveAttribute("data-active", "false");
+    expect(spans[1]).toHaveAttribute("data-active", "true");
+  });
+
   it("calls onSeek with word when a word is clicked", () => {
     const onSeek = vi.fn();
     const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={0} onSeek={onSeek} />);

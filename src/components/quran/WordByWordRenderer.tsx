@@ -6,6 +6,8 @@ import type { Word } from "@/types/quran";
 export type WordByWordRendererProps = {
   words: Word[];
   currentTimeMs: number;
+  /** When set, word timeline is scaled to match actual clip duration so highlight stays in sync */
+  audioDurationMs?: number;
   onSeek?: (word: Word) => void;
   showInterlinear?: boolean;
   className?: string;
@@ -68,6 +70,7 @@ const MemoizedWordSpan = memo(WordSpan);
 export function WordByWordRenderer({
   words,
   currentTimeMs,
+  audioDurationMs,
   onSeek,
   showInterlinear = false,
   className = "",
@@ -75,6 +78,15 @@ export function WordByWordRenderer({
 }: WordByWordRendererProps) {
   const baseClass = "font-arabic leading-[1.9] text-center";
   const wrapperClass = [baseClass, className].filter(Boolean).join(" ");
+
+  const refDurationMs = words.length > 0 ? Math.max(...words.map((w) => w.endTimeMs)) : 0;
+  const scale =
+    audioDurationMs != null &&
+    audioDurationMs > 0 &&
+    refDurationMs > 0
+      ? refDurationMs / audioDurationMs
+      : 1;
+  const wordTimeMs = currentTimeMs * scale;
 
   return (
     <p
@@ -86,7 +98,7 @@ export function WordByWordRenderer({
     >
       {words.map((word) => {
         const isActive =
-          currentTimeMs >= word.startTimeMs && currentTimeMs < word.endTimeMs;
+          wordTimeMs >= word.startTimeMs && wordTimeMs < word.endTimeMs;
         return (
           <MemoizedWordSpan
             key={word.id}
