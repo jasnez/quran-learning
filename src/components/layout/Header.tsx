@@ -80,19 +80,19 @@ export function Header() {
 
           <div className="hidden items-center gap-5 sm:flex">
             <Link href="/surahs" className={TEXT_LINK}>
-              Surahs
+              Sure
             </Link>
             <Link href="/test/1" className={TEXT_LINK}>
-              Quiz
+              Kviz
             </Link>
             <Link href="/tajwid" className={TEXT_LINK}>
-              Tajwid lekcije
+              Tedžvid lekcije
             </Link>
             <Link href="/progress" className={TEXT_LINK}>
-              Progress
+              Napredak
             </Link>
             <Link href="/bookmarks" className={TEXT_LINK}>
-              Bookmarks
+              Zabilješke
             </Link>
           </div>
 

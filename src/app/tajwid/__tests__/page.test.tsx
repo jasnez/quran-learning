@@ -76,11 +76,11 @@ beforeEach(() => {
 });
 
 describe("Tajwid lessons listing page", () => {
-  it("shows page heading 'Tajwid lekcije'", async () => {
+  it("shows page heading 'Tedžvid lekcije'", async () => {
     const Page = await TajwidLessonsPage();
     render(Page);
     expect(
-      screen.getByRole("heading", { name: /tajwid lekcije/i })
+      screen.getByRole("heading", { name: /tedžvid lekcije/i })
     ).toBeInTheDocument();
   });
 

@@ -223,12 +223,12 @@ describe("Header", () => {
 
   it("has Surahs link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /surahs/i })).toHaveAttribute("href", "/surahs");
+    expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
   });
 
   it("has Quiz link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /quiz/i })).toHaveAttribute("href", "/test/1");
+    expect(screen.getByRole("link", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
   });
 
   it("has Search link", () => {
@@ -238,14 +238,14 @@ describe("Header", () => {
 
   it("has Bookmarks link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const links = screen.getAllByRole("link", { name: /bookmarks|označeni ajeti/i });
+    const links = screen.getAllByRole("link", { name: /zabilješke|označeni ajeti/i });
     expect(links.length).toBeGreaterThanOrEqual(1);
     expect(links.some((el) => (el as HTMLAnchorElement).getAttribute("href") === "/bookmarks")).toBe(true);
   });
 
   it("has Progress link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
+    expect(screen.getByRole("link", { name: /napredak/i })).toHaveAttribute("href", "/progress");
   });
 
   it("has settings control", () => {
@@ -348,19 +348,19 @@ describe("MobileNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Sure, Learn, Home, Više and Progress (search, bookmarks and settings are in header)", () => {
+  it("includes Sure, Learn, Početna, Više and Napredak (search, bookmarks and settings are in header)", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /početna/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
     expect(screen.getByRole("button", { name: /više/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
+    expect(screen.getByRole("link", { name: /napredak/i })).toHaveAttribute("href", "/progress");
     expect(screen.queryByRole("link", { name: /pretraga/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /označeno/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /postavke/i })).not.toBeInTheDocument();
   });
 
-  it("Više button opens menu with Kviz and Tajwid lekcije", async () => {
+  it("Više button opens menu with Kviz and Tedžvid lekcije", async () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     const moreBtn = screen.getByRole("button", { name: /više/i });
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
@@ -369,6 +369,6 @@ describe("MobileNav", () => {
     const menu = screen.getByRole("menu", { name: /više opcija/i });
     expect(menu).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
-    expect(screen.getByRole("menuitem", { name: /tajwid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
   });
 });

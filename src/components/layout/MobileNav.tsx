@@ -64,7 +64,7 @@ export function MobileNav() {
           aria-current={isHome ? "page" : undefined}
         >
           <HomeIcon className="h-5 w-5" />
-          <span>Home</span>
+          <span>Početna</span>
         </Link>
         <Link
           href="/progress"
@@ -72,7 +72,7 @@ export function MobileNav() {
           aria-current={isProgress ? "page" : undefined}
         >
           <ProgressIcon className="h-5 w-5" />
-          <span>Progress</span>
+          <span>Napredak</span>
         </Link>
         <div className="relative flex flex-1 flex-col" ref={moreRef}>
           <button
@@ -106,7 +106,7 @@ export function MobileNav() {
                 onClick={() => setMoreOpen(false)}
                 className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
               >
-                Tajwid lekcije
+                Tedžvid lekcije
               </Link>
             </div>
           )}

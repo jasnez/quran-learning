@@ -29,9 +29,11 @@ export default async function Home() {
     <article className="space-y-24 md:space-y-32">
       {/* Hero */}
       <section
-        className="relative overflow-hidden rounded-2xl bg-stone-50 px-6 py-16 dark:bg-stone-900/50 md:px-12 md:py-24"
+        className="relative overflow-hidden rounded-2xl bg-stone-50 px-6 py-16 dark:bg-stone-900/50 md:px-12 md:py-24 bg-cover bg-[center_right] bg-no-repeat"
+        style={{ backgroundImage: "url('/hero-bg.png')" }}
         aria-labelledby="hero-title"
       >
+        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-white/50 dark:bg-stone-900/70" aria-hidden />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-end opacity-[0.03] dark:opacity-[0.05]">
           <div className="h-[280px] w-[280px] rounded-full border-[80px] border-emerald-900/20 dark:border-emerald-800/20" />
         </div>
