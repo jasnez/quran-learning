@@ -40,9 +40,10 @@ U Vercel projektu: **Settings** → **Environment Variables**. Dodaj za **Produc
 |-----|------------|----------|
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://xivwzevkvpjwtgjvujyr.supabase.co` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJ...` (tvoj anon key) | Supabase Dashboard → Settings → API → anon public |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (tvoj service_role key) | **Preporučeno za produkciju:** server-side čitanje zaobilazi RLS; Dashboard → API → service_role |
 | `NEXT_PUBLIC_AUDIO_CDN_URL` | `https://xivwzevkvpjwtgjvujyr.supabase.co/storage/v1/object/public/audio` | Bez trailing slash |
 
-**Važno:** Sve tri su potrebne da na produkciji rade podaci (Supabase) i audio (CDN). Bez `NEXT_PUBLIC_AUDIO_CDN_URL` audio će ići s everyayah.com fallbacka.
+**Važno:** Prve tri su potrebne da na produkciji rade podaci (Supabase). Bez `SUPABASE_SERVICE_ROLE_KEY` server koristi anon key i RLS mora dozvoljavati SELECT; ako vidiš „Failed to fetch surahs”, dodaj `SUPABASE_SERVICE_ROLE_KEY` i Redeploy. Bez `NEXT_PUBLIC_AUDIO_CDN_URL` audio ide s everyayah.com fallbacka.
 
 Nakon dodavanja varijabli, **Save** i ponovo pokreni deploy (Deployments → ... → Redeploy).
 
@@ -89,6 +90,7 @@ U Vercelu: **Settings** → **Domains** → dodaj svoju domenu i slijedi upute z
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xivwzevkvpjwtgjvujyr.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key-iz-dashboarda>
+SUPABASE_SERVICE_ROLE_KEY=<service_role-key-iz-dashboarda>
 NEXT_PUBLIC_AUDIO_CDN_URL=https://xivwzevkvpjwtgjvujyr.supabase.co/storage/v1/object/public/audio
 ```
 

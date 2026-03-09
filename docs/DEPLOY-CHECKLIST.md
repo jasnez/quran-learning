@@ -10,10 +10,12 @@ Prije nego kreneš: u terminalu u folderu `quran-learning` pokreni **`npm run de
 
 - **Korak 1** – samo ako imaš lokalne promjene koje još nisu na GitHubu: `git add` / `commit` / `push`.
 - **Korak 2** – **preskoči** (projekt na Vercelu već postoji i već je povezan na repo).
-- **Korak 3** – u **postojećem** Vercel projektu: **Settings** → **Environment Variables** → dodaj tri varijable (ili provjeri jesu li već tamo).
+- **Korak 3** – u **postojećem** Vercel projektu: **Settings** → **Environment Variables** → dodaj **četiri** varijable (ili provjeri jesu li već tamo): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, **`SUPABASE_SERVICE_ROLE_KEY`** (preporučeno za produkciju – server tada čita bazu bez RLS), `NEXT_PUBLIC_AUDIO_CDN_URL`.
 - **Korak 4** – u istom projektu: **Redeploy** (da se build napravi s novim env varijablama).
 - **Korak 5** – u Supabaseu u CORS dodaj **tvoju production URL** (npr. `https://quran-learning-sigma.vercel.app`).
 - **Korak 6** – provjeri na toj URL da sve radi (uključujući audio).
+
+**Ako vidiš grešku „Failed to fetch surahs”:** (1) Dodaj na Vercel env **`SUPABASE_SERVICE_ROLE_KEY`** (Supabase Dashboard → Settings → API → service_role key), pa **Redeploy**. (2) Ako i dalje ne radi, provjeri da su u Supabaseu pokrenuti SQL za tablice (`supabase/RUN_ME_IN_SQL_EDITOR.sql`) i da je seed pokrenut (`npm run seed`).
 
 ---
 
@@ -44,9 +46,9 @@ git push origin main
 
 ## Korak 3: Vercel – Environment Variables
 
-**Važno:** Ove varijable moraju biti postavljene **prije** ili **za vrijeme** builda. Ako vidiš praznu stranicu ili grešku „Nešto nije u redu”, provjeri da su sve tri varijable dodane za **Production** (ne samo Preview), pa u **Deployments** odaberi **Redeploy** (potpuni novi build, ne „Redeploy with existing build”).
+**Važno:** Ove varijable moraju biti postavljene **prije** ili **za vrijeme** builda. Ako vidiš praznu stranicu ili grešku „Nešto nije u redu”, provjeri da su sve **četiri** varijable dodane za **Production** (ne samo Preview), pa u **Deployments** odaberi **Redeploy** (potpuni novi build, ne „Redeploy with existing build”).
 
-U projektu: **Settings** → **Environment Variables**. Za **Production** (i po želji **Preview**) dodaj tri varijable:
+U projektu: **Settings** → **Environment Variables**. Za **Production** (i po želji **Preview**) dodaj **četiri** varijable:
 
 **1. NEXT_PUBLIC_SUPABASE_URL**  
 Key: `NEXT_PUBLIC_SUPABASE_URL`  
@@ -59,7 +61,11 @@ https://xivwzevkvpjwtgjvujyr.supabase.co
 Key: `NEXT_PUBLIC_SUPABASE_ANON_KEY`  
 Value: otvori [Supabase Dashboard → Settings → API](https://supabase.com/dashboard/project/xivwzevkvpjwtgjvujyr/settings/api) i kopiraj **anon public** key (počinje s `eyJ...`).
 
-**3. NEXT_PUBLIC_AUDIO_CDN_URL**  
+**3. SUPABASE_SERVICE_ROLE_KEY** (preporučeno za produkciju)  
+Key: `SUPABASE_SERVICE_ROLE_KEY`  
+Value: u istom Supabase Dashboard → **API** → **service_role** key (secret). Na serveru aplikacija tada čita bazu s ovim ključem i zaobilazi RLS – često rješava „Failed to fetch surahs” ako anon + RLS ne rade.
+
+**4. NEXT_PUBLIC_AUDIO_CDN_URL**  
 Key: `NEXT_PUBLIC_AUDIO_CDN_URL`  
 Value (kopiraj, bez razmaka na kraju):
 ```
@@ -120,7 +126,7 @@ Na production URL-u:
 | Gdje | Što |
 |------|-----|
 | Git | Samo ako imaš nove promjene: `git add` / `commit` / `push` (Korak 1). |
-| Vercel | **Postojeći** projekt: dodaj 3 env varijable (Korak 3), pa **Redeploy** (Korak 4). |
+| Vercel | **Postojeći** projekt: dodaj **4** env varijable (uključujući **SUPABASE_SERVICE_ROLE_KEY**), pa **Redeploy** (Korak 4). |
 | Supabase | CORS – dopusti origin `https://quran-learning-sigma.vercel.app` (Korak 5). |
 
 Novi repo ili novi Vercel projekt **ne trebaju** – sve radi u onome što već imaš.

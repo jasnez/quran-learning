@@ -95,7 +95,9 @@ export async function fetchSurahsFromDb(): Promise<SurahSummary[]> {
     .from("surahs")
     .select("surah_number, slug, name_arabic, name_latin, name_bosnian, revelation_type, ayah_count")
     .order("surah_number", { ascending: true });
-  if (error) throw new Error("Failed to fetch surahs");
+  if (error) {
+    throw new Error(`Failed to fetch surahs: ${error.message} (code: ${error.code ?? "unknown"}). Provjeri da si u Supabaseu pokrenuo SQL za tablice (supabase/RUN_ME_IN_SQL_EDITOR.sql) i seed (npm run seed).`);
+  }
   return (data ?? []).map(rowToSurahSummary);
 }
 
@@ -106,7 +108,11 @@ export async function fetchSurahDetailFromDb(surahNumber: number): Promise<Surah
     .select("id, surah_number, slug, name_arabic, name_latin, name_bosnian, revelation_type, ayah_count")
     .eq("surah_number", surahNumber)
     .maybeSingle();
-  if (surahErr || !surahRow) throw new Error("Surah not found");
+  if (surahErr || !surahRow) {
+    throw new Error(
+      surahErr ? `Surah not found: ${surahErr.message}` : "Surah not found"
+    );
+  }
   const surah = rowToSurahSummary(surahRow);
   const surahId = (surahRow as { id: number }).id;
 
@@ -127,7 +133,9 @@ export async function fetchSurahDetailFromDb(surahNumber: number): Promise<Surah
     supabase.from("tajwid_markup").select("ayah_id, markup_payload").eq("rule_system", "tajwid_5_mvp"),
     supabase.from("audio_tracks").select("ayah_id, reciter_id, file_url, duration_ms"),
   ]);
-  if (ayahErr) throw new Error("Failed to fetch ayahs");
+  if (ayahErr) {
+    throw new Error(`Failed to fetch ayahs: ${ayahErr.message}`);
+  }
 
   const ayahsData = (ayahRows ?? []) as AyahRow[];
   const transByAyah = new Map<number, TranslationRow>();

@@ -45,8 +45,20 @@ describe("Supabase client", () => {
   it("throws when NEXT_PUBLIC_SUPABASE_ANON_KEY is missing", async () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL = "https://example.supabase.co";
     delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
     vi.resetModules();
     const { getSupabaseClient: getClient } = await import("../client");
     expect(() => getClient()).toThrow(/ANON_KEY|Supabase/);
+  });
+
+  it("uses service role key on server when set", async () => {
+    process.env.NEXT_PUBLIC_SUPABASE_URL = "https://example.supabase.co";
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = "anon";
+    process.env.SUPABASE_SERVICE_ROLE_KEY = "service-role-key";
+    vi.resetModules();
+    const { getSupabaseClient: getClient } = await import("../client");
+    const client = getClient();
+    expect(client).toBeDefined();
+    expect(typeof client.from).toBe("function");
   });
 });
