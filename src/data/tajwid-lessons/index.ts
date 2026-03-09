@@ -39,11 +39,11 @@ import lessonIkhfa from "./lesson-4-ikhfa.json";
 import lessonQalqalah from "./lesson-5-qalqalah.json";
 
 const ALL_LESSONS: TajwidLesson[] = [
-  lessonIntro,
-  lessonMad,
-  lessonGhunnah,
-  lessonIkhfa,
-  lessonQalqalah,
+  lessonIntro as TajwidLesson,
+  lessonMad as TajwidLesson,
+  lessonGhunnah as TajwidLesson,
+  lessonIkhfa as TajwidLesson,
+  lessonQalqalah as TajwidLesson,
 ];
 
 export async function getAllTajwidLessons(): Promise<TajwidLesson[]> {
