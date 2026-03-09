@@ -38,80 +38,80 @@ export function MobileNav() {
   return (
     <>
       <nav
-      role="navigation"
-      aria-label="Mobile navigation"
-      className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
-    >
-      <Link
-        href="/"
-        className={`flex-1 ${base} ${isHome ? active : inactive}`}
-        aria-current={isHome ? "page" : undefined}
+        role="navigation"
+        aria-label="Mobile navigation"
+        className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
       >
-        <HomeIcon className="h-5 w-5" />
-        <span>Home</span>
-      </Link>
-      <Link
-        href="/learn/1"
-        className={`flex-1 ${base} ${isLearn ? active : inactive}`}
-        aria-current={isLearn ? "page" : undefined}
-      >
-        <LearnIcon className="h-5 w-5" />
-        <span>Učenje</span>
-      </Link>
-      <Link
-        href="/surahs"
-        className={`flex-1 ${base} ${isSurahs ? active : inactive}`}
-        aria-current={isSurahs ? "page" : undefined}
-      >
-        <BookIcon className="h-5 w-5" />
-        <span>Sure</span>
-      </Link>
-      <div className="relative flex flex-1 flex-col" ref={moreRef}>
-        <button
-          type="button"
-          onClick={() => setMoreOpen((o) => !o)}
-          aria-expanded={moreOpen}
-          aria-haspopup="true"
-          aria-label="Više opcija"
-          className={`flex-1 ${base} ${inactive}`}
+        <Link
+          href="/surahs"
+          className={`flex-1 ${base} ${isSurahs ? active : inactive}`}
+          aria-current={isSurahs ? "page" : undefined}
         >
-          <MoreIcon className="h-5 w-5" />
-          <span>Više</span>
-        </button>
-        {moreOpen && (
-          <div
-            role="menu"
+          <BookIcon className="h-5 w-5" />
+          <span>Sure</span>
+        </Link>
+        <Link
+          href="/learn/1"
+          className={`flex-1 ${base} ${isLearn ? active : inactive}`}
+          aria-current={isLearn ? "page" : undefined}
+        >
+          <LearnIcon className="h-5 w-5" />
+          <span>Učenje</span>
+        </Link>
+        <Link
+          href="/"
+          className={`flex-1 ${base} ${isHome ? active : inactive}`}
+          aria-current={isHome ? "page" : undefined}
+        >
+          <HomeIcon className="h-5 w-5" />
+          <span>Home</span>
+        </Link>
+        <Link
+          href="/progress"
+          className={`flex-1 ${base} ${isProgress ? active : inactive}`}
+          aria-current={isProgress ? "page" : undefined}
+        >
+          <ProgressIcon className="h-5 w-5" />
+          <span>Progress</span>
+        </Link>
+        <div className="relative flex flex-1 flex-col" ref={moreRef}>
+          <button
+            type="button"
+            onClick={() => setMoreOpen((o) => !o)}
+            aria-expanded={moreOpen}
+            aria-haspopup="true"
             aria-label="Više opcija"
-            className="absolute bottom-full left-1/2 mb-1 min-w-[160px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
+            className={`flex-1 ${base} ${inactive}`}
           >
-            <Link
-              href="/test/1"
-              role="menuitem"
-              onClick={() => setMoreOpen(false)}
-              className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+            <MoreIcon className="h-5 w-5" />
+            <span>Više</span>
+          </button>
+          {moreOpen && (
+            <div
+              role="menu"
+              aria-label="Više opcija"
+              className="absolute bottom-full left-1/2 mb-1 min-w-[160px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
             >
-              Kviz
-            </Link>
-            <Link
-              href="/tajwid"
-              role="menuitem"
-              onClick={() => setMoreOpen(false)}
-              className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-            >
-              Tajwid lekcije
-            </Link>
-          </div>
-        )}
-      </div>
-      <Link
-        href="/progress"
-        className={`flex-1 ${base} ${isProgress ? active : inactive}`}
-        aria-current={isProgress ? "page" : undefined}
-      >
-        <ProgressIcon className="h-5 w-5" />
-        <span>Progress</span>
-      </Link>
-    </nav>
+              <Link
+                href="/test/1"
+                role="menuitem"
+                onClick={() => setMoreOpen(false)}
+                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+              >
+                Kviz
+              </Link>
+              <Link
+                href="/tajwid"
+                role="menuitem"
+                onClick={() => setMoreOpen(false)}
+                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+              >
+                Tajwid lekcije
+              </Link>
+            </div>
+          )}
+        </div>
+      </nav>
     </>
   );
 }

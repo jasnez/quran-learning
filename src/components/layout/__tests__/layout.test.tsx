@@ -290,7 +290,7 @@ describe("MobileNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Home, Learn, Sure, Više and Progress (search, bookmarks and settings are in header)", () => {
+  it("includes Sure, Learn, Home, Više and Progress (search, bookmarks and settings are in header)", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
