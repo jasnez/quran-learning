@@ -6,8 +6,10 @@ import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
+import type { WordData, WordTimingSegment } from "@/types/wordByWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
+import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterRenderer";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 const ARABIC_MIN_MOBILE_PX = 22;
@@ -29,6 +31,13 @@ type AyahCardProps = {
   audioDurationMs?: number;
   /** Called when user clicks a word to seek (word-level mode). Pass seekSeconds so parent can seek to correct position. */
   onSeekWord?: (word: Word, seekSeconds: number) => void;
+  /** Quran.com API: words for this verse (chapter-level audio) */
+  chapterWords?: WordData[];
+  /** Quran.com API: segments for this verse */
+  chapterSegments?: WordTimingSegment[];
+  /** Quran.com API: seek to word start in chapter audio */
+  /** Quran.com API: seek to word start in chapter audio */
+  onChapterWordClick?: (wordPosition: number, startMs: number) => void;
 };
 
 function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
@@ -49,6 +58,9 @@ export function AyahCard({
   currentTimeMs = 0,
   audioDurationMs,
   onSeekWord,
+  chapterWords,
+  chapterSegments,
+  onChapterWordClick,
 }: AyahCardProps) {
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
@@ -106,6 +118,9 @@ export function AyahCard({
       : [{ text: ayah.arabicText, rule: "normal" as const }];
 
   const useWordByWord = Boolean(wordLevelSync && words && words.length > 0);
+  const useChapterWordByWord = Boolean(
+    chapterWords?.length && chapterSegments?.length && onChapterWordClick
+  );
 
   return (
     <article
@@ -159,7 +174,20 @@ export function AyahCard({
       </div>
 
       {/* Arabic */}
-      {useWordByWord ? (
+      {useChapterWordByWord ? (
+        <WordByWordChapterRenderer
+          verseKey={ayah.id}
+          words={chapterWords!}
+          segments={chapterSegments!}
+          currentTimeMs={currentTimeMs}
+          isPlaying={isThisAyahPlaying}
+          showTajwidColors={showTajwidColors}
+          onWordClick={onChapterWordClick}
+          showInterlinear={false}
+          className="text-center"
+          style={{ fontSize: `${effectiveFontSize}px` }}
+        />
+      ) : useWordByWord ? (
         <WordByWordRenderer
           words={words!}
           currentTimeMs={currentTimeMs}

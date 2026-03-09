@@ -3,14 +3,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { SurahSummary, Ayah, Word } from "@/types/quran";
+import type { ChapterAudioData, WordData } from "@/types/wordByWord";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
+import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
+import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterRenderer";
 import { TajwidLegend } from "@/components/quran";
 import { normalizeWordsToAyahRelative } from "@/lib/quran/wordUtils";
 
@@ -38,8 +41,15 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
   const next = usePlayerStore((s) => s.next);
   const previous = usePlayerStore((s) => s.previous);
+  const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
+  const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
+  const setChapterAudio = usePlayerStore((s) => s.setChapterAudio);
+  const currentTimeMsStore = usePlayerStore((s) => s.currentTimeMs);
 
   const [words, setWords] = useState<Word[]>([]);
+  const [showWordMeaning, setShowWordMeaning] = useState(true);
+  const [chapterAudioData, setChapterAudioData] = useState<ChapterAudioData | null>(null);
+  const [wordDataMap, setWordDataMap] = useState<Map<string, WordData[]>>(new Map());
 
   const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
   const showToast = useToastStore((s) => s.showToast);
@@ -91,6 +101,28 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   }, [surah.surahNumber]);
 
   useEffect(() => {
+    if (!wordByWordMode || surah.surahNumber < 1 || surah.surahNumber > 114) return;
+    let cancelled = false;
+    Promise.all([fetchChapterAudioData(surah.surahNumber), fetchWordData(surah.surahNumber)])
+      .then(([audioData, wMap]) => {
+        if (cancelled) return;
+        setChapterAudioData(audioData);
+        setWordDataMap(wMap);
+        setChapterAudio(audioData.audioUrl, audioData.timestamps);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setChapterAudioData(null);
+          setWordDataMap(new Map());
+          setChapterAudio(null, null);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [wordByWordMode, surah.surahNumber, setChapterAudio]);
+
+  useEffect(() => {
     if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
   }, [surah?.surahNumber]);
 
@@ -125,7 +157,14 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   }, [words, ayah.id]);
 
   const useWordByWord = wordsForAyah.length > 0;
-  const currentTimeMs = currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0;
+  const chapterWords = wordDataMap.get(ayah.id);
+  const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
+  const useChapterWordByWord =
+    wordByWordMode &&
+    !!chapterWords?.length &&
+    !!verseTimestamp?.segments?.length;
+  const currentTimeMs =
+    currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMsStore : Math.round(currentTime * 1000)) : 0;
   const audioDurationMs =
     currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined;
 
@@ -143,6 +182,18 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
       setPendingSeek(seekSeconds);
       setQueue(ayahs);
       play(ayah);
+    }
+  };
+
+  const handleChapterWordClick = (wordPosition: number, startMs: number) => {
+    const seekSeconds = startMs / 1000;
+    if (currentAyahId === ayah.id) {
+      audioManager.seek(seekSeconds);
+      setCurrentTime(seekSeconds);
+    } else {
+      setQueue(ayahs);
+      play(ayah);
+      setPendingSeek(seekSeconds);
     }
   };
 
@@ -194,7 +245,20 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
       {/* Center: Arabic (very large), transliteration, translation */}
       <section className="flex flex-1 flex-col justify-center py-8" aria-label="Trenutni ajet">
         <article className="rounded-2xl border border-stone-200/80 bg-white/50 px-6 py-10 dark:border-stone-700/80 dark:bg-stone-900/20">
-          {useWordByWord ? (
+          {useChapterWordByWord ? (
+            <WordByWordChapterRenderer
+              verseKey={ayah.id}
+              words={chapterWords!}
+              segments={verseTimestamp!.segments}
+              currentTimeMs={currentTimeMs}
+              isPlaying={isThisAyahPlaying}
+              showTajwidColors={showTajwidColors}
+              onWordClick={handleChapterWordClick}
+              showInterlinear={showWordMeaning}
+              className="text-center"
+              style={{ fontSize: `${learnFontSize}px` }}
+            />
+          ) : useWordByWord ? (
             <WordByWordRenderer
               words={wordsForAyah}
               currentTimeMs={currentTimeMs}
@@ -278,6 +342,26 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
           </button>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
+            aria-label={wordByWordMode ? "Isključi riječ po riječ" : "Uključi riječ po riječ"}
+            aria-pressed={wordByWordMode}
+            onClick={() => setWordByWordMode(!wordByWordMode)}
+          >
+            Riječ po riječ
+          </button>
+          {wordByWordMode && (
+            <button
+              type="button"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
+              aria-label={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
+              aria-pressed={showWordMeaning}
+              onClick={() => setShowWordMeaning(!showWordMeaning)}
+            >
+              Prikaži značenje riječi
+            </button>
+          )}
           <button
             type="button"
             className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"

@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import type { Ayah, Word } from "@/types/quran";
+import type { ChapterAudioData, WordData } from "@/types/wordByWord";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
+import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
 import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
@@ -19,8 +21,12 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const currentTime = usePlayerStore((s) => s.currentTime);
+  const currentTimeMs = usePlayerStore((s) => s.currentTimeMs);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const duration = usePlayerStore((s) => s.duration);
+  const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
+  const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
+  const setChapterAudio = usePlayerStore((s) => s.setChapterAudio);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
@@ -28,6 +34,9 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
 
   const [words, setWords] = useState<Word[]>([]);
   const [wordLevelSync, setWordLevelSync] = useState(false);
+  const [chapterAudioData, setChapterAudioData] = useState<ChapterAudioData | null>(null);
+  const [wordDataMap, setWordDataMap] = useState<Map<string, WordData[]>>(new Map());
+  const [chapterDataError, setChapterDataError] = useState(false);
 
   const prevAyahIdRef = useRef<string | null>(null);
   const progressTrackedRef = useRef(false);
@@ -58,6 +67,30 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
     };
   }, [surahNumber]);
 
+  useEffect(() => {
+    if (!wordByWordMode || surahNumber < 1 || surahNumber > 114) return;
+    setChapterDataError(false);
+    let cancelled = false;
+    Promise.all([fetchChapterAudioData(surahNumber), fetchWordData(surahNumber)])
+      .then(([audioData, wMap]) => {
+        if (cancelled) return;
+        setChapterAudioData(audioData);
+        setWordDataMap(wMap);
+        setChapterAudio(audioData.audioUrl, audioData.timestamps);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setChapterDataError(true);
+          setChapterAudioData(null);
+          setWordDataMap(new Map());
+          setChapterAudio(null, null);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [wordByWordMode, surahNumber, setChapterAudio]);
+
   const wordsByAyahKey = useMemo(() => {
     const map = new Map<string, Word[]>();
     for (const w of words) {
@@ -83,6 +116,18 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
       setPendingSeek(seekSeconds);
       setQueue(ayahs);
       play(ayah);
+    }
+  };
+
+  const handleChapterWordClick = (clickedAyah: Ayah, wordPosition: number, startMs: number) => {
+    const seekSeconds = startMs / 1000;
+    if (currentAyahId === clickedAyah.id) {
+      audioManager.seek(seekSeconds);
+      setCurrentTime(seekSeconds);
+    } else {
+      setQueue(ayahs);
+      play(clickedAyah);
+      setPendingSeek(seekSeconds);
     }
   };
 
@@ -159,43 +204,81 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
           <TajwidLegend />
         </div>
       )}
-      {hasWordData && (
-        <div className="mb-6 flex items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3">
-          <span className="text-sm text-stone-600 dark:text-stone-400">
-            Sinhronizacija s audioom
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              role="switch"
-              aria-checked={!wordLevelSync}
-              onClick={() => setWordLevelSync(false)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                !wordLevelSync
-                  ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                  : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
-              }`}
-            >
-              Po ajetu
-            </button>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={wordLevelSync}
-              onClick={() => setWordLevelSync(true)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                wordLevelSync
-                  ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                  : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
-              }`}
-            >
-              Po riječi
-            </button>
-          </div>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3">
+        <span className="text-sm text-stone-600 dark:text-stone-400">
+          Sinhronizacija s audioom
+        </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={!wordByWordMode}
+            onClick={() => setWordByWordMode(false)}
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              !wordByWordMode
+                ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+            }`}
+          >
+            Po ajetu
+          </button>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={wordByWordMode}
+            onClick={() => setWordByWordMode(true)}
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              wordByWordMode
+                ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+            }`}
+          >
+            Riječ po riječ
+          </button>
+          {hasWordData && (
+            <>
+              <span className="text-stone-400 dark:text-stone-500">|</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={!wordLevelSync}
+                onClick={() => setWordLevelSync(false)}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  !wordLevelSync
+                    ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                    : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                }`}
+              >
+                Po ajetu (baza)
+              </button>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={wordLevelSync}
+                onClick={() => setWordLevelSync(true)}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  wordLevelSync
+                    ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
+                    : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                }`}
+              >
+                Po riječi (baza)
+              </button>
+            </>
+          )}
         </div>
+      </div>
+      {wordByWordMode && chapterDataError && (
+        <p className="mb-4 text-sm text-amber-600 dark:text-amber-400">
+          Highlight po riječima (Quran.com) nije dostupan. Koristite „Po ajetu” ili „Po riječi (baza)”.
+        </p>
       )}
       <ul className="space-y-14 list-none" role="list">
-      {ayahs.map((ayah) => (
+      {ayahs.map((ayah) => {
+        const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
+        const chapterWords = wordDataMap.get(ayah.id);
+        const useChapterRenderer = wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
+        return (
         <li key={ayah.id}>
           <AyahCard
             ayah={ayah}
@@ -206,13 +289,17 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
             showTranslation={showTranslation}
             showTajwidColors={showTajwidColors}
             words={wordsByAyahKey.get(ayah.id)}
-            wordLevelSync={wordLevelSync}
-            currentTimeMs={currentAyahId === ayah.id ? Math.round(currentTime * 1000) : 0}
-            audioDurationMs={currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined}
-            onSeekWord={wordLevelSync ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds) : undefined}
+            wordLevelSync={wordLevelSync && !wordByWordMode}
+            currentTimeMs={currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMs : Math.round(currentTime * 1000)) : 0}
+            audioDurationMs={currentAyahId === ayah.id && duration > 0 && !wordByWordMode ? Math.round(duration * 1000) : undefined}
+            onSeekWord={wordLevelSync && !wordByWordMode ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds) : undefined}
+            chapterWords={useChapterRenderer ? chapterWords : undefined}
+            chapterSegments={useChapterRenderer ? verseTimestamp!.segments : undefined}
+            onChapterWordClick={useChapterRenderer ? (pos, startMs) => handleChapterWordClick(ayah, pos, startMs) : undefined}
           />
         </li>
-      ))}
+        );
+      })}
     </ul>
     </>
   );

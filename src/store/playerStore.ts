@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { PlayerState } from "@/types/audio";
 import type { Ayah } from "@/types/quran";
+import type { VerseTimestamp } from "@/types/wordByWord";
 
 const DEFAULT_RECITER = "mishary-alafasy";
 
@@ -30,6 +31,9 @@ type PlayerStore = PlayerState & {
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
   setPendingSeek: (seconds: number | null) => void;
+  setWordByWordMode: (enabled: boolean) => void;
+  setChapterAudio: (url: string | null, timestamps: VerseTimestamp[] | null) => void;
+  setCurrentTimeMs: (ms: number) => void;
   stop: () => void;
 };
 
@@ -42,17 +46,34 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   duration: 0,
   activeAudioSrc: null,
   pendingSeekToSeconds: null,
+  wordByWordMode: false,
+  chapterAudioUrl: null,
+  chapterTimestamps: null,
+  currentTimeMs: 0,
 
   play: (ayah) => {
-    const { queue } = get();
+    const { queue, wordByWordMode, chapterAudioUrl, chapterTimestamps } = get();
     const inQueue = queue.some((a) => a.id === ayah.id);
-    const url = (ayah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(ayah.id);
+    let url: string;
+    let pendingSeek: number | null = null;
+    if (wordByWordMode && chapterAudioUrl && chapterTimestamps?.length) {
+      const verse = chapterTimestamps.find((t) => t.verseKey === ayah.id);
+      if (verse) {
+        url = chapterAudioUrl;
+        pendingSeek = verse.timestampFrom / 1000;
+      } else {
+        url = (ayah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(ayah.id);
+      }
+    } else {
+      url = (ayah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(ayah.id);
+    }
     set({
       currentSurahId: surahIdFromAyahId(ayah.id),
       currentAyahId: ayah.id,
       activeAudioSrc: url || null,
       isPlaying: true,
       queue: inQueue ? queue : [ayah],
+      pendingSeekToSeconds: pendingSeek,
     });
   },
 
@@ -61,47 +82,86 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   resume: () => set({ isPlaying: true }),
 
   next: () => {
-    const { queue, currentAyahId } = get();
+    const { queue, currentAyahId, wordByWordMode, chapterAudioUrl, chapterTimestamps } = get();
     const idx = queue.findIndex((a) => a.id === currentAyahId);
     if (idx < 0 || idx >= queue.length - 1) {
       set({ isPlaying: false });
       return false;
     }
     const nextAyah = queue[idx + 1];
-    const url = (nextAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(nextAyah.id);
+    let url: string;
+    let pendingSeek: number | null = null;
+    if (wordByWordMode && chapterAudioUrl && chapterTimestamps?.length) {
+      const verse = chapterTimestamps.find((t) => t.verseKey === nextAyah.id);
+      if (verse) {
+        url = chapterAudioUrl;
+        pendingSeek = verse.timestampFrom / 1000;
+      } else {
+        url = (nextAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(nextAyah.id);
+      }
+    } else {
+      url = (nextAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(nextAyah.id);
+    }
     set({
       currentSurahId: surahIdFromAyahId(nextAyah.id),
       currentAyahId: nextAyah.id,
       activeAudioSrc: url || null,
       isPlaying: true,
+      pendingSeekToSeconds: pendingSeek,
     });
     return true;
   },
 
   previous: () => {
-    const { queue, currentAyahId } = get();
+    const { queue, currentAyahId, wordByWordMode, chapterAudioUrl, chapterTimestamps } = get();
     const idx = queue.findIndex((a) => a.id === currentAyahId);
     if (idx <= 0) return;
     const prevAyah = queue[idx - 1];
-    const url = (prevAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(prevAyah.id);
+    let url: string;
+    let pendingSeek: number | null = null;
+    if (wordByWordMode && chapterAudioUrl && chapterTimestamps?.length) {
+      const verse = chapterTimestamps.find((t) => t.verseKey === prevAyah.id);
+      if (verse) {
+        url = chapterAudioUrl;
+        pendingSeek = verse.timestampFrom / 1000;
+      } else {
+        url = (prevAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(prevAyah.id);
+      }
+    } else {
+      url = (prevAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(prevAyah.id);
+    }
     set({
       currentSurahId: surahIdFromAyahId(prevAyah.id),
       currentAyahId: prevAyah.id,
       activeAudioSrc: url || null,
       isPlaying: true,
+      pendingSeekToSeconds: pendingSeek,
     });
   },
 
   restartFromFirst: () => {
-    const { queue } = get();
+    const { queue, wordByWordMode, chapterAudioUrl, chapterTimestamps } = get();
     if (queue.length === 0) return;
     const first = queue[0];
-    const url = (first.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(first.id);
+    let url: string;
+    let pendingSeek: number | null = null;
+    if (wordByWordMode && chapterAudioUrl && chapterTimestamps?.length) {
+      const verse = chapterTimestamps.find((t) => t.verseKey === first.id);
+      if (verse) {
+        url = chapterAudioUrl;
+        pendingSeek = verse.timestampFrom / 1000;
+      } else {
+        url = (first.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(first.id);
+      }
+    } else {
+      url = (first.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(first.id);
+    }
     set({
       currentSurahId: surahIdFromAyahId(first.id),
       currentAyahId: first.id,
       activeAudioSrc: url || null,
       isPlaying: true,
+      pendingSeekToSeconds: pendingSeek,
     });
   },
 
@@ -120,6 +180,16 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   setDuration: (duration) => set({ duration }),
 
   setPendingSeek: (pendingSeekToSeconds) => set({ pendingSeekToSeconds }),
+
+  setWordByWordMode: (wordByWordMode) => set((state) => ({
+    wordByWordMode,
+    ...(wordByWordMode ? {} : { chapterAudioUrl: null, chapterTimestamps: null }),
+  })),
+
+  setChapterAudio: (chapterAudioUrl, chapterTimestamps) =>
+    set({ chapterAudioUrl, chapterTimestamps }),
+
+  setCurrentTimeMs: (currentTimeMs) => set({ currentTimeMs }),
 
   stop: () => set({ isPlaying: false, activeAudioSrc: null }),
 }));

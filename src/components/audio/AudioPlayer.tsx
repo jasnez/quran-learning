@@ -29,6 +29,7 @@ export function AudioPlayer() {
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
   const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
+  const setCurrentTimeMs = usePlayerStore((s) => s.setCurrentTimeMs);
 
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
@@ -85,12 +86,31 @@ export function AudioPlayer() {
       } else {
         const now = audioManager.getCurrentTime();
         setCurrentTime(now);
+        setCurrentTimeMs(Math.floor(now * 1000));
+      }
+      const state = usePlayerStore.getState();
+      if (state.wordByWordMode && state.chapterTimestamps?.length && state.currentAyahId) {
+        const verse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
+        const timeMs = Math.floor(audioManager.getCurrentTime() * 1000);
+        if (verse && timeMs >= verse.timestampTo) {
+          const advanced = state.next();
+          if (advanced) {
+            const nextVerse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
+            if (nextVerse) {
+              audioManager.seek(nextVerse.timestampFrom / 1000);
+              state.setCurrentTime(nextVerse.timestampFrom / 1000);
+              state.setCurrentTimeMs(nextVerse.timestampFrom);
+            }
+          } else {
+            state.pause();
+          }
+        }
       }
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [activeAudioSrc, isPlaying, setCurrentTime]);
+  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs]);
 
   // Time update and duration sync + listening time accumulation
   useEffect(() => {
