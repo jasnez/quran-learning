@@ -100,13 +100,61 @@ describe("AppShell", () => {
     expect(screen.getByRole("banner")).toBeInTheDocument();
   });
 
-  it("does not render a global Footer inside AppShell", () => {
+  it("renders Footer inside AppShell as part of page layout", () => {
     render(
       <AppShell>
         <span>x</span>
       </AppShell>
     );
-    expect(screen.queryByRole("contentinfo")).not.toBeInTheDocument();
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+  });
+
+  it("scroll container is flex column with min height for sticky footer", () => {
+    const { container } = render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
+    const scrollEl = container.querySelector("[data-scroll-container]");
+    expect(scrollEl).toBeInTheDocument();
+    expect(scrollEl?.className).toMatch(/flex.*flex-col|flex-col/);
+    expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh/);
+  });
+
+  it("main has flex-1 so footer sits at bottom when content is short", () => {
+    const { container } = render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
+    const main = container.querySelector("main");
+    expect(main?.className).toMatch(/flex-1/);
+  });
+
+  it("Footer is rendered after main in DOM order", () => {
+    const { container } = render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
+    const main = container.querySelector("main");
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(main).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+    const mainNext = main?.nextElementSibling;
+    expect(mainNext).toBe(footer);
+  });
+
+  it("main has bottom padding for spacing before footer (40px mobile, 64px desktop)", () => {
+    const { container } = render(
+      <AppShell>
+        <span>Content</span>
+      </AppShell>
+    );
+    const main = container.querySelector("main");
+    expect(main).toBeInTheDocument();
+    expect(main?.className).toMatch(/md:pb-16|md:pb-\[64px\]/);
+    expect(main?.className).toMatch(/pb-10|pb-\[40px\]|max-md:pb-\[126px\]/);
   });
 
   it("includes an audio player region", () => {
@@ -171,8 +219,8 @@ describe("AppShell", () => {
     );
     const main = container.querySelector("main");
     expect(main).toBeInTheDocument();
-    // At least 4rem (64px) or more for footer / controls clearance
-    expect(main?.className).toMatch(/pb-24|pb-\[96px\]|pb-32|pb-20|pb-16/);
+    // At least 4rem (64px) or more for footer / controls clearance on desktop
+    expect(main?.className).toMatch(/pb-24|pb-\[96px\]|pb-32|pb-20|pb-16|pb-10/);
   });
 });
 
@@ -246,24 +294,42 @@ describe("Header", () => {
 });
 
 describe("Footer", () => {
-  it("has About link", () => {
+  it("has link Početna", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /about/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /početna|pocetna|home/i })).toHaveAttribute("href", "/");
   });
 
-  it("has Contact link", () => {
+  it("has link Sure", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /contact/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
   });
 
-  it("has Sources link", () => {
+  it("has link Nastavi učenje", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /sources/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /nastavi učenje|nastavi ucenje/i })).toHaveAttribute("href", "/learn/1");
   });
 
-  it("has Privacy link", () => {
+  it("has link O platformi", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /privacy/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /o platformi|about/i })).toHaveAttribute("href", "/about");
+  });
+
+  it("shows platform name", () => {
+    const { container } = render(<Footer />);
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(footer).toHaveTextContent(/quran learning/i);
+  });
+
+  it("shows short description", () => {
+    const { container } = render(<Footer />);
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(footer).toHaveTextContent(/Platforma za učenje Kur'ana|transliteracijom/i);
+  });
+
+  it("shows copyright and Sva prava zadržana", () => {
+    render(<Footer />);
+    expect(screen.getByText(/©\s*2026|2026/i)).toBeInTheDocument();
+    expect(screen.getByText(/sva prava zadržana|zadržana/i)).toBeInTheDocument();
   });
 
   it("is not fixed to the viewport (part of page flow)", () => {
@@ -271,14 +337,21 @@ describe("Footer", () => {
     const footer = container.querySelector("footer[role='contentinfo']");
     expect(footer).toBeInTheDocument();
     expect(footer?.className).not.toMatch(/fixed/);
+    expect(footer?.className).not.toMatch(/sticky/);
+    expect(footer?.className).not.toMatch(/absolute/);
     expect(footer?.className).not.toMatch(/bottom-0|bottom-\[0\]/);
+  });
+
+  it("has top border", () => {
+    const { container } = render(<Footer />);
+    const footer = container.querySelector("footer[role='contentinfo']");
+    expect(footer?.className).toMatch(/border-t/);
   });
 
   it("does not use mobile bottom offset utility classes", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
     expect(footer).toBeInTheDocument();
-    // Footer is part of normal document flow, no fixed mobile offset utilities
     expect(footer?.className).not.toMatch(/max-md:bottom-14|max-md:bottom-\[56px\]/);
   });
 });
