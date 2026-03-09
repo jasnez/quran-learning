@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import type { SurahDetail, Ayah } from "@/types/quran";
-import { getAllSurahs } from "@/lib/data";
+import { getSurahsSync } from "@/lib/data";
 import { getUthmaniAyahs } from "./loadUthmaniXml";
 
 let cachedIndex: SurahDetail[] | null = null;
@@ -38,7 +38,7 @@ export function getSearchIndex(): SurahDetail[] {
     return cachedIndex;
   }
 
-  const surahs = getAllSurahs();
+  const surahs = getSurahsSync();
   const index: SurahDetail[] = [];
   let globalOffset = 0;
 

@@ -59,10 +59,10 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("@/lib/data", () => ({
   getSurahByNumber: vi.fn((n: number) => {
-    if (n === 1) return mockSurahDetail;
-    if (n === 2) return mockSurahDetailWithTajwid;
-    if (n >= 3 && n <= 114) return { ...mockSurahDetail, surah: { ...mockSurahDetail.surah, surahNumber: n }, ayahs: [] };
-    throw new RangeError("Invalid surah number");
+    if (n === 1) return Promise.resolve(mockSurahDetail);
+    if (n === 2) return Promise.resolve(mockSurahDetailWithTajwid);
+    if (n >= 3 && n <= 114) return Promise.resolve({ ...mockSurahDetail, surah: { ...mockSurahDetail.surah, surahNumber: n }, ayahs: [] });
+    return Promise.reject(new RangeError("Invalid surah number"));
   }),
 }));
 

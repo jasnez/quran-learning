@@ -1,8 +1,10 @@
 import { getAllSurahs } from "@/lib/data";
 import { SurahsContent } from "@/components/surahs";
 
-export default function SurahsPage() {
-  const surahs = getAllSurahs();
+export const dynamic = "force-dynamic";
+
+export default async function SurahsPage() {
+  const surahs = await getAllSurahs();
 
   return (
     <article className="mx-auto max-w-[900px]">

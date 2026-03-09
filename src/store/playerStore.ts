@@ -2,6 +2,17 @@ import { create } from "zustand";
 import type { PlayerState } from "@/types/audio";
 import type { Ayah } from "@/types/quran";
 
+const DEFAULT_RECITER = "mishary-alafasy";
+
+/** Build relative audio path from ayah id (e.g. "1:1" -> "/audio/mishary-alafasy/001001.mp3") so getResolvedAudioUrl can resolve to CDN or everyayah. */
+function defaultAudioUrlFromAyahId(ayahId: string): string {
+  const [s, a] = ayahId.split(":").map(Number);
+  const surah = (s ?? 1);
+  const ayah = (a ?? 1);
+  const pad = (n: number) => String(n).padStart(3, "0");
+  return `/audio/${DEFAULT_RECITER}/${pad(surah)}${pad(ayah)}.mp3`;
+}
+
 function surahIdFromAyahId(ayahId: string): string {
   const parts = ayahId.split(":");
   return parts[0] ?? "";
@@ -33,10 +44,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   play: (ayah) => {
     const { queue } = get();
     const inQueue = queue.some((a) => a.id === ayah.id);
+    const url = (ayah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(ayah.id);
     set({
       currentSurahId: surahIdFromAyahId(ayah.id),
       currentAyahId: ayah.id,
-      activeAudioSrc: ayah.audio?.url ?? null,
+      activeAudioSrc: url || null,
       isPlaying: true,
       queue: inQueue ? queue : [ayah],
     });
@@ -54,10 +66,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       return false;
     }
     const nextAyah = queue[idx + 1];
+    const url = (nextAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(nextAyah.id);
     set({
       currentSurahId: surahIdFromAyahId(nextAyah.id),
       currentAyahId: nextAyah.id,
-      activeAudioSrc: nextAyah.audio?.url ?? null,
+      activeAudioSrc: url || null,
       isPlaying: true,
     });
     return true;
@@ -68,10 +81,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const idx = queue.findIndex((a) => a.id === currentAyahId);
     if (idx <= 0) return;
     const prevAyah = queue[idx - 1];
+    const url = (prevAyah.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(prevAyah.id);
     set({
       currentSurahId: surahIdFromAyahId(prevAyah.id),
       currentAyahId: prevAyah.id,
-      activeAudioSrc: prevAyah.audio?.url ?? null,
+      activeAudioSrc: url || null,
       isPlaying: true,
     });
   },
@@ -80,10 +94,11 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const { queue } = get();
     if (queue.length === 0) return;
     const first = queue[0];
+    const url = (first.audio?.url ?? "").trim() || defaultAudioUrlFromAyahId(first.id);
     set({
       currentSurahId: surahIdFromAyahId(first.id),
       currentAyahId: first.id,
-      activeAudioSrc: first.audio?.url ?? null,
+      activeAudioSrc: url || null,
       isPlaying: true,
     });
   },

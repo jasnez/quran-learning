@@ -9,7 +9,6 @@ import { getAllSurahs } from "@/lib/data";
 import { ContinueLearningSection } from "@/components/home/ContinueLearningSection";
 
 const FEATURED_SURAH_NUMBERS = [1, 112, 113, 114];
-
 /** Kratke napomene za preporučene sure (zahtjev: kratka napomena na karticama). */
 const FEATURED_SURAH_NOTES: Record<number, string> = {
   1: "Otvaranje Kur'ana; uči se u svakoj rekiji.",
@@ -18,8 +17,10 @@ const FEATURED_SURAH_NOTES: Record<number, string> = {
   114: "Traženje utočišta u Allaha od zla iznutra.",
 };
 
-export default function Home() {
-  const allSurahs = getAllSurahs();
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const allSurahs = await getAllSurahs();
   const featuredSurahs = allSurahs.filter((s) =>
     FEATURED_SURAH_NUMBERS.includes(s.surahNumber)
   );

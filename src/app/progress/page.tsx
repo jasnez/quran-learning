@@ -6,8 +6,10 @@ export const metadata = {
   description: "Pregled napretka učenja Kur'ana",
 };
 
-export default function ProgressPage() {
-  const surahs = getAllSurahs();
+export const dynamic = "force-dynamic";
+
+export default async function ProgressPage() {
+  const surahs = await getAllSurahs();
 
   return (
     <article className="mx-auto max-w-[900px]">

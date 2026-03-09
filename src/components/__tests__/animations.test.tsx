@@ -27,25 +27,26 @@ const mockAyah: Ayah = {
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
 }));
-vi.mock("@/store/playerStore", () => ({
-  usePlayerStore: vi.fn((sel: (s: unknown) => unknown) =>
-    sel({
-      activeAudioSrc: "/a.mp3",
-      currentSurahId: "1",
-      currentAyahId: "1:1",
-      isPlaying: false,
-      currentTime: 0,
-      duration: 10,
-      resume: () => {},
-      pause: () => {},
-      next: () => {},
-      previous: () => {},
-      restartFromFirst: () => {},
-      setCurrentTime: () => {},
-      setDuration: () => {},
-    })
-  ),
-}));
+vi.mock("@/store/playerStore", () => {
+  const state = {
+    activeAudioSrc: "/a.mp3",
+    currentSurahId: "1",
+    currentAyahId: "1:1",
+    isPlaying: false,
+    currentTime: 0,
+    duration: 10,
+    resume: () => {},
+    pause: () => {},
+    next: () => {},
+    previous: () => {},
+    restartFromFirst: () => {},
+    setCurrentTime: () => {},
+    setDuration: () => {},
+  };
+  const usePlayerStoreMock = vi.fn((sel: (s: unknown) => unknown) => sel(state));
+  (usePlayerStoreMock as { getState: () => typeof state }).getState = () => state;
+  return { usePlayerStore: usePlayerStoreMock };
+});
 
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((sel: (s: unknown) => unknown) =>

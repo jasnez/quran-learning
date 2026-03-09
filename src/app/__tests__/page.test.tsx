@@ -15,7 +15,7 @@ const mockSurahs: SurahSummary[] = [
 ];
 
 vi.mock("@/lib/data", () => ({
-  getAllSurahs: vi.fn(() => mockSurahs),
+  getAllSurahs: vi.fn(() => Promise.resolve(mockSurahs)),
 }));
 
 vi.mock("next/link", () => ({
@@ -90,79 +90,91 @@ beforeEach(() => {
 describe("Home page", () => {
   describe("Hero section", () => {
     it("shows platform title in Bosnian", async () => {
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       expect(
         await screen.findByRole("heading", { name: /platforma za učenje kur'an/i })
       ).toBeInTheDocument();
     }, 10000);
 
-    it("shows subtitle about learning with tajwid and translation", () => {
-      render(<Home />);
+    it("shows subtitle about learning with tajwid and translation", async () => {
+      const Page = await Home();
+      render(Page);
       const hero = screen.getByRole("heading", { name: /platforma za učenje kur'an/i }).closest("section");
       expect(hero).toBeInTheDocument();
       expect(hero).toHaveTextContent(/uči kur'an|tajwid|transliteracij|prijevod|audio/i);
     });
 
-    it("has primary CTA Počni učiti linking to learn page (first surah)", () => {
-      render(<Home />);
+    it("has primary CTA Počni učiti linking to learn page (first surah)", async () => {
+      const Page = await Home();
+      render(Page);
       const cta = screen.getByRole("link", { name: /počni učit/i });
       expect(cta).toHaveAttribute("href", "/learn/1");
     });
 
-    it("has secondary CTA Pregled sura", () => {
-      render(<Home />);
+    it("has secondary CTA Pregled sura", async () => {
+      const Page = await Home();
+      render(Page);
       const cta = screen.getByRole("link", { name: /pregled sura/i });
       expect(cta).toBeInTheDocument();
     });
   });
 
   describe("Featured surahs section", () => {
-    it("shows section heading", () => {
-      render(<Home />);
+    it("shows section heading", async () => {
+      const Page = await Home();
+      render(Page);
       expect(
         screen.getByRole("heading", { name: /preporučene|featured|sure/i })
       ).toBeInTheDocument();
     });
 
-    it("shows 4 surah cards", () => {
-      render(<Home />);
+    it("shows 4 surah cards", async () => {
+      const Page = await Home();
+      render(Page);
       const linksToSurah = screen.getAllByRole("link", { name: /al-fatiha|el-ihlas|el-felek|en-nas/i });
       expect(linksToSurah.length).toBeGreaterThanOrEqual(4);
     });
 
-    it("links to reader page for Al-Fatiha", () => {
-      render(<Home />);
+    it("links to reader page for Al-Fatiha", async () => {
+      const Page = await Home();
+      render(Page);
       const link = screen.getByRole("link", { name: /al-fatiha/i });
       expect(link).toHaveAttribute("href", "/surah/1");
     });
 
-    it("links to reader for El-Ihlas, El-Felek, En-Nas", () => {
-      render(<Home />);
+    it("links to reader for El-Ihlas, El-Felek, En-Nas", async () => {
+      const Page = await Home();
+      render(Page);
       expect(screen.getByRole("link", { name: /el-ihlas/i })).toHaveAttribute("href", "/surah/112");
       expect(screen.getByRole("link", { name: /el-felek/i })).toHaveAttribute("href", "/surah/113");
       expect(screen.getByRole("link", { name: /en-nas/i })).toHaveAttribute("href", "/surah/114");
     });
 
-    it("shows ayah count for at least one surah", () => {
-      render(<Home />);
+    it("shows ayah count for at least one surah", async () => {
+      const Page = await Home();
+      render(Page);
       expect(screen.getByText(/7\s*ajeta|7 ayah/i)).toBeInTheDocument();
     });
 
-    it("shows Bosnian name (nameBosnian) on featured cards", () => {
-      render(<Home />);
+    it("shows Bosnian name (nameBosnian) on featured cards", async () => {
+      const Page = await Home();
+      render(Page);
       expect(screen.getByText("Al-Fatiha")).toBeInTheDocument();
       expect(screen.getByText("El-Ihlas")).toBeInTheDocument();
     });
 
-    it("shows short note for at least one featured surah", () => {
-      render(<Home />);
+    it("shows short note for at least one featured surah", async () => {
+      const Page = await Home();
+      render(Page);
       expect(screen.getByText(/otvaranje kur'an/i)).toBeInTheDocument();
     });
   });
 
   describe("Features section", () => {
-    it("shows 4 feature blocks", () => {
-      render(<Home />);
+    it("shows 4 feature blocks", async () => {
+      const Page = await Home();
+      render(Page);
       expect(screen.getByRole("heading", { name: /tajwid boje/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /^transliteracija$/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /bosanski prijevod/i })).toBeInTheDocument();
@@ -171,22 +183,24 @@ describe("Home page", () => {
   });
 
   describe("Continue Learning / welcome section", () => {
-    it("when no saved position (new user), shows welcome message and recommended surahs", () => {
+    it("when no saved position (new user), shows welcome message and recommended surahs", async () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       expect(screen.getByText(/dobrodošli|dobrodosli/i)).toBeInTheDocument();
       expect(screen.getByText(/počnite sa kratkim surama|pocnite sa kratkim surama/i)).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /preporučene|sure/i })).toBeInTheDocument();
     });
 
-    it("when saved position exists, shows Nastavi učenje card above featured surahs", () => {
+    it("when saved position exists, shows Nastavi učenje card above featured surahs", async () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 2, ayahNumber: 15, mode: "reader" });
       mockProgressState.lastSurahNumber = 2;
       mockProgressState.lastAyahNumber = 15;
       mockProgressState.lastMode = "reader";
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
       mockProgressState.timestamp = new Date().toISOString();
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       const continueHeading = screen.getByRole("heading", { name: /nastavi učenje|nastavi ucenje/i });
       expect(continueHeading).toBeInTheDocument();
       expect(continueHeading.closest("section")).toHaveTextContent(/al-baqarah|Al-Baqarah/i);
@@ -201,28 +215,31 @@ describe("Home page", () => {
       mockProgressState.lastAyahNumber = 15;
       mockProgressState.lastMode = "reader";
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       const readerLink = await screen.findByRole("link", { name: /nastavi u reader-u|reader/i });
       const learnLink = await screen.findByRole("link", { name: /nastavi u learning modu|learning modu/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
       expect(learnLink).toHaveAttribute("href", "/learn/2");
     });
 
-    it("when saved position exists, shows last session time label (Zadnji put)", () => {
+    it("when saved position exists, shows last session time label (Zadnji put)", async () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 1, ayahNumber: 1, mode: "learning" });
       mockProgressState.lastSurahNumber = 1;
       mockProgressState.lastAyahNumber = 1;
       mockProgressState.lastMode = "learning";
       mockProgressState.lastSurahNameLatin = "Al-Fatihah";
       mockProgressState.timestamp = new Date().toISOString();
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       expect(screen.getByText(/zadnji put/i)).toBeInTheDocument();
     });
 
-    it("stats row is hidden when all stats are zero (new user)", () => {
+    it("stats row is hidden when all stats are zero (new user)", async () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       expect(screen.queryByText(/posjećeno|posjeceno|preslušano|preslusano|min ukupno|slušanje/i)).not.toBeInTheDocument();
     });
 
@@ -238,7 +255,8 @@ describe("Home page", () => {
       mockProgressState.totalListeningTimeMs = 120000;
       mockProgressState.surahsVisited = [1, 2, 3];
       mockProgressState.ayahsListened = 10;
-      render(<Home />);
+      const Page = await Home();
+      render(Page);
       const cards = await screen.findByTestId("overall-stats-cards");
       expect(cards).toBeInTheDocument();
       expect(cards).toHaveTextContent("3");

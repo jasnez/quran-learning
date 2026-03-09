@@ -58,7 +58,7 @@ vi.mock("next/link", () => ({
 }));
 
 vi.mock("@/lib/data", () => ({
-  getAllSurahs: () => mockSurahs,
+  getAllSurahs: () => Promise.resolve(mockSurahs),
 }));
 
 beforeEach(() => {
@@ -68,27 +68,31 @@ beforeEach(() => {
 });
 
 describe("Surahs page", () => {
-  it("shows page title Sure", () => {
-    render(<SurahsPage />);
+  it("shows page title Sure", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     expect(
       screen.getByRole("heading", { name: /^sure$/i })
     ).toBeInTheDocument();
   });
 
-  it("shows a search input", () => {
-    render(<SurahsPage />);
+  it("shows a search input", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     expect(search).toBeInTheDocument();
   });
 
-  it("renders all surahs from data when no search", () => {
-    render(<SurahsPage />);
+  it("renders all surahs from data when no search", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     const links = screen.getAllByRole("link", { href: /\/surah\/\d+/ });
     expect(links).toHaveLength(mockSurahs.length);
   });
 
-  it("each list item links to /surah/[surahNumber]", () => {
-    render(<SurahsPage />);
+  it("each list item links to /surah/[surahNumber]", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     const links = screen.getAllByRole("link");
     const hrefs = links.map((l) => l.getAttribute("href"));
     expect(hrefs).toContain("/surah/1");
@@ -96,15 +100,17 @@ describe("Surahs page", () => {
     expect(hrefs).toContain("/surah/112");
   });
 
-  it("list items show nameLatin and nameBosnian", () => {
-    render(<SurahsPage />);
+  it("list items show nameLatin and nameBosnian", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     expect(screen.getByText("Al-Fatihah")).toBeInTheDocument();
     expect(screen.getByText("Al-Fatiha")).toBeInTheDocument();
     expect(screen.getByText("Al-Baqarah")).toBeInTheDocument();
   });
 
-  it("list items show ayah count and revelation type", () => {
-    render(<SurahsPage />);
+  it("list items show ayah count and revelation type", async () => {
+    const Page = await SurahsPage();
+    render(Page);
     expect(screen.getByText(/7\s*ajeta|7 ajeta/i)).toBeInTheDocument();
     const revelation = screen.getAllByText(/meka|medina/i);
     expect(revelation.length).toBeGreaterThanOrEqual(1);
@@ -112,7 +118,8 @@ describe("Surahs page", () => {
 
   it("filtering by number reduces visible items", async () => {
     const user = userEvent.setup();
-    render(<SurahsPage />);
+    const Page = await SurahsPage();
+    render(Page);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "1");
     const links = screen.getAllByRole("link", { href: /\/surah\/\d+/ });
@@ -121,7 +128,8 @@ describe("Surahs page", () => {
 
   it("filtering by Latin name shows matching surah", async () => {
     const user = userEvent.setup();
-    render(<SurahsPage />);
+    const Page = await SurahsPage();
+    render(Page);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "Fatiha");
     expect(screen.getByRole("link", { href: "/surah/1" })).toBeInTheDocument();

@@ -3,6 +3,8 @@ import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { LearnModeContent } from "@/components/learn/LearnModeContent";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = { params: Promise<{ surahId: string }> };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -12,7 +14,7 @@ export async function generateMetadata({ params }: PageProps) {
     return { title: "Learn | Quran Learning" };
   }
   try {
-    const { surah } = getSurahByNumber(n);
+    const { surah } = await getSurahByNumber(n);
     return {
       title: `Learn ${surah.nameLatin} | Quran Learning`,
       description: `Fokusirano učenje sure ${surah.nameBosnian || surah.nameLatin}`,
@@ -33,7 +35,7 @@ export default async function LearnPage({ params }: PageProps) {
 
   let detail;
   try {
-    detail = getSurahByNumber(surahNumber);
+    detail = await getSurahByNumber(surahNumber);
   } catch {
     notFound();
     return null;
@@ -41,7 +43,7 @@ export default async function LearnPage({ params }: PageProps) {
 
   let { surah, ayahs } = detail;
 
-  // Za sure bez lokalnog JSON-a učitaj ajate s Quran.com API-ja (pun sadržaj za svih 114 sura)
+  // Fallback: if no ayahs in DB, try Quran.com API
   if (ayahs.length === 0) {
     try {
       ayahs = await fetchVersesByChapter(surahNumber);

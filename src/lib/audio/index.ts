@@ -12,3 +12,4 @@ export {
   destroy,
 } from "./audioManager";
 export { getResolvedAudioUrl } from "./getResolvedAudioUrl";
+export { buildAudioUrl } from "./reciterUtils";

@@ -31,7 +31,7 @@ const mockSurahs: SurahSummary[] = [
 ];
 
 vi.mock("@/lib/data", () => ({
-  getAllSurahs: vi.fn(() => mockSurahs),
+  getAllSurahs: vi.fn(() => Promise.resolve(mockSurahs)),
 }));
 
 const mockStore = {

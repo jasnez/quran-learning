@@ -3,16 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ci": "npm run test && npm run build",
-    "generate:ayahs": "tsx scripts/generate-ayahs-json.ts"
+    "generate:ayahs": "tsx scripts/generate-ayahs-json.ts",
+    "seed": "tsx scripts/seed-database.ts",
+    "seed:full": "tsx scripts/seed-full-quran.ts",
+    "upload:audio": "tsx scripts/upload-audio-to-storage.ts",
+    "download:audio-sample": "tsx scripts/download-audio-sample.ts",
+    "deploy:check": "npm run test && npm run build"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -28,6 +34,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.1.0",

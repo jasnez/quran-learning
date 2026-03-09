@@ -1,24 +1,24 @@
 /**
  * Resolves relative/placeholder audio paths to a public CDN so playback works
- * when app is deployed without hosting MP3s (e.g. Vercel).
- * Format in data: /audio/mishary-alafasy/001001.mp3 → file name 001001.mp3.
- * EveryAyah: https://everyayah.com/data/Alafasy_128kbps/001001.mp3
+ * when app is deployed without hosting MP3s. Uses buildAudioUrl (NEXT_PUBLIC_AUDIO_CDN_URL).
+ * Falls back to everyayah.com when CDN is not set and path is /audio/reciter/SSSXXX.mp3.
  */
-const AUDIO_CDN_BASE = "https://everyayah.com/data/Alafasy_128kbps";
+import { buildAudioUrl } from "./reciterUtils";
 
-/** Extract SSSXXX.mp3 from path like /audio/mishary-alafasy/001001.mp3 */
+const FALLBACK_CDN_BASE = "https://everyayah.com/data/Alafasy_128kbps";
 const RELATIVE_AUDIO_MATCH = /\/audio\/[^/]+\/(\d{6}\.mp3)$/i;
 
 export function getResolvedAudioUrl(url: string | null | undefined): string | null {
   if (!url) return null;
   const trimmed = url.trim();
   if (!trimmed) return null;
+  const resolved = buildAudioUrl(trimmed);
+  if (resolved.startsWith("http://") || resolved.startsWith("https://")) {
+    return resolved;
+  }
   const match = trimmed.match(RELATIVE_AUDIO_MATCH);
   if (match) {
-    return `${AUDIO_CDN_BASE}/${match[1]}`;
+    return `${FALLBACK_CDN_BASE}/${match[1]}`;
   }
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
-    return trimmed;
-  }
-  return trimmed;
+  return resolved || null;
 }
