@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import { AppShell } from "../AppShell";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
@@ -105,6 +105,20 @@ describe("AppShell", () => {
     render(<AppShell><span>x</span></AppShell>);
     const player = document.querySelector('[data-testid="audio-player"]');
     expect(player).toBeInTheDocument();
+  });
+
+  it("when audio player is visible and user scrolled, BackToTop sits above player (data-above-player)", async () => {
+    let scrollY = 0;
+    Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
+    scrollY = 500;
+    const { container } = render(<AppShell><span>x</span></AppShell>);
+    fireEvent.scroll(window);
+    await waitFor(() => {
+      const btn = container.querySelector("[data-testid='back-to-top']");
+      expect(btn).toBeInTheDocument();
+    }, { timeout: 1000 });
+    const btn = container.querySelector("[data-testid='back-to-top']");
+    expect(btn).toHaveAttribute("data-above-player", "true");
   });
 
   it("main content wrapper allows page-level max-width (wider than max-w-2xl)", () => {

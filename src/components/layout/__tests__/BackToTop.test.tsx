@@ -8,6 +8,17 @@ import { BackToTop } from "../BackToTop";
 
 const SCROLL_THRESHOLD = 400;
 
+const mockPlayerStore = (hasAudio: boolean) => ({
+  activeAudioSrc: hasAudio ? "/audio/001001.mp3" : null,
+});
+let playerStoreState = mockPlayerStore(false);
+
+vi.mock("@/store/playerStore", () => ({
+  usePlayerStore: vi.fn((selector: (s: { activeAudioSrc: string | null }) => unknown) =>
+    selector({ activeAudioSrc: playerStoreState.activeAudioSrc })
+  ),
+}));
+
 describe("BackToTop", () => {
   let scrollY = 0;
   const scrollToMock = vi.fn();
@@ -17,6 +28,7 @@ describe("BackToTop", () => {
     cleanup();
     document.body.innerHTML = "";
     scrollY = 0;
+    playerStoreState = mockPlayerStore(false);
     Object.defineProperty(window, "scrollY", {
       configurable: true,
       get: () => scrollY,
@@ -75,6 +87,34 @@ describe("BackToTop", () => {
     fireEvent.scroll(window);
     await waitFor(() => {
       expect(screen.getByTestId("back-to-top")).toBeInTheDocument();
+    });
+  });
+
+  describe("position above sticky player", () => {
+    it("when sticky player is visible, button has data-above-player true and sits above player", async () => {
+      playerStoreState = mockPlayerStore(true);
+      scrollY = 500;
+      render(<BackToTop scrollThreshold={SCROLL_THRESHOLD} />);
+      fireEvent.scroll(window);
+      await waitFor(() => {
+        expect(screen.getByTestId("back-to-top")).toBeInTheDocument();
+      });
+      const btn = screen.getByTestId("back-to-top");
+      expect(btn).toHaveAttribute("data-above-player", "true");
+      expect(btn.className).toMatch(/bottom-\[8\.5rem\]|bottom-24|md:bottom-24/);
+    });
+
+    it("when sticky player is not visible, button has data-above-player false and default position", async () => {
+      playerStoreState = mockPlayerStore(false);
+      scrollY = 500;
+      render(<BackToTop scrollThreshold={SCROLL_THRESHOLD} />);
+      fireEvent.scroll(window);
+      await waitFor(() => {
+        expect(screen.getByTestId("back-to-top")).toBeInTheDocument();
+      });
+      const btn = screen.getByTestId("back-to-top");
+      expect(btn).toHaveAttribute("data-above-player", "false");
+      expect(btn.className).toMatch(/max-md:bottom-24|md:bottom-8/);
     });
   });
 });
