@@ -226,7 +226,11 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
             type="button"
             role="switch"
             aria-checked={wordByWordMode}
-            onClick={() => setWordByWordMode(true)}
+            onClick={() => {
+              setWordByWordMode(true);
+              // Kada koristimo Quran.com word-by-word, baza sync mod treba biti isključen
+              setWordLevelSync(false);
+            }}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               wordByWordMode
                 ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
@@ -241,12 +245,16 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
               <button
                 type="button"
                 role="switch"
-                aria-checked={!wordLevelSync}
-                onClick={() => setWordLevelSync(false)}
+                aria-checked={!wordByWordMode && !wordLevelSync}
+                disabled={wordByWordMode}
+                onClick={() => {
+                  if (wordByWordMode) return;
+                  setWordLevelSync(false);
+                }}
                 className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                  !wordLevelSync
+                  !wordByWordMode && !wordLevelSync
                     ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                    : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                    : "text-stone-400 opacity-60 dark:text-stone-500"
                 }`}
               >
                 Po ajetu (baza)
@@ -254,12 +262,16 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
               <button
                 type="button"
                 role="switch"
-                aria-checked={wordLevelSync}
-                onClick={() => setWordLevelSync(true)}
+                aria-checked={wordLevelSync && !wordByWordMode}
+                disabled={wordByWordMode}
+                onClick={() => {
+                  if (wordByWordMode) return;
+                  setWordLevelSync(true);
+                }}
                 className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                  wordLevelSync
+                  wordLevelSync && !wordByWordMode
                     ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                    : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                    : "text-stone-400 opacity-60 dark:text-stone-500"
                 }`}
               >
                 Po riječi (baza)
