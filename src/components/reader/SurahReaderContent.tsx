@@ -107,8 +107,6 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
     return map;
   }, [words]);
 
-  const hasWordData = wordsByAyahKey.size > 0;
-
   const handleSeekWord = (word: Word, ayah: Ayah, seekSeconds: number) => {
     if (currentAyahId === ayah.id) {
       audioManager.seek(seekSeconds);
@@ -227,11 +225,7 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
             type="button"
             role="switch"
             aria-checked={wordByWordMode}
-            onClick={() => {
-              setWordByWordMode(true);
-              // Kada koristimo Quran.com word-by-word, baza sync mod treba biti isključen
-              setWordLevelSync(false);
-            }}
+            onClick={() => setWordByWordMode(true)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               wordByWordMode
                 ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
@@ -240,50 +234,11 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
           >
             Riječ po riječ
           </button>
-          {hasWordData && (
-            <>
-              <span className="text-stone-400 dark:text-stone-500">|</span>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={!wordByWordMode && !wordLevelSync}
-                disabled={wordByWordMode}
-                onClick={() => {
-                  if (wordByWordMode) return;
-                  setWordLevelSync(false);
-                }}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                  !wordByWordMode && !wordLevelSync
-                    ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                    : "text-stone-400 opacity-60 dark:text-stone-500"
-                }`}
-              >
-                Po ajetu (baza)
-              </button>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={wordLevelSync && !wordByWordMode}
-                disabled={wordByWordMode}
-                onClick={() => {
-                  if (wordByWordMode) return;
-                  setWordLevelSync(true);
-                }}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                  wordLevelSync && !wordByWordMode
-                    ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                    : "text-stone-400 opacity-60 dark:text-stone-500"
-                }`}
-              >
-                Po riječi (baza)
-              </button>
-            </>
-          )}
         </div>
       </div>
       {wordByWordMode && chapterDataError && (
         <p className="mb-4 text-sm text-amber-600 dark:text-amber-400">
-          Highlight po riječima (Quran.com) nije dostupan. Koristite „Po ajetu” ili „Po riječi (baza)”.
+          Highlight po riječima (Quran.com) nije dostupan. Koristite „Po ajetu”.
         </p>
       )}
       <ul className="space-y-14 list-none" role="list">
