@@ -110,6 +110,22 @@ export function AudioPlayer() {
         const verse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
         const timeMs = Math.floor(audioManager.getCurrentTime() * 1000);
         if (verse && timeMs >= verse.timestampTo) {
+          const repeatMode = useSettingsStore.getState().repeatMode;
+          if (repeatMode === "ayah") {
+            audioManager.seek(verse.timestampFrom / 1000);
+            state.setCurrentTime(verse.timestampFrom / 1000);
+            state.setCurrentTimeMs(verse.timestampFrom);
+            rafId = requestAnimationFrame(tick);
+            return;
+          }
+          const queue = state.queue;
+          const idx = queue.findIndex((a) => a.id === state.currentAyahId);
+          const isLastAyah = idx >= 0 && idx === queue.length - 1;
+          if (isLastAyah && repeatMode === "surah") {
+            state.restartFromFirst();
+            rafId = requestAnimationFrame(tick);
+            return;
+          }
           const advanced = state.next();
           if (advanced) {
             const nextVerse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
@@ -231,7 +247,7 @@ export function AudioPlayer() {
     if (!activeAudioSrc) return;
     const handler = () => onEndedRef.current?.();
     return audioManager.onEnded(handler);
-  }, [activeAudioSrc, repeatMode, autoPlayNext, next, pause, restartFromFirst]);
+  }, [activeAudioSrc]);
 
   // Playback speed when setting changes
   useEffect(() => {
