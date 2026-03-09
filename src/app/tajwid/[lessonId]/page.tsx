@@ -2,16 +2,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getAllTajwidLessons,
-  getTajwidLessonById,
+  getTajwidLessonBySlug,
 } from "@/data/tajwid-lessons";
-import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { TajwidQuiz } from "@/components/tajwid/TajwidQuiz";
+import { LessonProgressTracker } from "@/components/tajwid/LessonProgressTracker";
 
 type LessonPageProps = {
   params: { lessonId: string };
 };
 
 export default async function LessonPage({ params }: LessonPageProps) {
-  const lesson = await getTajwidLessonById(params.lessonId);
+  const lesson = await getTajwidLessonBySlug(params.lessonId);
   if (!lesson) notFound();
 
   const all = await getAllTajwidLessons();
@@ -23,6 +25,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8">
+      <LessonProgressTracker lessonSlug={lesson.slug} />
       <header className="mb-6 sm:mb-8">
         <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
           Tajwid lekcija
@@ -30,29 +33,58 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-3xl">
           {lesson.title}
         </h1>
-        <p
-          className={`mt-1 text-xl font-medium leading-snug ${ruleClass}`}
-          dir="rtl"
-        >
-          {lesson.titleArabic}
-        </p>
-        <p className="mt-3 text-sm text-stone-600 dark:text-stone-400">
-          {lesson.description}
+        <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+          {lesson.subtitle}
         </p>
       </header>
 
       <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
-          Objašnjenje
+          Uvod
         </h2>
-        <p>{lesson.explanation}</p>
+        {lesson.sections.introduction.map((p, idx) => (
+          <p key={idx}>{p}</p>
+        ))}
       </section>
+
+      <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+          Šta je ovo pravilo?
+        </h2>
+        {lesson.sections.definition.map((p, idx) => (
+          <p key={idx}>{p}</p>
+        ))}
+      </section>
+
+      <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+          Kada nastaje?
+        </h2>
+        <ul className="list-disc space-y-1 pl-5">
+          {lesson.sections.whenItOccurs.map((p, idx) => (
+            <li key={idx}>{p}</li>
+          ))}
+        </ul>
+      </section>
+
+      {lesson.sections.howToProduce && (
+        <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+          <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+            Kako proizvesti ovaj zvuk
+          </h2>
+          <ol className="list-decimal space-y-1 pl-5">
+            {lesson.sections.howToProduce.map((step, idx) => (
+              <li key={idx}>{step}</li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       <section className="mb-8 space-y-4">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
           Primjeri
         </h2>
-        {lesson.examples.map((ex, idx) => (
+        {lesson.sections.examples.map((ex, idx) => (
           <div
             key={idx}
             className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4"
@@ -61,7 +93,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               className={`font-arabic text-2xl leading-relaxed text-center ${ruleClass}`}
               dir="rtl"
             >
-              {ex.arabicText}
+              {ex.arabic}
             </p>
             <p
               className="mt-2 text-center text-sm text-stone-500 dark:text-stone-400"
@@ -69,74 +101,77 @@ export default async function LessonPage({ params }: LessonPageProps) {
             >
               {ex.transliteration}
             </p>
-            <audio
-              className="mt-3 w-full"
-              controls
-              preload="none"
-              src={ex.audioUrl}
-            />
+            <p className="mt-1 text-center text-xs text-stone-500 dark:text-stone-400">
+              {ex.translation}
+            </p>
+            <p className="mt-2 text-center text-xs font-medium text-stone-600 dark:text-stone-300">
+              {ex.rule}
+            </p>
           </div>
         ))}
       </section>
 
-      <section className="mb-8 space-y-4">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
-          Vježba na pravim ajetima
-        </h2>
-        <p className="text-sm text-stone-600 dark:text-stone-400">
-          Otvori suru u čitaču, pronađi navedeni ajet i pokušaj uočiti dio gdje
-          se primjenjuje pravilo{" "}
-          <span className={ruleClass}>{tajwidRuleLabels[lesson.ruleType]}</span>.
-        </p>
-        <ul className="space-y-2 text-sm text-stone-700 dark:text-stone-300">
-          {lesson.practiceAyahs.map((p, idx) => (
-            <li key={idx}>
-              <Link
-                href={`/surah/${p.surahNumber}?ayah=${p.ayahNumber}`}
-                className="inline-flex items-center gap-1 text-emerald-700 hover:underline dark:text-emerald-300"
-              >
-                <span>
-                  Sura {p.surahNumber}, ajet {p.ayahNumber}
-                </span>
-                <span aria-hidden>↗</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {lesson.sections.practiceAyahs && lesson.sections.practiceAyahs.length > 0 && (
+        <section className="mb-8 space-y-4">
+          <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+            Vježba na pravim ajetima
+          </h2>
+          <ul className="space-y-2 text-sm text-stone-700 dark:text-stone-300">
+            {lesson.sections.practiceAyahs.map((p, idx) => (
+              <li key={idx}>
+                <Link
+                  href={`/surah/${p.surah}?ayah=${p.ayah}`}
+                  className="inline-flex items-center gap-1 text-emerald-700 hover:underline dark:text-emerald-300"
+                >
+                  <span>
+                    Sura {p.surah}, ajet {p.ayah}
+                  </span>
+                  <span aria-hidden>↗</span>
+                </Link>
+                {p.description && (
+                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                    {p.description}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {lesson.sections.tip && (
+        <section className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
+          <h2 className="text-sm font-semibold">
+            {lesson.sections.tip.title}
+          </h2>
+          <p className="mt-1">{lesson.sections.tip.text}</p>
+        </section>
+      )}
 
       <section className="mb-8 space-y-3">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
           Kviz
         </h2>
-        <p className="text-xs text-stone-500 dark:text-stone-400">
-          Odgovori u sebi ili zajedno s učiteljem – cilj je ponavljanje, a ne
-          ocjena.
-        </p>
-        <ol className="space-y-4 text-sm text-stone-700 dark:text-stone-300">
-          {lesson.quiz.map((q, idx) => (
-            <li key={idx} className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4">
-              <p className="font-medium">{q.question}</p>
-              <ul className="mt-2 space-y-1">
-                {q.options.map((opt, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full border border-stone-300 text-center text-[0.7rem] leading-5 dark:border-stone-600">
-                      {String.fromCharCode(65 + i)}
-                    </span>
-                    <span>{opt}</span>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
+        <TajwidQuiz
+          quiz={lesson.quiz}
+          lessonSlug={lesson.slug}
+          nextLessonSlug={nextLesson?.slug ?? null}
+          nextLessonTitle={nextLesson?.title ?? null}
+        />
+      </section>
+
+      <section className="mb-6 text-sm text-stone-700 dark:text-stone-300">
+        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+          Sažetak
+        </h2>
+        <p className="mt-1">{lesson.summary}</p>
       </section>
 
       <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm">
         <div className="flex items-center gap-2">
           {prevLesson && (
             <Link
-              href={`/tajwid/${prevLesson.id}`}
+              href={`/tajwid/${prevLesson.slug}`}
               className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
             >
               <span aria-hidden>←</span>
@@ -153,7 +188,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
           </Link>
           {nextLesson && (
             <Link
-              href={`/tajwid/${nextLesson.id}`}
+              href={`/tajwid/${nextLesson.slug}`}
               className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
             >
               <span>Sljedeća: {nextLesson.title}</span>

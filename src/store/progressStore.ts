@@ -19,6 +19,16 @@ export type SurahProgressSerialized = Omit<SurahProgress, "ayahsListened" | "aya
   ayahsRead: number[];
 };
 
+/** Status pojedine Tajwid lekcije. */
+export type TajwidLessonStatus = "not_started" | "in_progress" | "completed";
+
+export interface TajwidLessonProgress {
+  status: TajwidLessonStatus;
+  quizScore?: number;
+  quizTotal?: number;
+  completedAt?: string;
+}
+
 export interface LearningProgress {
   lastSurahNumber: number;
   lastAyahNumber: number;
@@ -29,6 +39,8 @@ export interface LearningProgress {
   surahsVisited: number[];
   ayahsListened: number;
   surahProgressMap: Record<number, SurahProgress>;
+  /** Key = lesson slug */
+  tajwidLessonProgress: Record<string, TajwidLessonProgress>;
 }
 
 type ProgressStore = LearningProgress & {
@@ -54,6 +66,9 @@ type ProgressStore = LearningProgress & {
   };
   getLastPosition: () => { surahNumber: number; ayahNumber: number; mode: "reader" | "learning" } | null;
   getStats: () => { totalTime: number; surahsCount: number; ayahsCount: number };
+  markTajwidLessonStarted: (lessonSlug: string) => void;
+  markTajwidLessonCompleted: (lessonSlug: string, quizScore: number, quizTotal: number) => void;
+  getTajwidLessonStatus: (lessonSlug: string) => TajwidLessonProgress | undefined;
 };
 
 const TOTAL_AYAHS_IN_QURAN = 6236;
@@ -96,6 +111,7 @@ const defaultState: LearningProgress = {
   surahsVisited: [],
   ayahsListened: 0,
   surahProgressMap: {},
+  tajwidLessonProgress: {},
 };
 
 export const PROGRESS_STORAGE_KEY = "quran-learning-progress";
@@ -213,6 +229,32 @@ export const useProgressStore = create<ProgressStore>()(
           ayahsCount: s.ayahsListened,
         };
       },
+
+      markTajwidLessonStarted: (lessonSlug) =>
+        set((s) => {
+          const map = { ...s.tajwidLessonProgress };
+          const existing = map[lessonSlug];
+          if (existing?.status === "completed") return {};
+          map[lessonSlug] = {
+            ...existing,
+            status: "in_progress",
+          };
+          return { tajwidLessonProgress: map };
+        }),
+
+      markTajwidLessonCompleted: (lessonSlug, quizScore, quizTotal) =>
+        set((s) => {
+          const map = { ...s.tajwidLessonProgress };
+          map[lessonSlug] = {
+            status: "completed",
+            quizScore,
+            quizTotal,
+            completedAt: new Date().toISOString(),
+          };
+          return { tajwidLessonProgress: map };
+        }),
+
+      getTajwidLessonStatus: (lessonSlug) => get().tajwidLessonProgress[lessonSlug],
     }),
     {
       name: PROGRESS_STORAGE_KEY,
@@ -232,6 +274,7 @@ export const useProgressStore = create<ProgressStore>()(
           surahsVisited: state.surahsVisited,
           ayahsListened: state.ayahsListened,
           surahProgressMap: serializedMap,
+          tajwidLessonProgress: state.tajwidLessonProgress ?? {},
         };
       },
       merge: (persistedState, currentState) => {
@@ -251,6 +294,7 @@ export const useProgressStore = create<ProgressStore>()(
           ...currentState,
           ...persisted,
           surahProgressMap,
+          tajwidLessonProgress: (persisted.tajwidLessonProgress ?? currentState.tajwidLessonProgress ?? {}) as Record<string, TajwidLessonProgress>,
         } as ProgressStore;
       },
     }

@@ -8,18 +8,44 @@ import TajwidLessonsPage from "../page";
 
 const mockLessons = [
   {
-    id: "intro",
+    id: 1,
+    slug: "uvod-tajwid",
     title: "Uvod u tajwid",
-    titleArabic: "مقدمة في التجويد",
-    description: "Osnove pravila učenja Kur’ana.",
+    subtitle: "Osnove pravila učenja Kur’ana.",
     ruleType: "normal",
+    color: "",
+    colorHex: "#000000",
+    estimatedMinutes: 5,
+    prerequisite: null,
+    sections: {
+      introduction: ["Intro"],
+      definition: [],
+      whenItOccurs: [],
+      examples: [],
+    },
+    quiz: [],
+    nextLessonId: 2,
+    summary: "",
   },
   {
-    id: "mad",
+    id: 2,
+    slug: "mad-duljenje",
     title: "Mad (duljenje)",
-    titleArabic: "المد",
-    description: "Duljenje samoglasnika.",
+    subtitle: "Duljenje samoglasnika.",
     ruleType: "mad",
+    color: "",
+    colorHex: "#000000",
+    estimatedMinutes: 5,
+    prerequisite: "Lekcija 1",
+    sections: {
+      introduction: ["Intro 2"],
+      definition: [],
+      whenItOccurs: [],
+      examples: [],
+    },
+    quiz: [],
+    nextLessonId: null,
+    summary: "",
   },
 ];
 
@@ -71,7 +97,7 @@ describe("Tajwid lessons listing page", () => {
     const Page = await TajwidLessonsPage();
     render(Page);
     const link = screen.getByRole("link", { name: /uvod u tajwid/i });
-    expect(link).toHaveAttribute("href", "/tajwid/intro");
+    expect(link).toHaveAttribute("href", "/tajwid/uvod-tajwid");
   });
 });
 
