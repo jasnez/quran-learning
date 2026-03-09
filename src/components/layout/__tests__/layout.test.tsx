@@ -255,14 +255,14 @@ describe("MobileNav", () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it("includes Home, Learn, Sure, Progress, Bookmarks and Settings", () => {
+  it("includes Home, Learn, Sure and Progress (search, bookmarks and settings are in header)", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /pretraga/i })).toHaveAttribute("href", "/search");
     expect(screen.getByRole("link", { name: /učenje/i })).toHaveAttribute("href", "/learn/1");
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
     expect(screen.getByRole("link", { name: /progress/i })).toHaveAttribute("href", "/progress");
-    expect(screen.getByRole("link", { name: /označeno/i })).toHaveAttribute("href", "/bookmarks");
-    expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /pretraga/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /označeno/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /postavke/i })).not.toBeInTheDocument();
   });
 });
