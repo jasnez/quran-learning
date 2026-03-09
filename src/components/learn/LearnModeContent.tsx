@@ -12,6 +12,7 @@ import * as audioManager from "@/lib/audio/audioManager";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
 import { TajwidLegend } from "@/components/quran";
+import { normalizeWordsToAyahRelative } from "@/lib/quran/wordUtils";
 
 type LearnModeContentProps = { surah: SurahSummary; ayahs: Ayah[] };
 
@@ -118,7 +119,8 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
 
   const wordsForAyah = useMemo(() => {
     const list = words.filter((w) => w.ayahKey === ayah.id);
-    return [...list].sort((a, b) => a.wordOrder - b.wordOrder);
+    const sorted = [...list].sort((a, b) => a.wordOrder - b.wordOrder);
+    return normalizeWordsToAyahRelative(sorted);
   }, [words, ayah.id]);
 
   const useWordByWord = wordsForAyah.length > 0;

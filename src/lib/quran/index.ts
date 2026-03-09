@@ -9,3 +9,7 @@ export {
 export type { QuranApiVerse, QuranApiVersesResponse } from "./api-types";
 export { fetchVersesByChapter } from "./fetch-verses";
 export { tajwidRuleClasses, tajwidRuleLabels } from "./tajwidStyles";
+export {
+  normalizeWordsToAyahRelative,
+  normalizeWordFromApi,
+} from "./wordUtils";

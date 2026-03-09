@@ -6,6 +6,7 @@ import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
+import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
@@ -37,8 +38,16 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
     let cancelled = false;
     fetch(`/api/surahs/${surahNumber}/words`)
       .then((r) => (r.ok ? r.json() : []))
-      .then((data: Word[]) => {
-        if (!cancelled) setWords(Array.isArray(data) ? data : []);
+      .then((data: unknown) => {
+        if (cancelled) return;
+        if (!Array.isArray(data)) {
+          setWords([]);
+          return;
+        }
+        const normalized = (data as Record<string, unknown>[]).map((row) =>
+          normalizeWordFromApi(row)
+        );
+        setWords(normalized);
       })
       .catch(() => {
         if (!cancelled) setWords([]);
@@ -56,13 +65,14 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(w);
     }
-    for (const arr of map.values()) {
+    for (const [key, arr] of map.entries()) {
       arr.sort((a, b) => a.wordOrder - b.wordOrder);
+      map.set(key, normalizeWordsToAyahRelative(arr));
     }
     return map;
   }, [words]);
 
-  const hasWordData = words.length > 0;
+  const hasWordData = wordsByAyahKey.size > 0;
 
   const handleSeekWord = (word: Word, ayah: Ayah) => {
     const seconds = word.startTimeMs / 1000;
