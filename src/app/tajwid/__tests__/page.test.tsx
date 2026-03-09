@@ -87,8 +87,11 @@ describe("Tajwid lessons listing page", () => {
   it("renders a card for each lesson", async () => {
     const Page = await TajwidLessonsPage();
     render(Page);
-    const cards = screen.getAllByRole("article");
-    expect(cards.length).toBeGreaterThanOrEqual(mockLessons.length);
+    const lessonLinks = screen.getAllByRole("link").filter((el) => {
+      const href = (el as HTMLAnchorElement).getAttribute("href") ?? "";
+      return href.startsWith("/tajwid/") && href !== "/tajwid";
+    });
+    expect(lessonLinks.length).toBeGreaterThanOrEqual(mockLessons.length);
     expect(screen.getByText("Uvod u tajwid")).toBeInTheDocument();
     expect(screen.getByText("Mad (duljenje)")).toBeInTheDocument();
   });

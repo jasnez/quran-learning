@@ -24,21 +24,17 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
     ) : null;
 
   return (
-    <article
-      className="group rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4 shadow-sm transition-transform duration-150 hover:-translate-y-[1px] hover:shadow-md sm:p-5"
+    <Link
+      href={`/tajwid/${lesson.slug}`}
+      className="group block rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4 shadow-sm transition-transform duration-150 hover:-translate-y-[1px] hover:shadow-md sm:p-5"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
             Lekcija {index + 1}
           </p>
-          <h2 className="mt-1 text-lg font-semibold text-stone-900 dark:text-stone-50">
-            <Link
-              href={`/tajwid/${lesson.slug}`}
-              className="inline-flex items-center gap-1 hover:text-emerald-700 dark:hover:text-emerald-300"
-            >
-              {lesson.title}
-            </Link>
+          <h2 className="mt-1 text-lg font-semibold text-stone-900 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
+            {lesson.title}
           </h2>
           <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
             {lesson.subtitle}
@@ -50,7 +46,7 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
           {tajwidRuleLabels[lesson.ruleType]}
         </span>
       </div>
-      <div className="mt-4 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+      <div className="mt-4 flex items-center text-xs text-stone-500 dark:text-stone-400">
         <span className="inline-flex items-center gap-1.5">
           {statusIcon}
           {statusLabel}
@@ -62,11 +58,7 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
               </span>
             )}
         </span>
-        <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-300">
-          <span>Otvori lekciju</span>
-          <span aria-hidden>→</span>
-        </span>
       </div>
-    </article>
+    </Link>
   );
 }

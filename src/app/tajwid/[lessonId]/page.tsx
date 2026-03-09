@@ -149,10 +149,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
         </section>
       )}
 
-      <section className="mb-8 space-y-3">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
-          Kviz
-        </h2>
+      <section className="mb-8">
         <TajwidQuiz
           quiz={lesson.quiz}
           lessonSlug={lesson.slug}
