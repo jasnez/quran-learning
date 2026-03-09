@@ -14,6 +14,8 @@ export type StickyHeaderState = {
 type Options = {
   /** Scroll offset (px) after which header can hide and gain shadow. */
   threshold?: number;
+  /** Min scroll delta (px) to treat as intentional direction change; avoids jitter. */
+  deltaThreshold?: number;
 };
 
 const DEFAULT_STATE: StickyHeaderState = {
@@ -22,6 +24,17 @@ const DEFAULT_STATE: StickyHeaderState = {
   hasShadow: false,
 };
 
+function getScrollTop(): number {
+  if (typeof window === "undefined") return 0;
+  return (
+    window.scrollY ??
+    window.pageYOffset ??
+    (document.scrollingElement?.scrollTop ?? 0) ??
+    document.documentElement?.scrollTop ??
+    0
+  );
+}
+
 /**
  * Sticky header behaviour following modern UX patterns:
  * - At top: header fully visible, no shadow.
@@ -29,7 +42,7 @@ const DEFAULT_STATE: StickyHeaderState = {
  * - Scroll up: header slides back in, with subtle shadow for context.
  */
 export function useStickyHeader(options: Options = {}): StickyHeaderState {
-  const { threshold = 48 } = options;
+  const { threshold = 48, deltaThreshold = 10 } = options;
   const [state, setState] = useState<StickyHeaderState>(DEFAULT_STATE);
   const lastScrollY = useRef(0);
 
@@ -37,9 +50,9 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
     if (typeof window === "undefined") return;
 
     const handleScroll = () => {
-      const current = window.scrollY || window.pageYOffset || 0;
+      const current = getScrollTop();
       const prev = lastScrollY.current;
-      const goingDown = current > prev;
+      const delta = current - prev;
       const atTop = current <= threshold;
 
       setState((prevState) => {
@@ -47,10 +60,18 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
           return DEFAULT_STATE;
         }
 
+        const goingDown = delta > deltaThreshold;
+        const goingUp = delta < -deltaThreshold;
+        const nextHidden = goingUp
+          ? false
+          : goingDown
+            ? true
+            : prevState.isHidden;
+
         const next: StickyHeaderState = {
           isAtTop: false,
           hasShadow: true,
-          isHidden: goingDown,
+          isHidden: nextHidden,
         };
 
         if (
@@ -66,14 +87,19 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
       lastScrollY.current = current;
     };
 
-    // Initialize based on current scroll position
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     } as AddEventListenerOptions);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [threshold]);
+    document.addEventListener("scroll", handleScroll, {
+      passive: true,
+    } as AddEventListenerOptions);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [threshold, deltaThreshold]);
 
   return state;
 }
