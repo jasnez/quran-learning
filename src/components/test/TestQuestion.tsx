@@ -3,6 +3,7 @@
 import { TestOption } from "./TestOption";
 import { TestProgress } from "./TestProgress";
 import type { TestQuestionModel } from "@/types/testMode";
+import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
 
 type TestQuestionProps = {
   question: TestQuestionModel;
@@ -63,7 +64,7 @@ export function TestQuestion({
           {question.type === "listen_identify" && (
             <div className="flex flex-col gap-2">
               <audio
-                src={question.audioUrl}
+                src={getResolvedAudioUrl(question.audioUrl) ?? question.audioUrl}
                 controls
                 preload="auto"
                 data-testid="listen-audio"
