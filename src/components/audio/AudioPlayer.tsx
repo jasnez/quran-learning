@@ -73,6 +73,23 @@ export function AudioPlayer() {
     };
   }, [activeAudioSrc, isPlaying, pause]);
 
+  // Apply pending seek when chapter audio is ready (critical for word-by-word: seek into long file)
+  useEffect(() => {
+    if (!activeAudioSrc) return;
+    const pending = usePlayerStore.getState().pendingSeekToSeconds;
+    if (pending == null) return;
+    const unsub = audioManager.onCanSeek(() => {
+      const state = usePlayerStore.getState();
+      if (state.pendingSeekToSeconds != null) {
+        state.setPendingSeek(null);
+        audioManager.seek(state.pendingSeekToSeconds);
+        setCurrentTime(state.pendingSeekToSeconds);
+        setCurrentTimeMs(Math.floor(state.pendingSeekToSeconds * 1000));
+      }
+    });
+    return unsub;
+  }, [activeAudioSrc, setCurrentTime, setCurrentTimeMs]);
+
   // High-frequency time sync for word-by-word highlighting (~60fps when playing)
   useEffect(() => {
     if (!activeAudioSrc || !isPlaying) return;

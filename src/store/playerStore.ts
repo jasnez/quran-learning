@@ -56,6 +56,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     const inQueue = queue.some((a) => a.id === ayah.id);
     let url: string;
     let pendingSeek: number | null = null;
+    // Word-by-word: use ONE chapter-level MP3 and seek to verse start (timestamps are relative to chapter)
     if (wordByWordMode && chapterAudioUrl && chapterTimestamps?.length) {
       const verse = chapterTimestamps.find((t) => t.verseKey === ayah.id);
       if (verse) {

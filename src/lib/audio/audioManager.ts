@@ -15,7 +15,20 @@ function getInstance(): HTMLAudioElement {
 export function loadAudio(url: string): void {
   const audio = getInstance();
   audio.src = url;
+  audio.preload = "auto";
   audio.load();
+}
+
+/** Callback when audio can seek (e.g. after loadedmetadata). Use for chapter-level seek. */
+export function onCanSeek(callback: () => void): () => void {
+  const audio = getInstance();
+  const handler = () => callback();
+  audio.addEventListener("loadedmetadata", handler);
+  audio.addEventListener("canplay", handler);
+  return () => {
+    audio.removeEventListener("loadedmetadata", handler);
+    audio.removeEventListener("canplay", handler);
+  };
 }
 
 export function play(): Promise<void> {
