@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
+import { useStickyHeader } from "./useStickyHeader";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
 const LINK_HOVER = "hover:text-emerald-800 dark:hover:text-emerald-200";
@@ -23,11 +24,15 @@ export function Header() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
+  const { isHidden, hasShadow } = useStickyHeader();
 
   return (
     <header
       role="banner"
-      className="sticky top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90"
+      data-hidden={isHidden ? "true" : "false"}
+      className={`sticky top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
+        hasShadow ? "shadow-sm" : ""
+      } ${isHidden ? "-translate-y-full" : ""}`}
     >
       <div className="mx-auto flex h-12 max-h-[52px] max-w-4xl items-center justify-between gap-6 px-4 sm:px-5">
         {/* Brand */}
