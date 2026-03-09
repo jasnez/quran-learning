@@ -109,7 +109,7 @@ describe("AppShell", () => {
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
   });
 
-  it("scroll container is flex column with viewport height for scrolling and sticky footer", () => {
+  it("scroll container is flex column with min height for sticky footer", () => {
     const { container } = render(
       <AppShell>
         <span>x</span>
@@ -118,7 +118,7 @@ describe("AppShell", () => {
     const scrollEl = container.querySelector("[data-scroll-container]");
     expect(scrollEl).toBeInTheDocument();
     expect(scrollEl?.className).toMatch(/flex.*flex-col|flex-col/);
-    expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh|h-dvh/);
+    expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh/);
   });
 
   it("main has flex-1 so footer sits at bottom when content is short", () => {
@@ -164,20 +164,10 @@ describe("AppShell", () => {
   });
 
   it("when audio player is visible and user scrolled, BackToTop sits above player (data-above-player)", async () => {
-    let scrollY = 500;
+    const scrollY = 500;
+    Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
     const { container } = render(<AppShell><span>x</span></AppShell>);
-    const scrollEl = container.querySelector("[data-scroll-container]");
-    if (scrollEl) {
-      Object.defineProperty(scrollEl, "scrollTop", {
-        configurable: true,
-        get: () => scrollY,
-        set: (v: number) => { scrollY = v; },
-      });
-      fireEvent.scroll(scrollEl);
-    } else {
-      Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
-      fireEvent.scroll(window);
-    }
+    fireEvent.scroll(window);
     await waitFor(() => {
       const btn = container.querySelector("[data-testid='back-to-top']");
       expect(btn).toBeInTheDocument();

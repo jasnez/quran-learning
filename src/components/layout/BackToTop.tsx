@@ -18,25 +18,29 @@ export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProp
   useEffect(() => {
     const container = scrollContext?.scrollContainerRef?.current;
 
-    const check = () => {
-      const top = container ? container.scrollTop : window.scrollY;
-      setVisible(top > scrollThreshold);
+    const getScrollTop = (): number => {
+      if (container) {
+        const { scrollHeight, clientHeight } = container;
+        if (scrollHeight > clientHeight) return container.scrollTop;
+      }
+      return window.scrollY;
     };
 
+    const check = () => setVisible(getScrollTop() > scrollThreshold);
     check();
 
-    if (container) {
-      container.addEventListener("scroll", check, { passive: true });
-      return () => container.removeEventListener("scroll", check);
+    const useContainer = container && container.scrollHeight > container.clientHeight;
+    if (useContainer) {
+      container!.addEventListener("scroll", check, { passive: true });
+      return () => container!.removeEventListener("scroll", check);
     }
-
     window.addEventListener("scroll", check, { passive: true });
     return () => window.removeEventListener("scroll", check);
   }, [scrollThreshold, scrollContext?.scrollContainerRef]);
 
   const scrollToTop = () => {
     const container = scrollContext?.scrollContainerRef?.current;
-    if (container) {
+    if (container && container.scrollHeight > container.clientHeight) {
       container.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
