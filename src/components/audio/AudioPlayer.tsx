@@ -458,9 +458,9 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
         aria-label="Više opcija playera"
         className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
       >
-        <span className="flex h-1.5 w-1.5 rounded-full bg-current" />
-        <span className="mx-0.5 flex h-1.5 w-1.5 rounded-full bg-current" />
-        <span className="flex h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
+        <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
+        <span className="block h-0.5 w-0.5 rounded-full bg-current" />
       </button>
       {isOpen && (
         <div
