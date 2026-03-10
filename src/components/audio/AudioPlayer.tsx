@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -39,6 +39,7 @@ export function AudioPlayer() {
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
 
   const restartFromFirst = usePlayerStore((s) => s.restartFromFirst);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   const prevSrcRef = useRef<string | null>(null);
   const prevIsPlayingRef = useRef(false);
@@ -283,7 +284,7 @@ export function AudioPlayer() {
           </div>
 
           {/* Right: controls (mobile and desktop) */}
-          <div className="flex flex-shrink-0 items-center justify-center gap-1 md:gap-2">
+          <div className="relative flex flex-shrink-0 items-center justify-center gap-1 md:gap-2">
             <button
               type="button"
               onClick={previous}
@@ -319,48 +320,61 @@ export function AudioPlayer() {
             >
               <StopIcon />
             </button>
-            <button
-              type="button"
-              onClick={cycleRepeatMode}
-              aria-label={
-                repeatMode === "off"
-                  ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
-                  : repeatMode === "surah"
-                    ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
-                    : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
-              }
-              aria-pressed={repeatMode !== "off"}
-              className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
-                repeatMode !== "off"
-                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                  : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
-              }`}
-            >
-              {repeatMode === "ayah" ? (
-                <RepeatOneIcon className="h-4 w-4 md:h-5 md:w-5" />
-              ) : (
-                <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={toggleAutoPlayNext}
-              aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
-              aria-pressed={autoPlayNext}
-              className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
-                autoPlayNext
-                  ? "justify-end bg-stone-800 dark:bg-stone-200"
-                  : "justify-start bg-stone-200 dark:bg-stone-600"
-              }`}
-            >
-              <span
-                data-autoplay-thumb
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-stone-800 text-white shadow md:h-8 md:w-8 dark:bg-stone-200 dark:text-stone-900"
-                aria-hidden
+            {/* Repeat & autoplay: inline on desktop, moved to "more" menu on mobile */}
+            <div className="hidden items-center gap-1 md:flex">
+              <button
+                type="button"
+                onClick={cycleRepeatMode}
+                aria-label={
+                  repeatMode === "off"
+                    ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
+                    : repeatMode === "surah"
+                      ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
+                      : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
+                }
+                aria-pressed={repeatMode !== "off"}
+                className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
+                  repeatMode !== "off"
+                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                    : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                }`}
               >
-                <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </span>
-            </button>
+                {repeatMode === "ayah" ? (
+                  <RepeatOneIcon className="h-4 w-4 md:h-5 md:w-5" />
+                ) : (
+                  <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={toggleAutoPlayNext}
+                aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
+                aria-pressed={autoPlayNext}
+                className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
+                  autoPlayNext
+                    ? "justify-end bg-stone-800 dark:bg-stone-200"
+                    : "justify-start bg-stone-200 dark:bg-stone-600"
+                }`}
+              >
+                <span
+                  data-autoplay-thumb
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-stone-800 text-white shadow md:h-8 md:w-8 dark:bg-stone-200 dark:text-stone-900"
+                  aria-hidden
+                >
+                  <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                </span>
+              </button>
+            </div>
+
+            {/* Mobile "more" menu with three dots */}
+            <MoreMenu
+              isOpen={isMoreOpen}
+              onToggle={() => setIsMoreOpen((v) => !v)}
+              repeatMode={repeatMode}
+              autoPlayNext={autoPlayNext}
+              onToggleRepeat={cycleRepeatMode}
+              onToggleAutoPlayNext={toggleAutoPlayNext}
+            />
           </div>
         </div>
 
@@ -419,6 +433,78 @@ function StopIcon() {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
       <path d="M6 6h12v12H6V6z" />
     </svg>
+  );
+}
+
+type MoreMenuProps = {
+  isOpen: boolean;
+  onToggle: () => void;
+  repeatMode: ReturnType<typeof useSettingsStore>["repeatMode"];
+  autoPlayNext: boolean;
+  onToggleRepeat: () => void;
+  onToggleAutoPlayNext: () => void;
+};
+
+function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, onToggleAutoPlayNext }: MoreMenuProps) {
+  return (
+    <div className="relative md:hidden">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+        aria-label="Više opcija playera"
+        className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+      >
+        <span className="flex h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="mx-0.5 flex h-1.5 w-1.5 rounded-full bg-current" />
+        <span className="flex h-1.5 w-1.5 rounded-full bg-current" />
+      </button>
+      {isOpen && (
+        <div
+          className="absolute right-0 top-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
+          role="menu"
+          aria-label="Dodatne kontrole playera"
+        >
+          <button
+            type="button"
+            onClick={onToggleRepeat}
+            aria-label={
+              repeatMode === "off"
+                ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
+                : repeatMode === "surah"
+                  ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
+                  : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
+            }
+            aria-pressed={repeatMode !== "off"}
+            className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
+              repeatMode !== "off"
+                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                : "text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+            }`}
+            role="menuitem"
+          >
+            <span>Ponavljanje</span>
+            <span className="ml-2 text-[10px] uppercase tracking-wide">
+              {repeatMode === "ayah" ? "AJET" : repeatMode === "surah" ? "SURA" : "ISKLJ."}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={onToggleAutoPlayNext}
+            aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
+            aria-pressed={autoPlayNext}
+            className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+            role="menuitem"
+          >
+            <span>Automatski sljedeća sura</span>
+            <span className="ml-2 text-[10px] uppercase tracking-wide">
+              {autoPlayNext ? "UKLJ." : "ISKLJ."}
+            </span>
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
