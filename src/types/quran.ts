@@ -91,3 +91,18 @@ export type EngineSearchResult = {
   arabicText: string;
   score: number;
 };
+
+/** Juz (جزء) boundary and metadata. One of 30 equal-ish portions of the Quran. */
+export interface JuzInfo {
+  juz: number;
+  name: string;
+  nameArabic: string;
+  start: string;
+  end: string;
+  startSurah: number;
+  startAyah: number;
+  endSurah: number;
+  endAyah: number;
+  /** Surah numbers that have at least one ayah in this juz. */
+  surahsIncluded: number[];
+}

@@ -226,6 +226,11 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
   });
 
+  it("has Džuzevi link", () => {
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(screen.getByRole("link", { name: /džuzevi/i })).toHaveAttribute("href", "/surahs?view=juz");
+  });
+
   it("has Quiz link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     expect(screen.getByRole("link", { name: /kviz/i })).toHaveAttribute("href", "/test/1");

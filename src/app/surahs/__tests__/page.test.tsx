@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SurahsPage from "../page";
 import type { SurahSummary } from "@/types/quran";
@@ -57,6 +57,12 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+vi.mock("next/navigation", () => ({
+  useSearchParams: () => ({
+    get: (key: string) => (key === "view" ? null : null),
+  }),
+}));
+
 vi.mock("@/lib/data", () => ({
   getAllSurahs: () => Promise.resolve(mockSurahs),
 }));
@@ -86,7 +92,8 @@ describe("Surahs page", () => {
   it("renders all surahs from data when no search", async () => {
     const Page = await SurahsPage();
     render(Page);
-    const links = screen.getAllByRole("link", { href: /\/surah\/\d+/ });
+    const list = screen.getByRole("list");
+    const links = within(list).getAllByRole("link", { href: /\/surah\/\d+/ });
     expect(links).toHaveLength(mockSurahs.length);
   });
 
@@ -132,6 +139,15 @@ describe("Surahs page", () => {
     render(Page);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "Fatiha");
-    expect(screen.getByRole("link", { href: "/surah/1" })).toBeInTheDocument();
+    const list = screen.getByRole("list");
+    expect(within(list).getByRole("link", { href: "/surah/1" })).toBeInTheDocument();
+  });
+
+  it("has Sure and Džuzevi tab; Džuzevi link goes to view=juz", async () => {
+    const Page = await SurahsPage();
+    render(Page);
+    expect(screen.getByRole("button", { name: /^sure$/i })).toBeInTheDocument();
+    const juzLink = screen.getByRole("link", { name: /džuzevi/i });
+    expect(juzLink).toHaveAttribute("href", "/surahs?view=juz");
   });
 });

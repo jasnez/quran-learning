@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo } from "react";
+import Link from "next/link";
 import type { Ayah, Word } from "@/types/quran";
 import type { ChapterAudioData, WordData } from "@/types/wordByWord";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -10,6 +11,7 @@ import * as audioManager from "@/lib/audio/audioManager";
 import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
 import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
 import { mapDbWordsToQuranComWords } from "@/lib/quran/tajwidWordMapping";
+import { getJuzForAyah } from "@/lib/data/juzUtils";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
@@ -242,7 +244,14 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
         </p>
       )}
       <ul className="space-y-14 list-none" role="list">
-      {ayahs.map((ayah) => {
+      {ayahs.map((ayah, index) => {
+        const prevAyah = index > 0 ? ayahs[index - 1] : null;
+        const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
+        const [surahNum, ayahNum] = ayah.id.split(":").map(Number);
+        const prevJuz = prevAyah ? getJuzForAyah(prevSurahNum!, prevAyahNum!) : undefined;
+        const currentJuz = getJuzForAyah(surahNum!, ayahNum!);
+        const showJuzDivider = prevAyah != null && prevJuz != null && currentJuz != null && prevJuz !== currentJuz;
+
         const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
         const rawChapterWords = wordDataMap.get(ayah.id);
         const dbWordsForAyah = wordsByAyahKey.get(ayah.id);
@@ -253,6 +262,18 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
         const useChapterRenderer = wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
         return (
         <li key={ayah.id}>
+          {showJuzDivider && (
+            <div className="flex items-center gap-3 py-6" role="separator" aria-label={`Početak džuza ${currentJuz}`}>
+              <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+              <Link
+                href={`/juz/${currentJuz}`}
+                className="rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-200 dark:hover:bg-amber-900/50"
+              >
+                Džuz {currentJuz}
+              </Link>
+              <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+            </div>
+          )}
           <AyahCard
             ayah={ayah}
             surahAyahs={ayahs}

@@ -108,6 +108,14 @@ export function MobileNav() {
               >
                 Tedžvid lekcije
               </Link>
+              <Link
+                href="/surahs?view=juz"
+                role="menuitem"
+                onClick={() => setMoreOpen(false)}
+                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+              >
+                Džuzevi
+              </Link>
             </div>
           )}
         </div>

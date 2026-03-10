@@ -49,3 +49,34 @@ export async function getAyahsBySurahNumber(surahNumber: number): Promise<Ayah[]
 export async function getReciters(): Promise<Reciter[]> {
   return apiFetchReciters();
 }
+
+/** Segment of a juz: one surah with only the ayahs that fall in the juz. */
+export type JuzSegment = { surah: SurahSummary; ayahs: Ayah[] };
+
+/**
+ * Returns all ayahs for a juz, grouped by surah (only the range within the juz).
+ * For server/juz page only.
+ */
+export async function getAyahsForJuz(juzNumber: number): Promise<JuzSegment[]> {
+  const { getJuzByNumber } = await import("@/lib/data/juzUtils");
+  const juz = getJuzByNumber(juzNumber);
+  if (!juz) return [];
+
+  const segments: JuzSegment[] = [];
+
+  for (const surahNum of juz.surahsIncluded) {
+    const isStartSurah = surahNum === juz.startSurah;
+    const isEndSurah = surahNum === juz.endSurah;
+    const startAyah = isStartSurah ? juz.startAyah : 1;
+
+    const detail = await getSurahByNumber(surahNum);
+    const endAyah = isEndSurah ? juz.endAyah : detail.surah.ayahCount;
+    const ayahs = detail.ayahs;
+    const slice = ayahs.filter((a) => a.ayahNumber >= startAyah && a.ayahNumber <= endAyah);
+    if (slice.length > 0) {
+      segments.push({ surah: detail.surah, ayahs: slice });
+    }
+  }
+
+  return segments;
+}
