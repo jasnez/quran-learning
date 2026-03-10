@@ -436,10 +436,12 @@ function StopIcon() {
   );
 }
 
+type RepeatMode = "off" | "ayah" | "surah";
+
 type MoreMenuProps = {
   isOpen: boolean;
   onToggle: () => void;
-  repeatMode: ReturnType<typeof useSettingsStore>["repeatMode"];
+  repeatMode: RepeatMode;
   autoPlayNext: boolean;
   onToggleRepeat: () => void;
   onToggleAutoPlayNext: () => void;
