@@ -52,8 +52,11 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
   useEffect(() => {
     const el = scrollContext?.scrollContainerRef?.current ?? null;
 
+    const isContainerScrollable = (): boolean =>
+      !!el && el.scrollHeight > el.clientHeight;
+
     const getScrollTop = (): number => {
-      if (el) return el.scrollTop;
+      if (el && isContainerScrollable()) return el.scrollTop;
       return getWindowScrollTop();
     };
 
@@ -97,7 +100,8 @@ export function useStickyHeader(options: Options = {}): StickyHeaderState {
 
     handleScroll();
 
-    if (el) {
+    const useEl = el && isContainerScrollable();
+    if (useEl) {
       el.addEventListener("scroll", handleScroll, { passive: true });
       return () => el.removeEventListener("scroll", handleScroll);
     }

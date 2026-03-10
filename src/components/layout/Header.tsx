@@ -30,7 +30,7 @@ export function Header() {
     <header
       role="banner"
       data-hidden={isHidden ? "true" : "false"}
-      className={`sticky top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
+      className={`fixed left-0 right-0 top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
         hasShadow ? "shadow-sm" : ""
       } ${isHidden ? "-translate-y-full" : ""}`}
     >
