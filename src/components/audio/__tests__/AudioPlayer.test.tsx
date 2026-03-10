@@ -393,4 +393,25 @@ describe("AudioPlayer", () => {
     const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
   });
+
+  it("shows compact vertical more menu icon on mobile", () => {
+    render(<AudioPlayer />);
+    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    const wrapper = moreBtn.firstElementChild as HTMLElement | null;
+    const dots = wrapper ? wrapper.querySelectorAll("span") : [];
+    expect(dots.length).toBe(3);
+    // Dots are stacked vertically (wrapper uses flex-col), not laid out in a row
+    expect(wrapper).not.toBeNull();
+    expect(wrapper).toHaveClass("flex", "flex-col");
+  });
+
+  it("opens more menu panel above the player bar", () => {
+    render(<AudioPlayer />);
+    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    fireEvent.click(moreBtn);
+    const menu = screen.getByRole("menu", { name: /dodatne kontrole playera/i });
+    expect(menu).toBeInTheDocument();
+    // Panel should be positioned above the control bar (using bottom offset), not below it
+    expect(menu).toHaveClass("bottom-11");
+  });
 });

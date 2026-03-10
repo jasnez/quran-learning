@@ -458,13 +458,15 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
         aria-label="Više opcija playera"
         className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
       >
-        <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
-        <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
-        <span className="block h-0.5 w-0.5 rounded-full bg-current" />
+        <span className="flex flex-col items-center">
+          <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
+          <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
+          <span className="block h-0.5 w-0.5 rounded-full bg-current" />
+        </span>
       </button>
       {isOpen && (
         <div
-          className="absolute right-0 top-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
+          className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
           role="menu"
           aria-label="Dodatne kontrole playera"
         >
