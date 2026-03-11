@@ -17,7 +17,7 @@ A web app for reading and learning the Quran with tajwid helpers, transliteratio
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS 4
 - **State:** Zustand (player + settings)
-- **Fonts:** Geist, Geist Mono, Amiri (Arabic)
+- **Fonts:** Geist, Geist Mono, Amiri (fallback), KFGQPC Uthmanic Script HAFS (Arabic)
 - **Testing:** Vitest, Testing Library
 
 ## Prerequisites

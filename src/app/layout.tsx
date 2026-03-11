@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Amiri } from "next/font/google";
+import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import "./globals.css";
 
@@ -17,6 +18,12 @@ const amiri = Amiri({
   weight: ["400", "700"],
   subsets: ["arabic", "latin"],
   variable: "--font-amiri",
+});
+
+const uthmanicHafs = localFont({
+  src: "../../node_modules/kfgqpc-uthmanic-script-hafs-regular/arabic.otf",
+  variable: "--font-uthmanic-hafs",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -39,7 +46,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${uthmanicHafs.variable} antialiased`}
       >
         <ThemeProvider>
           <AppShell>{children}</AppShell>

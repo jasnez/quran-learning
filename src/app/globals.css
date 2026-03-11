@@ -42,7 +42,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-arabic: var(--font-amiri), serif;
+  --font-arabic: var(--font-uthmanic-hafs), var(--font-amiri), serif;
 }
 
 html {
