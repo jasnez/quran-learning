@@ -11,6 +11,7 @@ import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
 import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterRenderer";
 import { useIsMobile } from "@/hooks/useMediaQuery";
+import * as audioManager from "@/lib/audio/audioManager";
 
 const ARABIC_MIN_MOBILE_PX = 22;
 
@@ -100,6 +101,12 @@ export function AyahCard({
     if (isThisAyahPlaying) {
       pause();
     } else {
+      // Prime audio playback on direct user gesture (mobile autoplay policies)
+      try {
+        void audioManager.play();
+      } catch {
+        // ignore – actual source will be loaded via AudioPlayer effect
+      }
       setQueue(surahAyahs);
       play(ayah);
       useProgressStore.getState().updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");

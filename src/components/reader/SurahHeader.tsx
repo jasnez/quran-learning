@@ -3,6 +3,7 @@
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
+import * as audioManager from "@/lib/audio/audioManager";
 
 const revelationLabel: Record<string, string> = {
   meccan: "Meka",
@@ -23,6 +24,12 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
 
   const handlePlayFullSurah = () => {
     if (ayahs.length === 0) return;
+    // Prime audio playback on direct user gesture (mobile autoplay policies)
+    try {
+      void audioManager.play();
+    } catch {
+      // ignore – actual source will be loaded via AudioPlayer effect
+    }
     setQueue(ayahs);
     play(ayahs[0]);
   };

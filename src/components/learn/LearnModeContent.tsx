@@ -200,6 +200,12 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
   const handlePlayPause = () => {
     if (isThisAyahPlaying) pause();
     else {
+      // Prime audio element on direct user gesture (mobile autoplay policies)
+      try {
+        void audioManager.play();
+      } catch {
+        // ignore – actual source will be loaded via AudioPlayer effect
+      }
       setQueue(ayahs);
       play(ayah);
       useProgressStore.getState().updateLastPosition(surahNumber, ayah.ayahNumber, surah.nameLatin, "learning");
