@@ -43,7 +43,7 @@ export function TajwidQuiz({
 
   const handleNext = () => {
     if (currentIndex + 1 >= total) {
-      const finalScore = score + (selectedIndex === question.correctIndex ? 1 : 0);
+      const finalScore = score;
       markCompleted(lessonSlug, finalScore, total);
       setQuizFinished(true);
       return;
@@ -64,7 +64,7 @@ export function TajwidQuiz({
   if (quiz.length === 0) return null;
 
   if (quizFinished) {
-    const totalCorrect = score + (selectedIndex === question.correctIndex ? 1 : 0);
+    const totalCorrect = score;
     return (
       <section className="mb-8 space-y-4">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">

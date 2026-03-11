@@ -16,6 +16,9 @@ export function getResolvedAudioUrl(url: string | null | undefined): string | nu
   if (resolved.startsWith("http://") || resolved.startsWith("https://")) {
     return resolved;
   }
+  if (resolved.startsWith("/api/audio")) {
+    return resolved;
+  }
   const match = trimmed.match(RELATIVE_AUDIO_MATCH);
   if (match) {
     return `${FALLBACK_CDN_BASE}/${match[1]}`;

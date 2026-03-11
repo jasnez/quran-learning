@@ -40,10 +40,10 @@ export function buildAudioUrl(url: string | null | undefined): string {
     return trimmed;
   }
   const path = relativePathForCdn(trimmed);
+  if (USE_PROXY && path) {
+    return `/api/audio?path=${encodeURIComponent(path)}`;
+  }
   if (CDN_BASE) {
-    if (USE_PROXY && path) {
-      return `/api/audio?path=${encodeURIComponent(path)}`;
-    }
     return path ? `${CDN_BASE}/${path}` : CDN_BASE;
   }
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;

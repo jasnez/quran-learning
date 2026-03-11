@@ -2,16 +2,20 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getResolvedAudioUrl } from "../getResolvedAudioUrl";
 
 const ENV_KEY = "NEXT_PUBLIC_AUDIO_CDN_URL";
+const PROXY_ENV_KEY = "NEXT_PUBLIC_AUDIO_VIA_PROXY";
 
 describe("getResolvedAudioUrl", () => {
   let originalEnv: string | undefined;
+  let originalProxy: string | undefined;
 
   beforeEach(() => {
     originalEnv = process.env[ENV_KEY];
+    originalProxy = process.env[PROXY_ENV_KEY];
   });
 
   afterEach(() => {
     process.env[ENV_KEY] = originalEnv;
+    process.env[PROXY_ENV_KEY] = originalProxy;
     vi.resetModules();
   });
 
@@ -50,5 +54,15 @@ describe("getResolvedAudioUrl", () => {
     expect(resolve("/audio/mishary-alafasy/001001.mp3")).toBe(
       "https://everyayah.com/data/Alafasy_128kbps/001001.mp3"
     );
+  });
+
+  it("when NEXT_PUBLIC_AUDIO_VIA_PROXY=1, returns proxy URL not everyayah (so proxy is used for playback)", async () => {
+    delete process.env[ENV_KEY];
+    process.env.NEXT_PUBLIC_AUDIO_VIA_PROXY = "1";
+    vi.resetModules();
+    const { getResolvedAudioUrl: resolve } = await import("../getResolvedAudioUrl");
+    const result = resolve("/audio/mishary-alafasy/001001.mp3");
+    expect(result).toMatch(/^\/api\/audio\?path=/);
+    expect(result).not.toContain("everyayah.com");
   });
 });
