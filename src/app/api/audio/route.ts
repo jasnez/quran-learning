@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const CDN_BASE = (process.env.NEXT_PUBLIC_AUDIO_CDN_URL ?? "").replace(/\/$/, "");
+const SUPABASE_URL = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
 const BUCKET = "audio";
 
 /** Path must be reciterId/filename.mp3 (e.g. mishary-alafasy/001001.mp3), no traversal. */
@@ -21,14 +22,17 @@ export async function GET(request: NextRequest) {
   if (!path || !isValidPath(path)) {
     return NextResponse.json({ error: "Invalid path" }, { status: 400 });
   }
-  if (!SUPABASE_URL) {
+  let url: string | null = null;
+  if (CDN_BASE) {
+    url = `${CDN_BASE}/${path}`;
+  } else if (SUPABASE_URL) {
+    url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`;
+  } else {
     return NextResponse.json(
-      { error: "NEXT_PUBLIC_SUPABASE_URL not configured" },
+      { error: "Audio backend not configured" },
       { status: 500 }
     );
   }
-  const base = SUPABASE_URL.replace(/\/$/, "");
-  const url = `${base}/storage/v1/object/public/${BUCKET}/${path}`;
   try {
     const res = await fetch(url, { cache: "force-cache" });
     if (!res.ok) {

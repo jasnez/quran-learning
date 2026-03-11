@@ -102,14 +102,17 @@ export function AyahCard({
       pause();
     } else {
       // Prime audio playback on direct user gesture (mobile autoplay policies)
-      try {
-        void audioManager.play();
-      } catch {
-        // ignore – actual source will be loaded via AudioPlayer effect
+      const playResult = audioManager.play();
+      if (playResult && typeof (playResult as Promise<void>).catch === "function") {
+        void (playResult as Promise<void>).catch(() => {
+          // ignore – actual source will be loaded via AudioPlayer effect
+        });
       }
       setQueue(surahAyahs);
       play(ayah);
-      useProgressStore.getState().updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");
+      useProgressStore
+        .getState()
+        .updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");
     }
   };
 

@@ -201,14 +201,17 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     if (isThisAyahPlaying) pause();
     else {
       // Prime audio element on direct user gesture (mobile autoplay policies)
-      try {
-        void audioManager.play();
-      } catch {
-        // ignore – actual source will be loaded via AudioPlayer effect
+      const playResult = audioManager.play();
+      if (playResult && typeof (playResult as Promise<void>).catch === "function") {
+        void (playResult as Promise<void>).catch(() => {
+          // ignore – actual source will be loaded via AudioPlayer effect
+        });
       }
       setQueue(ayahs);
       play(ayah);
-      useProgressStore.getState().updateLastPosition(surahNumber, ayah.ayahNumber, surah.nameLatin, "learning");
+      useProgressStore
+        .getState()
+        .updateLastPosition(surahNumber, ayah.ayahNumber, surah.nameLatin, "learning");
     }
   };
 
