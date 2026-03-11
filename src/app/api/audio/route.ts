@@ -22,37 +22,44 @@ export async function GET(request: NextRequest) {
   if (!path || !isValidPath(path)) {
     return NextResponse.json({ error: "Invalid path" }, { status: 400 });
   }
-  let url: string | null = null;
+  const urls: string[] = [];
+  // Prefer Supabase (canonical storage) first, then optional CDN mirror
+  if (SUPABASE_URL) {
+    urls.push(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`);
+  }
   if (CDN_BASE) {
-    url = `${CDN_BASE}/${path}`;
-  } else if (SUPABASE_URL) {
-    url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`;
-  } else {
+    urls.push(`${CDN_BASE}/${path}`);
+  }
+  if (urls.length === 0) {
     return NextResponse.json(
       { error: "Audio backend not configured" },
       { status: 500 }
     );
   }
   try {
-    const res = await fetch(url, { cache: "force-cache" });
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: "Upstream error", status: res.status },
-        { status: res.status === 404 ? 404 : 502 }
-      );
+    let lastStatus = 0;
+    for (const url of urls) {
+      const res = await fetch(url, { cache: "force-cache" });
+      if (res.ok) {
+        const contentType = res.headers.get("content-type") ?? "audio/mpeg";
+        const body = res.body;
+        if (!body) {
+          continue;
+        }
+        return new NextResponse(body, {
+          status: 200,
+          headers: {
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=86400",
+          },
+        });
+      }
+      lastStatus = res.status;
     }
-    const contentType = res.headers.get("content-type") ?? "audio/mpeg";
-    const body = res.body;
-    if (!body) {
-      return NextResponse.json({ error: "No body" }, { status: 502 });
-    }
-    return new NextResponse(body, {
-      status: 200,
-      headers: {
-        "Content-Type": contentType,
-        "Cache-Control": "public, max-age=86400",
-      },
-    });
+    return NextResponse.json(
+      { error: "Upstream error", status: lastStatus || 502 },
+      { status: lastStatus === 404 ? 404 : 502 }
+    );
   } catch (e) {
     console.error("Audio proxy error:", e);
     return NextResponse.json(
