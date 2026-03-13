@@ -3,23 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
-
-let browserClient:
-  | ReturnType<typeof createBrowserClient<User>>
-  | null = null;
-
-function getBrowserClient() {
-  if (browserClient) return browserClient;
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
-  }
-  browserClient = createBrowserClient(url, anonKey);
-  return browserClient;
-}
+import { getBrowserClient } from "@/lib/auth/authHelpers";
 
 export default function ConfirmEmailPage() {
   const router = useRouter();
