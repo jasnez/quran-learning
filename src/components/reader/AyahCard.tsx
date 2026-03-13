@@ -39,6 +39,8 @@ type AyahCardProps = {
   /** Quran.com API: seek to word start in chapter audio */
   /** Quran.com API: seek to word start in chapter audio */
   onChapterWordClick?: (wordPosition: number, startMs: number) => void;
+  /** Show a subtle page indicator badge for the first ayah on a mushaf page. */
+  showPageBadge?: boolean;
 };
 
 function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
@@ -62,6 +64,7 @@ export function AyahCard({
   chapterWords,
   chapterSegments,
   onChapterWordClick,
+  showPageBadge,
 }: AyahCardProps) {
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
@@ -153,6 +156,14 @@ export function AyahCard({
           {ayah.ayahNumber}
         </span>
         <div className="flex items-center gap-2">
+          {showPageBadge && ayah.page > 0 && (
+            <span
+              className="text-xs text-stone-400 dark:text-stone-500"
+              aria-label={`Stranica ${ayah.page}`}
+            >
+              Str. {ayah.page}
+            </span>
+          )}
           {isThisAyahPlaying && (
             <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400" aria-hidden>
               Sada se pušta

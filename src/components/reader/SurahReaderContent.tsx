@@ -244,57 +244,81 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
         </p>
       )}
       <ul className="space-y-14 list-none" role="list">
-      {ayahs.map((ayah, index) => {
-        const prevAyah = index > 0 ? ayahs[index - 1] : null;
-        const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
-        const [surahNum, ayahNum] = ayah.id.split(":").map(Number);
-        const prevJuz = prevAyah ? getJuzForAyah(prevSurahNum!, prevAyahNum!) : undefined;
-        const currentJuz = getJuzForAyah(surahNum!, ayahNum!);
-        const showJuzDivider = prevAyah != null && prevJuz != null && currentJuz != null && prevJuz !== currentJuz;
+        {ayahs.map((ayah, index) => {
+          const prevAyah = index > 0 ? ayahs[index - 1] : null;
+          const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
+          const [surahNum, ayahNum] = ayah.id.split(":").map(Number);
+          const prevJuz = prevAyah ? getJuzForAyah(prevSurahNum!, prevAyahNum!) : undefined;
+          const currentJuz = getJuzForAyah(surahNum!, ayahNum!);
+          const showJuzDivider = prevAyah != null && prevJuz != null && currentJuz != null && prevJuz !== currentJuz;
+          const showPageBadge =
+            ayah.page > 0 && (!prevAyah || prevAyah.page !== ayah.page);
 
-        const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
-        const rawChapterWords = wordDataMap.get(ayah.id);
-        const dbWordsForAyah = wordsByAyahKey.get(ayah.id);
-        const chapterWords =
-          rawChapterWords && dbWordsForAyah
-            ? mapDbWordsToQuranComWords(dbWordsForAyah, rawChapterWords)
-            : rawChapterWords;
-        const useChapterRenderer = wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
-        return (
-        <li key={ayah.id}>
-          {showJuzDivider && (
-            <div className="flex items-center gap-3 py-6" role="separator" aria-label={`Početak džuza ${currentJuz}`}>
-              <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
-              <Link
-                href={`/juz/${currentJuz}`}
-                className="rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-200 dark:hover:bg-amber-900/50"
-              >
-                Džuz {currentJuz}
-              </Link>
-              <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
-            </div>
-          )}
-          <AyahCard
-            ayah={ayah}
-            surahAyahs={ayahs}
-            surahNameLatin={surahNameLatin}
-            arabicFontSize={arabicFontSize}
-            showTransliteration={showTransliteration}
-            showTranslation={showTranslation}
-            showTajwidColors={showTajwidColors}
-            words={wordsByAyahKey.get(ayah.id)}
-            wordLevelSync={wordLevelSync && !wordByWordMode}
-            currentTimeMs={currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMs : Math.round(currentTime * 1000)) : 0}
-            audioDurationMs={currentAyahId === ayah.id && duration > 0 && !wordByWordMode ? Math.round(duration * 1000) : undefined}
-            onSeekWord={wordLevelSync && !wordByWordMode ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds) : undefined}
-            chapterWords={useChapterRenderer ? chapterWords : undefined}
-            chapterSegments={useChapterRenderer ? verseTimestamp!.segments : undefined}
-            onChapterWordClick={useChapterRenderer ? (pos, startMs) => handleChapterWordClick(ayah, pos, startMs) : undefined}
-          />
-        </li>
-        );
-      })}
-    </ul>
+          const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
+          const rawChapterWords = wordDataMap.get(ayah.id);
+          const dbWordsForAyah = wordsByAyahKey.get(ayah.id);
+          const chapterWords =
+            rawChapterWords && dbWordsForAyah
+              ? mapDbWordsToQuranComWords(dbWordsForAyah, rawChapterWords)
+              : rawChapterWords;
+          const useChapterRenderer =
+            wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
+          return (
+            <li key={ayah.id}>
+              {showJuzDivider && (
+                <div
+                  className="flex items-center gap-3 py-6"
+                  role="separator"
+                  aria-label={`Početak džuza ${currentJuz}`}
+                >
+                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+                  <Link
+                    href={`/juz/${currentJuz}`}
+                    className="rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-200 dark:hover:bg-amber-900/50"
+                  >
+                    Džuz {currentJuz}
+                  </Link>
+                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+                </div>
+              )}
+              <AyahCard
+                ayah={ayah}
+                surahAyahs={ayahs}
+                surahNameLatin={surahNameLatin}
+                arabicFontSize={arabicFontSize}
+                showTransliteration={showTransliteration}
+                showTranslation={showTranslation}
+                showTajwidColors={showTajwidColors}
+                words={wordsByAyahKey.get(ayah.id)}
+                wordLevelSync={wordLevelSync && !wordByWordMode}
+                currentTimeMs={
+                  currentAyahId === ayah.id
+                    ? wordByWordMode
+                      ? currentTimeMs
+                      : Math.round(currentTime * 1000)
+                    : 0
+                }
+                audioDurationMs={
+                  currentAyahId === ayah.id && duration > 0 && !wordByWordMode
+                    ? Math.round(duration * 1000)
+                    : undefined
+                }
+                onSeekWord={
+                  wordLevelSync && !wordByWordMode
+                    ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds)
+                    : undefined
+                }
+                chapterWords={useChapterRenderer ? chapterWords : undefined}
+                chapterSegments={useChapterRenderer ? verseTimestamp!.segments : undefined}
+                onChapterWordClick={
+                  useChapterRenderer ? (pos, startMs) => handleChapterWordClick(ayah, pos, startMs) : undefined
+                }
+                showPageBadge={showPageBadge}
+              />
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

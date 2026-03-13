@@ -22,6 +22,19 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
   const percent = totalAyahs > 0 ? Math.round((listened / totalAyahs) * 100) : 0;
   const showProgress = listened > 0 && totalAyahs > 0;
 
+  const pages = ayahs
+    .map((a) => a.page)
+    .filter((p) => typeof p === "number" && p > 0);
+  const hasPageInfo = pages.length > 0;
+  const minPage = hasPageInfo ? Math.min(...pages) : null;
+  const maxPage = hasPageInfo ? Math.max(...pages) : null;
+  const pageLabel =
+    hasPageInfo && minPage != null && maxPage != null
+      ? minPage === maxPage
+        ? `Stranica: ${minPage}`
+        : `Stranice: ${minPage}\u2013${maxPage}`
+      : null;
+
   const handlePlayFullSurah = () => {
     if (ayahs.length === 0) return;
     // Prime audio playback on direct user gesture (mobile autoplay policies)
@@ -56,6 +69,11 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
       <p className="mt-2 text-sm text-stone-500 dark:text-stone-500">
         {surah.ayahCount} ajeta · {revelationLabel[surah.revelationType] ?? surah.revelationType}
       </p>
+      {pageLabel && (
+        <p className="mt-1 text-xs text-stone-500 dark:text-stone-500" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
+          {pageLabel}
+        </p>
+      )}
       {showProgress && (
         <div className="mt-4" aria-label={`${listened} od ${totalAyahs} ajeta preslušano`}>
           <p className="text-xs text-stone-500 dark:text-stone-400">

@@ -85,5 +85,16 @@ describe("SurahHeader mobile playback", () => {
     expect(mockSetQueue).toHaveBeenCalledWith([mockAyah]);
     expect(mockPlay).toHaveBeenCalledWith(mockAyah);
   });
+
+  it("shows single page label when all ayahs are on one page", () => {
+    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah]} />);
+    expect(screen.getByText(/Stranica:\s*1/)).toBeInTheDocument();
+  });
+
+  it("shows page range label when ayahs span multiple pages", () => {
+    const secondAyah: Ayah = { ...mockAyah, id: "1:2", ayahNumber: 2, page: 2 };
+    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah, secondAyah]} />);
+    expect(screen.getByText(/Stranice:\s*1–2/)).toBeInTheDocument();
+  });
 });
 
