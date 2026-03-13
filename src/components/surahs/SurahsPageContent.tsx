@@ -36,8 +36,6 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
     return initialView;
   });
 
-  const [ramadanDay, setRamadanDay] = useState<number | null>(null);
-
   useEffect(() => {
     if (viewParam === "juz") setView("juz");
     else setView("surahs");
@@ -112,34 +110,13 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
 
       {showJuz && (
         <>
-          <div className="flex flex-wrap items-center gap-3 rounded-xl border border-amber-200/80 bg-amber-50/50 px-4 py-3 dark:border-amber-900/30 dark:bg-amber-950/20">
-            <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Ramazanski raspored:</span>
-            <select
-              value={ramadanDay ?? ""}
-              onChange={(e) => setRamadanDay(e.target.value === "" ? null : parseInt(e.target.value, 10))}
-              className="rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm text-stone-800 dark:border-amber-700 dark:bg-stone-800 dark:text-stone-200"
-              aria-label="Koji je dan Ramazana?"
-            >
-              <option value="">Nije Ramazan</option>
-              {Array.from({ length: 30 }, (_, i) => i + 1).map((d) => (
-                <option key={d} value={d}>
-                  Dan {d}
-                </option>
-              ))}
-            </select>
-            {ramadanDay != null && (
-              <span className="text-sm text-stone-600 dark:text-stone-400">
-                Dan {ramadanDay} = Džuz {ramadanDay}
-              </span>
-            )}
-          </div>
           <ul className="space-y-3" role="list">
-          {juzList.map((juz) => (
-            <li key={juz.juz}>
-              <JuzListCard juz={juz} allSurahs={surahs} ramadanDay={ramadanDay ?? undefined} />
-            </li>
-          ))}
-        </ul>
+            {juzList.map((juz) => (
+              <li key={juz.juz}>
+                <JuzListCard juz={juz} allSurahs={surahs} />
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </div>

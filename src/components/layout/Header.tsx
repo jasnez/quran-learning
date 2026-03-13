@@ -82,9 +82,6 @@ export function Header() {
             <Link href="/surahs" className={TEXT_LINK}>
               Sure
             </Link>
-            <Link href="/surahs?view=juz" className={TEXT_LINK}>
-              Džuzevi
-            </Link>
             <Link href="/test/1" className={TEXT_LINK}>
               Kviz
             </Link>

@@ -143,7 +143,7 @@ describe("Surahs page", () => {
     expect(within(list).getByRole("link", { href: "/surah/1" })).toBeInTheDocument();
   });
 
-  it("has Sure and Džuzevi tab; Džuzevi link goes to view=juz", async () => {
+  it("has Sure button and Džuzevi tab link to view=juz inside page (not in main header nav)", async () => {
     const Page = await SurahsPage();
     render(Page);
     expect(screen.getByRole("button", { name: /^sure$/i })).toBeInTheDocument();

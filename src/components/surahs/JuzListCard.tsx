@@ -9,7 +9,6 @@ import type { SurahSummary } from "@/types/quran";
 type JuzListCardProps = {
   juz: JuzInfo;
   allSurahs: SurahSummary[];
-  ramadanDay?: number; // 1–30, when active
 };
 
 function getRangeLabel(juz: JuzInfo, allSurahs: SurahSummary[]): string {
@@ -18,12 +17,11 @@ function getRangeLabel(juz: JuzInfo, allSurahs: SurahSummary[]): string {
   return `${startName} ${juz.startSurah}:${juz.startAyah} — ${endName} ${juz.endSurah}:${juz.endAyah}`;
 }
 
-export function JuzListCard({ juz, allSurahs, ramadanDay }: JuzListCardProps) {
+export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
   const getSurahProgress = useProgressStore((s) => s.getSurahProgress);
   const progress = getJuzProgress(juz.juz, getSurahProgress, allSurahs);
   const rangeLabel = getRangeLabel(juz, allSurahs);
   const surahCount = juz.surahsIncluded.length;
-  const isRamadanDay = ramadanDay != null && ramadanDay === juz.juz;
 
   return (
     <Link
@@ -49,14 +47,6 @@ export function JuzListCard({ juz, allSurahs, ramadanDay }: JuzListCardProps) {
           </p>
           <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">
             {surahCount} {surahCount === 1 ? "sura" : "sure"}
-            {ramadanDay != null && (
-              <>
-                {" · "}
-                <span className={isRamadanDay ? "font-medium text-amber-600 dark:text-amber-400" : ""}>
-                  Dan {juz.juz}
-                </span>
-              </>
-            )}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">

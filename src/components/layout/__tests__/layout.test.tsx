@@ -226,9 +226,9 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: /^sure$/i })).toHaveAttribute("href", "/surahs");
   });
 
-  it("has Džuzevi link", () => {
+  it("does not have separate Džuzevi link in header (accessible via Sure page tabs)", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /džuzevi/i })).toHaveAttribute("href", "/surahs?view=juz");
+    expect(screen.queryByRole("link", { name: /džuzevi/i })).not.toBeInTheDocument();
   });
 
   it("has Quiz link", () => {
@@ -375,5 +375,6 @@ describe("MobileNav", () => {
     expect(menu).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
     expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.queryByRole("menuitem", { name: /džuzevi/i })).not.toBeInTheDocument();
   });
 });
