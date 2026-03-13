@@ -67,6 +67,7 @@ Audio files are served from Supabase Storage so the app does not need to host MP
    - Dashboard → **Settings** (gear) → **API** → **CORS** (or **Config** tab): add allowed origins, e.g. `http://localhost:3000` and your **production URL** (e.g. `https://your-app.vercel.app`).
    - If your project has **Storage** → **Configuration** for the bucket, add the same origins there.
    - Full production deploy steps: see **docs/DEPLOY-PRODUCTION.md**.
+   - **Potvrda emaila:** da link u emailu vodi na produkcijsku app, u Dashboardu postavi **Authentication** → **URL Configuration** → **Site URL** (npr. `https://tvoj-app.vercel.app`) i **Redirect URLs** (npr. `https://tvoj-app.vercel.app/**`). Detalji: **docs/DEPLOY-PRODUCTION.md** (sekcija 5) i **docs/DEPLOY-CHECKLIST.md** (Korak 5a).
 
 3. **Env**: In `.env.local` set:
    ```env

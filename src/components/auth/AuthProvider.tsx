@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 import { useAuthStore } from "@/store/authStore";
@@ -30,9 +31,15 @@ function getBrowserClient() {
   return browserClient;
 }
 
+function isEmailConfirmed(user: User): boolean {
+  return !!user.email_confirmed_at;
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setUser = useAuthStore((s) => s.setUser);
   const currentUserId = useAuthStore((s) => s.user?.id ?? null);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const client = getBrowserClient();
@@ -53,32 +60,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await loadProgressFromCloud(user.id);
     };
 
+    const handleUser = async (user: User | null) => {
+      setUser(user);
+      if (!user) return;
+      if (!isEmailConfirmed(user) && pathname !== "/auth/confirm-email") {
+        router.replace("/auth/confirm-email");
+        return;
+      }
+      if (!isEmailConfirmed(user)) return;
+      await ensureUserProfileAndSettings(user);
+      await runInitialSync(user);
+    };
+
     void client.auth.getUser().then(async ({ data, error }) => {
       if (isCancelled || error) return;
-      const user = data?.user ?? null;
-      setUser(user as User | null);
-      if (user) {
-        await ensureUserProfileAndSettings(user as User);
-        await runInitialSync(user as User);
-      }
+      const user = (data?.user ?? null) as User | null;
+      await handleUser(user);
     });
 
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((_event, session) => {
       const user = (session?.user ?? null) as User | null;
-      setUser(user);
-      if (user) {
-        void ensureUserProfileAndSettings(user);
-        void runInitialSync(user);
-      }
+      void handleUser(user);
     });
 
     return () => {
       isCancelled = true;
       subscription.unsubscribe();
     };
-  }, [setUser]);
+  }, [setUser, router, pathname]);
 
   useEffect(() => {
     if (!currentUserId) return;

@@ -67,7 +67,27 @@ Ako u dashboardu nema CORS polja, probaj pustiti audio na produkciji – često 
 
 ---
 
-## 5. Deploy i provjera
+## 5. Supabase – Authentication URL Configuration (potvrda emaila)
+
+Da link za **potvrdu emaila** (nakon registracije) vodi korisnika na tvoju produkcijsku aplikaciju:
+
+1. Otvori [Supabase Dashboard](https://supabase.com/dashboard) → svoj projekt.
+2. U lijevom meniju: **Authentication** → **URL Configuration**.
+3. **Site URL** – postavi na tvoju **produkcijsku adresu** (bez trailing slash), npr.:
+   - `https://tvoj-projekt.vercel.app`
+   - ili custom domena: `https://tvoja-domena.com`
+4. **Redirect URLs** – u listu dodaj (jedan red po URL-u):
+   - `https://tvoj-projekt.vercel.app`
+   - `https://tvoj-projekt.vercel.app/**`
+   - Za lokalni dev: `http://localhost:3000` i `http://localhost:3000/**`
+   - Ako koristiš custom domenu, dodaj i nju: `https://tvoja-domena.com`, `https://tvoja-domena.com/**`
+5. **Save**.
+
+Nakon klika na link u emailu za potvrdu, Supabase preusmjeri korisnika na **Site URL** (npr. početnu stranicu); aplikacija tada prepoznaje potvrđenog korisnika i omogućuje puni pristup.
+
+---
+
+## 6. Deploy i provjera
 
 1. U Vercelu: **Deploy** (ili **Redeploy** nakon promjene env).
 2. Kad se build završi, otvori production URL (npr. `https://quran-learning-xxx.vercel.app`).
@@ -80,7 +100,7 @@ Ako u dashboardu nema CORS polja, probaj pustiti audio na produkciji – često 
 
 ---
 
-## 6. Opciono: custom domena
+## 7. Opciono: custom domena
 
 U Vercelu: **Settings** → **Domains** → dodaj svoju domenu i slijedi upute za DNS. Nakon toga u Supabase CORS dodaj i tu domenu (npr. `https://tvoja-domena.com`).
 

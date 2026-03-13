@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import type { ReactElement } from "react";
-import { getServerUser } from "@/lib/auth/serverAuth";
+import { getServerUserRequireConfirmed } from "@/lib/auth/serverAuth";
 import { getProfile } from "@/lib/profile/getProfile";
 import { getProfileStats } from "@/lib/profile/profileStats";
 import { formatListeningTime } from "@/lib/formatListeningTime";
@@ -10,10 +9,7 @@ import { DeleteAccountButton } from "./DeleteAccountButton";
 import { ProfileHeaderEdit } from "./ProfileHeaderEdit";
 
 export default async function ProfilePage(): Promise<ReactElement> {
-  const user = await getServerUser();
-  if (!user) {
-    redirect("/auth/login");
-  }
+  const user = await getServerUserRequireConfirmed();
 
   const [profile, stats] = await Promise.all([
     getProfile(user.id),

@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 // Mocks for server-side helpers that profile page will use
 const serverAuthMocks = vi.hoisted(() => ({
   getServerUser: vi.fn(),
+  getServerUserRequireConfirmed: vi.fn(),
 }));
 
 const profileStatsMocks = vi.hoisted(() => ({
@@ -31,7 +32,7 @@ vi.mock("next/navigation", () => ({
 // Import after mocks so page uses them
 import ProfilePage from "../page";
 
-const { getServerUser } = serverAuthMocks;
+const { getServerUserRequireConfirmed } = serverAuthMocks;
 const { getProfileStats } = profileStatsMocks;
 
 describe("Profile page", () => {
@@ -40,10 +41,12 @@ describe("Profile page", () => {
   });
 
   it("redirects to /auth/login when user is not authenticated", async () => {
-    getServerUser.mockResolvedValueOnce(null);
+    getServerUserRequireConfirmed.mockImplementationOnce(async () => {
+      redirect("/auth/login");
+      throw new Error("NEXT_REDIRECT");
+    });
 
-    await ProfilePage();
-
+    await expect(ProfilePage()).rejects.toThrow("NEXT_REDIRECT");
     expect(redirect).toHaveBeenCalledWith("/auth/login");
   });
 
@@ -55,7 +58,7 @@ describe("Profile page", () => {
       created_at: "2025-01-01T00:00:00.000Z",
     };
 
-    getServerUser.mockResolvedValueOnce(user);
+    getServerUserRequireConfirmed.mockResolvedValueOnce(user);
 
     getProfileMock.mockResolvedValueOnce({
       displayName: "Test User",

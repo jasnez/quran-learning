@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
@@ -21,6 +22,7 @@ function getBrowserClient() {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,9 +51,7 @@ export default function RegisterPage() {
       setError(signUpError.message ?? "Registracija nije uspjela.");
       return;
     }
-    setMessage(
-      "Hvala ti! Poslali smo email za potvrdu. Nakon potvrde prijavi se da bi sačuvali tvoj napredak."
-    );
+    router.replace("/auth/confirm-email");
   };
 
   return (

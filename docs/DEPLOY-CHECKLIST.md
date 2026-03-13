@@ -13,7 +13,8 @@ Prije nego kreneš: u terminalu u folderu `quran-learning` pokreni **`npm run de
 - **Korak 3** – u **postojećem** Vercel projektu: **Settings** → **Environment Variables** → dodaj **četiri** varijable (ili provjeri jesu li već tamo): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, **`SUPABASE_SERVICE_ROLE_KEY`** (preporučeno za produkciju – server tada čita bazu bez RLS), `NEXT_PUBLIC_AUDIO_CDN_URL`.
 - **Korak 4** – u istom projektu: **Redeploy** (da se build napravi s novim env varijablama).
 - **Korak 5** – u Supabaseu u CORS dodaj **tvoju production URL** (npr. `https://quran-learning-sigma.vercel.app`).
-- **Korak 6** – provjeri na toj URL da sve radi (uključujući audio).
+- **Korak 5a** – u Supabaseu: **Authentication** → **URL Configuration** → postavi **Site URL** i **Redirect URLs** (vidi Korak 5a ispod) da potvrda emaila radi na produkciji.
+- **Korak 6** – provjeri na toj URL da sve radi (uključujući audio i registraciju/potvrdu emaila).
 
 **Ako vidiš grešku „Failed to fetch surahs”:** (1) Dodaj na Vercel env **`SUPABASE_SERVICE_ROLE_KEY`** (Supabase Dashboard → Settings → API → service_role key), pa **Redeploy**. (2) Ako i dalje ne radi, provjeri da su u Supabaseu pokrenuti SQL za tablice (`supabase/RUN_ME_IN_SQL_EDITOR.sql`) i da je seed pokrenut (`npm run seed`).
 
@@ -111,6 +112,23 @@ Ako ne vidiš CORS polje, probaj pustiti audio na produkciji; ako radi, ne mora�
 
 ---
 
+## Korak 5a: Supabase – Authentication URL Configuration (potvrda emaila)
+
+Da link u emailu za **potvrdu računa** vodi na tvoju produkcijsku aplikaciju:
+
+1. Otvori **[Supabase Dashboard](https://supabase.com/dashboard)** → svoj projekt.
+2. U lijevom meniju: **Authentication** → **URL Configuration**.
+3. **Site URL** – stavi **produkcijsku adresu** (bez `/` na kraju), npr. **`https://quran-learning-sigma.vercel.app`** (ili tvoja Vercel/custom domena).
+4. **Redirect URLs** – u listu dodaj (svaki u svoj red):
+   - `https://quran-learning-sigma.vercel.app`
+   - `https://quran-learning-sigma.vercel.app/**`
+   - Za lokalni dev: `http://localhost:3000` i `http://localhost:3000/**`
+5. **Save**.
+
+Nakon toga, kad korisnik klikne „Confirm” u emailu, Supabase ga preusmjeri na tvoju app; sesija se ažurira i korisnik ima puni pristup.
+
+---
+
 ## Korak 6: Provjera na produkciji
 
 Na production URL-u:
@@ -118,6 +136,7 @@ Na production URL-u:
 - [ ] Početna stranica se učitava, navigacija radi.
 - [ ] **Sura 1** (Al-Fatiha) → **Pusti cijelu suru** ili **Play** na ajetu – čuje se zvuk, na dnu se vidi audio player (play/pause, prethodni/sljedeći, traka).
 - [ ] Ako nema zvuka: F12 → **Console** – provjeri CORS/404 i ponovno Korak 5 (CORS) i da su sve tri env varijable točno u Vercelu (Korak 3).
+- [ ] **Registracija i potvrda emaila:** registriraj se s novim emailom; provjeri inbox i klikni link za potvrdu – trebao bi završiti na produkcijskoj stranici. Ako ne radi, provjeri Korak 5a (Site URL i Redirect URLs u Supabaseu).
 
 ---
 
@@ -127,6 +146,6 @@ Na production URL-u:
 |------|-----|
 | Git | Samo ako imaš nove promjene: `git add` / `commit` / `push` (Korak 1). |
 | Vercel | **Postojeći** projekt: dodaj **4** env varijable (uključujući **SUPABASE_SERVICE_ROLE_KEY**), pa **Redeploy** (Korak 4). |
-| Supabase | CORS – dopusti origin `https://quran-learning-sigma.vercel.app` (Korak 5). |
+| Supabase | CORS – dopusti origin `https://quran-learning-sigma.vercel.app` (Korak 5). Auth – **Authentication** → **URL Configuration**: Site URL i Redirect URLs (Korak 5a). |
 
 Novi repo ili novi Vercel projekt **ne trebaju** – sve radi u onome što već imaš.

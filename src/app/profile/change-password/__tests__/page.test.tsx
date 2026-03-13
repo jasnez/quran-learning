@@ -7,7 +7,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const serverAuthMocks = vi.hoisted(() => ({
-  getServerUser: vi.fn(),
+  getServerUserRequireConfirmed: vi.fn(),
 }));
 
 const updatePasswordMock = vi.hoisted(() => vi.fn());
@@ -27,7 +27,7 @@ vi.mock("next/navigation", () => ({
 
 import ChangePasswordPage from "../page";
 
-const { getServerUser } = serverAuthMocks;
+const { getServerUserRequireConfirmed } = serverAuthMocks;
 
 describe("Change password page", () => {
   beforeEach(() => {
@@ -37,15 +37,17 @@ describe("Change password page", () => {
   });
 
   it("redirects to /auth/login when user is not authenticated", async () => {
-    getServerUser.mockResolvedValueOnce(null);
+    getServerUserRequireConfirmed.mockImplementationOnce(async () => {
+      redirect("/auth/login");
+      throw new Error("NEXT_REDIRECT");
+    });
 
-    await ChangePasswordPage();
-
+    await expect(ChangePasswordPage()).rejects.toThrow("NEXT_REDIRECT");
     expect(redirect).toHaveBeenCalledWith("/auth/login");
   });
 
   it("renders change password form when authenticated", async () => {
-    getServerUser.mockResolvedValueOnce({
+    getServerUserRequireConfirmed.mockResolvedValueOnce({
       id: "user-1",
       email: "u@example.com",
     });
@@ -67,7 +69,7 @@ describe("Change password page", () => {
   });
 
   it("shows error when passwords do not match", async () => {
-    getServerUser.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
+    getServerUserRequireConfirmed.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
     const Page = await ChangePasswordPage();
     render(Page);
 
@@ -88,7 +90,7 @@ describe("Change password page", () => {
   });
 
   it("shows error when new password is too short", async () => {
-    getServerUser.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
+    getServerUserRequireConfirmed.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
     const Page = await ChangePasswordPage();
     render(Page);
 
@@ -109,7 +111,7 @@ describe("Change password page", () => {
   });
 
   it("calls updatePassword and redirects to /profile on success", async () => {
-    getServerUser.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
+    getServerUserRequireConfirmed.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
     updatePasswordMock.mockResolvedValueOnce({ error: null });
 
     const Page = await ChangePasswordPage();
@@ -130,7 +132,7 @@ describe("Change password page", () => {
   });
 
   it("shows error when updatePassword fails", async () => {
-    getServerUser.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
+    getServerUserRequireConfirmed.mockResolvedValueOnce({ id: "u1", email: "u@x.com" });
     updatePasswordMock.mockResolvedValueOnce({
       error: new Error("Password is too weak"),
     });
