@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,28 +17,19 @@ export default function RegisterPage() {
     setLoading(true);
     setError(null);
     setMessage(null);
-    const client = await getBrowserClientAsync();
+
     const redirectTo =
-      typeof window !== "undefined"
-        ? `${window.location.origin}/`
-        : undefined;
-    const { error: signUpError } = await client.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectTo,
-      },
+      typeof window !== "undefined" ? `${window.location.origin}/` : undefined;
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim(), password, redirectTo }),
     });
+    const data = await res.json().catch(() => ({}));
+
     setLoading(false);
-    if (signUpError) {
-      const msg = signUpError.message ?? "Registracija nije uspjela.";
-      const isInvalidKey =
-        /invalid api key|invalid api_key|Invalid API key/i.test(msg);
-      setError(
-        isInvalidKey
-          ? "Pogrešna konfiguracija (API ključ). Provjeri u .env.local: NEXT_PUBLIC_SUPABASE_URL i NEXT_PUBLIC_SUPABASE_ANON_KEY (Supabase Dashboard → Settings → API)."
-          : msg
-      );
+    if (!res.ok) {
+      setError(data.error ?? "Registracija nije uspjela.");
       return;
     }
     router.replace("/auth/confirm-email");
