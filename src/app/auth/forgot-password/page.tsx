@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { getBrowserClient } from "@/lib/auth/authHelpers";
+import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setError(null);
     setMessage(null);
-    const client = getBrowserClient();
+    const client = await getBrowserClientAsync();
     const redirectTo =
       typeof window !== "undefined"
         ? `${window.location.origin}/auth/login`

@@ -2,10 +2,9 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 import { useAuthStore } from "@/store/authStore";
-import { ensureUserProfileAndSettings } from "@/lib/auth/authHelpers";
+import { getBrowserClientAsync, ensureUserProfileAndSettings } from "@/lib/auth/authHelpers";
 import {
   syncBookmarksToCloud,
   syncProgressToCloud,
@@ -15,21 +14,6 @@ import {
   loadBookmarksFromCloud,
   loadProgressFromCloud,
 } from "@/lib/sync/dataSyncService";
-
-let browserClient:
-  | ReturnType<typeof createBrowserClient<User>>
-  | null = null;
-
-function getBrowserClient() {
-  if (browserClient) return browserClient;
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
-  }
-  browserClient = createBrowserClient(url, anonKey);
-  return browserClient;
-}
 
 function isEmailConfirmed(user: User): boolean {
   return !!user.email_confirmed_at;
@@ -42,9 +26,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const client = getBrowserClient();
     let isCancelled = false;
     let didRunInitialSync = false;
+    let unsubscribe: (() => void) | null = null;
 
     const runInitialSync = async (user: User) => {
       if (didRunInitialSync) return;
@@ -72,22 +56,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await runInitialSync(user);
     };
 
-    void client.auth.getUser().then(async ({ data, error }) => {
-      if (isCancelled || error) return;
-      const user = (data?.user ?? null) as User | null;
-      await handleUser(user);
-    });
+    void getBrowserClientAsync().then((client) => {
+      if (isCancelled) return;
+      void client.auth.getUser().then(async ({ data, error }) => {
+        if (isCancelled || error) return;
+        const user = (data?.user ?? null) as User | null;
+        await handleUser(user);
+      });
 
-    const {
-      data: { subscription },
-    } = client.auth.onAuthStateChange((_event, session) => {
-      const user = (session?.user ?? null) as User | null;
-      void handleUser(user);
+      const {
+        data: { subscription },
+      } = client.auth.onAuthStateChange((_event, session) => {
+        const user = (session?.user ?? null) as User | null;
+        void handleUser(user);
+      });
+      unsubscribe = () => subscription.unsubscribe();
     });
 
     return () => {
       isCancelled = true;
-      subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, [setUser, router, pathname]);
 

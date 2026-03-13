@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { getBrowserClient } from "@/lib/auth/authHelpers";
+import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     setMessage(null);
-    const client = getBrowserClient();
+    const client = await getBrowserClientAsync();
     const { error: signInError } = await client.auth.signInWithPassword({
       email,
       password,
@@ -37,7 +37,7 @@ export default function LoginPage() {
   };
 
   const handleGoogle = async () => {
-    const client = getBrowserClient();
+    const client = await getBrowserClientAsync();
     const redirectTo =
       typeof window !== "undefined"
         ? `${window.location.origin}/`

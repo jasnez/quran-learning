@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { getBrowserClient } from "@/lib/auth/authHelpers";
+import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function ConfirmEmailPage() {
   const router = useRouter();
@@ -14,17 +14,18 @@ export default function ConfirmEmailPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const client = getBrowserClient();
-    void client.auth.getUser().then(({ data }) => {
-      const u = data?.user ?? null;
-      setUser(u ?? null);
-      if (!u) {
-        router.replace("/auth/login");
-        return;
-      }
-      if (u.email_confirmed_at) {
-        router.replace("/profile");
-      }
+    void getBrowserClientAsync().then((client) => {
+      return client.auth.getUser().then(({ data }) => {
+        const u = data?.user ?? null;
+        setUser(u ?? null);
+        if (!u) {
+          router.replace("/auth/login");
+          return;
+        }
+        if (u.email_confirmed_at) {
+          router.replace("/profile");
+        }
+      });
     });
   }, [router]);
 
@@ -33,7 +34,7 @@ export default function ConfirmEmailPage() {
     setLoading(true);
     setError(null);
     setMessage(null);
-    const client = getBrowserClient();
+    const client = await getBrowserClientAsync();
     const { error: resendError } = await client.auth.resend({
       type: "signup",
       email: user.email,
