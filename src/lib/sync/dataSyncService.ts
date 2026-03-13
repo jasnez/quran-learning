@@ -1,6 +1,6 @@
 import { getSupabaseClient } from "@/lib/supabase";
 import type { Bookmark } from "@/types/bookmarks";
-import type { LearningProgress } from "@/store/progressStore";
+import type { LearningProgress, SurahProgress } from "@/store/progressStore";
 import type { SettingsState } from "@/types/settings";
 import { getLocalBookmarks, getLocalProgress, getLocalSettings } from "./localDataProviders";
 import { useSettingsStore } from "@/store/settingsStore";

@@ -48,19 +48,15 @@ export async function ensureUserProfileAndSettings(user: User): Promise<void> {
     email.split("@")[0] ??
     "";
 
-  await client
-    .from("user_profiles")
-    .upsert(
-      { id: userId, display_name: displayName || null },
-      { onConflict: "id" }
-    );
-
-  await client
-    .from("user_settings")
-    .upsert(
-      { id: userId },
-      { onConflict: "id" }
-    );
+  // Supabase client has no generated DB types for user_profiles/user_settings; cast for build
+  await client.from("user_profiles").upsert(
+    { id: userId, display_name: displayName || null } as never,
+    { onConflict: "id" }
+  );
+  await client.from("user_settings").upsert(
+    { id: userId } as never,
+    { onConflict: "id" }
+  );
 }
 
 export function __setCurrentUserForTests(user: User | null) {
