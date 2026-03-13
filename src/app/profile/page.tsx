@@ -9,11 +9,10 @@ import { formatLongestStreak } from "@/lib/profile/formatProfileStats";
 import { DeleteAccountButton } from "./DeleteAccountButton";
 import { ProfileHeaderEdit } from "./ProfileHeaderEdit";
 
-export default async function ProfilePage(): Promise<ReactElement | void> {
+export default async function ProfilePage(): Promise<ReactElement> {
   const user = await getServerUser();
   if (!user) {
     redirect("/auth/login");
-    return;
   }
 
   const [profile, stats] = await Promise.all([
