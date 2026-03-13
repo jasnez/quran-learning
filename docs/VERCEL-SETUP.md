@@ -29,7 +29,7 @@ Kad deployment ostane na **„Initializing”** ili ne krene, provjeri redom slj
 
 ## 3. Node verzija
 
-U repou je u `package.json` postavljeno `"engines": { "node": ">=18" }`.  
+U repou je u `package.json` postavljeno `"engines": { "node": "24.x" }`.  
 Vercel to čita automatski – ne trebaš ništa ručno mijenjati u Vercelu.
 
 ---
