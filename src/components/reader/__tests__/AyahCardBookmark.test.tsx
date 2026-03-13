@@ -8,6 +8,7 @@ import userEvent from "@testing-library/user-event";
 import { AyahCard } from "../AyahCard";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
+import * as authHelpers from "@/lib/auth/authHelpers";
 import type { Ayah } from "@/types/quran";
 
 const mockAyah: Ayah = {
@@ -94,35 +95,51 @@ describe("AyahCard bookmark", () => {
     expect(btn).toBeInTheDocument();
   }, 10000);
 
-  it("calls toggleBookmark and showToast when adding bookmark", async () => {
+  it("when authenticated: calls toggleBookmark and showToast when adding bookmark", async () => {
     const user = userEvent.setup();
     mockIsBookmarked.mockReturnValue(false);
+    vi.spyOn(authHelpers, "isAuthenticated").mockReturnValue(true);
     render(<AyahCard {...defaultProps} />);
     await user.click(screen.getByRole("button", { name: /bookmark/i }));
     expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
     expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u oznacene");
   });
 
-  it("calls toggleBookmark and showToast when removing bookmark", async () => {
+  it("when authenticated: calls toggleBookmark and showToast when removing bookmark", async () => {
     const user = userEvent.setup();
     mockIsBookmarked.mockReturnValue(true);
+    vi.spyOn(authHelpers, "isAuthenticated").mockReturnValue(true);
     render(<AyahCard {...defaultProps} />);
     await user.click(screen.getByRole("button", { name: /bookmark/i }));
     expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
     expect(mockShowToast).toHaveBeenCalledWith("Ajet uklonjen iz oznacenih");
   });
 
-  it("bookmark button has amber accent when bookmarked", () => {
+  it("when authenticated: bookmark button has amber accent when bookmarked", () => {
     mockIsBookmarked.mockReturnValue(true);
+    vi.spyOn(authHelpers, "isAuthenticated").mockReturnValue(true);
     render(<AyahCard {...defaultProps} />);
     const btn = screen.getByRole("button", { name: /bookmark/i });
     expect(btn.className).toMatch(/amber/);
   });
 
-  it("bookmark button has muted styling when not bookmarked", () => {
+  it("when authenticated: bookmark button has muted styling when not bookmarked", () => {
     mockIsBookmarked.mockReturnValue(false);
+    vi.spyOn(authHelpers, "isAuthenticated").mockReturnValue(true);
     render(<AyahCard {...defaultProps} />);
     const btn = screen.getByRole("button", { name: /bookmark/i });
     expect(btn.className).toMatch(/stone/);
+  });
+
+  it("when not authenticated: does not toggle bookmark and shows gentle login prompt", async () => {
+    const user = userEvent.setup();
+    mockIsBookmarked.mockReturnValue(false);
+    vi.spyOn(authHelpers, "isAuthenticated").mockReturnValue(false);
+    render(<AyahCard {...defaultProps} />);
+    await user.click(screen.getByRole("button", { name: /bookmark/i }));
+    expect(mockToggleBookmark).not.toHaveBeenCalled();
+    expect(mockShowToast).toHaveBeenCalledWith(
+      "Za spremanje zabilješki prijavi se ili kreiraj račun."
+    );
   });
 });

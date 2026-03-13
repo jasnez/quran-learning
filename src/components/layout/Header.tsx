@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
+import { getCurrentUser, isAuthenticated, signOut } from "@/lib/auth/authHelpers";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
 
@@ -25,6 +27,8 @@ export function Header() {
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
   const { isHidden, hasShadow } = useStickyHeader();
+  const authed = isAuthenticated();
+  const user = getCurrentUser();
 
   return (
     <header
@@ -114,11 +118,84 @@ export function Header() {
             >
               <SettingsIcon className="h-5 w-5" />
             </button>
+            {authed && user ? (
+              <UserMenuButton userName={getUserDisplayName(user)} />
+            ) : (
+              <Link href="/auth/login" className={TEXT_LINK}>
+                Prijava
+              </Link>
+            )}
           </div>
         </nav>
       </div>
     </header>
   );
+}
+
+type UserMenuButtonProps = {
+  userName: string;
+};
+
+function UserMenuButton({ userName }: UserMenuButtonProps) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        className="hidden items-center gap-2 rounded-full bg-stone-100 px-3 py-1.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:hover:bg-stone-700 sm:inline-flex"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
+          {userName.charAt(0).toUpperCase()}
+        </span>
+        <span>{userName}</span>
+      </button>
+      {open && (
+        <div
+          role="menu"
+          aria-label="Korisnički meni"
+          className="absolute right-0 mt-2 w-44 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 text-sm shadow-lg"
+        >
+          <HeaderMenuItem href="/profile">Profil</HeaderMenuItem>
+          <HeaderMenuItem href="/settings">Postavke</HeaderMenuItem>
+          <HeaderMenuItem href="/bookmarks">Označeni</HeaderMenuItem>
+          <HeaderMenuItem href="/progress">Napredak</HeaderMenuItem>
+          <button
+            type="button"
+            role="menuitem"
+            className="flex w-full items-center justify-between px-3 py-2 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
+            onClick={() => {
+              void signOut();
+            }}
+          >
+            <span>Odjava</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function HeaderMenuItem({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      role="menuitem"
+      href={href}
+      className="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+    >
+      <span>{children}</span>
+    </Link>
+  );
+}
+
+function getUserDisplayName(user: { email?: string | null; user_metadata?: Record<string, unknown> }) {
+  const fullName = (user.user_metadata as { full_name?: string })?.full_name;
+  if (fullName && fullName.trim()) return fullName.trim();
+  if (user.email) return user.email.split("@")[0] ?? user.email;
+  return "Korisnik";
 }
 
 function BackIcon({ className }: { className?: string }) {

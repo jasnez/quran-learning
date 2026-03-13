@@ -21,9 +21,9 @@
 3. Otvori fajl **`supabase/RUN_ME_IN_SQL_EDITOR.sql`** iz ovog projekta (u editoru ili Exploreru).
 4. **Kopiraj cijeli sadržaj** tog fajla i **zalijepi** u SQL Editor.
 5. Klikni **Run** (ili Ctrl+Enter).
-6. Na dnu bi trebalo pisati da je upit uspješno izvršen; u **Table Editor** se pojavljuju tabele: `surahs`, `ayahs`, `translations`, itd.
+6. Na dnu bi trebalo pisati da je upit uspješno izvršen; u **Table Editor** se pojavljuju tabele: `surahs`, `ayahs`, `translations`, itd. U **Storage** se kreira bucket **avatars** (za slike profila).
 
-Ako već imaš neke od tabela, skripta koristi `IF NOT EXISTS` / `DROP POLICY IF EXISTS`, pa je sigurno pokrenuti i drugi put.
+Ako već imaš neke od tabela ili bucket, skripta koristi `IF NOT EXISTS` / `ON CONFLICT DO NOTHING` / `DROP POLICY IF EXISTS`, pa je sigurno pokrenuti i drugi put.
 
 ---
 
@@ -81,8 +81,10 @@ Audio files are served from Supabase Storage so the app does not need to host MP
 Ako koristiš [Supabase CLI](https://supabase.com/docs/guides/cli):
 
 ```bash
-npx supabase link --project-ref xivwzevkvpjwtgjvujyr
+npx supabase link --project-ref TVOJ_PROJECT_REF
 npx supabase db push
 ```
 
-Migracije iz `supabase/migrations/` (pojedinačni fajlovi) će se primijeniti. Za jedan brzi potez koristi gore opisan **RUN_ME_IN_SQL_EDITOR.sql**.
+(Zamijeni `TVOJ_PROJECT_REF` s refom projekta iz Supabase Dashboard → Settings → General.)
+
+Migracije iz `supabase/migrations/` (uključujući bucket **avatars** za slike profila) će se primijeniti. Za jedan brzi potez bez CLI‑ja koristi gore opisan **RUN_ME_IN_SQL_EDITOR.sql** (sadrži i avatars bucket).

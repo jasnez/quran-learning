@@ -5,6 +5,7 @@ import type { Ayah, Word } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
+import { isAuthenticated } from "@/lib/auth/authHelpers";
 import { useProgressStore } from "@/store/progressStore";
 import type { WordData, WordTimingSegment } from "@/types/wordByWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
@@ -120,6 +121,10 @@ export function AyahCard({
   };
 
   const handleBookmark = () => {
+    if (!isAuthenticated()) {
+      showToast("Za spremanje zabilješki prijavi se ili kreiraj račun.");
+      return;
+    }
     const wasBookmarked = bookmarked;
     toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText, ayah.translationBosnian);
     showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");

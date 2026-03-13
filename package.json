@@ -20,6 +20,8 @@
     "verify:schema": "tsx scripts/verify-supabase-schema.ts"
   },
   "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.98.0",
     "kfgqpc-uthmanic-script-hafs-regular": "^1.0.0",
     "lucide-react": "^0.577.0",
