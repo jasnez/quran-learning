@@ -29,10 +29,19 @@ export function getBrowserClient() {
 
 let authConfigPromise: Promise<ReturnType<typeof createBrowserClient<User>>> | null = null;
 
+function isProductionOrigin(): boolean {
+  if (typeof window === "undefined") return false;
+  const origin = window.location.origin;
+  return (
+    origin.includes("vercel.app") ||
+    origin.includes("localhost") === false
+  );
+}
+
 /**
- * Async: ako env nije dostupan (npr. na Vercelu u client bundleu), dohvaća
- * config s /api/auth-config i kreira klijent. Uvijek koristi za auth akcije
- * na produkciji da se izbjegne "Invalid API key" zbog build-time env.
+ * Async: na produkciji uvijek dohvaća config s /api/auth-config (server ima
+ * ispravne env varijable). Lokalno koristi NEXT_PUBLIC_* iz env. Tako izbjegnemo
+ * "Invalid API key" kad je u client bundle ugrađen krivi ili prazan key pri buildu.
  */
 export async function getBrowserClientAsync(): Promise<
   ReturnType<typeof createBrowserClient<User>>
@@ -40,10 +49,13 @@ export async function getBrowserClientAsync(): Promise<
   if (browserClient) return browserClient;
   if (authConfigPromise) return authConfigPromise;
 
-  const config = getConfigFromEnv();
-  if (config) {
-    browserClient = createBrowserClient(config.url, config.anonKey);
-    return browserClient;
+  const useServerConfig = isProductionOrigin();
+  if (!useServerConfig) {
+    const config = getConfigFromEnv();
+    if (config) {
+      browserClient = createBrowserClient(config.url, config.anonKey);
+      return browserClient;
+    }
   }
 
   authConfigPromise = (async () => {
