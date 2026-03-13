@@ -53,7 +53,7 @@ type AyahRow = {
 };
 
 type TranslationRow = { ayah_id: number; translation_text: string };
-type TransliterationRow = { ayah_id: number; text: string };
+type TransliterationRow = { ayah_id: number; text: string; text_hq?: string | null };
 type TajwidRow = { ayah_id: number; markup_payload: TajwidSegment[] };
 type AudioRow = { ayah_id: number; reciter_id: string; file_url: string; duration_ms: number | null };
 
@@ -77,6 +77,11 @@ function buildAyah(
         url: defaultAudioPath(surahNumber, ayah.ayah_number_in_surah),
         durationMs: 0,
       };
+  const transliterationText =
+    transliteration?.text_hq && String(transliteration.text_hq).trim().length > 0
+      ? transliteration.text_hq
+      : transliteration?.text ?? "";
+
   return {
     id,
     ayahNumber: ayah.ayah_number_in_surah,
@@ -84,7 +89,7 @@ function buildAyah(
     juz: ayah.juz_number ?? 0,
     page: ayah.page_number ?? 0,
     arabicText: ayah.arabic_text,
-    transliteration: transliteration?.text ?? "",
+    transliteration: transliterationText,
     translationBosnian: translation?.translation_text ?? "",
     tajwidSegments: tajwid?.markup_payload ?? [],
     audio: primaryAudio,
@@ -145,7 +150,7 @@ export async function fetchSurahDetailFromDb(surahNumber: number): Promise<Surah
       .in("ayah_id", ayahIds),
     supabase
       .from("transliterations")
-      .select("ayah_id, text")
+      .select("ayah_id, text, text_hq")
       .eq("language_code", "standard")
       .in("ayah_id", ayahIds),
     supabase
