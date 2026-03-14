@@ -93,6 +93,9 @@ export function Header() {
             <Link href="/tajwid" className={TEXT_LINK}>
               Tedžvid lekcije
             </Link>
+            <Link href="/names" className={TEXT_LINK}>
+              99 imena
+            </Link>
             <Link href="/progress" className={TEXT_LINK}>
               Napredak
             </Link>
