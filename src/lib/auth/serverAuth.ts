@@ -2,29 +2,32 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-export async function getServerUser(): Promise<User | null> {
+/**
+ * Returns a Supabase client that uses the request cookies (user session).
+ * Use this for server components that need RLS to apply (e.g. user_progress for profile stats).
+ */
+export async function getServerSupabaseClient(): Promise<SupabaseClient | null> {
   const cookieStore = await cookies();
-
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) {
-    return null;
-  }
-
-  const supabase = createServerClient(url, anonKey, {
+  if (!url || !anonKey) return null;
+  return createServerClient(url, anonKey, {
     cookies: {
       getAll() {
-        return cookieStore.getAll().map((c) => ({
-          name: c.name,
-          value: c.value,
-        }));
+        return cookieStore.getAll().map((c) => ({ name: c.name, value: c.value }));
       },
       setAll() {
-        // no-op: Next middleware already manages cookies
+        // no-op
       },
     },
   });
+}
+
+export async function getServerUser(): Promise<User | null> {
+  const supabase = await getServerSupabaseClient();
+  if (!supabase) return null;
 
   const { data, error } = await supabase.auth.getUser();
   if (error) return null;

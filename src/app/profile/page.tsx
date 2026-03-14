@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactElement } from "react";
-import { getServerUserRequireConfirmed } from "@/lib/auth/serverAuth";
+import { getServerUserRequireConfirmed, getServerSupabaseClient } from "@/lib/auth/serverAuth";
 import { getProfile } from "@/lib/profile/getProfile";
 import { getProfileStats } from "@/lib/profile/profileStats";
 import { formatListeningTime } from "@/lib/formatListeningTime";
@@ -9,11 +9,14 @@ import { DeleteAccountButton } from "./DeleteAccountButton";
 import { ProfileHeaderEdit } from "./ProfileHeaderEdit";
 
 export default async function ProfilePage(): Promise<ReactElement> {
-  const user = await getServerUserRequireConfirmed();
+  const [user, supabase] = await Promise.all([
+    getServerUserRequireConfirmed(),
+    getServerSupabaseClient(),
+  ]);
 
   const [profile, stats] = await Promise.all([
     getProfile(user.id),
-    getProfileStats(user.id),
+    getProfileStats(user.id, supabase ?? undefined),
   ]);
 
   const fallbackDisplayName =

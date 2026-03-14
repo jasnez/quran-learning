@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase";
 
 export type ProfileStats = {
@@ -9,8 +10,16 @@ export type ProfileStats = {
   favoriteSurahName: string | null;
 };
 
-export async function getProfileStats(userId: string): Promise<ProfileStats> {
-  const supabase = getSupabaseClient();
+/**
+ * Fetches profile stats from user_progress (and related tables).
+ * Pass a server Supabase client (e.g. from getServerSupabaseClient()) when calling from a server component
+ * so RLS allows reading the authenticated user's rows.
+ */
+export async function getProfileStats(
+  userId: string,
+  supabaseOrUndefined?: SupabaseClient
+): Promise<ProfileStats> {
+  const supabase = supabaseOrUndefined ?? getSupabaseClient();
 
   const { data: progressRows, error } = await supabase
     .from("user_progress")

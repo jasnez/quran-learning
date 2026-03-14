@@ -10,6 +10,7 @@ import userEvent from "@testing-library/user-event";
 const serverAuthMocks = vi.hoisted(() => ({
   getServerUser: vi.fn(),
   getServerUserRequireConfirmed: vi.fn(),
+  getServerSupabaseClient: vi.fn().mockResolvedValue(null),
 }));
 
 const profileStatsMocks = vi.hoisted(() => ({

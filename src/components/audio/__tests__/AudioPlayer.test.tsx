@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
 import { AudioPlayer } from "../AudioPlayer";
 
 const mockLoadAudio = vi.fn();
@@ -39,22 +39,51 @@ vi.mock("@/lib/audio/audioManager", () => ({
 
 const mockResume = vi.fn();
 const mockPauseStore = vi.fn();
-const mockNext = vi.fn();
+const mockNext = vi.fn(() => true);
 const mockPrevious = vi.fn();
 const mockSetCurrentTime = vi.fn();
 const mockSetDuration = vi.fn();
+const mockSetCurrentTimeMs = vi.fn();
+const mockSetPendingSeek = vi.fn();
 const mockPush = vi.fn();
 const mockRestartFromFirst = vi.fn();
 const mockStop = vi.fn();
 
+const progressStoreMocks = vi.hoisted(() => {
+  const mockMarkAyahListened = vi.fn();
+  const mockIncrementAyahsListened = vi.fn();
+  return {
+    mockMarkAyahListened,
+    mockIncrementAyahsListened,
+    progressStoreState: { markAyahListened: mockMarkAyahListened, incrementAyahsListened: mockIncrementAyahsListened },
+  };
+});
+const { mockMarkAyahListened, mockIncrementAyahsListened } = progressStoreMocks;
+vi.mock("@/store/progressStore", () => ({
+  useProgressStore: Object.assign(
+    (selector: (s: { getState: () => typeof progressStoreMocks.progressStoreState }) => unknown) =>
+      selector({ getState: () => progressStoreMocks.progressStoreState }),
+    { getState: () => progressStoreMocks.progressStoreState }
+  ),
+}));
+
+const chapterTimestamps = [
+  { verseKey: "1:3", timestampFrom: 0, timestampTo: 15000 },
+  { verseKey: "1:4", timestampFrom: 15000, timestampTo: 30000 },
+];
 const playerState = {
   currentSurahId: "1",
   currentAyahId: "1:3",
   isPlaying: false,
-  queue: [] as unknown[],
-  activeAudioSrc: "/audio/001003.mp3",
+  queue: [{ id: "1:3" }, { id: "1:4" }] as unknown[],
+  activeAudioSrc: "/chapter/001.mp3",
   currentTime: 10,
   duration: 45,
+  pendingSeekToSeconds: null as number | null,
+  wordByWordMode: false,
+  chapterAudioUrl: "/chapter/001.mp3",
+  chapterTimestamps: null as typeof chapterTimestamps | null,
+  currentTimeMs: 0,
   resume: mockResume,
   pause: mockPauseStore,
   next: mockNext,
@@ -63,6 +92,8 @@ const playerState = {
   stop: mockStop,
   setCurrentTime: mockSetCurrentTime,
   setDuration: mockSetDuration,
+  setPendingSeek: mockSetPendingSeek,
+  setCurrentTimeMs: mockSetCurrentTimeMs,
 };
 
 vi.mock("next/navigation", () => ({
@@ -77,19 +108,23 @@ vi.mock("@/store/playerStore", () => {
   return { usePlayerStore: storeFn };
 });
 
+const settingsStateRef = vi.hoisted(() => ({
+  current: {
+    repeatMode: "off" as "off" | "surah" | "ayah",
+    autoPlayNext: true,
+    playbackSpeed: 1,
+    cycleRepeatMode: vi.fn(),
+    toggleAutoPlayNext: vi.fn(),
+  },
+}));
 vi.mock("@/store/settingsStore", () => ({
-  useSettingsStore: vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
-    selector(settingsState)
+  useSettingsStore: Object.assign(
+    vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
+      selector(settingsStateRef.current)
+    ),
+    { getState: () => settingsStateRef.current }
   ),
 }));
-
-let settingsState: {
-  repeatMode: "off" | "surah" | "ayah";
-  autoPlayNext: boolean;
-  playbackSpeed: number;
-  cycleRepeatMode: () => void;
-  toggleAutoPlayNext: () => void;
-};
 
 const mockCycleRepeatMode = vi.fn();
 const mockToggleAutoPlayNext = vi.fn();
@@ -98,13 +133,17 @@ beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
-  settingsState = { repeatMode: "off", autoPlayNext: true, playbackSpeed: 1, cycleRepeatMode: mockCycleRepeatMode, toggleAutoPlayNext: mockToggleAutoPlayNext };
+  Object.assign(settingsStateRef.current, { repeatMode: "off", autoPlayNext: true, playbackSpeed: 1, cycleRepeatMode: mockCycleRepeatMode, toggleAutoPlayNext: mockToggleAutoPlayNext });
   playerState.currentSurahId = "1";
   playerState.currentAyahId = "1:3";
   playerState.isPlaying = false;
   playerState.activeAudioSrc = "/audio/001003.mp3";
   playerState.currentTime = 10;
   playerState.duration = 45;
+  playerState.wordByWordMode = false;
+  playerState.chapterTimestamps = null;
+  playerState.pendingSeekToSeconds = null;
+  playerState.queue = [];
   mockGetCurrentTime.mockReturnValue(0);
   mockGetDuration.mockReturnValue(0);
 });
@@ -233,7 +272,7 @@ describe("AudioPlayer", () => {
     const { rerender } = render(<AudioPlayer />);
     expect(mockPlay).toHaveBeenCalled();
     mockPause.mockClear();
-    settingsState.playbackSpeed = 1.5;
+    settingsStateRef.current.playbackSpeed = 1.5;
     rerender(<AudioPlayer />);
     expect(mockPause).not.toHaveBeenCalled();
   });
@@ -264,7 +303,7 @@ describe("AudioPlayer", () => {
   it("when audio ends and not at last ayah, advances to next ayah and does not pause (autoplay is surah-level)", () => {
     playerState.currentSurahId = "1";
     playerState.currentAyahId = "1:3";
-    settingsState.autoPlayNext = false;
+    settingsStateRef.current.autoPlayNext = false;
     mockNext.mockReturnValue(true);
     render(<AudioPlayer />);
     const endedHandler = mockOnEnded.mock.calls[0]?.[0];
@@ -277,8 +316,8 @@ describe("AudioPlayer", () => {
   it("when audio ends at last ayah and autoPlayNext is false, pauses and does not navigate", () => {
     playerState.currentSurahId = "1";
     playerState.currentAyahId = "1:7";
-    settingsState.autoPlayNext = false;
-    settingsState.repeatMode = "off";
+    settingsStateRef.current.autoPlayNext = false;
+    settingsStateRef.current.repeatMode = "off";
     mockNext.mockReturnValue(false);
     render(<AudioPlayer />);
     const endedHandler = mockOnEnded.mock.calls[0]?.[0];
@@ -291,8 +330,8 @@ describe("AudioPlayer", () => {
   it("when audio ends at last ayah and repeatMode is surah, calls restartFromFirst", () => {
     playerState.currentSurahId = "1";
     playerState.currentAyahId = "1:7";
-    settingsState.repeatMode = "surah";
-    settingsState.autoPlayNext = false;
+    settingsStateRef.current.repeatMode = "surah";
+    settingsStateRef.current.autoPlayNext = false;
     mockNext.mockReturnValue(false);
     render(<AudioPlayer />);
     const endedHandler = mockOnEnded.mock.calls[0]?.[0];
@@ -302,8 +341,27 @@ describe("AudioPlayer", () => {
     expect(mockPush).not.toHaveBeenCalled();
   });
 
+  it("when chapter/word-by-word mode and time passes verse end, marks current ayah as listened before advancing", async () => {
+    playerState.activeAudioSrc = "/chapter/001.mp3";
+    playerState.isPlaying = true;
+    playerState.wordByWordMode = true;
+    playerState.chapterTimestamps = chapterTimestamps;
+    playerState.currentAyahId = "1:3";
+    playerState.queue = [{ id: "1:3" }, { id: "1:4" }];
+    mockGetCurrentTime.mockReturnValue(15);
+    const { unmount } = render(<AudioPlayer />);
+    await act(async () => {
+      await new Promise((r) => requestAnimationFrame(r));
+      await new Promise((r) => requestAnimationFrame(r));
+    });
+    expect(mockMarkAyahListened).toHaveBeenCalledWith(1, 3, 2);
+    expect(mockIncrementAyahsListened).toHaveBeenCalled();
+    expect(mockNext).toHaveBeenCalled();
+    unmount();
+  });
+
   it("when audio ends and repeatMode is ayah, seeks to 0 and plays (repeat ayah)", () => {
-    settingsState.repeatMode = "ayah";
+    settingsStateRef.current.repeatMode = "ayah";
     render(<AudioPlayer />);
     const endedHandler = mockOnEnded.mock.calls[0]?.[0];
     endedHandler();
@@ -321,7 +379,7 @@ describe("AudioPlayer", () => {
   });
 
   it("autoplay switch thumb is on right when on", () => {
-    settingsState.autoPlayNext = true;
+    settingsStateRef.current.autoPlayNext = true;
     render(<AudioPlayer />);
     const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
@@ -330,7 +388,7 @@ describe("AudioPlayer", () => {
   });
 
   it("autoplay switch thumb is on left when off", () => {
-    settingsState.autoPlayNext = false;
+    settingsStateRef.current.autoPlayNext = false;
     render(<AudioPlayer />);
     const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "false");
@@ -352,14 +410,14 @@ describe("AudioPlayer", () => {
   });
 
   it("repeat button has pressed state when repeatMode is surah or ayah", () => {
-    settingsState.repeatMode = "surah";
+    settingsStateRef.current.repeatMode = "surah";
     render(<AudioPlayer />);
     const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
     expect(repeatBtn).toHaveAttribute("aria-pressed", "true");
   });
 
   it("when repeatMode is ayah, repeat button shows Repeat One icon (with 1)", () => {
-    settingsState.repeatMode = "ayah";
+    settingsStateRef.current.repeatMode = "ayah";
     render(<AudioPlayer />);
     const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
     const svg = repeatBtn.querySelector("svg");
@@ -368,7 +426,7 @@ describe("AudioPlayer", () => {
   });
 
   it("when repeatMode is off, repeat button shows loop icon without 1", () => {
-    settingsState.repeatMode = "off";
+    settingsStateRef.current.repeatMode = "off";
     render(<AudioPlayer />);
     const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
     expect(repeatBtn.textContent).not.toContain("1");
@@ -388,7 +446,7 @@ describe("AudioPlayer", () => {
   });
 
   it("autoplay button has pressed state when autoPlayNext is true", () => {
-    settingsState.autoPlayNext = true;
+    settingsStateRef.current.autoPlayNext = true;
     render(<AudioPlayer />);
     const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");

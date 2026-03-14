@@ -128,6 +128,14 @@ export function AudioPlayer() {
             rafId = requestAnimationFrame(tick);
             return;
           }
+          const [s, a] = (state.currentAyahId ?? "").split(":").map(Number);
+          const surahNum = s && !Number.isNaN(s) ? s : 0;
+          const ayahNum = a && !Number.isNaN(a) ? a : 0;
+          const queueLen = queue.length > 0 ? queue.length : undefined;
+          if (surahNum >= 1 && ayahNum >= 1) {
+            useProgressStore.getState().incrementAyahsListened();
+            useProgressStore.getState().markAyahListened(surahNum, ayahNum, queueLen);
+          }
           const advanced = state.next();
           if (advanced) {
             const nextVerse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
