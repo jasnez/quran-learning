@@ -13,7 +13,7 @@ import { getAyahId } from "@/lib/quran/ayahIdMapper";
 /** In browser use the client that has the user session (so RLS auth.uid() works). On server use default client. */
 async function getAuthenticatedClient(): Promise<SupabaseClient> {
   if (typeof window !== "undefined") {
-    return getBrowserClientAsync();
+    return getBrowserClientAsync() as unknown as Promise<SupabaseClient>;
   }
   return getSupabaseClient();
 }
