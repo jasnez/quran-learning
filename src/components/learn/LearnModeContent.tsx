@@ -364,16 +364,14 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
           >
             Riječ po riječ
           </OptionToggle>
-          {wordByWordMode && (
-            <OptionToggle
-              active={showWordMeaning}
-              ariaLabel={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
-              ariaPressed={showWordMeaning}
-              onClick={() => setShowWordMeaning(!showWordMeaning)}
-            >
-              Prikaži značenje riječi
-            </OptionToggle>
-          )}
+          <OptionToggle
+            active={showWordMeaning}
+            ariaLabel={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
+            ariaPressed={showWordMeaning}
+            onClick={() => setShowWordMeaning(!showWordMeaning)}
+          >
+            Prikaži značenje riječi
+          </OptionToggle>
           <OptionToggle
             active={repeatMode !== "off"}
             ariaLabel={

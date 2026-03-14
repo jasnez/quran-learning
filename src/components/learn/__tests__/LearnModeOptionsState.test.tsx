@@ -7,6 +7,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
@@ -218,7 +219,18 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     expect(btn.className).toMatch(/stone/);
   });
 
-  it("Prikaži značenje riječi has distinct styling when on (visible only when word-by-word)", () => {
+  it("Prikaži značenje riječi is visible in options row even when word-by-word is off", () => {
+    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
+      sel({ ...defaultPlayerState, wordByWordMode: false })
+    );
+    render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const btn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i);
+    expect(btn).toBeInTheDocument();
+    expect(btn).toHaveAttribute("data-active", "true");
+    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+  });
+
+  it("Prikaži značenje riječi has distinct styling when on", () => {
     vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
       sel({ ...defaultPlayerState, wordByWordMode: true })
     );
@@ -228,13 +240,16 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
   });
 
-  it("Prikaži značenje riječi has data-active and styling reflecting on/off", () => {
+  it("Prikaži značenje riječi has muted styling when off", async () => {
+    const user = userEvent.setup();
     vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
       sel({ ...defaultPlayerState, wordByWordMode: true })
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i, true);
-    expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    await user.click(btn);
+    const offBtn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i, false);
+    expect(offBtn).toHaveAttribute("data-active", "false");
+    expect(offBtn.className).toMatch(/stone/);
   });
 });
