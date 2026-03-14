@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -17,7 +17,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme]);
 
-  useEffect(() => {
+  /* useLayoutEffect so attribute is set before paint and font switch is visible immediately */
+  useLayoutEffect(() => {
     document.documentElement.setAttribute("data-arabic-font", arabicFontStyle);
   }, [arabicFontStyle]);
 

@@ -44,7 +44,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Arabic font: set on :root and overridden by html[data-arabic-font] so it wins over @theme */
+/* Arabic font: direct selectors so font switch always applies (production) */
 :root {
   --font-arabic: var(--font-naskh-arabic), var(--font-amiri), serif;
 }
@@ -69,10 +69,20 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/* Base: use variable (default from :root) */
 .font-arabic {
   font-family: var(--font-arabic);
   line-height: 1.9;
   letter-spacing: 0.02em;
+}
+
+/* Direct override so nothing can override when attribute is set */
+html[data-arabic-font="uthmanic"] .font-arabic {
+  font-family: var(--font-uthmanic-hafs), var(--font-amiri), serif !important;
+}
+
+html[data-arabic-font="naskh"] .font-arabic {
+  font-family: var(--font-naskh-arabic), var(--font-amiri), serif !important;
 }
 
 /* Brief highlight for ayah opened from search (?ayah=N) */

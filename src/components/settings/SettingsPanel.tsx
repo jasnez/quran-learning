@@ -152,7 +152,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                           : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
                       }`}
                       aria-pressed={arabicFontStyle === style}
-                      onClick={() => setArabicFontStyle(style)}
+                      onClick={() => {
+                        setArabicFontStyle(style);
+                        document.documentElement.setAttribute("data-arabic-font", style);
+                      }}
                     >
                       {style === "naskh" ? "Naskh (zaobljen)" : "Uthmanic HAFS"}
                     </button>
