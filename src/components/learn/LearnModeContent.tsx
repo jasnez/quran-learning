@@ -350,63 +350,97 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
             <NextIcon />
           </button>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <button
-            type="button"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-            aria-label={wordByWordMode ? "Isključi riječ po riječ" : "Uključi riječ po riječ"}
-            aria-pressed={wordByWordMode}
+        <div
+          className="flex flex-wrap items-center justify-center gap-2"
+          role="group"
+          aria-label="Opcije učenja"
+          data-testid="learn-options"
+        >
+          <OptionToggle
+            active={wordByWordMode}
+            ariaLabel={wordByWordMode ? "Isključi riječ po riječ" : "Uključi riječ po riječ"}
+            ariaPressed={wordByWordMode}
             onClick={() => setWordByWordMode(!wordByWordMode)}
           >
             Riječ po riječ
-          </button>
+          </OptionToggle>
           {wordByWordMode && (
-            <button
-              type="button"
-              className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-              aria-label={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
-              aria-pressed={showWordMeaning}
+            <OptionToggle
+              active={showWordMeaning}
+              ariaLabel={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
+              ariaPressed={showWordMeaning}
               onClick={() => setShowWordMeaning(!showWordMeaning)}
             >
               Prikaži značenje riječi
-            </button>
+            </OptionToggle>
           )}
-          <button
-            type="button"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-            aria-label={
+          <OptionToggle
+            active={repeatMode !== "off"}
+            ariaLabel={
               repeatMode === "off"
                 ? "Ponavljaj (prvi klik: sura, drugi klik: ajet)"
                 : repeatMode === "surah"
                   ? "Ponavljanje sure. Klik za ponavljanje ajeta."
                   : "Ponavljanje ajeta. Klik za isključivanje."
             }
-            aria-pressed={repeatMode !== "off"}
+            ariaPressed={repeatMode !== "off"}
             onClick={cycleRepeatMode}
           >
             Ponavljaj{repeatMode !== "off" ? ` (${repeatMode === "surah" ? "sura" : "ajet"})` : ""}
-          </button>
-          <button
-            type="button"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-            aria-label={showTransliteration ? "Sakrij transliteraciju" : "Prikaži transliteraciju"}
-            aria-pressed={showTransliteration}
+          </OptionToggle>
+          <OptionToggle
+            active={showTransliteration}
+            ariaLabel={showTransliteration ? "Sakrij transliteraciju" : "Prikaži transliteraciju"}
+            ariaPressed={showTransliteration}
             onClick={toggleTransliteration}
           >
             Transliteracija
-          </button>
-          <button
-            type="button"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700"
-            aria-label={showTranslation ? "Sakrij prijevod" : "Prikaži prijevod"}
-            aria-pressed={showTranslation}
+          </OptionToggle>
+          <OptionToggle
+            active={showTranslation}
+            ariaLabel={showTranslation ? "Sakrij prijevod" : "Prikaži prijevod"}
+            ariaPressed={showTranslation}
             onClick={toggleTranslation}
           >
             Prijevod
-          </button>
+          </OptionToggle>
         </div>
       </footer>
     </>
+  );
+}
+
+const optionToggleBase =
+  "rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150";
+const optionToggleInactive =
+  "text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700";
+const optionToggleActive =
+  "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-900/50 dark:text-emerald-200 dark:hover:bg-emerald-900/70";
+
+function OptionToggle({
+  active,
+  ariaLabel,
+  ariaPressed,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  ariaLabel: string;
+  ariaPressed: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      data-active={String(active)}
+      className={`${optionToggleBase} ${active ? optionToggleActive : optionToggleInactive}`}
+      aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 }
 
