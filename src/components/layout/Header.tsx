@@ -8,6 +8,7 @@ import { useAuthStore } from "@/store/authStore";
 import { signOut } from "@/lib/auth/authHelpers";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
+import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
 const LINK_HOVER = "hover:text-emerald-800 dark:hover:text-emerald-200";
@@ -88,6 +89,7 @@ export function Header() {
               Sure
             </Link>
             <LearnMenu />
+            <DuasMenu />
             <Link href="/progress" className={TEXT_LINK}>
               Napredak
             </Link>
@@ -187,6 +189,65 @@ function LearnMenu() {
           <HeaderMenuItem href="/names" onNavigate={() => setOpen(false)}>
             Allahova lijepa imena
           </HeaderMenuItem>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DuasMenu() {
+  const pathname = usePathname();
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const isActive = pathname?.startsWith("/duas");
+
+  React.useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("click", onDocClick, true);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label="Kur'anske dove – kategorije"
+        className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-emerald-700 dark:text-emerald-400" : "text-stone-600 dark:text-stone-400 " + LINK_HOVER}`}
+      >
+        Kur&apos;anske dove
+      </button>
+      {open && (
+        <div
+          role="menu"
+          aria-label="Kur'anske dove"
+          className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 shadow-lg"
+        >
+          <HeaderMenuItem href="/duas" onNavigate={() => setOpen(false)}>
+            Sve dove
+          </HeaderMenuItem>
+          {CATEGORY_ORDER.map((cat) => (
+            <HeaderMenuItem
+              key={cat}
+              href={`/duas/${cat}`}
+              onNavigate={() => setOpen(false)}
+            >
+              {CATEGORY_LABELS[cat]}
+            </HeaderMenuItem>
+          ))}
         </div>
       )}
     </div>
