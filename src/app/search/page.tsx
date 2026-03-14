@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { searchAyahs } from "@/lib/api/client";
 import type { SearchResult } from "@/types/quran";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
 const EMPTY_HINT = "Unesite pojam za pretragu (npr. Milostivog, Allah).";
@@ -257,7 +258,7 @@ export default function SearchPage() {
                     className="mt-3 text-right font-arabic text-lg leading-relaxed text-stone-600 dark:text-stone-400"
                     dir="rtl"
                   >
-                    {r.arabicSnippet}
+                    {stripWaqfSigns(r.arabicSnippet)}
                   </p>
                 </Link>
               </li>

@@ -4,6 +4,7 @@ import { memo, useMemo } from "react";
 import type { WordData, WordTimingSegment } from "@/types/wordByWord";
 import type { TajwidRule } from "@/types/quran";
 import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 export type WordByWordChapterRendererProps = {
   verseKey: string;
@@ -66,7 +67,7 @@ function WordSpan({
         ${word.tajwidRule ? tajwidRuleClasses[word.tajwidRule] : ""}
       `}
     >
-      {word.textUthmani}
+      {stripWaqfSigns(word.textUthmani)}
       {showInterlinear && (word.transliteration || word.translation) && (
         <span className="block text-center text-xs leading-tight text-stone-500 dark:text-stone-400" dir="ltr">
           {[word.transliteration, word.translation].filter(Boolean).join(" — ")}

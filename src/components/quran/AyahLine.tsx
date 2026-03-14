@@ -1,4 +1,5 @@
 import type { Ayah } from "@/types/quran";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 type AyahLineProps = {
   ayah: Ayah;
@@ -18,7 +19,7 @@ export function AyahLine({ ayah, showTransliteration = true }: AyahLineProps) {
             dir="rtl"
             lang="ar"
           >
-            {ayah.arabicText}
+            {stripWaqfSigns(ayah.arabicText)}
           </p>
           {showTransliteration && ayah.transliteration && (
             <p className="mt-2 text-base italic leading-relaxed text-zinc-600 dark:text-zinc-400">

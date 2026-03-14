@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import type { Word } from "@/types/quran";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 export type WordByWordRendererProps = {
   words: Word[];
@@ -54,7 +55,7 @@ function WordSpan({
         }`}
         style={{ font: "inherit" }}
       >
-        {word.textArabic}
+        {stripWaqfSigns(word.textArabic)}
       </span>
       {showInterlinear && word.translationShort && (
         <span className="block text-center text-xs leading-tight text-stone-500 dark:text-stone-400" dir="ltr">

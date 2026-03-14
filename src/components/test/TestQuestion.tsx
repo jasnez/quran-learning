@@ -4,6 +4,7 @@ import { TestOption } from "./TestOption";
 import { TestProgress } from "./TestProgress";
 import type { TestQuestionModel } from "@/types/testMode";
 import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 type TestQuestionProps = {
   question: TestQuestionModel;
@@ -86,7 +87,7 @@ export function TestQuestion({
               className="font-arabic text-2xl leading-relaxed text-right text-stone-900 dark:text-stone-50"
               dir="rtl"
             >
-              {question.arabicText}
+              {stripWaqfSigns(question.arabicText)}
             </p>
           )}
 
@@ -96,7 +97,7 @@ export function TestQuestion({
               dir="rtl"
             >
               <span className="rounded-md bg-emerald-100 px-1.5 py-0.5 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
-                {question.highlightedText}
+                {stripWaqfSigns(question.highlightedText)}
               </span>
             </p>
           )}

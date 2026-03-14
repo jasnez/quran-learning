@@ -1,5 +1,6 @@
 import type { TajwidSegment } from "@/types/quran";
 import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 type TajwidTextRendererProps = {
   segments: TajwidSegment[];
@@ -27,7 +28,7 @@ export function TajwidTextRenderer({
           : tajwidRuleClasses.normal;
         return (
           <span key={i} className={colorClass}>
-            {seg.text}
+            {stripWaqfSigns(seg.text)}
           </span>
         );
       })}
