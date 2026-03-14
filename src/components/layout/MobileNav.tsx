@@ -92,8 +92,11 @@ export function MobileNav() {
             <div
               role="menu"
               aria-label="Više opcija"
-              className="absolute bottom-full left-1/2 mb-1 min-w-[160px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
+              className="absolute bottom-full left-1/2 mb-1 min-w-[200px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
             >
+              <div className="px-4 py-2 text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+                Učenje
+              </div>
               <Link
                 href="/test/1"
                 role="menuitem"
@@ -116,7 +119,7 @@ export function MobileNav() {
                 onClick={() => setMoreOpen(false)}
                 className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
               >
-                99 imena
+                Allahova lijepa imena
               </Link>
             </div>
           )}

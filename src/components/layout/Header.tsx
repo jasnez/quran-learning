@@ -87,15 +87,7 @@ export function Header() {
             <Link href="/surahs" className={TEXT_LINK}>
               Sure
             </Link>
-            <Link href="/test/1" className={TEXT_LINK}>
-              Kviz
-            </Link>
-            <Link href="/tajwid" className={TEXT_LINK}>
-              Tedžvid lekcije
-            </Link>
-            <Link href="/names" className={TEXT_LINK}>
-              99 imena
-            </Link>
+            <LearnMenu />
             <Link href="/progress" className={TEXT_LINK}>
               Napredak
             </Link>
@@ -139,6 +131,65 @@ export function Header() {
         </nav>
       </div>
     </header>
+  );
+}
+
+function LearnMenu() {
+  const pathname = usePathname();
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const isActive =
+    pathname?.startsWith("/test") ||
+    pathname?.startsWith("/tajwid") ||
+    pathname?.startsWith("/names");
+
+  React.useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("click", onDocClick, true);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label="Učenje – Kviz, Tedžvid, Allahova lijepa imena"
+        className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-emerald-700 dark:text-emerald-400" : "text-stone-600 dark:text-stone-400 " + LINK_HOVER}`}
+      >
+        Učenje
+      </button>
+      {open && (
+        <div
+          role="menu"
+          aria-label="Učenje"
+          className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 shadow-lg"
+        >
+          <HeaderMenuItem href="/test/1" onNavigate={() => setOpen(false)}>
+            Kviz
+          </HeaderMenuItem>
+          <HeaderMenuItem href="/tajwid" onNavigate={() => setOpen(false)}>
+            Tedžvid lekcije
+          </HeaderMenuItem>
+          <HeaderMenuItem href="/names" onNavigate={() => setOpen(false)}>
+            Allahova lijepa imena
+          </HeaderMenuItem>
+        </div>
+      )}
+    </div>
   );
 }
 
