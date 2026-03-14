@@ -44,9 +44,10 @@ vi.mock("@/lib/auth/authHelpers", () => ({
   }),
 }));
 
+const usePathnameMock = vi.fn(() => "/");
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
-  usePathname: () => "/",
+  usePathname: () => usePathnameMock(),
 }));
 
 import { AuthProvider } from "../AuthProvider";
@@ -85,7 +86,7 @@ describe("AuthProvider sync orchestration", () => {
     vi.useRealTimers();
   });
 
-  it("clears pre-login progress and loads from cloud when user is authenticated (clean slate)", async () => {
+  it("syncs local progress to cloud then loads from cloud without clearing first (so progress stays visible)", async () => {
     render(
       <AuthProvider>
         <div>App</div>
@@ -93,17 +94,39 @@ describe("AuthProvider sync orchestration", () => {
     );
 
     await waitFor(() => {
-      expect(clearLocalProgressMock).toHaveBeenCalled();
+      expect(syncProgressToCloud).toHaveBeenCalledWith(user.id);
     });
-
     await waitFor(() => {
-      expect(loadBookmarksFromCloud).toHaveBeenCalledWith(user.id);
-      expect(loadUserDataFromCloud).toHaveBeenCalledWith(user.id);
       expect(loadProgressFromCloud).toHaveBeenCalledWith(user.id);
     });
+    expect(clearLocalProgressMock).not.toHaveBeenCalled();
+    expect(loadBookmarksFromCloud).toHaveBeenCalledWith(user.id);
+    expect(loadUserDataFromCloud).toHaveBeenCalledWith(user.id);
+  });
 
-    expect(mergeLocalAndCloudData).not.toHaveBeenCalled();
-    expect(syncProgressToCloud).not.toHaveBeenCalled();
+  it("runs initial sync only once per user so progress does not disappear on pathname change", async () => {
+    usePathnameMock.mockReturnValue("/");
+    const { rerender } = render(
+      <AuthProvider>
+        <div>App</div>
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(loadProgressFromCloud).toHaveBeenCalledWith(user.id);
+    });
+    expect(loadProgressFromCloud).toHaveBeenCalledTimes(1);
+
+    usePathnameMock.mockReturnValue("/progress");
+    rerender(
+      <AuthProvider>
+        <div>App</div>
+      </AuthProvider>
+    );
+    await waitFor(() => {
+      expect(loadProgressFromCloud).toHaveBeenCalledTimes(1);
+    });
+    expect(clearLocalProgressMock).not.toHaveBeenCalled();
   });
 
   it("sets up periodic sync interval when user is authenticated", async () => {

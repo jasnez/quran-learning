@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { useAuthStore } from "@/store/authStore";
@@ -13,7 +13,6 @@ import {
   loadBookmarksFromCloud,
   loadProgressFromCloud,
 } from "@/lib/sync/dataSyncService";
-import { clearLocalProgress } from "@/store/progressStore";
 
 function isEmailConfirmed(user: User): boolean {
   return !!user.email_confirmed_at;
@@ -24,22 +23,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const currentUserId = useAuthStore((s) => s.user?.id ?? null);
   const router = useRouter();
   const pathname = usePathname();
+  const initialSyncUserIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
-    let didRunInitialSync = false;
     let unsubscribe: (() => void) | null = null;
 
     const runInitialSync = async (user: User) => {
-      if (didRunInitialSync) return;
-      didRunInitialSync = true;
-      clearLocalProgress();
+      if (initialSyncUserIdRef.current === user.id) return;
+      initialSyncUserIdRef.current = user.id;
+      await syncProgressToCloud(user.id);
       await loadBookmarksFromCloud(user.id);
       await loadUserDataFromCloud(user.id);
       await loadProgressFromCloud(user.id);
     };
 
     const handleUser = async (user: User | null) => {
+      if (!user) {
+        initialSyncUserIdRef.current = null;
+      }
       setUser(user);
       if (!user) return;
       if (!isEmailConfirmed(user) && pathname !== "/auth/confirm-email") {
