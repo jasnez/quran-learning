@@ -29,20 +29,20 @@ export async function POST(request: NextRequest) {
     }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!url) {
       return NextResponse.json(
         { error: "Auth nije konfiguriran na serveru (nedostaje URL)." },
         { status: 503 }
       );
     }
-    // Redoslijed: service_role (najpouzdaniji), zatim publishable (novi format), zatim anon (legacy)
-    const key = serviceKey || publishableKey || anonKey;
+    // SignUp endpoint prihvaća samo anon ili publishable key, NE service_role (service_role prolazi za /health ali ne za /signup)
+    const key = publishableKey || anonKey;
     if (!key) {
       return NextResponse.json(
-        { error: "Auth nije konfiguriran. U Vercel env dodaj SUPABASE_SERVICE_ROLE_KEY ili NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ili NEXT_PUBLIC_SUPABASE_ANON_KEY. Vidi docs/AUTH-SETUP.md." },
+        { error: "Za registraciju treba anon ili publishable key. U Vercel env dodaj NEXT_PUBLIC_SUPABASE_ANON_KEY (Supabase Dashboard → Settings → API → anon public) iz istog projekta kao URL, pa Redeploy." },
         { status: 503 }
       );
     }
@@ -56,8 +56,8 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       const msg =
-        /invalid api key|invalid api_key/i.test(error.message) && !serviceKey
-          ? "Server koristi krivi API ključ. U Vercel → Settings → Environment Variables dodaj SUPABASE_SERVICE_ROLE_KEY (Supabase Dashboard → Settings → API → service_role) i napravi Redeploy."
+        /invalid api key|invalid api_key/i.test(error.message)
+          ? "Anon/publishable key je odbijen. Provjeri da je NEXT_PUBLIC_SUPABASE_ANON_KEY u Vercelu kopiran iz Supabase Dashboard → Settings → API → anon public (isti projekt kao URL), pa Redeploy."
           : error.message;
       return NextResponse.json({ error: msg }, { status: 400 });
     }
