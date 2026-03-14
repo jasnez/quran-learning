@@ -47,6 +47,49 @@ Aplikacija pri registraciji šalje Supabaseu `emailRedirectTo: .../auth/callback
 
 ---
 
+## 2c. Prijava putem Google naloga
+
+Da bi gumb **„Prijava putem Google naloga”** na stranici za prijavu radio, treba uključiti Google provider u Supabaseu i kreirati OAuth klijenta u Google Cloudu.
+
+### Korak 1: Google Cloud – OAuth klijent
+
+1. Otvori [Google Cloud Console](https://console.cloud.google.com/) i odaberi projekt (ili kreiraj novi).
+2. **APIs & Services** → **Credentials** → **Create Credentials** → **OAuth client ID**.
+3. Ako te pita, konfiguriraj **OAuth consent screen** (External, npr. naziv aplikacije, email za podršku). Za test možeš koristiti „Testing” i dodati svoj email kao test korisnika.
+4. Kad kreiraš OAuth client ID:
+   - Application type: **Web application**.
+   - **Authorized redirect URIs** – dodaj **točan** Supabase callback (zamijeni `TVOJ_PROJECT_REF` s referencom tvog Supabase projekta iz URL‑a u Dashboardu):
+     - `https://TVOJ_PROJECT_REF.supabase.co/auth/v1/callback`
+5. Spremi i kopiraj **Client ID** i **Client Secret**.
+
+### Korak 2: Supabase – uključi Google provider
+
+1. U [Supabase Dashboard](https://supabase.com/dashboard) otvori **Authentication** → **Providers**.
+2. Pronađi **Google** i uključi ga (Enable).
+3. U polja **Client ID** i **Client Secret** zalijepi vrijednosti iz Google Cloud Consolea.
+4. Spremi (Save).
+
+### Korak 3: Redirect URLs u Supabaseu
+
+Nakon Google prijave Supabase preusmjeri korisnika natrag u tvoju aplikaciju. U **Authentication** → **URL Configuration** → **Redirect URLs** moraju biti npr.:
+
+- `http://localhost:3000` (lokalno)
+- `https://tvoja-domena.com` ili `https://tvoj-projekt.vercel.app` (produkcija)
+
+Aplikacija trenutno šalje `redirectTo: origin + "/"`, pa korisnik završi na početnoj stranici. Ako želiš da nakon Google prijave ide na `/auth/callback` (kao kod email potvrde), to se može promijeniti u kodu.
+
+### Sažetak
+
+| Gdje | Što |
+|------|-----|
+| Google Cloud Console | OAuth 2.0 Web client, redirect URI = `https://<project-ref>.supabase.co/auth/v1/callback` |
+| Supabase → Auth → Providers → Google | Enable, Client ID, Client Secret |
+| Supabase → Auth → URL Configuration | Redirect URLs = tvoj Site URL (npr. localhost i Vercel URL) |
+
+Kad je to postavljeno, gumb „Prijava putem Google naloga” na stranici Prijava radi bez dodatnih env varijabli.
+
+---
+
 ## 3. Lokalno (.env.local)
 
 U rootu projekta u `.env.local` stavi (zamijeni vrijednosti):
