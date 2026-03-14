@@ -63,6 +63,7 @@ export function getLocalSettings(): SettingsState | null {
       const {
         setTheme,
         setArabicFontSize,
+        setArabicFontStyle,
         toggleTransliteration,
         toggleTranslation,
         toggleTajwidColors,

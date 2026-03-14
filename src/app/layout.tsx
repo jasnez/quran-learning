@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Amiri } from "next/font/google";
+import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { AuthProvider } from "@/components/auth/AuthProvider";
@@ -19,6 +19,12 @@ const amiri = Amiri({
   weight: ["400", "700"],
   subsets: ["arabic", "latin"],
   variable: "--font-amiri",
+});
+
+const notoNaskhArabic = Noto_Naskh_Arabic({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["arabic", "latin"],
+  variable: "--font-naskh-arabic",
 });
 
 const uthmanicHafs = localFont({
@@ -42,12 +48,12 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var k='quran-learning-settings';try{var s=localStorage.getItem(k);if(s){var d=JSON.parse(s);var t=(d&&d.state&&d.state.theme)||(d&&d.theme);if(t){document.documentElement.setAttribute('data-theme',t);if(t==='dark')document.documentElement.classList.add('dark');}}}catch(e){}})();`,
+            __html: `(function(){var k='quran-learning-settings';try{var s=localStorage.getItem(k);if(s){var d=JSON.parse(s);var st=(d&&d.state)||d;var t=st&&st.theme;var f=st&&st.arabicFontStyle;if(t){document.documentElement.setAttribute('data-theme',t);if(t==='dark')document.documentElement.classList.add('dark');}if(f)document.documentElement.setAttribute('data-arabic-font',f);}catch(e){}})();`,
           }}
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${uthmanicHafs.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${uthmanicHafs.variable} antialiased`}
       >
         <ThemeProvider>
           <AuthProvider>

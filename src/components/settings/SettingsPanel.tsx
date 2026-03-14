@@ -22,6 +22,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
 
   const theme = useSettingsStore((s) => s.theme);
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
+  const arabicFontStyle = useSettingsStore((s) => s.arabicFontStyle);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
@@ -32,6 +33,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
 
   const setTheme = useSettingsStore((s) => s.setTheme);
   const setArabicFontSize = useSettingsStore((s) => s.setArabicFontSize);
+  const setArabicFontStyle = useSettingsStore((s) => s.setArabicFontStyle);
   const toggleTransliteration = useSettingsStore((s) => s.toggleTransliteration);
   const toggleTranslation = useSettingsStore((s) => s.toggleTranslation);
   const toggleTajwidColors = useSettingsStore((s) => s.toggleTajwidColors);
@@ -134,6 +136,31 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                     +
                   </button>
                 </div>
+              </div>
+              <div>
+                <span id="font-style-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                  Stil arapskog fonta
+                </span>
+                <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="font-style-label">
+                  {(["naskh", "uthmanic"] as const).map((style) => (
+                    <button
+                      key={style}
+                      type="button"
+                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        arabicFontStyle === style
+                          ? "bg-emerald-600 text-white dark:bg-emerald-500"
+                          : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                      }`}
+                      aria-pressed={arabicFontStyle === style}
+                      onClick={() => setArabicFontStyle(style)}
+                    >
+                      {style === "naskh" ? "Naskh (zaobljen)" : "Uthmanic HAFS"}
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                  Naskh = blago zaobljena slova (kao u mushafu). Uthmanic = klasični rukopisni stil.
+                </p>
               </div>
               <ToggleRow
                 id="transliteration"

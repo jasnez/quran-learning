@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { SettingsState } from "@/types/settings";
-import type { RepeatMode } from "@/types/settings";
+import type { SettingsState, RepeatMode, ArabicFontStyle } from "@/types/settings";
 import { getSafeStorage } from "./safeStorage";
 
 type Theme = SettingsState["theme"];
@@ -9,6 +8,7 @@ type Theme = SettingsState["theme"];
 type SettingsStore = SettingsState & {
   setTheme: (theme: Theme) => void;
   setArabicFontSize: (arabicFontSize: number) => void;
+  setArabicFontStyle: (arabicFontStyle: ArabicFontStyle) => void;
   toggleTransliteration: () => void;
   toggleTranslation: () => void;
   toggleTajwidColors: () => void;
@@ -21,6 +21,7 @@ type SettingsStore = SettingsState & {
 const defaultState: SettingsState = {
   theme: "light",
   arabicFontSize: 28,
+  arabicFontStyle: "naskh",
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
@@ -47,6 +48,8 @@ export const useSettingsStore = create<SettingsStore>()(
 
       setArabicFontSize: (arabicFontSize) => set({ arabicFontSize }),
 
+      setArabicFontStyle: (arabicFontStyle) => set({ arabicFontStyle }),
+
       toggleTransliteration: () =>
         set((s) => ({ showTransliteration: !s.showTransliteration })),
 
@@ -71,6 +74,7 @@ export const useSettingsStore = create<SettingsStore>()(
       partialize: (state) => ({
         theme: state.theme,
         arabicFontSize: state.arabicFontSize,
+        arabicFontStyle: state.arabicFontStyle,
         showTransliteration: state.showTransliteration,
         showTranslation: state.showTranslation,
         showTajwidColors: state.showTajwidColors,

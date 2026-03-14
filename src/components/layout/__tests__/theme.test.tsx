@@ -9,14 +9,15 @@ import { useSettingsStore } from "@/store/settingsStore";
 
 const mockSetTheme = vi.fn();
 vi.mock("@/store/settingsStore", () => ({
-  useSettingsStore: vi.fn((selector: (s: { theme: string; setTheme: () => void }) => unknown) =>
-    selector({ theme: "light", setTheme: mockSetTheme })
+  useSettingsStore: vi.fn((selector: (s: { theme: string; arabicFontStyle: string; setTheme: () => void }) => unknown) =>
+    selector({ theme: "light", arabicFontStyle: "naskh", setTheme: mockSetTheme })
   ),
 }));
 
 beforeEach(() => {
   vi.clearAllMocks();
   document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("data-arabic-font");
   document.documentElement.classList.remove("dark", "theme-light", "theme-dark", "theme-sepia");
 });
 
@@ -75,6 +76,24 @@ describe("ThemeProvider", () => {
     const { unmount } = render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.classList.contains("dark")).toBe(false);
     unmount();
+  });
+
+  it("sets data-arabic-font to naskh when store arabicFontStyle is naskh", () => {
+    vi.mocked(useSettingsStore).mockImplementation(
+      (sel: (s: { theme: string; arabicFontStyle: string }) => unknown) =>
+        sel({ theme: "light", arabicFontStyle: "naskh" }) as ReturnType<typeof useSettingsStore>
+    );
+    render(<ThemeProvider><span /></ThemeProvider>);
+    expect(document.documentElement.getAttribute("data-arabic-font")).toBe("naskh");
+  });
+
+  it("sets data-arabic-font to uthmanic when store arabicFontStyle is uthmanic", () => {
+    vi.mocked(useSettingsStore).mockImplementation(
+      (sel: (s: { theme: string; arabicFontStyle: string }) => unknown) =>
+        sel({ theme: "light", arabicFontStyle: "uthmanic" }) as ReturnType<typeof useSettingsStore>
+    );
+    render(<ThemeProvider><span /></ThemeProvider>);
+    expect(document.documentElement.getAttribute("data-arabic-font")).toBe("uthmanic");
   });
 });
 

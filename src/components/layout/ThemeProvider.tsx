@@ -5,6 +5,7 @@ import { useSettingsStore } from "@/store/settingsStore";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const theme = useSettingsStore((s) => s.theme);
+  const arabicFontStyle = useSettingsStore((s) => s.arabicFontStyle);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -15,6 +16,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove("dark");
     }
   }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-arabic-font", arabicFontStyle);
+  }, [arabicFontStyle]);
 
   return <>{children}</>;
 }

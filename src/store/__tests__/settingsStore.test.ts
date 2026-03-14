@@ -24,6 +24,7 @@ describe("settingsStore", () => {
     useSettingsStore.setState({
       theme: "light",
       arabicFontSize: 28,
+      arabicFontStyle: "naskh",
       showTransliteration: true,
       showTranslation: true,
       showTajwidColors: true,
@@ -43,6 +44,7 @@ describe("settingsStore", () => {
       const state = useSettingsStore.getState();
       expect(state.theme).toBe("light");
       expect(state.arabicFontSize).toBe(28);
+      expect(state.arabicFontStyle).toBe("naskh");
       expect(state.showTransliteration).toBe(true);
       expect(state.showTranslation).toBe(true);
       expect(state.showTajwidColors).toBe(true);
@@ -66,6 +68,15 @@ describe("settingsStore", () => {
     it("updates arabicFontSize", () => {
       useSettingsStore.getState().setArabicFontSize(32);
       expect(useSettingsStore.getState().arabicFontSize).toBe(32);
+    });
+  });
+
+  describe("setArabicFontStyle", () => {
+    it("updates arabicFontStyle", () => {
+      useSettingsStore.getState().setArabicFontStyle("uthmanic");
+      expect(useSettingsStore.getState().arabicFontStyle).toBe("uthmanic");
+      useSettingsStore.getState().setArabicFontStyle("naskh");
+      expect(useSettingsStore.getState().arabicFontStyle).toBe("naskh");
     });
   });
 

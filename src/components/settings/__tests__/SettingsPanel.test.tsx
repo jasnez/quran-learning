@@ -9,6 +9,7 @@ import { SettingsPanel } from "../SettingsPanel";
 
 const mockSetTheme = vi.fn();
 const mockSetArabicFontSize = vi.fn();
+const mockSetArabicFontStyle = vi.fn();
 const mockToggleTransliteration = vi.fn();
 const mockToggleTranslation = vi.fn();
 const mockToggleTajwidColors = vi.fn();
@@ -20,6 +21,7 @@ const mockToggleAutoPlayNext = vi.fn();
 const defaultStore = {
   theme: "light" as const,
   arabicFontSize: 28,
+  arabicFontStyle: "naskh" as const,
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
@@ -29,6 +31,7 @@ const defaultStore = {
   autoPlayNext: true,
   setTheme: mockSetTheme,
   setArabicFontSize: mockSetArabicFontSize,
+  setArabicFontStyle: mockSetArabicFontStyle,
   toggleTransliteration: mockToggleTransliteration,
   toggleTranslation: mockToggleTranslation,
   toggleTajwidColors: mockToggleTajwidColors,
@@ -74,6 +77,13 @@ describe("SettingsPanel", () => {
     expect(screen.getByText(/display|prikaz|font size|veličina fonta/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /decrease|smanji|minus|-/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /increase|povećaj|plus|\+/i })).toBeInTheDocument();
+  });
+
+  it("has Arabic font style options (Naskh, Uthmanic HAFS)", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    expect(screen.getByText(/stil arapskog fonta/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /naskh.*zaobljen/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /uthmanic hafs/i })).toBeInTheDocument();
   });
 
   it("has transliteration toggle in Display section", () => {
