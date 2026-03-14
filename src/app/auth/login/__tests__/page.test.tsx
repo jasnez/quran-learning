@@ -2,9 +2,15 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Page from "../page";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 describe("Auth /login page", () => {
   it("renders calm premium login form", () => {

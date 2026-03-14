@@ -7,6 +7,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "../Header";
 import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
+import { useAuthStore } from "@/store/authStore";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -24,8 +25,10 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+const replaceMock = vi.fn();
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
+  useRouter: () => ({ replace: replaceMock }),
 }));
 
 vi.mock("@/store/playerStore", () => {
@@ -60,23 +63,26 @@ vi.mock("@/store/settingsStore", () => ({
   ),
 }));
 
-const authMocks = vi.hoisted(() => ({
-  isAuthenticated: vi.fn(),
-  getCurrentUser: vi.fn(),
-  signOut: vi.fn().mockResolvedValue(undefined),
+const signOutMock = vi.fn().mockResolvedValue(undefined);
+vi.mock("@/lib/auth/authHelpers", () => ({
+  getCurrentUser: () => useAuthStore.getState().user,
+  isAuthenticated: () => !!useAuthStore.getState().user,
+  signOut: () => signOutMock(),
 }));
 
-vi.mock("@/lib/auth/authHelpers", () => authMocks);
+const mockUser = {
+  id: "user-1",
+  email: "user@example.com",
+  user_metadata: { full_name: "Test User" },
+} as ReturnType<typeof useAuthStore.getState>["user"];
 
 describe("Header auth state", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useAuthStore.getState().setUser(null);
   });
 
   it("shows Prijava button when not authenticated", () => {
-    authMocks.isAuthenticated.mockReturnValue(false);
-    authMocks.getCurrentUser.mockReturnValue(null);
-
     render(
       <SettingsOpenProvider>
         <Header />
@@ -89,12 +95,7 @@ describe("Header auth state", () => {
   });
 
   it("shows user avatar/name and dropdown when authenticated", async () => {
-    authMocks.isAuthenticated.mockReturnValue(true);
-    authMocks.getCurrentUser.mockReturnValue({
-      id: "user-1",
-      email: "user@example.com",
-      user_metadata: { full_name: "Test User" },
-    });
+    useAuthStore.getState().setUser(mockUser);
 
     render(
       <SettingsOpenProvider>
@@ -102,11 +103,10 @@ describe("Header auth state", () => {
       </SettingsOpenProvider>
     );
 
-    const userButton = screen.getByRole("button", { name: /test user|user@example.com/i });
-    expect(userButton).toBeInTheDocument();
-
+    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    expect(userButtons.length).toBeGreaterThanOrEqual(1);
     const user = userEvent.setup();
-    await user.click(userButton);
+    await user.click(userButtons[0]);
 
     expect(
       screen.getByRole("menuitem", { name: /profil/i })
@@ -123,6 +123,66 @@ describe("Header auth state", () => {
     expect(
       screen.getByRole("menuitem", { name: /odjava/i })
     ).toBeInTheDocument();
+  });
+
+  it("closes user menu when clicking a navigation item (Profil)", async () => {
+    useAuthStore.getState().setUser(mockUser);
+
+    render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
+
+    const user = userEvent.setup();
+    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    await user.click(userButtons[0]);
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("menuitem", { name: /profil/i }));
+
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+
+  it("calls signOut when clicking Odjava", async () => {
+    useAuthStore.getState().setUser(mockUser);
+
+    render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
+
+    const user = userEvent.setup();
+    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    await user.click(userButtons[0]);
+    await user.click(screen.getByRole("menuitem", { name: /odjava/i }));
+
+    expect(signOutMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("after logout shows Prijava and redirects to home", async () => {
+    signOutMock.mockImplementation(async () => {
+      useAuthStore.getState().setUser(null);
+    });
+    useAuthStore.getState().setUser(mockUser);
+
+    render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
+
+    const user = userEvent.setup();
+    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    await user.click(userButtons[0]);
+    await user.click(screen.getByRole("menuitem", { name: /odjava/i }));
+
+    expect(signOutMock).toHaveBeenCalledTimes(1);
+    const prijavaLinks = screen.getAllByRole("link", { name: /prijava/i });
+    expect(prijavaLinks.length).toBeGreaterThanOrEqual(1);
+    expect(prijavaLinks[0]).toHaveAttribute("href", "/auth/login");
+    expect(replaceMock).toHaveBeenCalledWith("/");
   });
 });
 

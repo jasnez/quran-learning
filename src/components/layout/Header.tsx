@@ -2,9 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
-import { getCurrentUser, isAuthenticated, signOut } from "@/lib/auth/authHelpers";
+import { useAuthStore } from "@/store/authStore";
+import { signOut } from "@/lib/auth/authHelpers";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
 
@@ -27,8 +28,8 @@ export function Header() {
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
   const { isHidden, hasShadow } = useStickyHeader();
-  const authed = isAuthenticated();
-  const user = getCurrentUser();
+  const user = useAuthStore((s) => s.user);
+  const authed = !!user;
 
   return (
     <header
@@ -137,7 +138,9 @@ type UserMenuButtonProps = {
 };
 
 function UserMenuButton({ userName }: UserMenuButtonProps) {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const closeMenu = React.useCallback(() => setOpen(false), []);
 
   return (
     <div className="relative">
@@ -159,16 +162,18 @@ function UserMenuButton({ userName }: UserMenuButtonProps) {
           aria-label="Korisnički meni"
           className="absolute right-0 mt-2 w-44 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 text-sm shadow-lg"
         >
-          <HeaderMenuItem href="/profile">Profil</HeaderMenuItem>
-          <HeaderMenuItem href="/settings">Postavke</HeaderMenuItem>
-          <HeaderMenuItem href="/bookmarks">Označeni</HeaderMenuItem>
-          <HeaderMenuItem href="/progress">Napredak</HeaderMenuItem>
+          <HeaderMenuItem href="/profile" onNavigate={closeMenu}>Profil</HeaderMenuItem>
+          <HeaderMenuItem href="/settings" onNavigate={closeMenu}>Postavke</HeaderMenuItem>
+          <HeaderMenuItem href="/bookmarks" onNavigate={closeMenu}>Označeni</HeaderMenuItem>
+          <HeaderMenuItem href="/progress" onNavigate={closeMenu}>Napredak</HeaderMenuItem>
           <button
             type="button"
             role="menuitem"
             className="flex w-full items-center justify-between px-3 py-2 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-            onClick={() => {
-              void signOut();
+            onClick={async () => {
+              closeMenu();
+              await signOut();
+              router.replace("/");
             }}
           >
             <span>Odjava</span>
@@ -179,12 +184,21 @@ function UserMenuButton({ userName }: UserMenuButtonProps) {
   );
 }
 
-function HeaderMenuItem({ href, children }: { href: string; children: React.ReactNode }) {
+function HeaderMenuItem({
+  href,
+  children,
+  onNavigate,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onNavigate?: () => void;
+}) {
   return (
     <Link
       role="menuitem"
       href={href}
       className="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+      onClick={onNavigate}
     >
       <span>{children}</span>
     </Link>

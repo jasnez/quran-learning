@@ -5,15 +5,14 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, waitFor } from "@testing-library/react";
 
-const mockGetUser = vi.fn();
-const mockOnAuthStateChange = vi.fn();
+const mockAuth = vi.hoisted(() => ({
+  getUser: vi.fn(),
+  onAuthStateChange: vi.fn(),
+}));
 
 vi.mock("@supabase/ssr", () => ({
   createBrowserClient: vi.fn(() => ({
-    auth: {
-      getUser: mockGetUser,
-      onAuthStateChange: mockOnAuthStateChange,
-    },
+    auth: mockAuth,
   })),
 }));
 
@@ -31,6 +30,14 @@ vi.mock("@/lib/sync/dataSyncService", () => syncMocks);
 
 vi.mock("@/lib/auth/authHelpers", () => ({
   ensureUserProfileAndSettings: vi.fn().mockResolvedValue(undefined),
+  getBrowserClientAsync: vi.fn().mockResolvedValue({
+    auth: mockAuth,
+  }),
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
+  usePathname: () => "/",
 }));
 
 import { AuthProvider } from "../AuthProvider";
@@ -42,18 +49,22 @@ const {
 } = syncMocks;
 
 describe("AuthProvider sync orchestration", () => {
-  const user = { id: "user-123", email: "test@example.com" } as any;
+  const user = {
+    id: "user-123",
+    email: "test@example.com",
+    email_confirmed_at: "2024-01-01T00:00:00Z",
+  } as any;
 
   beforeEach(() => {
     vi.clearAllMocks();
     process.env.NEXT_PUBLIC_SUPABASE_URL = "https://example.supabase.co";
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = "anon-key";
 
-    mockGetUser.mockResolvedValue({
+    mockAuth.getUser.mockResolvedValue({
       data: { user },
       error: null,
     });
-    mockOnAuthStateChange.mockReturnValue({
+    mockAuth.onAuthStateChange.mockReturnValue({
       data: { subscription: { unsubscribe: vi.fn() } },
     });
   });
