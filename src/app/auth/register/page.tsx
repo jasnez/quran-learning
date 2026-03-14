@@ -32,7 +32,7 @@ export default function RegisterPage() {
       setError(data.error ?? "Registracija nije uspjela.");
       return;
     }
-    router.replace("/auth/confirm-email");
+    router.replace(`/auth/confirm-email?email=${encodeURIComponent(email.trim())}`);
   };
 
   return (

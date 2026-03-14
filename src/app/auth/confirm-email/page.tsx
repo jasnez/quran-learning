@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function ConfirmEmailPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const emailFromUrl = searchParams.get("email");
   const [user, setUser] = useState<User | null | "loading">("loading");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -18,26 +20,29 @@ export default function ConfirmEmailPage() {
       return client.auth.getUser().then(({ data }) => {
         const u = data?.user ?? null;
         setUser(u ?? null);
-        if (!u) {
+        if (!u && !emailFromUrl) {
           router.replace("/auth/login");
           return;
         }
-        if (u.email_confirmed_at) {
+        if (u?.email_confirmed_at) {
           router.replace("/profile");
         }
       });
     });
-  }, [router]);
+  }, [router, emailFromUrl]);
+
+  const displayEmail = (user && user !== "loading" ? user.email : emailFromUrl) ?? "";
+  const canResend = !!displayEmail;
 
   const handleResend = async () => {
-    if (!user || user === "loading" || !user.email) return;
+    if (!canResend) return;
     setLoading(true);
     setError(null);
     setMessage(null);
     const client = await getBrowserClientAsync();
     const { error: resendError } = await client.auth.resend({
       type: "signup",
-      email: user.email,
+      email: displayEmail,
     });
     setLoading(false);
     if (resendError) {
@@ -47,12 +52,16 @@ export default function ConfirmEmailPage() {
     setMessage("Link za potvrdu je poslan na tvoj email. Provjeri i spam mapu.");
   };
 
-  if (user === "loading" || !user) {
+  if (user === "loading" && !emailFromUrl) {
     return (
       <div className="flex min-h-[calc(100vh-6rem)] items-center justify-center px-4">
         <p className="text-sm text-stone-500">Učitavanje…</p>
       </div>
     );
+  }
+
+  if (!displayEmail) {
+    return null;
   }
 
   return (
@@ -66,7 +75,7 @@ export default function ConfirmEmailPage() {
             Potvrdi svoj email
           </h1>
           <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
-            Poslali smo ti link za potvrdu na <strong>{user.email}</strong>. Otvori email i klikni na
+            Poslali smo ti link za potvrdu na <strong>{displayEmail}</strong>. Otvori email i klikni na
             link da aktiviraš račun. Ako nisi primio, možeš zatražiti novi link ispod.
           </p>
         </div>
@@ -83,7 +92,7 @@ export default function ConfirmEmailPage() {
         <button
           type="button"
           onClick={handleResend}
-          disabled={loading}
+          disabled={loading || !canResend}
           className="w-full rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70"
         >
           {loading ? "Slanje…" : "Pošalji ponovo link za potvrdu"}

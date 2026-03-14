@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function LoginPage() {
     setError(null);
     setMessage(null);
     const client = await getBrowserClientAsync();
-    const { error: signInError } = await client.auth.signInWithPassword({
+    const { data, error: signInError } = await client.auth.signInWithPassword({
       email,
       password,
     });
@@ -33,7 +35,13 @@ export default function LoginPage() {
       );
       return;
     }
-    setMessage("Dobro došao nazad! Učitavamo tvoj nalog…");
+    setMessage("Dobro došao nazad! Preusmjeravam…");
+    if (data?.user?.email_confirmed_at) {
+      router.replace("/profile");
+    } else {
+      const q = data?.user?.email ? `?email=${encodeURIComponent(data.user.email)}` : "";
+      router.replace(`/auth/confirm-email${q}`);
+    }
   };
 
   const handleGoogle = async () => {
