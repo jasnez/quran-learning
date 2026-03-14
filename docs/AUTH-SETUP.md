@@ -33,6 +33,20 @@ Važno: **URL i ključ moraju biti iz istog projekta.** Ako kopiraš URL iz proj
 
 ---
 
+## 2b. URL konfiguracija (redirect nakon potvrde emaila)
+
+Da bi korisnik nakon klika na link „Confirm your mail” u emailu završio na **stranici za prijavu** (a ne na početnoj):
+
+1. U Supabase Dashboardu otvori **Authentication** → **URL Configuration**.
+2. **Site URL** može ostati npr. `https://tvoja-domena.com` (početna aplikacije).
+3. U **Redirect URLs** dodaj točan URL callback rute (mora biti u listi dozvoljenih):
+   - Lokalno: `http://localhost:3000/auth/callback`
+   - Produkcija: `https://tvoja-domena.com/auth/callback` (zamijeni s pravim Vercel URL‑om, npr. `https://quran-learning.vercel.app/auth/callback`).
+
+Aplikacija pri registraciji šalje Supabaseu `emailRedirectTo: .../auth/callback`. Kad korisnik potvrdi email, Supabase ga preusmjeri na tu adresu; aplikacija tamo postavi sesiju i preusmjeri ga na **Prijava** s porukom „Email je potvrđen. Možeš se prijaviti.”
+
+---
+
 ## 3. Lokalno (.env.local)
 
 U rootu projekta u `.env.local` stavi (zamijeni vrijednosti):

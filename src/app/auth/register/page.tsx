@@ -19,7 +19,7 @@ export default function RegisterPage() {
     setMessage(null);
 
     const redirectTo =
-      typeof window !== "undefined" ? `${window.location.origin}/` : undefined;
+      typeof window !== "undefined" ? `${window.location.origin}/auth/callback` : undefined;
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
