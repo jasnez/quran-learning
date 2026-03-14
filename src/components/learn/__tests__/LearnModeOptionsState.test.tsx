@@ -291,4 +291,48 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
       vi.stubGlobal("fetch", originalFetch);
     }
   });
+
+  it("when Riječ po riječ is off, no word is highlighted (highlight only when option is on and synced)", async () => {
+    const mockWords = [
+      {
+        id: 1,
+        ayahId: 1,
+        ayahKey: "1:1",
+        wordOrder: 1,
+        textArabic: "بِسْمِ",
+        transliteration: "Bismi",
+        translationShort: "In the name",
+        startTimeMs: 0,
+        endTimeMs: 500,
+        tajwidRule: "normal" as const,
+      },
+    ];
+    const originalFetch = globalThis.fetch;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url: string) =>
+        url.includes("/words")
+          ? Promise.resolve({ ok: true, json: () => Promise.resolve(mockWords) })
+          : Promise.reject(new Error("no mock"))
+      )
+    );
+    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
+      sel({
+        ...defaultPlayerState,
+        wordByWordMode: false,
+        currentTime: 0.1,
+        duration: 1,
+      })
+    );
+    try {
+      render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+      await screen.findByText("In the name", {}, { timeout: 3000 });
+      const wordByWordRegion = document.querySelector("[data-word-by-word]");
+      expect(wordByWordRegion).toBeInTheDocument();
+      const activeWords = wordByWordRegion?.querySelectorAll('[data-active="true"]') ?? [];
+      expect(activeWords.length).toBe(0);
+    } finally {
+      vi.stubGlobal("fetch", originalFetch);
+    }
+  });
 });

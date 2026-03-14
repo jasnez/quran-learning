@@ -164,7 +164,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
     !!chapterWords?.length &&
     !!verseTimestamp?.segments?.length;
   const currentTimeMs =
-    currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMsStore : Math.round(currentTime * 1000)) : 0;
+    currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMsStore : -1) : 0;
   const audioDurationMs =
     currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined;
 
