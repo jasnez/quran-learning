@@ -1,4 +1,6 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase";
+import { getBrowserClientAsync } from "@/lib/auth/authHelpers";
 import type { Bookmark } from "@/types/bookmarks";
 import type { LearningProgress, SurahProgress } from "@/store/progressStore";
 import type { SettingsState } from "@/types/settings";
@@ -7,6 +9,14 @@ import { useSettingsStore } from "@/store/settingsStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useProgressStore } from "@/store/progressStore";
 import { getAyahId } from "@/lib/quran/ayahIdMapper";
+
+/** In browser use the client that has the user session (so RLS auth.uid() works). On server use default client. */
+async function getAuthenticatedClient(): Promise<SupabaseClient> {
+  if (typeof window !== "undefined") {
+    return getBrowserClientAsync();
+  }
+  return getSupabaseClient();
+}
 
 type DbBookmarkRow = {
   user_id: string;
@@ -26,7 +36,7 @@ type DbProgressRow = {
 };
 
 export async function syncBookmarksToCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
   const local: Bookmark[] = getLocalBookmarks();
   if (!local.length) return;
 
@@ -57,7 +67,7 @@ export async function syncBookmarksToCloud(userId: string): Promise<void> {
 }
 
 export async function syncSettingsToCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
   const settings: SettingsState | null = getLocalSettings();
   if (!settings) return;
 
@@ -78,7 +88,7 @@ export async function syncSettingsToCloud(userId: string): Promise<void> {
 }
 
 export async function syncProgressToCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
   const local: LearningProgress | null = getLocalProgress();
   if (!local) return;
 
@@ -132,7 +142,7 @@ export async function syncProgressToCloud(userId: string): Promise<void> {
 }
 
 export async function mergeLocalAndCloudData(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
   const local: LearningProgress | null = getLocalProgress();
 
   const { data: cloud, error } = await supabase
@@ -191,7 +201,7 @@ export async function mergeLocalAndCloudData(userId: string): Promise<void> {
 }
 
 export async function loadUserDataFromCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
   const { data, error } = await supabase
     .from("user_settings")
     .select(
@@ -237,7 +247,7 @@ export async function loadUserDataFromCloud(userId: string): Promise<void> {
 }
 
 export async function loadBookmarksFromCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
 
   const { data: bookmarkRows, error: bookmarkErr } = await supabase
     .from("user_bookmarks")
@@ -348,7 +358,7 @@ export async function loadBookmarksFromCloud(userId: string): Promise<void> {
 }
 
 export async function loadProgressFromCloud(userId: string): Promise<void> {
-  const supabase = getSupabaseClient();
+  const supabase = await getAuthenticatedClient();
 
   const { data: progressRows, error: progressErr } = await supabase
     .from("user_progress")
