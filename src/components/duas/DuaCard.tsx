@@ -14,7 +14,7 @@ export function DuaCard({ dua }: DuaCardProps) {
 
   return (
     <article
-      className="rounded-2xl border border-stone-200/80 bg-white/50 p-6 dark:border-stone-700/80 dark:bg-stone-900/20"
+      className="w-full rounded-2xl border border-stone-200/80 bg-white/50 p-6 dark:border-stone-700/80 dark:bg-stone-900/20"
       aria-labelledby={`dua-arabic-${dua.id}`}
     >
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">

@@ -44,14 +44,14 @@ describe("DuasPageContent", () => {
     expect(screen.queryByRole("heading", { name: /Za oprost/i })).not.toBeInTheDocument();
   });
 
-  it("renders each category section with horizontal scroll container for cards", () => {
+  it("renders each category section with vertical stack of wide cards (no horizontal scroll)", () => {
     render(<DuasPageContent />);
     const sections = document.querySelectorAll("[aria-labelledby^='duas-category-']");
     expect(sections.length).toBeGreaterThanOrEqual(1);
     sections.forEach((section) => {
-      const scrollContainer = section.querySelector(".overflow-x-auto");
-      expect(scrollContainer).toBeInTheDocument();
-      expect(scrollContainer?.classList.contains("flex")).toBe(true);
+      const cardContainer = section.querySelector("[class*='space-y']");
+      expect(cardContainer).toBeInTheDocument();
+      expect(section.querySelector(".overflow-x-auto")).not.toBeInTheDocument();
     });
   });
 

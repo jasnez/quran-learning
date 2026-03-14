@@ -33,12 +33,9 @@ export function DuasPageContent({ category }: DuasPageContentProps) {
             >
               {CATEGORY_LABELS[cat]}
             </h2>
-            <div className="flex gap-6 overflow-x-auto pb-2">
+            <div className="space-y-6">
               {duas.map((dua) => (
-                <div
-                  key={dua.id}
-                  className="min-w-[280px] flex-shrink-0 max-w-md snap-start md:min-w-[320px]"
-                >
+                <div key={dua.id} className="w-full">
                   <DuaCard dua={dua} />
                 </div>
               ))}

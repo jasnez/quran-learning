@@ -64,6 +64,13 @@ describe("DuaCard", () => {
     expect(els.length).toBeGreaterThanOrEqual(1);
   });
 
+  it("renders as wide card (full width of container)", () => {
+    render(<DuaCard dua={mockDua} />);
+    const article = document.querySelector("article");
+    expect(article).toBeInTheDocument();
+    expect(article?.className).toMatch(/\bw-full\b/);
+  });
+
   it("when dua has ayahEnd (merged range), shows citation as Kur'an 3:191–194 and links to first ayah", () => {
     const mergedDua = {
       ...mockDua,
