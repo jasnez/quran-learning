@@ -137,7 +137,7 @@ describe("Header auth state", () => {
     expect(screen.queryByRole("menuitem", { name: /postavke/i })).not.toBeInTheDocument();
   });
 
-  it("main nav has Sure, Kviz, Tedžvid lekcije, Napredak but not Zabilješke text link", () => {
+  it("main nav has Sure, Učenje dropdown (Kviz, Tedžvid), Napredak but not Zabilješke text link", async () => {
     render(
       <SettingsOpenProvider>
         <Header />
@@ -146,11 +146,16 @@ describe("Header auth state", () => {
     const sureLinks = screen.getAllByRole("link", { name: /^sure$/i });
     expect(sureLinks.length).toBeGreaterThanOrEqual(1);
     expect(sureLinks[0]).toHaveAttribute("href", "/surahs");
-    const kvizLinks = screen.getAllByRole("link", { name: /^kviz$/i });
-    expect(kvizLinks[0]).toHaveAttribute("href", "/test/1");
-    const tajwidLinks = screen.getAllByRole("link", { name: /tedžvid lekcije/i });
-    expect(tajwidLinks[0]).toHaveAttribute("href", "/tajwid");
+
+    const ucenjeBtns = screen.getAllByRole("button", { name: /učenje/i });
+    expect(ucenjeBtns.length).toBeGreaterThanOrEqual(1);
+    const user = userEvent.setup();
+    await user.click(ucenjeBtns[0]);
+    expect(screen.getByRole("menuitem", { name: /^kviz$/i })).toHaveAttribute("href", "/test/1");
+    expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+
     const napredakLinks = screen.getAllByRole("link", { name: /^napredak$/i });
+    expect(napredakLinks.length).toBeGreaterThanOrEqual(1);
     expect(napredakLinks[0]).toHaveAttribute("href", "/progress");
     expect(screen.queryByRole("link", { name: /zabilješke/i })).not.toBeInTheDocument();
     const bookmarkLinks = screen.getAllByRole("link", { name: /označeni ajeti/i });

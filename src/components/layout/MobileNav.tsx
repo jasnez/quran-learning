@@ -16,6 +16,7 @@ export function MobileNav() {
   const isProgress = pathname === "/progress";
   const isLearn = pathname?.startsWith("/learn");
   const isNames = pathname?.startsWith("/names");
+  const isDuas = pathname?.startsWith("/duas");
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +83,7 @@ export function MobileNav() {
             aria-expanded={moreOpen}
             aria-haspopup="true"
             aria-label="Više opcija"
-            aria-current={isNames ? "page" : undefined}
+            aria-current={isNames || isDuas ? "page" : undefined}
             className={`flex-1 ${base} ${isNames ? active : inactive}`}
           >
             <MoreIcon className="h-5 w-5" />
@@ -112,6 +113,14 @@ export function MobileNav() {
                 className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
               >
                 Tedžvid lekcije
+              </Link>
+              <Link
+                href="/duas"
+                role="menuitem"
+                onClick={() => setMoreOpen(false)}
+                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+              >
+                Kur&apos;anske dove
               </Link>
               <Link
                 href="/names"

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { getAllSurahs } from "@/lib/data";
 import { ContinueLearningSection } from "@/components/home/ContinueLearningSection";
+import { DailyDuaSection } from "@/components/home/DailyDuaSection";
 
 const FEATURED_SURAH_NUMBERS = [1, 112, 113, 114];
 /** Kratke napomene za preporučene sure (zahtjev: kratka napomena na karticama). */
@@ -63,6 +64,9 @@ export default async function Home() {
 
       {/* Continue Learning or welcome + stats */}
       <ContinueLearningSection />
+
+      {/* Daily Dua */}
+      <DailyDuaSection />
 
       {/* Featured surahs */}
       <section aria-labelledby="featured-heading">

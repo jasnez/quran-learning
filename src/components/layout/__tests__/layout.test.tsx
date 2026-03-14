@@ -231,9 +231,12 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: /džuzevi/i })).not.toBeInTheDocument();
   });
 
-  it("has Quiz link", () => {
+  it("has Quiz link in Učenje dropdown", async () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    expect(screen.getByRole("link", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
+    const ucenjeBtn = screen.getByRole("button", { name: /učenje/i });
+    const user = (await import("@testing-library/user-event")).default.setup();
+    await user.click(ucenjeBtn);
+    expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
   });
 
   it("has Search link", () => {

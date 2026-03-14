@@ -171,6 +171,23 @@ describe("Home page", () => {
     });
   });
 
+  describe("Daily Dua section", () => {
+    it("shows Dova dana heading", async () => {
+      const Page = await Home();
+      render(Page);
+      expect(
+        screen.getByRole("heading", { name: /dova dana/i })
+      ).toBeInTheDocument();
+    });
+
+    it("has link to Kur'anske dove page", async () => {
+      const Page = await Home();
+      render(Page);
+      const link = screen.getByRole("link", { name: /sve kur'anske dove/i });
+      expect(link).toHaveAttribute("href", "/duas");
+    });
+  });
+
   describe("Features section", () => {
     it("shows 4 feature blocks", async () => {
       const Page = await Home();
