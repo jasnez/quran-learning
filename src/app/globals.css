@@ -42,14 +42,18 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Arabic font: set on :root and overridden by html[data-arabic-font] so it wins over @theme */
+:root {
   --font-arabic: var(--font-naskh-arabic), var(--font-amiri), serif;
 }
 
-[data-arabic-font="uthmanic"] {
+html[data-arabic-font="uthmanic"] {
   --font-arabic: var(--font-uthmanic-hafs), var(--font-amiri), serif;
 }
 
-[data-arabic-font="naskh"] {
+html[data-arabic-font="naskh"] {
   --font-arabic: var(--font-naskh-arabic), var(--font-amiri), serif;
 }
 
