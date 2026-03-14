@@ -1,6 +1,7 @@
 "use client";
 
 import { DUAS_BY_CATEGORY } from "@/lib/duas/data";
+import { mergeConsecutiveDuas } from "@/lib/duas/mergeConsecutiveDuas";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
 import { DuaCard } from "./DuaCard";
 import type { DuaCategory } from "@/types/duas";
@@ -18,8 +19,9 @@ export function DuasPageContent({ category }: DuasPageContentProps) {
   return (
     <div className="space-y-12">
       {categoriesToShow.map((cat) => {
-        const duas = DUAS_BY_CATEGORY[cat];
-        if (duas.length === 0) return null;
+        const rawDuas = DUAS_BY_CATEGORY[cat];
+        if (rawDuas.length === 0) return null;
+        const duas = mergeConsecutiveDuas(rawDuas);
         return (
           <section
             key={cat}
@@ -31,9 +33,14 @@ export function DuasPageContent({ category }: DuasPageContentProps) {
             >
               {CATEGORY_LABELS[cat]}
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex gap-6 overflow-x-auto pb-2">
               {duas.map((dua) => (
-                <DuaCard key={dua.id} dua={dua} />
+                <div
+                  key={dua.id}
+                  className="min-w-[280px] flex-shrink-0 max-w-md snap-start md:min-w-[320px]"
+                >
+                  <DuaCard dua={dua} />
+                </div>
               ))}
             </div>
           </section>

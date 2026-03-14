@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import type { QuranicDua } from "@/types/duas";
+import type { DisplayDua } from "@/types/duas";
 
-type DuaCardProps = { dua: QuranicDua };
+type DuaCardProps = { dua: DisplayDua };
 
 export function DuaCard({ dua }: DuaCardProps) {
-  const citationLabel = `Kur'an ${dua.surahNumber}:${dua.ayahNumber}`;
+  const citationLabel =
+    dua.ayahEnd != null
+      ? `Kur'an ${dua.surahNumber}:${dua.ayahNumber}–${dua.ayahEnd}`
+      : `Kur'an ${dua.surahNumber}:${dua.ayahNumber}`;
   const readerHref = `/surah/${dua.surahNumber}?ayah=${dua.ayahNumber}`;
 
   return (

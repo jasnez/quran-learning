@@ -21,3 +21,12 @@ export type QuranicDua = {
   translationBosnian: string;
   category: DuaCategory;
 };
+
+/**
+ * Dova za prikaz: pojedinačni ajet ili spoj uzastopnih ajeta (npr. 3:191–194).
+ * Kada je ayahEnd postavljen, id ima oblik "surah:start-end", a tekstovi su spojeni.
+ */
+export type DisplayDua = QuranicDua & {
+  /** Kad je postavljen, dova predstavlja raspon ajeta (npr. 3:191–194). */
+  ayahEnd?: number;
+};

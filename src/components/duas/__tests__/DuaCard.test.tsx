@@ -63,4 +63,22 @@ describe("DuaCard", () => {
     const els = screen.getAllByText(/Dova iz Kur/i);
     expect(els.length).toBeGreaterThanOrEqual(1);
   });
+
+  it("when dua has ayahEnd (merged range), shows citation as Kur'an 3:191–194 and links to first ayah", () => {
+    const mergedDua = {
+      ...mockDua,
+      id: "3:191-194",
+      surahNumber: 3,
+      ayahNumber: 191,
+      ayahEnd: 194,
+      arabic: "Arabic combined",
+      transliteration: "Trans combined",
+      translationBosnian: "Bosnian combined",
+      category: "rabbana" as const,
+    };
+    render(<DuaCard dua={mergedDua} />);
+    const link = screen.getByRole("link", { name: /Kur'an\s+3:191[–-]194/i });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/surah/3?ayah=191");
+  });
 });

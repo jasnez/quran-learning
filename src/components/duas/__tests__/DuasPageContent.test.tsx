@@ -43,4 +43,21 @@ describe("DuasPageContent", () => {
     expect(rabbana.length).toBeGreaterThanOrEqual(1);
     expect(screen.queryByRole("heading", { name: /Za oprost/i })).not.toBeInTheDocument();
   });
+
+  it("renders each category section with horizontal scroll container for cards", () => {
+    render(<DuasPageContent />);
+    const sections = document.querySelectorAll("[aria-labelledby^='duas-category-']");
+    expect(sections.length).toBeGreaterThanOrEqual(1);
+    sections.forEach((section) => {
+      const scrollContainer = section.querySelector(".overflow-x-auto");
+      expect(scrollContainer).toBeInTheDocument();
+      expect(scrollContainer?.classList.contains("flex")).toBe(true);
+    });
+  });
+
+  it("merges consecutive verses in same surah (e.g. 3:191–194 as one card)", () => {
+    render(<DuasPageContent category="rabbana" />);
+    const link = screen.queryByRole("link", { name: /Kur'an\s+3:191[–-]194/i });
+    expect(link).toBeInTheDocument();
+  });
 });
