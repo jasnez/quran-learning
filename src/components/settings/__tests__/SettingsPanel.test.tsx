@@ -51,6 +51,7 @@ beforeEach(() => {
   document.body.innerHTML = "";
   defaultStore.theme = "light";
   defaultStore.arabicFontSize = 28;
+  defaultStore.arabicFontStyle = "naskh";
   defaultStore.showTransliteration = true;
   defaultStore.showTranslation = true;
   defaultStore.showTajwidColors = true;
@@ -84,6 +85,23 @@ describe("SettingsPanel", () => {
     expect(screen.getByText(/stil arapskog fonta/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /naskh.*zaobljen/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /uthmanic hafs/i })).toBeInTheDocument();
+  });
+
+  it("clicking Uthmanic HAFS calls setArabicFontStyle with \"uthmanic\"", async () => {
+    const user = userEvent.setup();
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const uthmanicBtn = screen.getByRole("button", { name: /uthmanic hafs/i });
+    await user.click(uthmanicBtn);
+    expect(mockSetArabicFontStyle).toHaveBeenCalledWith("uthmanic");
+  });
+
+  it("clicking Naskh (zaobljen) calls setArabicFontStyle with \"naskh\"", async () => {
+    const user = userEvent.setup();
+    defaultStore.arabicFontStyle = "uthmanic";
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const naskhBtn = screen.getByRole("button", { name: /naskh.*zaobljen/i });
+    await user.click(naskhBtn);
+    expect(mockSetArabicFontStyle).toHaveBeenCalledWith("naskh");
   });
 
   it("has transliteration toggle in Display section", () => {
