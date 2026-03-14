@@ -119,9 +119,18 @@ export function Header() {
             {authed && user ? (
               <UserMenuButton userName={getUserDisplayName(user)} />
             ) : (
-              <Link href="/auth/login" className={TEXT_LINK}>
-                Prijava
-              </Link>
+              <>
+                <Link
+                  href="/auth/login"
+                  className={`${ICON_BTN} sm:hidden`}
+                  aria-label="Prijava"
+                >
+                  <UserIcon className="h-5 w-5" />
+                </Link>
+                <Link href="/auth/login" className={TEXT_LINK}>
+                  Prijava
+                </Link>
+              </>
             )}
           </div>
         </nav>
@@ -143,15 +152,16 @@ function UserMenuButton({ userName }: UserMenuButtonProps) {
     <div className="relative">
       <button
         type="button"
-        className="hidden items-center gap-2 rounded-full bg-stone-100 px-3 py-1.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:hover:bg-stone-700 sm:inline-flex"
+        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-full bg-stone-100 px-2 py-1.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:hover:bg-stone-700 sm:min-h-0 sm:min-w-0 sm:px-3"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label="Korisnički meni"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
           {userName.charAt(0).toUpperCase()}
         </span>
-        <span>{userName}</span>
+        <span className="hidden sm:inline">{userName}</span>
       </button>
       {open && (
         <div
@@ -289,6 +299,25 @@ function BookmarkNavIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"
+      />
+    </svg>
+  );
+}
+
+function UserIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
       />
     </svg>
   );

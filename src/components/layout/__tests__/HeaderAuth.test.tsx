@@ -82,16 +82,30 @@ describe("Header auth state", () => {
     useAuthStore.getState().setUser(null);
   });
 
-  it("shows Prijava button when not authenticated", () => {
+  it("shows Prijava when not authenticated (desktop text and mobile icon)", () => {
     render(
       <SettingsOpenProvider>
         <Header />
       </SettingsOpenProvider>
     );
 
-    const loginLink = screen.getByRole("link", { name: /prijava/i });
-    expect(loginLink).toBeInTheDocument();
-    expect(loginLink).toHaveAttribute("href", "/auth/login");
+    const loginLinks = screen.getAllByRole("link", { name: /prijava/i });
+    expect(loginLinks.length).toBeGreaterThanOrEqual(1);
+    expect(loginLinks[0]).toHaveAttribute("href", "/auth/login");
+  });
+
+  it("shows account avatar when authenticated so mobile can access menu", () => {
+    useAuthStore.getState().setUser(mockUser);
+
+    render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
+
+    const accountButtons = screen.getAllByRole("button", { name: /korisnički meni/i });
+    expect(accountButtons.length).toBeGreaterThanOrEqual(1);
+    expect(accountButtons[0]).toHaveAttribute("aria-haspopup", "menu");
   });
 
   it("shows user avatar/name and dropdown when authenticated", async () => {
@@ -103,7 +117,7 @@ describe("Header auth state", () => {
       </SettingsOpenProvider>
     );
 
-    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    const userButtons = screen.getAllByRole("button", { name: /korisnički meni/i });
     expect(userButtons.length).toBeGreaterThanOrEqual(1);
     const user = userEvent.setup();
     await user.click(userButtons[0]);
@@ -154,7 +168,7 @@ describe("Header auth state", () => {
     );
 
     const user = userEvent.setup();
-    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    const userButtons = screen.getAllByRole("button", { name: /korisnički meni/i });
     await user.click(userButtons[0]);
     expect(screen.getByRole("menu")).toBeInTheDocument();
 
@@ -173,7 +187,7 @@ describe("Header auth state", () => {
     );
 
     const user = userEvent.setup();
-    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    const userButtons = screen.getAllByRole("button", { name: /korisnički meni/i });
     await user.click(userButtons[0]);
     await user.click(screen.getByRole("menuitem", { name: /odjava/i }));
 
@@ -193,7 +207,7 @@ describe("Header auth state", () => {
     );
 
     const user = userEvent.setup();
-    const userButtons = screen.getAllByRole("button", { name: /test user|user@example.com/i });
+    const userButtons = screen.getAllByRole("button", { name: /korisnički meni/i });
     await user.click(userButtons[0]);
     await user.click(screen.getByRole("menuitem", { name: /odjava/i }));
 
