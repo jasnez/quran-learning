@@ -273,7 +273,7 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
               currentTimeMs={currentTimeMs}
               audioDurationMs={audioDurationMs}
               onSeek={handleSeekWord}
-              showInterlinear
+              showInterlinear={showWordMeaning}
               className="text-center"
               style={{ fontSize: `${learnFontSize}px` }}
             />

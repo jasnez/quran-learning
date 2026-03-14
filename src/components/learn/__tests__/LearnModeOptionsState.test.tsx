@@ -252,4 +252,43 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     expect(offBtn).toHaveAttribute("data-active", "false");
     expect(offBtn.className).toMatch(/stone/);
   });
+
+  it("when Prikaži značenje riječi is off, word meanings are not shown in the card", async () => {
+    const wordMeaningText = "U ime (značenje)";
+    const mockWords = [
+      {
+        id: 1,
+        ayahId: 1,
+        ayahKey: "1:1",
+        wordOrder: 1,
+        textArabic: "بِسْمِ",
+        transliteration: "Bismi",
+        translationShort: wordMeaningText,
+        startTimeMs: 0,
+        endTimeMs: 500,
+        tajwidRule: "normal" as const,
+      },
+    ];
+    const originalFetch = globalThis.fetch;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url: string) =>
+        url.includes("/words")
+          ? Promise.resolve({ ok: true, json: () => Promise.resolve(mockWords) })
+          : Promise.reject(new Error("no mock"))
+      )
+    );
+    try {
+      const user = userEvent.setup();
+      render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+      await screen.findByText(wordMeaningText, {}, { timeout: 3000 });
+      const toggles = screen.getAllByRole("button", {
+        name: /sakrij značenje|prikaži značenje|značenje riječi/i,
+      });
+      for (const t of toggles) await user.click(t);
+      expect(screen.queryByText(wordMeaningText)).not.toBeInTheDocument();
+    } finally {
+      vi.stubGlobal("fetch", originalFetch);
+    }
+  });
 });
