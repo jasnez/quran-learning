@@ -112,9 +112,6 @@ describe("Header auth state", () => {
       screen.getByRole("menuitem", { name: /profil/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("menuitem", { name: /postavke/i })
-    ).toBeInTheDocument();
-    expect(
       screen.getByRole("menuitem", { name: /označeni|označeni ajeti|označeni/i })
     ).toBeInTheDocument();
     expect(
@@ -123,6 +120,28 @@ describe("Header auth state", () => {
     expect(
       screen.getByRole("menuitem", { name: /odjava/i })
     ).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /postavke/i })).not.toBeInTheDocument();
+  });
+
+  it("main nav has Sure, Kviz, Tedžvid lekcije, Napredak but not Zabilješke text link", () => {
+    render(
+      <SettingsOpenProvider>
+        <Header />
+      </SettingsOpenProvider>
+    );
+    const sureLinks = screen.getAllByRole("link", { name: /^sure$/i });
+    expect(sureLinks.length).toBeGreaterThanOrEqual(1);
+    expect(sureLinks[0]).toHaveAttribute("href", "/surahs");
+    const kvizLinks = screen.getAllByRole("link", { name: /^kviz$/i });
+    expect(kvizLinks[0]).toHaveAttribute("href", "/test/1");
+    const tajwidLinks = screen.getAllByRole("link", { name: /tedžvid lekcije/i });
+    expect(tajwidLinks[0]).toHaveAttribute("href", "/tajwid");
+    const napredakLinks = screen.getAllByRole("link", { name: /^napredak$/i });
+    expect(napredakLinks[0]).toHaveAttribute("href", "/progress");
+    expect(screen.queryByRole("link", { name: /zabilješke/i })).not.toBeInTheDocument();
+    const bookmarkLinks = screen.getAllByRole("link", { name: /označeni ajeti/i });
+    expect(bookmarkLinks.length).toBeGreaterThanOrEqual(1);
+    expect(bookmarkLinks[0]).toHaveAttribute("href", "/bookmarks");
   });
 
   it("closes user menu when clicking a navigation item (Profil)", async () => {

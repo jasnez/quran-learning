@@ -96,9 +96,6 @@ export function Header() {
             <Link href="/progress" className={TEXT_LINK}>
               Napredak
             </Link>
-            <Link href="/bookmarks" className={TEXT_LINK}>
-              Zabilješke
-            </Link>
           </div>
 
           <span role="separator" aria-hidden className={SEPARATOR} />
@@ -163,7 +160,6 @@ function UserMenuButton({ userName }: UserMenuButtonProps) {
           className="absolute right-0 mt-2 w-44 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 text-sm shadow-lg"
         >
           <HeaderMenuItem href="/profile" onNavigate={closeMenu}>Profil</HeaderMenuItem>
-          <HeaderMenuItem href="/settings" onNavigate={closeMenu}>Postavke</HeaderMenuItem>
           <HeaderMenuItem href="/bookmarks" onNavigate={closeMenu}>Označeni</HeaderMenuItem>
           <HeaderMenuItem href="/progress" onNavigate={closeMenu}>Napredak</HeaderMenuItem>
           <button
