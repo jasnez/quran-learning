@@ -9,7 +9,11 @@ import { NextResponse } from "next/server";
  */
 export async function GET() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    "";
+  const hasServiceRole = (process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").length > 0;
 
   const hasUrl = url.length > 0;
   const hasAnonKey = anonKey.length > 0;
@@ -22,15 +26,18 @@ export async function GET() {
   return NextResponse.json({
     hasUrl,
     hasAnonKey,
+    hasServiceRole,
     isPlaceholder,
     anonKeyLength: anonKey.length,
     urlPreview,
     message: !hasUrl
       ? "NEXT_PUBLIC_SUPABASE_URL nije postavljen. Dodaj u .env.local i restartaj dev server."
       : !hasAnonKey
-        ? "NEXT_PUBLIC_SUPABASE_ANON_KEY nije postavljen. Dodaj u .env.local i restartaj dev server."
+        ? "NEXT_PUBLIC_SUPABASE_ANON_KEY ili NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY nije postavljen."
         : isPlaceholder
-          ? "Anon key izgleda kao placeholder (your-anon-key-here ili prekratak). Zalijepi pravi anon public ključ iz Supabase Dashboard → Settings → API."
-          : "Env je učitano. Ako i dalje vidiš Invalid API key, provjeri da je ključ 'anon public' (ne service_role) i da je iz istog projekta kao URL.",
+          ? "Anon/Publishable key izgleda kao placeholder. Zalijepi pravi ključ iz Supabase Dashboard → Settings → API. Za signup na produkciji dodaj SUPABASE_SERVICE_ROLE_KEY."
+          : !hasServiceRole
+            ? "Za 'Kreiraj račun' na Vercelu dodaj SUPABASE_SERVICE_ROLE_KEY (Settings → API → service_role), pa Redeploy. Vidi docs/AUTH-SETUP.md."
+            : "Env je učitano. Ako i dalje vidiš Invalid API key, provjeri docs/AUTH-SETUP.md (URL i ključ iz istog projekta).",
   });
 }

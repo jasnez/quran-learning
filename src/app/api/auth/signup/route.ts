@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (!url) {
       return NextResponse.json(
@@ -37,11 +38,11 @@ export async function POST(request: NextRequest) {
         { status: 503 }
       );
     }
-    // service_role uvijek radi za Auth na serveru; anon na Vercelu ponekad javlja Invalid API key
-    const key = serviceKey || anonKey;
+    // Redoslijed: service_role (najpouzdaniji), zatim publishable (novi format), zatim anon (legacy)
+    const key = serviceKey || publishableKey || anonKey;
     if (!key) {
       return NextResponse.json(
-        { error: "Auth nije konfiguriran na serveru (dodaj SUPABASE_SERVICE_ROLE_KEY ili NEXT_PUBLIC_SUPABASE_ANON_KEY u Vercel env)." },
+        { error: "Auth nije konfiguriran. U Vercel env dodaj SUPABASE_SERVICE_ROLE_KEY ili NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ili NEXT_PUBLIC_SUPABASE_ANON_KEY. Vidi docs/AUTH-SETUP.md." },
         { status: 503 }
       );
     }
