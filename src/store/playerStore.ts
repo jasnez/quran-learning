@@ -14,6 +14,22 @@ function defaultAudioUrlFromAyahId(ayahId: string): string {
   return `/audio/${DEFAULT_RECITER}/${pad(surah)}${pad(ayah)}.mp3`;
 }
 
+/** Minimal Ayah for playback from verse key only (e.g. for dova). */
+function minimalAyahFromId(ayahId: string): Ayah {
+  return {
+    id: ayahId,
+    ayahNumber: 1,
+    ayahNumberGlobal: 1,
+    juz: 1,
+    page: 1,
+    arabicText: "",
+    transliteration: "",
+    translationBosnian: "",
+    tajwidSegments: [],
+    audio: { reciterId: DEFAULT_RECITER, url: "", durationMs: 0 },
+  };
+}
+
 function surahIdFromAyahId(ayahId: string): string {
   const parts = ayahId.split(":");
   return parts[0] ?? "";
@@ -21,6 +37,8 @@ function surahIdFromAyahId(ayahId: string): string {
 
 type PlayerStore = PlayerState & {
   play: (ayah: Ayah) => void;
+  /** Play one or more ayahs by id (e.g. for dova: single verse or merged 3:191–194). Uses default reciter. */
+  playAyahIds: (ayahIds: string[]) => void;
   pause: () => void;
   resume: () => void;
   next: () => boolean;
@@ -76,6 +94,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       queue: inQueue ? queue : [ayah],
       pendingSeekToSeconds: pendingSeek,
     });
+  },
+
+  playAyahIds: (ayahIds) => {
+    if (ayahIds.length === 0) return;
+    const ayahs = ayahIds.map(minimalAyahFromId);
+    get().setQueue(ayahs);
+    get().play(ayahs[0]);
   },
 
   pause: () => set({ isPlaying: false }),

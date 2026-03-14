@@ -28,15 +28,15 @@ describe("Duas category page (/duas/[category])", () => {
     render(Page);
     const zaOprost = screen.getAllByRole("heading", { name: /Za oprost/i });
     expect(zaOprost.length).toBeGreaterThanOrEqual(1);
-    expect(screen.queryByRole("heading", { name: /Rabbana dove/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /Rabbena dove/i })).not.toBeInTheDocument();
   });
 
-  it("when category is rabbana, shows Rabbana dove heading", async () => {
+  it("when category is rabbana, shows Rabbena dove heading", async () => {
     const Page = await CategoryDuasPage({
       params: Promise.resolve({ category: "rabbana" }),
     });
     render(Page);
-    const rabbana = screen.getAllByRole("heading", { name: /Rabbana dove/i });
+    const rabbana = screen.getAllByRole("heading", { name: /Rabbena dove/i });
     expect(rabbana.length).toBeGreaterThanOrEqual(1);
   });
 

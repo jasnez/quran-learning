@@ -28,7 +28,7 @@ describe("Duas page", () => {
   it("renders category sections with duas", async () => {
     const Page = await DuasPage();
     render(Page);
-    const rabbanaHeadings = screen.getAllByRole("heading", { name: /Rabbana dove/i });
+    const rabbanaHeadings = screen.getAllByRole("heading", { name: /Rabbena dove/i });
     expect(rabbanaHeadings.length).toBeGreaterThanOrEqual(1);
     const labels = screen.getAllByText(/Dova iz Kur'an/i);
     expect(labels.length).toBeGreaterThanOrEqual(1);

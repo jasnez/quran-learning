@@ -227,4 +227,34 @@ describe("playerStore", () => {
       expect(state.duration).toBe(30);
     });
   });
+
+  describe("playAyahIds", () => {
+    it("plays single ayah by id and sets queue with one ayah", () => {
+      usePlayerStore.getState().playAyahIds(["3:192"]);
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("3:192");
+      expect(state.currentSurahId).toBe("3");
+      expect(state.isPlaying).toBe(true);
+      expect(state.queue).toHaveLength(1);
+      expect(state.queue[0].id).toBe("3:192");
+      expect(state.activeAudioSrc).toContain("003192.mp3");
+    });
+
+    it("plays multiple ayahs as queue (for merged dua) and starts with first", () => {
+      usePlayerStore.getState().playAyahIds(["3:191", "3:192", "3:193", "3:194"]);
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("3:191");
+      expect(state.queue).toHaveLength(4);
+      expect(state.queue.map((a) => a.id)).toEqual(["3:191", "3:192", "3:193", "3:194"]);
+      expect(state.activeAudioSrc).toContain("003191.mp3");
+      expect(state.isPlaying).toBe(true);
+    });
+
+    it("does nothing when given empty array", () => {
+      usePlayerStore.getState().playAyahIds([]);
+      const state = usePlayerStore.getState();
+      expect(state.activeAudioSrc).toBeNull();
+      expect(state.queue).toHaveLength(0);
+    });
+  });
 });

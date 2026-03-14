@@ -4,7 +4,7 @@ import { DuasPageContent } from "@/components/duas/DuasPageContent";
 export const metadata: Metadata = {
   title: "Kur'anske dove | Quran Learning",
   description:
-    "Dove iz Kur'ana po kategorijama: za oprost, znanje, uputu, strpljenje, porodicu i Rabbana dove. Sa tačnom referencom (sura i ajet).",
+    "Dove iz Kur'ana po kategorijama: za oprost, znanje, uputu, strpljenje, porodicu i Rabbena dove. Sa tačnom referencom (sura i ajet).",
 };
 
 export default function DuasPage() {

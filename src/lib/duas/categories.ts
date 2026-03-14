@@ -6,7 +6,7 @@ export const CATEGORY_LABELS: Record<DuaCategory, string> = {
   guidance: "Za uputu",
   patience: "Za strpljenje",
   family: "Za porodicu",
-  rabbana: "Rabbana dove",
+  rabbana: "Rabbena dove",
 };
 
 export const CATEGORY_ORDER: DuaCategory[] = [

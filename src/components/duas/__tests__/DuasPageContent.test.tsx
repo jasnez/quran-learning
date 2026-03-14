@@ -23,7 +23,7 @@ beforeEach(() => {
 describe("DuasPageContent", () => {
   it("when no category prop, renders multiple category sections", () => {
     render(<DuasPageContent />);
-    const rabbana = screen.getAllByRole("heading", { name: /Rabbana dove/i });
+    const rabbana = screen.getAllByRole("heading", { name: /Rabbena dove/i });
     expect(rabbana.length).toBeGreaterThanOrEqual(1);
     const labels = screen.getAllByText(/Dova iz Kur'an/i);
     expect(labels.length).toBeGreaterThanOrEqual(1);
@@ -33,13 +33,13 @@ describe("DuasPageContent", () => {
     render(<DuasPageContent category="forgiveness" />);
     const zaOprost = screen.getAllByRole("heading", { name: /Za oprost/i });
     expect(zaOprost.length).toBeGreaterThanOrEqual(1);
-    expect(screen.queryByRole("heading", { name: /Rabbana dove/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /Rabbena dove/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: /Za znanje/i })).not.toBeInTheDocument();
   });
 
-  it("when category=rabbana, renders only Rabbana dove section", () => {
+  it("when category=rabbana, renders only Rabbena dove section", () => {
     render(<DuasPageContent category="rabbana" />);
-    const rabbana = screen.getAllByRole("heading", { name: /Rabbana dove/i });
+    const rabbana = screen.getAllByRole("heading", { name: /Rabbena dove/i });
     expect(rabbana.length).toBeGreaterThanOrEqual(1);
     expect(screen.queryByRole("heading", { name: /Za oprost/i })).not.toBeInTheDocument();
   });

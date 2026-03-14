@@ -245,7 +245,7 @@ describe("Header", () => {
     expect(duasBtns.length).toBeGreaterThanOrEqual(1);
     const user = (await import("@testing-library/user-event")).default.setup();
     await user.click(duasBtns[0]);
-    expect(screen.getByRole("menuitem", { name: /rabbana dove/i })).toHaveAttribute("href", "/duas/rabbana");
+    expect(screen.getByRole("menuitem", { name: /rabbena dove/i })).toHaveAttribute("href", "/duas/rabbana");
     expect(screen.getByRole("menuitem", { name: /za oprost/i })).toHaveAttribute("href", "/duas/forgiveness");
   });
 
