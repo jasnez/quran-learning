@@ -135,6 +135,14 @@ const defaultState: LearningProgress = {
 
 export const PROGRESS_STORAGE_KEY = "quran-learning-progress";
 
+/**
+ * Resets local progress to default state. Call on login so pre-login (anonymous)
+ * progress is discarded and the user gets a clean slate or their cloud data only.
+ */
+export function clearLocalProgress(): void {
+  useProgressStore.setState({ ...defaultState });
+}
+
 export const useProgressStore = create<ProgressStore>()(
   persist(
     (set, get) => ({

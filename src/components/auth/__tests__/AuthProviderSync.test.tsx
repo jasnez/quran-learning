@@ -26,6 +26,15 @@ const syncMocks = vi.hoisted(() => ({
   loadProgressFromCloud: vi.fn().mockResolvedValue(undefined),
 }));
 
+const clearLocalProgressMock = vi.fn();
+vi.mock("@/store/progressStore", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/store/progressStore")>();
+  return {
+    ...actual,
+    clearLocalProgress: () => clearLocalProgressMock(),
+  };
+});
+
 vi.mock("@/lib/sync/dataSyncService", () => syncMocks);
 
 vi.mock("@/lib/auth/authHelpers", () => ({
@@ -46,6 +55,9 @@ const {
   syncSettingsToCloud,
   syncProgressToCloud,
   mergeLocalAndCloudData,
+  loadBookmarksFromCloud,
+  loadUserDataFromCloud,
+  loadProgressFromCloud,
 } = syncMocks;
 
 describe("AuthProvider sync orchestration", () => {
@@ -73,7 +85,7 @@ describe("AuthProvider sync orchestration", () => {
     vi.useRealTimers();
   });
 
-  it("runs initial merge and sync when user is authenticated", async () => {
+  it("clears pre-login progress and loads from cloud when user is authenticated (clean slate)", async () => {
     render(
       <AuthProvider>
         <div>App</div>
@@ -81,12 +93,17 @@ describe("AuthProvider sync orchestration", () => {
     );
 
     await waitFor(() => {
-      expect(mergeLocalAndCloudData).toHaveBeenCalledWith(user.id);
+      expect(clearLocalProgressMock).toHaveBeenCalled();
     });
 
-    expect(syncBookmarksToCloud).toHaveBeenCalledWith(user.id);
-    expect(syncSettingsToCloud).toHaveBeenCalledWith(user.id);
-    expect(syncProgressToCloud).toHaveBeenCalledWith(user.id);
+    await waitFor(() => {
+      expect(loadBookmarksFromCloud).toHaveBeenCalledWith(user.id);
+      expect(loadUserDataFromCloud).toHaveBeenCalledWith(user.id);
+      expect(loadProgressFromCloud).toHaveBeenCalledWith(user.id);
+    });
+
+    expect(mergeLocalAndCloudData).not.toHaveBeenCalled();
+    expect(syncProgressToCloud).not.toHaveBeenCalled();
   });
 
   it("sets up periodic sync interval when user is authenticated", async () => {

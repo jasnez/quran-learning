@@ -9,11 +9,11 @@ import {
   syncBookmarksToCloud,
   syncProgressToCloud,
   syncSettingsToCloud,
-  mergeLocalAndCloudData,
   loadUserDataFromCloud,
   loadBookmarksFromCloud,
   loadProgressFromCloud,
 } from "@/lib/sync/dataSyncService";
+import { clearLocalProgress } from "@/store/progressStore";
 
 function isEmailConfirmed(user: User): boolean {
   return !!user.email_confirmed_at;
@@ -33,12 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const runInitialSync = async (user: User) => {
       if (didRunInitialSync) return;
       didRunInitialSync = true;
-      await mergeLocalAndCloudData(user.id);
-      await Promise.all([
-        syncBookmarksToCloud(user.id),
-        syncSettingsToCloud(user.id),
-        syncProgressToCloud(user.id),
-      ]);
+      clearLocalProgress();
       await loadBookmarksFromCloud(user.id);
       await loadUserDataFromCloud(user.id);
       await loadProgressFromCloud(user.id);

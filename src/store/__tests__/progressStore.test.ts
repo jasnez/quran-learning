@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { useProgressStore, PROGRESS_STORAGE_KEY } from "../progressStore";
+import { useProgressStore, PROGRESS_STORAGE_KEY, clearLocalProgress } from "../progressStore";
 
 describe("progressStore", () => {
   let localStorageMock: Record<string, string>;
@@ -241,6 +241,24 @@ describe("progressStore", () => {
       expect(progress!.ayahsRead instanceof Set).toBe(true);
       expect(progress!.ayahsListened.has(1)).toBe(true);
       expect(progress!.ayahsRead.has(2)).toBe(true);
+    });
+  });
+
+  describe("clearLocalProgress", () => {
+    it("resets progress to default state so new users get a clean slate", () => {
+      useProgressStore.getState().updateLastPosition(2, 10, "Al-Baqarah", "reader");
+      useProgressStore.getState().markAyahListened(1, 1, 7);
+      expect(useProgressStore.getState().lastSurahNumber).toBe(2);
+      expect(useProgressStore.getState().getSurahProgress(1)).toBeDefined();
+
+      clearLocalProgress();
+
+      const state = useProgressStore.getState();
+      expect(state.lastSurahNumber).toBe(0);
+      expect(state.lastAyahNumber).toBe(0);
+      expect(state.lastSurahNameLatin).toBe("");
+      expect(state.surahProgressMap).toEqual({});
+      expect(state.getSurahProgress(1)).toBeUndefined();
     });
   });
 });
