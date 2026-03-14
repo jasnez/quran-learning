@@ -17,9 +17,16 @@ import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterR
 import { TajwidLegend } from "@/components/quran";
 import { normalizeWordsToAyahRelative } from "@/lib/quran/wordUtils";
 
-type LearnModeContentProps = { surah: SurahSummary; ayahs: Ayah[] };
+type SurahNavItem = { surahNumber: number; nameLatin: string; nameBosnian?: string };
 
-export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
+type LearnModeContentProps = {
+  surah: SurahSummary;
+  ayahs: Ayah[];
+  prevSurah?: SurahNavItem | null;
+  nextSurah?: SurahNavItem | null;
+};
+
+export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = null }: LearnModeContentProps) {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
@@ -250,6 +257,44 @@ export function LearnModeContent({ surah, ayahs }: LearnModeContentProps) {
           <CloseIcon />
         </Link>
       </header>
+
+      {(prevSurah || nextSurah) && (
+        <nav
+          className="flex flex-shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200/80 pb-4 text-sm dark:border-stone-700/80"
+          aria-label="Navigacija između sura"
+        >
+          <div className="flex items-center gap-2">
+            {prevSurah ? (
+              <Link
+                href={`/learn/${prevSurah.surahNumber}`}
+                className="inline-flex items-center gap-1 rounded-full border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-200 dark:hover:bg-stone-800"
+              >
+                <span aria-hidden>←</span>
+                <span>Prethodna: {prevSurah.nameBosnian ?? prevSurah.nameLatin}</span>
+              </Link>
+            ) : (
+              <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
+                Prethodna sura
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {nextSurah ? (
+              <Link
+                href={`/learn/${nextSurah.surahNumber}`}
+                className="inline-flex items-center gap-1 rounded-full border border-emerald-600 bg-emerald-50 px-3 py-1.5 font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+              >
+                <span>Sljedeća: {nextSurah.nameBosnian ?? nextSurah.nameLatin}</span>
+                <span aria-hidden>→</span>
+              </Link>
+            ) : (
+              <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
+                Sljedeća sura
+              </span>
+            )}
+          </div>
+        </nav>
+      )}
 
       {/* Center: Arabic (very large), transliteration, translation */}
       <section className="flex flex-1 flex-col justify-center py-8" aria-label="Trenutni ajet">

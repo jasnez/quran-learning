@@ -43,6 +43,26 @@ export default async function LearnPage({ params }: PageProps) {
 
   let { surah, ayahs } = detail;
 
+  // Prethodna / sljedeća sura za navigaciju
+  let prevSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;
+  let nextSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;
+  if (surahNumber > 1) {
+    try {
+      const prev = await getSurahByNumber(surahNumber - 1);
+      prevSurah = { surahNumber: prev.surah.surahNumber, nameLatin: prev.surah.nameLatin, nameBosnian: prev.surah.nameBosnian };
+    } catch {
+      // ignore
+    }
+  }
+  if (surahNumber < 114) {
+    try {
+      const next = await getSurahByNumber(surahNumber + 1);
+      nextSurah = { surahNumber: next.surah.surahNumber, nameLatin: next.surah.nameLatin, nameBosnian: next.surah.nameBosnian };
+    } catch {
+      // ignore
+    }
+  }
+
   // Fallback: if no ayahs in DB, try Quran.com API
   if (ayahs.length === 0) {
     try {
@@ -54,7 +74,7 @@ export default async function LearnPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto min-h-screen max-w-[700px] px-4 py-6 flex flex-col">
-      <LearnModeContent surah={surah} ayahs={ayahs} />
+      <LearnModeContent surah={surah} ayahs={ayahs} prevSurah={prevSurah} nextSurah={nextSurah} />
     </main>
   );
 }

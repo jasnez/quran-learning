@@ -116,7 +116,8 @@ describe("Learn Mode page", () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(screen.getByText("الفاتحة")).toBeInTheDocument();
-    expect(screen.getByText(/Al-Fatihah|Al-Fatiha/)).toBeInTheDocument();
+    const latinNames = screen.getAllByText(/Al-Fatihah|Al-Fatiha/);
+    expect(latinNames.length).toBeGreaterThanOrEqual(1);
   });
 
   it("shows ayah X of Y indicator", async () => {
@@ -252,5 +253,26 @@ describe("Learn Mode page", () => {
     expect(screen.getByRole("button", { name: /transliteracija|transliteraci/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /prijevod/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /ponavljaj/i })).toBeInTheDocument();
+  });
+
+  it("on first surah (1) shows link to next sura only", async () => {
+    const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    expect(document.querySelector('a[href="/learn/2"]')).toBeInTheDocument();
+    expect(document.querySelector('a[href="/learn/0"]')).not.toBeInTheDocument();
+  });
+
+  it("on middle surah (2) shows links to previous and next sura", async () => {
+    const Page = await LearnPage({ params: Promise.resolve({ surahId: "2" }) });
+    render(Page);
+    expect(document.querySelector('a[href="/learn/1"]')).toBeInTheDocument();
+    expect(document.querySelector('a[href="/learn/3"]')).toBeInTheDocument();
+  });
+
+  it("on last surah (114) shows link to previous sura only", async () => {
+    const Page = await LearnPage({ params: Promise.resolve({ surahId: "114" }) });
+    render(Page);
+    expect(document.querySelector('a[href="/learn/113"]')).toBeInTheDocument();
+    expect(document.querySelector('a[href="/learn/115"]')).not.toBeInTheDocument();
   });
 });
