@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { QURANIC_DUAS, getDuasByCategory, DUAS_BY_CATEGORY } from "../data";
 import { AYAH_COUNT_PER_SURAH } from "@/lib/quran/constants";
+import { fetchVerseContentByKey } from "@/lib/quran/fetch-verse-by-key";
 import type { DuaCategory } from "@/types/duas";
 
 const VALID_CATEGORIES: DuaCategory[] = [
@@ -68,6 +69,16 @@ describe("QURANIC_DUAS data", () => {
       expect(dua.id).toBe(`${dua.surahNumber}:${dua.ayahNumber}`);
     });
   });
+
+  it("each dua translationBosnian matches Besim Korkut translation from Quran.com API (sura/verse)", async () => {
+    for (const dua of QURANIC_DUAS) {
+      const content = await fetchVerseContentByKey(dua.id);
+      expect(
+        dua.translationBosnian,
+        `Dua ${dua.id} translation should match API (Besim Korkut). Run: npx tsx scripts/sync-dua-translations.ts`
+      ).toBe(content.translationBosnian);
+    }
+  }, 60000);
 });
 
 describe("getDuasByCategory", () => {
