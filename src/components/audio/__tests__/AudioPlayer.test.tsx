@@ -113,13 +113,15 @@ const settingsStateRef = vi.hoisted(() => ({
     repeatMode: "off" as "off" | "surah" | "ayah",
     autoPlayNext: true,
     playbackSpeed: 1,
+    pauseAfterAyah: "off" as "off" | "3s" | "5s" | "10s" | "manual",
     cycleRepeatMode: vi.fn(),
     toggleAutoPlayNext: vi.fn(),
+    setPauseAfterAyah: vi.fn(),
   },
 }));
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: Object.assign(
-    vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void }) => unknown) =>
+    vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; pauseAfterAyah: string; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void; setPauseAfterAyah: () => void }) => unknown) =>
       selector(settingsStateRef.current)
     ),
     { getState: () => settingsStateRef.current }
@@ -133,7 +135,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   cleanup();
   document.body.innerHTML = "";
-  Object.assign(settingsStateRef.current, { repeatMode: "off", autoPlayNext: true, playbackSpeed: 1, cycleRepeatMode: mockCycleRepeatMode, toggleAutoPlayNext: mockToggleAutoPlayNext });
+  Object.assign(settingsStateRef.current, { repeatMode: "off", autoPlayNext: true, playbackSpeed: 1, pauseAfterAyah: "off", cycleRepeatMode: mockCycleRepeatMode, toggleAutoPlayNext: mockToggleAutoPlayNext });
   playerState.currentSurahId = "1";
   playerState.currentAyahId = "1:3";
   playerState.isPlaying = false;

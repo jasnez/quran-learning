@@ -38,7 +38,7 @@ export function getLocalProgress(): LearningProgress | null {
     const state = useProgressStore.getState?.();
     if (state && typeof state === "object") {
       const { updateLastPosition, incrementListeningTime, addSurahVisited, incrementAyahsListened, markAyahListened, markAyahRead, addSurahTimeSpent, getSurahProgress, getAllSurahProgress, getOverallProgress, getLastPosition, getStats, markTajwidLessonStarted, markTajwidLessonCompleted, getTajwidLessonStatus, addTestResult, getTestResultsForSurah, ...rest } =
-        state as any;
+        state;
       return rest as LearningProgress;
     }
   } catch {
@@ -72,7 +72,7 @@ export function getLocalSettings(): SettingsState | null {
         cycleRepeatMode,
         toggleAutoPlayNext,
         ...rest
-      } = state as any;
+      } = state;
       return rest as SettingsState;
     }
   } catch {

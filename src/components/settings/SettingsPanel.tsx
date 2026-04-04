@@ -2,13 +2,21 @@
 
 import { useRef, useEffect } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
-import type { RepeatMode } from "@/types/settings";
+import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
 
 const FONT_MIN = 20;
 const FONT_MAX = 44;
 const FONT_STEP = 4;
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5] as const;
+
+const PAUSE_OPTIONS: { value: PauseAfterAyah; label: string }[] = [
+  { value: "off", label: "Odmah" },
+  { value: "3s", label: "3 sek" },
+  { value: "5s", label: "5 sek" },
+  { value: "10s", label: "10 sek" },
+  { value: "manual", label: "Ručno" },
+];
 const THEMES = [
   { value: "light" as const, label: "Light", labelBs: "Svijetla" },
   { value: "dark" as const, label: "Dark", labelBs: "Tamna" },
@@ -30,6 +38,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
+  const pauseAfterAyah = useSettingsStore((s) => s.pauseAfterAyah);
 
   const setTheme = useSettingsStore((s) => s.setTheme);
   const setArabicFontSize = useSettingsStore((s) => s.setArabicFontSize);
@@ -40,6 +49,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const setPlaybackSpeed = useSettingsStore((s) => s.setPlaybackSpeed);
   const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
+  const setPauseAfterAyah = useSettingsStore((s) => s.setPauseAfterAyah);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -234,6 +244,32 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 checked={autoPlayNext}
                 onChange={toggleAutoPlayNext}
               />
+              <div>
+                <span id="pause-after-ayah-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                  Pauza između ajeta
+                </span>
+                <p className="mb-2 text-xs text-stone-500 dark:text-stone-400">
+                  Koliko čekati nakon svakog ajeta prije nego pređe na sljedeći.
+                  &ldquo;Ručno&rdquo; čeka dok ne klikneš &ldquo;Nastavi&rdquo;.
+                </p>
+                <div className="flex flex-wrap gap-2" role="group" aria-labelledby="pause-after-ayah-label">
+                  {PAUSE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        pauseAfterAyah === opt.value
+                          ? "bg-emerald-600 text-white dark:bg-emerald-500"
+                          : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                      }`}
+                      aria-pressed={pauseAfterAyah === opt.value}
+                      onClick={() => setPauseAfterAyah(opt.value)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 

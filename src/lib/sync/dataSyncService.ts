@@ -224,9 +224,9 @@ export async function loadUserDataFromCloud(userId: string): Promise<void> {
 
   useSettingsStore.setState((prev) => ({
     ...prev,
-    theme: (row.theme === "light" || row.theme === "dark" || row.theme === "sepia"
+    theme: row.theme === "light" || row.theme === "dark" || row.theme === "sepia"
       ? row.theme
-      : prev.theme) as any,
+      : prev.theme,
     arabicFontSize: row.arabic_font_size ?? prev.arabicFontSize,
     showTransliteration:
       row.show_transliteration != null ? row.show_transliteration : prev.showTransliteration,
@@ -239,7 +239,7 @@ export async function loadUserDataFromCloud(userId: string): Promise<void> {
     playbackSpeed: row.playback_speed ?? prev.playbackSpeed,
     repeatMode:
       row.repeat_mode === "off" || row.repeat_mode === "surah" || row.repeat_mode === "ayah"
-        ? (row.repeat_mode as any)
+        ? row.repeat_mode
         : prev.repeatMode,
     autoPlayNext:
       row.auto_play_next != null ? row.auto_play_next : prev.autoPlayNext,

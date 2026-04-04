@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -34,6 +34,7 @@ export function AudioPlayer() {
 
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
+  const pauseAfterAyah = useSettingsStore((s) => s.pauseAfterAyah);
   const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
@@ -44,6 +45,70 @@ export function AudioPlayer() {
   const prevSrcRef = useRef<string | null>(null);
   const prevIsPlayingRef = useRef(false);
   const listeningRef = useRef<{ lastTime: number; pendingMs: number }>({ lastTime: -1, pendingMs: 0 });
+
+  // Pause-after-ayah state
+  const [isAwaitingContinue, setIsAwaitingContinue] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const pendingAdvanceFnRef = useRef<(() => void) | null>(null);
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isWaitingRef = useRef(false);
+  const pauseAfterAyahRef = useRef(pauseAfterAyah);
+  useEffect(() => { pauseAfterAyahRef.current = pauseAfterAyah; }, [pauseAfterAyah]);
+
+  const clearPending = useCallback(() => {
+    if (advanceTimerRef.current != null) { clearTimeout(advanceTimerRef.current); advanceTimerRef.current = null; }
+    if (countdownIntervalRef.current != null) { clearInterval(countdownIntervalRef.current); countdownIntervalRef.current = null; }
+    isWaitingRef.current = false;
+    pendingAdvanceFnRef.current = null;
+    setIsAwaitingContinue(false);
+    setCountdown(null);
+  }, []);
+
+  const firePending = useCallback(() => {
+    if (advanceTimerRef.current != null) { clearTimeout(advanceTimerRef.current); advanceTimerRef.current = null; }
+    if (countdownIntervalRef.current != null) { clearInterval(countdownIntervalRef.current); countdownIntervalRef.current = null; }
+    isWaitingRef.current = false;
+    setIsAwaitingContinue(false);
+    setCountdown(null);
+    const fn = pendingAdvanceFnRef.current;
+    pendingAdvanceFnRef.current = null;
+    fn?.();
+  }, []);
+
+  const scheduleAdvance = useCallback((advanceFn: () => void) => {
+    const mode = pauseAfterAyahRef.current;
+    if (mode === "off") { advanceFn(); return; }
+    isWaitingRef.current = true;
+    pendingAdvanceFnRef.current = advanceFn;
+    setIsAwaitingContinue(true);
+    if (mode === "manual") return;
+    const secs = mode === "3s" ? 3 : mode === "5s" ? 5 : 10;
+    setCountdown(secs);
+    let rem = secs;
+    countdownIntervalRef.current = setInterval(() => {
+      rem -= 1;
+      setCountdown(rem > 0 ? rem : null);
+      if (rem <= 0) { clearInterval(countdownIntervalRef.current!); countdownIntervalRef.current = null; }
+    }, 1000);
+    advanceTimerRef.current = setTimeout(() => {
+      advanceTimerRef.current = null;
+      isWaitingRef.current = false;
+      setIsAwaitingContinue(false);
+      setCountdown(null);
+      const fn = pendingAdvanceFnRef.current;
+      pendingAdvanceFnRef.current = null;
+      fn?.();
+    }, secs * 1000);
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current != null) clearTimeout(advanceTimerRef.current);
+      if (countdownIntervalRef.current != null) clearInterval(countdownIntervalRef.current);
+    };
+  }, []);
 
   // Sync audio element with store: load and play/pause
   useEffect(() => {
@@ -111,7 +176,7 @@ export function AudioPlayer() {
       if (state.wordByWordMode && state.chapterTimestamps?.length && state.currentAyahId) {
         const verse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
         const timeMs = Math.floor(audioManager.getCurrentTime() * 1000);
-        if (verse && timeMs >= verse.timestampTo) {
+        if (verse && timeMs >= verse.timestampTo && !isWaitingRef.current) {
           const repeatMode = useSettingsStore.getState().repeatMode;
           if (repeatMode === "ayah") {
             audioManager.seek(verse.timestampFrom / 1000);
@@ -136,17 +201,27 @@ export function AudioPlayer() {
             useProgressStore.getState().incrementAyahsListened();
             useProgressStore.getState().markAyahListened(surahNum, ayahNum, queueLen);
           }
-          const advanced = state.next();
-          if (advanced) {
-            const nextVerse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
-            if (nextVerse) {
-              audioManager.seek(nextVerse.timestampFrom / 1000);
-              state.setCurrentTime(nextVerse.timestampFrom / 1000);
-              state.setCurrentTimeMs(nextVerse.timestampFrom);
+          const doAdvance = () => {
+            const s2 = usePlayerStore.getState();
+            const advanced = s2.next();
+            if (advanced) {
+              const nextVerse = usePlayerStore.getState().chapterTimestamps?.find(
+                (t) => t.verseKey === usePlayerStore.getState().currentAyahId
+              );
+              if (nextVerse) {
+                audioManager.seek(nextVerse.timestampFrom / 1000);
+                s2.setCurrentTime(nextVerse.timestampFrom / 1000);
+                s2.setCurrentTimeMs(nextVerse.timestampFrom);
+              }
+            } else {
+              s2.pause();
             }
-          } else {
+          };
+          if (pauseAfterAyahRef.current !== "off") {
+            audioManager.pause();
             state.pause();
           }
+          scheduleAdvance(doAdvance);
         }
       }
       rafId = requestAnimationFrame(tick);
@@ -231,28 +306,31 @@ export function AudioPlayer() {
         ref.pendingMs = 0;
       }
       ref.lastTime = -1;
-      const advanced = next();
-      if (advanced) {
-        return;
-      }
-      // Last ayah of surah ended
-      if (repeatMode === "surah") {
-        restartFromFirst();
-        return;
-      }
-      if (autoPlayNext) {
-        const surahNum = usePlayerStore.getState().currentSurahId;
-        const num = surahNum ? parseInt(surahNum, 10) : 0;
-        if (num >= 1 && num < 114) {
-          router.push(`/surah/${num + 1}?autoplay=1`);
+
+      const doAdvance = () => {
+        const advanced = next();
+        if (advanced) return;
+        // Last ayah of surah ended
+        if (repeatMode === "surah") {
+          restartFromFirst();
+          return;
+        }
+        if (autoPlayNext) {
+          const surahNum = usePlayerStore.getState().currentSurahId;
+          const num = surahNum ? parseInt(surahNum, 10) : 0;
+          if (num >= 1 && num < 114) {
+            router.push(`/surah/${num + 1}?autoplay=1`);
+          } else {
+            pause();
+          }
         } else {
           pause();
         }
-      } else {
-        pause();
-      }
+      };
+
+      scheduleAdvance(doAdvance);
     };
-  }, [repeatMode, autoPlayNext, next, pause, router, restartFromFirst]);
+  }, [repeatMode, autoPlayNext, next, pause, router, restartFromFirst, scheduleAdvance]);
   useEffect(() => {
     if (!activeAudioSrc) return;
     const handler = () => onEndedRef.current?.();
@@ -295,23 +373,35 @@ export function AudioPlayer() {
           <div className="relative flex flex-shrink-0 items-center justify-center gap-1 md:gap-2">
             <button
               type="button"
-              onClick={previous}
+              onClick={() => { clearPending(); previous(); }}
               className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
               aria-label="Prethodni ajah"
             >
               <PrevIcon />
             </button>
+            {isAwaitingContinue ? (
+              <button
+                type="button"
+                onClick={firePending}
+                className="flex h-11 min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-emerald-700 px-4 text-sm font-medium text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+                aria-label="Nastavi na sljedeći ajet"
+              >
+                <span>{countdown != null ? `${countdown}s` : "Nastavi"}</span>
+                <NextIcon className="h-4 w-4" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={isPlaying ? pause : resume}
+                className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300"
+                aria-label={isPlaying ? "Pauza" : "Pusti"}
+              >
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </button>
+            )}
             <button
               type="button"
-              onClick={isPlaying ? pause : resume}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300"
-              aria-label={isPlaying ? "Pauza" : "Pusti"}
-            >
-              {isPlaying ? <PauseIcon /> : <PlayIcon />}
-            </button>
-            <button
-              type="button"
-              onClick={next}
+              onClick={() => { clearPending(); next(); }}
               className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
               aria-label="Sljedeći ajah"
             >
@@ -320,6 +410,7 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={() => {
+                clearPending();
                 audioManager.pause();
                 stop();
               }}
@@ -428,9 +519,9 @@ function PrevIcon() {
   );
 }
 
-function NextIcon() {
+function NextIcon({ className }: { className?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5 md:h-6 md:w-6"} aria-hidden>
       <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
     </svg>
   );

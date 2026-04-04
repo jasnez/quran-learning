@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { SettingsState, RepeatMode, ArabicFontStyle } from "@/types/settings";
+import type { SettingsState, RepeatMode, ArabicFontStyle, PauseAfterAyah } from "@/types/settings";
 import { getSafeStorage } from "./safeStorage";
 
 type Theme = SettingsState["theme"];
@@ -16,6 +16,7 @@ type SettingsStore = SettingsState & {
   setPlaybackSpeed: (playbackSpeed: number) => void;
   cycleRepeatMode: () => void;
   toggleAutoPlayNext: () => void;
+  setPauseAfterAyah: (mode: PauseAfterAyah) => void;
 };
 
 const defaultState: SettingsState = {
@@ -29,6 +30,7 @@ const defaultState: SettingsState = {
   playbackSpeed: 1,
   repeatMode: "off",
   autoPlayNext: true,
+  pauseAfterAyah: "off",
 };
 
 export const SETTINGS_STORAGE_KEY = "quran-learning-settings";
@@ -67,6 +69,8 @@ export const useSettingsStore = create<SettingsStore>()(
         set((s) => ({ repeatMode: nextRepeatMode(s.repeatMode) })),
 
       toggleAutoPlayNext: () => set((s) => ({ autoPlayNext: !s.autoPlayNext })),
+
+      setPauseAfterAyah: (pauseAfterAyah) => set({ pauseAfterAyah }),
     }),
     {
       name: SETTINGS_STORAGE_KEY,
@@ -82,6 +86,7 @@ export const useSettingsStore = create<SettingsStore>()(
         playbackSpeed: state.playbackSpeed,
         repeatMode: state.repeatMode,
         autoPlayNext: state.autoPlayNext,
+        pauseAfterAyah: state.pauseAfterAyah,
       }),
       merge: (persistedState, currentState) => {
         const p = persistedState as unknown as Record<string, unknown>;

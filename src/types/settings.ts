@@ -1,5 +1,7 @@
 export type RepeatMode = "off" | "surah" | "ayah";
 
+export type PauseAfterAyah = "off" | "3s" | "5s" | "10s" | "manual";
+
 export type ArabicFontStyle = "naskh" | "uthmanic";
 
 export interface SettingsState {
@@ -14,4 +16,5 @@ export interface SettingsState {
   playbackSpeed: number;
   repeatMode: RepeatMode;
   autoPlayNext: boolean;
+  pauseAfterAyah: PauseAfterAyah;
 }
