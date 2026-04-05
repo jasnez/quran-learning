@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,6 +38,13 @@ const uthmanicHafs = localFont({
 export const metadata: Metadata = {
   title: "Quran Learning",
   description: "Čitanje Kur’ana s transliteracijom",
+  manifest: "/manifest.webmanifest",
+  themeColor: "#16a34a",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Quran Learning",
+  },
 };
 
 export default function RootLayout({
@@ -56,6 +64,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${uthmanicHafs.variable} antialiased`}
       >
+        <ServiceWorkerRegistration />
         <QueryProvider>
           <ThemeProvider>
             <AuthProvider>

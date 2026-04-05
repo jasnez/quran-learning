@@ -16,6 +16,7 @@ const SettingsPanel = dynamic(
   { ssr: false }
 );
 import { Toast } from "@/components/ui/Toast";
+import { OfflineIndicator } from "@/components/ui/OfflineIndicator";
 import { SettingsOpenProvider, useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { ScrollContainerProvider } from "@/contexts/ScrollContainerContext";
 import { usePlayerStore } from "@/store/playerStore";
@@ -50,6 +51,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <AudioPlayer />
           <MobileNav />
           <Toast />
+          <OfflineIndicator />
         </div>
       </ScrollContainerProvider>
       <SettingsPanelGate />

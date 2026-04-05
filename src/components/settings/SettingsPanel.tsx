@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
+import { useOfflineDownload } from "@/hooks/useOfflineDownload";
 
 const FONT_MIN = 20;
 const FONT_MAX = 44;
@@ -273,6 +274,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             </div>
           </section>
 
+          {/* Offline */}
+          <OfflineSection />
+
           {/* Theme */}
           <section aria-labelledby="theme-heading">
             <h3 id="theme-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
@@ -402,5 +406,100 @@ function CloseIcon() {
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
+  );
+}
+
+function OfflineSection() {
+  const { start, cancel, reset, status, progress, progressPercent } = useOfflineDownload();
+
+  const TOTAL = 114;
+
+  return (
+    <section aria-labelledby="offline-heading">
+      <h3
+        id="offline-heading"
+        className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400"
+      >
+        Offline čitanje
+      </h3>
+
+      {status === "idle" && (
+        <div className="space-y-3">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            Preuzmite sve sure da biste čitali Kur'an bez internet veze.
+          </p>
+          <button
+            type="button"
+            onClick={start}
+            className="w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          >
+            Preuzmi sve sure za offline
+          </button>
+        </div>
+      )}
+
+      {status === "downloading" && (
+        <div className="space-y-3" role="status" aria-live="polite">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-stone-700 dark:text-stone-300">
+              Preuzimanje {progress}/{TOTAL}…
+            </span>
+            <span className="tabular-nums text-stone-500 dark:text-stone-400">
+              {progressPercent}%
+            </span>
+          </div>
+          <div
+            className="h-2 w-full overflow-hidden rounded-full bg-stone-200 dark:bg-stone-700"
+            role="progressbar"
+            aria-valuenow={progressPercent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
+            <div
+              className="h-full rounded-full bg-emerald-500 transition-all duration-300"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={cancel}
+            className="w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800"
+          >
+            Otkaži
+          </button>
+        </div>
+      )}
+
+      {status === "done" && (
+        <div className="space-y-3" role="status" aria-live="polite">
+          <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
+            <span aria-hidden>✓</span>
+            Sve sure su preuzete za offline čitanje.
+          </div>
+          <button
+            type="button"
+            onClick={reset}
+            className="w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800"
+          >
+            Ponovi preuzimanje
+          </button>
+        </div>
+      )}
+
+      {status === "error" && (
+        <div className="space-y-3" role="status" aria-live="polite">
+          <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+            Preuzimanje nije uspjelo za neke sure. Provjerite internet vezu.
+          </div>
+          <button
+            type="button"
+            onClick={reset}
+            className="w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+          >
+            Pokušaj ponovo
+          </button>
+        </div>
+      )}
+    </section>
   );
 }
