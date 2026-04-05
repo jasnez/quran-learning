@@ -10,6 +10,35 @@ import { Footer } from "../Footer";
 import { MobileNav } from "../MobileNav";
 import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
 
+// AudioPlayer i SettingsPanel su dynamic imports — mock them synchronously
+vi.mock("@/components/audio/AudioPlayer", () => ({
+  AudioPlayer: () => (
+    <div data-testid="audio-player" role="region" aria-label="Audio player" />
+  ),
+}));
+vi.mock("@/components/settings/SettingsPanel", () => ({
+  SettingsPanel: () => null,
+}));
+
+// next/dynamic: koristi React.lazy + Suspense; act() unutar render() fleša microtaskove
+vi.mock("next/dynamic", () => ({
+  default: (
+    importFn: () => Promise<{ default: React.ComponentType<Record<string, unknown>> }>,
+    _opts?: Record<string, unknown>
+  ) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const R = require("react") as typeof import("react");
+    const LazyComp = R.lazy(() => importFn());
+    return function DynamicStub(props: Record<string, unknown>) {
+      return R.createElement(
+        R.Suspense,
+        { fallback: null },
+        R.createElement(LazyComp, props)
+      );
+    };
+  },
+}));
+
 vi.mock("next/link", () => ({
   default: ({
     children,
@@ -157,10 +186,11 @@ describe("AppShell", () => {
     expect(main?.className).toMatch(/pb-10|pb-\[40px\]|max-md:pb-\[126px\]/);
   });
 
-  it("includes an audio player region", () => {
+  it("includes an audio player region", async () => {
     render(<AppShell><span>x</span></AppShell>);
-    const player = document.querySelector('[data-testid="audio-player"]');
-    expect(player).toBeInTheDocument();
+    await waitFor(() => {
+      expect(document.querySelector('[data-testid="audio-player"]')).toBeInTheDocument();
+    });
   });
 
   it("when audio player is visible and user scrolled, BackToTop sits above player (data-above-player)", async () => {

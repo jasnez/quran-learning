@@ -5,8 +5,16 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { MobileNav } from "./MobileNav";
 import { BackToTop } from "./BackToTop";
-import { AudioPlayer } from "@/components/audio/AudioPlayer";
-import { SettingsPanel } from "@/components/settings/SettingsPanel";
+import dynamic from "next/dynamic";
+
+const AudioPlayer = dynamic(
+  () => import("@/components/audio/AudioPlayer").then((m) => ({ default: m.AudioPlayer })),
+  { ssr: false }
+);
+const SettingsPanel = dynamic(
+  () => import("@/components/settings/SettingsPanel").then((m) => ({ default: m.SettingsPanel })),
+  { ssr: false }
+);
 import { Toast } from "@/components/ui/Toast";
 import { SettingsOpenProvider, useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { ScrollContainerProvider } from "@/contexts/ScrollContainerContext";

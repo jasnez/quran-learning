@@ -5,7 +5,19 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SearchPage from "../page";
+
+function renderSearch() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: 0 } },
+  });
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <SearchPage />
+    </QueryClientProvider>
+  );
+}
 import type { SearchResult } from "@/types/quran";
 
 const mockSearchResults: SearchResult[] = [
@@ -58,14 +70,14 @@ beforeEach(() => {
 
 describe("Search page", () => {
   it("renders a large search input with placeholder", () => {
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute("type", "search");
   });
 
   it("shows empty state when no query has been entered", () => {
-    render(<SearchPage />);
+    renderSearch();
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
     expect(emptyEl?.textContent).toMatch(/unesite pojam|upisati|pretraž/i);
@@ -73,7 +85,7 @@ describe("Search page", () => {
 
   it("shows no results message when search returns empty", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "xyznonexistent");
     await screen.findByText(/nije pronađeno|pronadjeno/i);
@@ -84,7 +96,7 @@ describe("Search page", () => {
 
   it("shows results when search matches", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     const link = await screen.findByRole("link", { name: /al-fatiha|1:1|milostiv/i });
@@ -94,7 +106,7 @@ describe("Search page", () => {
 
   it("result shows surah name and ayah number", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     await screen.findByRole("link", { href: "/surah/1?ayah=1#ayah-1-1" });
@@ -104,7 +116,7 @@ describe("Search page", () => {
 
   it("result shows Arabic snippet", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
@@ -113,7 +125,7 @@ describe("Search page", () => {
 
   it("result link includes ?ayah= query param for scroll target", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     const link = await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
@@ -122,7 +134,7 @@ describe("Search page", () => {
 
   it("matching text in snippet has highlight styling (mark element)", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
@@ -133,7 +145,7 @@ describe("Search page", () => {
 
   it("results list is keyboard navigable (listbox, tabindex for focus)", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     const list = await screen.findByRole("listbox");
@@ -146,7 +158,7 @@ describe("Search page", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation((key: string) =>
       key === "quran-search-recent" ? JSON.stringify(["allah", "rahman"]) : null
     );
-    render(<SearchPage />);
+    renderSearch();
     await waitFor(() => {
       const el = document.querySelector("[data-recent-searches]");
       expect(el).toBeInTheDocument();
@@ -159,7 +171,7 @@ describe("Search page", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation((key: string) =>
       key === "quran-search-recent" ? JSON.stringify(["milostivog"]) : null
     );
-    render(<SearchPage />);
+    renderSearch();
     await waitFor(() => {
       expect(document.querySelector("[data-recent-searches]")).toBeInTheDocument();
     });
@@ -173,7 +185,7 @@ describe("Search page", () => {
 
   it("when input is empty, shows hint to enter search term (not no-results message)", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => null);
-    render(<SearchPage />);
+    renderSearch();
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
     expect(emptyEl?.textContent?.toLowerCase()).toMatch(/unesite|upisati|pretraž|pojam/i);
@@ -183,7 +195,7 @@ describe("Search page", () => {
 
   it("Escape key clears input and results", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
     await screen.findByRole("listbox");
@@ -194,7 +206,7 @@ describe("Search page", () => {
 
   it("does not run search for Latin query shorter than 3 characters", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "ab");
     await waitFor(() => {
@@ -204,7 +216,7 @@ describe("Search page", () => {
 
   it("input has aria-expanded and aria-controls when results are shown", async () => {
     const user = userEvent.setup();
-    render(<SearchPage />);
+    renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     expect(input).toHaveAttribute("aria-expanded", "false");
     await user.type(input, "milostiv");

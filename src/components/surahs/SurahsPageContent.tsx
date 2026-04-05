@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchInput } from "./SearchInput";
-import { SurahList } from "./SurahList";
+import { VirtualSurahList } from "./VirtualSurahList";
 import { JuzListCard } from "./JuzListCard";
 import type { SurahSummary } from "@/types/quran";
 import type { JuzInfo } from "@/types/quran";
@@ -103,7 +103,7 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
               </p>
             </div>
           ) : (
-            <SurahList surahs={filteredSurahs} />
+            <VirtualSurahList surahs={filteredSurahs} />
           )}
         </>
       )}

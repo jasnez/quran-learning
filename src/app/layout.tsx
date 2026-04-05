@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { QueryProvider } from "@/providers/QueryProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,11 +56,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${uthmanicHafs.variable} antialiased`}
       >
-        <ThemeProvider>
-          <AuthProvider>
-            <AppShell>{children}</AppShell>
-          </AuthProvider>
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <AppShell>{children}</AppShell>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

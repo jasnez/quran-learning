@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { searchAyahs } from "@/lib/api/client";
 import type { SearchResult } from "@/types/quran";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
@@ -16,7 +17,6 @@ const DEBOUNCE_MS = 300;
 const RECENT_KEY = "quran-search-recent";
 const RECENT_MAX = 5;
 
-/** Minimum number of characters to run search. Latin script: 3 to reduce noise; Arabic: 1. */
 function getMinQueryLength(q: string): number {
   const trimmed = q.trim();
   if (!trimmed) return MIN_QUERY_LEN_LATIN;
@@ -49,12 +49,9 @@ function pushRecent(query: string) {
 export default function SearchPage() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const linkRefsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const LISTBOX_ID = "search-results-list";
@@ -64,63 +61,35 @@ export default function SearchPage() {
     setRecentSearches(getRecent());
   }, []);
 
-  const runSearch = useCallback(async (q: string) => {
-    const trimmed = q.trim();
-    const minLen = getMinQueryLength(trimmed);
-    if (trimmed.length < minLen) {
-      setResults([]);
-      setStatus("done");
-      return;
-    }
-    abortControllerRef.current?.abort();
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-    setStatus("loading");
-    try {
-      const data = await searchAyahs(trimmed, { signal: controller.signal });
-      if (controller.signal.aborted) return;
-      setResults(data);
-      setStatus("done");
-      setSelectedIndex(0);
-      if (data.length > 0) pushRecent(trimmed);
+  // Debounce: ažurira debouncedQuery 300ms nakon što korisnik prestane tipkati
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query), DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const trimmed = debouncedQuery.trim();
+  const isQueryLongEnough = trimmed.length >= getMinQueryLength(trimmed);
+
+  // React Query: cache po upitu, automatski deduplicira iste zahtjeve
+  const { data: results = [], isFetching } = useQuery<SearchResult[]>({
+    queryKey: ["search", trimmed],
+    queryFn: ({ signal }) => searchAyahs(trimmed, { signal }),
+    enabled: isQueryLongEnough,
+    staleTime: 2 * 60 * 1000, // rezultati svježi 2 minute
+    placeholderData: (prev) => prev, // prikaži stare rezultate dok novi stižu
+  });
+
+  // Sačuvaj u historiju i ažuriraj recentSearches kad stignu rezultati
+  useEffect(() => {
+    if (results.length > 0 && trimmed) {
+      pushRecent(trimmed);
       setRecentSearches(getRecent());
-    } catch (err) {
-      if (err instanceof Error && err.name === "AbortError") return;
-      setResults([]);
-      setStatus("done");
-    } finally {
-      if (abortControllerRef.current === controller) abortControllerRef.current = null;
     }
-  }, []);
+  }, [results, trimmed]);
 
   useEffect(() => {
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      abortControllerRef.current?.abort();
-    };
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-      debounceRef.current = null;
-    }
-
-    if (value.trim().length < getMinQueryLength(value)) {
-      setResults([]);
-      setStatus("done");
-      setRecentSearches(getRecent());
-      return;
-    }
-
-    debounceRef.current = setTimeout(() => {
-      debounceRef.current = null;
-      runSearch(value);
-    }, DEBOUNCE_MS);
-  };
+    setSelectedIndex(0);
+  }, [results]);
 
   useEffect(() => {
     linkRefsRef.current = linkRefsRef.current.slice(0, results.length);
@@ -132,12 +101,17 @@ export default function SearchPage() {
     }
   }, [selectedIndex, results.length]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    if (value.trim().length === 0) setRecentSearches(getRecent());
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
       e.preventDefault();
       setQuery("");
-      setResults([]);
-      setStatus("idle");
+      setDebouncedQuery("");
       setRecentSearches(getRecent());
       return;
     }
@@ -161,13 +135,14 @@ export default function SearchPage() {
     }
   };
 
+  const isLoading = isFetching && isQueryLongEnough;
   const showEmpty =
-    (status === "idle" || status === "done") &&
+    !isLoading &&
     (query.trim().length < getMinQueryLength(query) || results.length === 0);
   const isEmptyInput = query.trim().length < getMinQueryLength(query);
   const emptyMessage = isEmptyInput ? EMPTY_HINT : NO_RESULTS_MESSAGE;
   const showRecent = query.trim().length === 0 && recentSearches.length > 0;
-  const hasResults = results.length > 0;
+  const hasResults = results.length > 0 && isQueryLongEnough;
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
@@ -202,7 +177,7 @@ export default function SearchPage() {
                 className="rounded-lg bg-stone-100 px-3 py-1.5 text-sm text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
                 onClick={() => {
                   setQuery(term);
-                  runSearch(term);
+                  setDebouncedQuery(term);
                 }}
               >
                 {term}
@@ -213,7 +188,7 @@ export default function SearchPage() {
       </div>
 
       <div className="flex-1 py-6">
-        {status === "loading" && (
+        {isLoading && (
           <p className="text-center text-sm text-stone-500 dark:text-stone-400">
             Pretraga…
           </p>
@@ -228,7 +203,7 @@ export default function SearchPage() {
           </p>
         )}
 
-        {status === "done" && results.length > 0 && (
+        {hasResults && (
           <ul
             id={LISTBOX_ID}
             ref={listRef}
