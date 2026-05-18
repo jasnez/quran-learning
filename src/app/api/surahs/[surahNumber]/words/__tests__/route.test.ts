@@ -4,15 +4,19 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GET } from "../route";
 
-vi.mock("@/lib/supabase/surahs-data", () => ({
-  fetchWordsFromDb: vi.fn(),
-}));
+vi.mock("@/lib/data/static-quran", async (orig) => {
+  const actual = (await orig()) as Record<string, unknown>;
+  return {
+    ...actual,
+    getWordsForSurah: vi.fn(),
+  };
+});
 
-const { fetchWordsFromDb } = await import("@/lib/supabase/surahs-data");
+const { getWordsForSurah } = await import("@/lib/data/static-quran");
 
 describe("GET /api/surahs/[surahNumber]/words", () => {
   beforeEach(() => {
-    vi.mocked(fetchWordsFromDb).mockReset();
+    vi.mocked(getWordsForSurah).mockReset();
   });
 
   it("returns 404 for invalid surah number (0)", async () => {
@@ -50,7 +54,7 @@ describe("GET /api/surahs/[surahNumber]/words", () => {
         tajwidRule: "normal" as const,
       },
     ];
-    vi.mocked(fetchWordsFromDb).mockResolvedValue(mockWords);
+    vi.mocked(getWordsForSurah).mockResolvedValue(mockWords);
 
     const res = await GET(new Request("http://localhost/api/surahs/1/words"), {
       params: Promise.resolve({ surahNumber: "1" }),
@@ -58,11 +62,11 @@ describe("GET /api/surahs/[surahNumber]/words", () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual(mockWords);
-    expect(fetchWordsFromDb).toHaveBeenCalledWith(1);
+    expect(getWordsForSurah).toHaveBeenCalledWith(1);
   });
 
   it("returns empty array when surah has no word data", async () => {
-    vi.mocked(fetchWordsFromDb).mockResolvedValue([]);
+    vi.mocked(getWordsForSurah).mockResolvedValue([]);
 
     const res = await GET(new Request("http://localhost/api/surahs/2/words"), {
       params: Promise.resolve({ surahNumber: "2" }),
@@ -73,7 +77,7 @@ describe("GET /api/surahs/[surahNumber]/words", () => {
   });
 
   it("sets Cache-Control header for caching", async () => {
-    vi.mocked(fetchWordsFromDb).mockResolvedValue([]);
+    vi.mocked(getWordsForSurah).mockResolvedValue([]);
 
     const res = await GET(new Request("http://localhost/api/surahs/1/words"), {
       params: Promise.resolve({ surahNumber: "1" }),

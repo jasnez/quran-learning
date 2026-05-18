@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
-import { AuthProvider } from "@/components/auth/AuthProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import "./globals.css";
@@ -67,9 +66,7 @@ export default function RootLayout({
         <ServiceWorkerRegistration />
         <QueryProvider>
           <ThemeProvider>
-            <AuthProvider>
-              <AppShell>{children}</AppShell>
-            </AuthProvider>
+            <AppShell>{children}</AppShell>
           </ThemeProvider>
         </QueryProvider>
       </body>

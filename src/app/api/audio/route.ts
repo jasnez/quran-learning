@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const CDN_BASE = (process.env.NEXT_PUBLIC_AUDIO_CDN_URL ?? "").replace(/\/$/, "");
 const SUPABASE_URL = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
+const FALLBACK_BASE = "https://everyayah.com/data/Alafasy_128kbps";
 const BUCKET = "audio";
 
 /** Path must be reciterId/filename.mp3 (e.g. mishary-alafasy/001001.mp3), no traversal. */
@@ -14,8 +15,8 @@ function isValidPath(path: string): boolean {
 
 /**
  * GET /api/audio?path=reciterId/001001.mp3
- * Streams audio from Supabase Storage. Use when CORS blocks direct CDN playback.
- * Set NEXT_PUBLIC_AUDIO_VIA_PROXY=1 to use this route instead of direct CDN URL.
+ * Streams audio with fallback chain. Set NEXT_PUBLIC_AUDIO_VIA_PROXY=1 to use this route.
+ * Order: explicit CDN env → everyayah (free public CDN) → Supabase Storage (legacy, bucket je obrisan).
  */
 export async function GET(request: NextRequest) {
   const path = request.nextUrl.searchParams.get("path");
@@ -23,12 +24,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Invalid path" }, { status: 400 });
   }
   const urls: string[] = [];
-  // Prefer Supabase (canonical storage) first, then optional CDN mirror
-  if (SUPABASE_URL) {
-    urls.push(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`);
-  }
   if (CDN_BASE) {
     urls.push(`${CDN_BASE}/${path}`);
+  }
+  const fileMatch = path.match(/^[a-z0-9-]+\/(\d{6}\.mp3)$/i);
+  if (fileMatch) {
+    urls.push(`${FALLBACK_BASE}/${fileMatch[1]}`);
+  }
+  if (SUPABASE_URL) {
+    urls.push(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`);
   }
   if (urls.length === 0) {
     return NextResponse.json(

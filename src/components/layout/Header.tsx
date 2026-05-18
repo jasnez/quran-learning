@@ -2,10 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
-import { useAuthStore } from "@/store/authStore";
-import { signOut } from "@/lib/auth/authHelpers";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
@@ -29,8 +27,6 @@ export function Header() {
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
   const { isHidden, hasShadow } = useStickyHeader();
-  const user = useAuthStore((s) => s.user);
-  const authed = !!user;
 
   return (
     <header
@@ -113,22 +109,6 @@ export function Header() {
             >
               <SettingsIcon className="h-5 w-5" />
             </button>
-            {authed && user ? (
-              <UserMenuButton userName={getUserDisplayName(user)} />
-            ) : (
-              <>
-                <Link
-                  href="/auth/login"
-                  className={`${ICON_BTN} sm:hidden`}
-                  aria-label="Prijava"
-                >
-                  <UserIcon className="h-5 w-5" />
-                </Link>
-                <Link href="/auth/login" className={TEXT_LINK}>
-                  Prijava
-                </Link>
-              </>
-            )}
           </div>
         </nav>
       </div>
@@ -254,57 +234,6 @@ function DuasMenu() {
   );
 }
 
-type UserMenuButtonProps = {
-  userName: string;
-};
-
-function UserMenuButton({ userName }: UserMenuButtonProps) {
-  const router = useRouter();
-  const [open, setOpen] = React.useState(false);
-  const closeMenu = React.useCallback(() => setOpen(false), []);
-
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-full bg-stone-100 px-2 py-1.5 text-sm font-medium text-stone-700 shadow-sm transition hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-100 dark:hover:bg-stone-700 sm:min-h-0 sm:min-w-0 sm:px-3"
-        onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-label="Korisnički meni"
-      >
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
-          {userName.charAt(0).toUpperCase()}
-        </span>
-        <span className="hidden sm:inline">{userName}</span>
-      </button>
-      {open && (
-        <div
-          role="menu"
-          aria-label="Korisnički meni"
-          className="absolute right-0 mt-2 w-44 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 text-sm shadow-lg"
-        >
-          <HeaderMenuItem href="/profile" onNavigate={closeMenu}>Profil</HeaderMenuItem>
-          <HeaderMenuItem href="/bookmarks" onNavigate={closeMenu}>Označeni</HeaderMenuItem>
-          <HeaderMenuItem href="/progress" onNavigate={closeMenu}>Napredak</HeaderMenuItem>
-          <button
-            type="button"
-            role="menuitem"
-            className="flex w-full items-center justify-between px-3 py-2 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-            onClick={async () => {
-              closeMenu();
-              await signOut();
-              router.replace("/");
-            }}
-          >
-            <span>Odjava</span>
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function HeaderMenuItem({
   href,
   children,
@@ -324,13 +253,6 @@ function HeaderMenuItem({
       <span>{children}</span>
     </Link>
   );
-}
-
-function getUserDisplayName(user: { email?: string | null; user_metadata?: Record<string, unknown> }) {
-  const fullName = (user.user_metadata as { full_name?: string })?.full_name;
-  if (fullName && fullName.trim()) return fullName.trim();
-  if (user.email) return user.email.split("@")[0] ?? user.email;
-  return "Korisnik";
 }
 
 function BackIcon({ className }: { className?: string }) {
@@ -414,25 +336,6 @@ function BookmarkNavIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"
-      />
-    </svg>
-  );
-}
-
-function UserIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      aria-hidden
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
       />
     </svg>
   );

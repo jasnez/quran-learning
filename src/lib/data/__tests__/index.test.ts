@@ -118,17 +118,20 @@ vi.mock("@/lib/api/client", () => ({
   fetchReciters: vi.fn(() => Promise.resolve(recitersFixture)),
 }));
 
-vi.mock("@/lib/supabase/surahs-data", () => ({
-  fetchSurahsFromDb: vi.fn(() => Promise.resolve(surahsFixture)),
-  fetchSurahDetailFromDb: vi.fn((n: number) => {
-    if (n === 1) return Promise.resolve(surah1Detail);
-    if (n === 2) return Promise.resolve(surah2Detail);
-    if (n === 112) return Promise.resolve(surah112Detail);
-    if (n === 113) return Promise.resolve(surah113Detail);
-    if (n === 114) return Promise.resolve(surah114Detail);
-    return Promise.resolve({ surah: surahsFixture[n - 1], ayahs: [] });
-  }),
-}));
+vi.mock("@/lib/data/static-quran", async (orig) => {
+  const actual = (await orig()) as Record<string, unknown>;
+  return {
+    ...actual,
+    getSurahDetail: vi.fn((n: number) => {
+      if (n === 1) return Promise.resolve(surah1Detail);
+      if (n === 2) return Promise.resolve(surah2Detail);
+      if (n === 112) return Promise.resolve(surah112Detail);
+      if (n === 113) return Promise.resolve(surah113Detail);
+      if (n === 114) return Promise.resolve(surah114Detail);
+      return Promise.resolve({ surah: surahsFixture[n - 1], ayahs: [] });
+    }),
+  };
+});
 
 describe("getAllSurahs", () => {
   it("returns an array of 114 surahs", async () => {
@@ -323,9 +326,8 @@ describe("getReciters", () => {
     expect(mishary?.isDefault).toBe(true);
   });
 
-  it("includes Abdul Basit Abdus Samad", async () => {
+  it("does not include reciters bez everyayah izvora (Abdul Basit privremeno uklonjen)", async () => {
     const reciters = await getReciters();
-    const abdul = reciters.find((r) => r.id === "abdul-basit-abdus-samad");
-    expect(abdul).toBeDefined();
+    expect(reciters.find((r) => r.id === "abdul-basit-abdus-samad")).toBeUndefined();
   });
 });

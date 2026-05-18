@@ -108,10 +108,8 @@ describe("settingsStore", () => {
 
   describe("setReciter", () => {
     it("updates selectedReciterId", () => {
-      useSettingsStore.getState().setReciter("abdul-basit-abdus-samad");
-      expect(useSettingsStore.getState().selectedReciterId).toBe(
-        "abdul-basit-abdus-samad"
-      );
+      useSettingsStore.getState().setReciter("some-reciter-id");
+      expect(useSettingsStore.getState().selectedReciterId).toBe("some-reciter-id");
       useSettingsStore.getState().setReciter(null);
       expect(useSettingsStore.getState().selectedReciterId).toBeNull();
     });

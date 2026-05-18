@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { SettingsState, RepeatMode, ArabicFontStyle, PauseAfterAyah } from "@/types/settings";
+import reciters from "@/data/reciters.json";
 import { getSafeStorage } from "./safeStorage";
+
+const VALID_RECITER_IDS = new Set(reciters.map((r) => r.id));
 
 type Theme = SettingsState["theme"];
 
@@ -94,10 +97,17 @@ export const useSettingsStore = create<SettingsStore>()(
           p.repeatMode === "surah" || p.repeatMode === "ayah"
             ? (p.repeatMode as RepeatMode)
             : p.repeatAyah === true ? "ayah" : ((p.repeatMode as RepeatMode) ?? "off");
+        // Reciter koji vise ne postoji u reciters.json (npr. uklonjen Abdul Basit) → fallback na default.
+        const persistedReciter = p.selectedReciterId;
+        const selectedReciterId =
+          typeof persistedReciter === "string" && VALID_RECITER_IDS.has(persistedReciter)
+            ? persistedReciter
+            : currentState.selectedReciterId;
         return {
           ...currentState,
           ...(persistedState as object),
           repeatMode,
+          selectedReciterId,
         } as SettingsStore;
       },
     }

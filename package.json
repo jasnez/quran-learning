@@ -15,18 +15,10 @@
     "test:e2e": "playwright test",
     "test:ci": "npm run test && npm run build",
     "generate:ayahs": "tsx scripts/generate-ayahs-json.ts",
-    "seed": "tsx scripts/seed-database.ts",
-    "seed:full": "tsx scripts/seed-full-quran.ts",
-    "seed:words": "tsx scripts/seed-words.ts",
-    "upload:audio": "tsx scripts/upload-audio-to-storage.ts",
     "download:audio-sample": "tsx scripts/download-audio-sample.ts",
-    "deploy:check": "npm run test && npm run build",
-    "verify:schema": "tsx scripts/verify-supabase-schema.ts",
-    "sync:duas": "tsx scripts/sync-dua-translations.ts"
+    "deploy:check": "npm run test && npm run build"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.9.0",
-    "@supabase/supabase-js": "^2.98.0",
     "@tanstack/query-async-storage-persister": "^5.96.2",
     "@tanstack/react-query": "^5.96.2",
     "@tanstack/react-query-persist-client": "^5.96.2",
@@ -49,7 +41,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.1.0",

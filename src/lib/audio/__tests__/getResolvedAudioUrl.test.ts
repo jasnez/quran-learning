@@ -29,12 +29,20 @@ describe("getResolvedAudioUrl", () => {
     expect(getResolvedAudioUrl("   ")).toBeNull();
   });
 
-  it("returns absolute URL unchanged", () => {
-    const cdn =
-      "https://xxx.supabase.co/storage/v1/object/public/audio/mishary-alafasy/001001.mp3";
-    expect(getResolvedAudioUrl(cdn)).toBe(cdn);
+  it("returns absolute non-Supabase URL unchanged", () => {
     expect(getResolvedAudioUrl("https://everyayah.com/data/x/001001.mp3")).toBe(
       "https://everyayah.com/data/x/001001.mp3"
+    );
+    expect(getResolvedAudioUrl("https://other-cdn.example/audio/001001.mp3")).toBe(
+      "https://other-cdn.example/audio/001001.mp3"
+    );
+  });
+
+  it("redirects legacy Supabase Storage audio URLs to everyayah (bucket je obrisan)", () => {
+    const supabaseUrl =
+      "https://xxx.supabase.co/storage/v1/object/public/audio/mishary-alafasy/001001.mp3";
+    expect(getResolvedAudioUrl(supabaseUrl)).toBe(
+      "https://everyayah.com/data/Alafasy_128kbps/001001.mp3"
     );
   });
 
