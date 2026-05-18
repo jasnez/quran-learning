@@ -15,6 +15,7 @@
     "test:e2e": "playwright test",
     "test:ci": "npm run test && npm run build",
     "generate:ayahs": "tsx scripts/generate-ayahs-json.ts",
+    "generate:words": "tsx scripts/generate-words-json.ts",
     "download:audio-sample": "tsx scripts/download-audio-sample.ts",
     "deploy:check": "npm run test && npm run build"
   },
