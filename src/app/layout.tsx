@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -70,6 +71,7 @@ export default function RootLayout({
         <QueryProvider>
           <ThemeProvider>
             <AppShell>{children}</AppShell>
+            <InstallPrompt />
           </ThemeProvider>
         </QueryProvider>
       </body>
