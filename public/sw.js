@@ -1,4 +1,4 @@
-// Quran Learning — Service Worker
+// Quran Learning — Service Worker (static-only app, audio s everyayah.com)
 // Tri cache-a: shell (HTML stranice), static (Next.js assets), api (JSON podaci)
 
 const SHELL_CACHE = "quran-shell-v1";
@@ -45,7 +45,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
 
-  // Preskoči zahtjeve ka vanjskim domenama (Supabase, audio CDN, Google Fonts…)
+  // Preskoči zahtjeve ka vanjskim domenama (everyayah.com audio, Google Fonts, itd.)
   if (url.origin !== self.location.origin) return;
 
   // Preskoči audio fajlove — preveliki za keš
@@ -57,7 +57,8 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // API rute za sure i učače → Network-first + fallback na keš
+  // API rute za sure i recitatore (statički podaci servirani sa edge-a) →
+  // Network-first + fallback na keš
   if (
     url.pathname.startsWith("/api/surahs") ||
     url.pathname.startsWith("/api/reciters")

@@ -36,7 +36,7 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
   const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
 
   const [words, setWords] = useState<Word[]>([]);
-  const [wordLevelSync, setWordLevelSync] = useState(false);
+  const wordLevelSync = false;
   const [chapterAudioData, setChapterAudioData] = useState<ChapterAudioData | null>(null);
   const [wordDataMap, setWordDataMap] = useState<Map<string, WordData[]>>(new Map());
   const [chapterDataError, setChapterDataError] = useState(false);
@@ -70,9 +70,16 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
     };
   }, [surahNumber]);
 
+  // Reset error kad se surah/mode mijenja — adjust-state-during-render umjesto u effect-u.
+  const fetchKey = `${surahNumber}-${wordByWordMode}`;
+  const [prevFetchKey, setPrevFetchKey] = useState(fetchKey);
+  if (fetchKey !== prevFetchKey) {
+    setPrevFetchKey(fetchKey);
+    setChapterDataError(false);
+  }
+
   useEffect(() => {
     if (!wordByWordMode || surahNumber < 1 || surahNumber > 114) return;
-    setChapterDataError(false);
     let cancelled = false;
     Promise.all([fetchChapterAudioData(surahNumber), fetchWordData(surahNumber)])
       .then(([audioData, wMap]) => {

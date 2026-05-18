@@ -426,7 +426,7 @@ function OfflineSection() {
       {status === "idle" && (
         <div className="space-y-3">
           <p className="text-sm text-stone-600 dark:text-stone-400">
-            Preuzmite sve sure da biste čitali Kur'an bez internet veze.
+            Preuzmite sve sure da biste čitali Kur&apos;an bez internet veze.
           </p>
           <button
             type="button"

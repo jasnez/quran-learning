@@ -13,7 +13,7 @@ function parseSurahAyah(surahAyah: string): { surah: number; ayah: number } {
   return { surah: s!, ayah: a! };
 }
 
-function computeSurahsIncluded(startSurah: number, _startAyah: number, endSurah: number, _endAyah: number): number[] {
+function computeSurahsIncluded(startSurah: number, endSurah: number): number[] {
   const list: number[] = [];
   for (let s = startSurah; s <= endSurah; s++) {
     list.push(s);
@@ -34,7 +34,7 @@ const cachedJuzList: JuzInfo[] = (juzData as JuzRaw[]).map((row) => {
     startAyah: start.ayah,
     endSurah: end.surah,
     endAyah: end.ayah,
-    surahsIncluded: computeSurahsIncluded(start.surah, start.ayah, end.surah, end.ayah),
+    surahsIncluded: computeSurahsIncluded(start.surah, end.surah),
   };
 });
 

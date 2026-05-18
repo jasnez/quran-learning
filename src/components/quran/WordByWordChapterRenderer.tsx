@@ -80,12 +80,9 @@ function WordSpan({
 const MemoizedWordSpan = memo(WordSpan);
 
 function WordByWordChapterRendererInner({
-  verseKey: _verseKey,
   words,
   segments,
   currentTimeMs,
-  isPlaying: _isPlaying,
-  showTajwidColors: _showTajwidColors,
   onWordClick,
   showInterlinear = false,
   className = "",

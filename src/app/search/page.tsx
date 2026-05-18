@@ -57,7 +57,10 @@ export default function SearchPage() {
   const LISTBOX_ID = "search-results-list";
   const getResultId = (idx: number) => `search-result-${idx}`;
 
+  // SSR vraća [], pa se nakon mount-a čita localStorage. useEffect je ovdje potreban
+  // da izbjegne hydration mismatch — lazy useState init bi razlikovao SSR i klijent.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe sync s localStorage
     setRecentSearches(getRecent());
   }, []);
 
@@ -79,15 +82,16 @@ export default function SearchPage() {
     placeholderData: (prev) => prev, // prikaži stare rezultate dok novi stižu
   });
 
-  // Sačuvaj u historiju i ažuriraj recentSearches kad stignu rezultati
+  // Snimi upit u localStorage historiju (bez setState — state će se osvježiti kad
+  // korisnik isprazni input ili klikne nedavnu pretragu).
   useEffect(() => {
     if (results.length > 0 && trimmed) {
       pushRecent(trimmed);
-      setRecentSearches(getRecent());
     }
   }, [results, trimmed]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset highlighta na nove rezultate
     setSelectedIndex(0);
   }, [results]);
 

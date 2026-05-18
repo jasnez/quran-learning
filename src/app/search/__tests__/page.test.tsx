@@ -52,7 +52,7 @@ vi.mock("next/navigation", () => ({
   useRouter: vi.fn(() => ({ push: vi.fn() })),
 }));
 
-const mockSearchAyahs = vi.fn((q: string, _opts?: { signal?: AbortSignal }) => {
+const mockSearchAyahs = vi.fn((q: string) => {
   if (!q || q.length < 3) return Promise.resolve([]);
   if (q.toLowerCase().includes("milostiv")) return Promise.resolve(mockSearchResults);
   return Promise.resolve([]);

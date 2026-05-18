@@ -1,7 +1,8 @@
 /**
  * Builds a full audio URL from a relative path or returns absolute URLs unchanged.
- * Uses NEXT_PUBLIC_AUDIO_CDN_URL when set (e.g. Supabase Storage public URL).
- * If NEXT_PUBLIC_AUDIO_VIA_PROXY=1, uses /api/audio?path=... to avoid CORS (no dashboard CORS needed).
+ * Uses NEXT_PUBLIC_AUDIO_CDN_URL when set (e.g. https://your-cdn.example/audio).
+ * If NEXT_PUBLIC_AUDIO_VIA_PROXY=1, uses /api/audio?path=... to avoid CORS.
+ * Default fallback (no env vars set) → everyayah.com via getResolvedAudioUrl.
  * Relative paths like /audio/mishary-alafasy/001001.mp3 become CDN_BASE/mishary-alafasy/001001.mp3
  * or /api/audio?path=mishary-alafasy/001001.mp3 when proxy is enabled.
  */

@@ -62,7 +62,7 @@ describe("mapDbWordsToQuranComWords", () => {
     const mapped = mapDbWordsToQuranComWords([], apiWords);
     expect(mapped).toHaveLength(2);
     expect(mapped[0]).not.toBe(apiWords[0]);
-    expect((mapped[0] as any).tajwidRule).toBeUndefined();
+    expect((mapped[0] as { tajwidRule?: string }).tajwidRule).toBeUndefined();
   });
 
   it("ignores db words with invalid positions", () => {

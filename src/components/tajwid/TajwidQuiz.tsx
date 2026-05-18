@@ -29,7 +29,6 @@ export function TajwidQuiz({
 
   const total = quiz.length;
   const question = quiz[currentIndex];
-  const isCorrect = selectedIndex !== null && selectedIndex === question.correctIndex;
 
   const handleSelect = (optionIndex: number) => {
     if (showFeedback) return;

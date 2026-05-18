@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchInput } from "./SearchInput";
 import { VirtualSurahList } from "./VirtualSurahList";
@@ -36,10 +36,12 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
     return initialView;
   });
 
-  useEffect(() => {
-    if (viewParam === "juz") setView("juz");
-    else setView("surahs");
-  }, [viewParam]);
+  // Sync view sa query param-om — "adjust state during render" izbjegava kaskadne re-renderove.
+  const [prevViewParam, setPrevViewParam] = useState(viewParam);
+  if (viewParam !== prevViewParam) {
+    setPrevViewParam(viewParam);
+    setView(viewParam === "juz" ? "juz" : "surahs");
+  }
 
   const [query, setQuery] = useState("");
   const filteredSurahs = useMemo(() => filterSurahs(surahs, query), [surahs, query]);
@@ -80,7 +82,7 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
               e.preventDefault();
               setViewJuz();
             }}
-            aria-pressed={showJuz}
+            aria-current={showJuz ? "page" : undefined}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
               showJuz
                 ? "bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200"

@@ -29,7 +29,6 @@ export function AudioPlayer() {
   const stop = usePlayerStore((s) => s.stop);
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
-  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
   const setCurrentTimeMs = usePlayerStore((s) => s.setCurrentTimeMs);
 
   const repeatMode = useSettingsStore((s) => s.repeatMode);
@@ -138,6 +137,10 @@ export function AudioPlayer() {
     return () => {
       audioManager.pause();
     };
+    // playbackSpeed namjerno NIJE u deps — promjena brzine ne smije pokrenuti cleanup
+    // (audioManager.pause), inače bi se audio prekidao pri svakoj promjeni brzine.
+    // Brzina se primjenjuje u zasebnom efektu (vidi dolje).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeAudioSrc, isPlaying, pause]);
 
   // Apply pending seek when chapter audio is ready (critical for word-by-word: seek into long file)
@@ -228,7 +231,7 @@ export function AudioPlayer() {
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs]);
+  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs, scheduleAdvance]);
 
   // Time update and duration sync + listening time accumulation
   useEffect(() => {
@@ -579,13 +582,13 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
                   ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
                   : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
             }
-            aria-pressed={repeatMode !== "off"}
+            aria-checked={repeatMode !== "off"}
             className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
               repeatMode !== "off"
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                 : "text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
             }`}
-            role="menuitem"
+            role="menuitemcheckbox"
           >
             <span>Ponavljanje</span>
             <span className="ml-2 text-[10px] uppercase tracking-wide">
@@ -596,9 +599,9 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
             type="button"
             onClick={onToggleAutoPlayNext}
             aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
-            aria-pressed={autoPlayNext}
+            aria-checked={autoPlayNext}
             className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
-            role="menuitem"
+            role="menuitemcheckbox"
           >
             <span>Automatski sljedeća sura</span>
             <span className="ml-2 text-[10px] uppercase tracking-wide">

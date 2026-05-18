@@ -37,7 +37,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
 
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
-  const currentTime = usePlayerStore((s) => s.currentTime);
   const duration = usePlayerStore((s) => s.duration);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
@@ -137,7 +136,15 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     if (ayah && ayahs.length > 0) {
       useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber, ayahs.length);
     }
-  }, [surahNumber, ayah?.ayahNumber, ayah?.id, ayahs.length]);
+  }, [ayah, surahNumber, ayahs.length]);
+
+  // Hooks moraju ići PRIJE bilo kakvog conditional return-a (rules-of-hooks).
+  const wordsForAyah = useMemo(() => {
+    if (!ayah) return [];
+    const list = words.filter((w) => w.ayahKey === ayah.id);
+    const sorted = [...list].sort((a, b) => a.wordOrder - b.wordOrder);
+    return normalizeWordsToAyahRelative(sorted);
+  }, [words, ayah]);
 
   if (!ayah) {
     return (
@@ -156,12 +163,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     ayah.tajwidSegments?.length > 0
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
-
-  const wordsForAyah = useMemo(() => {
-    const list = words.filter((w) => w.ayahKey === ayah.id);
-    const sorted = [...list].sort((a, b) => a.wordOrder - b.wordOrder);
-    return normalizeWordsToAyahRelative(sorted);
-  }, [words, ayah.id]);
 
   const useWordByWord = wordsForAyah.length > 0;
   const chapterWords = wordDataMap.get(ayah.id);

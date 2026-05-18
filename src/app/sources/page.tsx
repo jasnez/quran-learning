@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Izvori | Quran Learning",
-  description: "Izvori podataka: Kur'anski tekst, transliteracija, prijevod i audio recitacije.",
+  description: "Izvori podataka: Kur&apos;anski tekst, transliteracija, prijevod i audio recitacije.",
 };
 
 export default function SourcesPage() {
@@ -16,10 +16,10 @@ export default function SourcesPage() {
       <div className="mt-8 space-y-8 text-stone-600 dark:text-stone-400">
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Kur'anski tekst i tajwid oznake
+            Kur&apos;anski tekst i tajwid oznake
           </h2>
           <p className="mt-2 leading-relaxed">
-            Digitalni tekst Kur'ana sa tajwid označavanjem preuzet je iz Tanzil projekta.
+            Digitalni tekst Kur&apos;ana sa tajwid označavanjem preuzet je iz Tanzil projekta.
           </p>
           <p className="mt-1">
             Izvor:{" "}
@@ -56,7 +56,7 @@ export default function SourcesPage() {
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Bosanski prijevod značenja Kur'ana
+            Bosanski prijevod značenja Kur&apos;ana
           </h2>
           <p className="mt-2 leading-relaxed">
             Besim Korkut

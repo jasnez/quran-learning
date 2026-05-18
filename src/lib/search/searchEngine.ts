@@ -34,7 +34,7 @@ function buildSnippet(
     fullText.length,
     start + SNIPPET_RADIUS + q.length
   );
-  let segment = fullText.slice(start, end);
+  const segment = fullText.slice(start, end);
   const matchStartInSegment = idx - start;
   const matchEndInSegment = matchStartInSegment + (isArabic ? query.trim().length : q.length);
   const before = segment.slice(0, matchStartInSegment);

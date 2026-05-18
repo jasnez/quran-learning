@@ -23,8 +23,7 @@ vi.mock("@/components/settings/SettingsPanel", () => ({
 // next/dynamic: koristi React.lazy + Suspense; act() unutar render() fleša microtaskove
 vi.mock("next/dynamic", () => ({
   default: (
-    importFn: () => Promise<{ default: React.ComponentType<Record<string, unknown>> }>,
-    _opts?: Record<string, unknown>
+    importFn: () => Promise<{ default: React.ComponentType<Record<string, unknown>> }>
   ) => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const R = require("react") as typeof import("react");

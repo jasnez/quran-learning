@@ -37,7 +37,7 @@ export default function AboutPage() {
             <li>Lekcije tajwida (pravila izgovora)</li>
             <li>Praćenje napretka i zabilješke</li>
             <li>Pretraga po tekstu ili broju sure/ajata</li>
-            <li>Zakładke (bookmarks) za brzi povratak</li>
+            <li>Oznake (bookmarks) za brzi povratak</li>
           </ul>
         </section>
 

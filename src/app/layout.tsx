@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
@@ -38,12 +38,15 @@ export const metadata: Metadata = {
   title: "Quran Learning",
   description: "Čitanje Kur’ana s transliteracijom",
   manifest: "/manifest.webmanifest",
-  themeColor: "#16a34a",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Quran Learning",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#16a34a",
 };
 
 export default function RootLayout({

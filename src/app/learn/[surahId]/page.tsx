@@ -41,7 +41,8 @@ export default async function LearnPage({ params }: PageProps) {
     return null;
   }
 
-  let { surah, ayahs } = detail;
+  const { surah } = detail;
+  let { ayahs } = detail;
 
   // Prethodna / sljedeća sura za navigaciju
   let prevSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;

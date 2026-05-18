@@ -1,25 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribeOnline(callback: () => void) {
+  window.addEventListener("offline", callback);
+  window.addEventListener("online", callback);
+  return () => {
+    window.removeEventListener("offline", callback);
+    window.removeEventListener("online", callback);
+  };
+}
+
+const getSnapshot = () => !navigator.onLine;
+const getServerSnapshot = () => false;
 
 export function OfflineIndicator() {
-  const [offline, setOffline] = useState(false);
-
-  useEffect(() => {
-    // Postavi inicijalni status — navigator.onLine može biti false odmah
-    setOffline(!navigator.onLine);
-
-    const handleOffline = () => setOffline(true);
-    const handleOnline = () => setOffline(false);
-
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
-
-    return () => {
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("online", handleOnline);
-    };
-  }, []);
+  const offline = useSyncExternalStore(subscribeOnline, getSnapshot, getServerSnapshot);
 
   if (!offline) return null;
 

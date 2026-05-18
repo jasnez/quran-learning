@@ -20,19 +20,12 @@ export default function Error({
         Nešto nije u redu
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
-        Došlo je do greške pri učitavanju. Na Vercelu postavi env:{" "}
-        <code className="rounded bg-stone-200 px-1 dark:bg-stone-700">
-          NEXT_PUBLIC_SUPABASE_URL
-        </code>
-        ,{" "}
-        <code className="rounded bg-stone-200 px-1 dark:bg-stone-700">
-          NEXT_PUBLIC_SUPABASE_ANON_KEY
-        </code>
-        , i za server-side čitanje baze{" "}
-        <code className="rounded bg-stone-200 px-1 dark:bg-stone-700">
-          SUPABASE_SERVICE_ROLE_KEY
-        </code>
-        , pa Redeploy. Ako se greška ponavlja, provjeri Vercel → Project → Logs (Runtime).
+        Došlo je do neočekivane greške pri učitavanju. Pokušaj osvježiti stranicu.
+        Ako se greška ponavlja, javi nam preko stranice{" "}
+        <Link href="/contact" className="underline hover:no-underline">
+          Kontakt
+        </Link>
+        .
       </p>
       {error.digest && (
         <p className="mt-2 text-xs text-stone-500 dark:text-stone-500">

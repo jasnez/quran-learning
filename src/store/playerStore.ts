@@ -207,7 +207,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
   setPendingSeek: (pendingSeekToSeconds) => set({ pendingSeekToSeconds }),
 
-  setWordByWordMode: (wordByWordMode) => set((state) => ({
+  setWordByWordMode: (wordByWordMode) => set(() => ({
     wordByWordMode,
     ...(wordByWordMode ? {} : { chapterAudioUrl: null, chapterTimestamps: null }),
   })),

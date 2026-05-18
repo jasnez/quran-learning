@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { getDailyDua } from "../dailyDua";
 import { QURANIC_DUAS } from "../data";
 import type { QuranicDua } from "@/types/duas";
@@ -37,8 +37,6 @@ describe("getDailyDua", () => {
   it("different day of year can return different dua", () => {
     const jan1 = new Date("2025-01-01T12:00:00Z");
     const jan2 = new Date("2025-01-02T12:00:00Z");
-    const a = getDailyDua(QURANIC_DUAS, jan1);
-    const b = getDailyDua(QURANIC_DUAS, jan2);
     // Day-of-year 0 = Jan 1 UTC, 1 = Jan 2 UTC → index = dayOfYear % length
     const idx0 = 0 % QURANIC_DUAS.length;
     const idx1 = 1 % QURANIC_DUAS.length;

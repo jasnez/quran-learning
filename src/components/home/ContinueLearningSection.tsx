@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
 import { useShallow } from "zustand/react/shallow";
@@ -9,9 +9,14 @@ import { formatListeningTime } from "@/lib/formatListeningTime";
 
 const TOTAL_AYAHS_QURAN = 6236;
 
+// SSR vraća false, klijent uvijek true → komponenta prikaže placeholder na SSR-u,
+// pa puni sadržaj nakon hidracije. Izbjegava hydration mismatch za progress data.
+const subscribeMount = () => () => {};
+const getMounted = () => true;
+const getMountedServer = () => false;
+
 export function ContinueLearningSection() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(subscribeMount, getMounted, getMountedServer);
 
   const lastSurahNumber = useProgressStore((s) => s.lastSurahNumber);
   const lastAyahNumber = useProgressStore((s) => s.lastAyahNumber);

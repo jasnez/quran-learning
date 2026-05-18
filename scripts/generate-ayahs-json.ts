@@ -133,8 +133,7 @@ async function fetchTajweedData(): Promise<CpfairEntry[]> {
 }
 
 async function fetchVersesForChapter(
-  chapterNumber: number,
-  tajweedData: CpfairEntry[]
+  chapterNumber: number
 ): Promise<QuranApiVerse[]> {
   const allVerses: QuranApiVerse[] = [];
   let page = 1;
@@ -267,7 +266,7 @@ async function main(): Promise<void> {
     );
 
     try {
-      const verses = await fetchVersesForChapter(surah.surahNumber, tajweedData);
+      const verses = await fetchVersesForChapter(surah.surahNumber);
       const ayahs = mapVersesToAyahs(verses, surah.surahNumber, tajweedData);
 
       const output = {
