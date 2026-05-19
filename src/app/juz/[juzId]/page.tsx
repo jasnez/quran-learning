@@ -47,7 +47,7 @@ export default async function JuzPage({ params }: PageProps) {
   const endSurahName = allSurahs.find((s) => s.surahNumber === juz.endSurah)?.nameLatin ?? `Sura ${juz.endSurah}`;
 
   return (
-    <main className="mx-auto max-w-[800px] px-4 py-8">
+    <main className="mx-auto max-w-6xl px-4 py-8">
       <header className="mb-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 px-6 py-8 text-center dark:border-amber-800/50 dark:bg-stone-900/40">
         <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl">
           Džuz {juz.juz} — {juz.name}

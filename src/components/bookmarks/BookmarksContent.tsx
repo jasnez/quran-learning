@@ -81,7 +81,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
 
   if (bookmarks.length === 0) {
     return (
-      <main className="mx-auto max-w-[800px] px-4 py-8">
+      <main className="mx-auto max-w-6xl px-4 py-8">
         <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
           Označeni ajeti
         </h1>
@@ -104,7 +104,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   }
 
   return (
-    <main className="mx-auto max-w-[800px] px-4 py-8">
+    <main className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
           Označeni ajeti

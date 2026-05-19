@@ -17,7 +17,7 @@ export default async function Home() {
     <article className="space-y-12 md:space-y-16">
       {/* Hero */}
       <section
-        className="relative overflow-hidden rounded-xl bg-stone-50 px-6 py-10 dark:bg-stone-900/50 md:px-12 md:py-14 bg-cover bg-[center_right] bg-no-repeat"
+        className="relative overflow-hidden rounded-xl bg-stone-50 px-6 py-10 dark:bg-stone-900/50 md:px-12 md:py-14 lg:px-16 lg:py-20 bg-cover bg-[center_right] bg-no-repeat"
         style={{ backgroundImage: "url('/hero-bg.png')" }}
         aria-labelledby="hero-title"
       >
@@ -25,14 +25,14 @@ export default async function Home() {
         <div className="relative">
           <h1
             id="hero-title"
-            className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl"
+            className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl lg:text-4xl"
           >
             Platforma za učenje Kur&apos;ana
           </h1>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg">
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg lg:mt-4 lg:max-w-2xl">
             Uči Kur&apos;an uz tajwid pomagala, transliteraciju, prijevod i audio.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 lg:mt-8">
             <ButtonLink href="/learn/1" variant="primary" size="md">
               Počni učiti
             </ButtonLink>

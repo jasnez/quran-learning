@@ -92,7 +92,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         aria-modal="true"
         aria-labelledby="settings-panel-title"
         aria-hidden={!isOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-[var(--theme-border)] bg-[var(--theme-card)] shadow-xl transition-transform duration-200 ease-out max-sm:inset-x-0 max-sm:top-auto max-sm:bottom-0 max-sm:max-h-[85vh] max-sm:rounded-t-2xl md:max-w-sm ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-[var(--theme-border)] bg-[var(--theme-card)] shadow-xl transition-transform duration-200 ease-out max-sm:inset-x-0 max-sm:top-auto max-sm:bottom-0 max-sm:max-h-[85vh] max-sm:rounded-t-2xl lg:max-w-lg ${
           isOpen
             ? "translate-x-0 max-sm:translate-y-0"
             : "translate-x-full pointer-events-none max-sm:translate-y-full"

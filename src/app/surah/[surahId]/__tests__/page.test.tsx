@@ -195,8 +195,13 @@ describe("Surah Reader page", () => {
   it("each card shows ayah number and play button", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText("1")).toBeInTheDocument();
-    expect(screen.getByText("2")).toBeInTheDocument();
+    // Brojevi "1" i "2" se pojavljuju više puta (kartica + SurahAyahNav TOC); proveri da postoji u ayah-card kontekstu.
+    const ayah1Card = document.querySelector("[data-ayah-id='1:1']");
+    const ayah2Card = document.querySelector("[data-ayah-id='1:2']");
+    expect(ayah1Card).toBeInTheDocument();
+    expect(ayah2Card).toBeInTheDocument();
+    expect(ayah1Card?.textContent).toMatch(/\b1\b/);
+    expect(ayah2Card?.textContent).toMatch(/\b2\b/);
     const playButtons = screen.getAllByRole("button", { name: /play|pusti|pusti audio/i });
     expect(playButtons.length).toBeGreaterThanOrEqual(1);
   });
@@ -216,7 +221,8 @@ describe("Surah Reader page", () => {
   it("content is in a centered container with max-width", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
-    const main = container.querySelector(".mx-auto.max-w-\\[800px\\]") ?? container.querySelector("[class*='max-w'][class*='800']");
+    // Desktop redesign: container je sad max-w-6xl (1152px) umjesto fiksnog [800px]
+    const main = container.querySelector("main.mx-auto.max-w-6xl");
     expect(main).toBeInTheDocument();
   });
 

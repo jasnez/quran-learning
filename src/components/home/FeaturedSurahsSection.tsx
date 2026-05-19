@@ -79,7 +79,7 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
         {heading}
       </h2>
       <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{subheading}</p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {surahsToShow.map((surah) => {
           const progress = mounted ? progressMap?.[surah.surahNumber] : undefined;
           const percent = progress?.completionPercent ?? 0;

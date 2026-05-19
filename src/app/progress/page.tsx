@@ -10,7 +10,7 @@ export default async function ProgressPage() {
   const surahs = await getAllSurahs();
 
   return (
-    <article className="mx-auto max-w-[900px]">
+    <article className="mx-auto max-w-6xl">
       <ProgressContent surahs={surahs} />
     </article>
   );

@@ -2,7 +2,7 @@ import { SurahListSkeleton } from "@/components/surahs/SurahListSkeleton";
 
 export default function SurahsLoading() {
   return (
-    <article className="mx-auto max-w-[900px]">
+    <article className="mx-auto max-w-7xl">
       <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl">
         Sure
       </h1>

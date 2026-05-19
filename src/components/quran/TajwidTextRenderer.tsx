@@ -17,7 +17,7 @@ export function TajwidTextRenderer({
   className = "",
   style,
 }: TajwidTextRendererProps) {
-  const baseClass = "font-arabic leading-[1.9] text-center";
+  const baseClass = "font-arabic leading-[1.9]";
   const wrapperClass = [baseClass, className].filter(Boolean).join(" ");
 
   return (
