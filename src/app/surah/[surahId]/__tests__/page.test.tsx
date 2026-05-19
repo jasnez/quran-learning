@@ -129,8 +129,9 @@ describe("Surah Reader page", () => {
   it("shows SurahHeader with nameArabic, nameLatin, nameBosnian", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText("الفاتحة")).toBeInTheDocument();
-    expect(screen.getByText(/Al-Fatihah/)).toBeInTheDocument();
+    // Arapski naziv i Latin se ponavljaju (postojeći SurahHeader + novi SurahReaderStickyHeader)
+    expect(screen.getAllByText("الفاتحة").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Al-Fatihah/).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Al-Fatiha/).length).toBeGreaterThanOrEqual(1);
   });
 
@@ -302,7 +303,7 @@ describe("Surah Reader page", () => {
       searchParams: Promise.resolve({ ayah: "2" }),
     });
     render(Page);
-    expect(screen.getByText("الفاتحة")).toBeInTheDocument();
+    expect(screen.getAllByText("الفاتحة").length).toBeGreaterThanOrEqual(1);
     expect(document.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
   });
 

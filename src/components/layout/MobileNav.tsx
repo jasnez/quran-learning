@@ -3,22 +3,43 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import {
+  Home,
+  BookOpen,
+  GraduationCap,
+  HandHelping,
+  MoreHorizontal,
+  Bookmark,
+  Settings,
+  BarChart3,
+  Sparkles,
+  Palette,
+  ListChecks,
+} from "lucide-react";
+import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
-const base =
-  "flex flex-col items-center justify-center gap-1 py-2 text-xs transition-colors ";
-const active = "text-emerald-700 dark:text-emerald-400 font-medium";
-const inactive = "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300";
+const tabBase =
+  "flex flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium transition-colors";
+const tabActive = "text-emerald-700 dark:text-emerald-400";
+const tabInactive =
+  "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200";
 
 export function MobileNav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isSurahs = pathname?.startsWith("/surahs");
-  const isProgress = pathname === "/progress";
   const isLearn = pathname?.startsWith("/learn");
-  const isNames = pathname?.startsWith("/names");
   const isDuas = pathname?.startsWith("/duas");
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const { open: openSettings } = useSettingsOpen();
+
+  const isMoreActive =
+    pathname?.startsWith("/bookmarks") ||
+    pathname?.startsWith("/progress") ||
+    pathname?.startsWith("/names") ||
+    pathname?.startsWith("/tajwid") ||
+    pathname?.startsWith("/test");
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -38,195 +59,141 @@ export function MobileNav() {
   }, [moreOpen]);
 
   return (
-    <>
-      <nav
-        role="navigation"
-        aria-label="Mobile navigation"
-        className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
+    <nav
+      role="navigation"
+      aria-label="Mobile navigation"
+      className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
+    >
+      <Link
+        href="/"
+        className={`flex-1 ${tabBase} ${isHome ? tabActive : tabInactive}`}
+        aria-current={isHome ? "page" : undefined}
       >
-        <Link
-          href="/surahs"
-          className={`flex-1 ${base} ${isSurahs ? active : inactive}`}
-          aria-current={isSurahs ? "page" : undefined}
+        <Home className="h-5 w-5" strokeWidth={isHome ? 2.25 : 1.75} aria-hidden />
+        <span>Početna</span>
+      </Link>
+      <Link
+        href="/surahs"
+        className={`flex-1 ${tabBase} ${isSurahs ? tabActive : tabInactive}`}
+        aria-current={isSurahs ? "page" : undefined}
+      >
+        <BookOpen className="h-5 w-5" strokeWidth={isSurahs ? 2.25 : 1.75} aria-hidden />
+        <span>Sure</span>
+      </Link>
+      <Link
+        href="/learn/1"
+        className={`flex-1 ${tabBase} ${isLearn ? tabActive : tabInactive}`}
+        aria-current={isLearn ? "page" : undefined}
+      >
+        <GraduationCap className="h-5 w-5" strokeWidth={isLearn ? 2.25 : 1.75} aria-hidden />
+        <span>Učenje</span>
+      </Link>
+      <Link
+        href="/duas"
+        className={`flex-1 ${tabBase} ${isDuas ? tabActive : tabInactive}`}
+        aria-current={isDuas ? "page" : undefined}
+      >
+        <HandHelping className="h-5 w-5" strokeWidth={isDuas ? 2.25 : 1.75} aria-hidden />
+        <span>Dove</span>
+      </Link>
+      <div className="relative flex flex-1 flex-col" ref={moreRef}>
+        <button
+          type="button"
+          onClick={() => setMoreOpen((o) => !o)}
+          aria-expanded={moreOpen}
+          aria-haspopup="true"
+          aria-label="Više opcija"
+          aria-current={isMoreActive ? "page" : undefined}
+          className={`flex-1 ${tabBase} ${moreOpen || isMoreActive ? tabActive : tabInactive}`}
         >
-          <BookIcon className="h-5 w-5" />
-          <span>Sure</span>
-        </Link>
-        <Link
-          href="/learn/1"
-          className={`flex-1 ${base} ${isLearn ? active : inactive}`}
-          aria-current={isLearn ? "page" : undefined}
-        >
-          <LearnIcon className="h-5 w-5" />
-          <span>Učenje</span>
-        </Link>
-        <Link
-          href="/"
-          className={`flex-1 ${base} ${isHome ? active : inactive}`}
-          aria-current={isHome ? "page" : undefined}
-        >
-          <HomeIcon className="h-5 w-5" />
-          <span>Početna</span>
-        </Link>
-        <Link
-          href="/progress"
-          className={`flex-1 ${base} ${isProgress ? active : inactive}`}
-          aria-current={isProgress ? "page" : undefined}
-        >
-          <ProgressIcon className="h-5 w-5" />
-          <span>Napredak</span>
-        </Link>
-        <div className="relative flex flex-1 flex-col" ref={moreRef}>
-          <button
-            type="button"
-            onClick={() => setMoreOpen((o) => !o)}
-            aria-expanded={moreOpen}
-            aria-haspopup="true"
+          <MoreHorizontal className="h-5 w-5" strokeWidth={moreOpen || isMoreActive ? 2.25 : 1.75} aria-hidden />
+          <span>Više</span>
+        </button>
+        {moreOpen && (
+          <div
+            role="menu"
             aria-label="Više opcija"
-            aria-current={isNames || isDuas ? "page" : undefined}
-            className={`flex-1 ${base} ${isNames ? active : inactive}`}
+            className="absolute bottom-full right-1 mb-2 w-60 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-700 dark:bg-stone-800"
           >
-            <MoreIcon className="h-5 w-5" />
-            <span>Više</span>
-          </button>
-          {moreOpen && (
-            <div
-              role="menu"
-              aria-label="Više opcija"
-              className="absolute bottom-full left-1/2 mb-1 min-w-[200px] -translate-x-1/2 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-600 dark:bg-stone-800"
+            <MoreLink
+              href="/bookmarks"
+              icon={<Bookmark className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
             >
-              <div className="px-4 py-2 text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
-                Učenje
-              </div>
-              <Link
-                href="/test/1"
-                role="menuitem"
-                onClick={() => setMoreOpen(false)}
-                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-              >
-                Kviz
-              </Link>
-              <Link
-                href="/tajwid"
-                role="menuitem"
-                onClick={() => setMoreOpen(false)}
-                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-              >
-                Tedžvid lekcije
-              </Link>
-              <Link
-                href="/duas"
-                role="menuitem"
-                onClick={() => setMoreOpen(false)}
-                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-              >
-                Kur&apos;anske dove
-              </Link>
-              <Link
-                href="/names"
-                role="menuitem"
-                onClick={() => setMoreOpen(false)}
-                className="block px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-              >
-                Allahova lijepa imena
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
-    </>
+              Označeni ajeti
+            </MoreLink>
+            <MoreLink
+              href="/progress"
+              icon={<BarChart3 className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
+            >
+              Napredak
+            </MoreLink>
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setMoreOpen(false);
+                openSettings();
+              }}
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+            >
+              <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+                <Settings className="h-4 w-4" />
+              </span>
+              <span>Postavke</span>
+            </button>
+            <div className="my-1 h-px bg-stone-200 dark:bg-stone-700" aria-hidden />
+            <MoreLink
+              href="/names"
+              icon={<Sparkles className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
+            >
+              Allahova lijepa imena
+            </MoreLink>
+            <MoreLink
+              href="/tajwid"
+              icon={<Palette className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
+            >
+              Tedžvid lekcije
+            </MoreLink>
+            <MoreLink
+              href="/test/1"
+              icon={<ListChecks className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
+            >
+              Kviz
+            </MoreLink>
+          </div>
+        )}
+      </div>
+    </nav>
   );
 }
 
-function HomeIcon({ className }: { className?: string }) {
+function MoreLink({
+  href,
+  icon,
+  children,
+  onClick,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      aria-hidden
+    <Link
+      role="menuitem"
+      href={href}
+      onClick={onClick}
+      className="flex items-center gap-3 px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-      />
-    </svg>
-  );
-}
-
-function BookIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      aria-hidden
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-      />
-    </svg>
-  );
-}
-
-function LearnIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      aria-hidden
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.905 59.905 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
-      />
-    </svg>
-  );
-}
-
-function ProgressIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      aria-hidden
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-      />
-    </svg>
-  );
-}
-
-function MoreIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
-      <path
-        fillRule="evenodd"
-        d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
-        clipRule="evenodd"
-      />
-    </svg>
+      <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+        {icon}
+      </span>
+      <span>{children}</span>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { Bookmark, Play, Pause } from "lucide-react";
 import type { Ayah, Word } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
@@ -13,7 +14,7 @@ import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterR
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import * as audioManager from "@/lib/audio/audioManager";
 
-const ARABIC_MIN_MOBILE_PX = 22;
+const ARABIC_MIN_MOBILE_PX = 24;
 
 type AyahCardProps = {
   ayah: Ayah;
@@ -141,14 +142,14 @@ export function AyahCard({
       id={`ayah-${ayah.id.replace(":", "-")}`}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
-      className={`rounded-2xl border bg-[var(--theme-card)] p-5 px-4 transition-colors duration-300 border-[var(--theme-border)] md:px-6 md:py-8 ${
+      className={`rounded-xl border bg-[var(--theme-card)] p-4 transition-colors duration-300 border-[var(--theme-border)] md:px-6 md:py-6 ${
         isThisAyahPlaying
           ? "border-l-[3px] border-l-emerald-500 bg-amber-50/50 dark:bg-amber-950/20 dark:border-l-emerald-400"
           : ""
       }`}
     >
       {/* Meta row */}
-      <div className="mb-6 flex items-center justify-between gap-3">
+      <div className="mb-4 flex items-center justify-between gap-3">
         <span
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-400"
           aria-hidden
@@ -178,9 +179,13 @@ export function AyahCard({
                 : "text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-700 dark:hover:text-stone-300"
             }`}
             aria-label="Bookmark"
+            aria-pressed={bookmarked}
             title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
           >
-            <BookmarkIcon filled={bookmarked} />
+            <Bookmark
+              className={`h-5 w-5 transition-transform duration-200 ${bookmarked ? "fill-current" : ""}`}
+              aria-hidden
+            />
           </button>
           <button
             type="button"
@@ -189,7 +194,11 @@ export function AyahCard({
             title={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
             onClick={handlePlayPause}
           >
-            {isThisAyahPlaying ? <PauseIcon /> : <PlayIcon />}
+            {isThisAyahPlaying ? (
+              <Pause className="h-5 w-5 fill-current" aria-hidden />
+            ) : (
+              <Play className="h-5 w-5 fill-current" aria-hidden />
+            )}
           </button>
         </div>
       </div>
@@ -238,13 +247,13 @@ export function AyahCard({
       )}
 
       {showTransliteration && ayah.transliteration && (
-        <p className="mt-8 text-center text-base leading-relaxed text-stone-500 dark:text-stone-400">
+        <p className="mt-5 text-center text-sm italic leading-relaxed text-stone-500 dark:text-stone-500">
           {ayah.transliteration}
         </p>
       )}
 
       {showTranslation && ayah.translationBosnian && (
-        <p className="mt-6 text-center text-base leading-relaxed text-stone-700 dark:text-stone-300">
+        <p className="mt-4 text-center text-[17px] leading-relaxed text-stone-800 dark:text-stone-200">
           {ayah.translationBosnian}
         </p>
       )}
@@ -252,39 +261,3 @@ export function AyahCard({
   );
 }
 
-function BookmarkIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="transition-transform duration-200"
-      aria-hidden
-    >
-      <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-    </svg>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <polygon points="5 3 19 12 5 21 5 3" />
-    </svg>
-  );
-}
-
-function PauseIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <line x1="6" y1="4" x2="6" y2="20" />
-      <line x1="18" y1="4" x2="18" y2="20" />
-    </svg>
-  );
-}

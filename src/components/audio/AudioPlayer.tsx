@@ -1,17 +1,27 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
 import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
+import surahsData from "@/data/surahs.json";
+import type { SurahSummary } from "@/types/quran";
 
 function ayahNumberFromId(ayahId: string | null): string {
   if (!ayahId) return "—";
   const parts = ayahId.split(":");
   return parts[1] ?? ayahId;
+}
+
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const total = Math.floor(seconds);
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 export function AudioPlayer() {
@@ -345,6 +355,14 @@ export function AudioPlayer() {
     if (activeAudioSrc) audioManager.setPlaybackRate(playbackSpeed);
   }, [activeAudioSrc, playbackSpeed]);
 
+  const surahName = useMemo(() => {
+    if (currentSurahId == null) return null;
+    const n = Number(currentSurahId);
+    if (!Number.isFinite(n)) return null;
+    const surah = (surahsData as SurahSummary[]).find((s) => s.surahNumber === n);
+    return surah?.nameLatin ?? null;
+  }, [currentSurahId]);
+
   if (!activeAudioSrc) return null;
 
   const ayahNum = ayahNumberFromId(currentAyahId);
@@ -366,9 +384,12 @@ export function AudioPlayer() {
       <div className="mx-auto flex max-h-[70px] max-w-4xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
         <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4">
           {/* Left: label (mobile: at start; desktop: at start) */}
-          <div className="min-w-0 flex-shrink text-xs text-stone-500 dark:text-stone-400 md:text-sm">
-            <span className="truncate">
-              Surah {currentSurahId ?? "—"} · Ajah {ayahNum}
+          <div className="flex min-w-0 flex-1 flex-col leading-tight">
+            <span className="truncate text-sm font-medium text-stone-800 dark:text-stone-100 md:text-[15px]">
+              {surahName ?? `Sura ${currentSurahId ?? "—"}`} · Ajet {ayahNum}
+            </span>
+            <span className="truncate text-[11px] tabular-nums text-stone-500 dark:text-stone-400 md:text-xs">
+              {formatTime(currentTime)} / {formatTime(duration)} · Mishary Alafasy
             </span>
           </div>
 

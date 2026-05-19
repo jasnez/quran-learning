@@ -13,16 +13,16 @@ export function DailyDuaSection() {
     <section aria-labelledby="daily-dua-heading">
       <h2
         id="daily-dua-heading"
-        className="text-xl font-medium text-stone-900 dark:text-stone-100 md:text-2xl"
+        className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
       >
         Dova dana
       </h2>
       <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
         Jedna Kur&apos;anska dova svaki dan.
       </p>
-      <div className="mt-6">
+      <div className="mt-4">
         <DuaCard dua={dailyDua} />
-        <p className="mt-4">
+        <p className="mt-3">
           <Link
             href="/duas"
             className="text-sm font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"

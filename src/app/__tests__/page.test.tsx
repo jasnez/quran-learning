@@ -235,12 +235,12 @@ describe("Home page", () => {
       const Page = await Home();
       render(Page);
       const readerLink = await screen.findByRole("link", { name: /nastavi u reader-u|reader/i });
-      const learnLink = await screen.findByRole("link", { name: /nastavi u learning modu|learning modu/i });
+      const learnLink = await screen.findByRole("link", { name: /^učenje$/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
       expect(learnLink).toHaveAttribute("href", "/learn/2");
     });
 
-    it("when saved position exists, shows last session time label (Zadnji put)", async () => {
+    it("when saved position exists, shows time-since label (e.g. 'upravo sad' / 'prije X min')", async () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 1, ayahNumber: 1, mode: "learning" });
       mockProgressState.lastSurahNumber = 1;
       mockProgressState.lastAyahNumber = 1;
@@ -249,7 +249,8 @@ describe("Home page", () => {
       mockProgressState.timestamp = new Date().toISOString();
       const Page = await Home();
       render(Page);
-      expect(screen.getByText(/zadnji put/i)).toBeInTheDocument();
+      // Microcopy je kompaktnija: "Mod: Learning · upravo sad"
+      expect(screen.getByText(/upravo sad|prije \d/i)).toBeInTheDocument();
     });
 
     it("stats row is hidden when all stats are zero (new user)", async () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
 import { useOfflineDownload } from "@/hooks/useOfflineDownload";
@@ -18,10 +18,12 @@ const PAUSE_OPTIONS: { value: PauseAfterAyah; label: string }[] = [
   { value: "10s", label: "10 sek" },
   { value: "manual", label: "Ručno" },
 ];
-const THEMES = [
-  { value: "light" as const, label: "Light", labelBs: "Svijetla" },
-  { value: "dark" as const, label: "Dark", labelBs: "Tamna" },
-  { value: "sepia" as const, label: "Sepia", labelBs: "Sepia" },
+const PRIMARY_THEMES = [
+  { value: "light" as const, label: "Svijetla" },
+  { value: "dark" as const, label: "Tamna" },
+] as const;
+const ADVANCED_THEMES = [
+  { value: "sepia" as const, label: "Sepia" },
 ] as const;
 
 type SettingsPanelProps = { isOpen: boolean; onClose: () => void };
@@ -278,34 +280,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           <OfflineSection />
 
           {/* Theme */}
-          <section aria-labelledby="theme-heading">
-            <h3 id="theme-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-              Tema
-            </h3>
-            <div
-              className="flex gap-2"
-              role="radiogroup"
-              aria-labelledby="theme-heading"
-            >
-              {THEMES.map((t) => (
-                <label
-                  key={t.value}
-                  className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
-                >
-                  <input
-                    type="radio"
-                    name="theme"
-                    value={t.value}
-                    checked={theme === t.value}
-                    onChange={() => setTheme(t.value)}
-                    className="sr-only"
-                    aria-label={t.labelBs}
-                  />
-                  {t.labelBs}
-                </label>
-              ))}
-            </div>
-          </section>
+          <ThemeSection theme={theme} setTheme={setTheme} />
         </div>
       </div>
     </>
@@ -406,6 +381,82 @@ function CloseIcon() {
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
     </svg>
+  );
+}
+
+type ThemeValue = "light" | "dark" | "sepia";
+
+function ThemeSection({
+  theme,
+  setTheme,
+}: {
+  theme: ThemeValue;
+  setTheme: (t: ThemeValue) => void;
+}) {
+  const isAdvanced = ADVANCED_THEMES.some((t) => t.value === theme);
+  const [showAdvanced, setShowAdvanced] = useState(isAdvanced);
+
+  return (
+    <section aria-labelledby="theme-heading">
+      <h3
+        id="theme-heading"
+        className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400"
+      >
+        Tema
+      </h3>
+      <div className="flex gap-2" role="radiogroup" aria-labelledby="theme-heading">
+        {PRIMARY_THEMES.map((t) => (
+          <label
+            key={t.value}
+            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+          >
+            <input
+              type="radio"
+              name="theme"
+              value={t.value}
+              checked={theme === t.value}
+              onChange={() => setTheme(t.value)}
+              className="sr-only"
+              aria-label={t.label}
+            />
+            {t.label}
+          </label>
+        ))}
+      </div>
+      {showAdvanced ? (
+        <div
+          className="mt-2 flex gap-2"
+          role="radiogroup"
+          aria-label="Dodatne teme"
+        >
+          {ADVANCED_THEMES.map((t) => (
+            <label
+              key={t.value}
+              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+            >
+              <input
+                type="radio"
+                name="theme"
+                value={t.value}
+                checked={theme === t.value}
+                onChange={() => setTheme(t.value)}
+                className="sr-only"
+                aria-label={t.label}
+              />
+              {t.label}
+            </label>
+          ))}
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setShowAdvanced(true)}
+          className="mt-2 text-xs font-medium text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
+        >
+          Više opcija…
+        </button>
+      )}
+    </section>
   );
 }
 

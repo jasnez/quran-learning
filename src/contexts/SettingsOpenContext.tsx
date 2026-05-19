@@ -8,7 +8,7 @@ type SettingsOpenContextValue = {
   close: () => void;
 };
 
-const SettingsOpenContext = createContext<SettingsOpenContextValue | null>(null);
+export const SettingsOpenContext = createContext<SettingsOpenContextValue | null>(null);
 
 export function SettingsOpenProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setOpen] = useState(false);

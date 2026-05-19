@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
 import { useShallow } from "zustand/react/shallow";
 import { timeSince } from "@/lib/timeSince";
 import { formatListeningTime } from "@/lib/formatListeningTime";
+import { ButtonLink } from "@/components/ui";
 
 const TOTAL_AYAHS_QURAN = 6236;
 
@@ -72,41 +72,30 @@ export function ContinueLearningSection() {
     <section aria-labelledby="continue-heading" className="space-y-6">
       {hasPosition ? (
         <div
-          className="relative overflow-hidden rounded-2xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50/90 to-stone-50 px-5 py-6 dark:border-emerald-800/60 dark:from-emerald-950/40 dark:to-stone-900/60 md:px-8 md:py-8"
+          className="relative overflow-hidden rounded-xl border border-emerald-200/70 bg-gradient-to-br from-emerald-50/90 to-stone-50 px-5 py-5 dark:border-emerald-800/40 dark:from-emerald-950/40 dark:to-stone-900/60 md:px-7 md:py-6"
           data-testid="continue-learning-card"
         >
-          <div className="absolute right-0 top-0 h-24 w-32 bg-gradient-to-bl from-emerald-100/50 to-transparent dark:from-emerald-900/20" aria-hidden />
           <div className="relative">
             <h2
               id="continue-heading"
-              className="text-xl font-semibold text-stone-900 dark:text-stone-100 md:text-2xl"
+              className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
             >
               Nastavi učenje
             </h2>
             <p className="mt-1 text-base text-stone-700 dark:text-stone-300">
               {lastSurahNameLatin} · Ajet {pos!.ayahNumber}
             </p>
-            <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">
+            <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
               Mod: {pos!.mode === "reader" ? "Reader" : "Learning"}
+              {timeLabel ? ` · ${timeLabel}` : ""}
             </p>
-            {timeLabel && (
-              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
-                Zadnji put: {timeLabel}
-              </p>
-            )}
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href={readerHref}
-                className="inline-flex h-11 items-center justify-center rounded-full bg-emerald-700 px-5 text-sm font-medium text-white transition-colors hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
-              >
+            <div className="mt-4 flex flex-wrap gap-2">
+              <ButtonLink href={readerHref} variant="primary" size="sm">
                 Nastavi u Reader-u
-              </Link>
-              <Link
-                href={learnHref}
-                className="inline-flex h-11 items-center justify-center rounded-full border-2 border-emerald-600 bg-transparent px-5 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-50 dark:border-emerald-500 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
-              >
-                Nastavi u Learning modu
-              </Link>
+              </ButtonLink>
+              <ButtonLink href={learnHref} variant="secondary" size="sm">
+                Učenje
+              </ButtonLink>
             </div>
           </div>
         </div>

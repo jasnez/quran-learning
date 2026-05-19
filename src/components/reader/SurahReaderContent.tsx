@@ -16,6 +16,7 @@ import { getJuzForAyah } from "@/lib/data/juzUtils";
 import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
+import { SurahReaderStickyHeader } from "./SurahReaderStickyHeader";
 
 type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string; initialAutoplay?: boolean };
 
@@ -228,10 +229,20 @@ export function SurahReaderContent({
     );
   }
 
+  const currentSurahMeta = (surahsData as Array<{ surahNumber: number; nameArabic: string }>).find(
+    (s) => s.surahNumber === surahNumber,
+  );
+
   return (
     <>
+      <SurahReaderStickyHeader
+        surahNameLatin={surahNameLatin}
+        surahNumberArabic={currentSurahMeta?.nameArabic ?? ""}
+        totalAyahs={ayahs.length}
+        ayahs={ayahs}
+      />
       {showTajwidColors && (
-        <div className="mb-8">
+        <div className="mb-6">
           <TajwidLegend />
         </div>
       )}
@@ -273,7 +284,7 @@ export function SurahReaderContent({
           Highlight po riječima (Quran.com) nije dostupan. Koristite „Po ajetu”.
         </p>
       )}
-      <ul className="space-y-14 list-none" role="list">
+      <ul className="space-y-6 list-none" role="list">
         {ayahs.map((ayah, index) => {
           const prevAyah = index > 0 ? ayahs[index - 1] : null;
           const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
