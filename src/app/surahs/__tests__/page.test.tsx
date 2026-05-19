@@ -111,16 +111,15 @@ describe("Surahs page", () => {
     const Page = await SurahsPage();
     render(Page);
     expect(screen.getByText("Al-Fatihah")).toBeInTheDocument();
-    expect(screen.getByText("Al-Fatiha")).toBeInTheDocument();
+    // nameBosnian je sad u kombinovanom subtitle stringu: "Al-Fatiha · 7 ajeta"
+    expect(screen.getByText(/Al-Fatiha\s*·/i)).toBeInTheDocument();
     expect(screen.getByText("Al-Baqarah")).toBeInTheDocument();
   });
 
-  it("list items show ayah count and revelation type", async () => {
+  it("list items show ayah count (revelation type uklonjen u redizajnu)", async () => {
     const Page = await SurahsPage();
     render(Page);
-    expect(screen.getByText(/7\s*ajeta|7 ajeta/i)).toBeInTheDocument();
-    const revelation = screen.getAllByText(/meka|medina/i);
-    expect(revelation.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/7\s*ajeta/i)).toBeInTheDocument();
   });
 
   it("filtering by number reduces visible items", async () => {

@@ -134,11 +134,15 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("switch", { name: /auto-play|sljedeći ajet|next ayah/i })).toBeInTheDocument();
   });
 
-  it("has Theme section with Light, Dark, Sepia options", () => {
+  it("has Theme section with Light and Dark; Sepia hidden behind 'Više opcija' (advanced)", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByText(/theme|tema/i)).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: /light|svijetla/i })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: /dark|tamna/i })).toBeInTheDocument();
+    // Sepia ne smije biti vidljiv po default-u
+    expect(screen.queryByRole("radio", { name: /sepia/i })).not.toBeInTheDocument();
+    const moreBtn = screen.getByRole("button", { name: /više opcija/i });
+    await userEvent.click(moreBtn);
     expect(screen.getByRole("radio", { name: /sepia/i })).toBeInTheDocument();
   });
 
@@ -209,8 +213,10 @@ describe("SettingsPanel", () => {
     expect(mockSetTheme).toHaveBeenCalledWith("dark");
   });
 
-  it("selecting Sepia theme calls setTheme with sepia", async () => {
+  it("selecting Sepia theme (after expanding advanced) calls setTheme with sepia", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const moreBtn = screen.getByRole("button", { name: /više opcija/i });
+    await userEvent.click(moreBtn);
     const sepia = screen.getByRole("radio", { name: /sepia/i });
     await userEvent.click(sepia);
     expect(mockSetTheme).toHaveBeenCalledWith("sepia");

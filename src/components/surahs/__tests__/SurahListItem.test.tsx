@@ -60,9 +60,9 @@ describe("SurahListItem", () => {
     });
     const { container } = render(<SurahListItem surah={mockSurah} />);
     expect(screen.getByText("43%")).toBeInTheDocument();
-    const bar = container.querySelector(".bg-amber-200");
+    const bar = container.querySelector(".bg-emerald-400");
     expect(bar).toBeInTheDocument();
-    expect(screen.queryByText(/završeno/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/završeno/i)).not.toBeInTheDocument();
   });
 
   it("shows Završeno badge when 100%", () => {
@@ -76,6 +76,6 @@ describe("SurahListItem", () => {
       timeSpentMs: 0,
     });
     render(<SurahListItem surah={mockSurah} />);
-    expect(screen.getByText(/završeno/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/završeno/i)).toBeInTheDocument();
   });
 });

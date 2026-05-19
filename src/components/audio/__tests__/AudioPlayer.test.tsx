@@ -180,9 +180,9 @@ describe("AudioPlayer", () => {
 
   it("shows surah and ayah label", () => {
     render(<AudioPlayer />);
-    const labels = screen.getAllByText(/Surah\s+1/);
-    expect(labels.length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText(/Ajah\s+3/).length).toBeGreaterThanOrEqual(1);
+    // Sad pokazuje surah ime + ajet broj (npr. "Al-Fatihah · Ajet 3").
+    expect(screen.getAllByText(/Al-Fatihah/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Ajet\s+3/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("shows play button when paused", () => {

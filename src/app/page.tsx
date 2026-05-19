@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Palette,
   Type,
@@ -8,54 +7,38 @@ import {
 import { getAllSurahs } from "@/lib/data";
 import { ContinueLearningSection } from "@/components/home/ContinueLearningSection";
 import { DailyDuaSection } from "@/components/home/DailyDuaSection";
-
-const FEATURED_SURAH_NUMBERS = [1, 112, 113, 114];
-/** Kratke napomene za preporučene sure (zahtjev: kratka napomena na karticama). */
-const FEATURED_SURAH_NOTES: Record<number, string> = {
-  1: "Otvaranje Kur'ana; uči se u svakoj rekiji.",
-  112: "Čistoća vjerovanja u Jednost Boga.",
-  113: "Traženje utočišta u Allaha od zla izvana.",
-  114: "Traženje utočišta u Allaha od zla iznutra.",
-};
+import { FeaturedSurahsSection } from "@/components/home/FeaturedSurahsSection";
+import { ButtonLink } from "@/components/ui";
 
 export default async function Home() {
   const allSurahs = await getAllSurahs();
-  const featuredSurahs = allSurahs.filter((s) =>
-    FEATURED_SURAH_NUMBERS.includes(s.surahNumber)
-  );
 
   return (
-    <article className="space-y-24 md:space-y-32">
+    <article className="space-y-12 md:space-y-16">
       {/* Hero */}
       <section
-        className="relative overflow-hidden rounded-2xl bg-stone-50 px-6 py-16 dark:bg-stone-900/50 md:px-12 md:py-24 bg-cover bg-[center_right] bg-no-repeat"
+        className="relative overflow-hidden rounded-xl bg-stone-50 px-6 py-10 dark:bg-stone-900/50 md:px-12 md:py-14 bg-cover bg-[center_right] bg-no-repeat"
         style={{ backgroundImage: "url('/hero-bg.png')" }}
         aria-labelledby="hero-title"
       >
-        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-white/50 dark:bg-stone-900/70" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 rounded-xl bg-white/50 dark:bg-stone-900/70" aria-hidden />
         <div className="relative">
           <h1
             id="hero-title"
-            className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-4xl"
+            className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl"
           >
             Platforma za učenje Kur&apos;ana
           </h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-stone-600 dark:text-stone-400">
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg">
             Uči Kur&apos;an uz tajwid pomagala, transliteraciju, prijevod i audio.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              href="/learn/1"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-emerald-800 px-6 text-sm font-medium text-white transition-colors hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600"
-            >
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink href="/learn/1" variant="primary" size="md">
               Počni učiti
-            </Link>
-            <Link
-              href="/surahs"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-stone-300 bg-transparent px-6 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
-            >
+            </ButtonLink>
+            <ButtonLink href="/surahs" variant="secondary" size="md">
               Pregled sura
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </section>
@@ -66,53 +49,18 @@ export default async function Home() {
       {/* Daily Dua */}
       <DailyDuaSection />
 
-      {/* Featured surahs */}
-      <section aria-labelledby="featured-heading">
-        <h2
-          id="featured-heading"
-          className="text-xl font-medium text-stone-900 dark:text-stone-100 md:text-2xl"
-        >
-          Preporučene sure
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {featuredSurahs.map((surah) => (
-            <Link
-              key={surah.id}
-              href={`/surah/${surah.surahNumber}`}
-              className="group flex flex-col rounded-xl border border-stone-200 bg-white p-5 transition-colors hover:border-emerald-200 hover:bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50 dark:hover:border-emerald-900/50 dark:hover:bg-stone-800/50"
-            >
-              <span
-                className="text-2xl font-medium text-stone-900 dark:text-stone-100"
-                dir="rtl"
-                lang="ar"
-              >
-                {surah.nameArabic}
-              </span>
-              <span className="mt-1 text-sm font-medium text-stone-600 dark:text-stone-400">
-                {surah.nameBosnian}
-              </span>
-              {FEATURED_SURAH_NOTES[surah.surahNumber] && (
-                <p className="mt-2 text-xs leading-relaxed text-stone-500 dark:text-stone-500">
-                  {FEATURED_SURAH_NOTES[surah.surahNumber]}
-                </p>
-              )}
-              <span className="mt-2 text-xs text-stone-500 dark:text-stone-500">
-                {surah.ayahCount} ajeta
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Featured surahs (progress-aware) */}
+      <FeaturedSurahsSection allSurahs={allSurahs} />
 
       {/* Features */}
       <section aria-labelledby="features-heading">
         <h2
           id="features-heading"
-          className="text-xl font-medium text-stone-900 dark:text-stone-100 md:text-2xl"
+          className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
         >
           Šta nudi platforma
         </h2>
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
           <div className="flex gap-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
               <Palette className="h-5 w-5" aria-hidden />

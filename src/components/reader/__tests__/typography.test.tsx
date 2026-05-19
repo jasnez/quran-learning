@@ -69,7 +69,7 @@ describe("AyahCard typography and spacing", () => {
     expect(arabicWrapper?.className).toMatch(/font-arabic/);
   });
 
-  it("transliteration has medium, muted styling", () => {
+  it("transliteration has small, muted, italic styling (secondary to translation)", () => {
     render(
       <AyahCard
         ayah={mockAyah}
@@ -83,11 +83,12 @@ describe("AyahCard typography and spacing", () => {
     );
     const transliteration = screen.getByText("Bismi Allahi");
     expect(transliteration).toBeInTheDocument();
-    expect(transliteration.className).toMatch(/text-stone-500|text-stone-400/);
-    expect(transliteration.className).toMatch(/text-base|text-lg/);
+    expect(transliteration.className).toMatch(/text-stone-500/);
+    expect(transliteration.className).toMatch(/text-sm/);
+    expect(transliteration.className).toMatch(/italic/);
   });
 
-  it("translation has standard readable styling", () => {
+  it("translation has standard readable styling (primary)", () => {
     render(
       <AyahCard
         ayah={mockAyah}
@@ -101,10 +102,10 @@ describe("AyahCard typography and spacing", () => {
     );
     const translation = screen.getByText("U ime Allaha");
     expect(translation).toBeInTheDocument();
-    expect(translation.className).toMatch(/text-stone-700|text-stone-300/);
+    expect(translation.className).toMatch(/text-stone-800|text-stone-200/);
   });
 
-  it("transliteration has generous spacing above (whitespace separator)", () => {
+  it("transliteration has clear spacing above arabic block", () => {
     render(
       <AyahCard
         ayah={mockAyah}
@@ -117,7 +118,7 @@ describe("AyahCard typography and spacing", () => {
       />
     );
     const transliteration = screen.getByText("Bismi Allahi");
-    expect(transliteration.className).toMatch(/mt-\[1\.5rem\]|mt-6|mt-7|mt-8|mt-10/);
+    expect(transliteration.className).toMatch(/mt-4|mt-5|mt-6/);
   });
 
   it("translation has clear spacing above", () => {
@@ -156,11 +157,12 @@ describe("AyahCard typography and spacing", () => {
 });
 
 describe("SurahReaderContent card spacing", () => {
-  it("ayah list has generous gap between cards", () => {
+  it("ayah list has comfortable gap between cards (without excess scroll fatigue)", () => {
     const { container } = render(<SurahReaderContent ayahs={mockAyahs} surahNameLatin="Al-Fatihah" />);
     const lists = container.querySelectorAll("ul");
     const ayahList = Array.from(lists).find((ul) => ul.querySelector("article"));
     expect(ayahList).toBeInTheDocument();
-    expect(ayahList?.className).toMatch(/space-y-1[0-6]/);
+    // Reduced from space-y-14 to space-y-6 in mobile redesign (less scroll fatigue)
+    expect(ayahList?.className).toMatch(/space-y-[4-8]/);
   });
 });
