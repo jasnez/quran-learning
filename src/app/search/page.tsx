@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { searchAyahs } from "@/lib/api/client";
+import { searchAyahs } from "@/lib/search/searchClient";
 import type { SearchResult } from "@/types/quran";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 

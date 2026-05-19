@@ -8,6 +8,11 @@ import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
 import { TajwidQuiz } from "@/components/tajwid/TajwidQuiz";
 import { LessonProgressTracker } from "@/components/tajwid/LessonProgressTracker";
 
+export async function generateStaticParams() {
+  const lessons = await getAllTajwidLessons();
+  return lessons.map((l) => ({ lessonId: l.slug }));
+}
+
 type LessonPageProps = {
   params: Promise<{ lessonId: string }>;
 };

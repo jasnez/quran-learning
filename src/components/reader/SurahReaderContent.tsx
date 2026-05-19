@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import type { Ayah, Word } from "@/types/quran";
 import type { ChapterAudioData, WordData } from "@/types/wordByWord";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -12,12 +13,29 @@ import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingServ
 import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
 import { mapDbWordsToQuranComWords } from "@/lib/quran/tajwidWordMapping";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
+import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 
 type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string; initialAutoplay?: boolean };
 
-export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, initialAutoplay }: SurahReaderContentProps) {
+export function SurahReaderContent({
+  ayahs,
+  initialAyahNumber: initialAyahNumberProp,
+  surahNameLatin,
+  initialAutoplay: initialAutoplayProp,
+}: SurahReaderContentProps) {
+  // Server page can't read searchParams in static-export build → read client-side.
+  // Props (when passed by tests) take precedence over URL.
+  const searchParams = useSearchParams();
+  const ayahFromUrl = searchParams.get("ayah");
+  const parsedUrlAyah = ayahFromUrl != null ? parseInt(ayahFromUrl, 10) : NaN;
+  const initialAyahNumber =
+    initialAyahNumberProp ??
+    (Number.isInteger(parsedUrlAyah) && parsedUrlAyah >= 1 ? parsedUrlAyah : undefined);
+  const initialAutoplay =
+    initialAutoplayProp ?? searchParams.get("autoplay") === "1";
+
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
@@ -48,8 +66,13 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
 
   useEffect(() => {
     if (surahNumber < 1 || surahNumber > 114) return;
+    const surahMeta = (surahsData as Array<{ surahNumber: number; slug: string }>).find(
+      (s) => s.surahNumber === surahNumber,
+    );
+    if (!surahMeta) return;
     let cancelled = false;
-    fetch(`/api/surahs/${surahNumber}/words`)
+    const padded = String(surahNumber).padStart(3, "0");
+    fetch(`/data/words/${padded}-${surahMeta.slug}.json`)
       .then((r) => (r.ok ? r.json() : []))
       .then((data: unknown) => {
         if (cancelled) return;
@@ -58,7 +81,7 @@ export function SurahReaderContent({ ayahs, initialAyahNumber, surahNameLatin, i
           return;
         }
         const normalized = (data as Record<string, unknown>[]).map((row) =>
-          normalizeWordFromApi(row)
+          normalizeWordFromApi(row),
         );
         setWords(normalized);
       })

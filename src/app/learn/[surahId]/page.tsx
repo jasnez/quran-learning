@@ -3,7 +3,9 @@ import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { LearnModeContent } from "@/components/learn/LearnModeContent";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return Array.from({ length: 114 }, (_, i) => ({ surahId: String(i + 1) }));
+}
 
 type PageProps = { params: Promise<{ surahId: string }> };
 

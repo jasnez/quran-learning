@@ -24,9 +24,10 @@ const RECITERS = recitersJson as Array<{
   isDefault?: boolean;
 }>;
 
-const DATA_DIR = path.join(process.cwd(), "src", "data");
-const AYAHS_DIR = path.join(DATA_DIR, "ayahs");
-const WORDS_DIR = path.join(DATA_DIR, "words");
+const AYAHS_DIR = path.join(process.cwd(), "src", "data", "ayahs");
+// Words/chapter-audio live in public/ so they're also accessible to the client
+// (fetch /data/words/... and /data/chapter-audio/...) under static export.
+const WORDS_DIR = path.join(process.cwd(), "public", "data", "words");
 
 type AyahFilePayload = {
   surah: SurahSummary;

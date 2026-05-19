@@ -18,8 +18,6 @@ const FEATURED_SURAH_NOTES: Record<number, string> = {
   114: "Traženje utočišta u Allaha od zla iznutra.",
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
   const allSurahs = await getAllSurahs();
   const featuredSurahs = allSurahs.filter((s) =>

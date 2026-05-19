@@ -57,12 +57,9 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // API rute za sure i recitatore (statički podaci servirani sa edge-a) →
-  // Network-first + fallback na keš
-  if (
-    url.pathname.startsWith("/api/surahs") ||
-    url.pathname.startsWith("/api/reciters")
-  ) {
+  // Statički JSON podaci u /data/ (words, chapter-audio, search-index) →
+  // Network-first sa fallback-om u keš (zamjena za stare /api/* rute)
+  if (url.pathname.startsWith("/data/")) {
     event.respondWith(networkFirst(request, API_CACHE));
     return;
   }

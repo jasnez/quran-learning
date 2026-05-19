@@ -1,0 +1,97 @@
+{
+  "chapterId": 103,
+  "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/103.mp3",
+  "timestamps": [
+    {
+      "verseKey": "103:1",
+      "timestampFrom": 0,
+      "timestampTo": 1780,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 0,
+          "endMs": 1715
+        }
+      ]
+    },
+    {
+      "verseKey": "103:2",
+      "timestampFrom": 1780,
+      "timestampTo": 7580,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 1715,
+          "endMs": 2965
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 2965,
+          "endMs": 5615
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 5615,
+          "endMs": 6195
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 6195,
+          "endMs": 7260
+        }
+      ]
+    },
+    {
+      "verseKey": "103:3",
+      "timestampFrom": 7580,
+      "timestampTo": 20120,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 7325,
+          "endMs": 8005
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 8005,
+          "endMs": 9015
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 9015,
+          "endMs": 10295
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 10295,
+          "endMs": 11115
+        },
+        {
+          "wordPosition": 5,
+          "startMs": 11115,
+          "endMs": 12735
+        },
+        {
+          "wordPosition": 6,
+          "startMs": 12735,
+          "endMs": 13995
+        },
+        {
+          "wordPosition": 7,
+          "startMs": 13995,
+          "endMs": 15055
+        },
+        {
+          "wordPosition": 8,
+          "startMs": 15055,
+          "endMs": 16445
+        },
+        {
+          "wordPosition": 9,
+          "startMs": 16445,
+          "endMs": 19580
+        }
+      ]
+    }
+  ]
+}

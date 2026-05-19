@@ -27,14 +27,13 @@ export function useOfflineDownload() {
       }
 
       try {
-        // Dohvati stranicu sure — Service Worker presretne i sačuva u keš
+        // Dohvati stranicu sure — Service Worker presretne i sačuva u keš.
+        // U static-export buildu nema API ruta, svaka surah-stranica je već
+        // pre-renderovana sa svim podacima ugrađenim u HTML.
         await fetch(`/surah/${i}`, {
           method: "GET",
-          // cache: 'reload' prisiljava svjež fetch (ne koristi browser mem cache)
           cache: "reload",
         });
-        // Dohvati i API podatke (za React Query IDB keš)
-        await fetch(`/api/surahs/${i}`, { cache: "reload" });
       } catch {
         failed++;
         // Nastavi s ostalim surama i ako jedna ne uspije

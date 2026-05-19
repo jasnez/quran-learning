@@ -7,8 +7,6 @@ export const metadata: Metadata = {
   description: "Pregled ajeta koje ste označili dok čitate.",
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function BookmarksPage() {
   const surahs = await getAllSurahs();
   return <BookmarksContent surahs={surahs} />;

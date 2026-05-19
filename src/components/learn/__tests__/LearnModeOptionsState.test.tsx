@@ -255,11 +255,10 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
 
   it("when Prikaži značenje riječi is off, word meanings are not shown in the card", async () => {
     const wordMeaningText = "U ime (značenje)";
+    // Shape matches public/data/words/NNN.json (no id/ayahKey — derived at parse time).
     const mockWords = [
       {
-        id: 1,
-        ayahId: 1,
-        ayahKey: "1:1",
+        ayahNumberGlobal: 1,
         wordOrder: 1,
         textArabic: "بِسْمِ",
         transliteration: "Bismi",
@@ -295,9 +294,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
   it("when Riječ po riječ is off, no word is highlighted (highlight only when option is on and synced)", async () => {
     const mockWords = [
       {
-        id: 1,
-        ayahId: 1,
-        ayahKey: "1:1",
+        ayahNumberGlobal: 1,
         wordOrder: 1,
         textArabic: "بِسْمِ",
         transliteration: "Bismi",

@@ -1,0 +1,156 @@
+{
+  "chapterId": 111,
+  "audioUrl": "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/111.mp3",
+  "timestamps": [
+    {
+      "verseKey": "111:1",
+      "timestampFrom": 0,
+      "timestampTo": 7390,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 0,
+          "endMs": 830
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 830,
+          "endMs": 3270
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 3270,
+          "endMs": 3910
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 3910,
+          "endMs": 5620
+        },
+        {
+          "wordPosition": 5,
+          "startMs": 5620,
+          "endMs": 6805
+        }
+      ]
+    },
+    {
+      "verseKey": "111:2",
+      "timestampFrom": 7390,
+      "timestampTo": 14550,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 6805,
+          "endMs": 9185
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 9185,
+          "endMs": 9845
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 9845,
+          "endMs": 10665
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 10665,
+          "endMs": 11815
+        },
+        {
+          "wordPosition": 5,
+          "startMs": 11815,
+          "endMs": 12255
+        },
+        {
+          "wordPosition": 6,
+          "startMs": 12255,
+          "endMs": 13110
+        }
+      ]
+    },
+    {
+      "verseKey": "111:3",
+      "timestampFrom": 14550,
+      "timestampTo": 19720,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 13695,
+          "endMs": 14815
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 14815,
+          "endMs": 16455
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 16455,
+          "endMs": 17305
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 17305,
+          "endMs": 18580
+        }
+      ]
+    },
+    {
+      "verseKey": "111:4",
+      "timestampFrom": 19720,
+      "timestampTo": 25310,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 19435,
+          "endMs": 20955
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 20955,
+          "endMs": 23315
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 23315,
+          "endMs": 24240
+        }
+      ]
+    },
+    {
+      "verseKey": "111:5",
+      "timestampFrom": 25310,
+      "timestampTo": 31760,
+      "segments": [
+        {
+          "wordPosition": 1,
+          "startMs": 24525,
+          "endMs": 24995
+        },
+        {
+          "wordPosition": 2,
+          "startMs": 24995,
+          "endMs": 26055
+        },
+        {
+          "wordPosition": 3,
+          "startMs": 26055,
+          "endMs": 27635
+        },
+        {
+          "wordPosition": 4,
+          "startMs": 27635,
+          "endMs": 28195
+        },
+        {
+          "wordPosition": 5,
+          "startMs": 28195,
+          "endMs": 30810
+        }
+      ]
+    }
+  ]
+}

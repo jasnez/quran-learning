@@ -4,11 +4,12 @@ import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return Array.from({ length: 114 }, (_, i) => ({ surahId: String(i + 1) }));
+}
 
 type PageProps = {
   params: Promise<{ surahId: string }>;
-  searchParams?: Promise<{ ayah?: string; autoplay?: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -28,14 +29,10 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function SurahReaderPage({ params, searchParams }: PageProps) {
+export default async function SurahReaderPage({ params }: PageProps) {
   const { surahId } = await params;
-  const resolvedSearchParams = searchParams != null ? await searchParams : {};
-  const ayahParam = resolvedSearchParams?.ayah;
-  const autoplay = resolvedSearchParams?.autoplay === "1";
-  const initialAyahNumber = ayahParam != null ? parseInt(ayahParam, 10) : undefined;
-  const validInitialAyah = Number.isInteger(initialAyahNumber) && (initialAyahNumber as number) >= 1 ? (initialAyahNumber as number) : undefined;
-
+  // searchParams (?ayah, ?autoplay) read on the client in SurahReaderContent
+  // — they can't be accessed in a statically-exported server component.
   const surahNumber = parseInt(surahId, 10);
 
   if (Number.isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
@@ -133,7 +130,7 @@ export default async function SurahReaderPage({ params, searchParams }: PageProp
         </div>
       </nav>
       <section className="mt-12">
-        <SurahReaderContent ayahs={ayahs} initialAyahNumber={validInitialAyah} surahNameLatin={surah.nameLatin} initialAutoplay={autoplay} />
+        <SurahReaderContent ayahs={ayahs} surahNameLatin={surah.nameLatin} />
       </section>
     </main>
   );

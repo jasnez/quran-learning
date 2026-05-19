@@ -93,10 +93,36 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   useEffect(() => {
     if (surah.surahNumber < 1 || surah.surahNumber > 114) return;
     let cancelled = false;
-    fetch(`/api/surahs/${surah.surahNumber}/words`)
+    const padded = String(surah.surahNumber).padStart(3, "0");
+    fetch(`/data/words/${padded}-${surah.slug}.json`)
       .then((r) => (r.ok ? r.json() : []))
-      .then((data: Word[]) => {
-        if (!cancelled) setWords(Array.isArray(data) ? data : []);
+      .then((raw) => {
+        if (cancelled) return;
+        const list: Word[] = Array.isArray(raw)
+          ? raw.map((w: Record<string, unknown>, idx) => ({
+              id: idx + 1,
+              ayahId: Number(w.ayahNumberGlobal ?? 0),
+              ayahKey: undefined,
+              wordOrder: Number(w.wordOrder ?? 0),
+              textArabic: String(w.textArabic ?? ""),
+              transliteration:
+                w.transliteration != null ? String(w.transliteration) : undefined,
+              translationShort:
+                w.translationShort != null ? String(w.translationShort) : undefined,
+              startTimeMs: Number(w.startTimeMs ?? 0),
+              endTimeMs: Number(w.endTimeMs ?? 0),
+              tajwidRule:
+                ((w.tajwidRule as Word["tajwidRule"]) || "normal") as Word["tajwidRule"],
+            }))
+          : [];
+        // Restore ayahKey using cached ayahs map
+        const ayahByGlobal = new Map<number, number>();
+        ayahs.forEach((a) => ayahByGlobal.set(a.ayahNumberGlobal, a.ayahNumber));
+        for (const w of list) {
+          const n = ayahByGlobal.get(w.ayahId);
+          if (n != null) w.ayahKey = `${surah.surahNumber}:${n}`;
+        }
+        setWords(list);
       })
       .catch(() => {
         if (!cancelled) setWords([]);
@@ -104,7 +130,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     return () => {
       cancelled = true;
     };
-  }, [surah.surahNumber]);
+  }, [surah.surahNumber, surah.slug, ayahs]);
 
   useEffect(() => {
     if (!wordByWordMode || surah.surahNumber < 1 || surah.surahNumber > 114) return;

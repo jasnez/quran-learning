@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import { getAllSurahs, getSurahByNumber } from "@/lib/data";
 import { TestMode } from "@/components/test/TestMode";
 
+export function generateStaticParams() {
+  return Array.from({ length: 114 }, (_, i) => ({ surahId: String(i + 1) }));
+}
+
 type PageProps = {
   params: Promise<{ surahId: string }>;
 };

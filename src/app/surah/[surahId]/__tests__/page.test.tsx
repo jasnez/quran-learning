@@ -53,8 +53,14 @@ const mockSurahDetailWithTajwid: SurahDetail = {
   ayahs: [ayahWithMadSegment],
 };
 
+const { mockSearchParams } = vi.hoisted(() => ({
+  mockSearchParams: new Map<string, string>(),
+}));
 vi.mock("next/navigation", () => ({
   notFound: vi.fn(() => null),
+  useSearchParams: () => ({
+    get: (key: string) => mockSearchParams.get(key) ?? null,
+  }),
 }));
 
 vi.mock("@/lib/data", () => ({
@@ -300,16 +306,18 @@ describe("Surah Reader page", () => {
     expect(document.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
   });
 
-  it("when searchParams.autoplay is 1, sets queue and plays first ayah on mount", async () => {
+  it("when ?autoplay=1 is in URL, sets queue and plays first ayah on mount", async () => {
+    mockSearchParams.clear();
+    mockSearchParams.set("autoplay", "1");
     const Page = await SurahReaderPage({
       params: Promise.resolve({ surahId: "1" }),
-      searchParams: Promise.resolve({ autoplay: "1" }),
     });
     render(Page);
     await waitFor(() => {
       expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
       expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
     });
+    mockSearchParams.clear();
   });
 
   it("when current ayah is playing, scrolls active card into view with smooth behavior", async () => {

@@ -57,7 +57,7 @@ const mockSearchAyahs = vi.fn((q: string) => {
   if (q.toLowerCase().includes("milostiv")) return Promise.resolve(mockSearchResults);
   return Promise.resolve([]);
 });
-vi.mock("@/lib/api/client", () => ({
+vi.mock("@/lib/search/searchClient", () => ({
   searchAyahs: (query: string, opts?: { signal?: AbortSignal }) => mockSearchAyahs(query, opts),
 }));
 

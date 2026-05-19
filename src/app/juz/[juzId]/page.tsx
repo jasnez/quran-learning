@@ -4,7 +4,9 @@ import { getJuzByNumber } from "@/lib/data/juzUtils";
 import { getAllSurahs, getAyahsForJuz } from "@/lib/data";
 import { JuzReaderContent } from "@/components/reader";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return Array.from({ length: 30 }, (_, i) => ({ juzId: String(i + 1) }));
+}
 
 type PageProps = {
   params: Promise<{ juzId: string }>;

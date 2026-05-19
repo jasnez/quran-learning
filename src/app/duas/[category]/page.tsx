@@ -3,7 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { DuasPageContent } from "@/components/duas/DuasPageContent";
 import { categoryFromSlug } from "@/lib/duas/categoryFromSlug";
-import { CATEGORY_LABELS } from "@/lib/duas/categories";
+import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
+
+export function generateStaticParams() {
+  return CATEGORY_ORDER.map((category) => ({ category }));
+}
 
 type PageProps = {
   params: Promise<{ category: string }>;

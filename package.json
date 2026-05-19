@@ -16,6 +16,9 @@
     "test:ci": "npm run test && npm run build",
     "generate:ayahs": "tsx scripts/generate-ayahs-json.ts",
     "generate:words": "tsx scripts/generate-words-json.ts",
+    "generate:chapter-audio": "tsx scripts/generate-chapter-audio-json.ts",
+    "generate:search-index": "tsx scripts/generate-search-index.ts",
+    "generate:all-data": "npm run generate:ayahs && npm run generate:words && npm run generate:chapter-audio && npm run generate:search-index",
     "download:audio-sample": "tsx scripts/download-audio-sample.ts",
     "deploy:check": "npm run test && npm run build"
   },

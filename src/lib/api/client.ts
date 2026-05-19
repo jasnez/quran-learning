@@ -1,62 +1,31 @@
-import type { SurahSummary, SurahDetail, SearchResult, Reciter } from "@/types/quran";
-import { getBaseUrl } from "./getBaseUrl";
-
-async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const base = getBaseUrl();
-  const url = base + path;
-  const res = await fetch(url, {
-    ...init,
-    headers: { "Content-Type": "application/json", ...init?.headers },
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: res.statusText }));
-    throw new Error((err as { error?: string }).error ?? "Request failed");
-  }
-  return res.json() as Promise<T>;
-}
-
-export type SurahsResponse = { surahs: SurahSummary[] };
-export type SurahDetailResponse = SurahDetail;
-export type SearchResponse = { results: SearchResult[]; total: number };
-export type RecitersResponse = { reciters: Reciter[] };
-
 /**
- * Fetch all surahs (all 114).
+ * Thin compatibility layer that imports static Quran data directly. Pre-export
+ * versions of this file fetched /api/surahs etc.; in the static-export build
+ * there are no API routes, so we just defer to the static-quran loader.
+ *
+ * Note: these functions can be called from server components (where they use
+ * fs reads via static-quran) but should not be called from client components
+ * since static-quran is server-only. All app routes are SSG so client never
+ * needs to call these — kept for back-compat with lib/data/index.ts.
  */
+
+import type { SurahSummary, SurahDetail, Reciter } from "@/types/quran";
+import {
+  getAllSurahs as staticGetAllSurahs,
+  getSurahDetail as staticGetSurahDetail,
+  getAllReciters as staticGetAllReciters,
+} from "@/lib/data/static-quran";
+
 export async function fetchSurahs(): Promise<SurahSummary[]> {
-  const data = await apiFetch<SurahsResponse>("/api/surahs");
-  return data.surahs;
+  return staticGetAllSurahs();
 }
 
-/**
- * Fetch surah detail with all ayahs (translations, transliterations, tajwid, audio).
- */
 export async function fetchSurahDetail(surahNumber: number): Promise<SurahDetail> {
-  const data = await apiFetch<SurahDetailResponse>(`/api/surahs/${surahNumber}`);
-  return data;
+  const detail = await staticGetSurahDetail(surahNumber);
+  if (!detail) throw new Error(`Surah ${surahNumber} not found`);
+  return detail;
 }
 
-/**
- * Full-text search across ayahs, translations, transliterations (PostgreSQL ILIKE).
- * Pass { signal } to cancel when a new search is started (e.g. AbortController).
- */
-export async function searchAyahs(
-  query: string,
-  options?: { signal?: AbortSignal }
-): Promise<SearchResult[]> {
-  const trimmed = query.trim();
-  if (!trimmed) return [];
-  const data = await apiFetch<SearchResponse>(
-    "/api/search?q=" + encodeURIComponent(trimmed),
-    { signal: options?.signal }
-  );
-  return data.results;
-}
-
-/**
- * Fetch all active reciters.
- */
 export async function fetchReciters(): Promise<Reciter[]> {
-  const data = await apiFetch<RecitersResponse>("/api/reciters");
-  return data.reciters;
+  return staticGetAllReciters();
 }

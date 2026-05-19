@@ -26,7 +26,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const SURAHS_PATH = path.join(ROOT, "src", "data", "surahs.json");
 const AYAHS_DIR = path.join(ROOT, "src", "data", "ayahs");
-const WORDS_DIR = path.join(ROOT, "src", "data", "words");
+const WORDS_DIR = path.join(ROOT, "public", "data", "words");
 
 const QURAN_API = "https://api.quran.com/api/v4";
 const AUDIO_API = "https://api.qurancdn.com/api/qdc/audio/reciters/7/audio_files";
