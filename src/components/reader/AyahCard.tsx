@@ -203,60 +203,90 @@ export function AyahCard({
         </div>
       </div>
 
-      {/* Arabic */}
-      {useChapterWordByWord ? (
-        <WordByWordChapterRenderer
-          verseKey={ayah.id}
-          words={chapterWords!}
-          segments={chapterSegments!}
-          currentTimeMs={currentTimeMs}
-          isPlaying={isThisAyahPlaying}
-          showTajwidColors={showTajwidColors}
-          onWordClick={onChapterWordClick}
-          showInterlinear={false}
-          className="text-center"
-          style={{ fontSize: `${effectiveFontSize}px` }}
-        />
-      ) : useWordByWord ? (
-        <WordByWordRenderer
-          words={words!}
-          currentTimeMs={currentTimeMs}
-          audioDurationMs={audioDurationMs}
-          onSeek={
-            onSeekWord
-              ? (word) => {
-                  const refMs = Math.max(...words!.map((w) => w.endTimeMs));
-                  const seekSeconds =
-                    refMs > 0 && audioDurationMs != null && audioDurationMs > 0
-                      ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
-                      : word.startTimeMs / 1000;
-                  onSeekWord(word, seekSeconds);
-                }
-              : undefined
-          }
-          showInterlinear={false}
-          className="text-center"
-          style={{ fontSize: `${effectiveFontSize}px` }}
-        />
-      ) : (
-        <TajwidTextRenderer
-          segments={segments}
-          showColors={showTajwidColors}
-          style={{ fontSize: `${effectiveFontSize}px` }}
-        />
-      )}
+      {/* Body — single column mobile/tablet, 2-col grid lg+ when translation visible */}
+      <div
+        className={
+          showTranslation && ayah.translationBosnian
+            ? "lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start"
+            : ""
+        }
+      >
+        <div className="lg:order-1">
+          {/* Arabic */}
+          {useChapterWordByWord ? (
+            <WordByWordChapterRenderer
+              verseKey={ayah.id}
+              words={chapterWords!}
+              segments={chapterSegments!}
+              currentTimeMs={currentTimeMs}
+              isPlaying={isThisAyahPlaying}
+              showTajwidColors={showTajwidColors}
+              onWordClick={onChapterWordClick}
+              showInterlinear={false}
+              className={
+                showTranslation && ayah.translationBosnian
+                  ? "text-center lg:text-right"
+                  : "text-center"
+              }
+              style={{ fontSize: `${effectiveFontSize}px` }}
+            />
+          ) : useWordByWord ? (
+            <WordByWordRenderer
+              words={words!}
+              currentTimeMs={currentTimeMs}
+              audioDurationMs={audioDurationMs}
+              onSeek={
+                onSeekWord
+                  ? (word) => {
+                      const refMs = Math.max(...words!.map((w) => w.endTimeMs));
+                      const seekSeconds =
+                        refMs > 0 && audioDurationMs != null && audioDurationMs > 0
+                          ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
+                          : word.startTimeMs / 1000;
+                      onSeekWord(word, seekSeconds);
+                    }
+                  : undefined
+              }
+              showInterlinear={false}
+              className={
+                showTranslation && ayah.translationBosnian
+                  ? "text-center lg:text-right"
+                  : "text-center"
+              }
+              style={{ fontSize: `${effectiveFontSize}px` }}
+            />
+          ) : (
+            <TajwidTextRenderer
+              segments={segments}
+              showColors={showTajwidColors}
+              className={
+                showTranslation && ayah.translationBosnian
+                  ? "text-center lg:text-right"
+                  : "text-center"
+              }
+              style={{ fontSize: `${effectiveFontSize}px` }}
+            />
+          )}
 
-      {showTransliteration && ayah.transliteration && (
-        <p className="mt-5 text-center text-sm italic leading-relaxed text-stone-500 dark:text-stone-500">
-          {ayah.transliteration}
-        </p>
-      )}
+          {showTransliteration && ayah.transliteration && (
+            <p
+              className={`mt-5 text-sm italic leading-relaxed text-stone-500 dark:text-stone-500 ${
+                showTranslation && ayah.translationBosnian
+                  ? "text-center lg:text-right"
+                  : "text-center"
+              }`}
+            >
+              {ayah.transliteration}
+            </p>
+          )}
+        </div>
 
-      {showTranslation && ayah.translationBosnian && (
-        <p className="mt-4 text-center text-[17px] leading-relaxed text-stone-800 dark:text-stone-200">
-          {ayah.translationBosnian}
-        </p>
-      )}
+        {showTranslation && ayah.translationBosnian && (
+          <p className="mt-4 text-center text-[17px] leading-relaxed text-stone-800 dark:text-stone-200 lg:order-2 lg:mt-0 lg:pt-2 lg:text-left">
+            {ayah.translationBosnian}
+          </p>
+        )}
+      </div>
     </article>
   );
 }

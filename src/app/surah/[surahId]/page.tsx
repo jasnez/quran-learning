@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
 import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
+import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
 
 export function generateStaticParams() {
   return Array.from({ length: 114 }, (_, i) => ({ surahId: String(i + 1) }));
@@ -81,7 +82,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto max-w-[800px] px-4 py-8">
+    <main className="mx-auto max-w-6xl px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <nav
         className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--theme-border)] pb-4 text-sm"
@@ -129,9 +130,12 @@ export default async function SurahReaderPage({ params }: PageProps) {
           )}
         </div>
       </nav>
-      <section className="mt-12">
-        <SurahReaderContent ayahs={ayahs} surahNameLatin={surah.nameLatin} />
-      </section>
+      <div className="mt-12 lg:flex lg:items-start lg:gap-8">
+        <SurahAyahNav ayahs={ayahs} surahNumber={surahNumber} />
+        <section className="min-w-0 flex-1">
+          <SurahReaderContent ayahs={ayahs} surahNameLatin={surah.nameLatin} />
+        </section>
+      </div>
     </main>
   );
 }

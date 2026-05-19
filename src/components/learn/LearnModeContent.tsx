@@ -353,6 +353,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             <TajwidTextRenderer
               segments={segments}
               showColors={showTajwidColors}
+              className="text-center"
               style={{ fontSize: `${learnFontSize}px` }}
             />
           )}

@@ -381,10 +381,10 @@ export function AudioPlayer() {
       role="region"
       aria-label="Audio player"
     >
-      <div className="mx-auto flex max-h-[70px] max-w-4xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
-        <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4">
+      <div className="mx-auto flex max-h-[70px] max-w-7xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
+        <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
-          <div className="flex min-w-0 flex-1 flex-col leading-tight">
+          <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
             <span className="truncate text-sm font-medium text-stone-800 dark:text-stone-100 md:text-[15px]">
               {surahName ?? `Sura ${currentSurahId ?? "—"}`} · Ajet {ayahNum}
             </span>
@@ -393,8 +393,8 @@ export function AudioPlayer() {
             </span>
           </div>
 
-          {/* Right: controls (mobile and desktop) */}
-          <div className="relative flex flex-shrink-0 items-center justify-center gap-1 md:gap-2">
+          {/* Center: controls (mobile right-aligned, desktop centered) */}
+          <div className="relative flex flex-shrink-0 items-center justify-center gap-1 md:gap-2 lg:justify-self-center">
             <button
               type="button"
               onClick={() => { clearPending(); previous(); }}

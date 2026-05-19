@@ -44,7 +44,7 @@ export function Header() {
         hasShadow ? "shadow-sm" : ""
       } ${isHidden ? "-translate-y-full" : ""}`}
     >
-      <div className="mx-auto flex h-12 max-h-[52px] max-w-4xl items-center justify-between gap-6 px-4 sm:px-5">
+      <div className="mx-auto flex h-12 max-h-[52px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
         {/* Brand */}
         <div className="flex min-w-0 flex-1 items-center gap-3">
           {isSurahPage && (

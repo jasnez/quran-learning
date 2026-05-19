@@ -24,7 +24,7 @@ export function Toast() {
       data-testid="toast"
       role="status"
       aria-live="polite"
-      className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-stone-800 px-4 py-3 text-sm font-medium text-white shadow-lg dark:bg-stone-700 md:bottom-8"
+      className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-stone-800 px-4 py-3 text-sm font-medium text-white shadow-lg dark:bg-stone-700 md:bottom-8 lg:bottom-auto lg:left-auto lg:right-6 lg:top-16 lg:translate-x-0"
     >
       {message}
     </div>

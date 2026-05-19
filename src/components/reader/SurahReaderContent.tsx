@@ -17,6 +17,7 @@ import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
 import { AyahCard } from "./AyahCard";
 import { SurahReaderStickyHeader } from "./SurahReaderStickyHeader";
+import { ReaderToolbar } from "./ReaderToolbar";
 
 type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string; initialAutoplay?: boolean };
 
@@ -241,12 +242,13 @@ export function SurahReaderContent({
         totalAyahs={ayahs.length}
         ayahs={ayahs}
       />
+      <ReaderToolbar />
       {showTajwidColors && (
         <div className="mb-6">
           <TajwidLegend />
         </div>
       )}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3 lg:hidden">
         <span className="text-sm text-stone-600 dark:text-stone-400">
           Sinhronizacija s audioom
         </span>
