@@ -99,11 +99,15 @@ export default function SearchPage() {
     linkRefsRef.current = linkRefsRef.current.slice(0, results.length);
   }, [results.length]);
 
+  // Focus stays in the input (combobox pattern): arrow keys only move
+  // aria-activedescendant. Keep the highlighted option visible instead of
+  // focusing it, which would close the mobile keyboard and swallow typing.
+  const navigatedByKeyRef = useRef(false);
   useEffect(() => {
-    if (selectedIndex >= 0 && selectedIndex < results.length) {
-      linkRefsRef.current[selectedIndex]?.focus();
-    }
-  }, [selectedIndex, results.length]);
+    if (!navigatedByKeyRef.current) return;
+    navigatedByKeyRef.current = false;
+    linkRefsRef.current[selectedIndex]?.scrollIntoView?.({ block: "nearest" });
+  }, [selectedIndex]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -122,11 +126,13 @@ export default function SearchPage() {
     if (results.length === 0) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
+      navigatedByKeyRef.current = true;
       setSelectedIndex((i) => (i + 1) % results.length);
       return;
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
+      navigatedByKeyRef.current = true;
       setSelectedIndex((i) => (i - 1 + results.length) % results.length);
       return;
     }
@@ -150,7 +156,7 @@ export default function SearchPage() {
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
-      <div className="sticky top-0 z-40 -mx-4 bg-[var(--theme-bg)]/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-bg)]/90 md:static md:py-8">
+      <div className="sticky top-[var(--app-header-offset)] z-40 -mx-4 transition-[top] duration-200 bg-[var(--theme-bg)]/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-bg)]/90 md:static md:py-8">
         <h1 className="sr-only">Pretraga</h1>
         <label htmlFor="search-input" className="sr-only">
           Pretraži ajete, sure i prijevod

@@ -61,6 +61,20 @@ html {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/*
+ * Sticky offset below the fixed global header (Header.tsx: fixed, h-12).
+ * The header slides away while scrolling down (data-hidden="true"); sticky
+ * elements then move up to 0 so no empty band is left above them.
+ * Without :has() support the offset simply stays at 3rem.
+ */
+:root {
+  --app-header-offset: 3rem;
+}
+
+[data-scroll-container]:has(> header[data-hidden="true"]) {
+  --app-header-offset: 0px;
+}
+
 body {
   background: var(--theme-bg);
   color: var(--theme-text);

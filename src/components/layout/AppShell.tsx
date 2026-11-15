@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
         <div
           ref={scrollContainerRef}
-          className="flex min-h-dvh flex-col overflow-x-hidden overflow-y-auto bg-[var(--theme-bg)] pt-12 transition-colors duration-200"
+          className="flex min-h-dvh flex-col bg-[var(--theme-bg)] pt-12 transition-colors duration-200"
           data-scroll-container
         >
           <Header />

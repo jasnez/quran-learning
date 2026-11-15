@@ -149,6 +149,18 @@ describe("AppShell", () => {
     expect(scrollEl?.className).toMatch(/min-h-screen|min-h-dvh/);
   });
 
+  it("app wrapper is not a scroll container, so sticky descendants stick to the viewport (QA P1-3)", () => {
+    const { container } = render(
+      <AppShell>
+        <span>x</span>
+      </AppShell>
+    );
+    const scrollEl = container.querySelector("[data-scroll-container]");
+    // overflow hidden/auto/scroll (any axis) creates a scroll container and
+    // breaks position: sticky; overflow-x: clip does not.
+    expect(scrollEl?.className).not.toMatch(/\boverflow(-[xy])?-(hidden|auto|scroll)\b/);
+  });
+
   it("main has flex-1 so footer sits at bottom when content is short", () => {
     const { container } = render(
       <AppShell>

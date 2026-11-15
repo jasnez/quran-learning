@@ -46,7 +46,7 @@ export function ReaderToolbar() {
 
   return (
     <div
-      className="hidden lg:flex sticky top-12 z-20 -mx-4 mb-6 flex-wrap items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85"
+      className="hidden lg:flex sticky top-[var(--app-header-offset)] z-20 -mx-4 mb-6 flex-wrap items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85 transition-[top] duration-200"
       role="toolbar"
       aria-label="Postavke čitanja"
     >

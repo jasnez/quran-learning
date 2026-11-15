@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const globalsCssPath = path.join(__dirname, "../globals.css");
 const layoutPath = path.join(__dirname, "../layout.tsx");
+const themeInitScriptPath = path.join(__dirname, "../themeInitScript.ts");
 
 function* walkCssFiles(dir: string): Generator<string> {
   if (!existsSync(dir)) return;
@@ -50,9 +51,11 @@ describe("Layout: Arabic font applied on first paint", () => {
 
   it("inline script sets data-arabic-font from localStorage arabicFontStyle", () => {
     const layout = readFileSync(layoutPath, "utf-8");
-    expect(layout).toMatch(/data-arabic-font/);
-    expect(layout).toMatch(/arabicFontStyle/);
-    expect(layout).toMatch(/setAttribute\s*\(\s*['"]data-arabic-font['"]\s*,\s*f\s*\)/);
+    expect(layout).toMatch(/__html:\s*THEME_INIT_SCRIPT/);
+    const script = readFileSync(themeInitScriptPath, "utf-8");
+    expect(script).toMatch(/data-arabic-font/);
+    expect(script).toMatch(/arabicFontStyle/);
+    expect(script).toMatch(/setAttribute\s*\(\s*['"]data-arabic-font['"]\s*,\s*f\s*\)/);
   });
 });
 

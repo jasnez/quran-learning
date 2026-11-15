@@ -50,7 +50,7 @@ export function SurahReaderStickyHeader({
 
   return (
     <div
-      className="sticky top-0 z-30 -mx-4 mb-4 flex items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-3 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85"
+      className="sticky top-[var(--app-header-offset)] z-30 -mx-4 mb-4 flex items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-3 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85 transition-[top] duration-200 lg:static"
       data-testid="surah-reader-sticky-header"
     >
       <Link
