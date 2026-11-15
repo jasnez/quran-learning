@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { ISSUES_NEW_URL } from "@/lib/contact";
 
 export default function Error({
   error,
@@ -21,10 +22,15 @@ export default function Error({
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
         Došlo je do neočekivane greške pri učitavanju. Pokušaj osvježiti stranicu.
-        Ako se greška ponavlja, javi nam preko stranice{" "}
-        <Link href="/contact" className="underline hover:no-underline">
-          Kontakt
-        </Link>
+        Ako se greška ponavlja, prijavi je preko{" "}
+        <a
+          href={ISSUES_NEW_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:no-underline"
+        >
+          GitHub Issues
+        </a>
         .
       </p>
       {error.digest && (

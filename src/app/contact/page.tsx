@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ISSUES_NEW_URL } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Kontakt | Quran Learning",
@@ -15,24 +16,27 @@ export default function ContactPage() {
 
       <div className="mt-8 space-y-6 text-stone-600 dark:text-stone-400">
         <p className="leading-relaxed">
-          Imate pitanja, prijedloge ili želite prijaviti grešku? Slobodno nas
-          kontaktirajte putem e-pošte.
+          Imate pitanja, prijedloge ili želite prijaviti grešku? Slobodno nam
+          pišite preko GitHub Issues.
         </p>
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            E-pošta
+            GitHub Issues
           </h2>
           <p className="mt-2">
             <a
-              href="mailto:info@quran-learning.ba"
+              href={ISSUES_NEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400"
             >
-              info@quran-learning.ba
+              Otvori novu prijavu na GitHubu
             </a>
           </p>
           <p className="mt-2 text-sm text-stone-500 dark:text-stone-500">
-            Odgovaramo u roku od nekoliko radnih dana.
+            Za prijavu je potreban besplatan GitHub nalog. Prijave su javno
+            vidljive, pa ne upisujte lične podatke.
           </p>
         </section>
 
