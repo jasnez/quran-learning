@@ -38,7 +38,7 @@ const mockProgressState = {
   getLastPosition: vi.fn<() => { surahNumber: number; ayahNumber: number; mode: "reader" | "learning" } | null>(() => null),
   lastSurahNumber: 0,
   lastAyahNumber: 0,
-  lastMode: "reader" as const,
+  lastMode: "reader" as "reader" | "learning",
   lastSurahNameLatin: "",
   timestamp: "",
   totalListeningTimeMs: 0,

@@ -7,6 +7,8 @@ import { render } from "@testing-library/react";
 import { ThemeProvider } from "../ThemeProvider";
 import { useSettingsStore } from "@/store/settingsStore";
 
+type SettingsState = ReturnType<typeof useSettingsStore.getState>;
+
 const mockSetTheme = vi.fn();
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((selector: (s: { theme: string; arabicFontStyle: string; setTheme: () => void }) => unknown) =>
@@ -32,65 +34,51 @@ describe("ThemeProvider", () => {
   });
 
   it("sets data-theme on documentElement based on store theme", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "dark" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "dark" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });
 
   it("sets data-theme to light when store theme is light", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "light" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "light" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");
   });
 
   it("sets data-theme to sepia when store theme is sepia", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "sepia" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "sepia" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.getAttribute("data-theme")).toBe("sepia");
   });
 
   it("adds class 'dark' to documentElement when theme is dark", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "dark" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "dark" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.classList.contains("dark")).toBe(true);
   });
 
   it("does not add class 'dark' when theme is light or sepia", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "light" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "light" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.classList.contains("dark")).toBe(false);
 
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string }) => unknown) => sel({ theme: "sepia" }) as ReturnType<typeof useSettingsStore>
-    );
+    vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "sepia" } as SettingsState));
     const { unmount } = render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.classList.contains("dark")).toBe(false);
     unmount();
   });
 
   it("sets data-arabic-font to naskh when store arabicFontStyle is naskh", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string; arabicFontStyle: string }) => unknown) =>
-        sel({ theme: "light", arabicFontStyle: "naskh" }) as ReturnType<typeof useSettingsStore>
+    vi.mocked(useSettingsStore).mockImplementation((sel) =>
+      sel({ theme: "light", arabicFontStyle: "naskh" } as SettingsState)
     );
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.getAttribute("data-arabic-font")).toBe("naskh");
   });
 
   it("sets data-arabic-font to uthmanic when store arabicFontStyle is uthmanic", () => {
-    vi.mocked(useSettingsStore).mockImplementation(
-      (sel: (s: { theme: string; arabicFontStyle: string }) => unknown) =>
-        sel({ theme: "light", arabicFontStyle: "uthmanic" }) as ReturnType<typeof useSettingsStore>
+    vi.mocked(useSettingsStore).mockImplementation((sel) =>
+      sel({ theme: "light", arabicFontStyle: "uthmanic" } as SettingsState)
     );
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.getAttribute("data-arabic-font")).toBe("uthmanic");

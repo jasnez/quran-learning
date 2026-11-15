@@ -82,7 +82,7 @@ const playerState = {
   isPlaying: false,
   queue: [{ id: "1:3" }, { id: "1:4" }] as unknown[],
   queueSource: "surah" as "surah" | "juz" | "learn" | "dua" | "single",
-  activeAudioSrc: "/chapter/001.mp3",
+  activeAudioSrc: "/chapter/001.mp3" as string | null,
   currentTime: 10,
   duration: 45,
   pendingSeekToSeconds: null as number | null,
@@ -110,7 +110,7 @@ vi.mock("@/store/playerStore", () => {
   const storeFn = vi.fn((selector: (s: typeof playerState) => unknown) =>
     selector(playerState)
   );
-  (storeFn as { getState: () => typeof playerState }).getState = () => ({ ...playerState });
+  (storeFn as unknown as { getState: () => typeof playerState }).getState = () => ({ ...playerState });
   return { usePlayerStore: storeFn };
 });
 

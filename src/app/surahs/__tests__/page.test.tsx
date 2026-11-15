@@ -93,7 +93,9 @@ describe("Surahs page", () => {
     const Page = await SurahsPage();
     render(Page);
     const list = screen.getByRole("list");
-    const links = within(list).getAllByRole("link", { href: /\/surah\/\d+/ });
+    const links = within(list)
+      .getAllByRole("link")
+      .filter((l) => /\/surah\/\d+/.test(l.getAttribute("href") ?? ""));
     expect(links).toHaveLength(mockSurahs.length);
   });
 
@@ -128,7 +130,9 @@ describe("Surahs page", () => {
     render(Page);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "1");
-    const links = screen.getAllByRole("link", { href: /\/surah\/\d+/ });
+    const links = screen
+      .getAllByRole("link")
+      .filter((l) => /\/surah\/\d+/.test(l.getAttribute("href") ?? ""));
     expect(links.length).toBeLessThanOrEqual(mockSurahs.length);
   });
 
@@ -139,7 +143,7 @@ describe("Surahs page", () => {
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "Fatiha");
     const list = screen.getByRole("list");
-    expect(within(list).getByRole("link", { href: "/surah/1" })).toBeInTheDocument();
+    expect(within(list).getByRole("link")).toHaveAttribute("href", "/surah/1");
   });
 
   it("has Sure button and Džuzevi tab link to view=juz inside page (not in main header nav)", async () => {

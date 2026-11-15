@@ -21,7 +21,7 @@ const mockToggleAutoPlayNext = vi.fn();
 const defaultStore = {
   theme: "light" as const,
   arabicFontSize: 28,
-  arabicFontStyle: "naskh" as const,
+  arabicFontStyle: "naskh" as "naskh" | "uthmanic",
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
@@ -181,8 +181,8 @@ describe("SettingsPanel", () => {
   it("font size cannot go below 20", async () => {
     defaultStore.arabicFontSize = 20;
     const { useSettingsStore } = await import("@/store/settingsStore");
-    vi.mocked(useSettingsStore).mockImplementation((s: (x: typeof defaultStore) => unknown) =>
-      s(defaultStore)
+    vi.mocked(useSettingsStore).mockImplementation((s) =>
+      s(defaultStore as unknown as ReturnType<typeof useSettingsStore.getState>)
     );
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const decrease = screen.getByRole("button", { name: /decrease|smanji|minus|-/i });
@@ -192,8 +192,8 @@ describe("SettingsPanel", () => {
   it("font size cannot exceed 44", async () => {
     defaultStore.arabicFontSize = 44;
     const { useSettingsStore } = await import("@/store/settingsStore");
-    vi.mocked(useSettingsStore).mockImplementation((s: (x: typeof defaultStore) => unknown) =>
-      s(defaultStore)
+    vi.mocked(useSettingsStore).mockImplementation((s) =>
+      s(defaultStore as unknown as ReturnType<typeof useSettingsStore.getState>)
     );
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const increase = screen.getByRole("button", { name: /increase|povećaj|plus|\+/i });

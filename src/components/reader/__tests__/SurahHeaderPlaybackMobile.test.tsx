@@ -9,7 +9,9 @@ import { SurahHeader } from "../SurahHeader";
 import type { SurahSummary, Ayah } from "@/types/quran";
 
 const mockSurah: SurahSummary = {
+  id: "1",
   surahNumber: 1,
+  slug: "al-fatiha",
   nameArabic: "الفاتحة",
   nameLatin: "Al-Fatihah",
   nameBosnian: "El-Fatiha",
@@ -62,7 +64,6 @@ vi.mock("@/lib/audio/audioManager", () => {
     setPlaybackRate: vi.fn(),
     onTimeUpdate: () => () => {},
     onEnded: () => () => {},
-    __audioPlayMock: audioPlayMock,
   };
 });
 
@@ -81,7 +82,7 @@ describe("SurahHeader mobile playback", () => {
     const button = screen.getByRole("button", { name: /pusti cijelu suru/i });
     await user.click(button);
 
-    expect(audioManager.__audioPlayMock).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith([mockAyah]);
     expect(mockPlay).toHaveBeenCalledWith(mockAyah);
   });
