@@ -6,28 +6,24 @@ test.describe("Audio player", () => {
   });
 
   test("audio player kontrole su vidljive", async ({ page }) => {
-    // Player treba biti vidljiv na stranici sure
-    const player = page
-      .locator("[aria-label*='play'], [aria-label*='Play'], button[title*='lay']")
-      .first();
+    // Play controls are labelled in Bosnian ("Pusti cijelu suru", "Pusti audio").
+    const player = page.getByRole("button", { name: /^pusti/i }).first();
     await expect(player).toBeVisible({ timeout: 5000 });
   });
 
   test("dugme za play/pause postoji i reaguje na klik", async ({ page }) => {
-    const playButton = page
-      .locator("button[aria-label*='play' i], button[aria-label*='pauza' i], button[aria-label*='pause' i]")
-      .first();
-    if (await playButton.isVisible()) {
-      await playButton.click();
-      // Ne treba baciti grešku
-      await expect(page.locator("body")).not.toContainText("Greška", { timeout: 2000 }).catch(() => {});
-    }
+    await page.getByRole("button", { name: "Pusti cijelu suru" }).click();
+    // While audio plays, the play controls switch to "Pauza".
+    await expect(page.getByRole("button", { name: "Pauza" }).first()).toBeVisible();
+    await expect(page.locator("body")).not.toContainText("Greška");
   });
 
-  test("promjena učača ne ruši stranicu", async ({ page }) => {
-    // Provjeri da settings/reciter kontrola postoji
+  test("stranica postavki se učitava i prikazuje učača", async ({ page }) => {
+    // /settings renders the settings panel; the reciter is in its "Zvuk" section.
     await page.goto("/settings");
     await expect(page).toHaveURL("/settings");
-    await expect(page.locator("h1")).not.toContainText("Greška");
+    const settings = page.getByRole("dialog", { name: "Postavke" });
+    await expect(settings).toBeVisible();
+    await expect(settings.getByRole("region", { name: "Zvuk" })).toContainText("Mishary Alafasy");
   });
 });

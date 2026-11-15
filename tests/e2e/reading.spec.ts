@@ -23,8 +23,7 @@ test.describe("Čitanje sure", () => {
 
   test("prikazuje se prijevod na bosanski", async ({ page }) => {
     await page.goto("/surah/1");
-    // Provjeri da stranica ima sadržaj (nije blank)
-    await expect(page.locator("main, [role='main']")).toBeVisible();
+    await expect(page.getByText("U ime Allaha, Milostivog, Samilosnog!").first()).toBeVisible();
     await expect(page).not.toHaveTitle("");
   });
 
