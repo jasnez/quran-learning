@@ -12,6 +12,9 @@ import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 
+type PlayerState = ReturnType<typeof usePlayerStore.getState>;
+type SettingsState = ReturnType<typeof useSettingsStore.getState>;
+
 const mockSurah: SurahSummary = {
   id: "1",
   surahNumber: 1,
@@ -116,11 +119,11 @@ beforeEach(() => {
   vi.clearAllMocks();
   settingsState = createSettings({});
   getSettingsState = () => settingsState;
-  vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-    sel(defaultPlayerState)
+  vi.mocked(usePlayerStore).mockImplementation((sel) =>
+    sel(defaultPlayerState as unknown as PlayerState)
   );
-  mockUseSettingsStore.mockImplementation((sel: (s: unknown) => unknown) =>
-    sel(getSettingsState())
+  mockUseSettingsStore.mockImplementation((sel) =>
+    sel(getSettingsState() as unknown as SettingsState)
   );
 });
 
@@ -198,8 +201,8 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
   });
 
   it("Riječ po riječ button has data-active and distinct styling when on", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, wordByWordMode: true })
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, wordByWordMode: true } as unknown as PlayerState)
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/riječ po riječ|isključi riječ/i, true);
@@ -208,8 +211,8 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
   });
 
   it("Riječ po riječ button has data-active and muted styling when off", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, wordByWordMode: false })
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, wordByWordMode: false } as unknown as PlayerState)
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/uključi riječ|riječ po riječ/i, false);

@@ -9,6 +9,8 @@ import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 
+type PlayerState = ReturnType<typeof usePlayerStore.getState>;
+
 const mockSurah: SurahSummary = {
   id: "1",
   surahNumber: 1,
@@ -100,27 +102,27 @@ beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
   mockIsBookmarked.mockReturnValue(false);
-  vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-    sel(defaultPlayerState)
+  vi.mocked(usePlayerStore).mockImplementation((sel) =>
+    sel(defaultPlayerState as unknown as PlayerState)
   );
 });
 
 describe("Learning mode first/last ayah", () => {
   it("Previous button is disabled on first ayah", async () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const prev = await screen.findByRole("button", { name: /prethodni ajet|prethodni|previous/i, timeout: 8000 });
+    const prev = await screen.findByRole("button", { name: /prethodni ajet|prethodni|previous/i }, { timeout: 8000 });
     expect(prev).toBeDisabled();
   }, 10000);
 
   it("Next button is enabled when not on last ayah", async () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const next = await screen.findByRole("button", { name: /sljedeći ajet|sljedeći|next/i, timeout: 8000 });
+    const next = await screen.findByRole("button", { name: /sljedeći ajet|sljedeći|next/i }, { timeout: 8000 });
     expect(next).toBeEnabled();
   }, 10000);
 
   it("on last ayah Next is disabled", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, currentAyahId: "1:2" })
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, currentAyahId: "1:2" } as unknown as PlayerState)
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const next = screen.getByRole("button", { name: /sljedeći|next/i });
@@ -156,16 +158,16 @@ describe("Learn mode bookmark", () => {
 
 describe("Learn mode navigation init", () => {
   it("when currentAyahId is null, on mount sets current to first ayah so Next works", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, currentAyahId: null })
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, currentAyahId: null } as unknown as PlayerState)
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     expect(defaultPlayerState.setCurrentAyah).toHaveBeenCalledWith(mockAyahs[0]);
   });
 
   it("when currentAyahId is already in ayahs, does not override with first ayah", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, currentAyahId: "1:2" })
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, currentAyahId: "1:2" } as unknown as PlayerState)
     );
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     expect(defaultPlayerState.setCurrentAyah).not.toHaveBeenCalled();

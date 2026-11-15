@@ -52,7 +52,9 @@ vi.mock("next/navigation", () => ({
   useRouter: vi.fn(() => ({ push: vi.fn() })),
 }));
 
-const mockSearchAyahs = vi.fn((q: string) => {
+const mockSearchAyahs = vi.fn<
+  (q: string, opts?: { signal?: AbortSignal }) => Promise<SearchResult[]>
+>((q) => {
   if (!q || q.length < 3) return Promise.resolve([]);
   if (q.toLowerCase().includes("milostiv")) return Promise.resolve(mockSearchResults);
   return Promise.resolve([]);
@@ -109,7 +111,8 @@ describe("Search page", () => {
     renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
-    await screen.findByRole("link", { href: "/surah/1?ayah=1#ayah-1-1" });
+    const link = await screen.findByRole("link");
+    expect(link).toHaveAttribute("href", "/surah/1?ayah=1#ayah-1-1");
     expect(screen.getByText(/al-fatiha/i)).toBeInTheDocument();
     expect(screen.getByText(/ajet\s*1|1:1/i)).toBeInTheDocument();
   });
@@ -119,7 +122,10 @@ describe("Search page", () => {
     renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
-    await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
+    expect(await screen.findByRole("link")).toHaveAttribute(
+      "href",
+      expect.stringMatching(/\/surah\/1\?ayah=1/)
+    );
     expect(screen.getByText(/بِسْمِ ٱللَّهِ/)).toBeInTheDocument();
   });
 
@@ -128,7 +134,7 @@ describe("Search page", () => {
     renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
-    const link = await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
+    const link = await screen.findByRole("link");
     expect(link).toHaveAttribute("href", "/surah/1?ayah=1#ayah-1-1");
   });
 
@@ -137,7 +143,10 @@ describe("Search page", () => {
     renderSearch();
     const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
     await user.type(input, "milostiv");
-    await screen.findByRole("link", { href: /\/surah\/1\?ayah=1/ });
+    expect(await screen.findByRole("link")).toHaveAttribute(
+      "href",
+      expect.stringMatching(/\/surah\/1\?ayah=1/)
+    );
     const mark = document.querySelector("p mark");
     expect(mark).toBeInTheDocument();
     expect(mark?.textContent?.toLowerCase()).toMatch(/milostiv/);
@@ -150,7 +159,9 @@ describe("Search page", () => {
     await user.type(input, "milostiv");
     const list = await screen.findByRole("listbox");
     expect(list).toBeInTheDocument();
-    const links = screen.getAllByRole("link", { href: /\/surah\/\d+\?ayah=\d+/ });
+    const links = screen
+      .getAllByRole("link")
+      .filter((l) => /\/surah\/\d+\?ayah=\d+/.test(l.getAttribute("href") ?? ""));
     expect(links.length).toBeGreaterThanOrEqual(1);
   });
 

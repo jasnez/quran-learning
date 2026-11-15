@@ -24,14 +24,14 @@ beforeEach(() => {
 
 describe("SurahReaderContent empty state", () => {
   it("when ayahs is empty shows message about data coming soon", () => {
-    render(<SurahReaderContent ayahs={[]} />);
+    render(<SurahReaderContent ayahs={[]} surahNameLatin="Al-Fatihah" />);
     expect(
       screen.getByText(/podaci za ovu suru.*uskoro.*dostupni|dostupni.*uskoro/i)
     ).toBeInTheDocument();
   });
 
   it("empty state includes a calm icon", () => {
-    const { container } = render(<SurahReaderContent ayahs={[]} />);
+    const { container } = render(<SurahReaderContent ayahs={[]} surahNameLatin="Al-Fatihah" />);
     const icon = container.querySelector("[data-empty-icon], [aria-hidden='true'] svg");
     expect(icon || container.querySelector(".text-stone-400, .text-stone-500")).toBeTruthy();
   });

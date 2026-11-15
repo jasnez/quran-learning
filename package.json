@@ -29,7 +29,7 @@
     "@tanstack/react-virtual": "^3.13.23",
     "idb-keyval": "^6.2.2",
     "lucide-react": "^0.577.0",
-    "next": "^16.2.6",
+    "next": "^16.4.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "zustand": "^5.0.11"
@@ -45,11 +45,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.2.6",
+    "eslint-config-next": "^16.4.6",
     "jsdom": "^28.1.0",
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5",
-    "vitest": "^4.0.18"
+    "vitest": "^4.1.12"
   }
 }

@@ -9,7 +9,7 @@ import {
   getAyahsBySurahNumber,
   getReciters,
 } from "../index";
-import type { SurahSummary, SurahDetail, Reciter } from "@/types/quran";
+import type { SurahSummary, SurahDetail, Reciter, TajwidSegment } from "@/types/quran";
 
 import surahsJson from "@/data/surahs.json";
 import recitersJson from "@/data/reciters.json";
@@ -41,7 +41,7 @@ const surah1Detail: SurahDetail = {
       arabicText: "",
       transliteration: "",
       translationBosnian: "",
-      tajwidSegments: [] as { text: string; rule: string }[],
+      tajwidSegments: [] as TajwidSegment[],
       audio: { reciterId: "mishary-alafasy", url: "", durationMs: 0 },
     })),
   ],

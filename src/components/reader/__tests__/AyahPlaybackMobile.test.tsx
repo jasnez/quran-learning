@@ -85,8 +85,6 @@ vi.mock("@/lib/audio/audioManager", () => {
     setPlaybackRate: vi.fn(),
     onTimeUpdate: () => () => {},
     onEnded: () => () => {},
-    // expose for assertions
-    __audioPlayMock: audioPlayMock,
   };
 });
 
@@ -116,7 +114,7 @@ describe("AyahCard mobile playback", () => {
     const playButton = screen.getByRole("button", { name: /pusti audio/i });
     await user.click(playButton);
 
-    expect(audioManager.__audioPlayMock).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith([mockAyah], "surah");
     expect(mockPlay).toHaveBeenCalledWith(mockAyah);
   });

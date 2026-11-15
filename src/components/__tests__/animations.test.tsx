@@ -44,7 +44,7 @@ vi.mock("@/store/playerStore", () => {
     setDuration: () => {},
   };
   const usePlayerStoreMock = vi.fn((sel: (s: unknown) => unknown) => sel(state));
-  (usePlayerStoreMock as { getState: () => typeof state }).getState = () => state;
+  (usePlayerStoreMock as unknown as { getState: () => typeof state }).getState = () => state;
   return { usePlayerStore: usePlayerStoreMock };
 });
 

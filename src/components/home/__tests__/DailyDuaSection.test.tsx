@@ -54,7 +54,7 @@ describe("DailyDuaSection", () => {
 
   it("includes link to full duas page", () => {
     render(<DailyDuaSection />);
-    const links = screen.getAllByRole("link", { href: "/duas" });
+    const links = screen.getAllByRole("link").filter((l) => l.getAttribute("href") === "/duas");
     expect(links.length).toBeGreaterThanOrEqual(1);
   });
 });

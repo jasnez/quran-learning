@@ -12,6 +12,8 @@ import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 
+type PlayerState = ReturnType<typeof usePlayerStore.getState>;
+
 const mockSurah: SurahSummary = {
   id: "1",
   surahNumber: 1,
@@ -90,14 +92,13 @@ vi.mock("@/lib/audio/audioManager", () => {
     setPlaybackRate: vi.fn(),
     onTimeUpdate: () => () => {},
     onEnded: () => () => {},
-    __audioPlayMock: audioPlayMock,
   };
 });
 
 beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
-  vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
+  vi.mocked(usePlayerStore).mockImplementation((sel) =>
     sel({
       currentAyahId: "1:1" as string | null,
       currentTime: 0,
@@ -114,7 +115,7 @@ beforeEach(() => {
       currentTimeMs: 0,
       setCurrentTime: vi.fn(),
       setPendingSeek: vi.fn(),
-    })
+    } as unknown as PlayerState)
   );
 });
 
@@ -128,7 +129,7 @@ describe("LearnModeContent playback (mobile-style)", () => {
     const playButton = screen.getByRole("button", { name: /pusti audio/i });
     await user.click(playButton);
 
-    expect(audioManager.__audioPlayMock).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith(mockAyahs, "learn");
     expect(mockPlay).toHaveBeenCalledWith(mockAyahs[0]);
   });

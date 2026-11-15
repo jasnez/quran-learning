@@ -8,6 +8,8 @@ import SurahReaderPage from "../page";
 import { usePlayerStore } from "@/store/playerStore";
 import type { SurahDetail, Ayah } from "@/types/quran";
 
+type PlayerState = ReturnType<typeof usePlayerStore.getState>;
+
 const mockAyah = (n: number, arabic: string, transliteration: string, translation: string): Ayah =>
   ({
     id: `1:${n}`,
@@ -111,7 +113,7 @@ vi.mock("@/store/progressStore", () => {
     (selector: (s: { getSurahProgress: typeof hoistedProgress.mockGetSurahProgress }) => unknown) =>
       selector({ getSurahProgress: hoistedProgress.mockGetSurahProgress })
   );
-  (useProgressStoreMock as { getState: () => typeof hoistedProgress.progressStateStub }).getState = () =>
+  (useProgressStoreMock as unknown as { getState: () => typeof hoistedProgress.progressStateStub }).getState = () =>
     hoistedProgress.progressStateStub;
   return { useProgressStore: useProgressStoreMock };
 });
@@ -303,14 +305,16 @@ describe("Surah Reader page", () => {
     expect(learnLink).toHaveAttribute("href", "/learn/2");
   });
 
-  it("accepts searchParams.ayah and still renders content (scroll/highlight handled in client)", async () => {
+  it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {
+    mockSearchParams.clear();
+    mockSearchParams.set("ayah", "2");
     const Page = await SurahReaderPage({
       params: Promise.resolve({ surahId: "1" }),
-      searchParams: Promise.resolve({ ayah: "2" }),
     });
     render(Page);
     expect(screen.getAllByText("الفاتحة").length).toBeGreaterThanOrEqual(1);
     expect(document.querySelector("[data-ayah-id='1:2']")).toBeInTheDocument();
+    mockSearchParams.clear();
   });
 
   it("when ?autoplay=1 is in URL, sets queue and plays first ayah on mount", async () => {
@@ -338,11 +342,10 @@ describe("Surah Reader page", () => {
         const t = setTimeout(() => setId("1:2"), 0);
         return () => clearTimeout(t);
       }, []);
-      vi.mocked(usePlayerStore).mockImplementation(
-        (selector: (s: typeof playerState) => unknown) =>
-          selector({ ...playerState, currentAyahId: id, isPlaying: true })
+      vi.mocked(usePlayerStore).mockImplementation((selector) =>
+        selector({ ...playerState, currentAyahId: id, isPlaying: true } as unknown as PlayerState)
       );
-      return <SurahReaderContent ayahs={mockSurahDetail.ayahs} />;
+      return <SurahReaderContent ayahs={mockSurahDetail.ayahs} surahNameLatin="Al-Fatihah" />;
     }
     render(<Wrapper />);
     await waitFor(() => {
