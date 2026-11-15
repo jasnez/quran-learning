@@ -76,6 +76,7 @@ const playerState = {
   currentAyahId: "1:3",
   isPlaying: false,
   queue: [{ id: "1:3" }, { id: "1:4" }] as unknown[],
+  queueSource: "surah" as "surah" | "juz" | "learn" | "dua" | "single",
   activeAudioSrc: "/chapter/001.mp3",
   currentTime: 10,
   duration: 45,
@@ -146,6 +147,7 @@ beforeEach(() => {
   playerState.chapterTimestamps = null;
   playerState.pendingSeekToSeconds = null;
   playerState.queue = [];
+  playerState.queueSource = "surah";
   mockGetCurrentTime.mockReturnValue(0);
   mockGetDuration.mockReturnValue(0);
 });
@@ -291,6 +293,39 @@ describe("AudioPlayer", () => {
     expect(mockPush).toHaveBeenCalledWith("/surah/2?autoplay=1");
   });
 
+  it("when a dua finishes, pauses and stays on the page even with autoPlayNext on", () => {
+    playerState.queueSource = "dua";
+    playerState.currentSurahId = "2";
+    playerState.currentAyahId = "2:201";
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    mockOnEnded.mock.calls[0]?.[0]();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockPauseStore).toHaveBeenCalled();
+  });
+
+  it("when the last ayah of a juz finishes, pauses instead of jumping to the next surah", () => {
+    playerState.queueSource = "juz";
+    playerState.currentSurahId = "2";
+    playerState.currentAyahId = "2:252";
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    mockOnEnded.mock.calls[0]?.[0]();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockPauseStore).toHaveBeenCalled();
+  });
+
+  it("when the last ayah finishes in learn mode, pauses instead of leaving learn mode", () => {
+    playerState.queueSource = "learn";
+    playerState.currentSurahId = "1";
+    playerState.currentAyahId = "1:7";
+    mockNext.mockReturnValue(false);
+    render(<AudioPlayer />);
+    mockOnEnded.mock.calls[0]?.[0]();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockPauseStore).toHaveBeenCalled();
+  });
+
   it("when audio ends at last ayah and surah is 114, does not navigate", () => {
     playerState.currentSurahId = "114";
     playerState.currentAyahId = "114:6";
@@ -356,7 +391,7 @@ describe("AudioPlayer", () => {
       await new Promise((r) => requestAnimationFrame(r));
       await new Promise((r) => requestAnimationFrame(r));
     });
-    expect(mockMarkAyahListened).toHaveBeenCalledWith(1, 3, 2);
+    expect(mockMarkAyahListened).toHaveBeenCalledWith(1, 3);
     expect(mockIncrementAyahsListened).toHaveBeenCalled();
     expect(mockNext).toHaveBeenCalled();
     unmount();

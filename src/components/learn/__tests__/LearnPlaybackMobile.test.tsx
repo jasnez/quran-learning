@@ -130,7 +130,7 @@ describe("LearnModeContent playback (mobile-style)", () => {
     await user.click(playButton);
 
     expect(audioManager.__audioPlayMock).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith(mockAyahs);
+    expect(mockSetQueue).toHaveBeenCalledWith(mockAyahs, "learn");
     expect(mockPlay).toHaveBeenCalledWith(mockAyahs[0]);
   });
 });

@@ -56,7 +56,7 @@ describe("AyahCard typography and spacing", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -73,7 +73,7 @@ describe("AyahCard typography and spacing", () => {
     render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -92,7 +92,7 @@ describe("AyahCard typography and spacing", () => {
     render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -109,7 +109,7 @@ describe("AyahCard typography and spacing", () => {
     render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -125,7 +125,7 @@ describe("AyahCard typography and spacing", () => {
     render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -141,7 +141,7 @@ describe("AyahCard typography and spacing", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={mockAyahs}
+        queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}

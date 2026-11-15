@@ -83,7 +83,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
   useEffect(() => {
     if (ayahs.length === 0) return;
-    setQueue(ayahs);
+    setQueue(ayahs, "learn");
     const currentInList = ayahs.some((a) => a.id === currentAyahId);
     if (!currentAyahId || !currentInList) {
       setCurrentAyah(ayahs[0]);
@@ -160,7 +160,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
   useEffect(() => {
     if (ayah && ayahs.length > 0) {
-      useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber, ayahs.length);
+      useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber);
     }
   }, [ayah, surahNumber, ayahs.length]);
 
@@ -214,7 +214,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       setCurrentTime(seekSeconds);
     } else {
       setPendingSeek(seekSeconds);
-      setQueue(ayahs);
+      setQueue(ayahs, "learn");
       play(ayah);
     }
   };
@@ -225,7 +225,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       audioManager.seek(seekSeconds);
       setCurrentTime(seekSeconds);
     } else {
-      setQueue(ayahs);
+      setQueue(ayahs, "learn");
       play(ayah);
       setPendingSeek(seekSeconds);
     }
@@ -241,7 +241,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           // ignore – actual source will be loaded via AudioPlayer effect
         });
       }
-      setQueue(ayahs);
+      setQueue(ayahs, "learn");
       play(ayah);
       useProgressStore
         .getState()

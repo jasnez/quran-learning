@@ -194,6 +194,30 @@ describe("playerStore", () => {
       usePlayerStore.getState().setQueue(ayahs);
       expect(usePlayerStore.getState().queue).toEqual(ayahs);
     });
+
+    it("records a whole-surah queue by default", () => {
+      usePlayerStore.getState().setQueue([mockAyah("1:1", "/a1.mp3")], "juz");
+      usePlayerStore.getState().setQueue([mockAyah("1:1", "/a1.mp3")]);
+      expect(usePlayerStore.getState().queueSource).toBe("surah");
+    });
+
+    it("records where a queue came from so the end of the queue can be handled per context", () => {
+      usePlayerStore.getState().setQueue([mockAyah("2:252", "/b.mp3")], "juz");
+      expect(usePlayerStore.getState().queueSource).toBe("juz");
+    });
+  });
+
+  describe("queue source of ad-hoc playback", () => {
+    it("play() of an ayah outside the current queue starts a single-ayah queue", () => {
+      usePlayerStore.getState().setQueue([mockAyah("1:1", "/a1.mp3")]);
+      usePlayerStore.getState().play(mockAyah("5:3", "/c.mp3"));
+      expect(usePlayerStore.getState().queueSource).toBe("single");
+    });
+
+    it("playAyahIds() marks the queue as a dua", () => {
+      usePlayerStore.getState().playAyahIds(["2:201"]);
+      expect(usePlayerStore.getState().queueSource).toBe("dua");
+    });
   });
 
   describe("setCurrentAyah", () => {

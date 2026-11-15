@@ -326,7 +326,7 @@ export function SurahReaderContent({
               )}
               <AyahCard
                 ayah={ayah}
-                surahAyahs={ayahs}
+                queueAyahs={ayahs}
                 surahNameLatin={surahNameLatin}
                 arabicFontSize={arabicFontSize}
                 showTransliteration={showTransliteration}
