@@ -159,7 +159,8 @@ export function AudioPlayer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeAudioSrc, isPlaying, pause]);
 
-  // Apply pending seek when chapter audio is ready (critical for word-by-word: seek into long file)
+  // Apply a pending seek (word click on an ayah that is not loaded yet) once the new source can seek.
+  // Event-driven, so it also works in a background tab where rAF does not run.
   useEffect(() => {
     if (!activeAudioSrc) return;
     const pending = usePlayerStore.getState().pendingSeekToSeconds;
@@ -170,83 +171,27 @@ export function AudioPlayer() {
         state.setPendingSeek(null);
         audioManager.seek(state.pendingSeekToSeconds);
         setCurrentTime(state.pendingSeekToSeconds);
-        setCurrentTimeMs(Math.floor(state.pendingSeekToSeconds * 1000));
+        setCurrentTimeMs(Math.round(state.pendingSeekToSeconds * 1000));
       }
     });
     return unsub;
   }, [activeAudioSrc, setCurrentTime, setCurrentTimeMs]);
 
-  // High-frequency time sync for word-by-word highlighting (~60fps when playing)
+  // High-frequency time sync for word-by-word highlighting (~60fps while playing and visible).
+  // Only updates the time: ayah boundaries, repeat and pause run on the media "ended"
+  // event, which keeps working when rAF stops in a background tab (QA P1-10).
   useEffect(() => {
     if (!activeAudioSrc || !isPlaying) return;
     let rafId: number;
     const tick = () => {
-      const p = usePlayerStore.getState().pendingSeekToSeconds;
-      if (p != null) {
-        usePlayerStore.getState().setPendingSeek(null);
-        audioManager.seek(p);
-        setCurrentTime(p);
-      } else {
-        const now = audioManager.getCurrentTime();
-        setCurrentTime(now);
-        setCurrentTimeMs(Math.floor(now * 1000));
-      }
-      const state = usePlayerStore.getState();
-      if (state.wordByWordMode && state.chapterTimestamps?.length && state.currentAyahId) {
-        const verse = state.chapterTimestamps.find((t) => t.verseKey === state.currentAyahId);
-        const timeMs = Math.floor(audioManager.getCurrentTime() * 1000);
-        if (verse && timeMs >= verse.timestampTo && !isWaitingRef.current) {
-          const repeatMode = useSettingsStore.getState().repeatMode;
-          if (repeatMode === "ayah") {
-            audioManager.seek(verse.timestampFrom / 1000);
-            state.setCurrentTime(verse.timestampFrom / 1000);
-            state.setCurrentTimeMs(verse.timestampFrom);
-            rafId = requestAnimationFrame(tick);
-            return;
-          }
-          const queue = state.queue;
-          const idx = queue.findIndex((a) => a.id === state.currentAyahId);
-          const isLastAyah = idx >= 0 && idx === queue.length - 1;
-          if (isLastAyah && repeatMode === "surah") {
-            state.restartFromFirst();
-            rafId = requestAnimationFrame(tick);
-            return;
-          }
-          const [s, a] = (state.currentAyahId ?? "").split(":").map(Number);
-          const surahNum = s && !Number.isNaN(s) ? s : 0;
-          const ayahNum = a && !Number.isNaN(a) ? a : 0;
-          if (surahNum >= 1 && ayahNum >= 1) {
-            useProgressStore.getState().incrementAyahsListened();
-            useProgressStore.getState().markAyahListened(surahNum, ayahNum);
-          }
-          const doAdvance = () => {
-            const s2 = usePlayerStore.getState();
-            const advanced = s2.next();
-            if (advanced) {
-              const nextVerse = usePlayerStore.getState().chapterTimestamps?.find(
-                (t) => t.verseKey === usePlayerStore.getState().currentAyahId
-              );
-              if (nextVerse) {
-                audioManager.seek(nextVerse.timestampFrom / 1000);
-                s2.setCurrentTime(nextVerse.timestampFrom / 1000);
-                s2.setCurrentTimeMs(nextVerse.timestampFrom);
-              }
-            } else {
-              s2.pause();
-            }
-          };
-          if (pauseAfterAyahRef.current !== "off") {
-            audioManager.pause();
-            state.pause();
-          }
-          scheduleAdvance(doAdvance);
-        }
-      }
+      const now = audioManager.getCurrentTime();
+      setCurrentTime(now);
+      setCurrentTimeMs(Math.floor(now * 1000));
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs, scheduleAdvance]);
+  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs]);
 
   // Time update and duration sync + listening time accumulation
   useEffect(() => {
@@ -377,6 +322,8 @@ export function AudioPlayer() {
     const value = Number.parseFloat(e.target.value);
     audioManager.seek(value);
     setCurrentTime(value);
+    // The word highlight reads currentTimeMs; rAF does not update it while paused.
+    setCurrentTimeMs(Math.round(value * 1000));
   };
 
   return (

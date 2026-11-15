@@ -14,6 +14,7 @@ const mockSetPlaybackRate = vi.fn();
 const mockOnTimeUpdate = vi.fn();
 const mockOnEnded = vi.fn();
 const mockGetCurrentTime = vi.fn(() => 0);
+const mockOnCanSeek = vi.fn();
 const mockGetDuration = vi.fn(() => 0);
 
 const timeUpdateCleanup = vi.fn();
@@ -32,6 +33,10 @@ vi.mock("@/lib/audio/audioManager", () => ({
   onEnded: (cb: () => void) => {
     mockOnEnded(cb);
     return endedCleanup;
+  },
+  onCanSeek: (cb: () => void) => {
+    mockOnCanSeek(cb);
+    return () => {};
   },
   getCurrentTime: () => mockGetCurrentTime(),
   getDuration: () => mockGetDuration(),
@@ -247,6 +252,42 @@ describe("AudioPlayer", () => {
     expect(slider).toBeInTheDocument();
   });
 
+  // Word highlight reads currentTimeMs; it must follow scrubs even while paused (no rAF then).
+  it("scrubbing the progress bar also updates the word-highlight time", () => {
+    render(<AudioPlayer />);
+    fireEvent.change(screen.getByRole("slider", { name: /trajanje/i }), { target: { value: "2.5" } });
+    expect(mockSeek).toHaveBeenCalledWith(2.5);
+    expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(2500);
+  });
+
+  // A word click on a not-yet-loaded ayah sets a pending seek; it must wait for metadata
+  // (not an animation frame, which may never come in a background tab).
+  it("applies a pending seek when the audio can seek, rounding to the word start", () => {
+    playerState.isPlaying = true;
+    // 1.001 * 1000 === 1000.9999999999999: flooring would land 1 ms before the word.
+    playerState.pendingSeekToSeconds = 1.001;
+    render(<AudioPlayer />);
+    const canSeek = mockOnCanSeek.mock.calls.at(-1)?.[0];
+    expect(canSeek).toBeTypeOf("function");
+    canSeek();
+    expect(mockSetPendingSeek).toHaveBeenCalledWith(null);
+    expect(mockSeek).toHaveBeenCalledWith(1.001);
+    expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(1001);
+  });
+
+  it("the animation loop does not consume a pending seek", async () => {
+    playerState.isPlaying = true;
+    playerState.pendingSeekToSeconds = 1.795;
+    const { unmount } = render(<AudioPlayer />);
+    await act(async () => {
+      await new Promise((r) => requestAnimationFrame(r));
+      await new Promise((r) => requestAnimationFrame(r));
+    });
+    expect(mockSetPendingSeek).not.toHaveBeenCalled();
+    expect(mockSeek).not.toHaveBeenCalled();
+    unmount();
+  });
+
   it("when new source loads with isPlaying true, then user pauses, audioManager.pause() is called", () => {
     playerState.activeAudioSrc = "/audio/001004.mp3";
     playerState.isPlaying = true;
@@ -400,11 +441,13 @@ describe("AudioPlayer", () => {
     expect(mockPush).not.toHaveBeenCalled();
   });
 
-  it("when chapter/word-by-word mode and time passes verse end, marks current ayah as listened before advancing", async () => {
-    playerState.activeAudioSrc = "/chapter/001.mp3";
+  // QA P1-10: ayah boundaries must not depend on requestAnimationFrame (stops in background tabs).
+  it("in word-by-word mode the rAF loop never advances or repeats", async () => {
+    settingsStateRef.current.repeatMode = "ayah";
+    playerState.activeAudioSrc = "/audio/001003.mp3";
     playerState.isPlaying = true;
     playerState.wordByWordMode = true;
-    playerState.chapterTimestamps = chapterTimestamps;
+    (playerState as Record<string, unknown>).chapterTimestamps = chapterTimestamps;
     playerState.currentAyahId = "1:3";
     playerState.queue = [{ id: "1:3" }, { id: "1:4" }];
     mockGetCurrentTime.mockReturnValue(15);
@@ -413,10 +456,38 @@ describe("AudioPlayer", () => {
       await new Promise((r) => requestAnimationFrame(r));
       await new Promise((r) => requestAnimationFrame(r));
     });
-    expect(mockMarkAyahListened).toHaveBeenCalledWith(1, 3);
-    expect(mockIncrementAyahsListened).toHaveBeenCalled();
-    expect(mockNext).toHaveBeenCalled();
+    expect(mockNext).not.toHaveBeenCalled();
+    expect(mockSeek).not.toHaveBeenCalled();
+    expect(mockMarkAyahListened).not.toHaveBeenCalled();
+    expect(mockIncrementAyahsListened).not.toHaveBeenCalled();
     unmount();
+  });
+
+  it("repeat-ayah and advance work in word-by-word mode without requestAnimationFrame", () => {
+    const rafSpy = vi.spyOn(window, "requestAnimationFrame").mockImplementation(() => 0);
+    try {
+      playerState.isPlaying = true;
+      playerState.wordByWordMode = true;
+      playerState.queue = [{ id: "1:3" }, { id: "1:4" }];
+
+      settingsStateRef.current.repeatMode = "ayah";
+      const first = render(<AudioPlayer />);
+      mockOnEnded.mock.calls.at(-1)?.[0]();
+      expect(mockSeek).toHaveBeenCalledWith(0);
+      expect(mockPlay).toHaveBeenCalled();
+      first.unmount();
+
+      vi.clearAllMocks();
+      settingsStateRef.current.repeatMode = "off";
+      render(<AudioPlayer />);
+      act(() => {
+        mockOnEnded.mock.calls.at(-1)?.[0]();
+      });
+      expect(mockMarkAyahListened).toHaveBeenCalledWith(1, 3);
+      expect(mockNext).toHaveBeenCalled();
+    } finally {
+      rafSpy.mockRestore();
+    }
   });
 
   it("when audio ends and repeatMode is ayah, seeks to 0 and plays (repeat ayah)", () => {

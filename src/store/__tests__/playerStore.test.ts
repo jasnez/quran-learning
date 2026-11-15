@@ -281,4 +281,73 @@ describe("playerStore", () => {
       expect(state.queue).toHaveLength(0);
     });
   });
+
+  // QA P1-2 / P1-10: word-by-word is a display mode; audio stays the per-ayah file,
+  // so ayah boundaries and repeat run on `ended` (works in a background tab).
+  describe("word-by-word mode", () => {
+    const leftoverChapterState = {
+      wordByWordMode: true,
+      chapterAudioUrl: "https://download.quranicaudio.com/qdc/mishari_al_afasy/murattal/1.mp3",
+      chapterTimestamps: [
+        { verseKey: "1:2", timestampFrom: 6090, timestampTo: 11680, segments: [] },
+        { verseKey: "1:3", timestampFrom: 11680, timestampTo: 16300, segments: [] },
+      ],
+    };
+    const a2 = mockAyah("1:2", "");
+    const a3 = mockAyah("1:3", "");
+
+    it("play in word-by-word mode uses the per-ayah file", () => {
+      usePlayerStore.setState(leftoverChapterState as never);
+      usePlayerStore.getState().setQueue([a2, a3]);
+      usePlayerStore.getState().play(a2);
+      const state = usePlayerStore.getState();
+      expect(state.activeAudioSrc).toBe("/audio/mishary-alafasy/001002.mp3");
+      expect(state.pendingSeekToSeconds).toBeNull();
+    });
+
+    it("next in word-by-word mode uses the per-ayah file", () => {
+      usePlayerStore.setState(leftoverChapterState as never);
+      usePlayerStore.getState().setQueue([a2, a3]);
+      usePlayerStore.getState().play(a2);
+      usePlayerStore.getState().next();
+      const state = usePlayerStore.getState();
+      expect(state.activeAudioSrc).toBe("/audio/mishary-alafasy/001003.mp3");
+      expect(state.pendingSeekToSeconds).toBeNull();
+    });
+
+    it("switching ayah resets the playback time so no stale word is highlighted", () => {
+      usePlayerStore.getState().setQueue([a2, a3]);
+      usePlayerStore.getState().play(a2);
+      usePlayerStore.setState({ currentTime: 5.4, currentTimeMs: 5400 });
+      usePlayerStore.getState().next();
+      expect(usePlayerStore.getState()).toMatchObject({ currentTime: 0, currentTimeMs: 0 });
+
+      usePlayerStore.setState({ currentTime: 3, currentTimeMs: 3000 });
+      usePlayerStore.getState().previous();
+      expect(usePlayerStore.getState()).toMatchObject({ currentTime: 0, currentTimeMs: 0 });
+
+      usePlayerStore.setState({ currentTime: 3, currentTimeMs: 3000 });
+      usePlayerStore.getState().setCurrentAyah(a3);
+      expect(usePlayerStore.getState()).toMatchObject({ currentTime: 0, currentTimeMs: 0 });
+
+      usePlayerStore.setState({ currentTime: 3, currentTimeMs: 3000 });
+      usePlayerStore.getState().play(a2);
+      expect(usePlayerStore.getState()).toMatchObject({ currentTime: 0, currentTimeMs: 0 });
+
+      usePlayerStore.setState({ currentTime: 3, currentTimeMs: 3000 });
+      usePlayerStore.getState().restartFromFirst();
+      expect(usePlayerStore.getState()).toMatchObject({ currentTime: 0, currentTimeMs: 0 });
+    });
+
+    it("toggling word-by-word does not change the active source", () => {
+      usePlayerStore.getState().setQueue([a2, a3]);
+      usePlayerStore.getState().play(a2);
+      const before = usePlayerStore.getState().activeAudioSrc;
+      usePlayerStore.getState().setWordByWordMode(true);
+      expect(usePlayerStore.getState().activeAudioSrc).toBe(before);
+      expect(usePlayerStore.getState().isPlaying).toBe(true);
+      usePlayerStore.getState().setWordByWordMode(false);
+      expect(usePlayerStore.getState().activeAudioSrc).toBe(before);
+    });
+  });
 });

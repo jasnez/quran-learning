@@ -2,107 +2,99 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 import { WordByWordRenderer } from "../WordByWordRenderer";
-import type { Word } from "@/types/quran";
+import type { TajwidSegment } from "@/types/quran";
+import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
 
-const mockWords: Word[] = [
-  {
-    id: 1,
-    ayahId: 10,
-    wordOrder: 1,
-    textArabic: "بِسْمِ",
-    transliteration: "Bismi",
-    translationShort: "In the name of",
-    startTimeMs: 0,
-    endTimeMs: 500,
-    tajwidRule: "normal",
-  },
-  {
-    id: 2,
-    ayahId: 10,
-    wordOrder: 2,
-    textArabic: "ٱللَّهِ",
-    transliteration: "Allahi",
-    translationShort: "of Allah",
-    startTimeMs: 500,
-    endTimeMs: 1200,
-    tajwidRule: "normal",
-  },
+afterEach(cleanup);
+
+const words: TajwidSegment[][] = [
+  [{ text: "بِسْمِ", rule: "normal" }],
+  [{ text: "ٱللَّهِ", rule: "normal" }],
+  [
+    { text: "ٱلرَّحْمَ", rule: "normal" },
+    { text: "ـٰ", rule: "mad" },
+    { text: "نِ", rule: "normal" },
+  ],
 ];
 
+function wordEls(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>("[data-word-index]"));
+}
+
 describe("WordByWordRenderer", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    cleanup();
-    document.body.innerHTML = "";
+  it("marks only the active word", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={1} showColors />);
+    expect(wordEls(container).map((el) => el.dataset.active)).toEqual(["false", "true", "false"]);
   });
 
-  it("renders each word as a span", () => {
-    render(<WordByWordRenderer words={mockWords} currentTimeMs={0} />);
-    expect(screen.getByText("بِسْمِ")).toBeInTheDocument();
-    expect(screen.getByText("ٱللَّهِ")).toBeInTheDocument();
+  it("applies tajwid classes per piece when showColors", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors />);
+    const mad = Array.from(wordEls(container)[2].querySelectorAll("span")).find((s) => s.textContent === "ـٰ");
+    expect(mad?.className).toContain(tajwidRuleClasses.mad.split(" ")[0]);
   });
 
-  it("applies highlight class to the word where startTimeMs <= currentTimeMs < endTimeMs", () => {
-    const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={250} />);
-    const spans = container.querySelectorAll('[data-word-id]');
-    expect(spans[0]).toHaveAttribute("data-active", "true");
-    expect(spans[1]).toHaveAttribute("data-active", "false");
+  it("uses normal class when showColors is false", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors={false} />);
+    const mad = Array.from(wordEls(container)[2].querySelectorAll("span")).find((s) => s.textContent === "ـٰ");
+    expect(mad?.className).not.toContain(tajwidRuleClasses.mad.split(" ")[0]);
+    expect(mad?.className).toContain(tajwidRuleClasses.normal);
   });
 
-  it("highlights second word when currentTimeMs is in range", () => {
-    const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={600} />);
-    const spans = container.querySelectorAll('[data-word-id]');
-    expect(spans[0]).toHaveAttribute("data-active", "false");
-    expect(spans[1]).toHaveAttribute("data-active", "true");
-  });
-
-  it("no word highlighted when currentTimeMs is before first word", () => {
-    const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={-100} />);
-    const spans = container.querySelectorAll('[data-word-id]');
-    spans.forEach((s) => expect(s).toHaveAttribute("data-active", "false"));
-  });
-
-  it("scales word timeline to audioDurationMs so highlight stays in sync with longer clip", () => {
+  it("calls onWordClick with the index on click and Enter", () => {
+    const onWordClick = vi.fn();
     const { container } = render(
-      <WordByWordRenderer
-        words={mockWords}
-        currentTimeMs={1200}
-        audioDurationMs={2400}
-      />
+      <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
     );
-    const spans = container.querySelectorAll('[data-word-id]');
-    expect(spans[0]).toHaveAttribute("data-active", "false");
-    expect(spans[1]).toHaveAttribute("data-active", "true");
+    fireEvent.click(wordEls(container)[2]);
+    fireEvent.keyDown(wordEls(container)[0], { key: "Enter" });
+    expect(onWordClick.mock.calls).toEqual([[2], [0]]);
   });
 
-  it("calls onSeek with word when a word is clicked", () => {
-    const onSeek = vi.fn();
-    const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={0} onSeek={onSeek} />);
-    const secondWordSpan = container.querySelector('[data-word-id="2"] [role="button"]');
-    expect(secondWordSpan).toBeInTheDocument();
-    fireEvent.click(secondWordSpan!);
-    expect(onSeek).toHaveBeenCalledWith(mockWords[1]);
+  it("words are not focusable buttons without onWordClick", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors />);
+    expect(container.querySelector("[role=button]")).toBeNull();
   });
 
-  it("words have title for tooltip (transliteration + translation)", () => {
-    const { container } = render(<WordByWordRenderer words={mockWords} currentTimeMs={0} />);
-    const firstWord = container.querySelector('[data-word-id="1"] [title]');
-    expect(firstWord).toHaveAttribute("title", "Bismi — In the name of");
+  // The highlight must not reuse a tajwid hue (qalqalah is amber), or that rule disappears on the active word.
+  it("highlights the active word without a tajwid hue", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={1} showColors />);
+    const active = wordEls(container)[1];
+    expect(active.className).not.toMatch(/amber|emerald|rose|sky/);
+    expect(active.className).toMatch(/ring-/);
   });
 
-  it("when showInterlinear is true, shows translation below each word", () => {
-    render(<WordByWordRenderer words={mockWords} currentTimeMs={0} showInterlinear />);
-    expect(screen.getByText("In the name of")).toBeInTheDocument();
-    expect(screen.getByText("of Allah")).toBeInTheDocument();
+  // One tab stop per ayah (roving tabindex); arrow keys move between words.
+  it("has a single tab stop: the active word, else the first word", () => {
+    const onWordClick = vi.fn();
+    const { container, rerender } = render(
+      <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
+    );
+    expect(wordEls(container).map((el) => el.tabIndex)).toEqual([0, -1, -1]);
+    rerender(<WordByWordRenderer words={words} activeWordIndex={2} showColors onWordClick={onWordClick} />);
+    expect(wordEls(container).map((el) => el.tabIndex)).toEqual([-1, -1, 0]);
   });
 
-  it("renders empty when words array is empty", () => {
-    const { container } = render(<WordByWordRenderer words={[]} currentTimeMs={0} />);
-    const wrapper = container.querySelector('[data-word-by-word]');
-    expect(wrapper).toBeInTheDocument();
-    expect(wrapper?.textContent).toBe("");
+  it("moves focus with arrow keys in reading order (right-to-left)", () => {
+    const onWordClick = vi.fn();
+    const { container } = render(
+      <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
+    );
+    const els = wordEls(container);
+    els[0].focus();
+    fireEvent.keyDown(els[0], { key: "ArrowLeft" });
+    expect(document.activeElement).toBe(els[1]);
+    fireEvent.keyDown(els[1], { key: "ArrowRight" });
+    expect(document.activeElement).toBe(els[0]);
+    fireEvent.keyDown(els[0], { key: "ArrowRight" });
+    expect(document.activeElement).toBe(els[0]);
+    expect(onWordClick).not.toHaveBeenCalled();
+  });
+
+  it("renders no Latin text", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={0} showColors />);
+    expect(container.textContent).not.toMatch(/[A-Za-z]/);
   });
 });
