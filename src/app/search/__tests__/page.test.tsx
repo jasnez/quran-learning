@@ -225,6 +225,16 @@ describe("Search page", () => {
     expect(input).toHaveAttribute("aria-controls", "search-results-list");
   });
 
+  it("mobile sticky search bar sits below the fixed global header (QA P1-3)", () => {
+    renderSearch();
+    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const bar = input.parentElement!;
+    const c = bar.className.split(/\s+/);
+    expect(c).toContain("sticky");
+    expect(c).toContain("top-[var(--app-header-offset)]");
+    expect(c).not.toContain("top-0");
+  });
+
   describe("focus stays in the input (QA P1-4)", () => {
     const twoResults: SearchResult[] = [
       mockSearchResults[0],
