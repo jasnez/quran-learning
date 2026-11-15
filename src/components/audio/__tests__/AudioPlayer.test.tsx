@@ -270,6 +270,28 @@ describe("AudioPlayer", () => {
     expect(mockPause).toHaveBeenCalled();
   });
 
+  it("after stop, playing the same source again reloads and plays it (QA P1-1)", () => {
+    playerState.activeAudioSrc = "/audio/dua-1.mp3";
+    playerState.isPlaying = true;
+    const { rerender } = render(<AudioPlayer />);
+    expect(mockLoadAudio).toHaveBeenCalledTimes(1);
+    expect(mockPlay).toHaveBeenCalledTimes(1);
+
+    // Stop: store clears the source and playing flag.
+    (playerState as { activeAudioSrc: string | null }).activeAudioSrc = null;
+    playerState.isPlaying = false;
+    rerender(<AudioPlayer />);
+
+    // Play the same dua again.
+    mockLoadAudio.mockClear();
+    mockPlay.mockClear();
+    playerState.activeAudioSrc = "/audio/dua-1.mp3";
+    playerState.isPlaying = true;
+    rerender(<AudioPlayer />);
+    expect(mockLoadAudio).toHaveBeenCalledWith("/audio/dua-1.mp3");
+    expect(mockPlay).toHaveBeenCalledTimes(1);
+  });
+
   it("when playback speed changes while audio is playing, audio does not stop (sync effect cleanup does not run)", () => {
     playerState.activeAudioSrc = "/audio/001001.mp3";
     playerState.isPlaying = true;

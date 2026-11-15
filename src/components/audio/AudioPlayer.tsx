@@ -122,7 +122,13 @@ export function AudioPlayer() {
   // Sync audio element with store: load and play/pause
   useEffect(() => {
     const resolvedSrc = getResolvedAudioUrl(activeAudioSrc);
-    if (!resolvedSrc) return;
+    if (!resolvedSrc) {
+      // Stopped (source cleared): forget the previous source so playing the
+      // same source again is treated as a fresh load and actually plays.
+      prevSrcRef.current = null;
+      prevIsPlayingRef.current = false;
+      return;
+    }
     if (prevSrcRef.current !== resolvedSrc) {
       prevSrcRef.current = resolvedSrc;
       prevIsPlayingRef.current = isPlaying;
