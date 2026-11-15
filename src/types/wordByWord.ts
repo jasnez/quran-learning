@@ -16,11 +16,3 @@ export interface ChapterAudioData {
   audioUrl: string;
   timestamps: VerseTimestamp[];
 }
-
-export interface WordData {
-  position: number;
-  textUthmani: string;
-  transliteration: string;
-  translation: string;
-  charTypeName: "word" | "end" | "pause";
-}

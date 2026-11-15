@@ -1,7 +1,6 @@
 import type {
   ChapterAudioData,
   VerseTimestamp,
-  WordData,
   WordTimingSegment,
 } from "@/types/wordByWord";
 import surahs from "@/data/surahs.json";
@@ -16,7 +15,6 @@ function padded(n: number): string {
 }
 
 const chapterAudioCache = new Map<number, ChapterAudioData>();
-const wordDataCache = new Map<number, Map<string, WordData[]>>();
 
 interface RawTimestamp {
   verseKey: string;
@@ -76,20 +74,6 @@ export async function fetchChapterAudioData(
   return result;
 }
 
-/**
- * Returns chapter-level word data per verse (including verse-end markers).
- * Currently disabled in static-only build — chapter word-by-word rendering
- * falls back to per-ayah word data (which works for all 114 surahs from
- * /data/words/). To re-enable, add a chapter-words generator script.
- */
-export async function fetchWordData(
-  _surahNumber: number,
-): Promise<Map<string, WordData[]>> {
-  void _surahNumber;
-  return new Map();
-}
-
 export function clearWordTimingCache(): void {
   chapterAudioCache.clear();
-  wordDataCache.clear();
 }

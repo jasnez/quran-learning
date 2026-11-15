@@ -80,17 +80,18 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("button", { name: /increase|povećaj|plus|\+/i })).toBeInTheDocument();
   });
 
-  it("has Arabic font style options (Naskh, Uthmanic HAFS)", () => {
+  it("has Arabic font style options (Naskh, Scheherazade)", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByText(/stil arapskog fonta/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /naskh.*zaobljen/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /uthmanic hafs/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /scheherazade/i })).toBeInTheDocument();
+    expect(screen.queryByText(/uthmanic/i)).toBeNull();
   });
 
-  it("clicking Uthmanic HAFS calls setArabicFontStyle with \"uthmanic\"", async () => {
+  it("clicking Scheherazade calls setArabicFontStyle with \"uthmanic\" (saved key unchanged)", async () => {
     const user = userEvent.setup();
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const uthmanicBtn = screen.getByRole("button", { name: /uthmanic hafs/i });
+    const uthmanicBtn = screen.getByRole("button", { name: /scheherazade/i });
     await user.click(uthmanicBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("uthmanic");
   });

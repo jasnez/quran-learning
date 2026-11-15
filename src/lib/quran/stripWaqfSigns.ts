@@ -1,22 +1,22 @@
 /**
- * Unicode range for Quranic annotation / waqf signs (small circles etc. in Uthmani text).
- * U+06D6–U+06ED: Arabic small high signs, pause marks.
- * Stripping these at display time shows "original" script without circles; data and tajwid indices stay unchanged.
+ * Quranic symbols hidden at display time:
+ * - U+06D6-U+06DC: pause (waqf) signs (sala, qala, lazim, la, jaiz, muanaqa, sakta);
+ * - U+06DE: start of rub el hizb; U+06E9: place of sajdah.
+ * The rest of U+06DF-U+06ED (small high rounded zero, small waw/yeh, iqlab meem, imala,
+ * ishmam, tas-hil...) is part of the Uthmani spelling and stays visible.
+ * Data and tajwid indices stay unchanged.
  */
-const WAQF_FIRST = 0x06d6;
-const WAQF_LAST = 0x06ed;
-
-function isWaqfSign(codePoint: number): boolean {
-  return codePoint >= WAQF_FIRST && codePoint <= WAQF_LAST;
+export function isHiddenQuranicSign(codePoint: number): boolean {
+  return (codePoint >= 0x06d6 && codePoint <= 0x06dc) || codePoint === 0x06de || codePoint === 0x06e9;
 }
 
 /**
- * Removes waqf/annotation symbols (U+06D6–U+06ED) from Arabic text.
+ * Removes pause signs and the rub el hizb / sajdah symbols from Arabic text.
  * Use only when rendering; do not alter stored verse data.
  */
 export function stripWaqfSigns(text: string): string {
   if (!text) return text;
   return Array.from(text)
-    .filter((char) => !isWaqfSign(char.codePointAt(0) ?? 0))
+    .filter((char) => !isHiddenQuranicSign(char.codePointAt(0) ?? 0))
     .join("");
 }

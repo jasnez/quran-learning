@@ -26,7 +26,6 @@ const playerState = {
   duration: 0,
   wordByWordMode: false,
   setWordByWordMode: vi.fn(),
-  setChapterAudio: vi.fn(),
   setQueue: vi.fn(),
   play: vi.fn(),
   setCurrentTime: vi.fn(),
@@ -70,16 +69,6 @@ vi.mock("@/lib/audio/audioManager", () => ({
 
 vi.mock("@/lib/audio/wordTimingService", () => ({
   fetchChapterAudioData: vi.fn(),
-  fetchWordData: vi.fn(),
-}));
-
-vi.mock("@/lib/quran/wordUtils", () => ({
-  normalizeWordsToAyahRelative: (w: unknown) => w,
-  normalizeWordFromApi: (row: unknown) => row,
-}));
-
-vi.mock("@/lib/quran/tajwidWordMapping", () => ({
-  mapDbWordsToQuranComWords: (_db: unknown, raw: unknown) => raw,
 }));
 
 vi.mock("@/lib/data/juzUtils", () => ({

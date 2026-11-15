@@ -1,115 +1,107 @@
 "use client";
 
 import { memo } from "react";
-import type { Word } from "@/types/quran";
-import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
+import type { TajwidSegment } from "@/types/quran";
+import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
 
 export type WordByWordRendererProps = {
-  words: Word[];
-  currentTimeMs: number;
-  /** When set, word timeline is scaled to match actual clip duration so highlight stays in sync */
-  audioDurationMs?: number;
-  onSeek?: (word: Word) => void;
-  showInterlinear?: boolean;
+  /** One array of tajwid-colored pieces per word (see splitTajwidIntoWords). */
+  words: TajwidSegment[][];
+  /** Index of the word being recited, or -1 for none. */
+  activeWordIndex: number;
+  showColors: boolean;
+  onWordClick?: (wordIndex: number) => void;
   className?: string;
   style?: React.CSSProperties;
 };
 
-function WordSpan({
-  word,
-  isActive,
-  onSeek,
-  showInterlinear,
-}: {
-  word: Word;
+type WordSpanProps = {
+  pieces: TajwidSegment[];
+  index: number;
   isActive: boolean;
-  onSeek?: (word: Word) => void;
-  showInterlinear?: boolean;
-}) {
-  const tooltip = [word.transliteration, word.translationShort].filter(Boolean).join(" — ");
+  /** Roving tabindex: only one word per ayah is in the tab order. */
+  isTabStop: boolean;
+  showColors: boolean;
+  onWordClick?: (wordIndex: number) => void;
+};
+
+/** Arabic reads right-to-left: ArrowLeft goes to the next word, ArrowRight to the previous one. */
+function focusWord(from: HTMLElement, index: number): void {
+  from
+    .closest("[data-word-by-word]")
+    ?.querySelector<HTMLElement>(`[data-word-index="${index}"]`)
+    ?.focus();
+}
+
+function WordSpan({ pieces, index, isActive, isTabStop, showColors, onWordClick }: WordSpanProps) {
+  const interactive = onWordClick != null;
   return (
     <span
-      className="inline-block align-baseline"
-      data-word-id={word.id}
+      data-word-index={index}
       data-active={isActive ? "true" : "false"}
-    >
-      <span
-        role={onSeek ? "button" : undefined}
-        tabIndex={onSeek ? 0 : undefined}
-        title={tooltip || undefined}
-        onClick={onSeek ? () => onSeek(word) : undefined}
-        onKeyDown={
-          onSeek
-            ? (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onSeek(word);
-                }
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? (isTabStop ? 0 : -1) : undefined}
+      onClick={interactive ? () => onWordClick(index) : undefined}
+      onKeyDown={
+        interactive
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onWordClick(index);
+              } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+                e.preventDefault();
+                focusWord(e.currentTarget, index + (e.key === "ArrowLeft" ? 1 : -1));
               }
-            : undefined
-        }
-        className={`cursor-pointer rounded px-0.5 transition-colors duration-150 ${
-          isActive
-            ? "bg-amber-200/90 text-stone-900 dark:bg-amber-400/40 dark:text-stone-100"
-            : "text-stone-800 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-        }`}
-        style={{ font: "inherit" }}
-      >
-        {stripWaqfSigns(word.textArabic)}
-      </span>
-      {showInterlinear && word.translationShort && (
-        <span className="block text-center text-xs leading-tight text-stone-500 dark:text-stone-400" dir="ltr">
-          {word.translationShort}
+            }
+          : undefined
+      }
+      // Neutral background + ring: no tajwid hue (qalqalah is amber), so every rule color stays readable.
+      className={`rounded px-0.5 transition-colors duration-150 ${
+        interactive ? "cursor-pointer" : ""
+      } ${
+        isActive
+          ? "bg-stone-200/80 ring-1 ring-stone-400 dark:bg-stone-600/50 dark:ring-stone-400"
+          : interactive
+            ? "hover:bg-stone-100 dark:hover:bg-stone-700"
+            : ""
+      }`}
+    >
+      {pieces.map((piece, i) => (
+        <span key={i} className={showColors ? tajwidRuleClasses[piece.rule] : tajwidRuleClasses.normal}>
+          {piece.text}
         </span>
-      )}
+      ))}
     </span>
   );
 }
 
 const MemoizedWordSpan = memo(WordSpan);
 
+/** Arabic ayah text as separate words, tajwid-colored, with the recited word highlighted. */
 export function WordByWordRenderer({
   words,
-  currentTimeMs,
-  audioDurationMs,
-  onSeek,
-  showInterlinear = false,
+  activeWordIndex,
+  showColors,
+  onWordClick,
   className = "",
   style,
 }: WordByWordRendererProps) {
-  const baseClass = "font-arabic leading-[1.9] text-center";
-  const wrapperClass = [baseClass, className].filter(Boolean).join(" ");
-
-  const refDurationMs = words.length > 0 ? Math.max(...words.map((w) => w.endTimeMs)) : 0;
-  const scale =
-    audioDurationMs != null &&
-    audioDurationMs > 0 &&
-    refDurationMs > 0
-      ? refDurationMs / audioDurationMs
-      : 1;
-  const wordTimeMs = currentTimeMs * scale;
-
+  const wrapperClass = ["font-arabic leading-[1.9]", className].filter(Boolean).join(" ");
   return (
-    <p
-      data-word-by-word
-      className={wrapperClass}
-      style={style}
-      dir="rtl"
-      lang="ar"
-    >
-      {words.map((word) => {
-        const isActive =
-          wordTimeMs >= word.startTimeMs && wordTimeMs < word.endTimeMs;
-        return (
+    <p data-word-by-word className={wrapperClass} style={style} dir="rtl" lang="ar">
+      {words.map((pieces, i) => (
+        <span key={i}>
+          {i > 0 && " "}
           <MemoizedWordSpan
-            key={word.id}
-            word={word}
-            isActive={isActive}
-            onSeek={onSeek}
-            showInterlinear={showInterlinear}
+            pieces={pieces}
+            index={i}
+            isActive={i === activeWordIndex}
+            isTabStop={i === (activeWordIndex >= 0 ? activeWordIndex : 0)}
+            showColors={showColors}
+            onWordClick={onWordClick}
           />
-        );
-      })}
+        </span>
+      ))}
     </p>
   );
 }

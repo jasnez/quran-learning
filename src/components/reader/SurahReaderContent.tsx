@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { Ayah, Word } from "@/types/quran";
-import type { ChapterAudioData, WordData } from "@/types/wordByWord";
+import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
-import * as audioManager from "@/lib/audio/audioManager";
-import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
-import { normalizeWordsToAyahRelative, normalizeWordFromApi } from "@/lib/quran/wordUtils";
-import { mapDbWordsToQuranComWords } from "@/lib/quran/tajwidWordMapping";
+import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
+import { playAyahFromMs } from "@/lib/audio/playFromWord";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
 import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
@@ -43,126 +40,24 @@ export function SurahReaderContent({
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
-  const currentTime = usePlayerStore((s) => s.currentTime);
   const currentTimeMs = usePlayerStore((s) => s.currentTimeMs);
+  const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
-  const duration = usePlayerStore((s) => s.duration);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
   const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
-  const setChapterAudio = usePlayerStore((s) => s.setChapterAudio);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
-  const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
-  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
-
-  const [words, setWords] = useState<Word[]>([]);
-  const wordLevelSync = false;
-  const [chapterAudioData, setChapterAudioData] = useState<ChapterAudioData | null>(null);
-  const [wordDataMap, setWordDataMap] = useState<Map<string, WordData[]>>(new Map());
-  const [chapterDataError, setChapterDataError] = useState(false);
 
   const prevAyahIdRef = useRef<string | null>(null);
   const progressTrackedRef = useRef(false);
 
   const surahNumber = ayahs.length > 0 ? parseInt(ayahs[0].id.split(":")[0], 10) : 0;
 
-  useEffect(() => {
-    if (surahNumber < 1 || surahNumber > 114) return;
-    const surahMeta = (surahsData as Array<{ surahNumber: number; slug: string }>).find(
-      (s) => s.surahNumber === surahNumber,
-    );
-    if (!surahMeta) return;
-    let cancelled = false;
-    const padded = String(surahNumber).padStart(3, "0");
-    fetch(`/data/words/${padded}-${surahMeta.slug}.json`)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((data: unknown) => {
-        if (cancelled) return;
-        if (!Array.isArray(data)) {
-          setWords([]);
-          return;
-        }
-        const normalized = (data as Record<string, unknown>[]).map((row) =>
-          normalizeWordFromApi(row),
-        );
-        setWords(normalized);
-      })
-      .catch(() => {
-        if (!cancelled) setWords([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [surahNumber]);
+  const { byVerse: verseTimestamps, error: chapterDataError } = useChapterTimestamps(
+    surahNumber,
+    wordByWordMode,
+  );
 
-  // Reset error kad se surah/mode mijenja — adjust-state-during-render umjesto u effect-u.
-  const fetchKey = `${surahNumber}-${wordByWordMode}`;
-  const [prevFetchKey, setPrevFetchKey] = useState(fetchKey);
-  if (fetchKey !== prevFetchKey) {
-    setPrevFetchKey(fetchKey);
-    setChapterDataError(false);
-  }
-
-  useEffect(() => {
-    if (!wordByWordMode || surahNumber < 1 || surahNumber > 114) return;
-    let cancelled = false;
-    Promise.all([fetchChapterAudioData(surahNumber), fetchWordData(surahNumber)])
-      .then(([audioData, wMap]) => {
-        if (cancelled) return;
-        setChapterAudioData(audioData);
-        setWordDataMap(wMap);
-        setChapterAudio(audioData.audioUrl, audioData.timestamps);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setChapterDataError(true);
-          setChapterAudioData(null);
-          setWordDataMap(new Map());
-          setChapterAudio(null, null);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [wordByWordMode, surahNumber, setChapterAudio]);
-
-  const wordsByAyahKey = useMemo(() => {
-    const map = new Map<string, Word[]>();
-    for (const w of words) {
-      const key = w.ayahKey;
-      if (!key) continue;
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(w);
-    }
-    for (const [key, arr] of map.entries()) {
-      arr.sort((a, b) => a.wordOrder - b.wordOrder);
-      map.set(key, normalizeWordsToAyahRelative(arr));
-    }
-    return map;
-  }, [words]);
-
-  const handleSeekWord = (word: Word, ayah: Ayah, seekSeconds: number) => {
-    if (currentAyahId === ayah.id) {
-      audioManager.seek(seekSeconds);
-      setCurrentTime(seekSeconds);
-    } else {
-      setPendingSeek(seekSeconds);
-      setQueue(ayahs);
-      play(ayah);
-    }
-  };
-
-  const handleChapterWordClick = (clickedAyah: Ayah, wordPosition: number, startMs: number) => {
-    const seekSeconds = startMs / 1000;
-    if (currentAyahId === clickedAyah.id) {
-      audioManager.seek(seekSeconds);
-      setCurrentTime(seekSeconds);
-    } else {
-      setQueue(ayahs);
-      play(clickedAyah);
-      setPendingSeek(seekSeconds);
-    }
-  };
 
   // Track surah opened and last position (lightweight: once per mount)
   useEffect(() => {
@@ -282,8 +177,8 @@ export function SurahReaderContent({
         </div>
       </div>
       {wordByWordMode && chapterDataError && (
-        <p className="mb-4 text-sm text-amber-600 dark:text-amber-400">
-          Highlight po riječima (Quran.com) nije dostupan. Koristite „Po ajetu”.
+        <p className="mb-4 text-sm text-amber-600 dark:text-amber-400" role="status">
+          Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo.
         </p>
       )}
       <ul className="space-y-6 list-none" role="list">
@@ -297,15 +192,6 @@ export function SurahReaderContent({
           const showPageBadge =
             ayah.page > 0 && (!prevAyah || prevAyah.page !== ayah.page);
 
-          const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
-          const rawChapterWords = wordDataMap.get(ayah.id);
-          const dbWordsForAyah = wordsByAyahKey.get(ayah.id);
-          const chapterWords =
-            rawChapterWords && dbWordsForAyah
-              ? mapDbWordsToQuranComWords(dbWordsForAyah, rawChapterWords)
-              : rawChapterWords;
-          const useChapterRenderer =
-            wordByWordMode && chapterWords && chapterWords.length > 0 && verseTimestamp?.segments?.length;
           return (
             <li key={ayah.id}>
               {showJuzDivider && (
@@ -332,29 +218,15 @@ export function SurahReaderContent({
                 showTransliteration={showTransliteration}
                 showTranslation={showTranslation}
                 showTajwidColors={showTajwidColors}
-                words={wordsByAyahKey.get(ayah.id)}
-                wordLevelSync={wordLevelSync && !wordByWordMode}
-                currentTimeMs={
-                  currentAyahId === ayah.id
-                    ? wordByWordMode
-                      ? currentTimeMs
-                      : Math.round(currentTime * 1000)
-                    : 0
-                }
-                audioDurationMs={
-                  currentAyahId === ayah.id && duration > 0 && !wordByWordMode
-                    ? Math.round(duration * 1000)
+                wordByWord={
+                  wordByWordMode && !chapterDataError
+                    ? {
+                        verse: verseTimestamps?.get(ayah.id),
+                        // Only the ayah whose audio is loaded shows a word; a stopped player shows none.
+                        currentTimeMs: currentAyahId === ayah.id && activeAudioSrc ? currentTimeMs : -1,
+                        onSeekMs: (ms) => playAyahFromMs(ayah, ayahs, ms),
+                      }
                     : undefined
-                }
-                onSeekWord={
-                  wordLevelSync && !wordByWordMode
-                    ? (word, seekSeconds) => handleSeekWord(word, ayah, seekSeconds)
-                    : undefined
-                }
-                chapterWords={useChapterRenderer ? chapterWords : undefined}
-                chapterSegments={useChapterRenderer ? verseTimestamp!.segments : undefined}
-                onChapterWordClick={
-                  useChapterRenderer ? (pos, startMs) => handleChapterWordClick(ayah, pos, startMs) : undefined
                 }
                 showPageBadge={showPageBadge}
               />

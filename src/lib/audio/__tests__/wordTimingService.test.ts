@@ -4,7 +4,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   fetchChapterAudioData,
-  fetchWordData,
   clearWordTimingCache,
 } from "../wordTimingService";
 
@@ -65,10 +64,5 @@ describe("wordTimingService", () => {
 
   it("fetchChapterAudioData throws on unknown surah", async () => {
     await expect(fetchChapterAudioData(999)).rejects.toThrow("Unknown surah");
-  });
-
-  it("fetchWordData returns empty Map (chapter-words mode disabled in static-export build)", async () => {
-    const result = await fetchWordData(1);
-    expect(result.size).toBe(0);
   });
 });

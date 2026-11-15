@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
-import type { SurahSummary, Ayah, Word } from "@/types/quran";
-import type { ChapterAudioData, WordData } from "@/types/wordByWord";
+import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
-import { fetchChapterAudioData, fetchWordData } from "@/lib/audio/wordTimingService";
+import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
+import { playAyahFromMs } from "@/lib/audio/playFromWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
-import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
-import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterRenderer";
+import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
 import { TajwidLegend } from "@/components/quran";
-import { normalizeWordsToAyahRelative } from "@/lib/quran/wordUtils";
 
 type SurahNavItem = { surahNumber: number; nameLatin: string; nameBosnian?: string };
 
@@ -37,25 +35,22 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
 
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
-  const duration = usePlayerStore((s) => s.duration);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
   const setCurrentAyah = usePlayerStore((s) => s.setCurrentAyah);
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
-  const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
-  const setPendingSeek = usePlayerStore((s) => s.setPendingSeek);
   const next = usePlayerStore((s) => s.next);
   const previous = usePlayerStore((s) => s.previous);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
   const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
-  const setChapterAudio = usePlayerStore((s) => s.setChapterAudio);
   const currentTimeMsStore = usePlayerStore((s) => s.currentTimeMs);
+  const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
 
-  const [words, setWords] = useState<Word[]>([]);
-  const [showWordMeaning, setShowWordMeaning] = useState(true);
-  const [chapterAudioData, setChapterAudioData] = useState<ChapterAudioData | null>(null);
-  const [wordDataMap, setWordDataMap] = useState<Map<string, WordData[]>>(new Map());
+  const { byVerse: verseTimestamps, error: chapterDataError } = useChapterTimestamps(
+    surah.surahNumber,
+    wordByWordMode,
+  );
 
   const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
   const showToast = useToastStore((s) => s.showToast);
@@ -91,70 +86,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   }, [ayahs, setQueue, setCurrentAyah, currentAyahId]);
 
   useEffect(() => {
-    if (surah.surahNumber < 1 || surah.surahNumber > 114) return;
-    let cancelled = false;
-    const padded = String(surah.surahNumber).padStart(3, "0");
-    fetch(`/data/words/${padded}-${surah.slug}.json`)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((raw) => {
-        if (cancelled) return;
-        const list: Word[] = Array.isArray(raw)
-          ? raw.map((w: Record<string, unknown>, idx) => ({
-              id: idx + 1,
-              ayahId: Number(w.ayahNumberGlobal ?? 0),
-              ayahKey: undefined,
-              wordOrder: Number(w.wordOrder ?? 0),
-              textArabic: String(w.textArabic ?? ""),
-              transliteration:
-                w.transliteration != null ? String(w.transliteration) : undefined,
-              translationShort:
-                w.translationShort != null ? String(w.translationShort) : undefined,
-              startTimeMs: Number(w.startTimeMs ?? 0),
-              endTimeMs: Number(w.endTimeMs ?? 0),
-              tajwidRule:
-                ((w.tajwidRule as Word["tajwidRule"]) || "normal") as Word["tajwidRule"],
-            }))
-          : [];
-        // Restore ayahKey using cached ayahs map
-        const ayahByGlobal = new Map<number, number>();
-        ayahs.forEach((a) => ayahByGlobal.set(a.ayahNumberGlobal, a.ayahNumber));
-        for (const w of list) {
-          const n = ayahByGlobal.get(w.ayahId);
-          if (n != null) w.ayahKey = `${surah.surahNumber}:${n}`;
-        }
-        setWords(list);
-      })
-      .catch(() => {
-        if (!cancelled) setWords([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [surah.surahNumber, surah.slug, ayahs]);
-
-  useEffect(() => {
-    if (!wordByWordMode || surah.surahNumber < 1 || surah.surahNumber > 114) return;
-    let cancelled = false;
-    Promise.all([fetchChapterAudioData(surah.surahNumber), fetchWordData(surah.surahNumber)])
-      .then(([audioData, wMap]) => {
-        if (cancelled) return;
-        setChapterAudioData(audioData);
-        setWordDataMap(wMap);
-        setChapterAudio(audioData.audioUrl, audioData.timestamps);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setChapterAudioData(null);
-          setWordDataMap(new Map());
-          setChapterAudio(null, null);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [wordByWordMode, surah.surahNumber, setChapterAudio]);
-
-  useEffect(() => {
     if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
   }, [surah?.surahNumber]);
 
@@ -163,14 +94,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber);
     }
   }, [ayah, surahNumber, ayahs.length]);
-
-  // Hooks moraju ići PRIJE bilo kakvog conditional return-a (rules-of-hooks).
-  const wordsForAyah = useMemo(() => {
-    if (!ayah) return [];
-    const list = words.filter((w) => w.ayahKey === ayah.id);
-    const sorted = [...list].sort((a, b) => a.wordOrder - b.wordOrder);
-    return normalizeWordsToAyahRelative(sorted);
-  }, [words, ayah]);
 
   if (!ayah) {
     return (
@@ -190,46 +113,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
 
-  const useWordByWord = wordsForAyah.length > 0;
-  const chapterWords = wordDataMap.get(ayah.id);
-  const verseTimestamp = chapterAudioData?.timestamps.find((t) => t.verseKey === ayah.id);
-  const useChapterWordByWord =
-    wordByWordMode &&
-    !!chapterWords?.length &&
-    !!verseTimestamp?.segments?.length;
-  const currentTimeMs =
-    currentAyahId === ayah.id ? (wordByWordMode ? currentTimeMsStore : -1) : 0;
-  const audioDurationMs =
-    currentAyahId === ayah.id && duration > 0 ? Math.round(duration * 1000) : undefined;
-
-  const handleSeekWord = (word: Word) => {
-    const refMs =
-      wordsForAyah.length > 0 ? Math.max(...wordsForAyah.map((w) => w.endTimeMs)) : 0;
-    const seekSeconds =
-      refMs > 0 && audioDurationMs != null && audioDurationMs > 0
-        ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
-        : word.startTimeMs / 1000;
-    if (currentAyahId === ayah.id) {
-      audioManager.seek(seekSeconds);
-      setCurrentTime(seekSeconds);
-    } else {
-      setPendingSeek(seekSeconds);
-      setQueue(ayahs, "learn");
-      play(ayah);
-    }
-  };
-
-  const handleChapterWordClick = (wordPosition: number, startMs: number) => {
-    const seekSeconds = startMs / 1000;
-    if (currentAyahId === ayah.id) {
-      audioManager.seek(seekSeconds);
-      setCurrentTime(seekSeconds);
-    } else {
-      setQueue(ayahs, "learn");
-      play(ayah);
-      setPendingSeek(seekSeconds);
-    }
-  };
 
   const handlePlayPause = () => {
     if (isThisAyahPlaying) pause();
@@ -326,26 +209,13 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       {/* Center: Arabic (very large), transliteration, translation */}
       <section className="flex flex-1 flex-col justify-center py-8" aria-label="Trenutni ajet">
         <article className="rounded-2xl border border-stone-200/80 bg-white/50 px-6 py-10 dark:border-stone-700/80 dark:bg-stone-900/20">
-          {useChapterWordByWord ? (
-            <WordByWordChapterRenderer
-              verseKey={ayah.id}
-              words={chapterWords!}
-              segments={verseTimestamp!.segments}
-              currentTimeMs={currentTimeMs}
-              isPlaying={isThisAyahPlaying}
-              showTajwidColors={showTajwidColors}
-              onWordClick={handleChapterWordClick}
-              showInterlinear={showWordMeaning}
-              className="text-center"
-              style={{ fontSize: `${learnFontSize}px` }}
-            />
-          ) : useWordByWord ? (
-            <WordByWordRenderer
-              words={wordsForAyah}
-              currentTimeMs={currentTimeMs}
-              audioDurationMs={audioDurationMs}
-              onSeek={handleSeekWord}
-              showInterlinear={showWordMeaning}
+          {wordByWordMode && !chapterDataError ? (
+            <AyahWordByWord
+              ayah={ayah}
+              verse={verseTimestamps?.get(ayah.id)}
+              currentTimeMs={currentAyahId === ayah.id && activeAudioSrc ? currentTimeMsStore : -1}
+              showColors={showTajwidColors}
+              onSeekMs={(ms) => playAyahFromMs(ayah, ayahs, ms, "learn")}
               className="text-center"
               style={{ fontSize: `${learnFontSize}px` }}
             />
@@ -356,6 +226,11 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
               className="text-center"
               style={{ fontSize: `${learnFontSize}px` }}
             />
+          )}
+          {wordByWordMode && chapterDataError && (
+            <p className="mt-4 text-center text-sm text-amber-600 dark:text-amber-400" role="status">
+              Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo.
+            </p>
           )}
           {showTransliteration && ayah.transliteration && (
             <p className="mt-8 text-center text-lg leading-relaxed text-stone-500 dark:text-stone-400">
@@ -436,14 +311,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             onClick={() => setWordByWordMode(!wordByWordMode)}
           >
             Riječ po riječ
-          </OptionToggle>
-          <OptionToggle
-            active={showWordMeaning}
-            ariaLabel={showWordMeaning ? "Sakrij značenje riječi" : "Prikaži značenje riječi"}
-            ariaPressed={showWordMeaning}
-            onClick={() => setShowWordMeaning(!showWordMeaning)}
-          >
-            Prikaži značenje riječi
           </OptionToggle>
           <OptionToggle
             active={repeatMode !== "off"}

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
@@ -30,10 +29,12 @@ const notoNaskhArabic = Noto_Naskh_Arabic({
   variable: "--font-naskh-arabic",
 });
 
-const uthmanicHafs = localFont({
-  src: "../../node_modules/kfgqpc-uthmanic-script-hafs-regular/arabic.otf",
-  variable: "--font-uthmanic-hafs",
-  display: "swap",
+// The "uthmanic" font setting. Replaces the KFGQPC file, which drew some Uthmani spelling
+// marks (U+06DF, U+06EA, U+06EB, U+06ED) as dotted circles.
+const scheherazade = Scheherazade_New({
+  weight: ["400", "700"],
+  subsets: ["arabic", "latin"],
+  variable: "--font-scheherazade",
 });
 
 export const metadata: Metadata = {
@@ -66,7 +67,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${uthmanicHafs.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
         <QueryProvider>

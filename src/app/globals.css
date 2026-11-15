@@ -50,7 +50,7 @@
 }
 
 html[data-arabic-font="uthmanic"] {
-  --font-arabic: var(--font-uthmanic-hafs), var(--font-amiri), serif;
+  --font-arabic: var(--font-scheherazade), var(--font-amiri), serif;
 }
 
 html[data-arabic-font="naskh"] {
@@ -92,7 +92,7 @@ body {
 
 /* Direct override so nothing can override when attribute is set */
 html[data-arabic-font="uthmanic"] .font-arabic {
-  font-family: var(--font-uthmanic-hafs), var(--font-amiri), serif !important;
+  font-family: var(--font-scheherazade), var(--font-amiri), serif !important;
 }
 
 html[data-arabic-font="naskh"] .font-arabic {

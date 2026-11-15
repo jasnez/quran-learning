@@ -111,7 +111,6 @@ beforeEach(() => {
       previous: vi.fn(),
       wordByWordMode: false,
       setWordByWordMode: vi.fn(),
-      setChapterAudio: vi.fn(),
       currentTimeMs: 0,
       setCurrentTime: vi.fn(),
       setPendingSeek: vi.fn(),

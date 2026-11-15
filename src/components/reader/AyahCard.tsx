@@ -2,16 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import { Bookmark, Play, Pause } from "lucide-react";
-import type { Ayah, Word } from "@/types/quran";
+import type { Ayah } from "@/types/quran";
 import type { QueueSource } from "@/types/audio";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
-import type { WordData, WordTimingSegment } from "@/types/wordByWord";
+import type { VerseTimestamp } from "@/types/wordByWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
-import { WordByWordRenderer } from "@/components/quran/WordByWordRenderer";
-import { WordByWordChapterRenderer } from "@/components/quran/WordByWordChapterRenderer";
+import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import * as audioManager from "@/lib/audio/audioManager";
 
@@ -28,22 +27,15 @@ type AyahCardProps = {
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
-  /** Words for this ayah when word-level sync is available */
-  words?: Word[];
-  wordLevelSync?: boolean;
-  /** Current playback time in ms (only set when this ayah is the active one) */
-  currentTimeMs?: number;
-  /** Duration of the current ayah's audio clip in ms (for scaling word timeline to match audio) */
-  audioDurationMs?: number;
-  /** Called when user clicks a word to seek (word-level mode). Pass seekSeconds so parent can seek to correct position. */
-  onSeekWord?: (word: Word, seekSeconds: number) => void;
-  /** Quran.com API: words for this verse (chapter-level audio) */
-  chapterWords?: WordData[];
-  /** Quran.com API: segments for this verse */
-  chapterSegments?: WordTimingSegment[];
-  /** Quran.com API: seek to word start in chapter audio */
-  /** Quran.com API: seek to word start in chapter audio */
-  onChapterWordClick?: (wordPosition: number, startMs: number) => void;
+  /**
+   * Word-by-word mode: show the Arabic as words and highlight the recited one.
+   * `currentTimeMs` is the position in this ayah's audio file, negative when it is not playing.
+   */
+  wordByWord?: {
+    verse: VerseTimestamp | undefined;
+    currentTimeMs: number;
+    onSeekMs: (ayahRelativeMs: number) => void;
+  };
   /** Show a subtle page indicator badge for the first ayah on a mushaf page. */
   showPageBadge?: boolean;
 };
@@ -62,14 +54,7 @@ export function AyahCard({
   showTransliteration,
   showTranslation,
   showTajwidColors,
-  words,
-  wordLevelSync,
-  currentTimeMs = 0,
-  audioDurationMs,
-  onSeekWord,
-  chapterWords,
-  chapterSegments,
-  onChapterWordClick,
+  wordByWord,
   showPageBadge,
 }: AyahCardProps) {
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
@@ -135,11 +120,6 @@ export function AyahCard({
     ayah.tajwidSegments?.length > 0
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
-
-  const useWordByWord = Boolean(wordLevelSync && words && words.length > 0);
-  const useChapterWordByWord = Boolean(
-    chapterWords?.length && chapterSegments?.length && onChapterWordClick
-  );
 
   return (
     <article
@@ -218,41 +198,13 @@ export function AyahCard({
       >
         <div className="lg:order-1">
           {/* Arabic */}
-          {useChapterWordByWord ? (
-            <WordByWordChapterRenderer
-              verseKey={ayah.id}
-              words={chapterWords!}
-              segments={chapterSegments!}
-              currentTimeMs={currentTimeMs}
-              isPlaying={isThisAyahPlaying}
-              showTajwidColors={showTajwidColors}
-              onWordClick={onChapterWordClick}
-              showInterlinear={false}
-              className={
-                showTranslation && ayah.translationBosnian
-                  ? "text-center lg:text-right"
-                  : "text-center"
-              }
-              style={{ fontSize: `${effectiveFontSize}px` }}
-            />
-          ) : useWordByWord ? (
-            <WordByWordRenderer
-              words={words!}
-              currentTimeMs={currentTimeMs}
-              audioDurationMs={audioDurationMs}
-              onSeek={
-                onSeekWord
-                  ? (word) => {
-                      const refMs = Math.max(...words!.map((w) => w.endTimeMs));
-                      const seekSeconds =
-                        refMs > 0 && audioDurationMs != null && audioDurationMs > 0
-                          ? (word.startTimeMs / refMs) * (audioDurationMs / 1000)
-                          : word.startTimeMs / 1000;
-                      onSeekWord(word, seekSeconds);
-                    }
-                  : undefined
-              }
-              showInterlinear={false}
+          {wordByWord ? (
+            <AyahWordByWord
+              ayah={ayah}
+              verse={wordByWord.verse}
+              currentTimeMs={wordByWord.currentTimeMs}
+              showColors={showTajwidColors}
+              onSeekMs={wordByWord.onSeekMs}
               className={
                 showTranslation && ayah.translationBosnian
                   ? "text-center lg:text-right"

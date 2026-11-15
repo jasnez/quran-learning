@@ -170,12 +170,12 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                         document.documentElement.setAttribute("data-arabic-font", style);
                       }}
                     >
-                      {style === "naskh" ? "Naskh (zaobljen)" : "Uthmanic HAFS"}
+                      {style === "naskh" ? "Naskh (zaobljen)" : "Scheherazade"}
                     </button>
                   ))}
                 </div>
                 <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
-                  Naskh = blago zaobljena slova (kao u mushafu). Uthmanic = klasični rukopisni stil.
+                  Naskh = blago zaobljena slova (kao u mushafu). Scheherazade = tradicionalni kur&apos;anski stil.
                 </p>
               </div>
               <ToggleRow

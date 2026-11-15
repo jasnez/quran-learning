@@ -7,7 +7,6 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
@@ -64,7 +63,6 @@ const defaultPlayerState = {
   setPendingSeek: vi.fn(),
   wordByWordMode: false,
   setWordByWordMode: vi.fn(),
-  setChapterAudio: vi.fn(),
   currentTimeMsStore: 0,
 };
 
@@ -219,117 +217,17 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     expect(btn.className).toMatch(/stone/);
   });
 
-  it("Prikaži značenje riječi is visible in options row even when word-by-word is off", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, wordByWordMode: false })
-    );
+  // The word-meaning toggle was removed (QA P1-2): there is no Bosnian word-gloss source.
+  it("has no word-meaning toggle", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i);
-    expect(btn).toBeInTheDocument();
-    expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    expect(screen.queryByRole("button", { name: /značenje riječi/i })).toBeNull();
   });
 
-  it("Prikaži značenje riječi has distinct styling when on", () => {
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, wordByWordMode: true })
-    );
+  it("when Riječ po riječ is off, the ayah is plain tajwid text with no word highlight", () => {
+    vi.mocked(usePlayerStore).mockImplementation(((sel: (s: unknown) => unknown) =>
+      sel({ ...defaultPlayerState, wordByWordMode: false, currentTimeMs: 100 })) as never);
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i, true);
-    expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
-  });
-
-  it("Prikaži značenje riječi has muted styling when off", async () => {
-    const user = userEvent.setup();
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({ ...defaultPlayerState, wordByWordMode: true })
-    );
-    render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i, true);
-    await user.click(btn);
-    const offBtn = getOptionButton(/značenje riječi|sakrij značenje|prikaži značenje/i, false);
-    expect(offBtn).toHaveAttribute("data-active", "false");
-    expect(offBtn.className).toMatch(/stone/);
-  });
-
-  it("when Prikaži značenje riječi is off, word meanings are not shown in the card", async () => {
-    const wordMeaningText = "U ime (značenje)";
-    // Shape matches public/data/words/NNN.json (no id/ayahKey — derived at parse time).
-    const mockWords = [
-      {
-        ayahNumberGlobal: 1,
-        wordOrder: 1,
-        textArabic: "بِسْمِ",
-        transliteration: "Bismi",
-        translationShort: wordMeaningText,
-        startTimeMs: 0,
-        endTimeMs: 500,
-        tajwidRule: "normal" as const,
-      },
-    ];
-    const originalFetch = globalThis.fetch;
-    vi.stubGlobal(
-      "fetch",
-      vi.fn((url: string) =>
-        url.includes("/words")
-          ? Promise.resolve({ ok: true, json: () => Promise.resolve(mockWords) })
-          : Promise.reject(new Error("no mock"))
-      )
-    );
-    try {
-      const user = userEvent.setup();
-      render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-      await screen.findByText(wordMeaningText, {}, { timeout: 3000 });
-      const toggles = screen.getAllByRole("button", {
-        name: /sakrij značenje|prikaži značenje|značenje riječi/i,
-      });
-      for (const t of toggles) await user.click(t);
-      expect(screen.queryByText(wordMeaningText)).not.toBeInTheDocument();
-    } finally {
-      vi.stubGlobal("fetch", originalFetch);
-    }
-  });
-
-  it("when Riječ po riječ is off, no word is highlighted (highlight only when option is on and synced)", async () => {
-    const mockWords = [
-      {
-        ayahNumberGlobal: 1,
-        wordOrder: 1,
-        textArabic: "بِسْمِ",
-        transliteration: "Bismi",
-        translationShort: "In the name",
-        startTimeMs: 0,
-        endTimeMs: 500,
-        tajwidRule: "normal" as const,
-      },
-    ];
-    const originalFetch = globalThis.fetch;
-    vi.stubGlobal(
-      "fetch",
-      vi.fn((url: string) =>
-        url.includes("/words")
-          ? Promise.resolve({ ok: true, json: () => Promise.resolve(mockWords) })
-          : Promise.reject(new Error("no mock"))
-      )
-    );
-    vi.mocked(usePlayerStore).mockImplementation((sel: (s: unknown) => unknown) =>
-      sel({
-        ...defaultPlayerState,
-        wordByWordMode: false,
-        currentTime: 0.1,
-        duration: 1,
-      })
-    );
-    try {
-      render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-      await screen.findByText("In the name", {}, { timeout: 3000 });
-      const wordByWordRegion = document.querySelector("[data-word-by-word]");
-      expect(wordByWordRegion).toBeInTheDocument();
-      const activeWords = wordByWordRegion?.querySelectorAll('[data-active="true"]') ?? [];
-      expect(activeWords.length).toBe(0);
-    } finally {
-      vi.stubGlobal("fetch", originalFetch);
-    }
+    expect(document.querySelector("[data-word-by-word]")).toBeNull();
+    expect(document.querySelectorAll("[data-word-index][data-active=\"true\"]")).toHaveLength(0);
   });
 });
