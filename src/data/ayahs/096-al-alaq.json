@@ -21,7 +21,23 @@
       "translationBosnian": "Čitaj, u ime Gospodara tvoga, koji stvara,",
       "tajwidSegments": [
         {
-          "text": " ٱقْرَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَقَ",
+          "text": " ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رَأْ بِٱسْمِ رَبِّكَ ٱلَّذِى خَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َ",
           "rule": "normal"
         }
       ],
@@ -42,15 +58,7 @@
       "translationBosnian": "stvara čovjeka od ugruška!",
       "tajwidSegments": [
         {
-          "text": "خَلَقَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "خَلَقَ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -58,19 +66,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنَ مِنْ عَل",
+          "text": "نَ مِنْ عَلَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ق",
           "rule": "qalqalah"
         },
         {
-          "text": "قٍ",
+          "text": "ٍ",
           "rule": "normal"
         }
       ],
@@ -99,15 +107,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "رَأْ وَرَبُّكَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَكْرَمُ",
+          "text": "رَأْ وَرَبُّكَ ٱلْأَكْرَمُ",
           "rule": "normal"
         }
       ],
@@ -128,15 +128,7 @@
       "translationBosnian": "koji poučava peru,",
       "tajwidSegments": [
         {
-          "text": "ٱلَّذِى عَلَّمَ بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَلَمِ",
+          "text": "ٱلَّذِى عَلَّمَ بِٱلْقَلَمِ",
           "rule": "normal"
         }
       ],
@@ -157,15 +149,7 @@
       "translationBosnian": "koji čovjeka poučava onome što ne zna.",
       "tajwidSegments": [
         {
-          "text": "عَلَّمَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "عَلَّمَ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -173,11 +157,11 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنَ مَا لَمْ يَعْلَمْ",
+          "text": "نَ مَا لَمْ يَعْلَمْ",
           "rule": "normal"
         }
       ],
@@ -214,15 +198,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": " ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -230,19 +206,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنَ لَي",
+          "text": "نَ لَيَ",
           "rule": "normal"
         },
         {
-          "text": "َط",
+          "text": "طْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْغَىٰٓ",
+          "text": "غَىٰٓ",
           "rule": "normal"
         }
       ],
@@ -263,23 +239,7 @@
       "translationBosnian": "čim se neovisnim osjeti,",
       "tajwidSegments": [
         {
-          "text": "أَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن رَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ءَاهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "سْتَغْنَىٰٓ",
+          "text": "أَن رَّءَاهُ ٱسْتَغْنَىٰٓ",
           "rule": "normal"
         }
       ],
@@ -308,19 +268,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " إِلَىٰ رَبِّكَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "رُّ",
+          "text": " إِلَىٰ رَبِّكَ ٱلرُّ",
           "rule": "normal"
         },
         {
@@ -349,15 +297,7 @@
       "translationBosnian": "Vidje li ti onoga koji brani",
       "tajwidSegments": [
         {
-          "text": "أَرَءَيْتَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِى يَنْهَىٰ",
+          "text": "أَرَءَيْتَ ٱلَّذِى يَنْهَىٰ",
           "rule": "normal"
         }
       ],
@@ -415,15 +355,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "انَ عَلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْهُدَىٰٓ",
+          "text": "انَ عَلَى ٱلْهُدَىٰٓ",
           "rule": "normal"
         }
       ],
@@ -444,19 +376,7 @@
       "translationBosnian": "ili ako bogobojaznost naređuje?!",
       "tajwidSegments": [
         {
-          "text": "أَوْ أَمَرَ بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "تَّ",
+          "text": "أَوْ أَمَرَ بِٱلتَّ",
           "rule": "normal"
         },
         {
@@ -530,15 +450,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهَ يَرَىٰ",
+          "text": " ٱللَّهَ يَرَىٰ",
           "rule": "normal"
         }
       ],
@@ -559,15 +471,7 @@
       "translationBosnian": "Ne valja to! Ako se ne okani, dohvatićemo ga za kiku,",
       "tajwidSegments": [
         {
-          "text": "كَلَّا لَئِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن لَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "مْ يَ",
+          "text": "كَلَّا لَئِن لَّمْ يَ",
           "rule": "normal"
         },
         {
@@ -580,18 +484,10 @@
         },
         {
           "text": "ًۢا ب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ِٱل",
           "rule": "normal"
         },
         {
@@ -628,11 +524,11 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰذِبَةٍ خَاطِئَةٍ",
+          "text": "ذِبَةٍ خَاطِئَةٍ",
           "rule": "normal"
         }
       ],
@@ -690,19 +586,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "عُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "زَّبَانِيَةَ",
+          "text": "عُ ٱلزَّبَانِيَةَ",
           "rule": "normal"
         }
       ],
@@ -723,15 +607,7 @@
       "translationBosnian": "Ne valja to! Ti njega ne slušaj, već molitvu obavljaj i nastoj da se Gospodaru svome približiš!",
       "tajwidSegments": [
         {
-          "text": "كَلَّا لَا تُطِعْهُ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "سْجُ",
+          "text": "كَلَّا لَا تُطِعْهُ وَٱسْجُ",
           "rule": "normal"
         },
         {
@@ -739,11 +615,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": " وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
+          "text": " وَٱ",
           "rule": "normal"
         },
         {

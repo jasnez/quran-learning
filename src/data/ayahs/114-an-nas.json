@@ -21,7 +21,19 @@
       "translationBosnian": "Reci: \"Tražim zaštitu Gospodara ljudi,",
       "tajwidSegments": [
         {
-          "text": " قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+          "text": " قُلْ أَعُوذُ بِرَبِّ ٱل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ا",
+          "rule": "mad"
+        },
+        {
+          "text": "سِ",
           "rule": "normal"
         }
       ],
@@ -42,15 +54,7 @@
       "translationBosnian": "Vladara ljudi,",
       "tajwidSegments": [
         {
-          "text": "مَلِكِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "مَلِكِ ٱل",
           "rule": "normal"
         },
         {
@@ -87,31 +91,23 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهِ",
+          "text": "هِ ٱل",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لنّ",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َ",
+          "text": "ا",
           "rule": "mad"
         },
         {
-          "text": "اسِ",
+          "text": "سِ",
           "rule": "normal"
         }
       ],
@@ -140,23 +136,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "رِّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْوَسْوَاسِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْخَ",
+          "text": "رِّ ٱلْوَسْوَاسِ ٱلْخَ",
           "rule": "normal"
         },
         {
@@ -189,15 +169,7 @@
       "translationBosnian": "koji zle misli unosi u srca ljudi –",
       "tajwidSegments": [
         {
-          "text": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱل",
           "rule": "normal"
         },
         {
@@ -230,15 +202,7 @@
       "translationBosnian": "od džina i od ljudi!\"",
       "tajwidSegments": [
         {
-          "text": "مِنَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْجِ",
+          "text": "مِنَ ٱلْجِ",
           "rule": "normal"
         },
         {
@@ -246,15 +210,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ةِ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ةِ وَٱل",
           "rule": "normal"
         },
         {

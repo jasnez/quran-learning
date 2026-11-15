@@ -21,7 +21,15 @@
       "translationBosnian": "Zaokuplja vas nastojanje da što imućniji budete",
       "tajwidSegments": [
         {
-          "text": " أَلْهَىٰكُمُ ٱلتَّكَاثُرُ",
+          "text": " أَلْهَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "كُمُ ٱلتَّكَاثُرُ",
           "rule": "normal"
         }
       ],
@@ -42,15 +50,7 @@
       "translationBosnian": "sve dok grobove ne naselite.",
       "tajwidSegments": [
         {
-          "text": "حَتَّىٰ زُرْتُمُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَقَابِرَ",
+          "text": "حَتَّىٰ زُرْتُمُ ٱلْمَقَابِرَ",
           "rule": "normal"
         }
       ],
@@ -137,15 +137,7 @@
       "translationBosnian": "Ne valja tako, neka znate pouzdano,",
       "tajwidSegments": [
         {
-          "text": "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْيَقِ",
+          "text": "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ ٱلْيَقِ",
           "rule": "normal"
         },
         {
@@ -182,15 +174,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْجَحِ",
+          "text": " ٱلْجَحِ",
           "rule": "normal"
         },
         {
@@ -235,15 +219,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "هَا عَيْنَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْيَقِ",
+          "text": "هَا عَيْنَ ٱلْيَقِ",
           "rule": "normal"
         },
         {
@@ -288,15 +264,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " يَوْمَئِذٍ عَنِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": " يَوْمَئِذٍ عَنِ ٱل",
           "rule": "normal"
         },
         {

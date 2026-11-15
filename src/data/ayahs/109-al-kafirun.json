@@ -21,7 +21,31 @@
       "translationBosnian": "Reci: \"O vi nevjernici,",
       "tajwidSegments": [
         {
-          "text": " قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ",
+          "text": " قُلْ يَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰٓ",
+          "rule": "mad"
+        },
+        {
+          "text": "أَيُّهَا ٱلْكَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "فِرُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -99,27 +123,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبِدُونَ م",
+          "text": "بِدُونَ مَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أَعْب",
+          "text": " أَعْبُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "د",
           "rule": "qalqalah"
         },
         {
-          "text": "دُ",
+          "text": "ُ",
           "rule": "normal"
         }
       ],
@@ -156,15 +180,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ا عَبَ",
-          "rule": "normal"
-        },
-        {
-          "text": "د",
-          "rule": "normal"
-        },
-        {
-          "text": "تُّمْ",
+          "text": "ا عَبَدتُّمْ",
           "rule": "normal"
         }
       ],
@@ -205,27 +221,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبِدُونَ م",
+          "text": "بِدُونَ مَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أَعْب",
+          "text": " أَعْبُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "د",
           "rule": "qalqalah"
         },
         {
-          "text": "دُ",
+          "text": "ُ",
           "rule": "normal"
         }
       ],

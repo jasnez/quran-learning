@@ -21,7 +21,43 @@
       "translationBosnian": "Mi smo ga počeli objavljivati u Noći Kadr –",
       "tajwidSegments": [
         {
-          "text": "إِنَّآ أَنزَلْنَـٰهُ فِى لَيْلَةِ ٱلْقَدْرِ",
+          "text": "إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَ",
+          "rule": "normal"
+        },
+        {
+          "text": "نزَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "لْنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هُ فِى لَيْلَةِ ٱلْقَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رِ",
           "rule": "normal"
         }
       ],
@@ -66,15 +102,7 @@
           "rule": "mad"
         },
         {
-          "text": "كَ مَا لَيْلَةُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَ",
+          "text": "كَ مَا لَيْلَةُ ٱلْقَ",
           "rule": "normal"
         },
         {
@@ -103,15 +131,7 @@
       "translationBosnian": "Noć Kadr je bolja od hiljadu mjeseci –",
       "tajwidSegments": [
         {
-          "text": "لَيْلَةُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَ",
+          "text": "لَيْلَةُ ٱلْقَ",
           "rule": "normal"
         },
         {
@@ -148,47 +168,27 @@
       "translationBosnian": "meleki i Džibril, s dozvolom Gospodara svoga, spuštaju se u njoj zbog odluke svake,",
       "tajwidSegments": [
         {
-          "text": "تَنَزَّلُ ",
+          "text": "تَنَزَّلُ ٱلْمَلَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَلَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓئِكَةُ و",
+          "text": "ئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذْنِ رَبِّهِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
+          "text": "م مِّ",
+          "rule": "ghunnah"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لرُّوحُ فِيهَا بِإِذْنِ رَبِّه",
-          "rule": "normal"
-        },
-        {
-          "text": "ِم مّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ِن ك",
+          "text": "ن كُ",
           "rule": "ikhfa"
         },
         {
-          "text": "ُلِّ أَمْرٍ",
+          "text": "لِّ أَمْرٍ",
           "rule": "normal"
         }
       ],
@@ -213,35 +213,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰمٌ هِىَ حَتَّىٰ م",
+          "text": "مٌ هِىَ حَتَّىٰ مَ",
           "rule": "normal"
         },
         {
-          "text": "َط",
+          "text": "طْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْلَعِ",
+          "text": "لَعِ ٱلْفَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْف",
-          "rule": "normal"
-        },
-        {
-          "text": "َج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْرِ",
+          "text": "رِ",
           "rule": "normal"
         }
       ],

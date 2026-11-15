@@ -21,7 +21,15 @@
       "translationBosnian": "Reci: \"On je Allah – Jedan!",
       "tajwidSegments": [
         {
-          "text": " قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+          "text": " قُلْ هُوَ ٱللَّهُ أَحَ",
+          "rule": "normal"
+        },
+        {
+          "text": "د",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ٌ",
           "rule": "normal"
         }
       ],
@@ -42,19 +50,7 @@
       "translationBosnian": "Allah je Utočište svakom!",
       "tajwidSegments": [
         {
-          "text": "ٱللَّهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "صَّمَ",
+          "text": "ٱللَّهُ ٱلصَّمَ",
           "rule": "normal"
         },
         {
@@ -116,15 +112,7 @@
       "translationBosnian": "i niko Mu ravan nije!\"",
       "tajwidSegments": [
         {
-          "text": "وَلَمْ يَكُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن لَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "هُ",
+          "text": "وَلَمْ يَكُن لَّهُ",
           "rule": "normal"
         },
         {

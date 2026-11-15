@@ -123,7 +123,7 @@ quran-learning-main/
 │   │   ├── data/               # static-quran.ts (glavni izvor podataka), juzUtils
 │   │   ├── audio/              # audioManager, getResolvedAudioUrl, reciterUtils, wordTimingService
 │   │   ├── api/                # client.ts (fetch wrapperi), getBaseUrl
-│   │   ├── quran/              # tajwidStyles, wordUtils, stripWaqfSigns, fetch-verses
+│   │   ├── quran/              # tajwidStyles, wordUtils, stripWaqfSigns
 │   │   ├── search/             # searchEngine, searchIndex
 │   │   ├── duas/, names/       # data + helpers
 │   │   ├── idb/                # IndexedDB persister za React Query

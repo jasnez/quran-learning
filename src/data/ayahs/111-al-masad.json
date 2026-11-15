@@ -21,7 +21,31 @@
       "translationBosnian": "Neka propadne Ebu Leheb, i propao je!",
       "tajwidSegments": [
         {
-          "text": " تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ",
+          "text": " تَبَّتْ يَدَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَبِى لَهَب",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "تَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ب",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "َّ",
           "rule": "normal"
         }
       ],
@@ -124,15 +148,7 @@
       "translationBosnian": "i žena njegova, koja spletkari;",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "مْرَأَتُهُ",
+          "text": "وَٱمْرَأَتُهُ",
           "rule": "normal"
         },
         {
@@ -148,15 +164,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "الَةَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحَطَ",
+          "text": "الَةَ ٱلْحَطَ",
           "rule": "normal"
         },
         {
@@ -197,11 +205,7 @@
           "rule": "normal"
         },
         {
-          "text": "ٌ مِّ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "ن مَّ",
+          "text": "ٌ مِّن مَّ",
           "rule": "ghunnah"
         },
         {
