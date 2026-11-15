@@ -5,6 +5,7 @@ import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { THEME_INIT_SCRIPT } from "./themeInitScript";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,7 +61,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var k='quran-learning-settings';try{var s=localStorage.getItem(k);if(s){var d=JSON.parse(s);var st=(d&&d.state)||d;var t=st&&st.theme;var f=st&&st.arabicFontStyle;if(t){document.documentElement.setAttribute('data-theme',t);if(t==='dark')document.documentElement.classList.add('dark');}if(f)document.documentElement.setAttribute('data-arabic-font',f);}catch(e){}})();`,
+            __html: THEME_INIT_SCRIPT,
           }}
         />
       </head>
