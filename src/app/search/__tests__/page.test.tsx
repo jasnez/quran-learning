@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -223,5 +223,53 @@ describe("Search page", () => {
     await screen.findByRole("listbox");
     expect(input).toHaveAttribute("aria-expanded", "true");
     expect(input).toHaveAttribute("aria-controls", "search-results-list");
+  });
+
+  describe("focus stays in the input (QA P1-4)", () => {
+    const twoResults: SearchResult[] = [
+      mockSearchResults[0],
+      { ...mockSearchResults[0], ayahNumber: 3, ayahId: "1:3" },
+    ];
+
+    // Vitest 4: mockReset restores the implementation passed to vi.fn().
+    afterEach(() => mockSearchAyahs.mockReset());
+
+    it("keeps focus in the input when results arrive", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
+      const user = userEvent.setup();
+      renderSearch();
+      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      await user.type(input, "milostiv");
+      await screen.findByRole("listbox");
+      expect(document.activeElement).toBe(input);
+      expect(input).toHaveAttribute("aria-activedescendant", "search-result-0");
+    });
+
+    it("arrow keys move aria-activedescendant without moving focus", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
+      const user = userEvent.setup();
+      renderSearch();
+      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      await user.type(input, "milostiv");
+      await screen.findByRole("listbox");
+      await user.keyboard("{ArrowDown}");
+      expect(document.activeElement).toBe(input);
+      expect(input).toHaveAttribute("aria-activedescendant", "search-result-1");
+      expect(document.getElementById("search-result-1")).toHaveAttribute("aria-selected", "true");
+      await user.keyboard("{ArrowUp}");
+      expect(document.activeElement).toBe(input);
+      expect(input).toHaveAttribute("aria-activedescendant", "search-result-0");
+    });
+
+    it("typing after results arrive keeps going into the input", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
+      const user = userEvent.setup();
+      renderSearch();
+      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      await user.type(input, "milostiv");
+      await screen.findByRole("listbox");
+      await user.keyboard("og");
+      expect(input).toHaveValue("milostivog");
+    });
   });
 });
