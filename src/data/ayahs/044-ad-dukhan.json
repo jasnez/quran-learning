@@ -21,8 +21,12 @@
       "translationBosnian": "Hā Mīm.",
       "tajwidSegments": [
         {
-          "text": " حمٓ",
+          "text": " ح",
           "rule": "normal"
+        },
+        {
+          "text": "مٓ",
+          "rule": "mad"
         }
       ],
       "audio": {
@@ -42,39 +46,23 @@
       "translationBosnian": "Tako Mi Knjige jasne,",
       "tajwidSegments": [
         {
-          "text": "وَ",
+          "text": "وَٱلْكِتَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْكِتَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبِ",
+          "text": "بِ ٱلْمُبِ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْمُب",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينِ",
+          "text": "نِ",
           "rule": "normal"
         }
       ],
@@ -119,59 +107,59 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُ فِى لَيْلَ",
+          "text": "هُ فِى لَيْلَة",
           "rule": "normal"
         },
         {
-          "text": "ةٍ مّ",
+          "text": "ٍ مُّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُب",
+          "text": "بَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰرَكَةٍ ",
+          "text": "رَكَةٍ ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "ۚ إ",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِنَّ",
+          "text": "ا كُ",
           "rule": "normal"
         },
         {
-          "text": "ا ك",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُنَّ",
+          "text": "ا مُ",
           "rule": "normal"
         },
         {
-          "text": "ا م",
+          "text": "نذِ",
           "rule": "ikhfa"
         },
         {
-          "text": "ُن",
+          "text": "رِ",
           "rule": "normal"
         },
         {
-          "text": "ذ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِرِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -245,31 +233,31 @@
           "rule": "mad"
         },
         {
-          "text": " ۚ ",
+          "text": " ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّا ",
+          "text": "ا كُ",
           "rule": "normal"
         },
         {
-          "text": "كُن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّا مُرْسِ",
+          "text": "ا مُرْسِلِ",
           "rule": "normal"
         },
         {
-          "text": "ل",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -298,55 +286,31 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ن رَّ",
+          "text": "ن رَّبِّكَ ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "بِّكَ ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّ",
+          "text": "هُ",
           "rule": "normal"
         },
         {
-          "text": "ه",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ُۥ هُو",
+          "text": " هُوَ ٱلسَّمِيعُ ٱلْعَلِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلسَّمِيع",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْعَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمُ",
+          "text": "مُ",
           "rule": "normal"
         }
       ],
@@ -367,75 +331,51 @@
       "translationBosnian": "Gospodara nebesa i Zemlje i onoga što je između njih – ako čvrsto vjerujete,",
       "tajwidSegments": [
         {
-          "text": "رَبِّ ",
+          "text": "رَبِّ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضِ وَمَا بَيْنَهُمَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضِ وَمَا بَيْنَهُم",
-          "rule": "normal"
-        },
-        {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ ۖ",
+          "text": " ۖ إِ",
           "rule": "normal"
         },
         {
-          "text": " إِن",
+          "text": "ن كُنتُ",
           "rule": "ikhfa"
         },
         {
-          "text": " كُ",
-          "rule": "ikhfa"
+          "text": "م مُّ",
+          "rule": "ghunnah"
         },
         {
-          "text": "نتُم ",
+          "text": "وقِنِ",
           "rule": "normal"
         },
         {
-          "text": "مُّوق",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "نِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -468,43 +408,35 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهَ إِلَّا هُوَ يُحْى",
+          "text": "هَ إِلَّا هُوَ يُحْىِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ وَيُمِيتُ ۖ رَبُّكُمْ وَرَبُّ ءَ",
+          "text": " وَيُمِيتُ ۖ رَبُّكُمْ وَرَبُّ ءَابَ",
           "rule": "normal"
         },
         {
-          "text": "اب",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "َآئِكُ",
+          "text": "ئِكُمُ ٱلْأَوَّلِ",
           "rule": "normal"
         },
         {
-          "text": "م",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ٱلْأَوّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "لِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -562,15 +494,7 @@
       "translationBosnian": "zato sačekaj dan kad će im se činiti da prema nebu vide vidljiv dim",
       "tajwidSegments": [
         {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "رْتَقِ",
+          "text": "فَٱرْتَقِ",
           "rule": "normal"
         },
         {
@@ -578,19 +502,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": " يَوْمَ تَأْتِى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
+          "text": " يَوْمَ تَأْتِى ٱلسَّمَ",
           "rule": "normal"
         },
         {
@@ -635,15 +547,7 @@
       "translationBosnian": "koji će ljude prekriti. \"Ovo je neizdržljiva patnja!",
       "tajwidSegments": [
         {
-          "text": "يَغْشَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "يَغْشَى ٱل",
           "rule": "normal"
         },
         {
@@ -651,23 +555,23 @@
           "rule": "ghunnah"
         },
         {
-          "text": "اسَ ۖ ",
+          "text": "اسَ ۖ هَ",
           "rule": "normal"
         },
         {
-          "text": "ه",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰذَا عَذَابٌ أ",
+          "text": "ذَا عَذَابٌ أَلِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "لِيمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -688,15 +592,7 @@
       "translationBosnian": "Gospodaru naš, otkloni patnju od nas, mi ćemo, sigurno, vjerovati!\"",
       "tajwidSegments": [
         {
-          "text": "رَّبَّنَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "كْشِفْ عَ",
+          "text": "رَّبَّنَا ٱكْشِفْ عَ",
           "rule": "normal"
         },
         {
@@ -704,15 +600,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَذَابَ إِ",
+          "text": "ا ٱلْعَذَابَ إِ",
           "rule": "normal"
         },
         {
@@ -757,19 +645,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ىٰ لَهُمُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "ذِّكْرَىٰ وَقَ",
+          "text": "ىٰ لَهُمُ ٱلذِّكْرَىٰ وَقَ",
           "rule": "normal"
         },
         {
@@ -830,23 +706,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " تَوَلَّوْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " عَنْهُ وَقَالُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " مُعَلَّم",
+          "text": " تَوَلَّوْا۟ عَنْهُ وَقَالُوا۟ مُعَلَّم",
           "rule": "normal"
         },
         {
@@ -895,47 +755,31 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ا كَاشِفُو",
+          "text": "ا كَاشِفُوا۟ ٱلْعَذَابِ قَلِيلًا ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَذَابِ قَلِيلًا ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّكُمْ ",
+          "text": "كُمْ عَ",
           "rule": "normal"
         },
         {
-          "text": "عَ",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "آئِ",
+          "text": "ئِدُ",
           "rule": "normal"
         },
         {
-          "text": "د",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ُونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -964,15 +808,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "طِشُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْبَ",
+          "text": "طِشُ ٱلْبَ",
           "rule": "normal"
         },
         {
@@ -980,15 +816,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "شَةَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْكُ",
+          "text": "شَةَ ٱلْكُ",
           "rule": "normal"
         },
         {
@@ -1049,55 +877,55 @@
       "translationBosnian": "Još davno prije njih Mi smo faraonov narod u iskušenje stavili, kada im je bio došao plemeniti poslanik:",
       "tajwidSegments": [
         {
-          "text": "۞ وَلَ",
+          "text": "۞ وَلَقَ",
           "rule": "normal"
         },
         {
-          "text": "قَ",
+          "text": "دْ",
           "rule": "qalqalah"
         },
         {
-          "text": "دْ فَ",
+          "text": " فَتَ",
           "rule": "normal"
         },
         {
-          "text": "تَن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّا ",
+          "text": "ا قَ",
           "rule": "normal"
         },
         {
-          "text": "قَ",
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "بْلَهُمْ قَوْمَ فِرْعَوْنَ وَ",
+          "text": "لَهُمْ قَوْمَ فِرْعَوْنَ وَجَ",
           "rule": "normal"
         },
         {
-          "text": "جَ",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "آءَهُمْ رَسُ",
+          "text": "ءَهُمْ رَسُول",
           "rule": "normal"
         },
         {
-          "text": "ولٌ ",
+          "text": "ٌ كَ",
           "rule": "ikhfa"
         },
         {
-          "text": "كَ",
+          "text": "رِ",
           "rule": "normal"
         },
         {
-          "text": "ر",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -1126,35 +954,23 @@
           "rule": "mad"
         },
         {
-          "text": "ا۟",
+          "text": "ا۟ إِلَىَّ عِبَادَ ٱللَّهِ ۖ إِ",
           "rule": "normal"
         },
         {
-          "text": " إِلَىَّ عِبَادَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ ۖ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِّى لَكُمْ رَسُولٌ أَ",
+          "text": "ى لَكُمْ رَسُولٌ أَمِ",
           "rule": "normal"
         },
         {
-          "text": "م",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينٌ",
+          "text": "نٌ",
           "rule": "normal"
         }
       ],
@@ -1175,75 +991,51 @@
       "translationBosnian": "i ne uzdižite se iznad Allaha, ja vam donosim dokaz očevidni,",
       "tajwidSegments": [
         {
-          "text": "وَأَ",
+          "text": "وَأَن لَّا تَعْلُوا۟ عَلَى ٱللَّهِ ۖ إِ",
           "rule": "normal"
         },
         {
-          "text": "ن لَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا تَعْلُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " عَلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ ۖ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِّ",
+          "text": "ىٓ",
           "rule": "mad"
         },
         {
-          "text": "ىٓ ءَاتِي",
+          "text": " ءَاتِيكُ",
           "rule": "normal"
         },
         {
-          "text": "كُم ",
+          "text": "م بِ",
           "rule": "ikhfa"
         },
         {
-          "text": "بِسُلْ",
+          "text": "سُلْطَ",
           "rule": "normal"
         },
         {
-          "text": "ط",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َ",
+          "text": "ن",
           "rule": "normal"
         },
         {
-          "text": "ـٰنٍ ",
+          "text": "ٍ مُّ",
           "rule": "ghunnah"
         },
         {
-          "text": "مّ",
+          "text": "بِ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "بِينٍ",
+          "text": "نٍ",
           "rule": "normal"
         }
       ],
@@ -1309,31 +1101,7 @@
       "translationBosnian": "a ako mi ne vjerujete, onda me na miru ostavite!\"",
       "tajwidSegments": [
         {
-          "text": "وَإِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن لَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "مْ تُؤْمِنُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " لِى فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "عْتَزِلُ",
+          "text": "وَإِن لَّمْ تُؤْمِنُوا۟ لِى فَٱعْتَزِلُ",
           "rule": "normal"
         },
         {
@@ -1382,39 +1150,39 @@
           "rule": "normal"
         },
         {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓؤُل",
+          "text": "ؤُلَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓءِ قَوْ",
+          "text": "ءِ قَوْم",
           "rule": "normal"
         },
         {
-          "text": "مٌ مّ",
+          "text": "ٌ مُّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْرِم",
+          "text": "رِمُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1448,7 +1216,7 @@
         },
         {
           "text": "م مُّ",
-          "rule": "normal"
+          "rule": "ghunnah"
         },
         {
           "text": "تَّبَعُ",
@@ -1480,7 +1248,35 @@
       "translationBosnian": "i ostavi more nek miruje, oni su vojska koja će, zaista, potopljena biti.\"",
       "tajwidSegments": [
         {
-          "text": "وَٱتْرُكِ ٱلْبَحْرَ رَهْوًا ۖ إِنَّهُمْ جُندٌ مُّغْرَقُونَ",
+          "text": "وَٱتْرُكِ ٱلْبَحْرَ رَهْوًا ۖ إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "هُمْ جُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ند",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ٌ مُّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "غْرَقُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1501,15 +1297,7 @@
       "translationBosnian": "I koliko ostaviše bašča i izvora,",
       "tajwidSegments": [
         {
-          "text": "كَمْ تَرَكُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " مِ",
+          "text": "كَمْ تَرَكُوا۟ مِ",
           "rule": "normal"
         },
         {
@@ -1521,27 +1309,27 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰ",
+          "text": "ت",
           "rule": "normal"
         },
         {
-          "text": "تٍ و",
+          "text": "ٍ وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "َعُي",
+          "text": "عُيُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونٍ",
+          "text": "نٍ",
           "rule": "normal"
         }
       ],
@@ -1615,31 +1403,23 @@
           "rule": "ikhfa"
         },
         {
-          "text": "انُو",
+          "text": "انُوا۟ فِيهَا فَ",
           "rule": "normal"
         },
         {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " فِيهَا فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰكِه",
+          "text": "كِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1668,23 +1448,23 @@
           "rule": "mad"
         },
         {
-          "text": "لِكَ ۖ وَأَوْرَثْ",
+          "text": "لِكَ ۖ وَأَوْرَثْنَ",
           "rule": "normal"
         },
         {
-          "text": "ن",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰهَا قَوْمًا ءَاخ",
+          "text": "هَا قَوْمًا ءَاخَرِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "رِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1705,19 +1485,7 @@
       "translationBosnian": "ni nebo ih ni Zemlja nisu oplakivali, i nisu pošteđeni bili,",
       "tajwidSegments": [
         {
-          "text": "فَمَا بَكَتْ عَلَيْهِمُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
+          "text": "فَمَا بَكَتْ عَلَيْهِمُ ٱلسَّمَ",
           "rule": "normal"
         },
         {
@@ -1725,23 +1493,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءُ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضُ وَمَا كَانُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " مُ",
+          "text": "ءُ وَٱلْأَرْضُ وَمَا كَانُوا۟ مُ",
           "rule": "normal"
         },
         {
@@ -1802,23 +1554,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءِيلَ مِنَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَذَابِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُهِ",
+          "text": "ءِيلَ مِنَ ٱلْعَذَابِ ٱلْمُهِ",
           "rule": "normal"
         },
         {
@@ -1855,47 +1591,39 @@
           "rule": "ikhfa"
         },
         {
-          "text": "رْعَوْنَ ۚ ",
+          "text": "رْعَوْنَ ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّ",
+          "text": "هُ",
           "rule": "normal"
         },
         {
-          "text": "ه",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ُۥ كَانَ عَال",
+          "text": " كَانَ عَالِي",
           "rule": "normal"
         },
         {
-          "text": "ِيًا م",
+          "text": "ًا مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِّن",
+          "text": "نَ ٱلْمُسْرِفِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْمُسْرِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ف",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1916,47 +1644,31 @@
       "translationBosnian": "i znajući kakvi su, između savremenika smo ih odabrali,",
       "tajwidSegments": [
         {
-          "text": "وَلَقَدِ ",
+          "text": "وَلَقَدِ ٱخْتَرْنَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "خْتَرْنَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُمْ عَلَىٰ عِلْمٍ عَلَى",
+          "text": "هُمْ عَلَىٰ عِلْمٍ عَلَى ٱلْعَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْع",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰلَ",
+          "text": "لَمِ",
           "rule": "normal"
         },
         {
-          "text": "م",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -1977,7 +1689,55 @@
       "translationBosnian": "i neka znamenja puna očite blagosti smo im dali.",
       "tajwidSegments": [
         {
-          "text": "وَءَاتَيْنَـٰهُم مِّنَ ٱلْـَٔايَـٰتِ مَا فِيهِ بَلَـٰٓؤٌا۟ مُّبِينٌ",
+          "text": "وَءَاتَيْنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هُ",
+          "rule": "normal"
+        },
+        {
+          "text": "م مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نَ ٱلْـَٔايَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "تِ مَا فِيهِ بَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰٓ",
+          "rule": "mad"
+        },
+        {
+          "text": "ؤ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌا۟ مُّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "بِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نٌ",
           "rule": "normal"
         }
       ],
@@ -2010,27 +1770,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓؤُل",
+          "text": "ؤُلَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓءِ لَيَقُول",
+          "text": "ءِ لَيَقُولُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2051,15 +1811,7 @@
       "translationBosnian": "\"Postoji samo naša prva smrt, mi nećemo biti oživljeni;",
       "tajwidSegments": [
         {
-          "text": "إِنْ هِىَ إِلَّا مَوْتَتُنَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأُولَىٰ وَمَا نَحْنُ بِمُ",
+          "text": "إِنْ هِىَ إِلَّا مَوْتَتُنَا ٱلْأُولَىٰ وَمَا نَحْنُ بِمُ",
           "rule": "normal"
         },
         {
@@ -2096,15 +1848,7 @@
       "translationBosnian": "pretke naše nam dovedite, ako je istina to što govorite!\"",
       "tajwidSegments": [
         {
-          "text": "فَأْتُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " بِـَٔابَ",
+          "text": "فَأْتُوا۟ بِـَٔابَ",
           "rule": "normal"
         },
         {
@@ -2124,11 +1868,7 @@
           "rule": "normal"
         },
         {
-          "text": "ن كُ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "نتُ",
+          "text": "ن كُنتُ",
           "rule": "ikhfa"
         },
         {
@@ -2136,19 +1876,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰدِق",
+          "text": "دِقِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2177,11 +1917,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِينَ مِ",
+          "text": "ٱلَّذِينَ مِ",
           "rule": "normal"
         },
         {
@@ -2193,47 +1929,39 @@
           "rule": "qalqalah"
         },
         {
-          "text": "لِهِمْ ۚ أَهْلَكْ",
+          "text": "لِهِمْ ۚ أَهْلَكْنَ",
           "rule": "normal"
         },
         {
-          "text": "ن",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰهُمْ",
+          "text": "هُمْ ۖ إِ",
           "rule": "normal"
         },
         {
-          "text": " ۖ ",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "إِنَّهُمْ ك",
+          "text": "هُمْ كَانُوا۟ مُ",
           "rule": "normal"
         },
         {
-          "text": "َا",
-          "rule": "normal"
-        },
-        {
-          "text": "نُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": " مُج",
+          "text": "رِمِ",
           "rule": "normal"
         },
         {
-          "text": "ْ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "رِمِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2262,59 +1990,39 @@
           "rule": "qalqalah"
         },
         {
-          "text": "نَا ",
+          "text": "نَا ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضَ وَمَا بَيْنَهُمَا لَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضَ وَمَا بَيْنَهُمَا ل",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰعِ",
+          "text": "عِبِ",
           "rule": "normal"
         },
         {
-          "text": "ب",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2347,51 +2055,43 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُم",
+          "text": "هُمَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ إِلَّا ب",
+          "text": " إِلَّا بِٱلْحَقِّ وَلَ",
           "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْحَقِّ وَل",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "mad"
         },
         {
           "text": "ـٰ",
-          "rule": "normal"
-        },
-        {
-          "text": "كِن",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "َّ أَكْثَرَهُمْ لَا يَعْلَ",
-          "rule": "normal"
-        },
-        {
-          "text": "م",
           "rule": "mad"
         },
         {
-          "text": "ُونَ",
+          "text": "كِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " أَكْثَرَهُمْ لَا يَعْلَمُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2420,39 +2120,31 @@
           "rule": "ghunnah"
         },
         {
-          "text": " يَوْمَ ",
+          "text": " يَوْمَ ٱلْفَصْلِ مِيقَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْفَصْلِ مِيقَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتُهُمْ أ",
+          "text": "تُهُمْ أَ",
           "rule": "normal"
         },
         {
-          "text": "َج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْمَع",
+          "text": "مَعِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2534,67 +2226,31 @@
       "translationBosnian": "moći će samo oni kojima se Allah smiluje, jer – On je, uistinu, silan i milostiv.",
       "tajwidSegments": [
         {
-          "text": "إِلَّا مَ",
+          "text": "إِلَّا مَن رَّحِمَ ٱللَّهُ ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "ن رَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "حِمَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهُ ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّ",
+          "text": "هُ",
           "rule": "normal"
         },
         {
-          "text": "ه",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ُۥ هُو",
+          "text": " هُوَ ٱلْعَزِيزُ ٱلرَّحِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْعَزِيز",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلرَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ح",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمُ",
+          "text": "مُ",
           "rule": "normal"
         }
       ],
@@ -2623,19 +2279,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " شَجَرَتَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "زَّقُّ",
+          "text": " شَجَرَتَ ٱلزَّقُّ",
           "rule": "normal"
         },
         {
@@ -2664,15 +2308,7 @@
       "translationBosnian": "biće hrana grješniku,",
       "tajwidSegments": [
         {
-          "text": "طَعَامُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَثِ",
+          "text": "طَعَامُ ٱلْأَثِ",
           "rule": "normal"
         },
         {
@@ -2701,23 +2337,7 @@
       "translationBosnian": "u trbuhu će kao rastopljena kovina vreti,",
       "tajwidSegments": [
         {
-          "text": "كَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُهْلِ يَغْلِى فِى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْبُطُ",
+          "text": "كَٱلْمُهْلِ يَغْلِى فِى ٱلْبُطُ",
           "rule": "normal"
         },
         {
@@ -2746,15 +2366,7 @@
       "translationBosnian": "kao što voda kada ključa vri.",
       "tajwidSegments": [
         {
-          "text": "كَغَلْىِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحَمِ",
+          "text": "كَغَلْىِ ٱلْحَمِ",
           "rule": "normal"
         },
         {
@@ -2783,15 +2395,7 @@
       "translationBosnian": "\"Ščepajte ga i usred ognja odvucite,",
       "tajwidSegments": [
         {
-          "text": "خُذُوهُ فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "عْتِلُوهُ إِلَىٰ سَوَ",
+          "text": "خُذُوهُ فَٱعْتِلُوهُ إِلَىٰ سَوَ",
           "rule": "normal"
         },
         {
@@ -2799,15 +2403,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْجَحِ",
+          "text": "ءِ ٱلْجَحِ",
           "rule": "normal"
         },
         {
@@ -2844,15 +2440,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " صُبُّو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " فَوْقَ رَأْسِهِ",
+          "text": " صُبُّوا۟ فَوْقَ رَأْسِهِ",
           "rule": "normal"
         },
         {
@@ -2860,15 +2448,7 @@
           "rule": "mad"
         },
         {
-          "text": " مِنْ عَذَابِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحَمِ",
+          "text": " مِنْ عَذَابِ ٱلْحَمِ",
           "rule": "normal"
         },
         {
@@ -2921,23 +2501,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَزِيزُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْكَرِ",
+          "text": " ٱلْعَزِيزُ ٱلْكَرِ",
           "rule": "normal"
         },
         {
@@ -2978,39 +2542,35 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰذَا مَا ك",
+          "text": "ذَا مَا كُ",
           "rule": "normal"
         },
         {
-          "text": "ُنت",
+          "text": "نتُم بِ",
           "rule": "ikhfa"
         },
         {
-          "text": "ُم ب",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "ِه",
+          "text": "هِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ تَمْتَر",
+          "text": " تَمْتَرُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3039,15 +2599,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُتَّقِينَ فِى مَقَامٍ أَمِ",
+          "text": " ٱلْمُتَّقِينَ فِى مَقَامٍ أَمِ",
           "rule": "normal"
         },
         {
@@ -3084,27 +2636,27 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰ",
+          "text": "ت",
           "rule": "normal"
         },
         {
-          "text": "تٍ و",
+          "text": "ٍ وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "َعُي",
+          "text": "عُيُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونٍ",
+          "text": "نٍ",
           "rule": "normal"
         }
       ],
@@ -3129,11 +2681,7 @@
           "rule": "normal"
         },
         {
-          "text": "ن سُ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "ندُ",
+          "text": "ن سُندُ",
           "rule": "ikhfa"
         },
         {
@@ -3165,19 +2713,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبِل",
+          "text": "بِلِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3218,27 +2766,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰه",
+          "text": "هُ",
           "rule": "normal"
         },
         {
-          "text": "ُم ب",
+          "text": "م بِ",
           "rule": "ikhfa"
         },
         {
-          "text": "ِحُورٍ ع",
+          "text": "حُورٍ عِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينٍ",
+          "text": "نٍ",
           "rule": "normal"
         }
       ],
@@ -3271,19 +2819,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰكِهَةٍ ءَامِن",
+          "text": "كِهَةٍ ءَامِنِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3304,55 +2852,23 @@
       "translationBosnian": "u njima, poslije one prve smrti, smrt više neće okusiti i On će ih patnje u ognju sačuvati,",
       "tajwidSegments": [
         {
-          "text": "لَا يَذُوقُونَ فِيهَا ",
+          "text": "لَا يَذُوقُونَ فِيهَا ٱلْمَوْتَ إِلَّا ٱلْمَوْتَةَ ٱلْأُولَىٰ ۖ وَوَقَى",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَوْتَ إِلَّا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَوْتَةَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأُولَىٰ ۖ وَوَق",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ىٰهُمْ عَذَاب",
+          "text": "هُمْ عَذَابَ ٱلْجَحِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْجَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ح",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمِ",
+          "text": "مِ",
           "rule": "normal"
         }
       ],
@@ -3381,43 +2897,23 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ن رَّ",
+          "text": "ن رَّبِّكَ ۚ ذَ",
           "rule": "normal"
         },
         {
-          "text": "بِّكَ ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ذ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "َٰلِكَ هُو",
+          "text": "لِكَ هُوَ ٱلْفَوْزُ ٱلْعَظِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْفَوْز",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْعَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ظ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمُ",
+          "text": "مُ",
           "rule": "normal"
         }
       ],
@@ -3450,19 +2946,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُ بِلِسَانِكَ لَعَلَّهُمْ يَتَذَكَّر",
+          "text": "هُ بِلِسَانِكَ لَعَلَّهُمْ يَتَذَكَّرُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3483,15 +2979,7 @@
       "translationBosnian": "zato čekaj, i oni će čekati!",
       "tajwidSegments": [
         {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "رْتَقِ",
+          "text": "فَٱرْتَقِ",
           "rule": "normal"
         },
         {
@@ -3512,7 +3000,7 @@
         },
         {
           "text": "م مُّ",
-          "rule": "normal"
+          "rule": "ghunnah"
         },
         {
           "text": "رْتَقِبُ",

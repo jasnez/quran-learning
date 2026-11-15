@@ -14,7 +14,6 @@ import {
   BarChart3,
   Sparkles,
   Palette,
-  ListChecks,
 } from "lucide-react";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
@@ -38,8 +37,7 @@ export function MobileNav() {
     pathname?.startsWith("/bookmarks") ||
     pathname?.startsWith("/progress") ||
     pathname?.startsWith("/names") ||
-    pathname?.startsWith("/tajwid") ||
-    pathname?.startsWith("/test");
+    pathname?.startsWith("/tajwid");
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -157,13 +155,6 @@ export function MobileNav() {
               onClick={() => setMoreOpen(false)}
             >
               Tedžvid lekcije
-            </MoreLink>
-            <MoreLink
-              href="/test/1"
-              icon={<ListChecks className="h-4 w-4" />}
-              onClick={() => setMoreOpen(false)}
-            >
-              Kviz
             </MoreLink>
           </div>
         )}

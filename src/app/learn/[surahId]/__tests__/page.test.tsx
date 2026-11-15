@@ -220,7 +220,7 @@ describe("Learn Mode page", () => {
     render(Page);
     const playBtn = screen.getByRole("button", { name: /play|pause|pusti|pauza/i });
     await userEvent.click(playBtn);
-    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
+    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs, "learn");
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 

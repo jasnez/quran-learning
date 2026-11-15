@@ -21,7 +21,15 @@
       "translationBosnian": "Reci: \"Utječem se Gospodaru svitanja",
       "tajwidSegments": [
         {
-          "text": " قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+          "text": " قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ق",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "ِ",
           "rule": "normal"
         }
       ],
@@ -124,15 +132,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "رِّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "رِّ ٱل",
           "rule": "normal"
         },
         {
@@ -144,35 +144,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰث",
+          "text": "ثَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰتِ فِ",
+          "text": "تِ فِى ٱلْعُقَ",
           "rule": "normal"
         },
         {
-          "text": "ى",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْعُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ق",
+          "text": "د",
           "rule": "qalqalah"
         },
         {
-          "text": "َدِ",
+          "text": "ِ",
           "rule": "normal"
         }
       ],

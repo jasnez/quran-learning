@@ -21,7 +21,23 @@
       "translationBosnian": "Zar nisi čuo šta je sa vlasnicima slona Gospodar tvoj uradio!",
       "tajwidSegments": [
         {
-          "text": " أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَـٰبِ ٱلْفِيلِ",
+          "text": " أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "بِ ٱلْفِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "لِ",
           "rule": "normal"
         }
       ],

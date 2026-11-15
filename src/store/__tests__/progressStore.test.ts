@@ -157,7 +157,7 @@ describe("progressStore", () => {
     });
 
     it("markAyahListened adds ayah to surah progress and updates lastAccessedAt", () => {
-      useProgressStore.getState().markAyahListened(1, 3, 7);
+      useProgressStore.getState().markAyahListened(1, 3);
       const progress = useProgressStore.getState().getSurahProgress(1);
       expect(progress).toBeDefined();
       expect(progress!.surahNumber).toBe(1);
@@ -170,15 +170,15 @@ describe("progressStore", () => {
     });
 
     it("markAyahListened does not duplicate ayah in set", () => {
-      useProgressStore.getState().markAyahListened(2, 5, 286);
-      useProgressStore.getState().markAyahListened(2, 5, 286);
+      useProgressStore.getState().markAyahListened(2, 5);
+      useProgressStore.getState().markAyahListened(2, 5);
       const progress = useProgressStore.getState().getSurahProgress(2);
       expect(progress!.ayahsListened.size).toBe(1);
       expect(progress!.ayahsListened.has(5)).toBe(true);
     });
 
     it("markAyahRead adds ayah to ayahsRead and updates totalAyahs", () => {
-      useProgressStore.getState().markAyahRead(1, 2, 7);
+      useProgressStore.getState().markAyahRead(1, 2);
       const progress = useProgressStore.getState().getSurahProgress(1);
       expect(progress!.ayahsRead).toEqual(new Set([2]));
       expect(progress!.totalAyahs).toBe(7);
@@ -186,8 +186,8 @@ describe("progressStore", () => {
     });
 
     it("markAyahRead does not duplicate ayah", () => {
-      useProgressStore.getState().markAyahRead(3, 10, 200);
-      useProgressStore.getState().markAyahRead(3, 10, 200);
+      useProgressStore.getState().markAyahRead(3, 10);
+      useProgressStore.getState().markAyahRead(3, 10);
       const progress = useProgressStore.getState().getSurahProgress(3);
       expect(progress!.ayahsRead.size).toBe(1);
     });
@@ -197,17 +197,17 @@ describe("progressStore", () => {
     });
 
     it("getAllSurahProgress returns array of all surah progress entries", () => {
-      useProgressStore.getState().markAyahListened(1, 1, 7);
-      useProgressStore.getState().markAyahRead(2, 1, 286);
+      useProgressStore.getState().markAyahListened(1, 1);
+      useProgressStore.getState().markAyahRead(2, 1);
       const all = useProgressStore.getState().getAllSurahProgress();
       expect(all.length).toBe(2);
       expect(all.map((p) => p.surahNumber).sort((a, b) => a - b)).toEqual([1, 2]);
     });
 
     it("getOverallProgress returns totals and overallCompletionPercent", () => {
-      useProgressStore.getState().markAyahListened(1, 1, 7);
-      useProgressStore.getState().markAyahListened(1, 2, 7);
-      useProgressStore.getState().markAyahRead(2, 1, 286);
+      useProgressStore.getState().markAyahListened(1, 1);
+      useProgressStore.getState().markAyahListened(1, 2);
+      useProgressStore.getState().markAyahRead(2, 1);
       const overall = useProgressStore.getState().getOverallProgress();
       expect(overall.totalSurahsStarted).toBe(2);
       expect(overall.totalAyahsListened).toBe(2);
@@ -217,7 +217,7 @@ describe("progressStore", () => {
     });
 
     it("addSurahTimeSpent accumulates timeSpentMs per surah", () => {
-      useProgressStore.getState().markAyahListened(1, 1, 7);
+      useProgressStore.getState().markAyahListened(1, 1);
       useProgressStore.getState().addSurahTimeSpent(1, 5000);
       useProgressStore.getState().addSurahTimeSpent(1, 3000);
       const progress = useProgressStore.getState().getSurahProgress(1);
@@ -225,16 +225,33 @@ describe("progressStore", () => {
     });
 
     it("completionPercent is calculated from ayahsListened / totalAyahs", () => {
-      useProgressStore.getState().markAyahListened(1, 1, 7);
-      useProgressStore.getState().markAyahListened(1, 2, 7);
-      useProgressStore.getState().markAyahListened(1, 3, 7);
+      useProgressStore.getState().markAyahListened(1, 1);
+      useProgressStore.getState().markAyahListened(1, 2);
+      useProgressStore.getState().markAyahListened(1, 3);
       const progress = useProgressStore.getState().getSurahProgress(1);
       expect(progress!.completionPercent).toBeCloseTo((3 / 7) * 100);
     });
 
+    it("markAyahListened counts against the surah's real ayah count, whatever queue it was played from", () => {
+      useProgressStore.getState().markAyahListened(2, 201);
+      const progress = useProgressStore.getState().getSurahProgress(2);
+      expect(progress!.totalAyahs).toBe(286);
+      expect(progress!.completionPercent).toBeCloseTo((1 / 286) * 100);
+    });
+
+    it("markAyahRead records against the surah's real ayah count", () => {
+      useProgressStore.getState().markAyahRead(2, 142);
+      expect(useProgressStore.getState().getSurahProgress(2)!.totalAyahs).toBe(286);
+    });
+
+    it("addSurahTimeSpent starts a new entry with the surah's real ayah count", () => {
+      useProgressStore.getState().addSurahTimeSpent(3, 1000);
+      expect(useProgressStore.getState().getSurahProgress(3)!.totalAyahs).toBe(200);
+    });
+
     it("surahProgressMap persists with Sets serialized as arrays and rehydrates as Sets", () => {
-      useProgressStore.getState().markAyahListened(1, 1, 7);
-      useProgressStore.getState().markAyahRead(1, 2, 7);
+      useProgressStore.getState().markAyahListened(1, 1);
+      useProgressStore.getState().markAyahRead(1, 2);
       const progress = useProgressStore.getState().getSurahProgress(1);
       expect(progress).toBeDefined();
       expect(progress!.ayahsListened instanceof Set).toBe(true);
@@ -247,7 +264,7 @@ describe("progressStore", () => {
   describe("clearLocalProgress", () => {
     it("resets progress to default state so new users get a clean slate", () => {
       useProgressStore.getState().updateLastPosition(2, 10, "Al-Baqarah", "reader");
-      useProgressStore.getState().markAyahListened(1, 1, 7);
+      useProgressStore.getState().markAyahListened(1, 1);
       expect(useProgressStore.getState().lastSurahNumber).toBe(2);
       expect(useProgressStore.getState().getSurahProgress(1)).toBeDefined();
 

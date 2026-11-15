@@ -21,7 +21,31 @@
       "translationBosnian": "Allaha hvali sve što je na nebesima i na Zemlji, i On je Silni i Mudri.",
       "tajwidSegments": [
         {
-          "text": " سَبَّحَ لِلَّهِ مَا فِى ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ",
+          "text": " سَبَّحَ لِلَّهِ مَا فِى ٱلسَّمَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "وَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "تِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مُ",
           "rule": "normal"
         }
       ],
@@ -50,67 +74,47 @@
           "rule": "mad"
         },
         {
-          "text": " مُلْكُ ",
+          "text": " مُلْكُ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضِ ۖ يُحْىِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضِ ۖ يُح",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ىِۦ وَيُمِيتُ ۖ وَهُوَ عَلَىٰ كُلِّ ",
+          "text": " وَيُمِيتُ ۖ وَهُوَ عَلَىٰ كُلِّ شَىْء",
           "rule": "normal"
         },
         {
-          "text": "شَىْ",
+          "text": "ٍ قَ",
           "rule": "ikhfa"
         },
         {
-          "text": "ءٍ",
+          "text": "دِ",
           "rule": "normal"
         },
         {
-          "text": " ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "قَدِيرٌ",
+          "text": "رٌ",
           "rule": "normal"
         }
       ],
@@ -131,59 +135,23 @@
       "translationBosnian": "On je Prvi i Posljednji, i Vidljivi i Nevidljivi; i On zna sve!",
       "tajwidSegments": [
         {
-          "text": "هُوَ ",
+          "text": "هُوَ ٱلْأَوَّلُ وَٱلْـَٔاخِرُ وَٱلظَّ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَوَّلُ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْـَٔاخِرُ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لظّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰهِرُ ",
+          "text": "هِرُ وَٱلْبَاطِنُ ۖ وَهُوَ بِكُلِّ شَىْءٍ عَلِ",
           "rule": "normal"
         },
         {
-          "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱلْبَاطِنُ ۖ وَهُوَ بِكُلِّ شَىْءٍ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "َلِيمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -204,139 +172,67 @@
       "translationBosnian": "U šest dana On je nebesa i Zemlju stvorio, a zatim se nad Aršom uzvisio; On zna šta u zemlju ulazi i šta iz nje izlazi i šta s neba silazi i šta se prema njemu diže, On je s vama gdje god bili, i sve što radite Allah vidi.",
       "tajwidSegments": [
         {
-          "text": "هُوَ ",
+          "text": "هُوَ ٱلَّذِى خَلَقَ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِى خَلَقَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضَ فِى سِتَّةِ أَيَّام",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضَ فِى سِتَّةِ أَيَّا",
-          "rule": "normal"
-        },
-        {
-          "text": "مٍ ث",
+          "text": "ٍ ثُ",
           "rule": "ikhfa"
         },
         {
-          "text": "ُمّ",
+          "text": "مَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َ",
+          "text": " ٱسْتَوَىٰ عَلَى ٱلْعَرْشِ ۚ يَعْلَمُ مَا يَلِجُ فِى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا وَمَا يَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱسْتَوَىٰ عَلَى",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْعَرْشِ ۚ يَعْلَمُ مَا يَلِجُ ف",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ى ٱلْأَرْضِ وَمَا يَخْرُجُ مِنْهَا وَمَا",
-          "rule": "normal"
-        },
-        {
-          "text": " يَ",
+          "text": "نزِ",
           "rule": "ikhfa"
         },
         {
-          "text": "نزِلُ مِ",
+          "text": "لُ مِنَ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلسّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َم",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "َآءِ وَمَا يَعْرُجُ فِيهَا ۖ وَهُوَ مَعَكُمْ أَيْنَ م",
+          "text": "ءِ وَمَا يَعْرُجُ فِيهَا ۖ وَهُوَ مَعَكُمْ أَيْنَ مَا كُ",
           "rule": "normal"
         },
         {
-          "text": "َا ",
+          "text": "نتُ",
           "rule": "ikhfa"
         },
         {
-          "text": "كُنتُ",
+          "text": "مْ ۚ وَٱللَّهُ بِمَا تَعْمَلُونَ بَصِ",
           "rule": "normal"
         },
         {
-          "text": "م",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ ۚ وَٱللَّهُ بِمَا تَعْمَلُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ن",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "َ بَصِيرٌ",
+          "text": "رٌ",
           "rule": "normal"
         }
       ],
@@ -365,67 +261,31 @@
           "rule": "mad"
         },
         {
-          "text": " مُلْكُ ",
+          "text": " مُلْكُ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضِ ۚ وَإِلَى ٱللَّهِ تُرْجَعُ ٱلْأُمُ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضِ ۚ وَإِل",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ى ٱللَّهِ تُرْجَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ٱلْأ",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "مُورُ",
+          "text": "رُ",
           "rule": "normal"
         }
       ],
@@ -446,23 +306,7 @@
       "translationBosnian": "On uvodi noć u dan i dan u noć, i On zna svačije misli.",
       "tajwidSegments": [
         {
-          "text": "يُولِجُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّيْلَ فِى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "يُولِجُ ٱلَّيْلَ فِى ٱل",
           "rule": "normal"
         },
         {
@@ -470,15 +314,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "هَارِ وَيُولِجُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "هَارِ وَيُولِجُ ٱل",
           "rule": "normal"
         },
         {
@@ -486,43 +322,23 @@
           "rule": "ghunnah"
         },
         {
-          "text": "هَارَ فِى ",
+          "text": "هَارَ فِى ٱلَّيْلِ ۚ وَهُوَ عَلِيم",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
+          "text": "ٌۢ ب",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ِذَاتِ ٱلصُّدُ",
           "rule": "normal"
         },
         {
-          "text": "لَّيْلِ ۚ وَهُوَ عَلِ",
-          "rule": "normal"
-        },
-        {
-          "text": "يمٌۢ",
-          "rule": "normal"
-        },
-        {
-          "text": " بِذَات",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلصُّ",
-          "rule": "normal"
-        },
-        {
-          "text": "د",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ُورِ",
+          "text": "رِ",
           "rule": "normal"
         }
       ],
@@ -543,23 +359,7 @@
       "translationBosnian": "Vjerujte u Allaha i Poslanika Njegova i udjeljujte iz onoga što vam On stavlja na raspolaganje, jer one od vas koji budu vjerovali i udjeljivali čeka nagrada velika.",
       "tajwidSegments": [
         {
-          "text": "ءَامِنُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ وَرَسُولِهِ",
+          "text": "ءَامِنُوا۟ بِٱللَّهِ وَرَسُولِهِ",
           "rule": "normal"
         },
         {
@@ -575,15 +375,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "قُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " مِ",
+          "text": "قُوا۟ مِ",
           "rule": "normal"
         },
         {
@@ -596,74 +388,50 @@
         },
         {
           "text": "م مُّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "سْتَخْلَفِينَ فِيهِ ۖ فَٱلَّذِينَ ءَامَنُوا۟ مِ",
           "rule": "normal"
         },
         {
-          "text": "سْتَخْلَفِينَ فِيهِ ۖ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ف",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱلَّذِينَ ءَامَن",
-          "rule": "normal"
-        },
-        {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ ",
-          "rule": "normal"
-        },
-        {
-          "text": "مِن",
+          "text": "نكُ",
           "rule": "ikhfa"
         },
         {
-          "text": "كُمْ وَ",
+          "text": "مْ وَأَ",
           "rule": "normal"
         },
         {
-          "text": "أَن",
+          "text": "نفَ",
           "rule": "ikhfa"
         },
         {
-          "text": "فَق",
+          "text": "قُوا۟ لَهُمْ أَ",
           "rule": "normal"
         },
         {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ لَهُمْ ",
-          "rule": "normal"
-        },
-        {
-          "text": "أَ",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ج",
+          "text": "ر",
           "rule": "normal"
         },
         {
-          "text": "ْرٌ ",
+          "text": "ٌ كَ",
           "rule": "ikhfa"
         },
         {
-          "text": "كَ",
+          "text": "بِ",
           "rule": "normal"
         },
         {
-          "text": "ب",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيرٌ",
+          "text": "رٌ",
           "rule": "normal"
         }
       ],
@@ -684,83 +452,51 @@
       "translationBosnian": "Šta vam je pa ne vjerujete u Allaha? Poslanik vas zove da vjerujete u Gospodara svoga – a On je od vas već zavjet uzeo – ako želite biti vjernici.",
       "tajwidSegments": [
         {
-          "text": "وَمَا لَكُمْ لَا تُؤْمِنُونَ بِ",
+          "text": "وَمَا لَكُمْ لَا تُؤْمِنُونَ بِٱللَّهِ ۙ وَٱلرَّسُولُ يَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ ۙ ",
-          "rule": "normal"
-        },
-        {
-          "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلرَّسُولُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "يَ",
+          "text": "دْ",
           "rule": "qalqalah"
         },
         {
-          "text": "دْعُوكُمْ لِتُؤْمِن",
+          "text": "عُوكُمْ لِتُؤْمِنُوا۟ بِرَبِّكُمْ وَقَ",
           "rule": "normal"
         },
         {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ بِرَبِّكُمْ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "قَ",
+          "text": "دْ",
           "rule": "qalqalah"
         },
         {
-          "text": "دْ أَخَذَ مِي",
+          "text": " أَخَذَ مِيثَ",
           "rule": "normal"
         },
         {
-          "text": "ث",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰقَكُمْ",
+          "text": "قَكُمْ إِ",
           "rule": "normal"
         },
         {
-          "text": " إِن",
+          "text": "ن كُنتُ",
           "rule": "ikhfa"
         },
         {
-          "text": " كُ",
-          "rule": "ikhfa"
+          "text": "م مُّ",
+          "rule": "ghunnah"
         },
         {
-          "text": "نتُم ",
+          "text": "ؤْمِنِ",
           "rule": "normal"
         },
         {
-          "text": "مُّؤْم",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "نِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -781,15 +517,7 @@
       "translationBosnian": "On robu Svome objavljuje jasne ajete da bi vas iz tmina na svjetlo izveo – a Allah je, uistinu, prema vama dobar i milostiv.",
       "tajwidSegments": [
         {
-          "text": "هُوَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِى يُنَزِّلُ عَلَىٰ عَ",
+          "text": "هُوَ ٱلَّذِى يُنَزِّلُ عَلَىٰ عَ",
           "rule": "normal"
         },
         {
@@ -809,111 +537,67 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰ",
+          "text": "ت",
           "rule": "normal"
         },
         {
-          "text": "تٍۭ ",
+          "text": "ٍۭ ب",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َيِّنَ",
           "rule": "normal"
         },
         {
-          "text": "بَيِّن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـ",
+          "text": "تٍ لِّيُخْرِجَكُ",
           "rule": "normal"
         },
         {
-          "text": "ٰتٍ ل",
-          "rule": "normal"
-        },
-        {
-          "text": "ِّيُخْرِجَ",
-          "rule": "normal"
-        },
-        {
-          "text": "كُم م",
-          "rule": "normal"
-        },
-        {
-          "text": "ِّن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلظُّلُ",
-          "rule": "normal"
-        },
-        {
-          "text": "م",
-          "rule": "mad"
-        },
-        {
-          "text": "َـٰتِ إِل",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ى",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱل",
+          "text": "م مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "نُّورِ ۚ",
+          "text": "نَ ٱلظُّلُمَ",
           "rule": "normal"
         },
         {
-          "text": " وَ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "إ",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "نَّ ٱللَّهَ بِكُمْ لَر",
-          "rule": "normal"
-        },
-        {
-          "text": "َءُوف",
-          "rule": "normal"
-        },
-        {
-          "text": "ٌ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ر",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َّحِيمٌ",
+          "text": "تِ إِلَى ٱل",
+          "rule": "normal"
+        },
+        {
+          "text": "نُّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ورِ ۚ وَإِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ٱللَّهَ بِكُمْ لَرَءُوفٌ رَّحِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -942,23 +626,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "قُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " فِى سَبِيلِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ وَلِلَّهِ مِيرَ",
+          "text": "قُوا۟ فِى سَبِيلِ ٱللَّهِ وَلِلَّهِ مِيرَ",
           "rule": "normal"
         },
         {
@@ -966,203 +634,119 @@
           "rule": "mad"
         },
         {
-          "text": "ثُ ",
+          "text": "ثُ ٱلسَّمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰو",
+          "text": "وَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ و",
+          "text": "تِ وَٱلْأَرْضِ ۚ لَا يَسْتَوِى مِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَرْضِ ۚ لَا يَسْتَوِى",
-          "rule": "normal"
-        },
-        {
-          "text": " مِ",
+          "text": "نكُ",
           "rule": "ikhfa"
         },
         {
-          "text": "نكُم ",
+          "text": "م مَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نْ أَ",
           "rule": "normal"
         },
         {
-          "text": "مَّنْ",
-          "rule": "normal"
-        },
-        {
-          "text": " أَ",
+          "text": "نفَ",
           "rule": "ikhfa"
         },
         {
-          "text": "نفَقَ",
+          "text": "قَ مِ",
           "rule": "normal"
         },
         {
-          "text": " مِن",
+          "text": "ن قَ",
           "rule": "ikhfa"
         },
         {
-          "text": " ق",
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "َبْ",
+          "text": "لِ ٱلْفَتْحِ وَقَ",
           "rule": "normal"
         },
         {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ ٱلْفَتْحِ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "قَـٰتَل",
+          "text": "تَلَ ۚ أُو۟لَ",
           "rule": "normal"
         },
         {
-          "text": "َ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "أُ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "و۟لَـٰٓئِكَ أَعْظَمُ ",
+          "text": "ئِكَ أَعْظَمُ دَرَجَة",
           "rule": "normal"
         },
         {
-          "text": "دَرَج",
+          "text": "ً مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َةً",
+          "text": "نَ ٱلَّذِينَ أَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "مِّنَ ٱلَّذ",
-          "rule": "normal"
-        },
-        {
-          "text": "ِين",
+          "text": "نفَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َ أ",
+          "text": "قُوا۟ مِن",
           "rule": "normal"
         },
         {
-          "text": "َن",
+          "text": "ۢ ب",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َعْدُ وَقَ",
           "rule": "normal"
         },
         {
-          "text": "فَقُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " مِنۢ بَعْ",
-          "rule": "normal"
-        },
-        {
-          "text": "د",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ُ وَق",
+          "text": "تَلُوا۟ ۚ وَكُلّ",
           "rule": "normal"
         },
         {
-          "text": "َـ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٰتَلُوا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟ ۚ و",
+          "text": "ًا وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "َكُلّ",
+          "text": "عَدَ ٱللَّهُ ٱلْحُسْنَىٰ ۚ وَٱللَّهُ بِمَا تَعْمَلُونَ خَبِ",
           "rule": "normal"
         },
         {
-          "text": "ً",
-          "rule": "normal"
-        },
-        {
-          "text": "ا وَعَد",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱللَّهُ ٱلْح",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": "سْنَىٰ ۚ وَٱللَّهُ بِمَا تَعْ",
-          "rule": "normal"
-        },
-        {
-          "text": "م",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "َلُونَ خَبِيرٌ",
+          "text": "رٌ",
           "rule": "normal"
         }
       ],
@@ -1191,15 +775,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِى يُ",
+          "text": "ا ٱلَّذِى يُ",
           "rule": "normal"
         },
         {
@@ -1207,15 +783,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "رِضُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهَ قَرْضًا حَسَن",
+          "text": "رِضُ ٱللَّهَ قَرْضًا حَسَن",
           "rule": "normal"
         },
         {
@@ -1227,59 +795,59 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰعِفَه",
+          "text": "عِفَهُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ۥ لَه",
+          "text": " لَهُ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ۥ وَلَه",
+          "text": " وَلَهُ",
           "rule": "normal"
         },
         {
-          "text": "ُۥ",
+          "text": "ۥٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أ",
+          "text": " أَ",
           "rule": "normal"
         },
         {
-          "text": "َج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْ",
+          "text": "ر",
           "rule": "normal"
         },
         {
-          "text": "رٌ ك",
+          "text": "ٌ كَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َر",
+          "text": "رِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "يمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -1300,159 +868,111 @@
       "translationBosnian": "na Dan kada budeš vidio kako se pred vjernicima i vjernicama, i s desne strane njihove, svjetlo njihovo bude kretalo: \"Blago vama danas: džennetske bašče kroz koje teku rijeke u kojima ćete vječno boraviti – to je veliki uspjeh!\"",
       "tajwidSegments": [
         {
-          "text": "يَوْمَ تَرَى ",
+          "text": "يَوْمَ تَرَى ٱلْمُؤْمِنِينَ وَٱلْمُؤْمِنَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُؤْمِنِينَ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُؤْمِنَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ يَسْعَىٰ نُورُه",
+          "text": "تِ يَسْعَىٰ نُورُهُ",
           "rule": "normal"
         },
         {
-          "text": "ُم ب",
+          "text": "م بَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َيْنَ أَيْدِيهِمْ وَبِأَيْم",
+          "text": "يْنَ أَيْدِيهِمْ وَبِأَيْمَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰنِ",
+          "text": "نِهِ",
           "rule": "normal"
         },
         {
-          "text": "هِم ",
+          "text": "م بُ",
           "rule": "ikhfa"
         },
         {
-          "text": "بُشْر",
+          "text": "شْرَى",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ىٰكُم",
+          "text": "كُمُ ٱلْيَوْمَ جَ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْيَوْمَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "جَن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ّ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َ",
+          "text": "ت",
           "rule": "normal"
         },
         {
-          "text": "ـٰتٌ",
+          "text": "ٌ تَ",
           "rule": "ikhfa"
         },
         {
-          "text": " ت",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "َجْرِى",
+          "text": "رِى مِ",
           "rule": "normal"
         },
         {
-          "text": " مِن",
+          "text": "ن تَ",
           "rule": "ikhfa"
         },
         {
-          "text": " تَحْتِه",
+          "text": "حْتِهَا ٱلْأَنْهَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا ٱلْأَن",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "هَـٰر",
+          "text": "رُ خَ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": " خَـٰلِدِينَ فِيه",
+          "text": "لِدِينَ فِيهَا ۚ ذَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ا ۚ ذَٰلِك",
+          "text": "لِكَ هُوَ ٱلْفَوْزُ ٱلْعَظِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " هُوَ ٱلْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ف",
-          "rule": "normal"
-        },
-        {
-          "text": "َوْزُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "لْعَظِيمُ",
+          "text": "مُ",
           "rule": "normal"
         }
       ],
@@ -1473,227 +993,139 @@
       "translationBosnian": "na Dan kada će licemjeri i licemjerke vjernicima govoriti: \"Pričekajte nas da se svjetlom vašim poslužimo!\" \"Vratite se natrag, pa drugo svjetlo potražite!\" – reći će se. I između njih će se pregrada postaviti koja će vrata imati; unutar nje biće milost, a izvan nje patnja.",
       "tajwidSegments": [
         {
-          "text": "يَوْمَ يَقُولُ ",
+          "text": "يَوْمَ يَقُولُ ٱلْمُنَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُنَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰفِقُونَ و",
+          "text": "فِقُونَ وَٱلْمُنَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْمُن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰفِ",
+          "text": "فِقَ",
           "rule": "normal"
         },
         {
-          "text": "ق",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰتُ لِلَّذِينَ ءَامَ",
+          "text": "تُ لِلَّذِينَ ءَامَنُوا۟ ٱ",
           "rule": "normal"
         },
         {
-          "text": "نُ",
+          "text": "نظُ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رُونَا نَ",
           "rule": "normal"
         },
         {
-          "text": "و",
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "تَبِسْ مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن نُّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "ورِكُمْ قِيلَ ٱرْجِعُوا۟ وَرَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءَكُمْ فَٱلْتَمِسُوا۟ نُور",
+          "rule": "normal"
+        },
+        {
+          "text": "ًا فَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "ضُرِبَ بَيْنَهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "م بِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "سُورٍ لَّهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " بَاب",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌۢ ب",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َاطِنُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " فِيهِ ٱلرَّحْمَةُ وَظَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هِرُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن قِ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "بَلِهِ ٱلْعَذَ",
           "rule": "normal"
         },
         {
           "text": "ا",
-          "rule": "normal"
+          "rule": "mad"
         },
         {
-          "text": "۟ ٱ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "نظُرُونَا",
-          "rule": "normal"
-        },
-        {
-          "text": " ن",
+          "text": "ب",
           "rule": "qalqalah"
-        },
-        {
-          "text": "َقْتَبِسْ",
-          "rule": "normal"
-        },
-        {
-          "text": " مِن ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "نُّورِكُمْ قِي",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "َ ٱرْجِ",
-          "rule": "normal"
-        },
-        {
-          "text": "عُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا۟ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َر",
-          "rule": "mad"
-        },
-        {
-          "text": "َآءَكُمْ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "فَٱلْتَمِ",
-          "rule": "normal"
-        },
-        {
-          "text": "سُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا۟ ن",
-          "rule": "normal"
-        },
-        {
-          "text": "ُورًا",
-          "rule": "ikhfa"
-        },
-        {
-          "text": " فَضُرِبَ بَيْن",
-          "rule": "normal"
-        },
-        {
-          "text": "َهُم",
-          "rule": "ikhfa"
-        },
-        {
-          "text": " بِس",
-          "rule": "normal"
-        },
-        {
-          "text": "ُورٍ ",
-          "rule": "normal"
-        },
-        {
-          "text": "لّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "mad"
-        },
-        {
-          "text": "هُۥ ب",
-          "rule": "normal"
-        },
-        {
-          "text": "َابٌ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۢ بَاطِن",
-          "rule": "normal"
         },
         {
           "text": "ُ",
-          "rule": "mad"
-        },
-        {
-          "text": "هُۥ فِي",
-          "rule": "normal"
-        },
-        {
-          "text": "ه",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلرَّحْمَةُ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "mad"
-        },
-        {
-          "text": "ظَـٰهِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ر",
-          "rule": "mad"
-        },
-        {
-          "text": "ُهُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۥ مِ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "ن قِبَل",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "هِ ٱلْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
-          "rule": "mad"
-        },
-        {
-          "text": "َ",
-          "rule": "qalqalah"
-        },
-        {
-          "text": "ذَابُ",
           "rule": "normal"
         }
       ],
@@ -1722,115 +1154,71 @@
           "rule": "ghunnah"
         },
         {
-          "text": "عَكُمْ ۖ قَال",
+          "text": "عَكُمْ ۖ قَالُوا۟ بَلَىٰ وَلَ",
           "rule": "normal"
         },
         {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ بَلَىٰ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـ",
+          "text": "كِ",
           "rule": "normal"
         },
         {
-          "text": "ٰكِ",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "نَّكُمْ ف",
+          "text": "كُمْ فَتَ",
           "rule": "normal"
         },
         {
-          "text": "َتَ",
+          "text": "نتُ",
           "rule": "ikhfa"
         },
         {
-          "text": "نتُمْ",
+          "text": "مْ أَ",
           "rule": "normal"
         },
         {
-          "text": " أَ",
+          "text": "نفُ",
           "rule": "ikhfa"
         },
         {
-          "text": "نفُسَكُمْ وَتَرَبَّصْتُمْ",
+          "text": "سَكُمْ وَتَرَبَّصْتُمْ وَٱرْتَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "وَٱر",
-          "rule": "normal"
-        },
-        {
-          "text": "ْت",
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "َبْتُمْ وَغَرَّتْكُ",
+          "text": "تُمْ وَغَرَّتْكُمُ ٱلْأَمَانِىُّ حَتَّىٰ جَ",
           "rule": "normal"
         },
         {
-          "text": "م",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ٱلْأَمَانِىُّ حَتَّىٰ",
-          "rule": "normal"
-        },
-        {
-          "text": " ج",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "َآءَ أَمْ",
+          "text": "ءَ أَمْرُ ٱللَّهِ وَغَرَّكُ",
           "rule": "normal"
         },
         {
-          "text": "ر",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ٱللَّهِ وَغَرّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َكُم",
+          "text": "م بِ",
           "rule": "ikhfa"
         },
         {
-          "text": " ",
+          "text": "ٱللَّهِ ٱلْغَرُ",
           "rule": "normal"
         },
         {
-          "text": "بِٱللَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ه",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ ٱلْغ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "رُورُ",
+          "text": "رُ",
           "rule": "normal"
         }
       ],
@@ -1851,15 +1239,7 @@
       "translationBosnian": "Nikakva otkupnina se danas od vas neće primiti, a ni od onih koji nisu vjerovali; vatra će biti prebivalište vaše, ona baš vama odgovara, a užasno je ona boravište!\"",
       "tajwidSegments": [
         {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْيَوْمَ لَا يُؤْخَذُ مِ",
+          "text": "فَٱلْيَوْمَ لَا يُؤْخَذُ مِ",
           "rule": "normal"
         },
         {
@@ -1883,71 +1263,39 @@
           "rule": "ghunnah"
         },
         {
-          "text": "لَا مِنَ ",
+          "text": "لَا مِنَ ٱلَّذِينَ كَفَرُوا۟ ۚ مَأْوَى",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِينَ كَفَرُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ۚ مَأْو",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ىٰكُم",
+          "text": "كُمُ ٱل",
           "rule": "normal"
         },
         {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّارُ ۖ هِىَ مَو",
+          "text": "ارُ ۖ هِىَ مَوْلَى",
           "rule": "normal"
         },
         {
-          "text": "ْ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "لَىٰكُمْ ۖ وَب",
+          "text": "كُمْ ۖ وَبِئْسَ ٱلْمَصِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ئْسَ ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ْمَصِيرُ",
+          "text": "رُ",
           "rule": "normal"
         }
       ],
@@ -1968,127 +1316,67 @@
       "translationBosnian": "Zar nije vrijeme da se vjernicima srca smekšaju kad se Allah i Istina koja se objavljuje spomene, i da oni ne budu kao onī kojima je još davno data Knjiga, pa su srca njihova, zato što je proteklo mnogo vremena, postala nemilosrdna, i mnogi od njih su nevjernici.",
       "tajwidSegments": [
         {
-          "text": "۞ أَلَمْ يَأْنِ لِلَّذِينَ ءَامَ",
+          "text": "۞ أَلَمْ يَأْنِ لِلَّذِينَ ءَامَنُ",
           "rule": "normal"
-        },
-        {
-          "text": "نُ",
-          "rule": "mad"
         },
         {
           "text": "وٓ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ ",
-          "rule": "normal"
-        },
-        {
-          "text": "أَن ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "تَخْشَعَ قُلُوبُهُمْ لِذِكْر",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱللَّهِ وَمَا نَزَلَ مِن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْحَقِّ وَلَا يَكُون",
-          "rule": "normal"
-        },
-        {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ك",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱلَّذِينَ أُوت",
-          "rule": "normal"
-        },
-        {
-          "text": "ُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْكِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ت",
           "rule": "mad"
         },
         {
-          "text": "َـٰبَ",
+          "text": "ا۟ أَ",
           "rule": "normal"
         },
         {
-          "text": " مِن",
+          "text": "ن تَ",
           "rule": "ikhfa"
         },
         {
-          "text": " ق",
+          "text": "خْشَعَ قُلُوبُهُمْ لِذِكْرِ ٱللَّهِ وَمَا نَزَلَ مِنَ ٱلْحَقِّ وَلَا يَكُونُوا۟ كَٱلَّذِينَ أُوتُوا۟ ٱلْكِتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "بَ مِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن قَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "َبْلُ فَطَالَ عَلَيْهِ",
+          "text": "لُ فَطَالَ عَلَيْهِمُ ٱلْأَمَدُ فَقَسَتْ قُلُوبُهُمْ ۖ وَكَثِير",
           "rule": "normal"
         },
         {
-          "text": "م",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ٱلْأَمَدُ فَقَسَتْ قُلُوبُهُمْ ۖ وَك",
-          "rule": "normal"
-        },
-        {
-          "text": "َثِير",
+          "text": "ٌ مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ٌ مِّنْهُ",
+          "text": "نْهُمْ فَ",
           "rule": "normal"
         },
         {
-          "text": "م",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ْ فَ",
+          "text": "سِقُ",
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ٰسِقُونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2117,11 +1405,7 @@
           "rule": "mad"
         },
         {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " أَ",
+          "text": "ا۟ أَ",
           "rule": "normal"
         },
         {
@@ -2129,63 +1413,39 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
+          "text": " ٱللَّهَ يُحْىِ ٱلْأَرْضَ بَعْدَ مَوْتِهَا ۚ قَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهَ يُحْىِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضَ بَعْدَ مَوْتِهَا ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "قَ",
+          "text": "دْ",
           "rule": "qalqalah"
         },
         {
-          "text": "دْ بَي",
+          "text": " بَيَّ",
           "rule": "normal"
         },
         {
-          "text": "َّن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّا لَكُم",
+          "text": "ا لَكُمُ ٱلْـَٔايَ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْـَٔ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "يَـٰتِ لَعَلَّكُمْ تَعْ",
+          "text": "تِ لَعَلَّكُمْ تَعْقِلُ",
           "rule": "normal"
         },
         {
-          "text": "ق",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ِلُونَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -2214,95 +1474,63 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
+          "text": " ٱلْمُصَّدِّقِينَ وَٱلْمُصَّدِّقَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُصَّدِّقِينَ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُصَّدِّقَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ وَأ",
+          "text": "تِ وَأَ",
           "rule": "normal"
         },
         {
-          "text": "َق",
+          "text": "قْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْرَضُ",
+          "text": "رَضُوا۟ ٱللَّهَ قَرْضًا حَسَن",
           "rule": "normal"
         },
         {
-          "text": "وا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱللَّهَ قَرْضًا حَسَ",
-          "rule": "normal"
-        },
-        {
-          "text": "نًا ي",
+          "text": "ًا يُ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُض",
+          "text": "ضَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰعَفُ لَهُمْ وَلَهُمْ ",
+          "text": "عَفُ لَهُمْ وَلَهُمْ أَ",
           "rule": "normal"
         },
         {
-          "text": "أَ",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ج",
+          "text": "ر",
           "rule": "normal"
         },
         {
-          "text": "ْرٌ ",
+          "text": "ٌ كَ",
           "rule": "ikhfa"
         },
         {
-          "text": "كَ",
+          "text": "رِ",
           "rule": "normal"
         },
         {
-          "text": "ر",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِيمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -2323,31 +1551,7 @@
       "translationBosnian": "Oni koji u Allaha i poslanike Njegove budu vjerovali imaće u Gospodara svoga stepen pravednika i mučenika i dobiće nagradu kao i oni i svjetlo kao i oni; a oni koji ne budu vjerovali i dokaze Naše budu poricali biće stanovnici u vatri.",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِينَ ءَامَنُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ وَرُسُلِهِ",
+          "text": "وَٱلَّذِينَ ءَامَنُوا۟ بِٱللَّهِ وَرُسُلِهِ",
           "rule": "normal"
         },
         {
@@ -2355,103 +1559,39 @@
           "rule": "mad"
         },
         {
-          "text": " أُ",
+          "text": " أُو۟لَ",
           "rule": "normal"
         },
         {
-          "text": "و۟",
-          "rule": "normal"
-        },
-        {
-          "text": "لَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓئِكَ هُمُ",
+          "text": "ئِكَ هُمُ ٱلصِّدِّيقُونَ ۖ وَٱلشُّهَدَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لصِّدِّيقُونَ ۖ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱلشُّه",
-          "rule": "normal"
-        },
-        {
-          "text": "َد",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "َآءُ",
+          "text": "ءُ عِ",
           "rule": "normal"
         },
         {
-          "text": " عِ",
+          "text": "ندَ",
           "rule": "ikhfa"
         },
         {
-          "text": "ندَ رَبِّهِمْ لَهُمْ",
+          "text": " رَبِّهِمْ لَهُمْ أَ",
           "rule": "normal"
         },
         {
-          "text": " أ",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "َجْرُهُمْ وَنُورُهُمْ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۖ وَٱلَّذِينَ كَ",
-          "rule": "normal"
-        },
-        {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "رُوا۟ وَكَذ",
-          "rule": "normal"
-        },
-        {
-          "text": "َّ",
-          "rule": "normal"
-        },
-        {
-          "text": "بُوا۟ بِـ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٔ",
-          "rule": "mad"
-        },
-        {
-          "text": "َايَ",
+          "text": "رُهُمْ وَنُورُهُمْ ۖ وَٱلَّذِينَ كَفَرُوا۟ وَكَذَّبُوا۟ بِـَٔايَ",
           "rule": "normal"
         },
         {
@@ -2459,47 +1599,39 @@
           "rule": "mad"
         },
         {
-          "text": "تِن",
+          "text": "تِنَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
-          "rule": "normal"
-        },
-        {
-          "text": "ٓ ",
-          "rule": "normal"
-        },
-        {
-          "text": "أُ",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "و۟لَـٰٓئِكَ",
+          "text": " أُو۟لَ",
           "rule": "normal"
         },
         {
-          "text": " ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "أَص",
+          "text": "ئِكَ أَصْحَ",
           "rule": "normal"
         },
         {
-          "text": "ْ",
-          "rule": "normal"
-        },
-        {
-          "text": "حَـٰبُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٱلْجَحِيمِ",
+          "text": "بُ ٱلْجَحِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "مِ",
           "rule": "normal"
         }
       ],
@@ -2528,11 +1660,7 @@
           "rule": "mad"
         },
         {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " أَ",
+          "text": "ا۟ أَ",
           "rule": "normal"
         },
         {
@@ -2540,19 +1668,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "مَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحَيَ",
-          "rule": "normal"
-        },
-        {
-          "text": "و",
+          "text": "مَا ٱلْحَيَو",
           "rule": "normal"
         },
         {
@@ -2560,19 +1676,7 @@
           "rule": "mad"
         },
         {
-          "text": "ةُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "دُّنْيَا لَعِب",
+          "text": "ةُ ٱلدُّنْيَا لَعِب",
           "rule": "normal"
         },
         {
@@ -2601,7 +1705,7 @@
         },
         {
           "text": "ٌۢ ب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "َيْنَكُمْ وَتَكَاثُر",
@@ -2612,15 +1716,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَمْوَ",
+          "text": "ى ٱلْأَمْوَ",
           "rule": "normal"
         },
         {
@@ -2628,203 +1724,139 @@
           "rule": "mad"
         },
         {
-          "text": "لِ وَ",
+          "text": "لِ وَٱلْأَوْلَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَوْلَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰدِ ۖ كَمَثَلِ غَيْثٍ أَعْجَ",
+          "text": "دِ ۖ كَمَثَلِ غَيْثٍ أَعْجَبَ ٱلْكُفَّارَ نَبَاتُهُ",
           "rule": "normal"
         },
         {
-          "text": "ب",
-          "rule": "normal"
-        },
-        {
-          "text": "َ ٱلْكُفَّارَ نَبَات",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
+          "text": "ۥ",
           "rule": "mad"
-        },
-        {
-          "text": "هُۥ",
-          "rule": "normal"
         },
         {
           "text": " ثُ",
+          "rule": "normal"
+        },
+        {
+          "text": "مَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "مَّ يَهِيجُ فَتَ",
+          "text": " يَهِيجُ فَتَرَى",
           "rule": "normal"
         },
         {
-          "text": "ر",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "َىٰهُ مُصْف",
+          "text": "هُ مُصْفَرّ",
           "rule": "normal"
         },
         {
-          "text": "َرًّا",
+          "text": "ًا ثُ",
           "rule": "ikhfa"
         },
         {
-          "text": " ثُ",
+          "text": "مَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "مَّ يَكُونُ ح",
+          "text": " يَكُونُ حُطَ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ط",
+          "text": "م",
           "rule": "normal"
         },
         {
-          "text": "َـٰمً",
+          "text": "ًا ۖ وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "ا ۖ ",
+          "text": "فِى ٱلْـَٔاخِرَةِ عَذَاب",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ شَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "دِيد",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "مَغْفِرَة",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نَ ٱللَّهِ وَرِضْوَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ن",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ ۚ وَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "مَا ٱلْحَيَو",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "ةُ ٱلدُّنْيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " إِلَّا مَتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "عُ ٱلْغُرُ",
           "rule": "normal"
         },
         {
           "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َفِى ٱلْـَٔاخِرَةِ",
-          "rule": "normal"
-        },
-        {
-          "text": " عَذ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "َابٌ",
-          "rule": "normal"
-        },
-        {
-          "text": " شَد",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "ِيدٌ وَمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "غْفِر",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "َةٌ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "مِّنَ ٱللَّهِ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
           "rule": "mad"
         },
         {
-          "text": "ر",
-          "rule": "normal"
-        },
-        {
-          "text": "ِضْو",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "َٰنٌ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۚ وَمَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "mad"
-        },
-        {
-          "text": "ٱلْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ح",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "يَوٰةُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱل",
-          "rule": "mad"
-        },
-        {
-          "text": "دُّنْيَآ إِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "mad"
-        },
-        {
-          "text": "َّا",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "مَتَـٰ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
-          "rule": "mad"
-        },
-        {
-          "text": "ُ ٱلْغُرُورِ",
+          "text": "رِ",
           "rule": "normal"
         }
       ],
@@ -2853,11 +1885,7 @@
           "rule": "mad"
         },
         {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " إِلَىٰ مَغْفِرَة",
+          "text": "ا۟ إِلَىٰ مَغْفِرَة",
           "rule": "normal"
         },
         {
@@ -2865,11 +1893,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ن رَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "بِّكُمْ وَجَ",
+          "text": "ن رَّبِّكُمْ وَجَ",
           "rule": "normal"
         },
         {
@@ -2877,19 +1901,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ةٍ عَرْضُهَا كَعَرْضِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
+          "text": "ةٍ عَرْضُهَا كَعَرْضِ ٱلسَّمَ",
           "rule": "normal"
         },
         {
@@ -2897,31 +1909,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءِ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضِ أُعِدَّتْ لِلَّذِينَ ءَامَنُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ وَرُسُلِهِ",
+          "text": "ءِ وَٱلْأَرْضِ أُعِدَّتْ لِلَّذِينَ ءَامَنُوا۟ بِٱللَّهِ وَرُسُلِهِ",
           "rule": "normal"
         },
         {
@@ -2929,71 +1917,39 @@
           "rule": "mad"
         },
         {
-          "text": " ۚ ",
+          "text": " ۚ ذَ",
           "rule": "normal"
         },
         {
-          "text": "ذ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "َٰلِكَ فَضْل",
+          "text": "لِكَ فَضْلُ ٱللَّهِ يُؤْتِيهِ مَ",
           "rule": "normal"
         },
         {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱللَّهِ يُؤْتِيهِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "مَن ",
+          "text": "ن يَ",
           "rule": "ghunnah"
         },
         {
-          "text": "يَ",
-          "rule": "normal"
-        },
-        {
           "text": "شَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "آءُ ",
+          "text": "ءُ ۚ وَٱللَّهُ ذُو ٱلْفَضْلِ ٱلْعَظِ",
           "rule": "normal"
         },
         {
-          "text": "ۚ",
-          "rule": "normal"
-        },
-        {
-          "text": " وَٱللَّهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ذ",
-          "rule": "normal"
-        },
-        {
-          "text": "ُو ٱلْفَض",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ",
-          "rule": "normal"
-        },
-        {
-          "text": "لِ ٱلْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "َظِيمِ",
+          "text": "مِ",
           "rule": "normal"
         }
       ],
@@ -3038,15 +1994,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضِ وَلَا فِ",
+          "text": "ى ٱلْأَرْضِ وَلَا فِ",
           "rule": "normal"
         },
         {
@@ -3066,79 +2014,71 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰ",
+          "text": "ب",
           "rule": "normal"
         },
         {
-          "text": "بٍ مّ",
+          "text": "ٍ مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِن ق",
+          "text": "ن قَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َب",
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْلِ أ",
+          "text": "لِ أَ",
           "rule": "normal"
         },
         {
-          "text": "َن نّ",
+          "text": "ن نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َب",
+          "text": "بْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْرَأَه",
+          "text": "رَأَهَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ ۚ",
+          "text": " ۚ إِ",
           "rule": "normal"
-        },
-        {
-          "text": " إِ",
-          "rule": "ghunnah"
         },
         {
           "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ذَ",
           "rule": "normal"
         },
         {
-          "text": " ",
+          "text": "ٰ",
           "rule": "mad"
         },
         {
-          "text": "ذَٰلِكَ عَل",
+          "text": "لِكَ عَلَى ٱللَّهِ يَسِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ى ٱللَّهِ ي",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "سِيرٌ",
+          "text": "رٌ",
           "rule": "normal"
         }
       ],
@@ -3159,23 +2099,7 @@
       "translationBosnian": "da ne biste tugovali za onim što vam je promaklo, a i da se ne biste previše radovali onome što vam On dade. Allah ne voli nikakve razmetljivce, hvalisavce,",
       "tajwidSegments": [
         {
-          "text": "لِّكَيْلَا تَأْسَوْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " عَلَىٰ مَا فَاتَكُمْ وَلَا تَفْرَحُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " بِمَ",
+          "text": "لِّكَيْلَا تَأْسَوْا۟ عَلَىٰ مَا فَاتَكُمْ وَلَا تَفْرَحُوا۟ بِمَ",
           "rule": "normal"
         },
         {
@@ -3191,31 +2115,23 @@
           "rule": "mad"
         },
         {
-          "text": "كُمْ ۗ ",
+          "text": "كُمْ ۗ وَٱللَّهُ لَا يُحِبُّ كُلَّ مُخْتَال",
+          "rule": "normal"
+        },
+        {
+          "text": "ٍ فَ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "خُ",
           "rule": "normal"
         },
         {
           "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱللَّهُ لَا يُحِبُّ كُلَّ مُخْتَ",
-          "rule": "normal"
-        },
-        {
-          "text": "الٍ ",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "خ",
           "rule": "mad"
         },
         {
-          "text": "ُورٍ",
+          "text": "رٍ",
           "rule": "normal"
         }
       ],
@@ -3244,15 +2160,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "خَلُونَ وَيَأْمُرُونَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "خَلُونَ وَيَأْمُرُونَ ٱل",
           "rule": "normal"
         },
         {
@@ -3260,67 +2168,35 @@
           "rule": "ghunnah"
         },
         {
-          "text": "اسَ بِ",
+          "text": "اسَ بِٱلْبُخْلِ ۗ وَمَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْبُخْلِ ۗ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "مَن ",
+          "text": "ن يَ",
           "rule": "ghunnah"
         },
         {
-          "text": "يَتَوَلَّ فَ",
+          "text": "تَوَلَّ فَإِ",
           "rule": "normal"
         },
         {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ّ",
+          "text": " ٱللَّهَ هُوَ ٱلْغَنِىُّ ٱلْحَمِ",
           "rule": "normal"
         },
         {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱللَّهَ هُو",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْغَنِىّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْحَ",
-          "rule": "normal"
-        },
-        {
-          "text": "م",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِ",
+          "text": "د",
           "rule": "qalqalah"
         },
         {
-          "text": "يدُ",
+          "text": "ُ",
           "rule": "normal"
         }
       ],
@@ -3349,199 +2225,123 @@
           "rule": "qalqalah"
         },
         {
-          "text": " أَرْسَلْنَا رُسُلَنَا بِ",
+          "text": " أَرْسَلْنَا رُسُلَنَا بِٱلْبَيِّنَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْبَيِّنَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ وَأ",
+          "text": "تِ وَأَ",
           "rule": "normal"
         },
         {
-          "text": "َنز",
+          "text": "نزَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َلْنَا مَعَهُمُ",
+          "text": "لْنَا مَعَهُمُ ٱلْكِتَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْكِت",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰبَ ",
+          "text": "بَ وَٱلْمِيزَانَ لِيَقُومَ ٱل",
           "rule": "normal"
         },
         {
-          "text": "و",
-          "rule": "normal"
-        },
-        {
-          "text": "َٱلْمِيزَانَ لِيَقُوم",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّاسُ ",
+          "text": "اسُ بِٱلْقِسْطِ ۖ وَأَ",
           "rule": "normal"
         },
         {
-          "text": "ب",
-          "rule": "normal"
-        },
-        {
-          "text": "ِٱلْقِسْطِ ۖ ",
-          "rule": "normal"
-        },
-        {
-          "text": "وَأ",
+          "text": "نزَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َنزَلْ",
+          "text": "لْنَا ٱلْحَدِيدَ فِيهِ بَأْس",
           "rule": "normal"
-        },
-        {
-          "text": "ن",
-          "rule": "normal"
-        },
-        {
-          "text": "َا ٱلْحَدِيدَ فِيهِ ب",
-          "rule": "normal"
-        },
-        {
-          "text": "َأْس",
-          "rule": "ikhfa"
         },
         {
           "text": "ٌ شَ",
-          "rule": "normal"
-        },
-        {
-          "text": "دِيد",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "ٌ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "م",
-          "rule": "mad"
-        },
-        {
-          "text": "َنَـٰفِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ع",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ ل",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "ِلنَّاسِ وَلِيَعْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "َمَ ٱللَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "هُ م",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "َن ",
           "rule": "ikhfa"
         },
         {
-          "text": "يَنص",
+          "text": "دِيد",
           "rule": "normal"
         },
         {
-          "text": "ُ",
-          "rule": "mad"
-        },
-        {
-          "text": "رُهُۥ وَرُس",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "mad"
-        },
-        {
-          "text": "لَه",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۥ بِٱلْغَيْ",
-          "rule": "normal"
-        },
-        {
-          "text": "بِ ",
+          "text": "ٌ وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "ۚ",
+          "text": "مَنَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِنَّ ٱللَّهَ قَوِى",
-          "rule": "normal"
-        },
-        {
-          "text": "ّ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٌ عَزِيزٌ",
+          "text": "فِعُ لِل",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "اسِ وَلِيَعْلَمَ ٱللَّهُ مَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ن يَ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نصُ",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "رُهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " وَرُسُلَهُ",
+          "rule": "normal"
+        },
+        {
+          "text": "ۥ",
+          "rule": "mad"
+        },
+        {
+          "text": " بِٱلْغَيْبِ ۚ إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": " ٱللَّهَ قَوِىٌّ عَزِ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "زٌ",
           "rule": "normal"
         }
       ],
@@ -3594,15 +2394,7 @@
           "rule": "mad"
         },
         {
-          "text": "هِيمَ وَجَعَلْنَا فِى ذُرِّيَّتِهِمَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "هِيمَ وَجَعَلْنَا فِى ذُرِّيَّتِهِمَا ٱل",
           "rule": "normal"
         },
         {
@@ -3610,63 +2402,55 @@
           "rule": "ghunnah"
         },
         {
-          "text": "بُوَّةَ وَ",
+          "text": "بُوَّةَ وَٱلْكِتَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْكِتَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبَ ۖ فَمِن",
+          "text": "بَ ۖ فَمِنْهُ",
           "rule": "normal"
         },
         {
-          "text": "ْهُم ",
-          "rule": "normal"
-        },
-        {
-          "text": "مُّهْ",
-          "rule": "normal"
-        },
-        {
-          "text": "تَدٍ",
+          "text": "م مُّ",
           "rule": "ghunnah"
         },
         {
-          "text": " ۖ وَك",
+          "text": "هْتَد",
           "rule": "normal"
         },
         {
-          "text": "َثِير",
+          "text": "ٍ ۖ وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "ٌ مِّنْهُ",
+          "text": "كَثِير",
           "rule": "normal"
         },
         {
-          "text": "م",
-          "rule": "mad"
+          "text": "ٌ مِّ",
+          "rule": "ghunnah"
         },
         {
-          "text": "ْ فَ",
+          "text": "نْهُمْ فَ",
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰسِقُونَ",
+          "text": "سِقُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3707,199 +2491,139 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰرِه",
+          "text": "رِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِم ب",
+          "text": "م بِ",
           "rule": "ikhfa"
         },
         {
-          "text": "ِرُسُلِنَا وَقَفَّيْنَا بِعِيسَى",
+          "text": "رُسُلِنَا وَقَفَّيْنَا بِعِيسَى ٱ",
           "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱب",
-          "rule": "qalqalah"
-        },
-        {
-          "text": "ْنِ مَرْيَمَ وَءَاتَيْن",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "mad"
-        },
-        {
-          "text": "ـٰه",
-          "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
-          "rule": "ikhfa"
-        },
-        {
-          "text": "جِيلَ وَجَعَلْنَا فِى قُلُوب",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلَّذِين",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱتَّبَعُوهُ رَأْف",
-          "rule": "normal"
-        },
-        {
-          "text": "َةً ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "وَرَحْم",
-          "rule": "normal"
-        },
-        {
-          "text": "َةً ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "وَرَهْبَانِيَّة",
-          "rule": "normal"
-        },
-        {
-          "text": "ً",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱ",
-          "rule": "qalqalah"
-        },
-        {
-          "text": "بْتَدَعُوهَا مَا كَ",
-          "rule": "normal"
-        },
-        {
-          "text": "تَ",
-          "rule": "qalqalah"
         },
         {
           "text": "بْ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن",
-          "rule": "mad"
-        },
-        {
-          "text": "َـٰهَا عَلَيْهِمْ إِلّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا ",
           "rule": "qalqalah"
         },
         {
-          "text": "ٱبْت",
+          "text": "نِ مَرْيَمَ وَءَاتَيْنَ",
           "rule": "normal"
         },
         {
-          "text": "ِغ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َآءَ رِض",
+          "text": "هُ ٱلْإِ",
           "rule": "normal"
         },
         {
-          "text": "ْ",
-          "rule": "mad"
+          "text": "نجِ",
+          "rule": "ikhfa"
         },
         {
-          "text": "وَٰ",
+          "text": "يلَ وَجَعَلْنَا فِى قُلُوبِ ٱلَّذِينَ ٱتَّبَعُوهُ رَأْفَة",
           "rule": "normal"
         },
         {
-          "text": "ن",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ ٱللَّهِ فَمَا رَعَوْهَا حَقَّ رِعَايَتِهَا ۖ فَـَٔاتَي",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ",
-          "rule": "normal"
-        },
-        {
-          "text": "نَا ٱلَّذِينَ ءَا",
-          "rule": "normal"
-        },
-        {
-          "text": "مَ",
-          "rule": "normal"
-        },
-        {
-          "text": "نُوا۟ مِنْهُ",
-          "rule": "normal"
-        },
-        {
-          "text": "مْ",
-          "rule": "qalqalah"
-        },
-        {
-          "text": " أَجْرَهُمْ ۖ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َكَثِ",
+          "text": "ً وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "يرٌ مِّنْ",
+          "text": "رَحْمَة",
           "rule": "normal"
         },
         {
-          "text": "ه",
-          "rule": "mad"
+          "text": "ً وَ",
+          "rule": "ghunnah"
         },
         {
-          "text": "ُمْ ",
+          "text": "رَهْبَانِيَّةً ٱ",
           "rule": "normal"
         },
         {
-          "text": "ف",
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "تَدَعُوهَا مَا كَتَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "نَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "َـٰسِقُونَ",
+          "text": "هَا عَلَيْهِمْ إِلَّا ٱ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "تِغَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءَ رِضْوَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ ٱللَّهِ فَمَا رَعَوْهَا حَقَّ رِعَايَتِهَا ۖ فَـَٔاتَيْنَا ٱلَّذِينَ ءَامَنُوا۟ مِنْهُمْ أَ",
+          "rule": "normal"
+        },
+        {
+          "text": "جْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رَهُمْ ۖ وَكَثِير",
+          "rule": "normal"
+        },
+        {
+          "text": "ٌ مِّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "نْهُمْ فَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "سِقُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -3924,131 +2648,59 @@
           "rule": "normal"
         },
         {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓأَيُّهَا",
+          "text": "أَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ ٱللَّهَ وَءَامِنُوا۟ بِرَسُولِهِ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلَّذِينَ ءَامَنُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱتَّقُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱللَّهَ وَءَامِنُ",
-          "rule": "normal"
-        },
-        {
-          "text": "وا",
-          "rule": "normal"
-        },
-        {
-          "text": "۟ بِرَسُولِه",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ يُؤْتِكُمْ كِفْلَيْنِ م",
+          "text": " يُؤْتِكُمْ كِفْلَيْنِ مِن رَّحْمَتِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِن رّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َحْمَتِه",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ وَي",
+          "text": " وَيَ",
           "rule": "normal"
         },
         {
-          "text": "َج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْعَل لَّكُمْ نُو",
+          "text": "عَل لَّكُمْ نُور",
           "rule": "normal"
         },
         {
-          "text": "رًا ت",
+          "text": "ًا تَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َمْشُونَ بِه",
+          "text": "مْشُونَ بِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ وَيَغْفِرْ لَكُمْ ۚ",
+          "text": " وَيَغْفِرْ لَكُمْ ۚ وَٱللَّهُ غَفُورٌ رَّحِ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "وَٱللَّهُ غَف",
-          "rule": "normal"
-        },
-        {
-          "text": "ُورٌ ",
-          "rule": "normal"
-        },
-        {
-          "text": "رّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "حِيمٌ",
+          "text": "مٌ",
           "rule": "normal"
         }
       ],
@@ -4069,123 +2721,67 @@
       "translationBosnian": "i neka sljedbenici Knjige znaju da oni nikakvu Allahovu blagodat neće dobiti, jer je blagodat samo u Allahovoj Ruci – daje je onome kome On hoće; a u Allaha je blagodat najveća.",
       "tajwidSegments": [
         {
-          "text": "لِّئَلَّا يَعْلَمَ أَهْلُ ",
+          "text": "لِّئَلَّا يَعْلَمَ أَهْلُ ٱلْكِتَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْكِتَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰبِ أَلَّا ي",
+          "text": "بِ أَلَّا يَ",
           "rule": "normal"
         },
         {
-          "text": "َق",
+          "text": "قْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْدِرُونَ عَلَىٰ شَىْ",
+          "text": "دِرُونَ عَلَىٰ شَىْء",
           "rule": "normal"
         },
         {
-          "text": "ءٍ مّ",
+          "text": "ٍ مِّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ِن ف",
+          "text": "ن فَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َضْلِ",
+          "text": "ضْلِ ٱللَّهِ ۙ وَأَ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱللَّهِ ۙ و",
-          "rule": "normal"
-        },
-        {
-          "text": "َأَ",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ن",
+          "text": " ٱلْفَضْلَ بِيَدِ ٱللَّهِ يُؤْتِيهِ مَ",
           "rule": "normal"
         },
         {
-          "text": "ّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َ ٱلْفَضْلَ بِيَ",
-          "rule": "normal"
-        },
-        {
-          "text": "د",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ ٱللَّهِ يُؤْتِيهِ",
-          "rule": "normal"
-        },
-        {
-          "text": " مَن",
+          "text": "ن يَ",
           "rule": "ghunnah"
         },
         {
-          "text": " ي",
+          "text": "شَ",
           "rule": "normal"
         },
         {
-          "text": "َش",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "َآءُ",
+          "text": "ءُ ۚ وَٱللَّهُ ذُو ٱلْفَضْلِ ٱلْعَظِ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ۚ وَٱللَّهُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ذُو ٱلْفَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ض",
-          "rule": "normal"
-        },
-        {
-          "text": "ْلِ ٱل",
-          "rule": "normal"
-        },
-        {
-          "text": "ْ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "عَظِيمِ",
+          "text": "مِ",
           "rule": "normal"
         }
       ],

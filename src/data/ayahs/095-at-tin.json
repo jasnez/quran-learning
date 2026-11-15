@@ -21,7 +21,15 @@
       "translationBosnian": "Tako mi smokve i masline,",
       "tajwidSegments": [
         {
-          "text": "وَٱلتِّينِ وَٱلزَّيْتُونِ",
+          "text": "وَٱلتِّينِ وَٱلزَّيْتُ",
+          "rule": "normal"
+        },
+        {
+          "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
           "rule": "normal"
         }
       ],
@@ -75,35 +83,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰذَا",
+          "text": "ذَا ٱلْبَلَدِ ٱلْأَمِ",
           "rule": "normal"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْبَلَدِ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْأَم",
-          "rule": "normal"
-        },
-        {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينِ",
+          "text": "نِ",
           "rule": "normal"
         }
       ],
@@ -140,15 +132,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "نَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "نَا ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -156,35 +140,35 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنَ ف",
+          "text": "نَ فِ",
           "rule": "normal"
         },
         {
-          "text": "ِى",
+          "text": "ىٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أَحْسَنِ ت",
+          "text": " أَحْسَنِ تَ",
           "rule": "normal"
         },
         {
-          "text": "َق",
+          "text": "قْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْو",
+          "text": "وِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "يمٍ",
+          "text": "مٍ",
           "rule": "normal"
         }
       ],
@@ -225,27 +209,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُ أَسْفَلَ س",
+          "text": "هُ أَسْفَلَ سَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰفِ",
+          "text": "فِلِ",
           "rule": "normal"
         },
         {
-          "text": "ل",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ِينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],
@@ -266,75 +250,39 @@
       "translationBosnian": "samo ne one koji budu vjerovali i dobra djela činili, njih čeka nagrada neprekidna.",
       "tajwidSegments": [
         {
-          "text": "إِلَّا ",
+          "text": "إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِينَ ءَامَنُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " وَعَمِلُو",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "صَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰلِح",
+          "text": "لِحَ",
           "rule": "normal"
         },
         {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰتِ فَلَهُمْ ",
+          "text": "تِ فَلَهُمْ أَ",
           "rule": "normal"
         },
         {
-          "text": "أَ",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "جْرٌ غَيْرُ مَمْ",
+          "text": "رٌ غَيْرُ مَمْنُ",
           "rule": "normal"
         },
         {
-          "text": "ن",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ُونٍ",
+          "text": "نٍ",
           "rule": "normal"
         }
       ],
@@ -355,19 +303,7 @@
       "translationBosnian": "Pa šta te onda navodi da poričeš onaj svijet –",
       "tajwidSegments": [
         {
-          "text": "فَمَا يُكَذِّبُكَ بَعْدُ بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "دِّ",
+          "text": "فَمَا يُكَذِّبُكَ بَعْدُ بِٱلدِّ",
           "rule": "normal"
         },
         {
@@ -396,39 +332,23 @@
       "translationBosnian": "zar Allah nije sudija najpravedniji?!",
       "tajwidSegments": [
         {
-          "text": "أَلَيْسَ ",
+          "text": "أَلَيْسَ ٱللَّهُ بِأَحْكَمِ ٱلْحَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهُ بِأَحْكَمِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰكِم",
+          "text": "كِمِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "ينَ",
+          "text": "نَ",
           "rule": "normal"
         }
       ],

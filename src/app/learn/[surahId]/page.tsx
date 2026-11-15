@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getSurahByNumber } from "@/lib/data";
-import { fetchVersesByChapter } from "@/lib/quran/fetch-verses";
 import { LearnModeContent } from "@/components/learn/LearnModeContent";
 
 export function generateStaticParams() {
@@ -44,7 +43,7 @@ export default async function LearnPage({ params }: PageProps) {
   }
 
   const { surah } = detail;
-  let { ayahs } = detail;
+  const { ayahs } = detail;
 
   // Prethodna / sljedeća sura za navigaciju
   let prevSurah: { surahNumber: number; nameLatin: string; nameBosnian?: string } | null = null;
@@ -63,15 +62,6 @@ export default async function LearnPage({ params }: PageProps) {
       nextSurah = { surahNumber: next.surah.surahNumber, nameLatin: next.surah.nameLatin, nameBosnian: next.surah.nameBosnian };
     } catch {
       // ignore
-    }
-  }
-
-  // Fallback: if no ayahs in DB, try Quran.com API
-  if (ayahs.length === 0) {
-    try {
-      ayahs = await fetchVersesByChapter(surahNumber);
-    } catch {
-      // Ostavi prazan niz; LearnModeContent prikazat će poruku o nedostupnosti
     }
   }
 

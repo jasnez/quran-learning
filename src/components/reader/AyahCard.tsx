@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Bookmark, Play, Pause } from "lucide-react";
 import type { Ayah, Word } from "@/types/quran";
+import type { QueueSource } from "@/types/audio";
 import { usePlayerStore } from "@/store/playerStore";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
@@ -18,7 +19,10 @@ const ARABIC_MIN_MOBILE_PX = 24;
 
 type AyahCardProps = {
   ayah: Ayah;
-  surahAyahs: Ayah[];
+  /** Ayahs queued when playback starts from this card (the surah in the reader, the whole juz in the juz reader). */
+  queueAyahs: Ayah[];
+  /** What the queue represents; decides what happens when it ends. Defaults to a whole surah. */
+  queueSource?: QueueSource;
   surahNameLatin: string;
   arabicFontSize: number;
   showTransliteration: boolean;
@@ -51,7 +55,8 @@ function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
 
 export function AyahCard({
   ayah,
-  surahAyahs,
+  queueAyahs,
+  queueSource = "surah",
   surahNameLatin,
   arabicFontSize,
   showTransliteration,
@@ -92,14 +97,14 @@ export function AyahCard({
         const [entry] = entries;
         if (entry?.isIntersecting && !hasMarkedReadRef.current) {
           hasMarkedReadRef.current = true;
-          useProgressStore.getState().markAyahRead(surahNumber, ayahNumber, surahAyahs.length);
+          useProgressStore.getState().markAyahRead(surahNumber, ayahNumber);
         }
       },
       { rootMargin: "50px", threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [ayah.id, surahNumber, ayahNumber, surahAyahs.length]);
+  }, [ayah.id, surahNumber, ayahNumber]);
 
   const handlePlayPause = () => {
     if (isThisAyahPlaying) {
@@ -112,7 +117,7 @@ export function AyahCard({
           // ignore – actual source will be loaded via AudioPlayer effect
         });
       }
-      setQueue(surahAyahs);
+      setQueue(queueAyahs, queueSource);
       play(ayah);
       useProgressStore
         .getState()

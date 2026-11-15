@@ -21,7 +21,23 @@
       "translationBosnian": "Da li je doprla do tebe vijest o teškoj nevolji? –",
       "tajwidSegments": [
         {
-          "text": " هَلْ أَتَىٰكَ حَدِيثُ ٱلْغَـٰشِيَةِ",
+          "text": " هَلْ أَتَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "كَ حَدِيثُ ٱلْغَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "شِيَةِ",
           "rule": "normal"
         }
       ],
@@ -54,11 +70,11 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰشِعَةٌ",
+          "text": "شِعَةٌ",
           "rule": "normal"
         }
       ],
@@ -311,11 +327,11 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰغِيَةً",
+          "text": "غِيَةً",
           "rule": "normal"
         }
       ],
@@ -481,15 +497,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "رُونَ إِلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِبِلِ كَيْفَ خُلِقَتْ",
+          "text": "رُونَ إِلَى ٱلْإِبِلِ كَيْفَ خُلِقَتْ",
           "rule": "normal"
         }
       ],
@@ -510,19 +518,7 @@
       "translationBosnian": "i nebo – kako je uzdignuto,",
       "tajwidSegments": [
         {
-          "text": "وَإِلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
+          "text": "وَإِلَى ٱلسَّمَ",
           "rule": "normal"
         },
         {
@@ -551,15 +547,7 @@
       "translationBosnian": "i planine – kako su postavljene,",
       "tajwidSegments": [
         {
-          "text": "وَإِلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْجِبَالِ كَيْفَ نُصِبَتْ",
+          "text": "وَإِلَى ٱلْجِبَالِ كَيْفَ نُصِبَتْ",
           "rule": "normal"
         }
       ],
@@ -580,15 +568,7 @@
       "translationBosnian": "i Zemlju – kako je prostrta?!",
       "tajwidSegments": [
         {
-          "text": "وَإِلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضِ كَيْفَ سُطِحَتْ",
+          "text": "وَإِلَى ٱلْأَرْضِ كَيْفَ سُطِحَتْ",
           "rule": "normal"
         }
       ],
@@ -712,31 +692,7 @@
       "translationBosnian": "njega će Allah najvećom mukom mučiti.",
       "tajwidSegments": [
         {
-          "text": "فَيُعَذِّبُهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَذَابَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَكْبَرَ",
+          "text": "فَيُعَذِّبُهُ ٱللَّهُ ٱلْعَذَابَ ٱلْأَكْبَرَ",
           "rule": "normal"
         }
       ],

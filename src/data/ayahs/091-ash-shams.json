@@ -21,7 +21,15 @@
       "translationBosnian": "Tako Mi Sunca i svjetla njegova,",
       "tajwidSegments": [
         {
-          "text": " وَٱلشَّمْسِ وَضُحَىٰهَا",
+          "text": " وَٱلشَّمْسِ وَضُحَى",
+          "rule": "normal"
+        },
+        {
+          "text": "ٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "هَا",
           "rule": "normal"
         }
       ],
@@ -42,15 +50,7 @@
       "translationBosnian": "i Mjeseca kada ga prati,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَمَرِ إِذَا تَلَى",
+          "text": "وَٱلْقَمَرِ إِذَا تَلَى",
           "rule": "normal"
         },
         {
@@ -79,15 +79,7 @@
       "translationBosnian": "i dana kada ga vidljivim učini,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "وَٱل",
           "rule": "normal"
         },
         {
@@ -124,15 +116,7 @@
       "translationBosnian": "i noći kada ga zakloni,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّيْلِ إِذَا يَغْشَى",
+          "text": "وَٱلَّيْلِ إِذَا يَغْشَى",
           "rule": "normal"
         },
         {
@@ -161,19 +145,7 @@
       "translationBosnian": "i neba i Onoga koji ga sazda,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّمَ",
+          "text": "وَٱلسَّمَ",
           "rule": "normal"
         },
         {
@@ -210,15 +182,7 @@
       "translationBosnian": "i Zemlje i Onoga koji je ravnom učini,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضِ وَمَا طَحَى",
+          "text": "وَٱلْأَرْضِ وَمَا طَحَى",
           "rule": "normal"
         },
         {
@@ -440,20 +404,12 @@
       "translationBosnian": "kad se jedan nesretnik između njih podigao,",
       "tajwidSegments": [
         {
-          "text": "إِذِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ن",
+          "text": "إِذِ ٱن",
           "rule": "normal"
         },
         {
           "text": "ۢب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "َعَثَ أَشْقَى",
@@ -485,23 +441,7 @@
       "translationBosnian": "Allahov poslanik im je doviknuo: \"Brinite se o Allahovoj kamili i vremenu kad treba da pije!\",",
       "tajwidSegments": [
         {
-          "text": "فَقَالَ لَهُمْ رَسُولُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ نَاقَةَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ وَسُ",
+          "text": "فَقَالَ لَهُمْ رَسُولُ ٱللَّهِ نَاقَةَ ٱللَّهِ وَسُ",
           "rule": "normal"
         },
         {
@@ -513,11 +453,11 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهَا",
+          "text": "هَا",
           "rule": "normal"
         }
       ],
@@ -551,7 +491,7 @@
         },
         {
           "text": "ۢب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "ِهِمْ فَسَوَّى",
@@ -595,11 +535,11 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهَا",
+          "text": "هَا",
           "rule": "normal"
         }
       ],

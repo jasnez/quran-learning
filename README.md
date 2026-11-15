@@ -81,7 +81,7 @@ Opciono (za alternativne audio izvore):
 | `/duas/[category]` | Dove po kategoriji (rabbana, forgiveness, itd.) |
 | `/tajwid` | Tajwid lekcije |
 | `/tajwid/[lessonId]` | Pojedinačna lekcija |
-| `/test/[surahId]` | Kviz po suri |
+| `/test/[surahId]` | Kviz po suri -- privremeno isključen (kod je u `src/app/_test`, vidi komentar u `page.tsx`) |
 | `/names` | 99 Allahovih imena |
 | `/settings` | Postavke (tema, font, audio opcije) |
 | `/about`, `/contact`, `/sources` | Statičke info stranice |
@@ -123,7 +123,7 @@ quran-learning-main/
 │   │   ├── data/               # static-quran.ts (glavni izvor podataka), juzUtils
 │   │   ├── audio/              # audioManager, getResolvedAudioUrl, reciterUtils, wordTimingService
 │   │   ├── api/                # client.ts (fetch wrapperi), getBaseUrl
-│   │   ├── quran/              # tajwidStyles, wordUtils, stripWaqfSigns, fetch-verses
+│   │   ├── quran/              # tajwidStyles, wordUtils, stripWaqfSigns
 │   │   ├── search/             # searchEngine, searchIndex
 │   │   ├── duas/, names/       # data + helpers
 │   │   ├── idb/                # IndexedDB persister za React Query

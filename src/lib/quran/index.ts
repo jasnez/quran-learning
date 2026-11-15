@@ -7,7 +7,6 @@ export {
   AYAH_COUNT_PER_SURAH,
 } from "./constants";
 export type { QuranApiVerse, QuranApiVersesResponse } from "./api-types";
-export { fetchVersesByChapter } from "./fetch-verses";
 export { tajwidRuleClasses, tajwidRuleLabels } from "./tajwidStyles";
 export {
   normalizeWordsToAyahRelative,

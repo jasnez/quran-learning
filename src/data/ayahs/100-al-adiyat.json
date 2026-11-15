@@ -21,7 +21,31 @@
       "translationBosnian": "Tako mi onih koji dahćući jure,",
       "tajwidSegments": [
         {
-          "text": " وَٱلْعَـٰدِيَـٰتِ ضَبْحًا",
+          "text": " وَٱلْعَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "دِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "تِ ضَ",
+          "rule": "normal"
+        },
+        {
+          "text": "بْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "حًا",
           "rule": "normal"
         }
       ],
@@ -42,31 +66,23 @@
       "translationBosnian": "pa varnice vrcaju,",
       "tajwidSegments": [
         {
-          "text": "فَ",
+          "text": "فَٱلْمُورِيَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُورِيَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰتِ ق",
+          "text": "تِ قَ",
           "rule": "normal"
         },
         {
-          "text": "َد",
+          "text": "دْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْحًا",
+          "text": "حًا",
           "rule": "normal"
         }
       ],
@@ -87,15 +103,7 @@
       "translationBosnian": "i zorom napadaju,",
       "tajwidSegments": [
         {
-          "text": "فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُغِيرَ",
+          "text": "فَٱلْمُغِيرَ",
           "rule": "normal"
         },
         {
@@ -214,15 +222,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": " ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -230,31 +230,31 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنَ لِرَبِّه",
+          "text": "نَ لِرَبِّهِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ لَكَن",
+          "text": " لَكَنُ",
           "rule": "normal"
-        },
-        {
-          "text": "ُ",
-          "rule": "mad"
         },
         {
           "text": "و",
+          "rule": "mad"
+        },
+        {
+          "text": "د",
           "rule": "qalqalah"
         },
         {
-          "text": "دٌ",
+          "text": "ٌ",
           "rule": "normal"
         }
       ],
@@ -348,15 +348,7 @@
           "rule": "mad"
         },
         {
-          "text": " لِحُبِّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْخَيْرِ لَشَدِ",
+          "text": " لِحُبِّ ٱلْخَيْرِ لَشَدِ",
           "rule": "normal"
         },
         {
@@ -389,23 +381,15 @@
       "translationBosnian": "A zar on ne zna da će, kada budu oživljeni oni koji su u grobovima",
       "tajwidSegments": [
         {
-          "text": "۞ أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ مَا فِ",
+          "text": "۞ أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ مَا فِى ٱلْقُبُ",
           "rule": "normal"
         },
         {
-          "text": "ى",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْقُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ب",
+          "text": "و",
           "rule": "mad"
         },
         {
-          "text": "ُورِ",
+          "text": "رِ",
           "rule": "normal"
         }
       ],
@@ -426,19 +410,7 @@
       "translationBosnian": "i kada iziđe na vidjelo ono što je u srcima,",
       "tajwidSegments": [
         {
-          "text": "وَحُصِّلَ مَا فِى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "صُّدُ",
+          "text": "وَحُصِّلَ مَا فِى ٱلصُّدُ",
           "rule": "normal"
         },
         {
@@ -483,15 +455,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "هِمْ يَوْمَئِذ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٍ لَّ",
-          "rule": "normal"
-        },
-        {
-          "text": "خَبِ",
+          "text": "هِمْ يَوْمَئِذٍ لَّخَبِ",
           "rule": "normal"
         },
         {

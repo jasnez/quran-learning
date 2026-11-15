@@ -21,7 +21,15 @@
       "translationBosnian": "Znaš li ti onoga koji onaj svijet poriče?",
       "tajwidSegments": [
         {
-          "text": " أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّينِ",
+          "text": " أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّ",
+          "rule": "normal"
+        },
+        {
+          "text": "ي",
+          "rule": "mad"
+        },
+        {
+          "text": "نِ",
           "rule": "normal"
         }
       ],
@@ -50,23 +58,7 @@
           "rule": "mad"
         },
         {
-          "text": "لِكَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّذِى يَدُعُّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْيَتِ",
+          "text": "لِكَ ٱلَّذِى يَدُعُّ ٱلْيَتِ",
           "rule": "normal"
         },
         {
@@ -95,15 +87,7 @@
       "translationBosnian": "i koji da se nahrani siromah – ne podstiče.",
       "tajwidSegments": [
         {
-          "text": "وَلَا يَحُضُّ عَلَىٰ طَعَامِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمِسْكِ",
+          "text": "وَلَا يَحُضُّ عَلَىٰ طَعَامِ ٱلْمِسْكِ",
           "rule": "normal"
         },
         {
@@ -132,15 +116,7 @@
       "translationBosnian": "A teško onima koji, kada molitvu obavljaju,",
       "tajwidSegments": [
         {
-          "text": "فَوَيْل",
-          "rule": "normal"
-        },
-        {
-          "text": "ٌ لِّ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُصَلِّ",
+          "text": "فَوَيْلٌ لِّلْمُصَلِّ",
           "rule": "normal"
         },
         {
@@ -243,15 +219,7 @@
       "translationBosnian": "i nikome ništa ni u naruč ne daju!",
       "tajwidSegments": [
         {
-          "text": "وَيَمْنَعُونَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَاعُ",
+          "text": "وَيَمْنَعُونَ ٱلْمَاعُ",
           "rule": "normal"
         },
         {

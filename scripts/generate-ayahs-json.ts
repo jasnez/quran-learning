@@ -7,11 +7,19 @@
  * Or: node --import tsx scripts/generate-ayahs-json.ts
  *
  * Data: Quran.com API v4 (transliteration resource 57, Bosnian Korkut 126).
- * Tajwid: cpfair/quran-tajweed for surahs 2–111.
+ * Tajwid: cpfair/quran-tajweed annotations, remapped onto the displayed text
+ * (see src/lib/quran/tajwidAlignment.ts).
+ *
+ * Recompute only the tajwidSegments of the existing files (no Quran.com calls):
+ *   npx tsx scripts/generate-ayahs-json.ts --tajwid-only
  */
 
 import * as fs from "fs";
 import * as path from "path";
+import {
+  buildAlignedTajwidSegments,
+  type CpfairAnnotation,
+} from "../src/lib/quran/tajwidAlignment";
 
 /** Run from project root (quran-learning) */
 const ROOT = process.cwd();
@@ -21,6 +29,10 @@ const TRANSLITERATION_RESOURCE_ID = 57;
 const BOSNIAN_KORKUT_TRANSLATION_ID = 126;
 const TAJWEED_JSON_URL =
   "https://raw.githubusercontent.com/cpfair/quran-tajweed/master/output/tajweed.hafs.uthmani-pause-sajdah.json";
+/** The cpfair indices refer to this exact copy of the Tanzil text (per the cpfair README), not to Quran.com text. */
+const TAJWEED_BASE_TEXT_URL =
+  "https://github.com/cpfair/quran-tajweed/files/7281388/quran-uthmani.txt";
+const TOTAL_AYAHS = 6236;
 const VERSE_FIELDS = "text_uthmani";
 const PER_PAGE = 50;
 
@@ -48,70 +60,51 @@ type QuranApiResponse = {
   pagination: { next_page: number | null };
 };
 
-type CpfairAnnotation = { rule: string; start: number; end: number };
 type CpfairEntry = { surah: number; ayah: number; annotations: CpfairAnnotation[] };
 type TajwidRule = "normal" | "mad" | "ghunnah" | "ikhfa" | "qalqalah";
 type TajwidSegment = { text: string; rule: TajwidRule };
 
-function mapRule(rule: string): TajwidRule {
-  const r = rule.toLowerCase();
-  if (r.startsWith("madd_")) return "mad";
-  if (r === "ghunnah" || r === "idghaam_ghunnah") return "ghunnah";
-  if (r === "ikhfa" || r === "ikhfa_shafawi") return "ikhfa";
-  if (r === "qalqalah") return "qalqalah";
-  return "normal";
-}
+/** cpfair annotations plus the base text their indices refer to, keyed by verse key ("2:255"). */
+type TajweedSource = {
+  annotations: Map<string, CpfairAnnotation[]>;
+  baseTexts: Map<string, string>;
+};
 
-function buildTajwidSegments(
+type TajwidStats = { unmappedAnnotations: number };
+
+function tajwidSegmentsFor(
+  source: TajweedSource,
+  verseKey: string,
   arabicText: string,
-  annotations: CpfairAnnotation[]
+  stats: TajwidStats
 ): TajwidSegment[] {
-  const chars = Array.from(arabicText);
-  const len = chars.length;
-  if (len === 0) return [{ text: "", rule: "normal" }];
-  if (annotations.length === 0) return [{ text: arabicText, rule: "normal" }];
-  const outOfRange = annotations.some((a) => a.start < 0 || a.end > len);
-  if (outOfRange) return [{ text: arabicText, rule: "normal" }];
-
-  const sorted = [...annotations].sort((a, b) => a.start - b.start);
-  const segments: TajwidSegment[] = [];
-  let pos = 0;
-
-  for (const ann of sorted) {
-    const start = Math.max(0, Math.min(ann.start, len));
-    const end = Math.max(start, Math.min(ann.end, len));
-    if (start > pos) {
-      const gapText = chars.slice(pos, start).join("");
-      if (gapText) segments.push({ text: gapText, rule: "normal" });
-    }
-    if (end > start) {
-      const segmentText = chars.slice(start, end).join("");
-      if (segmentText)
-        segments.push({ text: segmentText, rule: mapRule(ann.rule) });
-    }
-    pos = end;
-  }
-  if (pos < len) {
-    const tail = chars.slice(pos).join("");
-    if (tail) segments.push({ text: tail, rule: "normal" });
-  }
-
-  const reconstructedLen = segments.reduce(
-    (sum, s) => sum + Array.from(s.text).length,
-    0
+  const baseText = source.baseTexts.get(verseKey);
+  if (baseText == null) throw new Error(`No tajweed base text for ${verseKey}`);
+  const { segments, unmappedAnnotations } = buildAlignedTajwidSegments(
+    baseText,
+    arabicText,
+    source.annotations.get(verseKey) ?? []
   );
-  if (reconstructedLen !== len) return [{ text: arabicText, rule: "normal" }];
-
-  return segments.length > 0 ? segments : [{ text: arabicText, rule: "normal" }];
+  stats.unmappedAnnotations += unmappedAnnotations;
+  return segments as TajwidSegment[];
 }
 
-function getAnnotationsForVerse(
-  data: CpfairEntry[],
-  surah: number,
-  ayah: number
-): CpfairAnnotation[] {
-  const entry = data.find((e) => e.surah === surah && e.ayah === ayah);
-  return entry?.annotations ?? [];
+const LETTERLESS_SEGMENT = /^[\u064B-\u0652\u0640\s]+$/u;
+
+/** A rule color on harakat/tatweel only means indices were applied to the wrong text: fail loudly. */
+function assertTajwidOnLetters(
+  ayahs: Array<{ id: string; tajwidSegments: TajwidSegment[] }>
+): void {
+  const offenders = ayahs.flatMap((a) =>
+    a.tajwidSegments
+      .filter((s) => s.rule !== "normal" && LETTERLESS_SEGMENT.test(s.text))
+      .map(() => a.id)
+  );
+  if (offenders.length > 0) {
+    throw new Error(
+      `Tajwid colors landed on harakat/tatweel only in ${offenders.length} segment(s), e.g. ${offenders.slice(0, 5).join(", ")}`
+    );
+  }
 }
 
 function getAyahNumberGlobal(chapterNumber: number, verseNumber: number): number {
@@ -126,10 +119,47 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, "").trim();
 }
 
-async function fetchTajweedData(): Promise<CpfairEntry[]> {
-  const res = await fetch(TAJWEED_JSON_URL);
-  if (!res.ok) throw new Error(`Tajweed fetch failed: ${res.status}`);
-  return (await res.json()) as CpfairEntry[];
+async function fetchTajweedSource(): Promise<TajweedSource> {
+  const [annotationsRes, baseTextRes] = await Promise.all([
+    fetch(TAJWEED_JSON_URL),
+    fetch(TAJWEED_BASE_TEXT_URL),
+  ]);
+  if (!annotationsRes.ok) throw new Error(`Tajweed annotations fetch failed: ${annotationsRes.status}`);
+  if (!baseTextRes.ok) throw new Error(`Tajweed base text fetch failed: ${baseTextRes.status}`);
+
+  const entries = (await annotationsRes.json()) as CpfairEntry[];
+  const baseTexts = new Map<string, string>();
+  for (const line of (await baseTextRes.text()).split(/\r?\n/)) {
+    const match = line.match(/^(\d+)\|(\d+)\|(.*)$/);
+    if (match) baseTexts.set(`${match[1]}:${match[2]}`, match[3]);
+  }
+  if (baseTexts.size !== TOTAL_AYAHS) {
+    throw new Error(`Tajweed base text has ${baseTexts.size} ayahs, expected ${TOTAL_AYAHS}`);
+  }
+
+  // The annotations are only valid for this exact text: every hamzat al-wasl must sit on U+0671.
+  let anchors = 0;
+  const offAnchors: string[] = [];
+  for (const entry of entries) {
+    const chars = Array.from(baseTexts.get(`${entry.surah}:${entry.ayah}`) ?? "");
+    for (const annotation of entry.annotations) {
+      if (annotation.rule !== "hamzat_wasl") continue;
+      anchors++;
+      if (chars.slice(annotation.start, annotation.end).join("") !== "\u0671") {
+        offAnchors.push(`${entry.surah}:${entry.ayah}@${annotation.start}`);
+      }
+    }
+  }
+  if (anchors === 0 || offAnchors.length > 0) {
+    throw new Error(
+      `Tajweed annotations do not match the base text: ${offAnchors.length}/${anchors} hamzat al-wasl anchors off (e.g. ${offAnchors.slice(0, 3).join(", ")})`
+    );
+  }
+
+  return {
+    annotations: new Map(entries.map((e) => [`${e.surah}:${e.ayah}`, e.annotations])),
+    baseTexts,
+  };
 }
 
 async function fetchVersesForChapter(
@@ -168,7 +198,8 @@ async function fetchVersesForChapter(
 function mapVersesToAyahs(
   verses: QuranApiVerse[],
   chapterNumber: number,
-  tajweedData: CpfairEntry[]
+  tajweedSource: TajweedSource,
+  tajwidStats: TajwidStats
 ): Array<{
   id: string;
   ayahNumber: number;
@@ -193,12 +224,7 @@ function mapVersesToAyahs(
     const ayahNumberGlobal = getAyahNumberGlobal(chapterNumber, v.verse_number);
     const versePad = String(v.verse_number).padStart(3, "0");
     const arabicText = v.text_uthmani ?? "";
-    const annotations = getAnnotationsForVerse(
-      tajweedData,
-      chapterNumber,
-      v.verse_number
-    );
-    const tajwidSegments = buildTajwidSegments(arabicText, annotations);
+    const tajwidSegments = tajwidSegmentsFor(tajweedSource, v.verse_key, arabicText, tajwidStats);
 
     return {
       id: v.verse_key,
@@ -230,9 +256,36 @@ type SurahSummary = {
   ayahCount: number;
 };
 
+type AyahFile = {
+  ayahs: Array<{ id: string; arabicText: string; tajwidSegments: TajwidSegment[] }>;
+};
+
+/** Rewrites only tajwidSegments of the existing files, keeping every other field as it is. */
+function realignExistingTajwid(
+  ayahsDir: string,
+  surahs: SurahSummary[],
+  tajweedSource: TajweedSource
+): void {
+  const tajwidStats: TajwidStats = { unmappedAnnotations: 0 };
+  for (const surah of surahs) {
+    const padded = String(surah.surahNumber).padStart(3, "0");
+    const filePath = path.join(ayahsDir, `${padded}-${surah.slug}.json`);
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as AyahFile;
+    for (const ayah of data.ayahs) {
+      ayah.tajwidSegments = tajwidSegmentsFor(tajweedSource, ayah.id, ayah.arabicText, tajwidStats);
+    }
+    assertTajwidOnLetters(data.ayahs);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+  }
+  console.log(
+    `Re-aligned tajwid for ${surahs.length} surahs (${tajwidStats.unmappedAnnotations} annotations have no counterpart in the displayed text).`
+  );
+}
+
 async function main(): Promise<void> {
   const force =
     process.argv.includes("--force") || process.argv.includes("-f");
+  const tajwidOnly = process.argv.includes("--tajwid-only");
 
   const surahsPath = path.join(ROOT, "src", "data", "surahs.json");
   const surahs: SurahSummary[] = JSON.parse(
@@ -244,10 +297,16 @@ async function main(): Promise<void> {
     fs.mkdirSync(ayahsDir, { recursive: true });
   }
 
-  console.log("Fetching tajweed data...");
-  const tajweedData = await fetchTajweedData();
-  console.log(`Loaded tajweed for ${tajweedData.length} verses.`);
+  console.log("Fetching tajweed annotations and base text...");
+  const tajweedSource = await fetchTajweedSource();
+  console.log(`Loaded tajweed for ${tajweedSource.annotations.size} verses.`);
 
+  if (tajwidOnly) {
+    realignExistingTajwid(ayahsDir, surahs, tajweedSource);
+    return;
+  }
+
+  const tajwidStats: TajwidStats = { unmappedAnnotations: 0 };
   let generated = 0;
   let skipped = 0;
 
@@ -267,7 +326,8 @@ async function main(): Promise<void> {
 
     try {
       const verses = await fetchVersesForChapter(surah.surahNumber);
-      const ayahs = mapVersesToAyahs(verses, surah.surahNumber, tajweedData);
+      const ayahs = mapVersesToAyahs(verses, surah.surahNumber, tajweedSource, tajwidStats);
+      assertTajwidOnLetters(ayahs);
 
       const output = {
         surah: {
@@ -293,7 +353,7 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    `\nDone. Generated: ${generated}, skipped (existing): ${skipped}.`
+    `\nDone. Generated: ${generated}, skipped (existing): ${skipped}. Tajweed annotations without a counterpart in the displayed text: ${tajwidStats.unmappedAnnotations}.`
   );
 }
 

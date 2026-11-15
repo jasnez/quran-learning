@@ -92,7 +92,7 @@ vi.mock("@/lib/audio/audioManager", () => {
 
 const defaultProps = {
   ayah: mockAyah,
-  surahAyahs: [mockAyah],
+  queueAyahs: [mockAyah],
   surahNameLatin: "Al-Fatihah",
   arabicFontSize: 28,
   showTransliteration: true,
@@ -117,7 +117,7 @@ describe("AyahCard mobile playback", () => {
     await user.click(playButton);
 
     expect(audioManager.__audioPlayMock).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith([mockAyah]);
+    expect(mockSetQueue).toHaveBeenCalledWith([mockAyah], "surah");
     expect(mockPlay).toHaveBeenCalledWith(mockAyah);
   });
 });

@@ -21,7 +21,27 @@
       "translationBosnian": "Mi smo ti, uistinu, Kevser dali!",
       "tajwidSegments": [
         {
-          "text": " إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ",
+          "text": " إِ",
+          "rule": "normal"
+        },
+        {
+          "text": "نَّ",
+          "rule": "ghunnah"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أَعْطَيْنَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "كَ ٱلْكَوْثَرَ",
           "rule": "normal"
         }
       ],
@@ -42,15 +62,7 @@
       "translationBosnian": "zato se Gospodaru svome moli i kurban kolji,",
       "tajwidSegments": [
         {
-          "text": "فَصَلِّ لِرَبِّكَ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "نْحَرْ",
+          "text": "فَصَلِّ لِرَبِّكَ وَٱنْحَرْ",
           "rule": "normal"
         }
       ],
@@ -79,15 +91,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " شَانِئَكَ هُوَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَ",
+          "text": " شَانِئَكَ هُوَ ٱلْأَ",
           "rule": "normal"
         },
         {

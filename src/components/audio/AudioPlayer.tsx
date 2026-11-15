@@ -209,10 +209,9 @@ export function AudioPlayer() {
           const [s, a] = (state.currentAyahId ?? "").split(":").map(Number);
           const surahNum = s && !Number.isNaN(s) ? s : 0;
           const ayahNum = a && !Number.isNaN(a) ? a : 0;
-          const queueLen = queue.length > 0 ? queue.length : undefined;
           if (surahNum >= 1 && ayahNum >= 1) {
             useProgressStore.getState().incrementAyahsListened();
-            useProgressStore.getState().markAyahListened(surahNum, ayahNum, queueLen);
+            useProgressStore.getState().markAyahListened(surahNum, ayahNum);
           }
           const doAdvance = () => {
             const s2 = usePlayerStore.getState();
@@ -303,9 +302,8 @@ export function AudioPlayer() {
         const [s, a] = ayahId.split(":").map(Number);
         const surahNum = s && !Number.isNaN(s) ? s : 0;
         const ayahNum = a && !Number.isNaN(a) ? a : 0;
-        const queueLen = playerState.queue?.length ?? 0;
         if (surahNum >= 1 && ayahNum >= 1) {
-          useProgressStore.getState().markAyahListened(surahNum, ayahNum, queueLen > 0 ? queueLen : undefined);
+          useProgressStore.getState().markAyahListened(surahNum, ayahNum);
         }
       }
       const ref = listeningRef.current;
@@ -323,12 +321,13 @@ export function AudioPlayer() {
       const doAdvance = () => {
         const advanced = next();
         if (advanced) return;
-        // Last ayah of surah ended
+        // Last ayah of the queue ended
         if (repeatMode === "surah") {
           restartFromFirst();
           return;
         }
-        if (autoPlayNext) {
+        // Only a whole-surah queue continues into the next surah; a dua, juz segment or learn session stops here.
+        if (autoPlayNext && usePlayerStore.getState().queueSource === "surah") {
           const surahNum = usePlayerStore.getState().currentSurahId;
           const num = surahNum ? parseInt(surahNum, 10) : 0;
           if (num >= 1 && num < 114) {

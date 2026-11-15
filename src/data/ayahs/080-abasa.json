@@ -54,15 +54,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءَهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَعْمَىٰ",
+          "text": "ءَهُ ٱلْأَعْمَىٰ",
           "rule": "normal"
         }
       ],
@@ -128,19 +120,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "عَهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "ذِّكْرَىٰٓ",
+          "text": "عَهُ ٱلذِّكْرَىٰٓ",
           "rule": "normal"
         }
       ],
@@ -169,15 +149,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "ا مَنِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "سْتَغْنَىٰ",
+          "text": "ا مَنِ ٱسْتَغْنَىٰ",
           "rule": "normal"
         }
       ],
@@ -501,7 +473,7 @@
         },
         {
           "text": "ٍۭ ب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "َرَرَةٍ",
@@ -525,15 +497,7 @@
       "translationBosnian": "Proklet neka je čovjek! Koliko je on samo nezahvalan!",
       "tajwidSegments": [
         {
-          "text": "قُتِلَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "قُتِلَ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -541,19 +505,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ م",
+          "text": "نُ مَ",
           "rule": "normal"
         },
         {
-          "text": "َا",
+          "text": "آ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أَكْفَرَهُۥ",
+          "text": " أَكْفَرَهُۥ",
           "rule": "normal"
         }
       ],
@@ -644,19 +608,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّبِيلَ يَسَّرَهُۥ",
+          "text": " ٱلسَّبِيلَ يَسَّرَهُۥ",
           "rule": "normal"
         }
       ],
@@ -820,15 +772,7 @@
           "rule": "ikhfa"
         },
         {
-          "text": "رِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "رِ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -836,11 +780,11 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ إِلَىٰ طَعَامِهِۦٓ",
+          "text": "نُ إِلَىٰ طَعَامِهِۦٓ",
           "rule": "normal"
         }
       ],
@@ -877,15 +821,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "نَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَ",
+          "text": "نَا ٱلْمَ",
           "rule": "normal"
         },
         {
@@ -930,15 +866,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "نَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَرْضَ شَقًّا",
+          "text": "نَا ٱلْأَرْضَ شَقًّا",
           "rule": "normal"
         }
       ],
@@ -964,7 +892,7 @@
         },
         {
           "text": "ۢب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "َتْنَا فِيهَا حَبًّا",
@@ -1079,19 +1007,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰكِهَ",
+          "text": "كِهَة",
           "rule": "normal"
         },
         {
-          "text": "ةً و",
+          "text": "ً وَ",
           "rule": "ghunnah"
         },
         {
-          "text": "َأَبًّا",
+          "text": "أَبًّا",
           "rule": "normal"
         }
       ],
@@ -1116,27 +1044,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰ",
+          "text": "عًا لَّكُمْ وَلِأَنْعَ",
           "rule": "normal"
         },
         {
-          "text": "عًا لّ",
-          "rule": "normal"
-        },
-        {
-          "text": "َكُمْ وَلِأَنْع",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ـٰمِكُمْ",
+          "text": "مِكُمْ",
           "rule": "normal"
         }
       ],
@@ -1165,19 +1085,7 @@
           "rule": "mad"
         },
         {
-          "text": "ءَتِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "صَّ",
+          "text": "ءَتِ ٱلصَّ",
           "rule": "normal"
         },
         {
@@ -1206,15 +1114,7 @@
       "translationBosnian": "na Dan kada će čovjek od brata svoga pobjeći",
       "tajwidSegments": [
         {
-          "text": "يَوْمَ يَفِرُّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَرْءُ مِنْ أَخِ",
+          "text": "يَوْمَ يَفِرُّ ٱلْمَرْءُ مِنْ أَخِ",
           "rule": "normal"
         },
         {
@@ -1292,27 +1192,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰحِبَتِه",
+          "text": "حِبَتِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ وَبَن",
+          "text": " وَبَنِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ي",
           "rule": "mad"
         },
         {
-          "text": "يهِ",
+          "text": "هِ",
           "rule": "normal"
         }
       ],
@@ -1333,15 +1233,7 @@
       "translationBosnian": "toga Dana će se svaki čovjek samo o sebi brinuti –",
       "tajwidSegments": [
         {
-          "text": "لِكُلِّ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "مْرِئ",
+          "text": "لِكُلِّ ٱمْرِئ",
           "rule": "normal"
         },
         {
@@ -1518,39 +1410,15 @@
       "translationBosnian": "to će nevjernici – razvratnici biti.",
       "tajwidSegments": [
         {
-          "text": "أُ",
+          "text": "أُو۟لَ",
           "rule": "normal"
         },
         {
-          "text": "و۟",
-          "rule": "normal"
-        },
-        {
-          "text": "لَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـٰ",
+          "text": "ـٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓئِكَ هُمُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْكَفَرَةُ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْفَجَرَةُ",
+          "text": "ئِكَ هُمُ ٱلْكَفَرَةُ ٱلْفَجَرَةُ",
           "rule": "normal"
         }
       ],

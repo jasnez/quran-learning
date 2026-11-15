@@ -101,7 +101,7 @@ describe("Active ayah highlight animation", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={[mockAyah]}
+        queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}

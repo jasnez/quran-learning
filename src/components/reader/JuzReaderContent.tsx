@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { JuzInfo } from "@/types/quran";
 import type { JuzSegment } from "@/lib/data";
 import { useSettingsStore } from "@/store/settingsStore";
+import { usePlayerStore } from "@/store/playerStore";
 import { AyahCard } from "./AyahCard";
 import type { Ayah } from "@/types/quran";
 
@@ -21,14 +22,17 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
 
-  const totalAyahs = useMemo(
-    () => segments.reduce((acc, s) => acc + s.ayahs.length, 0),
-    [segments]
-  );
+  // Playback runs through the whole juz, across surah boundaries.
+  const juzAyahs = useMemo(() => segments.flatMap((s) => s.ayahs), [segments]);
+  const totalAyahs = juzAyahs.length;
 
-  const [visibleCount, setVisibleCount] = useState(AYAHS_PER_PAGE);
+  const [loadedCount, setLoadedCount] = useState(AYAHS_PER_PAGE);
+  // Keep the ayah that is playing rendered when playback runs past the loaded page.
+  const currentAyahId = usePlayerStore((s) => s.currentAyahId);
+  const playingIndex = juzAyahs.findIndex((a) => a.id === currentAyahId);
+  const visibleCount = Math.max(loadedCount, playingIndex + 1);
   const hasMore = visibleCount < totalAyahs;
-  const loadMore = () => setVisibleCount((n) => Math.min(n + AYAHS_PER_PAGE, totalAyahs));
+  const loadMore = () => setLoadedCount(Math.min(visibleCount + AYAHS_PER_PAGE, totalAyahs));
 
   let count = 0;
   const bySegment: { segment: JuzSegment; ayahs: Ayah[] }[] = [];
@@ -108,7 +112,8 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
               <div key={ayah.id} className="mb-10">
                 <AyahCard
                   ayah={ayah}
-                  surahAyahs={segment.ayahs}
+                  queueAyahs={juzAyahs}
+                  queueSource="juz"
                   surahNameLatin={segment.surah.nameLatin}
                   arabicFontSize={arabicFontSize}
                   showTransliteration={showTransliteration}

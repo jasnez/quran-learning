@@ -1,6 +1,20 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import surahsJson from "@/data/surahs.json";
 import { getSafeStorage } from "./safeStorage";
+
+const AYAH_COUNT_BY_SURAH = new Map<number, number>(
+  (surahsJson as Array<{ surahNumber: number; ayahCount: number }>).map((s) => [s.surahNumber, s.ayahCount])
+);
+
+/** A surah's total always comes from surahs.json, never from the length of a playback queue. */
+function ayahCountOf(surahNumber: number): number {
+  return AYAH_COUNT_BY_SURAH.get(surahNumber) ?? 0;
+}
+
+function completionOf(listened: number, totalAyahs: number): number {
+  return totalAyahs > 0 ? (listened / totalAyahs) * 100 : 0;
+}
 
 /** In-memory: Sets. In storage: serialized as arrays. */
 export interface SurahProgress {
@@ -69,8 +83,8 @@ type ProgressStore = LearningProgress & {
   incrementListeningTime: (ms: number) => void;
   addSurahVisited: (surahNumber: number) => void;
   incrementAyahsListened: () => void;
-  markAyahListened: (surahNumber: number, ayahNumber: number, totalAyahs?: number) => void;
-  markAyahRead: (surahNumber: number, ayahNumber: number, totalAyahs?: number) => void;
+  markAyahListened: (surahNumber: number, ayahNumber: number) => void;
+  markAyahRead: (surahNumber: number, ayahNumber: number) => void;
   addSurahTimeSpent: (surahNumber: number, ms: number) => void;
   getSurahProgress: (surahNumber: number) => SurahProgress | undefined;
   getAllSurahProgress: () => SurahProgress[];
@@ -91,10 +105,10 @@ type ProgressStore = LearningProgress & {
 
 const TOTAL_AYAHS_IN_QURAN = 6236;
 
-function createEmptySurahProgress(surahNumber: number, totalAyahs: number): SurahProgress {
+function createEmptySurahProgress(surahNumber: number): SurahProgress {
   return {
     surahNumber,
-    totalAyahs,
+    totalAyahs: ayahCountOf(surahNumber),
     ayahsListened: new Set(),
     ayahsRead: new Set(),
     completionPercent: 0,
@@ -170,37 +184,25 @@ export const useProgressStore = create<ProgressStore>()(
       incrementAyahsListened: () =>
         set((s) => ({ ayahsListened: s.ayahsListened + 1 })),
 
-      markAyahListened: (surahNumber, ayahNumber, totalAyahs) =>
+      markAyahListened: (surahNumber, ayahNumber) =>
         set((s) => {
           const map = { ...s.surahProgressMap };
-          let entry = map[surahNumber];
-          if (!entry) {
-            entry = createEmptySurahProgress(surahNumber, totalAyahs ?? 0);
-            map[surahNumber] = entry;
-          }
-          entry = { ...entry };
+          const entry = { ...(map[surahNumber] ?? createEmptySurahProgress(surahNumber)) };
           entry.ayahsListened = new Set(entry.ayahsListened).add(ayahNumber);
-          if (totalAyahs != null && totalAyahs > 0) entry.totalAyahs = totalAyahs;
-          entry.completionPercent =
-            entry.totalAyahs > 0 ? (entry.ayahsListened.size / entry.totalAyahs) * 100 : 0;
+          entry.totalAyahs = ayahCountOf(surahNumber);
+          entry.completionPercent = completionOf(entry.ayahsListened.size, entry.totalAyahs);
           entry.lastAccessedAt = new Date().toISOString();
           map[surahNumber] = entry;
           return { surahProgressMap: map };
         }),
 
-      markAyahRead: (surahNumber, ayahNumber, totalAyahs) =>
+      markAyahRead: (surahNumber, ayahNumber) =>
         set((s) => {
           const map = { ...s.surahProgressMap };
-          let entry = map[surahNumber];
-          if (!entry) {
-            entry = createEmptySurahProgress(surahNumber, totalAyahs ?? 0);
-            map[surahNumber] = entry;
-          }
-          entry = { ...entry };
+          const entry = { ...(map[surahNumber] ?? createEmptySurahProgress(surahNumber)) };
           entry.ayahsRead = new Set(entry.ayahsRead).add(ayahNumber);
-          if (totalAyahs != null && totalAyahs > 0) entry.totalAyahs = totalAyahs;
-          entry.completionPercent =
-            entry.totalAyahs > 0 ? (entry.ayahsListened.size / entry.totalAyahs) * 100 : 0;
+          entry.totalAyahs = ayahCountOf(surahNumber);
+          entry.completionPercent = completionOf(entry.ayahsListened.size, entry.totalAyahs);
           entry.lastAccessedAt = new Date().toISOString();
           map[surahNumber] = entry;
           return { surahProgressMap: map };
@@ -211,7 +213,7 @@ export const useProgressStore = create<ProgressStore>()(
           const map = { ...s.surahProgressMap };
           let entry = map[surahNumber];
           if (!entry) {
-            entry = createEmptySurahProgress(surahNumber, 0);
+            entry = createEmptySurahProgress(surahNumber);
             map[surahNumber] = entry;
           }
           entry = { ...entry, timeSpentMs: entry.timeSpentMs + ms };
@@ -327,7 +329,11 @@ export const useProgressStore = create<ProgressStore>()(
           for (const [key, val] of Object.entries(rawMap)) {
             const num = Number(key);
             if (Number.isInteger(num) && val && typeof val === "object") {
-              surahProgressMap[num] = deserializeSurahProgress(val as SurahProgressSerialized);
+              const entry = deserializeSurahProgress(val as SurahProgressSerialized);
+              // Repair totals saved by older versions from the playback queue length (dua -> 1, juz segment -> 111).
+              entry.totalAyahs = ayahCountOf(num) || entry.totalAyahs;
+              entry.completionPercent = completionOf(entry.ayahsListened.size, entry.totalAyahs);
+              surahProgressMap[num] = entry;
             }
           }
         }

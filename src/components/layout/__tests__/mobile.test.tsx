@@ -191,7 +191,7 @@ describe("AyahCard mobile", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={[mockAyah]}
+        queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -207,7 +207,7 @@ describe("AyahCard mobile", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={[mockAyah]}
+        queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={28}
         showTransliteration={true}
@@ -232,7 +232,7 @@ describe("Arabic font size on mobile", () => {
     const { container } = render(
       <AyahCard
         ayah={mockAyah}
-        surahAyahs={[mockAyah]}
+        queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
         arabicFontSize={20}
         showTransliteration={false}

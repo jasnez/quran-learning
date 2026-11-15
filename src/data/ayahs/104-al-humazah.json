@@ -108,31 +108,23 @@
       "translationBosnian": "A ne valja tako! On će, sigurno, biti bačen u Džehennem!",
       "tajwidSegments": [
         {
-          "text": "كَلَّا ۖ لَي",
+          "text": "كَلَّا ۖ لَيُن",
           "rule": "normal"
         },
         {
-          "text": "ُن",
+          "text": "ۢب",
+          "rule": "ikhfa"
+        },
+        {
+          "text": "َذَ",
           "rule": "normal"
         },
         {
-          "text": "ۢبَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ذَن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّ فِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ى",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْحُطَمَةِ",
+          "text": " فِى ٱلْحُطَمَةِ",
           "rule": "normal"
         }
       ],
@@ -177,15 +169,7 @@
           "rule": "mad"
         },
         {
-          "text": "كَ مَا ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْحُطَمَةُ",
+          "text": "كَ مَا ٱلْحُطَمَةُ",
           "rule": "normal"
         }
       ],
@@ -206,23 +190,7 @@
       "translationBosnian": "Vatra Allahova razbuktana,",
       "tajwidSegments": [
         {
-          "text": "نَارُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُوقَدَةُ",
+          "text": "نَارُ ٱللَّهِ ٱلْمُوقَدَةُ",
           "rule": "normal"
         }
       ],
@@ -243,15 +211,7 @@
       "translationBosnian": "koja će do srcā dopirati.",
       "tajwidSegments": [
         {
-          "text": "ٱلَّتِى تَطَّلِعُ عَلَى ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأَفْـِٔدَةِ",
+          "text": "ٱلَّتِى تَطَّلِعُ عَلَى ٱلْأَفْـِٔدَةِ",
           "rule": "normal"
         }
       ],
@@ -285,7 +245,7 @@
         },
         {
           "text": "م مُّ",
-          "rule": "normal"
+          "rule": "ghunnah"
         },
         {
           "text": "ؤْصَدَةٌ",

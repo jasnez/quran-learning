@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { PlayerState } from "@/types/audio";
+import type { PlayerState, QueueSource } from "@/types/audio";
 import type { Ayah } from "@/types/quran";
 import type { VerseTimestamp } from "@/types/wordByWord";
 
@@ -44,7 +44,8 @@ type PlayerStore = PlayerState & {
   next: () => boolean;
   previous: () => void;
   restartFromFirst: () => void;
-  setQueue: (ayahs: Ayah[]) => void;
+  /** Replaces the queue; `source` defaults to a whole-surah queue. */
+  setQueue: (ayahs: Ayah[], source?: QueueSource) => void;
   setCurrentAyah: (ayah: Ayah) => void;
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
@@ -60,6 +61,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   currentAyahId: null,
   isPlaying: false,
   queue: [],
+  queueSource: "surah",
   currentTime: 0,
   duration: 0,
   activeAudioSrc: null,
@@ -91,7 +93,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       currentAyahId: ayah.id,
       activeAudioSrc: url || null,
       isPlaying: true,
-      queue: inQueue ? queue : [ayah],
+      ...(inQueue ? {} : { queue: [ayah], queueSource: "single" as const }),
       pendingSeekToSeconds: pendingSeek,
     });
   },
@@ -99,7 +101,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   playAyahIds: (ayahIds) => {
     if (ayahIds.length === 0) return;
     const ayahs = ayahIds.map(minimalAyahFromId);
-    get().setQueue(ayahs);
+    get().setQueue(ayahs, "dua");
     get().play(ayahs[0]);
   },
 
@@ -191,7 +193,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     });
   },
 
-  setQueue: (queue) => set({ queue }),
+  setQueue: (queue, source = "surah") => set({ queue, queueSource: source }),
 
   setCurrentAyah: (ayah) =>
     set({

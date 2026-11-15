@@ -21,7 +21,31 @@
       "translationBosnian": "Kunem se Danom kada Smak svijeta nastupi",
       "tajwidSegments": [
         {
-          "text": " لَآ أُقْسِمُ بِيَوْمِ ٱلْقِيَـٰمَةِ",
+          "text": " لَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": " أُ",
+          "rule": "normal"
+        },
+        {
+          "text": "قْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "سِمُ بِيَوْمِ ٱلْقِيَ",
+          "rule": "normal"
+        },
+        {
+          "text": "ـٰ",
+          "rule": "mad"
+        },
+        {
+          "text": "مَةِ",
           "rule": "normal"
         }
       ],
@@ -58,15 +82,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "سِمُ بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "سِمُ بِٱل",
           "rule": "normal"
         },
         {
@@ -74,19 +90,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "فْسِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "لَّوَّامَةِ",
+          "text": "فْسِ ٱللَّوَّامَةِ",
           "rule": "normal"
         }
       ],
@@ -107,15 +111,7 @@
       "translationBosnian": "Zar čovjek misli da kosti njegove nećemo sakupiti?",
       "tajwidSegments": [
         {
-          "text": "أَيَحْسَبُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "أَيَحْسَبُ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -123,23 +119,23 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ أَلّ",
+          "text": "نُ أَلَّ",
           "rule": "normal"
         },
         {
-          "text": "َن نّ",
+          "text": "ن نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َج",
+          "text": "جْ",
           "rule": "qalqalah"
         },
         {
-          "text": "ْمَعَ عِظَامَهُۥ",
+          "text": "مَعَ عِظَامَهُۥ",
           "rule": "normal"
         }
       ],
@@ -164,27 +160,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰدِرِينَ عَل",
+          "text": "دِرِينَ عَلَ",
           "rule": "normal"
         },
         {
-          "text": "َىٰ",
+          "text": "ىٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أ",
+          "text": " أَ",
           "rule": "normal"
         },
         {
-          "text": "َن نّ",
+          "text": "ن نُّ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُسَوِّىَ بَنَانَهُۥ",
+          "text": "سَوِّىَ بَنَانَهُۥ",
           "rule": "normal"
         }
       ],
@@ -205,15 +201,7 @@
       "translationBosnian": "Ali, čovjek hoće dok je živ da griješi,",
       "tajwidSegments": [
         {
-          "text": "بَلْ يُرِيدُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "بَلْ يُرِيدُ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -221,11 +209,11 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ لِيَفْجُرَ أَمَامَهُۥ",
+          "text": "نُ لِيَفْجُرَ أَمَامَهُۥ",
           "rule": "normal"
         }
       ],
@@ -246,23 +234,15 @@
       "translationBosnian": "pa pita: \"Kada će Smak svijeta biti?\"",
       "tajwidSegments": [
         {
-          "text": "يَسْـَٔلُ أَيَّانَ يَوْمُ ",
+          "text": "يَسْـَٔلُ أَيَّانَ يَوْمُ ٱلْقِيَ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقِيَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰمَةِ",
+          "text": "مَةِ",
           "rule": "normal"
         }
       ],
@@ -283,15 +263,7 @@
       "translationBosnian": "Kad se pogled od straha ukoči",
       "tajwidSegments": [
         {
-          "text": "فَإِذَا بَرِقَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْبَصَرُ",
+          "text": "فَإِذَا بَرِقَ ٱلْبَصَرُ",
           "rule": "normal"
         }
       ],
@@ -312,15 +284,7 @@
       "translationBosnian": "i Mjesec pomrači",
       "tajwidSegments": [
         {
-          "text": "وَخَسَفَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَمَرُ",
+          "text": "وَخَسَفَ ٱلْقَمَرُ",
           "rule": "normal"
         }
       ],
@@ -341,27 +305,7 @@
       "translationBosnian": "i Sunce i Mjesec spoje –",
       "tajwidSegments": [
         {
-          "text": "وَجُمِعَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "شَّمْسُ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْقَمَرُ",
+          "text": "وَجُمِعَ ٱلشَّمْسُ وَٱلْقَمَرُ",
           "rule": "normal"
         }
       ],
@@ -382,15 +326,7 @@
       "translationBosnian": "tog dana čovjek će povikati: \"Kuda da se bježi?\"",
       "tajwidSegments": [
         {
-          "text": "يَقُولُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "يَقُولُ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -398,19 +334,11 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ يَوْمَئِذٍ أَيْنَ",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱلْمَفَرُّ",
+          "text": "نُ يَوْمَئِذٍ أَيْنَ ٱلْمَفَرُّ",
           "rule": "normal"
         }
       ],
@@ -452,15 +380,7 @@
       "translationBosnian": "Toga dana biće Gospodaru tvome prepušten,",
       "tajwidSegments": [
         {
-          "text": "إِلَىٰ رَبِّكَ يَوْمَئِذٍ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمُسْتَقَرُّ",
+          "text": "إِلَىٰ رَبِّكَ يَوْمَئِذٍ ٱلْمُسْتَقَرُّ",
           "rule": "normal"
         }
       ],
@@ -481,23 +401,7 @@
       "translationBosnian": "toga dana čovjek će o onome što je pripremio, a što propustio obaviješten biti,",
       "tajwidSegments": [
         {
-          "text": "يُنَبَّؤُ",
-          "rule": "normal"
-        },
-        {
-          "text": "ا۟",
-          "rule": "normal"
-        },
-        {
-          "text": " ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "يُنَبَّؤُا۟ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -505,19 +409,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ يَوْمَئِ",
+          "text": "نُ يَوْمَئِذ",
           "rule": "normal"
         },
         {
-          "text": "ذٍۭ ",
-          "rule": "normal"
+          "text": "ٍۭ ب",
+          "rule": "ikhfa"
         },
         {
-          "text": "بِمَا قَدَّمَ وَأَخَّرَ",
+          "text": "ِمَا قَدَّمَ وَأَخَّرَ",
           "rule": "normal"
         }
       ],
@@ -538,15 +442,7 @@
       "translationBosnian": "sam čovjek će protiv sebe svjedočiti,",
       "tajwidSegments": [
         {
-          "text": "بَلِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "بَلِ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -554,19 +450,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ عَلَىٰ نَفْسِه",
+          "text": "نُ عَلَىٰ نَفْسِهِ",
           "rule": "normal"
         },
         {
-          "text": "ِ",
+          "text": "ۦ",
           "rule": "mad"
         },
         {
-          "text": "ۦ بَصِيرَةٌ",
+          "text": " بَصِيرَةٌ",
           "rule": "normal"
         }
       ],
@@ -678,19 +574,11 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰهُ ف",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱتَّبِعْ قُرْءَانَهُۥ",
+          "text": "هُ فَٱتَّبِعْ قُرْءَانَهُۥ",
           "rule": "normal"
         }
       ],
@@ -748,15 +636,7 @@
       "translationBosnian": "Uistinu, vi ovaj prolazni svijet volite,",
       "tajwidSegments": [
         {
-          "text": "كَلَّا بَلْ تُحِبُّونَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعَاجِلَةَ",
+          "text": "كَلَّا بَلْ تُحِبُّونَ ٱلْعَاجِلَةَ",
           "rule": "normal"
         }
       ],
@@ -777,15 +657,7 @@
       "translationBosnian": "a o onom drugom brigu ne vodite.",
       "tajwidSegments": [
         {
-          "text": "وَتَذَرُونَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْـَٔاخِرَةَ",
+          "text": "وَتَذَرُونَ ٱلْـَٔاخِرَةَ",
           "rule": "normal"
         }
       ],
@@ -877,7 +749,7 @@
         },
         {
           "text": "ٍۭ ب",
-          "rule": "normal"
+          "rule": "ikhfa"
         },
         {
           "text": "َاسِرَةٌ",
@@ -946,19 +818,7 @@
           "rule": "mad"
         },
         {
-          "text": " إِذَا بَلَغَتِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "تَّرَاقِىَ",
+          "text": " إِذَا بَلَغَتِ ٱلتَّرَاقِىَ",
           "rule": "normal"
         }
       ],
@@ -979,19 +839,19 @@
       "translationBosnian": "i vikne se: \"Ima li vidara?\",",
       "tajwidSegments": [
         {
-          "text": "وَقِيلَ مَنْ ۜ ",
+          "text": "وَقِيلَ مَنْ ۜ رَ",
           "rule": "normal"
         },
         {
-          "text": "ر",
+          "text": "ا",
           "rule": "mad"
         },
         {
-          "text": "َ",
+          "text": "ق",
           "rule": "qalqalah"
         },
         {
-          "text": "اقٍ",
+          "text": "ٍ",
           "rule": "normal"
         }
       ],
@@ -1028,15 +888,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": "هُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْفِرَ",
+          "text": "هُ ٱلْفِرَ",
           "rule": "normal"
         },
         {
@@ -1069,39 +921,7 @@
       "translationBosnian": "i noga se uz nogu savije,",
       "tajwidSegments": [
         {
-          "text": "وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْتَفَّتِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّاقُ بِ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "سَّ",
+          "text": "وَٱلْتَفَّتِ ٱلسَّاقُ بِٱلسَّ",
           "rule": "normal"
         },
         {
@@ -1134,15 +954,7 @@
       "translationBosnian": "toga dana će Gospodaru tvome priveden biti:",
       "tajwidSegments": [
         {
-          "text": "إِلَىٰ رَبِّكَ يَوْمَئِذٍ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْمَسَ",
+          "text": "إِلَىٰ رَبِّكَ يَوْمَئِذٍ ٱلْمَسَ",
           "rule": "normal"
         },
         {
@@ -1200,19 +1012,19 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰك",
+          "text": "كِ",
           "rule": "normal"
         },
         {
-          "text": "ِن ك",
+          "text": "ن كَ",
           "rule": "ikhfa"
         },
         {
-          "text": "َذَّبَ وَتَوَلَّىٰ",
+          "text": "ذَّبَ وَتَوَلَّىٰ",
           "rule": "normal"
         }
       ],
@@ -1328,15 +1140,7 @@
       "translationBosnian": "Zar čovjek misli da će sam sebi prepušten biti, da neće odgovarati?",
       "tajwidSegments": [
         {
-          "text": "أَيَحْسَبُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْإِ",
+          "text": "أَيَحْسَبُ ٱلْإِ",
           "rule": "normal"
         },
         {
@@ -1344,19 +1148,19 @@
           "rule": "ikhfa"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰنُ أ",
+          "text": "نُ أَ",
           "rule": "normal"
         },
         {
-          "text": "َن ي",
+          "text": "ن يُ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُتْرَكَ سُدًى",
+          "text": "تْرَكَ سُدًى",
           "rule": "normal"
         }
       ],
@@ -1389,11 +1193,7 @@
           "rule": "normal"
         },
         {
-          "text": "ً مِّ",
-          "rule": "ghunnah"
-        },
-        {
-          "text": "ن مَّ",
+          "text": "ً مِّن مَّ",
           "rule": "ghunnah"
         },
         {
@@ -1463,39 +1263,7 @@
       "translationBosnian": "i od njega onda dvije vrste, muškarca i ženu, stvori,",
       "tajwidSegments": [
         {
-          "text": "فَجَعَلَ مِنْهُ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "زَّوْجَيْنِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
-          "rule": "normal"
-        },
-        {
-          "text": "ذَّكَرَ وَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْأُ",
+          "text": "فَجَعَلَ مِنْهُ ٱلزَّوْجَيْنِ ٱلذَّكَرَ وَٱلْأُ",
           "rule": "normal"
         },
         {
@@ -1536,35 +1304,27 @@
           "rule": "normal"
         },
         {
-          "text": "ـ",
+          "text": "ـٰ",
           "rule": "mad"
         },
         {
-          "text": "ٰدِرٍ عَل",
+          "text": "دِرٍ عَلَ",
           "rule": "normal"
         },
         {
-          "text": "َىٰ",
+          "text": "ىٰٓ",
           "rule": "mad"
         },
         {
-          "text": "ٓ أ",
+          "text": " أَ",
           "rule": "normal"
         },
         {
-          "text": "َن ي",
+          "text": "ن يُ",
           "rule": "ghunnah"
         },
         {
-          "text": "ُحْـِۧى",
-          "rule": "normal"
-        },
-        {
-          "text": "َ",
-          "rule": "normal"
-        },
-        {
-          "text": " ٱلْمَوْتَىٰ",
+          "text": "حْـِۧىَ ٱلْمَوْتَىٰ",
           "rule": "normal"
         }
       ],

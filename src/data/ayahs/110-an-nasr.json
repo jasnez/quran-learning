@@ -21,7 +21,15 @@
       "translationBosnian": "Kada Allahova pomoć i pobjeda dođu,",
       "tajwidSegments": [
         {
-          "text": " إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
+          "text": " إِذَا جَ",
+          "rule": "normal"
+        },
+        {
+          "text": "آ",
+          "rule": "mad"
+        },
+        {
+          "text": "ءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ",
           "rule": "normal"
         }
       ],
@@ -42,15 +50,7 @@
       "translationBosnian": "i vidiš ljude kako u skupinama u Allahovu vjeru ulaze –",
       "tajwidSegments": [
         {
-          "text": "وَرَأَيْتَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "ل",
+          "text": "وَرَأَيْتَ ٱل",
           "rule": "normal"
         },
         {
@@ -66,15 +66,7 @@
           "rule": "qalqalah"
         },
         {
-          "text": "خُلُونَ فِى دِينِ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "للَّهِ أَفْوَاجًا",
+          "text": "خُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًا",
           "rule": "normal"
         }
       ],
@@ -95,31 +87,23 @@
       "translationBosnian": "ti veličaj Gospodara svoga hvaleći Ga i moli Ga da ti oprosti, On je uvijek pokajanje primao.",
       "tajwidSegments": [
         {
-          "text": "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَ",
+          "text": "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِ",
           "rule": "normal"
         },
         {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "سْتَغْفِرْهُ ۚ ",
-          "rule": "normal"
-        },
-        {
-          "text": "إِن",
+          "text": "نَّ",
           "rule": "ghunnah"
         },
         {
-          "text": "َّ",
+          "text": "هُ",
           "rule": "normal"
         },
         {
-          "text": "ه",
+          "text": "ۥ",
           "rule": "mad"
         },
         {
-          "text": "ُۥ كَانَ تَوَّابًۢا",
+          "text": " كَانَ تَوَّابًۢا",
           "rule": "normal"
         }
       ],

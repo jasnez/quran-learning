@@ -21,7 +21,15 @@
       "translationBosnian": "Zar grudi tvoje nismo prostranim učinili,",
       "tajwidSegments": [
         {
-          "text": " أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ",
+          "text": " أَلَمْ نَشْرَحْ لَكَ صَ",
+          "rule": "normal"
+        },
+        {
+          "text": "دْ",
+          "rule": "qalqalah"
+        },
+        {
+          "text": "رَكَ",
           "rule": "normal"
         }
       ],
@@ -137,15 +145,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " مَعَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعُسْرِ يُسْرًا",
+          "text": " مَعَ ٱلْعُسْرِ يُسْرًا",
           "rule": "normal"
         }
       ],
@@ -174,15 +174,7 @@
           "rule": "ghunnah"
         },
         {
-          "text": " مَعَ ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "لْعُسْرِ يُسْرًا",
+          "text": " مَعَ ٱلْعُسْرِ يُسْرًا",
           "rule": "normal"
         }
       ],
@@ -203,11 +195,7 @@
       "translationBosnian": "A kad završiš, molitvi se predaj",
       "tajwidSegments": [
         {
-          "text": "فَإِذَا فَرَغْتَ فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
+          "text": "فَإِذَا فَرَغْتَ فَٱ",
           "rule": "normal"
         },
         {
@@ -236,15 +224,7 @@
       "translationBosnian": "i samo se Gospodaru svome obraćaj!",
       "tajwidSegments": [
         {
-          "text": "وَإِلَىٰ رَبِّكَ فَ",
-          "rule": "normal"
-        },
-        {
-          "text": "ٱ",
-          "rule": "normal"
-        },
-        {
-          "text": "رْغَ",
+          "text": "وَإِلَىٰ رَبِّكَ فَٱرْغَ",
           "rule": "normal"
         },
         {

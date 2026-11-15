@@ -1,3 +1,8 @@
+/**
+ * Quiz (Kviz) is hidden for now: the leading underscore in `_test` makes this a
+ * private folder that Next.js does not route or build. To bring it back, rename
+ * the folder to `test` and restore the "Kviz" entries in Header and MobileNav.
+ */
 import { notFound } from "next/navigation";
 import { getAllSurahs, getSurahByNumber } from "@/lib/data";
 import { TestMode } from "@/components/test/TestMode";
