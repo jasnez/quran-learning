@@ -260,12 +260,14 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: /džuzevi/i })).not.toBeInTheDocument();
   });
 
-  it("has Quiz link in Učenje dropdown", async () => {
+  it("Učenje dropdown offers lessons and names but not the quiz, which is hidden for now", async () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const ucenjeBtn = screen.getByRole("button", { name: /učenje/i });
     const user = (await import("@testing-library/user-event")).default.setup();
     await user.click(ucenjeBtn);
-    expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
+    expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.getByRole("menuitem", { name: /allahova lijepa imena/i })).toHaveAttribute("href", "/names");
+    expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
   });
 
   it("has Kur'anske dove dropdown with category links", async () => {
@@ -407,7 +409,7 @@ describe("MobileNav", () => {
     expect(screen.queryByRole("link", { name: /označeno/i })).not.toBeInTheDocument();
   });
 
-  it("Više button opens menu with Bookmarks, Napredak, Postavke and Kviz/Tedžvid lekcije", async () => {
+  it("Više button opens menu with Bookmarks, Napredak, Postavke and Tedžvid lekcije, without the hidden quiz", async () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     const moreBtn = screen.getByRole("button", { name: /više/i });
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
@@ -418,7 +420,7 @@ describe("MobileNav", () => {
     expect(screen.getByRole("menuitem", { name: /označeni ajeti/i })).toHaveAttribute("href", "/bookmarks");
     expect(screen.getByRole("menuitem", { name: /napredak/i })).toHaveAttribute("href", "/progress");
     expect(screen.getByRole("menuitem", { name: /postavke/i })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: /kviz/i })).toHaveAttribute("href", "/test/1");
+    expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
   });
 });
