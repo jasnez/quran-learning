@@ -1,7 +1,7 @@
 /**
  * Ensures production uses a different primary Arabic font than Amiri when
  * data-arabic-font is set (Naskh or Uthmanic). In a real browser, computed
- * font-family on .font-arabic will show "Noto Naskh Arabic" or "KFGQPC..."
+ * font-family on .font-arabic will show "Noto Naskh Arabic" or "Scheherazade New"
  * depending on the attribute (check DevTools).
  */
 import { describe, it, expect } from "vitest";
@@ -31,10 +31,20 @@ describe("Arabic font (production: font other than Amiri)", () => {
     expect(css).toMatch(/--font-naskh-arabic/);
   });
 
-  it("globals.css defines uthmanic with --font-uthmanic-hafs as primary (not only Amiri)", () => {
+  // The "uthmanic" setting key is kept for saved settings; it now selects Scheherazade New, which
+  // renders the Quranic marks the KFGQPC font drew as dotted circles (U+06DF, U+06EA, U+06EB, U+06ED).
+  it("globals.css defines the uthmanic option with --font-scheherazade as primary", () => {
     const css = readFileSync(globalsCssPath, "utf-8");
-    expect(css).toMatch(/html\[data-arabic-font="uthmanic"\][\s\S]*?--font-arabic:\s*var\(--font-uthmanic-hafs\)/);
-    expect(css).toMatch(/--font-uthmanic-hafs/);
+    expect(css).toMatch(/html\[data-arabic-font="uthmanic"\][\s\S]*?--font-arabic:\s*var\(--font-scheherazade\)/);
+    expect(css).toMatch(/html\[data-arabic-font="uthmanic"\] \.font-arabic[\s\S]*?font-family:\s*var\(--font-scheherazade\)/);
+    expect(css).not.toMatch(/--font-uthmanic-hafs/);
+  });
+
+  it("layout loads Scheherazade New from next/font/google instead of the KFGQPC file", () => {
+    const layout = readFileSync(layoutPath, "utf-8");
+    expect(layout).toMatch(/Scheherazade_New/);
+    expect(layout).toMatch(/variable:\s*"--font-scheherazade"/);
+    expect(layout).not.toMatch(/kfgqpc/);
   });
 
   it(".font-arabic uses var(--font-arabic) so switch takes effect", () => {
@@ -70,7 +80,7 @@ describe("Build output: Arabic font override in production CSS", () => {
       }
       expect(combined).toMatch(/data-arabic-font.*uthmanic|uthmanic.*data-arabic-font/);
       expect(combined).toMatch(/--font-arabic/);
-      expect(combined).toMatch(/font-uthmanic-hafs|uthmanic-hafs/);
+      expect(combined).toMatch(/font-scheherazade/);
     }
   );
 });

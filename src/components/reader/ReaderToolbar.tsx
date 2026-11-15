@@ -106,7 +106,7 @@ export function ReaderToolbar() {
               : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
           }`}
         >
-          Uthmanic
+          Scheherazade
         </button>
       </div>
 
