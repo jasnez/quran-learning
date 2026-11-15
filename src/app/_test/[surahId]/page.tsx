@@ -32,9 +32,9 @@ export default async function TestPage({ params }: PageProps) {
   const { surah, ayahs } = detail;
 
   return (
-    <main className="mx-auto max-w-[800px] px-4 py-8">
+    <div className="mx-auto max-w-[800px] px-4 py-8">
       <TestMode surah={surah} ayahs={ayahs} allSurahs={allSurahs} />
-    </main>
+    </div>
   );
 }
 

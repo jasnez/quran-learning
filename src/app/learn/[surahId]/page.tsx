@@ -66,8 +66,8 @@ export default async function LearnPage({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-4xl px-4 py-6 flex flex-col">
+    <div className="mx-auto min-h-screen max-w-4xl px-4 py-6 flex flex-col">
       <LearnModeContent surah={surah} ayahs={ayahs} prevSurah={prevSurah} nextSurah={nextSurah} />
-    </main>
+    </div>
   );
 }

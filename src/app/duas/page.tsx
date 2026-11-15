@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function DuasPage() {
   return (
-    <main className="min-h-screen px-4 pb-24 pt-16 md:py-12">
+    <div className="min-h-screen px-4 pb-24 pt-16 md:py-12">
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">
           Kur&apos;anske dove
@@ -19,6 +19,6 @@ export default function DuasPage() {
         </p>
         <DuasPageContent />
       </div>
-    </main>
+    </div>
   );
 }
