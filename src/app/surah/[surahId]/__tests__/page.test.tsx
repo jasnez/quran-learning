@@ -224,8 +224,13 @@ describe("Surah Reader page", () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     // Desktop redesign: container je sad max-w-6xl (1152px) umjesto fiksnog [800px]
-    const main = container.querySelector("main.mx-auto.max-w-6xl");
-    expect(main).toBeInTheDocument();
+    expect(container.firstElementChild).toHaveClass("mx-auto", "max-w-6xl");
+  });
+
+  it("does not render its own main landmark (AppShell provides it)", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    expect(screen.queryByRole("main")).toBeNull();
   });
 
   it("applies tajwid colors when showTajwidColors is true and ayah has segments", async () => {

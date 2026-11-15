@@ -29,7 +29,7 @@ export default async function CategoryDuasPage({ params }: PageProps) {
   if (!cat) notFound();
 
   return (
-    <main className="min-h-screen px-4 pb-24 pt-16 md:py-12">
+    <div className="min-h-screen px-4 pb-24 pt-16 md:py-12">
       <div className="mx-auto max-w-6xl">
         <p className="mb-2">
           <Link
@@ -47,6 +47,6 @@ export default async function CategoryDuasPage({ params }: PageProps) {
         </p>
         <DuasPageContent category={cat} />
       </div>
-    </main>
+    </div>
   );
 }

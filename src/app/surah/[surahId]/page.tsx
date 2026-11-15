@@ -72,7 +72,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <nav
         className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--theme-border)] pb-4 text-sm"
@@ -126,6 +126,6 @@ export default async function SurahReaderPage({ params }: PageProps) {
           <SurahReaderContent ayahs={ayahs} surahNameLatin={surah.nameLatin} />
         </section>
       </div>
-    </main>
+    </div>
   );
 }

@@ -155,7 +155,7 @@ export default function SearchPage() {
   const hasResults = results.length > 0 && isQueryLongEnough;
 
   return (
-    <main className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
+    <div className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
       <div className="sticky top-[var(--app-header-offset)] z-40 -mx-4 transition-[top] duration-200 bg-[var(--theme-bg)]/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-bg)]/90 md:static md:py-8">
         <h1 className="sr-only">Pretraga</h1>
         <label htmlFor="search-input" className="sr-only">
@@ -251,6 +251,6 @@ export default function SearchPage() {
           </ul>
         )}
       </div>
-    </main>
+    </div>
   );
 }

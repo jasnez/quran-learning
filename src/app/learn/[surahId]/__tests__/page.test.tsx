@@ -241,9 +241,15 @@ describe("Learn Mode page", () => {
   it("layout is centered with max-width for desktop", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
-    const main = container.querySelector("main");
-    expect(main).toBeInTheDocument();
-    expect(main?.className).toMatch(/max-w|mx-auto|700/);
+    const root = container.firstElementChild;
+    expect(root).toBeInTheDocument();
+    expect(root?.className).toMatch(/max-w|mx-auto|700/);
+  });
+
+  it("does not render its own main landmark (AppShell provides it)", async () => {
+    const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    expect(screen.queryByRole("main")).toBeNull();
   });
 
   it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljaj)", async () => {
