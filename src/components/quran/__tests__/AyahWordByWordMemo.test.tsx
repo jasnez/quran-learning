@@ -1,8 +1,8 @@
 /**
  * @vitest-environment jsdom
  *
- * P1-9 guard: the reader re-renders every card on each animation frame while audio plays.
- * Cards that are not playing must not re-render their word renderer on those frames.
+ * P1-9 guard: the playing card re-renders on each animation frame while audio plays.
+ * Its word list must re-render only when the highlighted word changes.
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, afterEach } from "vitest";

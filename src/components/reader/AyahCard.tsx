@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Bookmark, Play, Pause } from "lucide-react";
 import type { Ayah } from "@/types/quran";
 import type { QueueSource } from "@/types/audio";
@@ -13,6 +13,7 @@ import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import * as audioManager from "@/lib/audio/audioManager";
+import { playAyahFromMs } from "@/lib/audio/playFromWord";
 
 const ARABIC_MIN_MOBILE_PX = 24;
 
@@ -27,15 +28,10 @@ type AyahCardProps = {
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
-  /**
-   * Word-by-word mode: show the Arabic as words and highlight the recited one.
-   * `currentTimeMs` is the position in this ayah's audio file, negative when it is not playing.
-   */
-  wordByWord?: {
-    verse: VerseTimestamp | undefined;
-    currentTimeMs: number;
-    onSeekMs: (ayahRelativeMs: number) => void;
-  };
+  /** Word-by-word mode: show the Arabic as words and highlight the recited one. */
+  wordByWord?: boolean;
+  /** Word timings of this ayah for word-by-word mode; undefined while loading or unavailable. */
+  wordTimestamps?: VerseTimestamp;
   /** Show a subtle page indicator badge for the first ayah on a mushaf page. */
   showPageBadge?: boolean;
 };
@@ -45,7 +41,12 @@ function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
   return { surahNumber: s ?? 1, ayahNumber: a ?? 1 };
 }
 
-export function AyahCard({
+/**
+ * Memoized, and every player value is selected per card: while audio plays the clock changes on
+ * every animation frame, and a surah has up to 286 cards (QA P1-9). Only the card whose own
+ * selected values change re-renders.
+ */
+export const AyahCard = memo(function AyahCard({
   ayah,
   queueAyahs,
   queueSource = "surah",
@@ -54,11 +55,16 @@ export function AyahCard({
   showTransliteration,
   showTranslation,
   showTajwidColors,
-  wordByWord,
+  wordByWord = false,
+  wordTimestamps,
   showPageBadge,
 }: AyahCardProps) {
-  const currentAyahId = usePlayerStore((s) => s.currentAyahId);
-  const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const isThisAyahPlaying = usePlayerStore((s) => s.currentAyahId === ayah.id && s.isPlaying);
+  // Position in this ayah's audio file for the word highlight. Only the ayah whose audio is
+  // loaded gets the clock; every other card (and a stopped player) stays at -1.
+  const wordTimeMs = usePlayerStore((s) =>
+    wordByWord && s.currentAyahId === ayah.id && s.activeAudioSrc ? s.currentTimeMs : -1,
+  );
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
@@ -68,7 +74,6 @@ export function AyahCard({
   const bookmarked = useBookmarkStore((s) => hasBookmark(s.bookmarks, surahNumber, ayahNumber));
   const showToast = useToastStore((s) => s.showToast);
 
-  const isThisAyahPlaying = currentAyahId === ayah.id && isPlaying;
   const isMobile = useIsMobile();
   const effectiveFontSize = isMobile ? Math.max(ARABIC_MIN_MOBILE_PX, arabicFontSize) : arabicFontSize;
   const cardRef = useRef<HTMLElement>(null);
@@ -201,10 +206,10 @@ export function AyahCard({
           {wordByWord ? (
             <AyahWordByWord
               ayah={ayah}
-              verse={wordByWord.verse}
-              currentTimeMs={wordByWord.currentTimeMs}
+              verse={wordTimestamps}
+              currentTimeMs={wordTimeMs}
               showColors={showTajwidColors}
-              onSeekMs={wordByWord.onSeekMs}
+              onSeekMs={(ms) => playAyahFromMs(ayah, queueAyahs, ms, queueSource)}
               className={
                 showTranslation && ayah.translationBosnian
                   ? "text-center lg:text-right"
@@ -246,5 +251,5 @@ export function AyahCard({
       </div>
     </article>
   );
-}
+});
 
