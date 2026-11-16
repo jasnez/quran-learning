@@ -110,8 +110,9 @@ const hoistedProgress = vi.hoisted(() => {
 
 vi.mock("@/store/progressStore", () => {
   const useProgressStoreMock = vi.fn(
-    (selector: (s: { getSurahProgress: typeof hoistedProgress.mockGetSurahProgress }) => unknown) =>
-      selector({ getSurahProgress: hoistedProgress.mockGetSurahProgress })
+    // surahProgressMap[n] answers with mockGetSurahProgress(n).
+    (selector: (s: { surahProgressMap: Record<number, unknown> }) => unknown) =>
+      selector({ surahProgressMap: new Proxy({}, { get: (_map, key) => hoistedProgress.mockGetSurahProgress(Number(key)) }) })
   );
   (useProgressStoreMock as unknown as { getState: () => typeof hoistedProgress.progressStateStub }).getState = () =>
     hoistedProgress.progressStateStub;

@@ -60,7 +60,9 @@ const mockUpdateBookmarkNote = vi.fn();
 vi.mock("@/store/bookmarkStore", () => ({
   useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({
-      getAllBookmarks: mockGetAllBookmarks,
+      get bookmarks() {
+        return mockGetAllBookmarks();
+      },
       removeBookmark: mockRemoveBookmark,
       updateBookmarkNote: mockUpdateBookmarkNote,
     })

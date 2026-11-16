@@ -5,7 +5,7 @@ import { Bookmark, Play, Pause } from "lucide-react";
 import type { Ayah } from "@/types/quran";
 import type { QueueSource } from "@/types/audio";
 import { usePlayerStore } from "@/store/playerStore";
-import { useBookmarkStore } from "@/store/bookmarkStore";
+import { hasBookmark, useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
 import type { VerseTimestamp } from "@/types/wordByWord";
@@ -65,7 +65,7 @@ export function AyahCard({
 
   const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
   const { surahNumber, ayahNumber } = parseAyahId(ayah.id);
-  const bookmarked = useBookmarkStore((s) => s.isBookmarked(surahNumber, ayahNumber));
+  const bookmarked = useBookmarkStore((s) => hasBookmark(s.bookmarks, surahNumber, ayahNumber));
   const showToast = useToastStore((s) => s.showToast);
 
   const isThisAyahPlaying = currentAyahId === ayah.id && isPlaying;

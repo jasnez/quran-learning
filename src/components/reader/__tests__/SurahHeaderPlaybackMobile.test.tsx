@@ -47,7 +47,7 @@ vi.mock("@/store/playerStore", () => ({
 vi.mock("@/store/progressStore", () => ({
   useProgressStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({
-      getSurahProgress: () => null,
+      surahProgressMap: {},
     })
   ),
 }));

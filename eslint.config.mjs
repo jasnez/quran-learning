@@ -20,6 +20,21 @@ const eslintConfig = defineConfig([
           selector: "JSXAttribute[name.name='role'][value.value='main']",
           message: "AppShell already provides the main landmark. Do not add role=\"main\".",
         },
+        // Store actions such as getSurahProgress/isBookmarked read live state via get(), which
+        // already holds localStorage data while React hydrates the static HTML (QA P1-6, React #418).
+        // In render, derive values from the selector's state argument instead.
+        {
+          selector:
+            "CallExpression[callee.name=/^use[A-Z]\\w*Store$/] CallExpression[callee.type='MemberExpression'][callee.property.name=/^(get|is|has)[A-Z]/]",
+          message:
+            "Do not call store getters inside a store selector: they read live state and break hydration. Select state fields, e.g. (s) => s.surahProgressMap[n] or hasBookmark(s.bookmarks, ...).",
+        },
+        {
+          selector:
+            "CallExpression[callee.name=/^use[A-Z]\\w*Store$/] > ArrowFunctionExpression > MemberExpression.body[property.name=/^get[A-Z]/]",
+          message:
+            "Do not select a store getter to call it in render: it reads live state and breaks hydration. Select state fields instead.",
+        },
       ],
     },
   },

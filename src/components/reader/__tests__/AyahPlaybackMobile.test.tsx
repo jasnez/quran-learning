@@ -52,11 +52,12 @@ vi.mock("@/store/settingsStore", () => ({
   ),
 }));
 
-vi.mock("@/store/bookmarkStore", () => ({
+vi.mock("@/store/bookmarkStore", async (importOriginal) => ({
+  hasBookmark: (await importOriginal<typeof import("@/store/bookmarkStore")>()).hasBookmark,
   useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({
       toggleBookmark: vi.fn(),
-      isBookmarked: () => false,
+      bookmarks: [],
     })
   ),
 }));

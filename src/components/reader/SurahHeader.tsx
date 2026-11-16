@@ -15,7 +15,7 @@ type SurahHeaderProps = { surah: SurahSummary; ayahs?: Ayah[] };
 export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
-  const progress = useProgressStore((s) => s.getSurahProgress(surah.surahNumber));
+  const progress = useProgressStore((s) => s.surahProgressMap[surah.surahNumber]);
 
   const totalAyahs = ayahs.length > 0 ? ayahs.length : surah.ayahCount;
   const listened = progress?.ayahsListened.size ?? 0;

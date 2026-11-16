@@ -45,21 +45,16 @@ const mockProgressState = {
   surahsVisited: [] as number[],
   ayahsListened: 0,
   getStats: vi.fn<() => { totalTime: number; surahsCount: number; ayahsCount: number }>(() => ({ totalTime: 0, surahsCount: 0, ayahsCount: 0 })),
-  getOverallProgress: vi.fn(() => ({
-    totalSurahsStarted: 0,
-    totalAyahsListened: 0,
-    totalAyahsRead: 0,
-    overallCompletionPercent: 0,
-  })),
+  surahProgressMap: {} as Record<number, { surahNumber: number; ayahsListened: Set<number>; ayahsRead: Set<number> }>,
 };
 
-vi.mock("@/store/progressStore", () => ({
+vi.mock("@/store/progressStore", async (importOriginal) => ({
+  computeOverallProgress: (await importOriginal<typeof import("@/store/progressStore")>()).computeOverallProgress,
   useProgressStore: vi.fn((selector: (s: typeof mockProgressState) => unknown) => {
     const state = {
       ...mockProgressState,
       getLastPosition: () => mockProgressState.getLastPosition(),
       getStats: () => mockProgressState.getStats(),
-      getOverallProgress: () => mockProgressState.getOverallProgress(),
     };
     return selector(state as typeof mockProgressState);
   }),
@@ -79,12 +74,7 @@ beforeEach(() => {
   mockProgressState.surahsVisited = [];
   mockProgressState.ayahsListened = 0;
   mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
-  mockProgressState.getOverallProgress.mockReturnValue({
-    totalSurahsStarted: 0,
-    totalAyahsListened: 0,
-    totalAyahsRead: 0,
-    overallCompletionPercent: 0,
-  });
+  mockProgressState.surahProgressMap = {};
 });
 
 describe("Home page", () => {
@@ -264,12 +254,12 @@ describe("Home page", () => {
     it("stats row is visible when any stat is greater than zero", async () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       mockProgressState.getStats.mockReturnValue({ totalTime: 120000, surahsCount: 3, ayahsCount: 10 });
-      mockProgressState.getOverallProgress.mockReturnValue({
-        totalSurahsStarted: 3,
-        totalAyahsListened: 10,
-        totalAyahsRead: 0,
-        overallCompletionPercent: 0.16,
-      });
+      // 3 surahs started, 10 ayahs listened in total, none read.
+      mockProgressState.surahProgressMap = {
+        1: { surahNumber: 1, ayahsListened: new Set([1, 2, 3, 4, 5, 6, 7]), ayahsRead: new Set() },
+        2: { surahNumber: 2, ayahsListened: new Set([1, 2]), ayahsRead: new Set() },
+        3: { surahNumber: 3, ayahsListened: new Set([1]), ayahsRead: new Set() },
+      };
       mockProgressState.totalListeningTimeMs = 120000;
       mockProgressState.surahsVisited = [1, 2, 3];
       mockProgressState.ayahsListened = 10;

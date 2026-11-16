@@ -15,14 +15,17 @@ const mockStore = {
   totalListeningTimeMs: 125000,
   surahsVisited: [1],
   ayahsListened: 10,
-  getOverallProgress: () => ({
-    totalSurahsStarted: 1,
-    totalAyahsListened: 10,
-    totalAyahsRead: 0,
-    overallCompletionPercent: 0.16,
-  }),
+  // One surah started, 10 ayahs listened, none read.
+  surahProgressMap: {
+    1: {
+      surahNumber: 1,
+      ayahsListened: new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+      ayahsRead: new Set<number>(),
+    },
+  },
 };
-vi.mock("@/store/progressStore", () => ({
+vi.mock("@/store/progressStore", async (importOriginal) => ({
+  computeOverallProgress: (await importOriginal<typeof import("@/store/progressStore")>()).computeOverallProgress,
   useProgressStore: vi.fn((selector: (s: typeof mockStore) => unknown) => selector(mockStore)),
 }));
 

@@ -105,6 +105,26 @@ type ProgressStore = LearningProgress & {
 
 const TOTAL_AYAHS_IN_QURAN = 6236;
 
+/**
+ * Pure overall-progress calculation. Render code must use this through a
+ * selector, `useProgressStore(useShallow((s) => computeOverallProgress(s.surahProgressMap)))`,
+ * not the `getOverallProgress` action: actions read live state via `get()`,
+ * which already holds localStorage data during hydration and breaks it (QA P1-6).
+ */
+export function computeOverallProgress(map: Record<number, SurahProgress>) {
+  const entries = Object.values(map);
+  const totalAyahsListened = entries.reduce((sum, p) => sum + p.ayahsListened.size, 0);
+  const totalAyahsRead = entries.reduce((sum, p) => sum + p.ayahsRead.size, 0);
+  const overallCompletionPercent =
+    TOTAL_AYAHS_IN_QURAN > 0 ? (totalAyahsListened / TOTAL_AYAHS_IN_QURAN) * 100 : 0;
+  return {
+    totalSurahsStarted: entries.length,
+    totalAyahsListened,
+    totalAyahsRead,
+    overallCompletionPercent,
+  };
+}
+
 function createEmptySurahProgress(surahNumber: number): SurahProgress {
   return {
     surahNumber,
@@ -225,20 +245,7 @@ export const useProgressStore = create<ProgressStore>()(
 
       getAllSurahProgress: () => Object.values(get().surahProgressMap),
 
-      getOverallProgress: () => {
-        const map = get().surahProgressMap;
-        const entries = Object.values(map);
-        const totalAyahsListened = entries.reduce((sum, p) => sum + p.ayahsListened.size, 0);
-        const totalAyahsRead = entries.reduce((sum, p) => sum + p.ayahsRead.size, 0);
-        const overallCompletionPercent =
-          TOTAL_AYAHS_IN_QURAN > 0 ? (totalAyahsListened / TOTAL_AYAHS_IN_QURAN) * 100 : 0;
-        return {
-          totalSurahsStarted: entries.length,
-          totalAyahsListened,
-          totalAyahsRead,
-          overallCompletionPercent,
-        };
-      },
+      getOverallProgress: () => computeOverallProgress(get().surahProgressMap),
 
       getLastPosition: () => {
         const s = get();

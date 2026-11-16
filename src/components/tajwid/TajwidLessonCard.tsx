@@ -6,7 +6,7 @@ import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
 import type { TajwidLesson } from "@/data/tajwid-lessons";
 
 export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; index: number }) {
-  const status = useProgressStore((s) => s.getTajwidLessonStatus(lesson.slug));
+  const status = useProgressStore((s) => s.tajwidLessonProgress[lesson.slug]);
   const colorClass = tajwidRuleClasses[lesson.ruleType];
 
   const statusLabel =
