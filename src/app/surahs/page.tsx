@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getAllSurahs } from "@/lib/data";
 import { getAllJuz } from "@/lib/data/juzUtils";
@@ -5,6 +6,10 @@ import { SurahsPageContent } from "@/components/surahs";
 
 // Sura lista je statični sadržaj — revalidira se jednom u 24h umjesto na svaki request
 export const revalidate = 86400;
+
+export const metadata: Metadata = {
+  title: "Sure | Quran Learning",
+};
 
 export default async function SurahsPage() {
   const [surahs, juzList] = await Promise.all([getAllSurahs(), Promise.resolve(getAllJuz())]);

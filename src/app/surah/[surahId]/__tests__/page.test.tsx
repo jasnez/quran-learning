@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import SurahReaderPage from "../page";
+import SurahReaderPage, { generateMetadata } from "../page";
 import { usePlayerStore } from "@/store/playerStore";
 import type { SurahDetail, Ayah } from "@/types/quran";
 
@@ -357,5 +357,12 @@ describe("Surah Reader page", () => {
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: "smooth", block: "center" });
     });
+  });
+});
+
+describe("Surah reader page metadata", () => {
+  it("falls back to a Bosnian title for an invalid surah number", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
+    expect(metadata.title).toBe("Sura | Quran Learning");
   });
 });

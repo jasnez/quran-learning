@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
   const { surahId } = await params;
   const n = parseInt(surahId, 10);
   if (Number.isNaN(n) || n < 1 || n > 114) {
-    return { title: "Surah | Quran Learning" };
+    return { title: "Sura | Quran Learning" };
   }
   try {
     const { surah } = await getSurahByNumber(n);
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps) {
       description: `Čitanje sure ${surahNameWithCommon(surah)}`,
     };
   } catch {
-    return { title: "Surah | Quran Learning" };
+    return { title: "Sura | Quran Learning" };
   }
 }
 
