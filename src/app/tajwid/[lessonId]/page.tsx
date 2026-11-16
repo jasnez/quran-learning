@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -16,6 +17,13 @@ export async function generateStaticParams() {
 type LessonPageProps = {
   params: Promise<{ lessonId: string }>;
 };
+
+export async function generateMetadata({ params }: LessonPageProps): Promise<Metadata> {
+  const { lessonId } = await params;
+  const lesson = await getTajwidLessonBySlug(lessonId);
+  if (!lesson) return { title: "Tedžvid lekcije | Quran Learning" };
+  return { title: `${lesson.title} | Tedžvid lekcije | Quran Learning` };
+}
 
 export default async function LessonPage({ params }: LessonPageProps) {
   const { lessonId } = await params;
