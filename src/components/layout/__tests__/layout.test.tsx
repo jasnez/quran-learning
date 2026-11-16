@@ -279,6 +279,7 @@ describe("Header", () => {
     await user.click(ucenjeBtn);
     expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
     expect(screen.getByRole("menuitem", { name: /allahova lijepa imena/i })).toHaveAttribute("href", "/names");
+    expect(screen.getByRole("menuitem", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
     expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
   });
 
@@ -434,5 +435,6 @@ describe("MobileNav", () => {
     expect(screen.getByRole("menuitem", { name: /postavke/i })).toBeInTheDocument();
     expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.getByRole("menuitem", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
   });
 });

@@ -14,6 +14,7 @@ import {
   BarChart3,
   Sparkles,
   Palette,
+  Languages,
 } from "lucide-react";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
@@ -37,7 +38,8 @@ export function MobileNav() {
     pathname?.startsWith("/bookmarks") ||
     pathname?.startsWith("/progress") ||
     pathname?.startsWith("/names") ||
-    pathname?.startsWith("/tajwid");
+    pathname?.startsWith("/tajwid") ||
+    pathname?.startsWith("/harfovi");
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -155,6 +157,13 @@ export function MobileNav() {
               onClick={() => setMoreOpen(false)}
             >
               Tedžvid lekcije
+            </MoreLink>
+            <MoreLink
+              href="/harfovi"
+              icon={<Languages className="h-4 w-4" />}
+              onClick={() => setMoreOpen(false)}
+            >
+              Harfovi i izgovor
             </MoreLink>
           </div>
         )}

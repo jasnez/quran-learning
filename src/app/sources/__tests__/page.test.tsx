@@ -24,10 +24,21 @@ describe("Izvori (Sources) page", () => {
     expect(tanzilLinks[0]).toHaveAttribute("href", "https://tanzil.net");
   });
 
-  it("contains section about transliteration, structure and audio (Quran.com)", async () => {
+  it("says the transliteration follows the IZ BiH rules and links to the letter table", async () => {
     const Page = await SourcesPage();
     render(Page);
-    const headings = screen.getAllByRole("heading", { name: /transliteracija, struktura ajeta i audio recitacije/i });
+    expect(screen.getAllByRole("heading", { name: /^transliteracija$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("link", { name: /pravila transkripcije i transliteracije/i })[0]).toHaveAttribute(
+      "href",
+      "https://ilmijja.ba/wp-content/uploads/2022/03/Pravila.pdf"
+    );
+    expect(screen.getAllByRole("link", { name: /harfovi i izgovor/i })[0]).toHaveAttribute("href", "/harfovi");
+  });
+
+  it("contains section about structure and audio (Quran.com)", async () => {
+    const Page = await SourcesPage();
+    render(Page);
+    const headings = screen.getAllByRole("heading", { name: /struktura ajeta i audio recitacije/i });
     expect(headings.length).toBeGreaterThanOrEqual(1);
     const quranText = screen.getAllByText(/quran\.com/i);
     expect(quranText.length).toBeGreaterThanOrEqual(1);

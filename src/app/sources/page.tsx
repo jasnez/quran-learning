@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LETTER_RULES_SOURCE } from "@/lib/letters/data";
 
 export const metadata: Metadata = {
   title: "Izvori | Quran Learning",
@@ -36,7 +37,37 @@ export default function SourcesPage() {
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Transliteracija, struktura ajeta i audio recitacije
+            Transliteracija
+          </h2>
+          <p className="mt-2 leading-relaxed">
+            Transliteracija ajeta i dova napravljena je pravilima iz arapskog teksta, sistemom
+            &bdquo;specijal&ldquo; koji Rijaset Islamske zajednice u Bosni i Hercegovini preporučuje za
+            kur&apos;anski tekst. Pregled slova i izgovora je na stranici{" "}
+            <Link
+              href="/harfovi"
+              className="text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400"
+            >
+              Harfovi i izgovor
+            </Link>
+            .
+          </p>
+          <p className="mt-1">
+            Izvor:{" "}
+            <a
+              href={LETTER_RULES_SOURCE.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400"
+            >
+              {LETTER_RULES_SOURCE.title}
+            </a>{" "}
+            ({LETTER_RULES_SOURCE.publisher})
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+            Struktura ajeta i audio recitacije
           </h2>
           <p className="mt-2 leading-relaxed">
             Podaci su preuzeti iz otvorenih datasetova platforme Quran.com.

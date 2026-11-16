@@ -177,6 +177,9 @@ function LearnMenu() {
           <HeaderMenuItem href="/names" onNavigate={() => setOpen(false)}>
             Allahova lijepa imena
           </HeaderMenuItem>
+          <HeaderMenuItem href="/harfovi" onNavigate={() => setOpen(false)}>
+            Harfovi i izgovor
+          </HeaderMenuItem>
         </div>
       )}
     </div>
