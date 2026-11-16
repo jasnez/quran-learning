@@ -82,8 +82,10 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {surahsToShow.map((surah) => {
           const progress = mounted ? progressMap?.[surah.surahNumber] : undefined;
-          const percent = progress?.completionPercent ?? 0;
-          const isInProgress = percent > 0 && percent < 100;
+          const rawPercent = progress?.completionPercent ?? 0;
+          const isInProgress = rawPercent > 0 && rawPercent < 100;
+          // Whole numbers, as on the progress page (QA P2-3: "14.285714285714285%").
+          const percent = Math.round(rawPercent);
           return (
             <Link
               key={surah.id}
