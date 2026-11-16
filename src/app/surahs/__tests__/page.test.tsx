@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SurahsPage from "../page";
+import SurahsPage, { metadata } from "../page";
 import type { SurahSummary } from "@/types/quran";
 
 const mockSurahs: SurahSummary[] = [
@@ -165,5 +165,11 @@ describe("Surahs page", () => {
     expect(screen.getByRole("button", { name: /^sure$/i })).toBeInTheDocument();
     const juzLink = screen.getByRole("link", { name: /džuzevi/i });
     expect(juzLink).toHaveAttribute("href", "/surahs?view=juz");
+  });
+});
+
+describe("Surahs page metadata", () => {
+  it("has a Bosnian page title", () => {
+    expect(metadata.title).toBe("Sure | Quran Learning");
   });
 });
