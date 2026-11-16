@@ -29,6 +29,29 @@ const mockIndex = [
         transliteration: "Al-ḥamdu lillāhi rabbi l-ʿālamīn",
         translationBosnian: "Tebe, Allaha, Gospodara svjetova, hvalimo,",
       },
+      {
+        // As stored: the IZ BiH "specijal" system, with a letter (U+02BB) for ayn.
+        ayahNumber: 5,
+        arabicText: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+        transliteration: "Ijjāke naʻbudu we ijjāke nesteʻīn",
+        translationBosnian: "Tebi se klanjamo i od Tebe pomoć tražimo!",
+      },
+    ],
+  },
+  {
+    surahNumber: 108,
+    slug: "al-kawthar",
+    nameLatin: "Al-Kawthar",
+    nameBosnian: "Mnogo dobro",
+    nameArabic: "الكوثر",
+    ayahs: [
+      {
+        // The s of tha carries a combining line below (U+0331).
+        ayahNumber: 1,
+        arabicText: "إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ",
+        transliteration: "Innā eʻṭajnākel-kews̱er",
+        translationBosnian: "Mi smo ti, uistinu, mnogo dobro dali,",
+      },
     ],
   },
   {
@@ -132,6 +155,26 @@ describe("searchAyahs", () => {
     const results = await searchAyahs("Rahman");
     expect(results.length).toBeGreaterThan(0);
     expect(results.some((r) => r.ayahId === "1:1")).toBe(true);
+  });
+
+  it("finds the transliteration when the reader types an apostrophe for ayn: na'budu", async () => {
+    const results = await searchAyahs("na'budu");
+    expect(results.some((r) => r.ayahId === "1:5")).toBe(true);
+  });
+
+  it("marks the whole matched word although the search ignores its signs", async () => {
+    const [withAyn] = await searchAyahs("nabudu");
+    expect(withAyn.snippetHighlight).toContain("<mark>naʻbudu</mark>");
+    const [withLineBelow] = await searchAyahs("kewser");
+    expect(withLineBelow.snippetHighlight).toContain("<mark>kews̱er</mark>");
+  });
+
+  it("treats the hyphen of the article as a space", async () => {
+    const [spaced] = await searchAyahs("etajnakel kewser");
+    expect(spaced.ayahId).toBe("108:1");
+    expect(spaced.snippetHighlight).toContain("<mark>eʻṭajnākel-kews̱er</mark>");
+    const [hyphenated] = await searchAyahs("etajnakel-kewser");
+    expect(hyphenated.ayahId).toBe("108:1");
   });
 
   it("ayah reference '1:2' jumps to exact ayah with top score", async () => {

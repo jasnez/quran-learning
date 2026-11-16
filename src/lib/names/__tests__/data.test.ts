@@ -12,6 +12,16 @@ describe("ALLAH_NAMES", () => {
     expect(ALLAH_NAMES.map((n) => n.index)).toEqual(Array.from({ length: 99 }, (_, i) => i + 1));
   });
 
+  it("gives every name its own transliteration", () => {
+    const seen = new Map<string, number>();
+    const repeated = ALLAH_NAMES.filter((n) => {
+      const first = seen.get(n.transliteration);
+      seen.set(n.transliteration, n.index);
+      return first !== undefined;
+    }).map((n) => `${n.index} ${n.transliteration}`);
+    expect(repeated).toEqual([]);
+  });
+
   it("never writes a sukun on the lam of al- before a sun letter", () => {
     const offenders = ALLAH_NAMES.filter((n) => LAM_WITH_SUKUN_BEFORE_SUN_LETTER.test(n.arabic)).map(
       (n) => `${n.index} ${n.transliteration}`

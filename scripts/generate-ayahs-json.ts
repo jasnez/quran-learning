@@ -1,12 +1,14 @@
 /**
- * Generates ayah JSON files for all 114 surahs with transliteration and Bosnian
+ * Generates ayah JSON files for all 114 surahs with the Arabic text and the Bosnian
  * translation from Quran.com API. Skips surahs that already have a JSON file
  * unless --force is passed.
  *
  * Run from project root: npx tsx scripts/generate-ayahs-json.ts
  * Or: node --import tsx scripts/generate-ayahs-json.ts
  *
- * Data: Quran.com API v4 (transliteration resource 57, Bosnian Korkut 126).
+ * Data: Quran.com API v4 (Bosnian Korkut 126).
+ * Transliteration: generated from the Arabic text in the IZ BiH "specijal" system
+ * (see src/lib/quran/transliteration.ts and scripts/generate-transliteration.ts).
  * Tajwid: cpfair/quran-tajweed annotations, remapped onto the displayed text
  * (see src/lib/quran/tajwidAlignment.ts).
  *
@@ -20,13 +22,17 @@ import {
   buildAlignedTajwidSegments,
   type CpfairAnnotation,
 } from "../src/lib/quran/tajwidAlignment";
+import { transliterateAyah } from "../src/lib/quran/transliteration";
 
 /** Run from project root (quran-learning) */
 const ROOT = process.cwd();
 
 const QURAN_API_BASE = "https://api.quran.com/api/v4";
-const TRANSLITERATION_RESOURCE_ID = 57;
 const BOSNIAN_KORKUT_TRANSLATION_ID = 126;
+/** Words that start with a particle written separately; see scripts/generate-particle-lexicon.ts. */
+const PARTICLES = JSON.parse(
+  fs.readFileSync(path.join(ROOT, "src", "data", "transliteration", "particles.json"), "utf-8")
+) as Record<string, number>;
 const TAJWEED_JSON_URL =
   "https://raw.githubusercontent.com/cpfair/quran-tajweed/master/output/tajweed.hafs.uthmani-pause-sajdah.json";
 /** The cpfair indices refer to this exact copy of the Tanzil text (per the cpfair README), not to Quran.com text. */
@@ -168,7 +174,7 @@ async function fetchVersesForChapter(
   const allVerses: QuranApiVerse[] = [];
   let page = 1;
   let hasMore = true;
-  const translationIds = `${TRANSLITERATION_RESOURCE_ID},${BOSNIAN_KORKUT_TRANSLATION_ID}`;
+  const translationIds = String(BOSNIAN_KORKUT_TRANSLATION_ID);
 
   while (hasMore) {
     const url = new URL(
@@ -214,9 +220,6 @@ function mapVersesToAyahs(
 }> {
   const surahPad = String(chapterNumber).padStart(3, "0");
   return verses.map((v) => {
-    const transliteration =
-      v.translations?.find((t) => t.resource_id === TRANSLITERATION_RESOURCE_ID)
-        ?.text ?? "";
     const translationBosnian =
       v.translations?.find(
         (t) => t.resource_id === BOSNIAN_KORKUT_TRANSLATION_ID
@@ -225,6 +228,13 @@ function mapVersesToAyahs(
     const versePad = String(v.verse_number).padStart(3, "0");
     const arabicText = v.text_uthmani ?? "";
     const tajwidSegments = tajwidSegmentsFor(tajweedSource, v.verse_key, arabicText, tajwidStats);
+    const transliterated = transliterateAyah(arabicText, { particles: (word) => PARTICLES[word] ?? 0 });
+    if (transliterated.warnings.length > 0 || transliterated.text.length === 0) {
+      throw new Error(
+        `Transliteration rules do not cover ${v.verse_key}: ${transliterated.warnings[0] ?? "empty result"}`
+      );
+    }
+    const transliteration = transliterated.text;
 
     return {
       id: v.verse_key,

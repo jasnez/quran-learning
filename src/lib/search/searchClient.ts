@@ -62,13 +62,57 @@ function loadIndex(signal?: AbortSignal): Promise<IndexSurah[]> {
   return indexPromise;
 }
 
-/** Strip Latin combining diacritics and lowercase. "Allāh" → "allah". */
-export function normalizeLatin(s: string): string {
+/** Strip Latin diacritics and lowercase, keeping whitespace. */
+function foldLatin(s: string): string {
   return s
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase()
-    .trim();
+    .toLowerCase();
+}
+
+/** Strip Latin combining diacritics and lowercase. "Allāh" → "allah". */
+export function normalizeLatin(s: string): string {
+  return foldLatin(s).trim();
+}
+
+/**
+ * Apostrophes a reader may type where the transliteration has its own signs for ayn and
+ * hamza (which `normalizeLatin` drops): ' ` and the two typographic quotes.
+ */
+const TYPED_APOSTROPHES = new RegExp(`[${String.fromCodePoint(0x27, 0x60, 0x2018, 0x2019)}]`, "g");
+
+/**
+ * Transliteration as compared in search: besides the diacritics, the hyphen of the article
+ * counts as a space, so "rabbil alemin" finds "rabbil-ʻālemīn".
+ */
+function foldTransliteration(s: string): string {
+  return foldLatin(s).replace(/-/g, " ");
+}
+
+/**
+ * Where a normalized query lies in the original transliteration. Normalizing drops characters
+ * (the line below a letter, the signs for ayn and hamza), so a position in the normalized
+ * text is not a position in the original: "naʻbudu" is 7 characters, "nabudu" is 6.
+ */
+function locateTransliteration(original: string, qNorm: string): { idx: number; len: number } | null {
+  if (!qNorm) return null;
+  let normalized = "";
+  /** For every character of `normalized`: where the character it came from starts in `original`. */
+  const origins: number[] = [];
+  let offset = 0;
+  for (const char of original) {
+    const folded = foldTransliteration(char);
+    for (let i = 0; i < folded.length; i++) origins.push(offset);
+    normalized += folded;
+    offset += char.length;
+  }
+  const at = normalized.indexOf(qNorm);
+  if (at < 0) return null;
+  const idx = origins[at];
+  // The match ends where the next kept character starts: dropped marks stay with their letter.
+  const afterMatch = at + qNorm.length;
+  const end = afterMatch < origins.length ? origins[afterMatch] : original.length;
+  return { idx, len: end - idx };
 }
 
 /**
@@ -156,6 +200,8 @@ export async function searchAyahs(
   const isArabic = isArabicQuery(trimmed);
   const queryNorm = isArabic ? normalizeArabic(trimmed) : normalizeLatin(trimmed);
   if (!queryNorm && !ref) return [];
+  // "na'budu" finds "naʻbudu": the transliteration has no apostrophes to match against.
+  const queryTransliteration = isArabic ? "" : foldTransliteration(queryNorm.replace(TYPED_APOSTROPHES, "")).trim();
 
   const index = await loadIndex(options?.signal);
   const scored: Scored[] = [];
@@ -230,15 +276,18 @@ export async function searchAyahs(
             };
           }
         }
-        const tlN = normalizeLatin(ayah.transliteration);
-        const tlIdx = findIndex(ayah.transliteration, tlN, queryNorm);
-        if (tlIdx >= 0) {
-          const score = SCORE_TRANSLITERATION + (tlIdx === 0 ? POSITION_BOOST : 0);
+        // The cheap test first; the exact position is only worked out for ayahs that match.
+        const tlHit =
+          queryTransliteration && foldTransliteration(ayah.transliteration).includes(queryTransliteration)
+            ? locateTransliteration(ayah.transliteration, queryTransliteration)
+            : null;
+        if (tlHit) {
+          const score = SCORE_TRANSLITERATION + (tlHit.idx === 0 ? POSITION_BOOST : 0);
           if (score > best.score) {
             best = {
               score,
-              idx: tlIdx,
-              len: queryNorm.length,
+              idx: tlHit.idx,
+              len: tlHit.len,
               snippetSource: ayah.transliteration,
             };
           }
