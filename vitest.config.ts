@@ -6,7 +6,8 @@ export default defineConfig({
     environment: "node",
     setupFiles: ["./vitest.setup.ts"],
     env: { NODE_ENV: "test" },
-    exclude: ["**/node_modules/**", "**/tests/e2e/**"],
+    // .claude/ holds Claude Code session worktrees (full copies of the repo).
+    exclude: ["**/node_modules/**", "**/tests/e2e/**", ".claude/**"],
   },
   resolve: {
     alias: {
