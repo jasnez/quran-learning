@@ -22,7 +22,7 @@ export default function AboutPage() {
           <p className="mt-2 leading-relaxed">
             Quran Learning je besplatna platforma namijenjena svima koji žele
             učiti Kur&apos;an. Nudimo arapski tekst s transliteracijom (latinica),
-            bosanski prijevod značenja i audio recitacije, kao i lekcije tajwida
+            bosanski prijevod značenja i audio recitacije, kao i lekcije tedžvida
             za bolje čitanje i izgovor.
           </p>
         </section>
@@ -32,12 +32,12 @@ export default function AboutPage() {
             Mogućnosti
           </h2>
           <ul className="mt-2 list-inside list-disc space-y-1.5 leading-relaxed">
-            <li>Čitanje sure po ajat s transliteracijom i prijevodom</li>
-            <li>Audio recitacija za svaki ajat</li>
-            <li>Lekcije tajwida (pravila izgovora)</li>
+            <li>Čitanje sure ajet po ajet, s transliteracijom i prijevodom</li>
+            <li>Audio recitacija za svaki ajet</li>
+            <li>Lekcije tedžvida (pravila izgovora)</li>
             <li>Praćenje napretka i zabilješke</li>
-            <li>Pretraga po tekstu ili broju sure/ajata</li>
-            <li>Oznake (bookmarks) za brzi povratak</li>
+            <li>Pretraga po tekstu ili broju sure/ajeta</li>
+            <li>Oznake za brzi povratak</li>
           </ul>
         </section>
 

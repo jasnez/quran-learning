@@ -34,7 +34,7 @@ describe("tajwidStyles", () => {
 
     it("provides Bosnian descriptions for each rule", () => {
       expect(tajwidRuleLabels.normal).toBe("Normalan tekst");
-      expect(tajwidRuleLabels.mad).toBe("Duljenje (Mad) — produziti glas");
+      expect(tajwidRuleLabels.mad).toBe("Duljenje (Mad) — produžiti glas");
       expect(tajwidRuleLabels.ghunnah).toBe("Ghunnah — nazalni zvuk");
       expect(tajwidRuleLabels.ikhfa).toBe("Ikhfa — skriveni nazalni zvuk");
       expect(tajwidRuleLabels.qalqalah).toBe("Qalqalah — odskok zvuka");

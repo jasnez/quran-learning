@@ -160,7 +160,7 @@ export function ReaderToolbar() {
           active={showTajwidColors}
           onClick={toggleTajwidColors}
           label={<Type className="h-3.5 w-3.5" />}
-          ariaLabel="Tajwid boje"
+          ariaLabel="Tedžvid boje"
         />
       </div>
 

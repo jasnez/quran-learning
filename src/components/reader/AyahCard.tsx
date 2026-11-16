@@ -113,7 +113,7 @@ export function AyahCard({
   const handleBookmark = () => {
     const wasBookmarked = bookmarked;
     toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText, ayah.translationBosnian);
-    showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
+    showToast(wasBookmarked ? "Ajet uklonjen iz označenih" : "Ajet dodan u označene");
   };
 
   const segments =
@@ -163,7 +163,7 @@ export function AyahCard({
                 ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
                 : "text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-700 dark:hover:text-stone-300"
             }`}
-            aria-label="Bookmark"
+            aria-label="Označi ajet"
             aria-pressed={bookmarked}
             title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
           >

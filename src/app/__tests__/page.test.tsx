@@ -87,12 +87,12 @@ describe("Home page", () => {
       ).toBeInTheDocument();
     }, 10000);
 
-    it("shows subtitle about learning with tajwid and translation", async () => {
+    it("shows subtitle about learning with tedžvid and translation", async () => {
       const Page = await Home();
       render(Page);
       const hero = screen.getByRole("heading", { name: /platforma za učenje kur'an/i }).closest("section");
       expect(hero).toBeInTheDocument();
-      expect(hero).toHaveTextContent(/uči kur'an|tajwid|transliteracij|prijevod|audio/i);
+      expect(hero).toHaveTextContent(/uči kur'an|tedžvid|transliteracij|prijevod|audio/i);
     });
 
     it("has primary CTA Počni učiti linking to learn page (first surah)", async () => {
@@ -182,7 +182,7 @@ describe("Home page", () => {
     it("shows 4 feature blocks", async () => {
       const Page = await Home();
       render(Page);
-      expect(screen.getByRole("heading", { name: /tajwid boje/i })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /tedžvid boje/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /^transliteracija$/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /bosanski prijevod/i })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /audio s označavanjem ajeta/i })).toBeInTheDocument();
@@ -226,7 +226,7 @@ describe("Home page", () => {
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
       const Page = await Home();
       render(Page);
-      const readerLink = await screen.findByRole("link", { name: /nastavi u reader-u|reader/i });
+      const readerLink = await screen.findByRole("link", { name: /nastavi čitanje/i });
       const learnLink = await screen.findByRole("link", { name: /^učenje$/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
       expect(learnLink).toHaveAttribute("href", "/learn/2");
@@ -241,7 +241,7 @@ describe("Home page", () => {
       mockProgressState.timestamp = new Date().toISOString();
       const Page = await Home();
       render(Page);
-      // Microcopy je kompaktnija: "Mod: Learning · upravo sad"
+      // Microcopy je kompaktnija: "Način: Učenje · upravo sad"
       expect(screen.getByText(/upravo sad|prije \d/i)).toBeInTheDocument();
     });
 

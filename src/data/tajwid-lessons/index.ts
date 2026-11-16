@@ -59,7 +59,7 @@ const LESSONS: TajwidLesson[] = [
   {
     id: 1,
     slug: "uvod-tajwid",
-    title: "Uvod u tajwid i normalan tekst",
+    title: "Uvod u tedžvid i normalan tekst",
     subtitle:
       "Zašto je važno učiti Kur'an s pravilnim tedžvidom i šta znači 'normalan' tekst.",
     ruleType: "normal",
@@ -220,7 +220,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Oni rekoše — alif produžava \"a\", waw produžava \"u\".",
           rule: "Madd tabii (2 harakate)",
-          surahRef: "Al-Baqarah 2:11"
+          surahRef: "El-Beqare 2:11"
         },
         {
           arabic: "ٱلرَّحْمَـٰنِ",
@@ -228,7 +228,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Milostivi — alif iznad slova م produžava glas \"a\".",
           rule: "Madd tabii (2 harakate)",
-          surahRef: "Al-Fatiha 1:1"
+          surahRef: "El-Fātiḥa 1:1"
         },
         {
           arabic: "ٱلرَّحِيمِ",
@@ -236,7 +236,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Samilosni — ya nakon kesre produžava glas \"i\".",
           rule: "Madd tabii (2 harakate)",
-          surahRef: "Al-Fatiha 1:1"
+          surahRef: "El-Fātiḥa 1:1"
         },
         {
           arabic: "جَآءَ",
@@ -524,7 +524,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Jedan — dal na kraju ajeta, snažan odskok pri vakfu.",
           rule: "Qalqalah kubra na د",
-          surahRef: "Al-Ikhlas 112:1"
+          surahRef: "El-Iḫlāṣ 112:1"
         },
         {
           arabic: "ٱلْفَلَقِ",
@@ -532,7 +532,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Svitanje — qaf na kraju sure, čuje se jasno odskočni zvuk.",
           rule: "Qalqalah kubra na ق",
-          surahRef: "Al-Falaq 113:1"
+          surahRef: "El-Feleq 113:1"
         },
         {
           arabic: "يَجْعَلْ",
@@ -547,7 +547,7 @@ const LESSONS: TajwidLesson[] = [
           translation:
             "Vlakno palme — dal na kraju sure, jaka qalqalah pri stajanju.",
           rule: "Qalqalah kubra na د",
-          surahRef: "Al-Masad 111:5"
+          surahRef: "El-Leheb 111:5"
         },
         {
           arabic: "يَخْلُقْ",

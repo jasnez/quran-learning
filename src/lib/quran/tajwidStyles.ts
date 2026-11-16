@@ -17,7 +17,7 @@ export const tajwidRuleClasses: Record<TajwidRule, string> = {
  */
 export const tajwidRuleLabels: Record<TajwidRule, string> = {
   normal: "Normalan tekst",
-  mad: "Duljenje (Mad) — produziti glas",
+  mad: "Duljenje (Mad) — produžiti glas",
   ghunnah: "Ghunnah — nazalni zvuk",
   ikhfa: "Ikhfa — skriveni nazalni zvuk",
   qalqalah: "Qalqalah — odskok zvuka",

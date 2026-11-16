@@ -91,12 +91,12 @@ export function ContinueLearningSection() {
               {lastSurahName} · Ajet {pos!.ayahNumber}
             </p>
             <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
-              Mod: {pos!.mode === "reader" ? "Reader" : "Learning"}
+              Način: {pos!.mode === "reader" ? "Čitanje" : "Učenje"}
               {timeLabel ? ` · ${timeLabel}` : ""}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <ButtonLink href={readerHref} variant="primary" size="sm">
-                Nastavi u Reader-u
+                Nastavi čitanje
               </ButtonLink>
               <ButtonLink href={learnHref} variant="secondary" size="sm">
                 Učenje

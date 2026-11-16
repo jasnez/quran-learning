@@ -30,7 +30,7 @@ export default async function Home() {
             Platforma za učenje Kur&apos;ana
           </h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg lg:mt-4 lg:max-w-2xl">
-            Uči Kur&apos;an uz tajwid pomagala, transliteraciju, prijevod i audio.
+            Uči Kur&apos;an uz tedžvid pomagala, transliteraciju, prijevod i audio.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 lg:mt-8">
             <ButtonLink href="/learn/1" variant="primary" size="md">
@@ -67,7 +67,7 @@ export default async function Home() {
             </div>
             <div>
               <h3 className="font-medium text-stone-900 dark:text-stone-100">
-                Tajwid boje
+                Tedžvid boje
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
                 Obojeni segmenti za pravila izgovora (mad, ghunnah, ikhfa, qalqalah).
