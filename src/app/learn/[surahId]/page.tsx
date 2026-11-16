@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSurahByNumber } from "@/lib/data";
+import { surahNameWithCommon } from "@/lib/quran/surahNames";
 import { LearnModeContent } from "@/components/learn/LearnModeContent";
 
 export function generateStaticParams() {
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { surah } = await getSurahByNumber(n);
     return {
       title: `Learn ${surah.nameLatin} | Quran Learning`,
-      description: `Fokusirano učenje sure ${surah.nameBosnian || surah.nameLatin}`,
+      description: `Fokusirano učenje sure ${surahNameWithCommon(surah)}`,
     };
   } catch {
     return { title: "Learn | Quran Learning" };

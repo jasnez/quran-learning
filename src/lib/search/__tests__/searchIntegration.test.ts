@@ -88,8 +88,24 @@ describe("search (integration, real index)", () => {
     });
   });
 
-  it("surah name 'Fatiha' puts the first ayah of surah 1 first", async () => {
-    const results = await searchAyahs("Fatiha");
-    expect(results[0].ayahId).toBe("1:1");
+  it.each([
+    ["fatiha", "1:1"],
+    ["Fātiḥa", "1:1"],
+    ["bekara", "2:1"],
+    ["beqare", "2:1"],
+    ["baqarah", "2:1"],
+    ["El Beqare", "2:1"],
+    ["Ma'ida", "5:1"],
+    ["ali imran", "3:1"],
+    ["Jasin", "36:1"],
+    ["ikhlas", "112:1"],
+  ])("surah name query %s puts %s first", async (query, ayahId) => {
+    const results = await searchAyahs(query);
+    expect(results[0].ayahId).toBe(ayahId);
+  });
+
+  it("names the surah of a result with its main (specijal) name", async () => {
+    const results = await searchAyahs("2:255");
+    expect(results[0].surahName).toBe("El-Beqare");
   });
 });

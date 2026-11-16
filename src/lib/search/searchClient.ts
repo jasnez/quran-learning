@@ -82,6 +82,16 @@ export function normalizeLatin(s: string): string {
 const TYPED_APOSTROPHES = new RegExp(`[${String.fromCodePoint(0x27, 0x60, 0x2018, 0x2019)}]`, "g");
 
 /**
+ * A surah name or slug as compared in search: no diacritics, no hyphens or spaces (so "Jasin"
+ * finds "Jā-sīn"), no typed apostrophes (so "Ma'ida" finds "Maʼida"). Not for body text, where
+ * positions matter for snippets. Names are the Pravila forms ("El-Beqare", "Bekara"); the slug
+ * keeps the English form, so "baqarah" still finds "al-baqarah".
+ */
+export function normalizeSurahName(s: string): string {
+  return normalizeLatin(s).replace(TYPED_APOSTROPHES, "").replace(/[\s\-_./,]/g, "");
+}
+
+/**
  * Transliteration as compared in search: besides the diacritics, the hyphen of the article
  * counts as a space, so "rabbil alemin" finds "rabbil-ʻālemīn".
  */
@@ -206,17 +216,14 @@ export async function searchAyahs(
   const index = await loadIndex(options?.signal);
   const scored: Scored[] = [];
 
-  // Strip hyphens/spaces so "Yasin" matches "Ya-Sin" surah name. Only applied
-  // to surah-name comparison, not body text (where positions matter for snippets).
-  const stripPunct = (s: string) => s.replace(/[\s\-_./,]/g, "");
-  const queryStripped = stripPunct(queryNorm);
+  const queryStripped = normalizeSurahName(queryNorm);
 
   for (const surah of index) {
     let surahNameScore = 0;
     if (!isArabic) {
-      const nameLatinN = stripPunct(normalizeLatin(surah.nameLatin));
-      const nameBosnianN = stripPunct(normalizeLatin(surah.nameBosnian));
-      const slugN = stripPunct(surah.slug);
+      const nameLatinN = normalizeSurahName(surah.nameLatin);
+      const nameBosnianN = normalizeSurahName(surah.nameBosnian);
+      const slugN = normalizeSurahName(surah.slug);
       if (
         nameLatinN === queryStripped ||
         nameBosnianN === queryStripped ||
@@ -327,7 +334,7 @@ export async function searchAyahs(
         score: best.score,
         result: {
           surahId: String(surah.surahNumber),
-          surahName: surah.nameBosnian || surah.nameLatin,
+          surahName: surah.nameLatin,
           ayahNumber: ayah.ayahNumber,
           ayahId: `${surah.surahNumber}:${ayah.ayahNumber}`,
           snippet,

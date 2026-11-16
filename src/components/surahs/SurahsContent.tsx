@@ -4,15 +4,19 @@ import { useMemo, useState } from "react";
 import { SearchInput } from "./SearchInput";
 import { SurahList } from "./SurahList";
 import type { SurahSummary } from "@/types/quran";
+import { normalizeSurahName } from "@/lib/search/searchClient";
 
 function filterSurahs(surahs: SurahSummary[], query: string): SurahSummary[] {
   const q = query.trim().toLowerCase();
   if (!q) return surahs;
+  const qName = normalizeSurahName(q);
   return surahs.filter(
     (s) =>
       String(s.surahNumber).includes(q) ||
-      s.nameLatin.toLowerCase().includes(q) ||
-      s.nameBosnian.toLowerCase().includes(q) ||
+      (qName !== "" &&
+        (normalizeSurahName(s.nameLatin).includes(qName) ||
+          normalizeSurahName(s.nameBosnian).includes(qName) ||
+          normalizeSurahName(s.slug).includes(qName))) ||
       s.nameArabic.includes(query.trim())
   );
 }

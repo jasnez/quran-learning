@@ -6,6 +6,8 @@ import { useShallow } from "zustand/react/shallow";
 import { timeSince } from "@/lib/timeSince";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 import { ButtonLink } from "@/components/ui";
+import surahsData from "@/data/surahs.json";
+import type { SurahSummary } from "@/types/quran";
 
 const TOTAL_AYAHS_QURAN = 6236;
 
@@ -21,7 +23,10 @@ export function ContinueLearningSection() {
   const lastSurahNumber = useProgressStore((s) => s.lastSurahNumber);
   const lastAyahNumber = useProgressStore((s) => s.lastAyahNumber);
   const lastMode = useProgressStore((s) => s.lastMode);
-  const lastSurahNameLatin = useProgressStore((s) => s.lastSurahNameLatin ?? "");
+  const storedSurahName = useProgressStore((s) => s.lastSurahNameLatin ?? "");
+  // The stored name is the one current when the position was saved; show today's name instead.
+  const lastSurahName =
+    (surahsData as SurahSummary[]).find((s) => s.surahNumber === lastSurahNumber)?.nameLatin ?? storedSurahName;
   const timestamp = useProgressStore((s) => s.timestamp ?? "");
   const totalListeningTimeMs = useProgressStore((s) => s.totalListeningTimeMs);
   const surahsVisited = useProgressStore((s) => s.surahsVisited);
@@ -83,7 +88,7 @@ export function ContinueLearningSection() {
               Nastavi učenje
             </h2>
             <p className="mt-1 text-base text-stone-700 dark:text-stone-300">
-              {lastSurahNameLatin} · Ajet {pos!.ayahNumber}
+              {lastSurahName} · Ajet {pos!.ayahNumber}
             </p>
             <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
               Mod: {pos!.mode === "reader" ? "Reader" : "Learning"}

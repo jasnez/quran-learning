@@ -147,8 +147,8 @@ describe("getAllSurahs", () => {
       surahNumber: 1,
       slug: "al-fatiha",
       nameArabic: "الفاتحة",
-      nameLatin: "Al-Fatihah",
-      nameBosnian: "Al-Fatiha",
+      nameLatin: "El-Fātiḥa",
+      nameBosnian: "Fatiha",
       revelationType: "meccan",
       ayahCount: 7,
     });
@@ -169,15 +169,15 @@ describe("getAllSurahs", () => {
     });
   });
 
-  it("last surah is 114 An-Nas (En-Nas)", async () => {
+  it("last surah is 114 En-Nās (Nas)", async () => {
     const surahs = await getAllSurahs();
     const last = surahs[113];
     expect(last).toMatchObject({
       id: "114",
       surahNumber: 114,
       slug: "an-nas",
-      nameLatin: "An-Nas",
-      nameBosnian: "En-Nas",
+      nameLatin: "En-Nās",
+      nameBosnian: "Nas",
       revelationType: "meccan",
       ayahCount: 6,
     });

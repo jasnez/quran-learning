@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import type { SurahSummary, Ayah } from "@/types/quran";
+import { commonSurahName } from "@/lib/quran/surahNames";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { hasBookmark, useBookmarkStore } from "@/store/bookmarkStore";
@@ -148,10 +149,10 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           </h1>
           <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">
             {surah.nameLatin}
-            {surah.nameBosnian && (
+            {commonSurahName(surah) && (
               <>
                 <span className="mx-1.5 text-stone-400">·</span>
-                {surah.nameBosnian}
+                {commonSurahName(surah)}
               </>
             )}
           </p>
@@ -180,7 +181,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
                 className="inline-flex items-center gap-1 rounded-full border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-200 dark:hover:bg-stone-800"
               >
                 <span aria-hidden>←</span>
-                <span>Prethodna: {prevSurah.nameBosnian ?? prevSurah.nameLatin}</span>
+                <span>Prethodna: {prevSurah.nameLatin}</span>
               </Link>
             ) : (
               <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
@@ -194,7 +195,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
                 href={`/learn/${nextSurah.surahNumber}`}
                 className="inline-flex items-center gap-1 rounded-full border border-emerald-600 bg-emerald-50 px-3 py-1.5 font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
               >
-                <span>Sljedeća: {nextSurah.nameBosnian ?? nextSurah.nameLatin}</span>
+                <span>Sljedeća: {nextSurah.nameLatin}</span>
                 <span aria-hidden>→</span>
               </Link>
             ) : (

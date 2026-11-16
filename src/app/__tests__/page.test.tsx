@@ -8,10 +8,10 @@ import Home from "../page";
 import type { SurahSummary } from "@/types/quran";
 
 const mockSurahs: SurahSummary[] = [
-  { id: "1", surahNumber: 1, slug: "al-fatiha", nameArabic: "الفاتحة", nameLatin: "Al-Fatihah", nameBosnian: "Al-Fatiha", revelationType: "meccan", ayahCount: 7 },
-  { id: "112", surahNumber: 112, slug: "al-ikhlas", nameArabic: "الإخلاص", nameLatin: "Al-Ikhlas", nameBosnian: "El-Ihlas", revelationType: "meccan", ayahCount: 4 },
-  { id: "113", surahNumber: 113, slug: "al-falaq", nameArabic: "الفلق", nameLatin: "Al-Falaq", nameBosnian: "El-Felek", revelationType: "meccan", ayahCount: 5 },
-  { id: "114", surahNumber: 114, slug: "an-nas", nameArabic: "الناس", nameLatin: "An-Nas", nameBosnian: "En-Nas", revelationType: "meccan", ayahCount: 6 },
+  { id: "1", surahNumber: 1, slug: "al-fatiha", nameArabic: "الفاتحة", nameLatin: "El-Fātiḥa", nameBosnian: "Fatiha", revelationType: "meccan", ayahCount: 7 },
+  { id: "112", surahNumber: 112, slug: "al-ikhlas", nameArabic: "الإخلاص", nameLatin: "El-Iḫlāṣ", nameBosnian: "Ihlas", revelationType: "meccan", ayahCount: 4 },
+  { id: "113", surahNumber: 113, slug: "al-falaq", nameArabic: "الفلق", nameLatin: "El-Feleq", nameBosnian: "Felek", revelationType: "meccan", ayahCount: 5 },
+  { id: "114", surahNumber: 114, slug: "an-nas", nameArabic: "الناس", nameLatin: "En-Nās", nameBosnian: "Nas", revelationType: "meccan", ayahCount: 6 },
 ];
 
 vi.mock("@/lib/data", () => ({
@@ -122,23 +122,23 @@ describe("Home page", () => {
     it("shows 4 surah cards", async () => {
       const Page = await Home();
       render(Page);
-      const linksToSurah = screen.getAllByRole("link", { name: /al-fatiha|el-ihlas|el-felek|en-nas/i });
+      const linksToSurah = screen.getAllByRole("link", { name: /El-Fātiḥa|El-Iḫlāṣ|El-Feleq|En-Nās/ });
       expect(linksToSurah.length).toBeGreaterThanOrEqual(4);
     });
 
-    it("links to reader page for Al-Fatiha", async () => {
+    it("links to reader page for El-Fātiḥa", async () => {
       const Page = await Home();
       render(Page);
-      const link = screen.getByRole("link", { name: /al-fatiha/i });
+      const link = screen.getByRole("link", { name: /El-Fātiḥa/ });
       expect(link).toHaveAttribute("href", "/surah/1");
     });
 
-    it("links to reader for El-Ihlas, El-Felek, En-Nas", async () => {
+    it("links to reader for El-Iḫlāṣ, El-Feleq, En-Nās", async () => {
       const Page = await Home();
       render(Page);
-      expect(screen.getByRole("link", { name: /el-ihlas/i })).toHaveAttribute("href", "/surah/112");
-      expect(screen.getByRole("link", { name: /el-felek/i })).toHaveAttribute("href", "/surah/113");
-      expect(screen.getByRole("link", { name: /en-nas/i })).toHaveAttribute("href", "/surah/114");
+      expect(screen.getByRole("link", { name: /El-Iḫlāṣ/ })).toHaveAttribute("href", "/surah/112");
+      expect(screen.getByRole("link", { name: /El-Feleq/ })).toHaveAttribute("href", "/surah/113");
+      expect(screen.getByRole("link", { name: /En-Nās/ })).toHaveAttribute("href", "/surah/114");
     });
 
     it("shows ayah count for at least one surah", async () => {
@@ -147,11 +147,11 @@ describe("Home page", () => {
       expect(screen.getByText(/7\s*ajeta|7 ayah/i)).toBeInTheDocument();
     });
 
-    it("shows Bosnian name (nameBosnian) on featured cards", async () => {
+    it("shows the main (specijal) name on featured cards", async () => {
       const Page = await Home();
       render(Page);
-      expect(screen.getByText("Al-Fatiha")).toBeInTheDocument();
-      expect(screen.getByText("El-Ihlas")).toBeInTheDocument();
+      expect(screen.getByText("El-Fātiḥa")).toBeInTheDocument();
+      expect(screen.getByText("El-Iḫlāṣ")).toBeInTheDocument();
     });
 
     it("shows short note for at least one featured surah", async () => {
@@ -204,13 +204,15 @@ describe("Home page", () => {
       mockProgressState.lastSurahNumber = 2;
       mockProgressState.lastAyahNumber = 15;
       mockProgressState.lastMode = "reader";
+      // Saved before the Pravila names: the card shows today's name, not the stored one.
       mockProgressState.lastSurahNameLatin = "Al-Baqarah";
       mockProgressState.timestamp = new Date().toISOString();
       const Page = await Home();
       render(Page);
       const continueHeading = screen.getByRole("heading", { name: /nastavi učenje|nastavi ucenje/i });
       expect(continueHeading).toBeInTheDocument();
-      expect(continueHeading.closest("section")).toHaveTextContent(/al-baqarah|Al-Baqarah/i);
+      expect(continueHeading.closest("section")).toHaveTextContent("El-Beqare");
+      expect(continueHeading.closest("section")).not.toHaveTextContent("Al-Baqarah");
       expect(continueHeading.closest("section")).toHaveTextContent(/15|ajet/i);
       const featuredHeading = screen.getByRole("heading", { name: /preporučene|sure/i });
       expect(continueHeading.compareDocumentPosition(featuredHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);

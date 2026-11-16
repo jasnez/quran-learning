@@ -245,7 +245,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
               Ukloniti bookmark?
             </h2>
             <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
-              Ajet {confirmRemove.surahNameLatin} {confirmRemove.ayahNumber} će biti uklonjen iz označenih.
+              Ajet {surahMap.get(confirmRemove.surahNumber)?.nameLatin ?? confirmRemove.surahNameLatin} {confirmRemove.ayahNumber} će biti uklonjen iz označenih.
             </p>
             <div className="mt-6 flex gap-3">
               <button

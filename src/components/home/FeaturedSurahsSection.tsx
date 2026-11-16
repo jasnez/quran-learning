@@ -103,7 +103,7 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
                 {surah.nameArabic}
               </span>
               <span className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
-                {surah.nameBosnian}
+                {surah.nameLatin}
               </span>
               {!isInProgress && NOTES[surah.surahNumber] && (
                 <p className="mt-1 text-xs leading-relaxed text-stone-500 dark:text-stone-500">

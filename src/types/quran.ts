@@ -21,7 +21,12 @@ export type SurahSummary = {
   surahNumber: number;
   slug: string;
   nameArabic: string;
+  /**
+   * Main name, in the "specijal" system of the IZ BiH Pravila (2022), e.g. "El-Beqare".
+   * The field name predates the Pravila; the slug keeps the old English form.
+   */
   nameLatin: string;
+  /** Common Bosnian form from the same list, e.g. "Bekara". Equal to nameLatin when the Pravila give one form. */
   nameBosnian: string;
   revelationType: RevelationType;
   ayahCount: number;

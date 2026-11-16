@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import type { SurahSummary } from "@/types/quran";
+import { commonSurahName } from "@/lib/quran/surahNames";
 import { useProgressStore } from "@/store/progressStore";
 
 export function SurahListItem({ surah }: { surah: SurahSummary }) {
@@ -12,6 +13,7 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
     totalAyahs > 0 && progress ? Math.round((progress.ayahsListened.size / totalAyahs) * 100) : 0;
   const isCompleted = percent >= 100;
   const isInProgress = percent >= 1 && percent < 100;
+  const commonName = commonSurahName(surah);
 
   return (
     <Link
@@ -30,7 +32,7 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
             {surah.nameLatin}
           </p>
           <p className="truncate text-xs text-stone-500 dark:text-stone-400">
-            {surah.nameBosnian} · {surah.ayahCount} ajeta
+            {commonName ? `${commonName} · ` : ""}{surah.ayahCount} ajeta
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
