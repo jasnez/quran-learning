@@ -46,7 +46,7 @@ const surah = (n: number, ayahCount: number): SurahSummary => ({
 
 const juz: JuzInfo = {
   juz: 1,
-  name: "Alif Lam Mim",
+  name: "Elif-Lām-Mīm",
   nameArabic: "",
   start: "1:6",
   end: "2:2",

@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LearnPage from "../page";
+import LearnPage, { generateMetadata } from "../page";
 import type { SurahDetail, Ayah } from "@/types/quran";
 
 const mockAyah = (n: number, arabic: string, transliteration: string, translation: string): Ayah =>
@@ -280,5 +280,17 @@ describe("Learn Mode page", () => {
     render(Page);
     expect(document.querySelector('a[href="/learn/113"]')).toBeInTheDocument();
     expect(document.querySelector('a[href="/learn/115"]')).not.toBeInTheDocument();
+  });
+});
+
+describe("Learn Mode page metadata", () => {
+  it("titles the page in Bosnian with the surah name", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
+    expect(metadata.title).toBe("Učenje: Al-Fatihah | Quran Learning");
+  });
+
+  it("falls back to a Bosnian title for an invalid surah number", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
+    expect(metadata.title).toBe("Učenje | Quran Learning");
   });
 });
