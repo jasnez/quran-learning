@@ -16,7 +16,7 @@ function shallowEqualStyle(a?: React.CSSProperties, b?: React.CSSProperties): bo
 }
 
 /**
- * The reader re-renders every card on each animation frame while audio plays (QA P1-9).
+ * The playing card re-renders on each animation frame while audio plays (QA P1-9).
  * Skip the word list unless something it shows changed; inline `style` objects are new each time.
  */
 const MemoWordByWordRenderer = memo(

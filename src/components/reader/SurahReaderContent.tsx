@@ -6,7 +6,6 @@ import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
-import { playAyahFromMs } from "@/lib/audio/playFromWord";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
 import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
@@ -27,9 +26,8 @@ export function SurahReaderContent({
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
+  // No playback clock here: every card would re-render on each frame (QA P1-9). AyahCard reads it.
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
-  const currentTimeMs = usePlayerStore((s) => s.currentTimeMs);
-  const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
   const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
@@ -171,16 +169,8 @@ export function SurahReaderContent({
                 showTransliteration={showTransliteration}
                 showTranslation={showTranslation}
                 showTajwidColors={showTajwidColors}
-                wordByWord={
-                  wordByWordMode && !chapterDataError
-                    ? {
-                        verse: verseTimestamps?.get(ayah.id),
-                        // Only the ayah whose audio is loaded shows a word; a stopped player shows none.
-                        currentTimeMs: currentAyahId === ayah.id && activeAudioSrc ? currentTimeMs : -1,
-                        onSeekMs: (ms) => playAyahFromMs(ayah, ayahs, ms),
-                      }
-                    : undefined
-                }
+                wordByWord={wordByWordMode && !chapterDataError}
+                wordTimestamps={verseTimestamps?.get(ayah.id)}
                 showPageBadge={showPageBadge}
               />
             </li>
