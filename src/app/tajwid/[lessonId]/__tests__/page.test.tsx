@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import LessonPage from "../page";
+import LessonPage, { generateMetadata } from "../page";
 
 const mockLesson = {
   id: 2,
@@ -138,6 +138,22 @@ describe("Tajwid lesson detail page", () => {
       screen.getByText(/Šta znači Mad u tedžvidu\?/i)
     ).toBeInTheDocument();
     expect(screen.getByText("Duljenje glasa")).toBeInTheDocument();
+  });
+});
+
+describe("Tajwid lesson page metadata", () => {
+  it("uses the lesson title", async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ lessonId: "mad-duljenje" }),
+    });
+    expect(metadata.title).toBe("Mad (duljenje) | Tedžvid lekcije | Quran Learning");
+  });
+
+  it("falls back to the lessons title for an unknown lesson", async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ lessonId: "nepostojeca" }),
+    });
+    expect(metadata.title).toBe("Tedžvid lekcije | Quran Learning");
   });
 });
 

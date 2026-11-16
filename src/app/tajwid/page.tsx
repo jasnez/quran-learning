@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { getAllTajwidLessons } from "@/data/tajwid-lessons";
 import { TajwidLessonCard } from "@/components/tajwid/TajwidLessonCard";
+
+export const metadata: Metadata = {
+  title: "Tedžvid lekcije | Quran Learning",
+};
 
 export default async function TajwidLessonsPage() {
   const lessons = await getAllTajwidLessons();

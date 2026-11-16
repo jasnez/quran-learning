@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import TajwidLessonsPage from "../page";
+import TajwidLessonsPage, { metadata } from "../page";
 
 const mockLessons = [
   {
@@ -101,6 +101,12 @@ describe("Tajwid lessons listing page", () => {
     render(Page);
     const link = screen.getByRole("link", { name: /uvod u tajwid/i });
     expect(link).toHaveAttribute("href", "/tajwid/uvod-tajwid");
+  });
+});
+
+describe("Tajwid lessons page metadata", () => {
+  it("has a Bosnian page title", () => {
+    expect(metadata.title).toBe("Tedžvid lekcije | Quran Learning");
   });
 });
 
