@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import {
   Home,
@@ -24,22 +24,22 @@ const tabActive = "text-emerald-700 dark:text-emerald-400";
 const tabInactive =
   "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200";
 
+const SURAH_SEGMENTS = new Set(["surahs", "surah", "juz"]);
+const MORE_SEGMENTS = new Set(["bookmarks", "progress", "names", "tajwid", "harfovi"]);
+
 export function MobileNav() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const isSurahs = pathname?.startsWith("/surahs");
-  const isLearn = pathname?.startsWith("/learn");
-  const isDuas = pathname?.startsWith("/duas");
+  // The route tree, not the URL: the static 404.html is served for unknown URLs, so the URL
+  // would mark a tab the server HTML does not mark (see Header). Null on the home page.
+  const segment = useSelectedLayoutSegment();
+  const isHome = segment === null;
+  const isSurahs = segment !== null && SURAH_SEGMENTS.has(segment);
+  const isLearn = segment === "learn";
+  const isDuas = segment === "duas";
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const { open: openSettings } = useSettingsOpen();
 
-  const isMoreActive =
-    pathname?.startsWith("/bookmarks") ||
-    pathname?.startsWith("/progress") ||
-    pathname?.startsWith("/names") ||
-    pathname?.startsWith("/tajwid") ||
-    pathname?.startsWith("/harfovi");
+  const isMoreActive = segment !== null && MORE_SEGMENTS.has(segment);
 
   useEffect(() => {
     if (!moreOpen) return;
