@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { JuzInfo } from "@/types/quran";
+import { commonSurahName } from "@/lib/quran/surahNames";
 import type { JuzSegment } from "@/lib/data";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
@@ -100,10 +101,10 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
               </p>
               <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
                 {segment.surah.nameLatin}
-                {segment.surah.nameBosnian && (
+                {commonSurahName(segment.surah) && (
                   <>
                     <span className="mx-2 text-stone-400 dark:text-stone-500">·</span>
-                    {segment.surah.nameBosnian}
+                    {commonSurahName(segment.surah)}
                   </>
                 )}
               </p>

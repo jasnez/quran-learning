@@ -21,7 +21,12 @@ export type SurahSummary = {
   surahNumber: number;
   slug: string;
   nameArabic: string;
+  /**
+   * Main name, in the "specijal" system of the IZ BiH Pravila (2022), e.g. "El-Beqare".
+   * The field name predates the Pravila; the slug keeps the old English form.
+   */
   nameLatin: string;
+  /** Common Bosnian form from the same list, e.g. "Bekara". Equal to nameLatin when the Pravila give one form. */
   nameBosnian: string;
   revelationType: RevelationType;
   ayahCount: number;
@@ -71,25 +76,6 @@ export type SearchResult = {
   snippet: string;
   snippetHighlight: string;
   arabicSnippet: string;
-};
-
-/** Match field for search engine results (used by searchEngine.ts). */
-export type SearchMatchField =
-  | "arabic"
-  | "transliteration"
-  | "translation"
-  | "surah";
-
-/** Engine search result: used by searchEngine and mapped to SearchResult for UI. */
-export type EngineSearchResult = {
-  surahNumber: number;
-  surahNameLatin: string;
-  surahNameArabic: string;
-  ayahNumber: number;
-  matchField: SearchMatchField;
-  matchSnippet: string;
-  arabicText: string;
-  score: number;
 };
 
 /** Juz (جزء) boundary and metadata. One of 30 equal-ish portions of the Quran. */

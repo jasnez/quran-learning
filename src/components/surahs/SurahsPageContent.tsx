@@ -6,16 +6,20 @@ import { SearchInput } from "./SearchInput";
 import { VirtualSurahList } from "./VirtualSurahList";
 import { JuzListCard } from "./JuzListCard";
 import type { SurahSummary } from "@/types/quran";
+import { normalizeSurahName } from "@/lib/search/searchClient";
 import type { JuzInfo } from "@/types/quran";
 
 function filterSurahs(surahs: SurahSummary[], query: string): SurahSummary[] {
   const q = query.trim().toLowerCase();
   if (!q) return surahs;
+  const qName = normalizeSurahName(q);
   return surahs.filter(
     (s) =>
       String(s.surahNumber).includes(q) ||
-      s.nameLatin.toLowerCase().includes(q) ||
-      s.nameBosnian.toLowerCase().includes(q) ||
+      (qName !== "" &&
+        (normalizeSurahName(s.nameLatin).includes(qName) ||
+          normalizeSurahName(s.nameBosnian).includes(qName) ||
+          normalizeSurahName(s.slug).includes(qName))) ||
       s.nameArabic.includes(query.trim())
   );
 }

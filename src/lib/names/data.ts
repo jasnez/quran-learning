@@ -1,7 +1,7 @@
 import type { AllahName } from "@/types/names";
 
 /**
- * 99 Allahovih imena (Al-Asmāʾ al-Ḥusnā) – arapski, transliteracija i prijevod na bosanski.
+ * 99 Allahovih imena (El-Esmāʼul-Ḥusnā) – arapski, transliteracija i prijevod na bosanski.
  */
 export const ALLAH_NAMES: AllahName[] = [
   { index: 1, arabic: "ٱلرَّحْمَـانُ", transliteration: "Er-Raḥmān", translationBosnian: "Premilostivi" },

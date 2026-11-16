@@ -51,7 +51,7 @@ describe("static HTML of /surahs (P1-6)", () => {
   it("contains the surah list", async () => {
     const html = prerender(await SurahsPage());
     expect(html).toContain('aria-label="Lista sura"');
-    expect(html).toContain("Al-Baqarah");
+    expect(html).toContain("El-Beqare");
     expect(html).toContain('href="/surah/114"');
   });
 });

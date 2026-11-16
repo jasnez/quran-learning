@@ -14,8 +14,8 @@ const mockSurahs: SurahSummary[] = [
     surahNumber: 1,
     slug: "al-fatiha",
     nameArabic: "الفاتحة",
-    nameLatin: "Al-Fatihah",
-    nameBosnian: "Al-Fatiha",
+    nameLatin: "El-Fātiḥa",
+    nameBosnian: "Fatiha",
     revelationType: "meccan",
     ayahCount: 7,
   },
@@ -24,8 +24,8 @@ const mockSurahs: SurahSummary[] = [
     surahNumber: 2,
     slug: "al-baqarah",
     nameArabic: "البقرة",
-    nameLatin: "Al-Baqarah",
-    nameBosnian: "El-Bekare",
+    nameLatin: "El-Beqare",
+    nameBosnian: "Bekara",
     revelationType: "medinan",
     ayahCount: 286,
   },
@@ -34,8 +34,8 @@ const mockSurahs: SurahSummary[] = [
     surahNumber: 112,
     slug: "al-ikhlas",
     nameArabic: "الإخلاص",
-    nameLatin: "Al-Ikhlas",
-    nameBosnian: "El-Ihlas",
+    nameLatin: "El-Iḫlāṣ",
+    nameBosnian: "Ihlas",
     revelationType: "meccan",
     ayahCount: 4,
   },
@@ -112,10 +112,10 @@ describe("Surahs page", () => {
   it("list items show nameLatin and nameBosnian", async () => {
     const Page = await SurahsPage();
     render(Page);
-    expect(screen.getByText("Al-Fatihah")).toBeInTheDocument();
-    // nameBosnian je sad u kombinovanom subtitle stringu: "Al-Fatiha · 7 ajeta"
-    expect(screen.getByText(/Al-Fatiha\s*·/i)).toBeInTheDocument();
-    expect(screen.getByText("Al-Baqarah")).toBeInTheDocument();
+    expect(screen.getByText("El-Fātiḥa")).toBeInTheDocument();
+    // nameBosnian je sad u kombinovanom subtitle stringu: "Fatiha · 7 ajeta"
+    expect(screen.getByText(/Fatiha\s*·/i)).toBeInTheDocument();
+    expect(screen.getByText("El-Beqare")).toBeInTheDocument();
   });
 
   it("list items show ayah count (revelation type uklonjen u redizajnu)", async () => {
@@ -145,6 +145,19 @@ describe("Surahs page", () => {
     const list = screen.getByRole("list");
     expect(within(list).getByRole("link")).toHaveAttribute("href", "/surah/1");
   });
+
+  it.each(["beqare", "bekara", "baqarah", "El Beqare"])(
+    "filtering by %s finds El-Beqare (specijal, common or English slug, no diacritics)",
+    async (query) => {
+      const user = userEvent.setup();
+      const Page = await SurahsPage();
+      render(Page);
+      const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
+      await user.type(search, query);
+      const list = screen.getByRole("list");
+      expect(within(list).getByRole("link")).toHaveAttribute("href", "/surah/2");
+    },
+  );
 
   it("has Sure button and Džuzevi tab link to view=juz inside page (not in main header nav)", async () => {
     const Page = await SurahsPage();

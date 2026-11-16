@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
+import { surahNameWithCommon } from "@/lib/quran/surahNames";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
 import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { surah } = await getSurahByNumber(n);
     return {
       title: `${surah.nameLatin} | Quran Learning`,
-      description: `Čitanje sure ${surah.nameBosnian || surah.nameLatin}`,
+      description: `Čitanje sure ${surahNameWithCommon(surah)}`,
     };
   } catch {
     return { title: "Surah | Quran Learning" };
@@ -85,7 +86,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
               className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
             >
               <span aria-hidden>←</span>
-              <span>Prethodna: {prevSurah.nameBosnian ?? prevSurah.nameLatin}</span>
+              <span>Prethodna: {prevSurah.nameLatin}</span>
             </Link>
           ) : (
             <Link
@@ -114,7 +115,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
               href={`/surah/${nextSurah.surahNumber}`}
               className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
             >
-              <span>Sljedeća: {nextSurah.nameBosnian ?? nextSurah.nameLatin}</span>
+              <span>Sljedeća: {nextSurah.nameLatin}</span>
               <span aria-hidden>→</span>
             </Link>
           )}

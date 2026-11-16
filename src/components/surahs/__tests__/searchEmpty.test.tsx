@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { SurahsContent } from "../SurahsContent";
+import { SurahsPageContent } from "../SurahsPageContent";
 import type { SurahSummary } from "@/types/quran";
 
 const mockSurahs: SurahSummary[] = [
@@ -14,8 +14,8 @@ const mockSurahs: SurahSummary[] = [
     surahNumber: 1,
     slug: "al-fatiha",
     nameArabic: "الفاتحة",
-    nameLatin: "Al-Fatihah",
-    nameBosnian: "Al-Fatiha",
+    nameLatin: "El-Fātiḥa",
+    nameBosnian: "Fatiha",
     revelationType: "meccan",
     ayahCount: 7,
   },
@@ -27,6 +27,10 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+vi.mock("next/navigation", () => ({
+  useSearchParams: () => ({ get: () => null }),
+}));
+
 beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
@@ -34,7 +38,7 @@ beforeEach(() => {
 
 describe("Search no results", () => {
   it("when search has no matches shows Nije pronadjeno", async () => {
-    render(<SurahsContent surahs={mockSurahs} />);
+    render(<SurahsPageContent surahs={mockSurahs} juzList={[]} />);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await userEvent.clear(search);
     await userEvent.type(search, "xyznonexistent", { delay: 0 });
@@ -43,7 +47,7 @@ describe("Search no results", () => {
 
   it("suggests trying again or different search", async () => {
     const user = userEvent.setup({ delay: 0 });
-    render(<SurahsContent surahs={mockSurahs} />);
+    render(<SurahsPageContent surahs={mockSurahs} juzList={[]} />);
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "xyznonexistent");
     expect(

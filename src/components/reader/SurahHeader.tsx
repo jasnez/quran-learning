@@ -1,6 +1,7 @@
 "use client";
 
 import type { SurahSummary, Ayah } from "@/types/quran";
+import { commonSurahName } from "@/lib/quran/surahNames";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
@@ -59,10 +60,10 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
       </h1>
       <p className="mt-3 text-lg text-stone-600 dark:text-stone-400">
         {surah.nameLatin}
-        {surah.nameBosnian && (
+        {commonSurahName(surah) && (
           <>
             <span className="mx-2 text-stone-400 dark:text-stone-500">·</span>
-            {surah.nameBosnian}
+            {commonSurahName(surah)}
           </>
         )}
       </p>
