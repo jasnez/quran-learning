@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
-import { useBookmarkStore } from "@/store/bookmarkStore";
+import { hasBookmark, useBookmarkStore } from "@/store/bookmarkStore";
 import { useToastStore } from "@/store/toastStore";
 import { useProgressStore } from "@/store/progressStore";
 import * as audioManager from "@/lib/audio/audioManager";
@@ -67,7 +67,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
   const surahNumber = surah.surahNumber;
   const ayahNumber = ayah?.ayahNumber ?? 1;
-  const bookmarked = useBookmarkStore((s) => s.isBookmarked(surahNumber, ayahNumber));
+  const bookmarked = useBookmarkStore((s) => hasBookmark(s.bookmarks, surahNumber, ayahNumber));
 
   const handleBookmark = () => {
     if (!ayah) return;

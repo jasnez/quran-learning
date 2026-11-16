@@ -63,7 +63,8 @@ const mockStore = {
   },
   totalListeningTimeMs: 70000,
 };
-vi.mock("@/store/progressStore", () => ({
+vi.mock("@/store/progressStore", async (importOriginal) => ({
+  computeOverallProgress: (await importOriginal<typeof import("@/store/progressStore")>()).computeOverallProgress,
   useProgressStore: vi.fn((selector: (s: typeof mockStore) => unknown) => selector(mockStore)),
 }));
 

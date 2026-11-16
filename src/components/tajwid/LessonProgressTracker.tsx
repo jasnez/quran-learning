@@ -5,7 +5,7 @@ import { useProgressStore } from "@/store/progressStore";
 
 export function LessonProgressTracker({ lessonSlug }: { lessonSlug: string }) {
   const markStarted = useProgressStore((s) => s.markTajwidLessonStarted);
-  const status = useProgressStore((s) => s.getTajwidLessonStatus(lessonSlug));
+  const status = useProgressStore((s) => s.tajwidLessonProgress[lessonSlug]);
 
   useEffect(() => {
     if (status?.status !== "completed") {

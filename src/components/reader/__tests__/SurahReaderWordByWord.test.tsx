@@ -48,8 +48,9 @@ vi.mock("@/store/progressStore", () => {
   return { useProgressStore: m };
 });
 
-vi.mock("@/store/bookmarkStore", () => ({
-  useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) => sel({ toggleBookmark: vi.fn(), isBookmarked: () => false })),
+vi.mock("@/store/bookmarkStore", async (importOriginal) => ({
+  hasBookmark: (await importOriginal<typeof import("@/store/bookmarkStore")>()).hasBookmark,
+  useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) => sel({ toggleBookmark: vi.fn(), bookmarks: [] })),
 }));
 
 vi.mock("@/store/toastStore", () => ({

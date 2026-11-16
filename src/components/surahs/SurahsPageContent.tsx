@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchInput } from "./SearchInput";
 import { VirtualSurahList } from "./VirtualSurahList";
@@ -28,20 +28,26 @@ type SurahsPageContentProps = {
   initialView?: ViewMode;
 };
 
-export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: SurahsPageContentProps) {
-  const searchParams = useSearchParams();
-  const viewParam = searchParams.get("view");
-  const [view, setView] = useState<ViewMode>(() => {
-    if (viewParam === "juz") return "juz";
-    return initialView;
-  });
+/**
+ * Reports ?view to the page. Renders nothing. useSearchParams makes the static
+ * export skip everything up to the nearest <Suspense>, so only this component
+ * sits in one and the surah list stays in the static HTML (QA P1-6).
+ */
+function ViewParamSync({ onViewParam }: { onViewParam: (viewParam: string | null) => void }) {
+  const viewParam = useSearchParams().get("view");
+  useEffect(() => {
+    onViewParam(viewParam);
+  }, [viewParam, onViewParam]);
+  return null;
+}
 
-  // Sync view sa query param-om — "adjust state during render" izbjegava kaskadne re-renderove.
-  const [prevViewParam, setPrevViewParam] = useState(viewParam);
-  if (viewParam !== prevViewParam) {
-    setPrevViewParam(viewParam);
-    setView(viewParam === "juz" ? "juz" : "surahs");
-  }
+export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: SurahsPageContentProps) {
+  // The static HTML shows initialView; ?view=juz is applied right after hydration.
+  const [view, setView] = useState<ViewMode>(initialView);
+  const handleViewParam = useCallback(
+    (viewParam: string | null) => setView(viewParam === "juz" ? "juz" : initialView),
+    [initialView],
+  );
 
   const [query, setQuery] = useState("");
   const filteredSurahs = useMemo(() => filterSurahs(surahs, query), [surahs, query]);
@@ -61,6 +67,9 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
 
   return (
     <div className="flex flex-col gap-6">
+      <Suspense fallback={null}>
+        <ViewParamSync onViewParam={handleViewParam} />
+      </Suspense>
       <div className="flex flex-wrap items-center gap-3 border-b border-[var(--theme-border)] pb-4">
         <span className="text-sm font-medium text-stone-600 dark:text-stone-400">Pregled:</span>
         <div className="flex rounded-lg border border-[var(--theme-border)] p-0.5">

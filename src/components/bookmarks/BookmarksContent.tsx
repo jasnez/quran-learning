@@ -17,7 +17,7 @@ const EMPTY_MESSAGE =
   "Nemate označenih ajeta. Označite ajete klikom na bookmark ikonu dok čitate.";
 
 export function BookmarksContent({ surahs }: BookmarksContentProps) {
-  const getAllBookmarks = useBookmarkStore((s) => s.getAllBookmarks);
+  const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const removeBookmark = useBookmarkStore((s) => s.removeBookmark);
   const updateBookmarkNote = useBookmarkStore((s) => s.updateBookmarkNote);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
@@ -27,7 +27,6 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [editNoteValue, setEditNoteValue] = useState("");
 
-  const bookmarks = getAllBookmarks();
   const surahMap = useMemo(() => {
     const m = new Map<number, SurahSummary>();
     surahs.forEach((s) => m.set(s.surahNumber, s));

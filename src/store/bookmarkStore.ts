@@ -11,6 +11,17 @@ function truncate(text: string, max: number): string {
   return text.slice(0, max);
 }
 
+/**
+ * Pure check over the bookmark list. Render code must use this through a
+ * selector, `useBookmarkStore((s) => hasBookmark(s.bookmarks, surah, ayah))`,
+ * not the `isBookmarked` action: actions read live state via `get()`, which
+ * already holds localStorage data during hydration and breaks it (QA P1-6).
+ */
+export function hasBookmark(bookmarks: Bookmark[], surahNumber: number, ayahNumber: number): boolean {
+  const id = bookmarkId(surahNumber, ayahNumber);
+  return bookmarks.some((b) => b.id === id);
+}
+
 function bookmarkId(surahNumber: number, ayahNumber: number): string {
   return `${surahNumber}-${ayahNumber}`;
 }
@@ -85,10 +96,7 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
         }
       },
 
-      isBookmarked: (surahNumber, ayahNumber) => {
-        const id = bookmarkId(surahNumber, ayahNumber);
-        return get().bookmarks.some((b) => b.id === id);
-      },
+      isBookmarked: (surahNumber, ayahNumber) => hasBookmark(get().bookmarks, surahNumber, ayahNumber),
 
       updateBookmarkNote: (id, note) => {
         set((s) => ({

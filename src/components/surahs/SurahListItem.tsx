@@ -6,7 +6,7 @@ import type { SurahSummary } from "@/types/quran";
 import { useProgressStore } from "@/store/progressStore";
 
 export function SurahListItem({ surah }: { surah: SurahSummary }) {
-  const progress = useProgressStore((s) => s.getSurahProgress(surah.surahNumber));
+  const progress = useProgressStore((s) => s.surahProgressMap[surah.surahNumber]);
   const totalAyahs = surah.ayahCount;
   const percent =
     totalAyahs > 0 && progress ? Math.round((progress.ayahsListened.size / totalAyahs) * 100) : 0;

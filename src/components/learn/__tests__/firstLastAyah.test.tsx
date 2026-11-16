@@ -68,12 +68,12 @@ vi.mock("@/store/settingsStore", () => ({
 }));
 
 const mockToggleBookmark = vi.fn();
-const mockIsBookmarked = vi.fn();
-vi.mock("@/store/bookmarkStore", () => ({
+vi.mock("@/store/bookmarkStore", async (importOriginal) => ({
+  hasBookmark: (await importOriginal<typeof import("@/store/bookmarkStore")>()).hasBookmark,
   useBookmarkStore: vi.fn((sel: (s: unknown) => unknown) =>
     sel({
       toggleBookmark: mockToggleBookmark,
-      isBookmarked: mockIsBookmarked,
+      bookmarks: [],
     })
   ),
 }));
@@ -101,7 +101,6 @@ const defaultPlayerState = {
 beforeEach(() => {
   vi.clearAllMocks();
   document.body.innerHTML = "";
-  mockIsBookmarked.mockReturnValue(false);
   vi.mocked(usePlayerStore).mockImplementation((sel) =>
     sel(defaultPlayerState as unknown as PlayerState)
   );
@@ -147,7 +146,6 @@ describe("Learn mode bookmark", () => {
 
   it("clicking bookmark calls toggleBookmark and showToast", async () => {
     const user = userEvent.setup();
-    mockIsBookmarked.mockReturnValue(false);
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = screen.getByRole("button", { name: /dodaj u označene|označene|bookmark/i });
     await user.click(btn);

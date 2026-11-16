@@ -18,8 +18,8 @@ function getRangeLabel(juz: JuzInfo, allSurahs: SurahSummary[]): string {
 }
 
 export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
-  const getSurahProgress = useProgressStore((s) => s.getSurahProgress);
-  const progress = getJuzProgress(juz.juz, getSurahProgress, allSurahs);
+  const progressMap = useProgressStore((s) => s.surahProgressMap);
+  const progress = getJuzProgress(juz.juz, (n) => progressMap[n], allSurahs);
   const rangeLabel = getRangeLabel(juz, allSurahs);
   const surahCount = juz.surahsIncluded.length;
 

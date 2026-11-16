@@ -20,8 +20,9 @@ const mockSurah: SurahSummary = {
 
 const mockGetSurahProgress = vi.fn();
 vi.mock("@/store/progressStore", () => ({
-  useProgressStore: vi.fn((selector: (s: { getSurahProgress: typeof mockGetSurahProgress }) => unknown) =>
-    selector({ getSurahProgress: mockGetSurahProgress })
+  // surahProgressMap[n] answers with mockGetSurahProgress(n).
+  useProgressStore: vi.fn((selector: (s: { surahProgressMap: Record<number, unknown> }) => unknown) =>
+    selector({ surahProgressMap: new Proxy({}, { get: (_map, key) => mockGetSurahProgress(Number(key)) }) })
   ),
 }));
 
