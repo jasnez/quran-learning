@@ -49,7 +49,7 @@ describe("juzUtils", () => {
       const j = getJuzByNumber(1);
       expect(j).toBeDefined();
       expect(j!.juz).toBe(1);
-      expect(j!.name).toBe("Alif Lam Mim");
+      expect(j!.name).toBe("Elif-Lām-Mīm");
       expect(j!.nameArabic).toBe("الم");
     });
 
@@ -57,7 +57,7 @@ describe("juzUtils", () => {
       const j = getJuzByNumber(30);
       expect(j).toBeDefined();
       expect(j!.juz).toBe(30);
-      expect(j!.name).toBe("Amma Yatasa'alun");
+      expect(j!.name).toBe("ʻAmme jetesāʼelūn");
     });
 
     it("returns undefined for 0 or 31", () => {
