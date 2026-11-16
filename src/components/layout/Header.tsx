@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import {
   ChevronLeft,
   Play,
@@ -28,8 +28,10 @@ const SEPARATOR =
 
 export function Header() {
   const { isOpen: settingsOpen, open: openSettings } = useSettingsOpen();
-  const pathname = usePathname();
-  const isSurahPage = pathname?.startsWith("/surah/");
+  // Read the route tree, not the URL: the static 404.html is served for any
+  // unknown URL (e.g. /surah/115), so the URL would add a link the server HTML
+  // does not have and break hydration (React #418).
+  const isSurahPage = useSelectedLayoutSegment() === "surah";
   const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const resume = usePlayerStore((s) => s.resume);
