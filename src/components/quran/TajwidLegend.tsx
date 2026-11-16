@@ -30,7 +30,7 @@ export function TajwidLegend() {
         <span aria-hidden className="text-stone-400 dark:text-stone-500">
           {open ? "▼" : "▶"}
         </span>
-        Legenda tajwida
+        Legenda tedžvida
       </button>
       <div
         id="tajwid-legend-panel"

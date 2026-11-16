@@ -312,7 +312,7 @@ describe("Header", () => {
 
   it("has settings control", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const settings = screen.getByRole("button", { name: /settings/i });
+    const settings = screen.getByRole("button", { name: /postavke/i });
     expect(settings).toBeInTheDocument();
   });
 
@@ -324,20 +324,20 @@ describe("Header", () => {
     // Two main groups: brand (flex-1) and nav
     const children = inner?.children ?? [];
     expect(children.length).toBeGreaterThanOrEqual(2);
-    const nav = header?.querySelector("nav[aria-label='Main navigation']");
+    const nav = header?.querySelector("nav[aria-label='Glavna navigacija']");
     expect(nav).toBeInTheDocument();
   });
 
   it("nav has spacing between items", () => {
     const { container } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const nav = container.querySelector("nav[aria-label='Main navigation']");
+    const nav = container.querySelector("nav[aria-label='Glavna navigacija']");
     expect(nav).toBeInTheDocument();
     expect(nav?.className).toMatch(/gap-/);
   });
 
   it("uses separators or grouping for visual distinction on desktop", () => {
     const { container } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const nav = container.querySelector("nav[aria-label='Main navigation']");
+    const nav = container.querySelector("nav[aria-label='Glavna navigacija']");
     expect(nav).toBeInTheDocument();
     const hasSeparator = !!nav?.querySelector("[role='separator']");
     const hasMultipleGroups = (nav?.children.length ?? 0) >= 2;
@@ -406,7 +406,7 @@ describe("Footer", () => {
 describe("MobileNav", () => {
   it("renders and is accessible", () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
-    const nav = screen.getByRole("navigation", { name: /mobile/i });
+    const nav = screen.getByRole("navigation", { name: /mobilna navigacija/i });
     expect(nav).toBeInTheDocument();
   });
 

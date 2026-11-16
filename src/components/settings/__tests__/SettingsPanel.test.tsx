@@ -118,7 +118,7 @@ describe("SettingsPanel", () => {
 
   it("has tajwid colors toggle in Display section", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByRole("switch", { name: /tajwid|tajvid/i })).toBeInTheDocument();
+    expect(screen.getByRole("switch", { name: /tedžvid boje/i })).toBeInTheDocument();
   });
 
   it("has Audio Settings section with reciter and speed", () => {

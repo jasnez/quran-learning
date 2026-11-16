@@ -195,9 +195,9 @@ function labelForType(type: TestType): string {
     case "complete_ayah":
       return "Dovrši ajet";
     case "translation_match":
-      return "Prevod";
+      return "Prijevod";
     case "tajwid_identify":
-      return "Tajwid pravilo";
+      return "Tedžvid pravilo";
     default:
       return "Test";
   }

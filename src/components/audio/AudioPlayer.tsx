@@ -351,7 +351,7 @@ export function AudioPlayer() {
               type="button"
               onClick={() => { clearPending(); previous(); }}
               className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
-              aria-label="Prethodni ajah"
+              aria-label="Prethodni ajet"
             >
               <PrevIcon />
             </button>
@@ -379,7 +379,7 @@ export function AudioPlayer() {
               type="button"
               onClick={() => { clearPending(); next(); }}
               className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
-              aria-label="Sljedeći ajah"
+              aria-label="Sljedeći ajet"
             >
               <NextIcon />
             </button>

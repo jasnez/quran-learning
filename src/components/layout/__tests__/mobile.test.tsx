@@ -119,9 +119,9 @@ describe("AudioPlayer mobile", () => {
 
   it("control buttons have minimum 44x44px touch target", () => {
     const { container } = render(<AudioPlayer />);
-    const prev = container.querySelector("[aria-label='Prethodni ajah']");
+    const prev = container.querySelector("[aria-label='Prethodni ajet']");
     const play = container.querySelector("[aria-label='Pusti'], [aria-label='Pauza']");
-    const next = container.querySelector("[aria-label='Sljedeći ajah']");
+    const next = container.querySelector("[aria-label='Sljedeći ajet']");
     [prev, play, next].forEach((btn) => {
       expect(btn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|h-12|w-12/);
     });
@@ -148,7 +148,7 @@ describe("AudioPlayer mobile", () => {
     expect(row).toBeInTheDocument();
     expect(row?.className).toMatch(/justify-between/);
     const controlsGroup = row?.children?.[1];
-    expect(controlsGroup?.querySelector("[aria-label='Prethodni ajah']")).toBeInTheDocument();
+    expect(controlsGroup?.querySelector("[aria-label='Prethodni ajet']")).toBeInTheDocument();
     expect(controlsGroup?.className).toMatch(/flex.*items-center|ml-auto|flex-shrink-0/);
   });
 
@@ -170,7 +170,7 @@ describe("AudioPlayer mobile", () => {
   it("play/pause button does not exceed row height (same size as prev/next to avoid overflow)", () => {
     const { container } = render(<AudioPlayer />);
     const playBtn = container.querySelector("[aria-label='Pusti'], [aria-label='Pauza']");
-    const prevBtn = container.querySelector("[aria-label='Prethodni ajah']");
+    const prevBtn = container.querySelector("[aria-label='Prethodni ajet']");
     expect(playBtn).toBeInTheDocument();
     expect(prevBtn).toBeInTheDocument();
     expect(playBtn?.className).not.toMatch(/h-12|w-12/);
@@ -216,7 +216,7 @@ describe("AyahCard mobile", () => {
       />
     );
     const playBtn = container.querySelector("[aria-label='Pusti audio'], [aria-label='Pauza']");
-    const bookmarkBtn = container.querySelector("[aria-label='Bookmark']");
+    const bookmarkBtn = container.querySelector("[aria-label='Označi ajet']");
     expect(playBtn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|p-3/);
     expect(bookmarkBtn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|p-3/);
   });

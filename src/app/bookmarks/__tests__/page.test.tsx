@@ -119,7 +119,7 @@ describe("BookmarksContent", () => {
     const user = userEvent.setup();
     mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
     render(<BookmarksContent surahs={mockSurahs} />);
-    const removeBtn = screen.getByRole("button", { name: /ukloni bookmark/i });
+    const removeBtn = screen.getByRole("button", { name: /ukloni oznaku/i });
     await user.click(removeBtn);
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();

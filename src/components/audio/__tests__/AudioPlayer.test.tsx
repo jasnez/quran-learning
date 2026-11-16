@@ -213,7 +213,7 @@ describe("AudioPlayer", () => {
 
   it("Next button calls store next", () => {
     render(<AudioPlayer />);
-    const nextBtn = screen.getByRole("button", { name: /sljedeći ajah/i });
+    const nextBtn = screen.getByRole("button", { name: /sljedeći ajet/i });
     fireEvent.click(nextBtn);
     expect(mockNext).toHaveBeenCalled();
   });

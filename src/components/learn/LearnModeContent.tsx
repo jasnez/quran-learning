@@ -74,7 +74,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     if (!ayah) return;
     const wasBookmarked = bookmarked;
     toggleBookmark(surahNumber, ayahNumber, surah.nameLatin, ayah.arabicText, ayah.translationBosnian);
-    showToast(wasBookmarked ? "Ajet uklonjen iz oznacenih" : "Ajet dodan u oznacene");
+    showToast(wasBookmarked ? "Ajet uklonjen iz označenih" : "Ajet dodan u označene");
   };
 
   useEffect(() => {

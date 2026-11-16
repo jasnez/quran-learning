@@ -59,7 +59,7 @@ export function Header() {
           <Link
             href="/"
             className={`min-w-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
-            aria-label="Quran Learning home"
+            aria-label="Quran Learning, početna"
           >
             Quran Learning
           </Link>
@@ -68,7 +68,7 @@ export function Header() {
         {/* Navigation */}
         <nav
           className="flex flex-shrink-0 items-center gap-3 sm:gap-4"
-          aria-label="Main navigation"
+          aria-label="Glavna navigacija"
         >
           {activeAudioSrc && (
             <>
@@ -115,7 +115,7 @@ export function Header() {
             <button
               type="button"
               className={`${ICON_BTN} hidden sm:flex`}
-              aria-label="Settings"
+              aria-label="Postavke"
               aria-expanded={settingsOpen}
               onClick={() => openSettings()}
             >

@@ -46,7 +46,7 @@ export default function ContactPage() {
           </h2>
           <p className="mt-2 leading-relaxed">
             Ako primijetite grešku u tekstu, transliteraciji, prijevodu ili
-            audio recitaciji, molimo navedite sure i ajat (ili link) u poruci.
+            audio recitaciji, molimo navedite suru i ajet (ili link) u poruci.
           </p>
         </section>
       </div>

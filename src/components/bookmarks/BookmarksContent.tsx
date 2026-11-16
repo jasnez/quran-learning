@@ -215,7 +215,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                           type="button"
                           onClick={() => setConfirmRemove(b)}
                           className="rounded-lg p-2 text-stone-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
-                          aria-label="Ukloni bookmark"
+                          aria-label="Ukloni oznaku"
                         >
                           <TrashIcon className="h-5 w-5" />
                         </button>

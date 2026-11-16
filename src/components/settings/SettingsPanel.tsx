@@ -192,7 +192,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               />
               <ToggleRow
                 id="tajwid"
-                label="Tajwid boje"
+                label="Tedžvid boje"
                 checked={showTajwidColors}
                 onChange={toggleTajwidColors}
               />

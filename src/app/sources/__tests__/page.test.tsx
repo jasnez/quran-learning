@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import SourcesPage from "../page";
+import SourcesPage, { metadata } from "../page";
 
 describe("Izvori (Sources) page", () => {
   it("renders page with heading Izvori podataka", async () => {
@@ -13,15 +13,41 @@ describe("Izvori (Sources) page", () => {
     expect(screen.getByRole("heading", { name: /izvori podataka/i })).toBeInTheDocument();
   });
 
-  it("contains section about Kur'an text and tajwid (Tanzil)", async () => {
+  it("has a meta description without HTML entities", () => {
+    expect(metadata.description).not.toMatch(/&\w+;/);
+    expect(metadata.description).toMatch(/kur'anski tekst/i);
+  });
+
+  it("contains section about the Kur'an text (Quran.com)", async () => {
     const Page = await SourcesPage();
     render(Page);
-    const headings = screen.getAllByRole("heading", { name: /kur'anski tekst i tajwid oznake/i });
-    expect(headings.length).toBeGreaterThanOrEqual(1);
-    const tanzilText = screen.getAllByText(/tanzil/i);
-    expect(tanzilText.length).toBeGreaterThanOrEqual(1);
-    const tanzilLinks = screen.getAllByRole("link", { name: "tanzil.net" });
-    expect(tanzilLinks[0]).toHaveAttribute("href", "https://tanzil.net");
+    expect(screen.getAllByRole("heading", { name: /^kur'anski tekst$/i }).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("credits the tedžvid annotations to cpfair under CC BY 4.0 and names the changes", async () => {
+    const Page = await SourcesPage();
+    render(Page);
+    expect(screen.getAllByRole("heading", { name: /^tedžvid oznake$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("link", { name: "cpfair/quran-tajweed" })[0]).toHaveAttribute(
+      "href",
+      "https://github.com/cpfair/quran-tajweed"
+    );
+    expect(screen.getAllByRole("link", { name: "CC BY 4.0" })[0]).toHaveAttribute(
+      "href",
+      "https://creativecommons.org/licenses/by/4.0/"
+    );
+    expect(screen.getAllByRole("link", { name: "tanzil.net" })[0]).toHaveAttribute("href", "https://tanzil.net");
+    expect(screen.getAllByText(/izmjene:/i).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("names everyayah.com as the audio source", async () => {
+    const Page = await SourcesPage();
+    render(Page);
+    expect(screen.getAllByRole("heading", { name: /^audio recitacija$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("link", { name: "everyayah.com" })[0]).toHaveAttribute(
+      "href",
+      "https://everyayah.com"
+    );
   });
 
   it("says the transliteration follows the IZ BiH rules and links to the letter table", async () => {
@@ -35,10 +61,10 @@ describe("Izvori (Sources) page", () => {
     expect(screen.getAllByRole("link", { name: /harfovi i izgovor/i })[0]).toHaveAttribute("href", "/harfovi");
   });
 
-  it("contains section about structure and audio (Quran.com)", async () => {
+  it("contains section about ayah structure and word timings (Quran.com)", async () => {
     const Page = await SourcesPage();
     render(Page);
-    const headings = screen.getAllByRole("heading", { name: /struktura ajeta i audio recitacije/i });
+    const headings = screen.getAllByRole("heading", { name: /struktura ajeta i vremena riječi/i });
     expect(headings.length).toBeGreaterThanOrEqual(1);
     const quranText = screen.getAllByText(/quran\.com/i);
     expect(quranText.length).toBeGreaterThanOrEqual(1);

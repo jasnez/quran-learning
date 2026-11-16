@@ -42,7 +42,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <LessonProgressTracker lessonSlug={lesson.slug} />
       <header className="mb-6 sm:mb-8">
         <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
-          Tajwid lekcija
+          Tedžvid lekcija
         </p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-3xl">
           {lesson.title}

@@ -56,7 +56,7 @@ export function TestQuestion({
           )}
           {question.type === "tajwid_identify" && (
             <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
-              Prepoznaj koje se tajwid pravilo primjenjuje.
+              Prepoznaj koje se tedžvid pravilo primjenjuje.
             </p>
           )}
         </header>
