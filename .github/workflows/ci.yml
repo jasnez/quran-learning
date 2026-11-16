@@ -27,6 +27,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # `next build` does not fail on type errors in test files, so check the
+      # whole project with tsc as its own step.
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Test
         run: npm test
 
