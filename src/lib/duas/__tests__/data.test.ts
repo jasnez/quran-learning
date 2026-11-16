@@ -1,8 +1,13 @@
 import { describe, it, expect } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
 import { QURANIC_DUAS, getDuasByCategory, DUAS_BY_CATEGORY } from "../data";
 import { AYAH_COUNT_PER_SURAH } from "@/lib/quran/constants";
-import { fetchVerseContentByKey } from "@/lib/quran/fetch-verse-by-key";
 import type { DuaCategory } from "@/types/duas";
+
+type AyahJson = { id: string; translationBosnian: string };
+
+const AYAHS_DIR = path.join(process.cwd(), "src", "data", "ayahs");
 
 const VALID_CATEGORIES: DuaCategory[] = [
   "forgiveness",
@@ -70,15 +75,22 @@ describe("QURANIC_DUAS data", () => {
     });
   });
 
-  it("each dua translationBosnian matches Besim Korkut translation from Quran.com API (sura/verse)", async () => {
-    for (const dua of QURANIC_DUAS) {
-      const content = await fetchVerseContentByKey(dua.id);
-      expect(
-        dua.translationBosnian,
-        `Dua ${dua.id} translation should match API (Besim Korkut). Run: npx tsx scripts/sync-dua-translations.ts`
-      ).toBe(content.translationBosnian);
+  // Offline: compares with the Besim Korkut text stored for the surah reader. The check against
+  // the live Quran.com API is `npm run check:dua-translations` (see the header of ../data.ts).
+  it("each dua translationBosnian is the Besim Korkut translation stored for its ayah in src/data/ayahs", () => {
+    const surahFiles = new Map(
+      fs.readdirSync(AYAHS_DIR).filter((f) => f.endsWith(".json")).map((f) => [Number.parseInt(f, 10), f])
+    );
+    const stored = new Map<string, string>();
+    for (const surahNumber of new Set(QURANIC_DUAS.map((dua) => dua.surahNumber))) {
+      const file = surahFiles.get(surahNumber);
+      if (!file) continue; // its duas are reported as stale below
+      const { ayahs } = JSON.parse(fs.readFileSync(path.join(AYAHS_DIR, file), "utf8")) as { ayahs: AyahJson[] };
+      for (const ayah of ayahs) stored.set(ayah.id, ayah.translationBosnian);
     }
-  }, 60000);
+    const stale = QURANIC_DUAS.filter((dua) => stored.get(dua.id) !== dua.translationBosnian).map((dua) => dua.id);
+    expect(stale, "Dua translations that differ from src/data/ayahs; see the header of src/lib/duas/data.ts").toEqual([]);
+  });
 });
 
 describe("getDuasByCategory", () => {

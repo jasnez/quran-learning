@@ -8,3 +8,4 @@ Project notes for Claude Code sessions in this repository.
 - Session worktrees live in `.claude/worktrees/` (full copies of the repo). ESLint and Vitest ignore `.claude/`; tsc skips it on its own because its wildcards skip dot-folders.
 - npm 10.9.x (bundled with Node 22) can crash when installing vitest 4.1.x with `Cannot read properties of null (reading 'edgesOut')`. Use npm 11 for dependency changes (`npx npm@11 install ...`).
 - The `transliteration` field (ayahs, Quranic duas, search index) is generated in the IZ BiH "specijal" system: never edit it by hand. Run `npx tsx scripts/generate-transliteration.ts --write`, then `npm run generate:search-index`; tests fail when the stored text differs from the generator.
+- The Quranic dua translations (Korkut, resource 126) are checked offline in `npm test` against `src/data/ayahs`; the live check against Quran.com is `npm run check:dua-translations` (needs network, not in CI).
