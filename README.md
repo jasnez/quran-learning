@@ -124,7 +124,7 @@ quran-learning-main/
 │   │   ├── audio/              # audioManager, getResolvedAudioUrl, reciterUtils, wordTimingService
 │   │   ├── api/                # client.ts (fetch wrapperi), getBaseUrl
 │   │   ├── quran/              # tajwidStyles, wordUtils, stripWaqfSigns
-│   │   ├── search/             # searchClient, searchIndex
+│   │   ├── search/             # searchClient (klijentska pretraga)
 │   │   ├── duas/, names/       # data + helpers
 │   │   ├── idb/                # IndexedDB persister za React Query
 │   │   └── utils/, profile/
