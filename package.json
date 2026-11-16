@@ -21,6 +21,7 @@
     "generate:search-index": "tsx scripts/generate-search-index.ts",
     "generate:all-data": "npm run generate:ayahs && npm run generate:words && npm run generate:chapter-audio && npm run generate:search-index",
     "download:audio-sample": "tsx scripts/download-audio-sample.ts",
+    "check:dua-translations": "tsx scripts/check-dua-translations.ts",
     "deploy:check": "npm run test && npm run build"
   },
   "dependencies": {
