@@ -73,25 +73,6 @@ export type SearchResult = {
   arabicSnippet: string;
 };
 
-/** Match field for search engine results (used by searchEngine.ts). */
-export type SearchMatchField =
-  | "arabic"
-  | "transliteration"
-  | "translation"
-  | "surah";
-
-/** Engine search result: used by searchEngine and mapped to SearchResult for UI. */
-export type EngineSearchResult = {
-  surahNumber: number;
-  surahNameLatin: string;
-  surahNameArabic: string;
-  ayahNumber: number;
-  matchField: SearchMatchField;
-  matchSnippet: string;
-  arabicText: string;
-  score: number;
-};
-
 /** Juz (جزء) boundary and metadata. One of 30 equal-ish portions of the Quran. */
 export interface JuzInfo {
   juz: number;

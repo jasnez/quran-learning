@@ -3,7 +3,7 @@
  * (Arabic text, transliteration, Bosnian translation, surah names) used by
  * client-side search in static-exported builds.
  *
- * Read once on the search page, then searchEngine.ts runs purely in-browser.
+ * Fetched once on the search page, then src/lib/search/searchClient.ts searches it in-browser.
  *
  * Run: npm run generate:search-index
  */

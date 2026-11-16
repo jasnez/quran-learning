@@ -1,105 +1,95 @@
 /**
- * Integration tests for full search flow: searchEngine + getSearchIndex (no mocks).
- * Run with real data (surah 1 JSON + optionally XML for 2–114).
+ * Integration tests for the search the app uses: searchClient against the real
+ * public/data/search-index.json (no mocked index). Only fetch is replaced, so the
+ * file is read from disk instead of the network.
  * @vitest-environment node
  */
-import { describe, it, expect, afterEach } from "vitest";
-import { searchAyahs } from "../searchEngine";
-import { getSearchIndex, clearSearchIndex } from "../searchIndex";
-import { clearUthmaniCache } from "../loadUthmaniXml";
+import * as fs from "fs";
+import * as path from "path";
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
+import { searchAyahs, __resetSearchIndexCacheForTests } from "../searchClient";
 
-describe("search (integration)", () => {
-  afterEach(() => {
-    clearSearchIndex();
-    clearUthmaniCache();
+const INDEX_PATH = path.join(process.cwd(), "public", "data", "search-index.json");
+
+describe("search (integration, real index)", () => {
+  beforeAll(() => {
+    const body = fs.readFileSync(INDEX_PATH, "utf-8");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url !== "/data/search-index.json") throw new Error(`Unexpected fetch: ${url}`);
+        return new Response(body, { status: 200, headers: { "Content-Type": "application/json" } });
+      }),
+    );
+    __resetSearchIndexCacheForTests();
   });
 
-  it("index includes at least surah 1 from JSON", () => {
-    const index = getSearchIndex();
-    expect(index.length).toBeGreaterThanOrEqual(1);
-    const s1 = index.find((d) => d.surah.surahNumber === 1);
-    expect(s1).toBeDefined();
-    expect(s1!.ayahs.length).toBeGreaterThanOrEqual(7);
-    expect(s1!.ayahs[0].translationBosnian).toBeTruthy();
-    expect(s1!.ayahs[0].transliteration).toBeTruthy();
+  afterAll(() => {
+    vi.unstubAllGlobals();
+    __resetSearchIndexCacheForTests();
   });
 
-  it("empty query returns []", () => {
-    expect(searchAyahs("")).toEqual([]);
-    expect(searchAyahs("   ")).toEqual([]);
-    expect(searchAyahs("\t\n")).toEqual([]);
+  it("index covers all 114 surahs and 6236 ayahs", () => {
+    const index = JSON.parse(fs.readFileSync(INDEX_PATH, "utf-8")) as { ayahs: unknown[] }[];
+    expect(index).toHaveLength(114);
+    expect(index.reduce((sum, s) => sum + s.ayahs.length, 0)).toBe(6236);
   });
 
-  it("query 'Milostivog' returns at least one result from translation", () => {
-    const results = searchAyahs("Milostivog");
+  it("empty query returns []", async () => {
+    expect(await searchAyahs("")).toEqual([]);
+    expect(await searchAyahs("   ")).toEqual([]);
+    expect(await searchAyahs("\t\n")).toEqual([]);
+  });
+
+  it("query 'Milostivog' finds the translation and highlights it", async () => {
+    const results = await searchAyahs("Milostivog");
     expect(results.length).toBeGreaterThanOrEqual(1);
-    const byTranslation = results.find((r) => r.matchField === "translation");
-    expect(byTranslation).toBeDefined();
-    expect(byTranslation!.matchSnippet.toLowerCase()).toContain("milostivog");
+    results.forEach((r) => {
+      expect(r.snippetHighlight).toContain("<mark>");
+      expect(r.snippetHighlight.toLowerCase()).toContain("milostivog");
+    });
   });
 
-  it("query 'rahman' or 'Rahman' returns same count (case-insensitive)", () => {
-    const lower = searchAyahs("rahman");
-    const upper = searchAyahs("Rahman");
-    expect(lower.length).toBe(upper.length);
+  it("is case-insensitive", async () => {
+    const lower = await searchAyahs("rahman");
+    const upper = await searchAyahs("Rahman");
     expect(lower.length).toBeGreaterThanOrEqual(1);
+    expect(lower.map((r) => r.ayahId)).toEqual(upper.map((r) => r.ayahId));
   });
 
-  it("Arabic query matches arabicText and returns arabic matchField when applicable", () => {
-    const results = searchAyahs("الرحمن");
-    if (results.length === 0) return; // might depend on exact form in data
-    const byArabic = results.find((r) => r.matchField === "arabic");
-    if (byArabic) {
-      expect(byArabic.arabicText).toMatch(/رحم|الرحمن/);
-    }
+  it("Arabic query without tashkeel finds the Uthmani text", async () => {
+    const results = await searchAyahs("الرحمن");
+    expect(results.length).toBeGreaterThanOrEqual(1);
+    expect(results.map((r) => r.ayahId)).toContain("1:3");
   });
 
-  it("results are sorted by score descending", () => {
-    const results = searchAyahs("allah");
-    for (let i = 1; i < results.length; i++) {
-      expect(results[i].score).toBeLessThanOrEqual(results[i - 1].score);
-    }
+  it("ayah reference '2:255' returns that ayah first", async () => {
+    const results = await searchAyahs("2:255");
+    expect(results[0].ayahId).toBe("2:255");
   });
 
-  it("returns at most 50 results", () => {
-    const results = searchAyahs("a");
+  it("returns at most 50 results", async () => {
+    const results = await searchAyahs("a");
     expect(results.length).toBeLessThanOrEqual(50);
   });
 
-  it("each result has matchSnippet with <mark> when there is a match", () => {
-    const results = searchAyahs("Milostivog");
+  it("each result has a valid SearchResult shape", async () => {
+    const results = await searchAyahs("ime");
     expect(results.length).toBeGreaterThanOrEqual(1);
     results.forEach((r) => {
-      expect(r.matchSnippet).toContain("<mark>");
-      expect(r.matchSnippet).toContain("</mark>");
-    });
-  });
-
-  it("each result has valid EngineSearchResult shape", () => {
-    const results = searchAyahs("ime");
-    expect(results.length).toBeGreaterThanOrEqual(1);
-    results.forEach((r) => {
-      expect(typeof r.surahNumber).toBe("number");
-      expect(r.surahNumber).toBeGreaterThanOrEqual(1);
-      expect(r.surahNumber).toBeLessThanOrEqual(114);
-      expect(typeof r.surahNameLatin).toBe("string");
-      expect(typeof r.surahNameArabic).toBe("string");
-      expect(typeof r.ayahNumber).toBe("number");
+      const surah = Number(r.surahId);
+      expect(surah).toBeGreaterThanOrEqual(1);
+      expect(surah).toBeLessThanOrEqual(114);
       expect(r.ayahNumber).toBeGreaterThanOrEqual(1);
-      expect(["arabic", "transliteration", "translation", "surah"]).toContain(r.matchField);
-      expect(typeof r.matchSnippet).toBe("string");
-      expect(typeof r.arabicText).toBe("string");
-      expect(typeof r.score).toBe("number");
+      expect(r.ayahId).toBe(`${r.surahId}:${r.ayahNumber}`);
+      expect(r.surahName).toBeTruthy();
+      expect(typeof r.snippet).toBe("string");
+      expect(r.arabicSnippet).toBeTruthy();
     });
   });
 
-  it("surah name search returns results when query matches surah name", () => {
-    const results = searchAyahs("Fatiha");
-    if (results.length > 0) {
-      const bySurah = results.find((r) => r.matchField === "surah");
-      if (bySurah) {
-        expect(bySurah.surahNameLatin.toLowerCase()).toMatch(/fatiha/);
-      }
-    }
+  it("surah name 'Fatiha' puts the first ayah of surah 1 first", async () => {
+    const results = await searchAyahs("Fatiha");
+    expect(results[0].ayahId).toBe("1:1");
   });
 });
