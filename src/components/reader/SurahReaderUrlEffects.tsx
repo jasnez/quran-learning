@@ -44,10 +44,13 @@ export function SurahReaderUrlEffects({
     if (ayahs.length === 0 || progressTrackedRef.current) return;
     const [surahPart] = ayahs[0].id.split(":");
     const surahNumber = parseInt(surahPart, 10) || 1;
-    const ayahNumber = initialAyahNumber ?? 1;
     progressTrackedRef.current = true;
-    useProgressStore.getState().addSurahVisited(surahNumber);
-    useProgressStore.getState().updateLastPosition(surahNumber, ayahNumber, surahNameLatin, "reader");
+    const progress = useProgressStore.getState();
+    progress.addSurahVisited(surahNumber);
+    // Without ?ayah nothing has been read yet: a saved position in this surah (e.g. learn mode
+    // closed at 2:150) stays as it is (QA P2-1).
+    if (initialAyahNumber == null && progress.lastSurahNumber === surahNumber) return;
+    progress.updateLastPosition(surahNumber, initialAyahNumber ?? 1, surahNameLatin, "reader");
   }, [ayahs, initialAyahNumber, surahNameLatin]);
 
   // Autoplay first ayah when navigated from "next surah" (e.g. after previous surah ended)

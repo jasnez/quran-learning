@@ -80,6 +80,7 @@ vi.mock("@/lib/audio/audioManager", () => ({
   getDuration: () => 10,
   setPlaybackRate: () => {},
   onTimeUpdate: () => () => {},
+  onDurationChange: () => () => {},
   onEnded: () => () => {},
 }));
 

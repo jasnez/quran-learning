@@ -111,6 +111,13 @@ export function AudioPlayer() {
     }, secs * 1000);
   }, []);
 
+  // Another ayah chosen outside the player bar (learn mode prev/next, a card's play button) while
+  // waiting between ayahs: drop the pending advance, or it would skip the chosen ayah.
+  // The advance itself clears the pending state before it moves to the next ayah.
+  useEffect(() => {
+    if (isWaitingRef.current) clearPending();
+  }, [currentAyahId, clearPending]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -231,9 +238,20 @@ export function AudioPlayer() {
         }
       }
     };
+    // A new source: forget the previous ayah's duration and take the new one as soon as the
+    // metadata loads, also while paused (no timeupdate then).
+    setDuration(0);
+    const onDurationChangeHandler = () => {
+      const d = audioManager.getDuration();
+      if (Number.isFinite(d) && d > 0) setDuration(d);
+    };
     const unsubscribe = audioManager.onTimeUpdate(onTimeUpdateHandler);
+    const unsubscribeDuration = audioManager.onDurationChange(onDurationChangeHandler);
     onTimeUpdateHandler();
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      unsubscribeDuration();
+    };
   }, [activeAudioSrc, setCurrentTime, setDuration]);
 
   // Ended: repeat or advance (ref updated in effect to avoid ref-as-render)
@@ -312,6 +330,19 @@ export function AudioPlayer() {
     const surah = (surahsData as SurahSummary[]).find((s) => s.surahNumber === n);
     return surah?.nameLatin ?? null;
   }, [currentSurahId]);
+
+  // "Nastavi učenje" follows the ayah that is actually playing, also after an automatic
+  // move to the next ayah (QA P2-1). A dua is not a place in the Quran to return to.
+  useEffect(() => {
+    if (!isPlaying || !currentAyahId) return;
+    const { queueSource } = usePlayerStore.getState();
+    if (queueSource === "dua") return;
+    const [surahNum, ayahNum] = currentAyahId.split(":").map(Number);
+    if (!(surahNum >= 1 && ayahNum >= 1)) return;
+    useProgressStore
+      .getState()
+      .updateLastPosition(surahNum, ayahNum, surahName ?? "", queueSource === "learn" ? "learning" : "reader");
+  }, [currentAyahId, isPlaying, surahName]);
 
   if (!activeAudioSrc) return null;
 

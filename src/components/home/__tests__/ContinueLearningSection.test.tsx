@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import { ContinueLearningSection } from "../ContinueLearningSection";
 
 const mockStore = {
@@ -36,6 +36,7 @@ vi.mock("next/link", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
 });
+afterEach(cleanup);
 
 describe("ContinueLearningSection", () => {
   it("when overall progress exists, shows overall stat cards after mount", async () => {
@@ -50,6 +51,12 @@ describe("ContinueLearningSection", () => {
     expect(screen.getByText("1")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();
     expect(screen.getByText(/10\/6236 ajeta/)).toBeInTheDocument();
+  });
+
+  it("opens the saved ayah from both buttons (QA P2-1)", async () => {
+    render(<ContinueLearningSection />);
+    expect(await screen.findByRole("link", { name: "Nastavi čitanje" })).toHaveAttribute("href", "/surah/1?ayah=5");
+    expect(screen.getByRole("link", { name: "Učenje" })).toHaveAttribute("href", "/learn/1?ayah=5");
   });
 
   it("formats listening time in stat cards", async () => {

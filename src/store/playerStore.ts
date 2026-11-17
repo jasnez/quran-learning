@@ -51,6 +51,8 @@ type PlayerStore = PlayerState & {
   /** Replaces the queue; `source` defaults to a whole-surah queue. */
   setQueue: (ayahs: Ayah[], source?: QueueSource) => void;
   setCurrentAyah: (ayah: Ayah) => void;
+  /** Moves to an ayah without changing whether audio plays: playing continues there, paused stays paused, stopped stays stopped. */
+  goToAyah: (ayah: Ayah) => void;
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
   setPendingSeek: (seconds: number | null) => void;
@@ -160,6 +162,19 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       currentTime: 0,
       currentTimeMs: 0,
     }),
+
+  goToAyah: (ayah) => {
+    const audioLoaded = get().activeAudioSrc != null;
+    set({
+      currentSurahId: surahIdFromAyahId(ayah.id),
+      currentAyahId: ayah.id,
+      activeAudioSrc: audioLoaded ? ayahAudioUrl(ayah) || null : null,
+      isPlaying: audioLoaded && get().isPlaying,
+      currentTime: 0,
+      currentTimeMs: 0,
+      pendingSeekToSeconds: null,
+    });
+  },
 
   setCurrentTime: (currentTime) => set({ currentTime }),
 
