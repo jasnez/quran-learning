@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SettingsPanel } from "../SettingsPanel";
 
@@ -45,8 +45,28 @@ vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: vi.fn((selector: (s: typeof defaultStore) => unknown) => selector(defaultStore)),
 }));
 
+const offline = vi.hoisted(() => {
+  const initial = {
+    status: "idle" as string,
+    error: null as string | null,
+    progress: 0,
+    total: 114,
+    progressPercent: 0,
+    availableCount: 0,
+    failures: [] as { surah: number; reason: string; httpStatus?: number }[],
+    failedAssetCount: 0,
+  };
+  return { initial, state: { ...initial }, start: vi.fn(), retry: vi.fn(), cancel: vi.fn() };
+});
+
+vi.mock("@/hooks/useOfflineDownload", () => ({
+  TOTAL_SURAHS: 114,
+  useOfflineDownload: () => ({ ...offline.state, start: offline.start, retry: offline.retry, cancel: offline.cancel }),
+}));
+
 beforeEach(() => {
   vi.clearAllMocks();
+  offline.state = { ...offline.initial };
   cleanup();
   document.body.innerHTML = "";
   defaultStore.theme = "light";
@@ -242,5 +262,69 @@ describe("SettingsPanel", () => {
     const toggle = screen.getByRole("switch", { name: /auto-play|sljedeći|next ayah/i });
     await userEvent.click(toggle);
     expect(mockToggleAutoPlayNext).toHaveBeenCalled();
+  });
+});
+
+describe("SettingsPanel offline download", () => {
+  function offlineRegion() {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    return within(screen.getByRole("region", { name: /offline čitanje/i }));
+  }
+
+  it("says plainly that the download is text only and audio needs the internet", () => {
+    const region = offlineRegion();
+    expect(region.getByText(/audio.*nije uključen/i)).toBeInTheDocument();
+  });
+
+  it("shows how many surahs are already saved after a reload", () => {
+    offline.state.availableCount = 10;
+    const region = offlineRegion();
+    expect(region.getByText(/10 od 114/)).toBeInTheDocument();
+  });
+
+  it("shows done only with every surah saved", () => {
+    offline.state.status = "done";
+    offline.state.availableCount = 114;
+    const region = offlineRegion();
+    expect(region.getByText(/svih 114 sura je spremljeno/i)).toBeInTheDocument();
+  });
+
+  it("names the surahs that failed and retries only those", async () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.availableCount = 112;
+    offline.state.failures = [
+      { surah: 5, reason: "network" },
+      { surah: 17, reason: "http", httpStatus: 500 },
+    ];
+    const region = offlineRegion();
+    expect(region.getByText(/5, 17/)).toBeInTheDocument();
+    await userEvent.click(region.getByRole("button", { name: /pokušaj ponovo/i }));
+    expect(offline.retry).toHaveBeenCalled();
+    expect(offline.start).not.toHaveBeenCalled();
+  });
+
+  it("reports static files that were not saved", () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.availableCount = 114;
+    offline.state.failedAssetCount = 2;
+    const region = offlineRegion();
+    expect(region.getByText(/datoteke aplikacije koje nisu spremljene: 2/i)).toBeInTheDocument();
+  });
+
+  it("explains that nothing was saved when the service worker does not control the page", () => {
+    offline.state.status = "error";
+    offline.state.error = "not-controlled";
+    const region = offlineRegion();
+    expect(region.getByText(/ništa nije spremljeno/i)).toBeInTheDocument();
+    expect(region.getByText(/osvježite stranicu/i)).toBeInTheDocument();
+  });
+
+  it("says when the browser cannot save pages for offline use", () => {
+    offline.state.status = "unsupported";
+    const region = offlineRegion();
+    expect(region.getByText(/ne podržava/i)).toBeInTheDocument();
+    expect(region.queryByRole("button", { name: /preuzmi/i })).toBeNull();
   });
 });
