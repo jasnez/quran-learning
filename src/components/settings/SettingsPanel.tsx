@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
-import { useOfflineDownload } from "@/hooks/useOfflineDownload";
+import { useOfflineDownload, TOTAL_SURAHS, type SurahFailure } from "@/hooks/useOfflineDownload";
 
 const FONT_MIN = 20;
 const FONT_MAX = 44;
@@ -277,7 +277,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           </section>
 
           {/* Offline */}
-          <OfflineSection />
+          <OfflineSection active={isOpen} />
 
           {/* Theme */}
           <ThemeSection theme={theme} setTheme={setTheme} />
@@ -460,10 +460,42 @@ function ThemeSection({
   );
 }
 
-function OfflineSection() {
-  const { start, cancel, reset, status, progress, progressPercent } = useOfflineDownload();
+const SECONDARY_BUTTON =
+  "w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800";
+const PRIMARY_BUTTON =
+  "w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500";
 
-  const TOTAL = 114;
+function failureHints(failures: SurahFailure[]): string[] {
+  const hints: string[] = [];
+  if (failures.some((f) => f.reason === "network")) hints.push("Provjerite internet vezu.");
+  const statuses = [...new Set(failures.flatMap((f) => (f.httpStatus ? [f.httpStatus] : [])))];
+  if (statuses.length > 0) hints.push(`Server je vratio grešku (${statuses.join(", ")}).`);
+  if (failures.some((f) => f.reason === "not-saved")) {
+    hints.push("Preglednik ih nije spremio (možda nema dovoljno prostora).");
+  }
+  return hints;
+}
+
+function OfflineSection({ active }: { active: boolean }) {
+  const {
+    start,
+    retry,
+    cancel,
+    status,
+    error,
+    progress,
+    total,
+    progressPercent,
+    availableCount,
+    failures,
+    failedAssetCount,
+  } = useOfflineDownload({ active });
+
+  const availableLine = (
+    <p className="text-sm text-stone-600 dark:text-stone-400">
+      Bez interneta je dostupno {availableCount} od {TOTAL_SURAHS} sura.
+    </p>
+  );
 
   return (
     <section aria-labelledby="offline-heading">
@@ -474,16 +506,27 @@ function OfflineSection() {
         Offline čitanje
       </h3>
 
+      {status === "unsupported" ? (
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Ovaj preglednik ne podržava spremanje sura za čitanje bez interneta.
+        </p>
+      ) : (
+        <p className="mb-3 text-sm text-stone-600 dark:text-stone-400">
+          Preuzimanje sprema tekst svih {TOTAL_SURAHS} sura (arapski tekst, prijevod i transliteraciju) za čitanje
+          bez interneta, oko 40 MB. Audio (učenje) nije uključen: za slušanje je uvijek potrebna internet veza.
+        </p>
+      )}
+
+      {status === "checking" && (
+        <p className="text-sm text-stone-500 dark:text-stone-400" role="status">
+          Provjeravam šta je već spremljeno…
+        </p>
+      )}
+
       {status === "idle" && (
         <div className="space-y-3">
-          <p className="text-sm text-stone-600 dark:text-stone-400">
-            Preuzmite sve sure da biste čitali Kur&apos;an bez internet veze.
-          </p>
-          <button
-            type="button"
-            onClick={start}
-            className="w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-          >
+          {availableCount > 0 && availableLine}
+          <button type="button" onClick={start} className={PRIMARY_BUTTON}>
             Preuzmi sve sure za offline
           </button>
         </div>
@@ -493,7 +536,7 @@ function OfflineSection() {
         <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center justify-between text-sm">
             <span className="text-stone-700 dark:text-stone-300">
-              Preuzimanje {progress}/{TOTAL}…
+              Preuzimanje {progress}/{total}…
             </span>
             <span className="tabular-nums text-stone-500 dark:text-stone-400">
               {progressPercent}%
@@ -511,11 +554,7 @@ function OfflineSection() {
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <button
-            type="button"
-            onClick={cancel}
-            className="w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800"
-          >
+          <button type="button" onClick={cancel} className={SECONDARY_BUTTON}>
             Otkaži
           </button>
         </div>
@@ -525,28 +564,44 @@ function OfflineSection() {
         <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
             <span aria-hidden>✓</span>
-            Sve sure su preuzete za offline čitanje.
+            Svih {TOTAL_SURAHS} sura je spremljeno za čitanje bez interneta.
           </div>
-          <button
-            type="button"
-            onClick={reset}
-            className="w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800"
-          >
-            Ponovi preuzimanje
+          <button type="button" onClick={start} className={SECONDARY_BUTTON}>
+            Preuzmi ponovo
           </button>
         </div>
       )}
 
-      {status === "error" && (
-        <div className="space-y-3" role="status" aria-live="polite">
+      {status === "error" && error === "not-controlled" && (
+        <div className="space-y-3" role="alert">
           <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
-            Preuzimanje nije uspjelo za neke sure. Provjerite internet vezu.
+            Ništa nije spremljeno: offline način još nije aktivan na ovoj stranici. Osvježite stranicu i
+            pokušajte ponovo.
           </div>
-          <button
-            type="button"
-            onClick={reset}
-            className="w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-          >
+          <button type="button" onClick={start} className={PRIMARY_BUTTON}>
+            Pokušaj ponovo
+          </button>
+        </div>
+      )}
+
+      {status === "error" && error === "incomplete" && (
+        <div className="space-y-3" role="alert">
+          <div className="space-y-1 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+            <p className="font-medium">Preuzimanje nije potpuno.</p>
+            {failures.length > 0 && (
+              <p>
+                Sure koje nisu spremljene ({failures.length}): {failures.map((f) => f.surah).join(", ")}.
+              </p>
+            )}
+            {failedAssetCount > 0 && (
+              <p>Datoteke aplikacije koje nisu spremljene: {failedAssetCount} (potrebne su za prikaz sura).</p>
+            )}
+            {failureHints(failures).map((hint) => (
+              <p key={hint}>{hint}</p>
+            ))}
+          </div>
+          {availableLine}
+          <button type="button" onClick={retry} className={PRIMARY_BUTTON}>
             Pokušaj ponovo
           </button>
         </div>
