@@ -30,6 +30,7 @@ vi.mock("@/lib/audio/audioManager", () => ({
     mockOnTimeUpdate(cb);
     return timeUpdateCleanup;
   },
+  onDurationChange: () => () => {},
   onEnded: (cb: () => void) => {
     mockOnEnded(cb);
     return endedCleanup;
@@ -60,7 +61,11 @@ const progressStoreMocks = vi.hoisted(() => {
   return {
     mockMarkAyahListened,
     mockIncrementAyahsListened,
-    progressStoreState: { markAyahListened: mockMarkAyahListened, incrementAyahsListened: mockIncrementAyahsListened },
+    progressStoreState: {
+      markAyahListened: mockMarkAyahListened,
+      incrementAyahsListened: mockIncrementAyahsListened,
+      updateLastPosition: vi.fn(),
+    },
   };
 });
 const { mockMarkAyahListened, mockIncrementAyahsListened } = progressStoreMocks;

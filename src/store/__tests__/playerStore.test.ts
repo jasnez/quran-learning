@@ -242,6 +242,45 @@ describe("playerStore", () => {
     });
   });
 
+  describe("goToAyah (navigation keeps the playback state, QA P2-2)", () => {
+    const a1 = mockAyah("1:1", "/a1.mp3");
+    const a2 = mockAyah("1:2", "/a2.mp3");
+
+    it("with audio stopped moves to the ayah and loads no audio", () => {
+      usePlayerStore.getState().setQueue([a1, a2], "learn");
+      usePlayerStore.getState().setCurrentAyah(a1);
+      usePlayerStore.getState().goToAyah(a2);
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("1:2");
+      expect(state.isPlaying).toBe(false);
+      expect(state.activeAudioSrc).toBeNull();
+    });
+
+    it("while paused loads the ayah's audio and stays paused", () => {
+      usePlayerStore.getState().setQueue([a1, a2], "learn");
+      usePlayerStore.getState().play(a1);
+      usePlayerStore.getState().pause();
+      usePlayerStore.getState().goToAyah(a2);
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("1:2");
+      expect(state.isPlaying).toBe(false);
+      expect(state.activeAudioSrc).toBe("/a2.mp3");
+    });
+
+    it("while playing continues playback at the ayah from its start", () => {
+      usePlayerStore.getState().setQueue([a1, a2], "learn");
+      usePlayerStore.getState().play(a1);
+      usePlayerStore.setState({ currentTime: 4, currentTimeMs: 4000 });
+      usePlayerStore.getState().goToAyah(a2);
+      const state = usePlayerStore.getState();
+      expect(state.currentAyahId).toBe("1:2");
+      expect(state.isPlaying).toBe(true);
+      expect(state.activeAudioSrc).toBe("/a2.mp3");
+      expect(state.currentTimeMs).toBe(0);
+      expect(state.queueSource).toBe("learn");
+    });
+  });
+
   describe("setCurrentTime and setDuration", () => {
     it("updates currentTime and duration", () => {
       usePlayerStore.getState().setCurrentTime(5.2);

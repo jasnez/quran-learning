@@ -59,6 +59,13 @@ export function onEnded(callback: () => void): () => void {
   return () => audio.removeEventListener("ended", callback);
 }
 
+/** Callback when the duration becomes known or changes (fires while paused, unlike timeupdate). */
+export function onDurationChange(callback: () => void): () => void {
+  const audio = getInstance();
+  audio.addEventListener("durationchange", callback);
+  return () => audio.removeEventListener("durationchange", callback);
+}
+
 export function getCurrentTime(): number {
   return getInstance().currentTime;
 }

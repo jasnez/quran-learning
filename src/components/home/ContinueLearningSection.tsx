@@ -50,7 +50,7 @@ export function ContinueLearningSection() {
 
   const hasPosition = pos !== null && pos.surahNumber >= 1;
   const readerHref = hasPosition ? `/surah/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/surah/1";
-  const learnHref = hasPosition ? `/learn/${pos.surahNumber}` : "/learn/1";
+  const learnHref = hasPosition ? `/learn/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/learn/1";
   const timeLabel = timestamp ? timeSince(timestamp) : "";
   const showStats = stats.totalTime > 0 || stats.surahsCount > 0 || stats.ayahsCount > 0;
   const totalMinutes = Math.floor(stats.totalTime / 60000);

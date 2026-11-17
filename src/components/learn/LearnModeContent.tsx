@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import Link from "next/link";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { commonSurahName } from "@/lib/quran/surahNames";
@@ -15,6 +15,7 @@ import { playAyahFromMs } from "@/lib/audio/playFromWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
 import { TajwidLegend } from "@/components/quran";
+import { LearnModeUrlEffects } from "./LearnModeUrlEffects";
 
 type SurahNavItem = { surahNumber: number; nameLatin: string; nameBosnian?: string };
 
@@ -38,11 +39,9 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const setQueue = usePlayerStore((s) => s.setQueue);
-  const setCurrentAyah = usePlayerStore((s) => s.setCurrentAyah);
   const play = usePlayerStore((s) => s.play);
   const pause = usePlayerStore((s) => s.pause);
-  const next = usePlayerStore((s) => s.next);
-  const previous = usePlayerStore((s) => s.previous);
+  const goToAyah = usePlayerStore((s) => s.goToAyah);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
   const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
   const currentTimeMsStore = usePlayerStore((s) => s.currentTimeMs);
@@ -77,24 +76,24 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     showToast(wasBookmarked ? "Ajet uklonjen iz označenih" : "Ajet dodan u označene");
   };
 
+  // The ayah learn mode opens at is chosen by LearnModeUrlEffects.
   useEffect(() => {
-    if (ayahs.length === 0) return;
-    setQueue(ayahs, "learn");
-    const currentInList = ayahs.some((a) => a.id === currentAyahId);
-    if (!currentAyahId || !currentInList) {
-      setCurrentAyah(ayahs[0]);
-    }
-  }, [ayahs, setQueue, setCurrentAyah, currentAyahId]);
+    if (ayahs.length > 0) setQueue(ayahs, "learn");
+  }, [ayahs, setQueue]);
 
   useEffect(() => {
     if (surah?.surahNumber) useProgressStore.getState().addSurahVisited(surah.surahNumber);
   }, [surah?.surahNumber]);
 
+  // Only once the player points at the ayah on screen: before that the first ayah is just a
+  // placeholder, e.g. while learn mode is about to open at ?ayah=N.
   useEffect(() => {
-    if (ayah && ayahs.length > 0) {
-      useProgressStore.getState().markAyahRead(surahNumber, ayah.ayahNumber);
-    }
-  }, [ayah, surahNumber, ayahs.length]);
+    if (!ayah || ayah.id !== currentAyahId) return;
+    const progress = useProgressStore.getState();
+    progress.markAyahRead(surahNumber, ayah.ayahNumber);
+    // "Nastavi učenje" follows the ayah being learned (QA P2-1).
+    progress.updateLastPosition(surahNumber, ayah.ayahNumber, surah.nameLatin, "learning");
+  }, [ayah, currentAyahId, surahNumber, surah.nameLatin]);
 
   if (!ayah) {
     return (
@@ -137,6 +136,10 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
   return (
     <>
+      {/* Own boundary: useSearchParams must not take the ayah out of the static HTML (P1-6). */}
+      <Suspense fallback={null}>
+        <LearnModeUrlEffects ayahs={ayahs} />
+      </Suspense>
       {/* Top: surah name, ayah X of Y, close/back */}
       <header className="flex flex-shrink-0 items-center justify-between gap-4 border-b border-stone-200/80 pb-4 dark:border-stone-700/80">
         <div className="min-w-0">
@@ -264,7 +267,8 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             className="rounded-xl p-3 text-stone-500 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-40 disabled:hover:bg-transparent dark:hover:bg-stone-700 dark:hover:text-stone-300"
             aria-label="Prethodni ajet"
             disabled={!canGoPrev}
-            onClick={previous}
+            // Navigation, not listening: audio starts only if it was already playing (QA P2-2).
+            onClick={() => goToAyah(ayahs[currentIndex - 1])}
           >
             <PrevIcon />
           </button>
@@ -294,7 +298,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             className="rounded-xl p-3 text-stone-500 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-40 disabled:hover:bg-transparent dark:hover:bg-stone-700 dark:hover:text-stone-300"
             aria-label="Sljedeći ajet"
             disabled={!canGoNext}
-            onClick={next}
+            onClick={() => goToAyah(ayahs[currentIndex + 1])}
           >
             <NextIcon />
           </button>

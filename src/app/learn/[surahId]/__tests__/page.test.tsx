@@ -55,6 +55,7 @@ const mockSurahDetail: SurahDetail = {
 
 vi.mock("next/navigation", () => ({
   notFound: vi.fn(() => null),
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 vi.mock("@/lib/data", () => ({
@@ -88,8 +89,7 @@ const mockSetQueue = vi.fn();
 const mockSetCurrentAyah = vi.fn();
 const mockPlay = vi.fn();
 const mockPause = vi.fn();
-const mockNext = vi.fn();
-const mockPrevious = vi.fn();
+const mockGoToAyah = vi.fn();
 const playerState = {
   currentAyahId: null as string | null,
   isPlaying: false,
@@ -97,8 +97,7 @@ const playerState = {
   setCurrentAyah: mockSetCurrentAyah,
   play: mockPlay,
   pause: mockPause,
-  next: mockNext,
-  previous: mockPrevious,
+  goToAyah: mockGoToAyah,
 };
 vi.mock("@/store/playerStore", () => ({
   usePlayerStore: vi.fn((selector: (s: typeof playerState) => unknown) => selector(playerState)),
@@ -198,21 +197,21 @@ describe("Learn Mode page", () => {
     ).toBeInTheDocument();
   });
 
-  it("clicking Next calls player next and shows next ayah", async () => {
+  it("clicking Next moves the player to the next ayah", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     const nextBtn = screen.getByRole("button", { name: /next|sljede.*ajet|→/i });
     await userEvent.click(nextBtn);
-    expect(mockNext).toHaveBeenCalled();
+    expect(mockGoToAyah).toHaveBeenCalledWith(mockSurahDetail.ayahs[1]);
   });
 
-  it("clicking Previous calls player previous", async () => {
+  it("clicking Previous moves the player to the previous ayah", async () => {
     playerState.currentAyahId = "1:2";
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     const prevBtn = screen.getByRole("button", { name: /previous|prethodn|←/i });
     await userEvent.click(prevBtn);
-    expect(mockPrevious).toHaveBeenCalled();
+    expect(mockGoToAyah).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
   it("clicking Play sets queue and plays current ayah", async () => {

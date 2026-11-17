@@ -229,7 +229,7 @@ describe("Home page", () => {
       const readerLink = await screen.findByRole("link", { name: /nastavi čitanje/i });
       const learnLink = await screen.findByRole("link", { name: /^učenje$/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
-      expect(learnLink).toHaveAttribute("href", "/learn/2");
+      expect(learnLink).toHaveAttribute("href", "/learn/2?ayah=15");
     });
 
     it("when saved position exists, shows time-since label (e.g. 'upravo sad' / 'prije X min')", async () => {
