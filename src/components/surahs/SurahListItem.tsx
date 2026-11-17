@@ -16,8 +16,10 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
   const commonName = commonSurahName(surah);
 
   return (
+    // No prefetch: scrolling the list would download all 114 surahs (QA section 6).
     <Link
       href={`/surah/${surah.surahNumber}`}
+      prefetch={false}
       className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
     >
       <div className="flex min-h-[4rem] items-center gap-3 px-4 py-3">

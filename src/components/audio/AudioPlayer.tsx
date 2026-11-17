@@ -40,6 +40,7 @@ export function AudioPlayer() {
   const setCurrentTime = usePlayerStore((s) => s.setCurrentTime);
   const setDuration = usePlayerStore((s) => s.setDuration);
   const setCurrentTimeMs = usePlayerStore((s) => s.setCurrentTimeMs);
+  const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
 
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
@@ -187,8 +188,10 @@ export function AudioPlayer() {
   // High-frequency time sync for word-by-word highlighting (~60fps while playing and visible).
   // Only updates the time: ayah boundaries, repeat and pause run on the media "ended"
   // event, which keeps working when rAF stops in a background tab (QA P1-10).
+  // Word-by-word only: each write re-renders the player and lays out the whole surah page,
+  // and "Po ajetu" needs no more than timeupdate (~4 Hz) for the slider (QA section 6).
   useEffect(() => {
-    if (!activeAudioSrc || !isPlaying) return;
+    if (!activeAudioSrc || !isPlaying || !wordByWordMode) return;
     let rafId: number;
     const tick = () => {
       const now = audioManager.getCurrentTime();
@@ -198,7 +201,7 @@ export function AudioPlayer() {
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [activeAudioSrc, isPlaying, setCurrentTime, setCurrentTimeMs]);
+  }, [activeAudioSrc, isPlaying, wordByWordMode, setCurrentTime, setCurrentTimeMs]);
 
   // Time update and duration sync + listening time accumulation
   useEffect(() => {
@@ -206,6 +209,8 @@ export function AudioPlayer() {
     const onTimeUpdateHandler = () => {
       const now = audioManager.getCurrentTime();
       setCurrentTime(now);
+      // Keeps the word time current without the rAF loop, e.g. for a switch to word-by-word.
+      setCurrentTimeMs(Math.floor(now * 1000));
       const d = audioManager.getDuration();
       if (Number.isFinite(d) && d > 0) setDuration(d);
       const playing = usePlayerStore.getState().isPlaying;
@@ -252,7 +257,7 @@ export function AudioPlayer() {
       unsubscribe();
       unsubscribeDuration();
     };
-  }, [activeAudioSrc, setCurrentTime, setDuration]);
+  }, [activeAudioSrc, setCurrentTime, setCurrentTimeMs, setDuration]);
 
   // Ended: repeat or advance (ref updated in effect to avoid ref-as-render)
   // repeatMode: 'ayah' = repeat current ayah; 'surah' = at end of surah restart from first ayah; 'off' = advance or autoplay next surah.

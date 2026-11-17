@@ -24,8 +24,10 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
   const surahCount = juz.surahsIncluded.length;
 
   return (
+    // No prefetch: scrolling the list would download all 30 juz pages (QA section 6).
     <Link
       href={`/juz/${juz.juz}`}
+      prefetch={false}
       className="group flex min-h-[4rem] flex-col rounded-xl border border-amber-200/80 bg-white transition-colors hover:bg-amber-50/80 focus:outline-none focus:ring-2 focus:ring-amber-500/30 dark:border-amber-800/50 dark:bg-stone-900/50 dark:hover:bg-amber-950/30"
     >
       <div className="flex min-h-[4rem] items-center gap-4 px-4 py-4">

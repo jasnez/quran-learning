@@ -44,6 +44,8 @@ export function NameCard({ name: n }: { name: AllahName }) {
       <audio
         ref={audioRef}
         src={audioUrl}
+        // Load on "Pusti" only: otherwise all 99 cards fetch their MP3 when the page opens.
+        preload="none"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
+import { Geist, Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
@@ -12,15 +12,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+// Fallback for glyphs the selected Arabic font lacks. Not preloaded: the browser downloads
+// it only when a glyph needs it (QA section 6: every page preloaded fonts it did not use).
 const amiri = Amiri({
   weight: ["400", "700"],
   subsets: ["arabic", "latin"],
   variable: "--font-amiri",
+  preload: false,
 });
 
 const notoNaskhArabic = Noto_Naskh_Arabic({
@@ -31,10 +29,12 @@ const notoNaskhArabic = Noto_Naskh_Arabic({
 
 // The "uthmanic" font setting. Replaces the KFGQPC file, which drew some Uthmani spelling
 // marks (U+06DF, U+06EA, U+06EB, U+06ED) as dotted circles.
+// Not preloaded: only readers who pick "uthmanic" download it, when the text first uses it.
 const scheherazade = Scheherazade_New({
   weight: ["400", "700"],
   subsets: ["arabic", "latin"],
   variable: "--font-scheherazade",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -67,7 +67,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
+        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
         <QueryProvider>
