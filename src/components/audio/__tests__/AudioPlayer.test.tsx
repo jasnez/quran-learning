@@ -280,6 +280,51 @@ describe("AudioPlayer", () => {
     expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(1001);
   });
 
+  // Per-frame store writes re-render the player and force a layout of the whole surah page
+  // (QA section 6). "Po ajetu" needs no 60 fps clock: the slider follows timeupdate.
+  it("in 'Po ajetu' mode playback runs no animation-frame loop", async () => {
+    const rafSpy = vi.spyOn(window, "requestAnimationFrame");
+    try {
+      playerState.isPlaying = true;
+      playerState.wordByWordMode = false;
+      mockGetCurrentTime.mockReturnValue(3.2);
+      const { unmount } = render(<AudioPlayer />);
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 50));
+      });
+      expect(rafSpy).not.toHaveBeenCalled();
+      unmount();
+    } finally {
+      rafSpy.mockRestore();
+    }
+  });
+
+  it("in word-by-word mode the animation-frame loop updates the word-highlight time", async () => {
+    playerState.isPlaying = true;
+    playerState.wordByWordMode = true;
+    mockGetCurrentTime.mockReturnValue(3.2);
+    const { unmount } = render(<AudioPlayer />);
+    mockSetCurrentTimeMs.mockClear();
+    await act(async () => {
+      await new Promise((r) => requestAnimationFrame(r));
+      await new Promise((r) => requestAnimationFrame(r));
+    });
+    expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(3200);
+    unmount();
+  });
+
+  // Without the loop in "Po ajetu", timeupdate keeps the word time current, so switching to
+  // word-by-word (also while paused) highlights the right word.
+  it("timeupdate also updates the word-highlight time", () => {
+    playerState.isPlaying = true;
+    mockGetCurrentTime.mockReturnValue(7.25);
+    render(<AudioPlayer />);
+    mockSetCurrentTimeMs.mockClear();
+    mockOnTimeUpdate.mock.calls.at(-1)?.[0]();
+    expect(mockSetCurrentTime).toHaveBeenCalledWith(7.25);
+    expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(7250);
+  });
+
   it("the animation loop does not consume a pending seek", async () => {
     playerState.isPlaying = true;
     playerState.pendingSeekToSeconds = 1.795;

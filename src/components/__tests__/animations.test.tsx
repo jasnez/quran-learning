@@ -41,6 +41,7 @@ vi.mock("@/store/playerStore", () => {
     previous: () => {},
     restartFromFirst: () => {},
     setCurrentTime: () => {},
+    setCurrentTimeMs: () => {},
     setDuration: () => {},
   };
   const usePlayerStoreMock = vi.fn((sel: (s: unknown) => unknown) => sel(state));
