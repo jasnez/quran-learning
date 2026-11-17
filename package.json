@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build && tsx scripts/stamp-sw-version.ts",
+    "build": "next build && tsx scripts/stamp-sw-version.ts && tsx scripts/prune-export.ts",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
