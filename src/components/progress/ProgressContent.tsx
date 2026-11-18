@@ -59,7 +59,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
-              <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
                 Sure započeto
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
@@ -67,7 +67,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
-              <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
                 Ajeta preslušano
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
@@ -75,7 +75,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
-              <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
                 Ukupno slušanje
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
@@ -83,7 +83,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
-              <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
                 Napredak
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
@@ -140,7 +140,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
                 className="flex flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
               >
                 <div className="flex min-h-[3.5rem] items-center gap-4 px-4 py-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-400">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300">
                     {surah.surahNumber}
                   </span>
                   <div className="min-w-0 flex-1">

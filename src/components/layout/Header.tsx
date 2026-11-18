@@ -130,78 +130,73 @@ export function Header() {
   );
 }
 
+const LEARN_LINKS = [
+  { href: "/tajwid", label: "Tedžvid lekcije" },
+  { href: "/names", label: "Allahova lijepa imena" },
+  { href: "/harfovi", label: "Harfovi i izgovor" },
+];
+
+const DUA_LINKS = [
+  { href: "/duas", label: "Sve dove" },
+  ...CATEGORY_ORDER.map((cat) => ({ href: `/duas/${cat}`, label: CATEGORY_LABELS[cat] })),
+];
+
 function LearnMenu() {
   const pathname = usePathname();
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
-  const isActive =
-    pathname?.startsWith("/tajwid") ||
-    pathname?.startsWith("/names");
-
-  React.useEffect(() => {
-    if (!open) return;
-    const close = () => setOpen(false);
-    const onDocClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) close();
-    };
-    const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    document.addEventListener("click", onDocClick, true);
-    document.addEventListener("keydown", onEsc);
-    return () => {
-      document.removeEventListener("click", onDocClick, true);
-      document.removeEventListener("keydown", onEsc);
-    };
-  }, [open]);
-
+  const isActive = pathname?.startsWith("/tajwid") || pathname?.startsWith("/names");
   return (
-    <div className="relative" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-label="Učenje – Tedžvid, Allahova lijepa imena"
-        className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-emerald-700 dark:text-emerald-400" : "text-stone-600 dark:text-stone-400 " + LINK_HOVER}`}
-      >
-        Učenje
-      </button>
-      {open && (
-        <div
-          role="menu"
-          aria-label="Učenje"
-          className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 shadow-lg"
-        >
-          <HeaderMenuItem href="/tajwid" onNavigate={() => setOpen(false)}>
-            Tedžvid lekcije
-          </HeaderMenuItem>
-          <HeaderMenuItem href="/names" onNavigate={() => setOpen(false)}>
-            Allahova lijepa imena
-          </HeaderMenuItem>
-          <HeaderMenuItem href="/harfovi" onNavigate={() => setOpen(false)}>
-            Harfovi i izgovor
-          </HeaderMenuItem>
-        </div>
-      )}
-    </div>
+    <NavDisclosure
+      label="Učenje"
+      buttonLabel="Učenje – Tedžvid, Allahova lijepa imena"
+      isActive={!!isActive}
+      links={LEARN_LINKS}
+    />
   );
 }
 
 function DuasMenu() {
   const pathname = usePathname();
+  return (
+    <NavDisclosure
+      label="Kur'anske dove"
+      buttonLabel="Kur'anske dove – kategorije"
+      isActive={!!pathname?.startsWith("/duas")}
+      links={DUA_LINKS}
+    />
+  );
+}
+
+/**
+ * Site navigation, so a disclosure: a button with aria-expanded and a list of links that stay
+ * in the Tab order. Not role="menu", which promises arrow-key navigation (QA section 5).
+ * Escape closes it and returns focus to the button; tabbing out of it or clicking elsewhere
+ * closes it.
+ */
+function NavDisclosure({
+  label,
+  buttonLabel,
+  isActive,
+  links,
+}: {
+  label: string;
+  buttonLabel: string;
+  isActive: boolean;
+  links: { href: string; label: string }[];
+}) {
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
-  const isActive = pathname?.startsWith("/duas");
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const listId = React.useId();
 
   React.useEffect(() => {
     if (!open) return;
-    const close = () => setOpen(false);
     const onDocClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) close();
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key !== "Escape") return;
+      if (ref.current?.contains(document.activeElement)) buttonRef.current?.focus();
+      setOpen(false);
     };
     document.addEventListener("click", onDocClick, true);
     document.addEventListener("keydown", onEsc);
@@ -211,60 +206,44 @@ function DuasMenu() {
     };
   }, [open]);
 
+  const onBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget as Node | null;
+    if (next && !e.currentTarget.contains(next)) setOpen(false);
+  };
+
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative" ref={ref} onBlur={onBlur}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Kur'anske dove – kategorije"
+        aria-controls={open ? listId : undefined}
+        aria-label={buttonLabel}
         className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-emerald-700 dark:text-emerald-400" : "text-stone-600 dark:text-stone-400 " + LINK_HOVER}`}
       >
-        Kur&apos;anske dove
+        {label}
       </button>
       {open && (
-        <div
-          role="menu"
-          aria-label="Kur'anske dove"
+        <ul
+          id={listId}
+          aria-label={label}
           className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 shadow-lg"
         >
-          <HeaderMenuItem href="/duas" onNavigate={() => setOpen(false)}>
-            Sve dove
-          </HeaderMenuItem>
-          {CATEGORY_ORDER.map((cat) => (
-            <HeaderMenuItem
-              key={cat}
-              href={`/duas/${cat}`}
-              onNavigate={() => setOpen(false)}
-            >
-              {CATEGORY_LABELS[cat]}
-            </HeaderMenuItem>
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
-  );
-}
-
-function HeaderMenuItem({
-  href,
-  children,
-  onNavigate,
-}: {
-  href: string;
-  children: React.ReactNode;
-  onNavigate?: () => void;
-}) {
-  return (
-    <Link
-      role="menuitem"
-      href={href}
-      className="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
-      onClick={onNavigate}
-    >
-      <span>{children}</span>
-    </Link>
   );
 }
 

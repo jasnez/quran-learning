@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useId, useRef } from "react";
 import Link from "next/link";
 import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -33,6 +33,7 @@ export function SurahReaderContent({
   const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
 
   const prevAyahIdRef = useRef<string | null>(null);
+  const syncLabelId = useId();
 
   const surahNumber = ayahs.length > 0 ? parseInt(ayahs[0].id.split(":")[0], 10) : 0;
 
@@ -95,14 +96,14 @@ export function SurahReaderContent({
         </div>
       )}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3 lg:hidden">
-        <span className="text-sm text-stone-600 dark:text-stone-400">
+        <span id={syncLabelId} className="text-sm text-stone-600 dark:text-stone-400">
           Sinhronizacija s audioom
         </span>
-        <div className="flex items-center gap-2">
+        {/* One choice between two modes: toggle buttons in a group, as in ReaderToolbar, not two switches. */}
+        <div className="flex items-center gap-2" role="group" aria-labelledby={syncLabelId}>
           <button
             type="button"
-            role="switch"
-            aria-checked={!wordByWordMode}
+            aria-pressed={!wordByWordMode}
             onClick={() => setWordByWordMode(false)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               !wordByWordMode
@@ -114,8 +115,7 @@ export function SurahReaderContent({
           </button>
           <button
             type="button"
-            role="switch"
-            aria-checked={wordByWordMode}
+            aria-pressed={wordByWordMode}
             onClick={() => setWordByWordMode(true)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               wordByWordMode
@@ -128,7 +128,7 @@ export function SurahReaderContent({
         </div>
       </div>
       {wordByWordMode && chapterDataError && (
-        <p className="mb-4 text-sm text-amber-600 dark:text-amber-400" role="status">
+        <p className="mb-4 text-sm text-amber-700 dark:text-amber-400" role="status">
           Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo.
         </p>
       )}

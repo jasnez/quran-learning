@@ -91,7 +91,7 @@ export function TajwidQuiz({
             {nextLessonSlug && nextLessonTitle && (
               <Link
                 href={`/tajwid/${nextLessonSlug}`}
-                className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+                className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
               >
                 Sljedeća lekcija: {nextLessonTitle}
                 <span aria-hidden>→</span>
@@ -146,9 +146,9 @@ export function TajwidQuiz({
                   <span
                     className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[0.7rem] font-medium ${
                       showCorrect
-                        ? "border-emerald-500 bg-emerald-500 text-white"
+                        ? "border-emerald-700 bg-emerald-700 text-white"
                         : showWrong
-                          ? "border-red-400 bg-red-400 text-white"
+                          ? "border-red-600 bg-red-600 text-white"
                           : "border-stone-300 dark:border-stone-600"
                     }`}
                   >
@@ -171,7 +171,7 @@ export function TajwidQuiz({
             <button
               type="button"
               onClick={handleNext}
-              className="mt-3 rounded-full bg-emerald-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+              className="mt-3 rounded-full bg-emerald-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-emerald-800"
             >
               {currentIndex + 1 >= total ? "Završi kviz" : "Sljedeće pitanje"}
             </button>

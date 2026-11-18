@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -9,6 +9,7 @@ import * as audioManager from "@/lib/audio/audioManager";
 import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
 import surahsData from "@/data/surahs.json";
 import type { SurahSummary } from "@/types/quran";
+import { spokenPosition } from "@/lib/spokenDuration";
 
 function ayahNumberFromId(ayahId: string | null): string {
   if (!ayahId) return "—";
@@ -395,7 +396,7 @@ export function AudioPlayer() {
               <button
                 type="button"
                 onClick={firePending}
-                className="flex h-11 min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-emerald-700 px-4 text-sm font-medium text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+                className="flex h-11 min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-emerald-700 px-4 text-sm font-medium text-white hover:bg-emerald-800"
                 aria-label="Nastavi na sljedeći ajet"
               >
                 <span>{countdown != null ? `${countdown}s` : "Nastavi"}</span>
@@ -498,6 +499,7 @@ export function AudioPlayer() {
             step={0.1}
             value={currentTime}
             onChange={handleSeek}
+            aria-valuetext={spokenPosition(currentTime, duration)}
             className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-stone-200 transition-[width] duration-150 ease-out dark:bg-stone-600 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-stone-700 [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:dark:bg-stone-300"
             aria-label="Trajanje"
           />
@@ -558,14 +560,19 @@ type MoreMenuProps = {
   onToggleAutoPlayNext: () => void;
 };
 
+/**
+ * The repeat and autoplay toggles on phones. A disclosure with plain toggle buttons, the same as
+ * the inline desktop controls: not role="menu", which promises arrow keys (QA section 5).
+ */
 function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, onToggleAutoPlayNext }: MoreMenuProps) {
+  const panelId = useId();
   return (
     <div className="relative md:hidden">
       <button
         type="button"
         onClick={onToggle}
-        aria-haspopup="true"
         aria-expanded={isOpen}
+        aria-controls={isOpen ? panelId : undefined}
         aria-label="Više opcija playera"
         className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
       >
@@ -577,8 +584,9 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
       </button>
       {isOpen && (
         <div
+          id={panelId}
           className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
-          role="menu"
+          role="group"
           aria-label="Dodatne kontrole playera"
         >
           <button
@@ -591,13 +599,12 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
                   ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
                   : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
             }
-            aria-checked={repeatMode !== "off"}
+            aria-pressed={repeatMode !== "off"}
             className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
               repeatMode !== "off"
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                 : "text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
             }`}
-            role="menuitemcheckbox"
           >
             <span>Ponavljanje</span>
             <span className="ml-2 text-[10px] uppercase tracking-wide">
@@ -608,9 +615,8 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
             type="button"
             onClick={onToggleAutoPlayNext}
             aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
-            aria-checked={autoPlayNext}
+            aria-pressed={autoPlayNext}
             className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
-            role="menuitemcheckbox"
           >
             <span>Automatski sljedeća sura</span>
             <span className="ml-2 text-[10px] uppercase tracking-wide">

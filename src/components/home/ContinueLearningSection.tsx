@@ -131,7 +131,7 @@ export function ContinueLearningSection() {
           data-testid="overall-stats-cards"
         >
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Sure započeto
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
@@ -139,7 +139,7 @@ export function ContinueLearningSection() {
             </p>
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Ajeta preslušano
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
@@ -147,7 +147,7 @@ export function ContinueLearningSection() {
             </p>
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Ukupno slušanje
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
@@ -155,7 +155,7 @@ export function ContinueLearningSection() {
             </p>
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
               Napredak
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">

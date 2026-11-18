@@ -66,7 +66,7 @@ export function SurahReaderStickyHeader({
             {surahNameLatin}
           </span>
           <span
-            className="shrink-0 text-base text-stone-500 dark:text-stone-500"
+            className="shrink-0 text-base text-stone-500 dark:text-stone-400"
             dir="rtl"
             lang="ar"
             aria-hidden

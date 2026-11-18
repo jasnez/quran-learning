@@ -141,7 +141,7 @@ export const AyahCard = memo(function AyahCard({
       {/* Meta row */}
       <div className="mb-4 flex items-center justify-between gap-3">
         <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-400"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
           aria-hidden
         >
           {ayah.ayahNumber}
@@ -149,14 +149,14 @@ export const AyahCard = memo(function AyahCard({
         <div className="flex items-center gap-2">
           {showPageBadge && ayah.page > 0 && (
             <span
-              className="text-xs text-stone-400 dark:text-stone-500"
+              className="text-xs text-stone-500 dark:text-stone-400"
               aria-label={`Stranica ${ayah.page}`}
             >
               Str. {ayah.page}
             </span>
           )}
           {isThisAyahPlaying && (
-            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400" aria-hidden>
+            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400" aria-hidden>
               Sada se pušta
             </span>
           )}
@@ -166,7 +166,7 @@ export const AyahCard = memo(function AyahCard({
             className={`min-h-[44px] min-w-[44px] rounded-lg p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
               bookmarked
                 ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
-                : "text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                : "text-stone-500 hover:bg-stone-100 hover:text-stone-600 dark:text-stone-400 dark:hover:bg-stone-700 dark:hover:text-stone-300"
             }`}
             aria-label="Označi ajet"
             aria-pressed={bookmarked}
@@ -232,7 +232,7 @@ export const AyahCard = memo(function AyahCard({
 
           {showTransliteration && ayah.transliteration && (
             <p
-              className={`mt-5 text-sm italic leading-relaxed text-stone-500 dark:text-stone-500 ${
+              className={`mt-5 text-sm italic leading-relaxed text-stone-500 dark:text-stone-400 ${
                 showTranslation && ayah.translationBosnian
                   ? "text-center lg:text-right"
                   : "text-center"

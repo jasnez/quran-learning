@@ -233,15 +233,19 @@ describe("AppShell", () => {
     expect(wrapper?.className).toMatch(/max-w-7xl/);
   });
 
-  it("on mobile when audio is visible main has extra bottom padding so content is not under audio bar", () => {
+  // QA section 5: the clearance sat on <main>, so the footer after it stayed under the fixed
+  // bottom navigation (and under the player too). It belongs below the footer.
+  it("with audio, the page ends with room for the fixed bottom bars below the footer", () => {
     const { container } = render(
       <AppShell>
         <span>Content</span>
       </AppShell>
     );
+    const scrollEl = container.querySelector("[data-scroll-container]");
     const main = container.querySelector("main");
-    expect(main).toBeInTheDocument();
-    expect(main?.className).toMatch(/max-md:pb-\[126px\]/);
+    // mobile: bottom navigation (56px) + player (70px); desktop: player only
+    expect(scrollEl).toHaveClass("max-md:pb-[126px]", "md:pb-[70px]");
+    expect(main?.className).not.toMatch(/max-md:pb-\[126px\]/);
   });
 
   it("main has bottom padding so content clears bottom UI", () => {
@@ -279,10 +283,10 @@ describe("Header", () => {
     const ucenjeBtn = screen.getByRole("button", { name: /učenje/i });
     const user = (await import("@testing-library/user-event")).default.setup();
     await user.click(ucenjeBtn);
-    expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
-    expect(screen.getByRole("menuitem", { name: /allahova lijepa imena/i })).toHaveAttribute("href", "/names");
-    expect(screen.getByRole("menuitem", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
-    expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.getByRole("link", { name: /allahova lijepa imena/i })).toHaveAttribute("href", "/names");
+    expect(screen.getByRole("link", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
+    expect(screen.queryByRole("link", { name: /kviz/i })).not.toBeInTheDocument();
   });
 
   it("has Kur'anske dove dropdown with category links", async () => {
@@ -291,8 +295,8 @@ describe("Header", () => {
     expect(duasBtns.length).toBeGreaterThanOrEqual(1);
     const user = (await import("@testing-library/user-event")).default.setup();
     await user.click(duasBtns[0]);
-    expect(screen.getByRole("menuitem", { name: /rabbena dove/i })).toHaveAttribute("href", "/duas/rabbana");
-    expect(screen.getByRole("menuitem", { name: /za oprost/i })).toHaveAttribute("href", "/duas/forgiveness");
+    expect(screen.getByRole("link", { name: /rabbena dove/i })).toHaveAttribute("href", "/duas/rabbana");
+    expect(screen.getByRole("link", { name: /za oprost/i })).toHaveAttribute("href", "/duas/forgiveness");
   });
 
   it("has Search link", () => {
@@ -397,6 +401,14 @@ describe("Footer", () => {
     expect(footer?.className).toMatch(/border-t/);
   });
 
+  // QA section 5: the links were 20px tall on mobile.
+  it("links are at least 44px tall on mobile and 24px on desktop", () => {
+    render(<Footer />);
+    for (const name of [/izvori/i, /kontakt/i, /o platformi/i]) {
+      expect(screen.getByRole("link", { name })).toHaveClass("min-h-11", "md:min-h-6");
+    }
+  });
+
   it("does not use mobile bottom offset utility classes", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
@@ -424,19 +436,18 @@ describe("MobileNav", () => {
     expect(screen.queryByRole("link", { name: /označeno/i })).not.toBeInTheDocument();
   });
 
-  it("Više button opens menu with Bookmarks, Napredak, Postavke and Tedžvid lekcije, without the hidden quiz", async () => {
+  it("Više button opens a list with Bookmarks, Napredak, Postavke and Tedžvid lekcije, without the hidden quiz", async () => {
     render(<SettingsOpenProvider><MobileNav /></SettingsOpenProvider>);
     const moreBtn = screen.getByRole("button", { name: /više/i });
-    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.queryByRole("list", { name: /više opcija/i })).not.toBeInTheDocument();
     const user = (await import("@testing-library/user-event")).default;
     await user.click(moreBtn);
-    const menu = screen.getByRole("menu", { name: /više opcija/i });
-    expect(menu).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: /označeni ajeti/i })).toHaveAttribute("href", "/bookmarks");
-    expect(screen.getByRole("menuitem", { name: /napredak/i })).toHaveAttribute("href", "/progress");
-    expect(screen.getByRole("menuitem", { name: /postavke/i })).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: /kviz/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
-    expect(screen.getByRole("menuitem", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
+    expect(screen.getByRole("list", { name: /više opcija/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /označeni ajeti/i })).toHaveAttribute("href", "/bookmarks");
+    expect(screen.getByRole("link", { name: /napredak/i })).toHaveAttribute("href", "/progress");
+    expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /kviz/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /tedžvid lekcije/i })).toHaveAttribute("href", "/tajwid");
+    expect(screen.getByRole("link", { name: /harfovi i izgovor/i })).toHaveAttribute("href", "/harfovi");
   });
 });

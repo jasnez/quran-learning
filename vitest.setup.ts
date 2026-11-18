@@ -36,6 +36,20 @@ if (typeof window !== "undefined") {
   });
 }
 
+// jsdom has <dialog> but not showModal()/close() (SettingsPanel). This only toggles `open` and
+// fires "close" like a browser; inertness, focus containment and focus return are browser
+// behaviour and are checked in a browser, not here.
+if (typeof HTMLDialogElement !== "undefined" && !HTMLDialogElement.prototype.showModal) {
+  HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+    this.setAttribute("open", "");
+  };
+  HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+    if (!this.hasAttribute("open")) return;
+    this.removeAttribute("open");
+    this.dispatchEvent(new Event("close"));
+  };
+}
+
 // jsdom does not provide IntersectionObserver; required by AyahCard
 if (typeof globalThis.IntersectionObserver === "undefined") {
   (globalThis as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver = class MockIntersectionObserver {

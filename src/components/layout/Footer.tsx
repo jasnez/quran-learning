@@ -2,6 +2,9 @@ import Link from "next/link";
 
 const PLATFORM_NAME = "Quran Learning";
 const DESCRIPTION = "Platforma za učenje Kur'ana s transliteracijom, prijevodom i audio recitacijom.";
+// The text alone was 20px tall: 44px touch targets on phones, the WCAG 2.5.8 minimum of 24px from md up.
+const FOOTER_LINK =
+  "inline-flex min-h-11 items-center text-stone-600 transition-colors hover:text-[var(--theme-accent)] md:min-h-6 dark:text-stone-400 dark:hover:text-emerald-400";
 
 export function Footer() {
   return (
@@ -23,24 +26,24 @@ export function Footer() {
 
           {/* Right: navigation links */}
           <nav
-            className="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm"
+            className="flex flex-wrap items-center gap-x-6 text-sm"
             aria-label="Footer navigacija"
           >
             <Link
               href="/sources"
-              className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
+              className={FOOTER_LINK}
             >
               Izvori
             </Link>
             <Link
               href="/contact"
-              className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
+              className={FOOTER_LINK}
             >
               Kontakt
             </Link>
             <Link
               href="/about"
-              className="text-stone-600 transition-colors hover:text-[var(--theme-accent)] dark:text-stone-400 dark:hover:text-emerald-400"
+              className={FOOTER_LINK}
             >
               O platformi
             </Link>

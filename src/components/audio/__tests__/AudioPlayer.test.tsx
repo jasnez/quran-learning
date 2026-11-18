@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, act, within } from "@testing-library/react";
 import { AudioPlayer } from "../AudioPlayer";
 
 const mockLoadAudio = vi.fn();
@@ -647,9 +647,47 @@ describe("AudioPlayer", () => {
     render(<AudioPlayer />);
     const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
     fireEvent.click(moreBtn);
-    const menu = screen.getByRole("menu", { name: /dodatne kontrole playera/i });
-    expect(menu).toBeInTheDocument();
+    const panel = screen.getByRole("group", { name: /dodatne kontrole playera/i });
+    expect(panel).toBeInTheDocument();
     // Panel should be positioned above the control bar (using bottom offset), not below it
-    expect(menu).toHaveClass("bottom-11");
+    expect(panel).toHaveClass("bottom-11");
+  });
+
+  // QA section 5: role="menu" without arrow keys, and a three-state repeat as a checkbox item.
+  it("more panel holds plain toggle buttons, not ARIA menu items", () => {
+    settingsStateRef.current.repeatMode = "surah";
+    render(<AudioPlayer />);
+    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    expect(moreBtn).not.toHaveAttribute("aria-haspopup");
+    fireEvent.click(moreBtn);
+    expect(moreBtn).toHaveAttribute("aria-expanded", "true");
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    expect(screen.queryByRole("menuitemcheckbox")).not.toBeInTheDocument();
+    const panel = within(screen.getByRole("group", { name: /dodatne kontrole playera/i }));
+    expect(panel.getByRole("button", { name: /ponavljanje sure/i })).toHaveAttribute("aria-pressed", "true");
+    expect(panel.getByRole("button", { name: /sljedeća sura/i })).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
+describe("AudioPlayer seek slider", () => {
+  // QA section 5: a screen reader read only the raw seconds (e.g. "42.3") of the "Trajanje" slider.
+  it("announces position and length as words", () => {
+    playerState.currentTime = 42.3;
+    playerState.duration = 75;
+    render(<AudioPlayer />);
+    expect(screen.getByRole("slider", { name: "Trajanje" })).toHaveAttribute(
+      "aria-valuetext",
+      "42 sekunde od 1 minute i 15 sekundi"
+    );
+  });
+
+  it("says 0 sekundi before the length is known", () => {
+    playerState.currentTime = 0;
+    playerState.duration = 0;
+    render(<AudioPlayer />);
+    expect(screen.getByRole("slider", { name: "Trajanje" })).toHaveAttribute(
+      "aria-valuetext",
+      "0 sekundi od 0 sekundi"
+    );
   });
 });

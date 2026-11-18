@@ -25,7 +25,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       className="rounded-2xl border border-stone-200/80 bg-white/50 p-6 dark:border-stone-700/80 dark:bg-stone-900/20"
       aria-labelledby={`name-arabic-${n.index}`}
     >
-      <div className="mb-2 text-xs font-medium text-stone-400 dark:text-stone-500">
+      <div className="mb-2 text-xs font-medium text-stone-500 dark:text-stone-400">
         {n.index} / 99
       </div>
       <p
@@ -54,7 +54,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       <button
         type="button"
         onClick={togglePlay}
-        className="mt-4 flex items-center gap-2 rounded-full bg-[var(--theme-accent)] px-4 py-2 text-white transition-opacity hover:opacity-90"
+        className="mt-4 flex items-center gap-2 rounded-full bg-[var(--theme-accent)] px-4 py-2 text-white transition-opacity dark:text-stone-900 hover:opacity-90"
         aria-label={playing ? "Zaustavi" : "Pusti audio"}
       >
         {playing ? (

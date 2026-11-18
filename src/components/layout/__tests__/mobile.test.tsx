@@ -11,6 +11,14 @@ import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { AyahCard } from "@/components/reader/AyahCard";
 import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
 import type { Ayah } from "@/types/quran";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const globalsCss = readFileSync(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "../../../app/globals.css"),
+  "utf-8"
+);
 
 const mockAyah: Ayah = {
   id: "1:1",
@@ -264,10 +272,11 @@ describe("No horizontal scroll", () => {
 });
 
 describe("SettingsPanel mobile", () => {
-  it("on mobile uses full-screen or bottom sheet styling", () => {
+  it("on mobile uses bottom sheet styling (globals.css .settings-dialog below 40rem)", () => {
     const { container } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const panel = container.querySelector("[role='dialog']");
-    expect(panel?.className).toMatch(/max-sm:inset-x-0|max-sm:bottom-0|max-sm:rounded-t|max-sm:max-h|max-sm:w-full|inset-0/);
+    const panel = container.querySelector("dialog");
+    expect(panel).toHaveClass("settings-dialog");
+    expect(globalsCss).toMatch(/@media \(width < 40rem\)\s*\{\s*\.settings-dialog\s*\{[^}]*inset:\s*auto 0 0/);
   });
 
   it("close and toggle buttons have min 44px touch target on mobile", () => {

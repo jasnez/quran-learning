@@ -174,7 +174,7 @@ export default function SearchPage() {
           aria-controls={LISTBOX_ID}
           aria-activedescendant={hasResults && results[selectedIndex] ? getResultId(selectedIndex) : undefined}
           aria-autocomplete="list"
-          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-500"
+          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
           aria-describedby={showEmpty ? "search-empty" : undefined}
         />
         {showRecent && (

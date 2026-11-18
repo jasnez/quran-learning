@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import {
   Home,
   BookOpen,
@@ -37,10 +37,14 @@ export function MobileNav() {
   const isDuas = segment === "duas";
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const moreButtonRef = useRef<HTMLButtonElement>(null);
+  const moreListId = useId();
   const { open: openSettings } = useSettingsOpen();
 
   const isMoreActive = segment !== null && MORE_SEGMENTS.has(segment);
 
+  // "Više" is a disclosure of links, not role="menu" (QA section 5): Escape closes it and
+  // returns focus to the button; tabbing out or clicking elsewhere closes it.
   useEffect(() => {
     if (!moreOpen) return;
     const close = () => setMoreOpen(false);
@@ -48,7 +52,9 @@ export function MobileNav() {
       if (moreRef.current && !moreRef.current.contains(e.target as Node)) close();
     };
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key !== "Escape") return;
+      if (moreRef.current?.contains(document.activeElement)) moreButtonRef.current?.focus();
+      close();
     };
     document.addEventListener("click", onDocClick, true);
     document.addEventListener("keydown", onEsc);
@@ -96,12 +102,20 @@ export function MobileNav() {
         <HandHelping className="h-5 w-5" strokeWidth={isDuas ? 2.25 : 1.75} aria-hidden />
         <span>Dove</span>
       </Link>
-      <div className="relative flex flex-1 flex-col" ref={moreRef}>
+      <div
+        className="relative flex flex-1 flex-col"
+        ref={moreRef}
+        onBlur={(e) => {
+          const next = e.relatedTarget as Node | null;
+          if (next && !e.currentTarget.contains(next)) setMoreOpen(false);
+        }}
+      >
         <button
+          ref={moreButtonRef}
           type="button"
           onClick={() => setMoreOpen((o) => !o)}
           aria-expanded={moreOpen}
-          aria-haspopup="true"
+          aria-controls={moreOpen ? moreListId : undefined}
           aria-label="Više opcija"
           aria-current={isMoreActive ? "page" : undefined}
           className={`flex-1 ${tabBase} ${moreOpen || isMoreActive ? tabActive : tabInactive}`}
@@ -110,8 +124,8 @@ export function MobileNav() {
           <span>Više</span>
         </button>
         {moreOpen && (
-          <div
-            role="menu"
+          <ul
+            id={moreListId}
             aria-label="Više opcija"
             className="absolute bottom-full right-1 mb-2 w-60 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-700 dark:bg-stone-800"
           >
@@ -129,21 +143,25 @@ export function MobileNav() {
             >
               Napredak
             </MoreLink>
-            <button
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setMoreOpen(false);
-                openSettings();
-              }}
-              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-            >
-              <span className="text-stone-500 dark:text-stone-400" aria-hidden>
-                <Settings className="h-4 w-4" />
-              </span>
-              <span>Postavke</span>
-            </button>
-            <div className="my-1 h-px bg-stone-200 dark:bg-stone-700" aria-hidden />
+            <li>
+              <button
+                type="button"
+                onClick={() => {
+                  // The list closes, so this button cannot get focus back when the settings
+                  // dialog closes; the dialog returns it to the element focused when it opened.
+                  moreButtonRef.current?.focus();
+                  setMoreOpen(false);
+                  openSettings();
+                }}
+                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+              >
+                <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+                  <Settings className="h-4 w-4" />
+                </span>
+                <span>Postavke</span>
+              </button>
+            </li>
+            <li className="my-1 h-px bg-stone-200 dark:bg-stone-700" aria-hidden />
             <MoreLink
               href="/names"
               icon={<Sparkles className="h-4 w-4" />}
@@ -165,7 +183,7 @@ export function MobileNav() {
             >
               Harfovi i izgovor
             </MoreLink>
-          </div>
+          </ul>
         )}
       </div>
     </nav>
@@ -184,16 +202,17 @@ function MoreLink({
   onClick?: () => void;
 }) {
   return (
-    <Link
-      role="menuitem"
-      href={href}
-      onClick={onClick}
-      className="flex items-center gap-3 px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
-    >
-      <span className="text-stone-500 dark:text-stone-400" aria-hidden>
-        {icon}
-      </span>
-      <span>{children}</span>
-    </Link>
+    <li>
+      <Link
+        href={href}
+        onClick={onClick}
+        className="flex items-center gap-3 px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+      >
+        <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+          {icon}
+        </span>
+        <span>{children}</span>
+      </Link>
+    </li>
   );
 }
