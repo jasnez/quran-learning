@@ -7,7 +7,7 @@ export interface Bookmark {
   note?: string;
   createdAt: string;
   collectionId?: string;
-  /** Optional Bosnian translation preview (truncated when stored). */
+  /** Optional Bosnian translation of the ayah. */
   translationBosnian?: string;
 }
 

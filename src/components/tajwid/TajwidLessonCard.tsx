@@ -50,8 +50,7 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
         <span className="inline-flex items-center gap-1.5">
           {statusIcon}
           {statusLabel}
-          {status?.status === "completed" &&
-            status.quizScore != null &&
+          {status?.quizScore != null &&
             status.quizTotal != null && (
               <span className="text-stone-500 dark:text-stone-400">
                 ({status.quizScore}/{status.quizTotal})

@@ -7,7 +7,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { searchAyahs, __resetSearchIndexCacheForTests } from "../searchClient";
+import { searchAyahs, normalizeArabic, __resetSearchIndexCacheForTests } from "../searchClient";
 
 const INDEX_PATH = path.join(process.cwd(), "public", "data", "search-index.json");
 
@@ -63,14 +63,58 @@ describe("search (integration, real index)", () => {
     expect(results.map((r) => r.ayahId)).toContain("1:3");
   });
 
+  // QA P2-5 follow-up: a snippet of 2:163 started with "og! Nema boga".
+  it("Latin snippets hold whole words only", async () => {
+    const index = JSON.parse(fs.readFileSync(INDEX_PATH, "utf-8")) as {
+      surahNumber: number;
+      ayahs: { ayahNumber: number; translationBosnian: string }[];
+    }[];
+    const translation = new Map<string, string>(
+      index.flatMap((s) => s.ayahs.map((a) => [`${s.surahNumber}:${a.ayahNumber}`, a.translationBosnian] as const)),
+    );
+    const results = await searchAyahs("Milostivog");
+    expect(results.map((r) => r.ayahId)).toContain("2:163");
+    for (const r of results) {
+      const words = translation.get(r.ayahId)!.split(/\s+/);
+      for (const piece of r.snippet.split(" ").filter((p) => p && p !== "…")) {
+        expect(words).toContain(piece);
+      }
+    }
+  });
+
   it("ayah reference '2:255' returns that ayah first", async () => {
     const results = await searchAyahs("2:255");
     expect(results[0].ayahId).toBe("2:255");
   });
 
-  it("returns at most 50 results", async () => {
-    const results = await searchAyahs("a");
-    expect(results.length).toBeLessThanOrEqual(50);
+  it("returns every match (the page shows them 50 at a time)", async () => {
+    const results = await searchAyahs("Allah");
+    expect(results.length).toBeGreaterThan(1000);
+    expect(new Set(results.map((r) => r.ayahId)).size).toBe(results.length);
+  });
+
+  // QA P2-5: the mark cut "ٱلرَّحْمَـٰنِ" in two.
+  it("an Arabic query with harakat marks whole words in every result", async () => {
+    const index = JSON.parse(fs.readFileSync(INDEX_PATH, "utf-8")) as {
+      ayahs: { arabicText: string }[];
+    }[];
+    const rahman = index[0].ayahs[2].arabicText.split(" ")[0];
+    const results = await searchAyahs(rahman);
+    expect(results.length).toBeGreaterThan(40);
+    // 55:1 is also found by the surah's name (Er-Rahman): it ranks first and keeps its mark.
+    expect(results[0].ayahId).toBe("55:1");
+    expect(results.map((r) => r.ayahId)).toContain("1:3");
+    for (const r of results) {
+      expect(r.snippetScript).toBe("arabic");
+      const html = r.snippetHighlight;
+      const open = html.indexOf("<mark>");
+      const close = html.indexOf("</mark>");
+      expect(open).toBeGreaterThanOrEqual(0);
+      expect(open === 0 || html[open - 1] === " ").toBe(true);
+      const after = close + "</mark>".length;
+      expect(after === html.length || html[after] === " ").toBe(true);
+      expect(normalizeArabic(html.slice(open + "<mark>".length, close))).toContain(normalizeArabic(rahman));
+    }
   });
 
   it("each result has a valid SearchResult shape", async () => {

@@ -5,6 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { DailyDuaSection } from "../DailyDuaSection";
+import { getDailyDua } from "@/lib/duas/dailyDua";
 
 vi.mock("@/lib/duas/dailyDua", () => ({
   getDailyDua: vi.fn(() => ({
@@ -18,8 +19,12 @@ vi.mock("@/lib/duas/dailyDua", () => ({
   })),
 }));
 
+// Two ayahs of one dua: 23:98 alone starts mid-sentence (QA P2-8).
 vi.mock("@/lib/duas/data", () => ({
-  QURANIC_DUAS: [],
+  QURANIC_DUAS: [
+    { id: "23:97", surahNumber: 23, ayahNumber: 97, arabic: "a", transliteration: "a", translationBosnian: "i reci: \"Tebi se ja", category: "rabbana" },
+    { id: "23:98", surahNumber: 23, ayahNumber: 98, arabic: "b", transliteration: "b", translationBosnian: "i Tebi se\"", category: "rabbana" },
+  ],
 }));
 
 vi.mock("next/link", () => ({
@@ -56,5 +61,12 @@ describe("DailyDuaSection", () => {
     render(<DailyDuaSection />);
     const links = screen.getAllByRole("link").filter((l) => l.getAttribute("href") === "/duas");
     expect(links.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("picks from the same whole duas as the duas page, not from single ayahs", () => {
+    render(<DailyDuaSection />);
+    expect(vi.mocked(getDailyDua)).toHaveBeenCalledWith([
+      expect.objectContaining({ id: "23:97-98", ayahNumber: 97, ayahEnd: 98 }),
+    ]);
   });
 });

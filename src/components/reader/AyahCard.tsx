@@ -16,6 +16,12 @@ import * as audioManager from "@/lib/audio/audioManager";
 import { playAyahFromMs } from "@/lib/audio/playFromWord";
 
 const ARABIC_MIN_MOBILE_PX = 24;
+/** An ayah counts as read once its card has been in view this long without a break. */
+const READ_DWELL_MS = 2000;
+/** In view: at least this share of the card, or of the screen for an ayah taller than it. */
+const READ_VISIBLE_SHARE = 0.5;
+/** Steps at which the observer reports, so a tall card is seen filling half the screen. */
+const READ_THRESHOLDS = [0, 0.25, 0.5, 0.75, 1];
 
 type AyahCardProps = {
   ayah: Ayah;
@@ -79,21 +85,45 @@ export const AyahCard = memo(function AyahCard({
   const cardRef = useRef<HTMLElement>(null);
   const hasMarkedReadRef = useRef(false);
 
+  // Read = in view for READ_DWELL_MS without a break, so cards that scroll past (also on the
+  // way to a ?ayah= target) do not count (QA P2-8).
   useEffect(() => {
     const el = cardRef.current;
     if (!el || hasMarkedReadRef.current) return;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const stopTimer = () => {
+      if (timer !== null) clearTimeout(timer);
+      timer = null;
+    };
     const observer = new IntersectionObserver(
       (entries) => {
-        const [entry] = entries;
-        if (entry?.isIntersecting && !hasMarkedReadRef.current) {
-          hasMarkedReadRef.current = true;
-          useProgressStore.getState().markAyahRead(surahNumber, ayahNumber);
+        // A busy main thread can deliver several reports for this card at once (in, then out):
+        // the latest one is where the card is now.
+        const entry = entries[entries.length - 1];
+        if (!entry || hasMarkedReadRef.current) return;
+        const screenHeight = entry.rootBounds?.height ?? window.innerHeight;
+        const inView =
+          entry.isIntersecting &&
+          (entry.intersectionRatio >= READ_VISIBLE_SHARE ||
+            entry.intersectionRect.height >= screenHeight * READ_VISIBLE_SHARE);
+        if (!inView) {
+          stopTimer();
+          return;
         }
+        timer ??= setTimeout(() => {
+          timer = null;
+          hasMarkedReadRef.current = true;
+          observer.disconnect();
+          useProgressStore.getState().markAyahRead(surahNumber, ayahNumber);
+        }, READ_DWELL_MS);
       },
-      { rootMargin: "50px", threshold: 0.1 }
+      { threshold: READ_THRESHOLDS }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      stopTimer();
+    };
   }, [ayah.id, surahNumber, ayahNumber]);
 
   const handlePlayPause = () => {

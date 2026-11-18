@@ -3,12 +3,37 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { Bookmark, BookmarkCollection } from "@/types/bookmarks";
 import { getSafeStorage } from "./safeStorage";
 
-const ARABIC_PREVIEW_LENGTH = 50;
-const TRANSLATION_PREVIEW_LENGTH = 80;
+/**
+ * Version 0 cut the stored text at these lengths, mid-word and without an ellipsis (QA P2-8).
+ * Version 1 stores the whole ayah; the bookmarks page clamps it to two lines.
+ */
+const LEGACY_ARABIC_LENGTH = 50;
+const LEGACY_TRANSLATION_LENGTH = 80;
 
-function truncate(text: string, max: number): string {
-  if (text.length <= max) return text;
-  return text.slice(0, max);
+/**
+ * A text saved by version 0: one at the old limit was most likely cut, so it ends after its
+ * last whole word, with an ellipsis. (An ayah exactly that long loses its last word in the
+ * preview; the full ayah is one click away.)
+ */
+function repairLegacyPreview(text: string, limit: number): string {
+  if (text.length !== limit) return text;
+  const lastSpace = text.lastIndexOf(" ");
+  return `${(lastSpace > 0 ? text.slice(0, lastSpace) : text).trimEnd()}…`;
+}
+
+function migrateBookmarks(persisted: unknown, version: number): unknown {
+  const state = persisted as { bookmarks?: Bookmark[] } | null;
+  if (version >= 1 || !Array.isArray(state?.bookmarks)) return persisted;
+  return {
+    ...state,
+    bookmarks: state.bookmarks.map((b) => ({
+      ...b,
+      arabicText: repairLegacyPreview(b.arabicText, LEGACY_ARABIC_LENGTH),
+      ...(b.translationBosnian != null
+        ? { translationBosnian: repairLegacyPreview(b.translationBosnian, LEGACY_TRANSLATION_LENGTH) }
+        : {}),
+    })),
+  };
 }
 
 /**
@@ -72,11 +97,9 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
           surahNumber,
           ayahNumber,
           surahNameLatin,
-          arabicText: truncate(arabicText, ARABIC_PREVIEW_LENGTH),
+          arabicText,
           createdAt: new Date().toISOString(),
-          ...(translationBosnian != null && translationBosnian !== ""
-            ? { translationBosnian: truncate(translationBosnian, TRANSLATION_PREVIEW_LENGTH) }
-            : {}),
+          ...(translationBosnian != null && translationBosnian !== "" ? { translationBosnian } : {}),
         };
         set((s) => ({ bookmarks: [...s.bookmarks, bookmark] }));
       },
@@ -145,6 +168,8 @@ export const useBookmarkStore = create<BookmarkState & BookmarkActions>()(
     }),
     {
       name: BOOKMARK_STORAGE_KEY,
+      version: 1,
+      migrate: migrateBookmarks,
       storage: createJSONStorage(() => getSafeStorage()),
       partialize: (state) => ({
         bookmarks: state.bookmarks,

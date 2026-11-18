@@ -4,6 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import userEvent from "@testing-library/user-event";
 import { BookmarksContent } from "@/components/bookmarks/BookmarksContent";
 import type { SurahSummary } from "@/types/quran";
@@ -87,6 +88,16 @@ describe("BookmarksContent", () => {
     expect(screen.getByRole("heading", { name: /označeni ajeti/i })).toBeInTheDocument();
   });
 
+  // The static HTML is built without the reader's bookmarks (they are in localStorage): it
+  // showed "Nemate označenih ajeta" until the page hydrated, also to readers with bookmarks.
+  it("static HTML shows a placeholder, not the empty state", () => {
+    mockGetAllBookmarks.mockReturnValue([]);
+    const html = renderToString(<BookmarksContent surahs={mockSurahs} />);
+    expect(html).toContain("Označeni ajeti");
+    expect(html).not.toContain("Nemate označenih ajeta");
+    expect(html).toContain('data-testid="bookmarks-placeholder"');
+  });
+
   it("shows empty state when no bookmarks", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     render(<BookmarksContent surahs={mockSurahs} />);
@@ -104,6 +115,19 @@ describe("BookmarksContent", () => {
     expect(screen.getByText("Al-Baqarah")).toBeInTheDocument();
     expect(screen.getByText("بِسْمِ")).toBeInTheDocument();
     expect(screen.getByText("U ime Allaha")).toBeInTheDocument();
+  });
+
+  // QA P2-8: the Arabic was left-aligned at 18 px.
+  it("shows the Arabic right-aligned at reading size, clamped to two lines", () => {
+    mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
+    render(<BookmarksContent surahs={mockSurahs} />);
+    const arabic = screen.getByText("بِسْمِ").closest("p")!;
+    expect(arabic).toHaveAttribute("dir", "rtl");
+    const classes = arabic.className.split(/\s+/);
+    expect(classes).toContain("text-right");
+    expect(classes).not.toContain("text-left");
+    expect(classes).toContain("text-2xl");
+    expect(classes).toContain("line-clamp-2");
   });
 
   it("each bookmark links to /surah/[id]?ayah=[number]", () => {

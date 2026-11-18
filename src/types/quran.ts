@@ -68,6 +68,9 @@ export type Reciter = {
   isDefault: boolean;
 };
 
+/** The script of a search snippet: an Arabic match is shown right to left in the Arabic font. */
+export type SnippetScript = "arabic" | "latin";
+
 export type SearchResult = {
   surahId: string;
   surahName: string;
@@ -75,6 +78,8 @@ export type SearchResult = {
   ayahId: string;
   snippet: string;
   snippetHighlight: string;
+  snippetScript: SnippetScript;
+  /** The start of the ayah in Arabic, shown under a Latin snippet. */
   arabicSnippet: string;
 };
 

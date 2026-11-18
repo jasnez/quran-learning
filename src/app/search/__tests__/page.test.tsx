@@ -28,6 +28,7 @@ const mockSearchResults: SearchResult[] = [
     ayahId: "1:1",
     snippet: "U ime Allaha, Milostivog, Samilosnog!",
     snippetHighlight: 'U ime Allaha, <mark>Milostivog</mark>, Samilosnog!',
+    snippetScript: "latin",
     arabicSnippet: "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
   },
 ];
@@ -291,6 +292,110 @@ describe("Search page", () => {
       await screen.findByRole("listbox");
       await user.keyboard("og");
       expect(input).toHaveValue("milostivog");
+    });
+  });
+
+  // QA P2-5: an Arabic match was shown in a left-to-right Latin paragraph and then again below.
+  describe("Arabic match", () => {
+    const words = mockSearchResults[0].arabicSnippet.split(" ");
+    const arabicResult: SearchResult = {
+      ...mockSearchResults[0],
+      snippet: words.join(" "),
+      snippetHighlight: `${words[0]} <mark>${words[1]}</mark> ${words.slice(2).join(" ")}`,
+      snippetScript: "arabic",
+    };
+
+    afterEach(() => mockSearchAyahs.mockReset());
+
+    it("shows the highlighted Arabic once, right to left, in the Arabic font", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve([arabicResult]));
+      const user = userEvent.setup();
+      renderSearch();
+      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), words[1]);
+      const option = await screen.findByRole("option");
+      const mark = option.querySelector("mark");
+      expect(mark).toHaveTextContent(words[1]);
+      const paragraph = mark!.closest("p")!;
+      expect(paragraph).toHaveAttribute("dir", "rtl");
+      expect(paragraph).toHaveAttribute("lang", "ar");
+      expect(paragraph.className).toContain("font-arabic");
+      expect(option.querySelectorAll("p[dir='rtl']")).toHaveLength(1);
+    });
+
+    it("keeps a Latin match left to right, with the Arabic preview below it", async () => {
+      const user = userEvent.setup();
+      renderSearch();
+      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      const option = await screen.findByRole("option");
+      const mark = option.querySelector("mark");
+      expect(mark!.closest("p")).not.toHaveAttribute("dir", "rtl");
+      const arabic = option.querySelector("p[dir='rtl']");
+      expect(arabic).toHaveAttribute("lang", "ar");
+      expect(arabic).toHaveTextContent(words[0]);
+    });
+  });
+
+  // QA P2-5: results stopped at 50, with no total and no way to see the rest.
+  describe("many results", () => {
+    const many: SearchResult[] = Array.from({ length: 120 }, (_, i) => ({
+      ...mockSearchResults[0],
+      surahId: "2",
+      ayahNumber: i + 1,
+      ayahId: `2:${i + 1}`,
+    }));
+
+    afterEach(() => mockSearchAyahs.mockReset());
+
+    it("shows the first 50 with the total, and 50 more per click", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
+      const user = userEvent.setup();
+      renderSearch();
+      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      await screen.findByRole("listbox");
+      expect(screen.getAllByRole("option")).toHaveLength(50);
+      expect(screen.getByText("Prikazano 50 od 120 rezultata")).toBeInTheDocument();
+
+      await user.click(screen.getByRole("button", { name: "Prikaži još" }));
+      expect(screen.getAllByRole("option")).toHaveLength(100);
+      expect(screen.getByText("Prikazano 100 od 120 rezultata")).toBeInTheDocument();
+
+      await user.click(screen.getByRole("button", { name: "Prikaži još" }));
+      expect(screen.getAllByRole("option")).toHaveLength(120);
+      expect(screen.getByText("120 rezultata")).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Prikaži još" })).not.toBeInTheDocument();
+    });
+
+    it("arrow keys wrap within the results on screen", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
+      const user = userEvent.setup();
+      renderSearch();
+      const input = screen.getByPlaceholderText(/pretraži ajete/i);
+      await user.type(input, "milostiv");
+      await screen.findByRole("listbox");
+      await user.keyboard("{ArrowUp}");
+      expect(input).toHaveAttribute("aria-activedescendant", "search-result-49");
+    });
+
+    it("starts again from 50 for a new query", async () => {
+      mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
+      const user = userEvent.setup();
+      renderSearch();
+      const input = screen.getByPlaceholderText(/pretraži ajete/i);
+      await user.type(input, "milostiv");
+      await screen.findByRole("listbox");
+      await user.click(screen.getByRole("button", { name: "Prikaži još" }));
+      expect(screen.getAllByRole("option")).toHaveLength(100);
+      await user.type(input, "og");
+      await waitFor(() => expect(mockSearchAyahs).toHaveBeenCalledWith("milostivog", expect.anything()));
+      await waitFor(() => expect(screen.getAllByRole("option")).toHaveLength(50));
+    });
+
+    it("names a single result in the singular", async () => {
+      const user = userEvent.setup();
+      renderSearch();
+      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      await screen.findByRole("listbox");
+      expect(screen.getByText("1 rezultat")).toBeInTheDocument();
     });
   });
 });
