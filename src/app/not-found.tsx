@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Stranica nije pronađena | Quran Learning",
+  // The layout's "./" would point to /_not-found, an address that does not exist.
+  alternates: { canonical: null },
+  openGraph: null,
 };
 
 export default function NotFound() {

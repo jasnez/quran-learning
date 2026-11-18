@@ -4,6 +4,8 @@ import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { PersistentStorageRequest } from "@/components/pwa/PersistentStorageRequest";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { THEME_INIT_SCRIPT } from "./themeInitScript";
 import "./globals.css";
 
@@ -38,13 +40,28 @@ const scheherazade = Scheherazade_New({
 });
 
 export const metadata: Metadata = {
-  title: "Quran Learning",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_NAME,
   description: "Čitanje Kur’ana s transliteracijom",
   manifest: "/manifest.webmanifest",
+  // "./" resolves against each page's own path: every page is its own canonical URL,
+  // without the query (?ayah=5 shows the same static page).
+  alternates: { canonical: "./" },
+  // Pages inherit this; Next.js fills og:title and og:description from each page's own
+  // title and description.
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "bs_BA",
+    url: "./",
+    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: SITE_NAME }],
+  },
+  // The image is the square app icon: "summary" shows it whole, the default large card would crop it.
+  twitter: { card: "summary" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Quran Learning",
+    title: SITE_NAME,
   },
 };
 
@@ -70,6 +87,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
+        <PersistentStorageRequest />
         <QueryProvider>
           <ThemeProvider>
             <AppShell>{children}</AppShell>

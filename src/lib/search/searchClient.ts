@@ -206,13 +206,23 @@ function buildSnippet(
   const lead = lo > 0 ? "… " : "";
   const tail = hi < words.length - 1 ? " …" : "";
   const snippet = `${lead}${text.slice(words[lo].start, words[hi].end)}${tail}`;
-  if (!hasMatch) return { snippet, snippetHighlight: snippet };
+  if (!hasMatch) return { snippet, snippetHighlight: escapeHtml(snippet) };
   const markStart = script === "arabic" ? words[first].start : matchIdx;
   const markEnd = script === "arabic" ? words[last].end : matchIdx + matchLen;
-  const before = text.slice(words[lo].start, markStart);
-  const match = text.slice(markStart, markEnd);
-  const after = text.slice(markEnd, words[hi].end);
+  const before = escapeHtml(text.slice(words[lo].start, markStart));
+  const match = escapeHtml(text.slice(markStart, markEnd));
+  const after = escapeHtml(text.slice(markEnd, words[hi].end));
   return { snippet, snippetHighlight: `${lead}${before}<mark>${match}</mark>${after}${tail}` };
+}
+
+const HTML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;" };
+
+/**
+ * `snippetHighlight` is rendered as HTML: only the <mark> may be markup, so the text around it
+ * is escaped (QA section 7). Element content only, so quotes need no escaping.
+ */
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>]/g, (c) => HTML_ESCAPES[c]);
 }
 
 /**

@@ -221,6 +221,21 @@ describe("searchAyahs", () => {
     expect(results[0].snippetHighlight).toContain("</mark>");
   });
 
+  // QA section 7: the page renders snippetHighlight as HTML, so only the <mark> may be markup.
+  it("escapes markup in the text around and inside the mark", async () => {
+    const ayah = { ...mockIndex[0].ayahs[0], translationBosnian: 'Milostivog <img src=x onerror="alert(1)"> & <b>Samilosnog</b>' };
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve([{ ...mockIndex[0], ayahs: [ayah] }]),
+    });
+    const [onText] = await searchAyahs("Milostivog");
+    expect(onText.snippetHighlight).toBe(
+      '<mark>Milostivog</mark> &lt;img src=x onerror="alert(1)"&gt; &amp; &lt;b&gt;Samilosnog&lt;/b&gt;',
+    );
+    const [onMarkup] = await searchAyahs("<b>Samilosnog");
+    expect(onMarkup.snippetHighlight).toContain("<mark>&lt;b&gt;Samilosnog</mark>");
+  });
+
   // QA P2-5: positions found in the text without harakat were applied to the original, so the
   // mark cut a word in two ("ٱلرَّح" + "ْمَـٰنِ").
   describe("Arabic highlight", () => {
