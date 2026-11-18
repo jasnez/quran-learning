@@ -23,19 +23,27 @@ describe("bookmarkStore", () => {
   });
 
   describe("addBookmark", () => {
-    it("adds a bookmark with required fields and truncates arabicText to 50 chars", () => {
-      const longArabic = "ا".repeat(60);
-      useBookmarkStore.getState().addBookmark(1, 1, "Al-Fatihah", longArabic);
+    it("adds a bookmark with required fields", () => {
+      useBookmarkStore.getState().addBookmark(1, 1, "Al-Fatihah", "بِسْمِ");
       const bookmarks = useBookmarkStore.getState().bookmarks;
       expect(bookmarks).toHaveLength(1);
       expect(bookmarks[0].id).toBe("1-1");
       expect(bookmarks[0].surahNumber).toBe(1);
       expect(bookmarks[0].ayahNumber).toBe(1);
       expect(bookmarks[0].surahNameLatin).toBe("Al-Fatihah");
-      expect(bookmarks[0].arabicText).toHaveLength(50);
-      expect(bookmarks[0].arabicText).toBe("ا".repeat(50));
       expect(bookmarks[0].createdAt).toBeDefined();
       expect(new Date(bookmarks[0].createdAt).toISOString()).toBe(bookmarks[0].createdAt);
+    });
+
+    // QA P2-8: the text was cut mid-word at 50 (Arabic) and 80 (translation) characters. The
+    // whole ayah is stored now; the bookmarks page clamps it to two lines.
+    it("stores the whole Arabic text and translation", () => {
+      const arabic = Array.from({ length: 30 }, () => "بِسْمِ").join(" ");
+      const translation = "Gospodaru naš, podaj nam dobro i na ovome i na onome svijetu, i sačuvaj nas patnje u ognju!";
+      useBookmarkStore.getState().addBookmark(2, 201, "El-Beqare", arabic, translation);
+      const [bookmark] = useBookmarkStore.getState().bookmarks;
+      expect(bookmark.arabicText).toBe(arabic);
+      expect(bookmark.translationBosnian).toBe(translation);
     });
 
     it("does not add duplicate for same surah and ayah", () => {
@@ -196,6 +204,42 @@ describe("bookmarkStore", () => {
       expect(useBookmarkStore.getState().bookmarks).toHaveLength(1);
       expect(useBookmarkStore.getState().bookmarks[0].id).toBe("1-1");
       expect(useBookmarkStore.getState().bookmarks[0].surahNameLatin).toBe("Al-Fatihah");
+    });
+
+    describe("bookmarks saved before the whole text was kept", () => {
+      const words = Array.from({ length: 12 }, () => "بِسْمِ");
+      const legacy = (bookmark: Record<string, unknown>) =>
+        JSON.stringify({ state: { bookmarks: [bookmark], collections: [] }, version: 0 });
+      const base = { surahNumber: 2, ayahNumber: 201, surahNameLatin: "El-Beqare", createdAt: "2026-11-01T10:00:00.000Z" };
+
+      it("ends a text cut at the old limit after its last whole word, with an ellipsis", async () => {
+        localStorage.setItem(
+          BOOKMARK_STORAGE_KEY,
+          legacy({
+            ...base,
+            id: "2-201",
+            arabicText: words.join(" ").slice(0, 50),
+            translationBosnian: "Gospodaru naš, podaj nam dobro i na ovome i na onome svijetu, i sačuvaj nas patn",
+          }),
+        );
+        await useBookmarkStore.persist.rehydrate();
+        const [bookmark] = useBookmarkStore.getState().bookmarks;
+        expect(bookmark.arabicText).toBe(`${words.slice(0, 7).join(" ")}…`);
+        expect(bookmark.translationBosnian).toBe(
+          "Gospodaru naš, podaj nam dobro i na ovome i na onome svijetu, i sačuvaj nas…",
+        );
+      });
+
+      it("leaves texts shorter than the old limit as they are", async () => {
+        localStorage.setItem(
+          BOOKMARK_STORAGE_KEY,
+          legacy({ ...base, id: "1-1", arabicText: "بِسْمِ", translationBosnian: "U ime Allaha" }),
+        );
+        await useBookmarkStore.persist.rehydrate();
+        const [bookmark] = useBookmarkStore.getState().bookmarks;
+        expect(bookmark.arabicText).toBe("بِسْمِ");
+        expect(bookmark.translationBosnian).toBe("U ime Allaha");
+      });
     });
   });
 });

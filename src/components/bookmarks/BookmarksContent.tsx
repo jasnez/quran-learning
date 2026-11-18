@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { Bookmark } from "@/types/bookmarks";
 import type { SurahSummary } from "@/types/quran";
@@ -16,7 +16,14 @@ type BookmarksContentProps = { surahs: SurahSummary[] };
 const EMPTY_MESSAGE =
   "Nemate označenih ajeta. Označite ajete klikom na bookmark ikonu dok čitate.";
 
+// The bookmarks are in localStorage, so the static HTML (and the hydration render) cannot know
+// them: false until then, so the page does not claim "no bookmarks" before it has looked.
+const subscribeMount = () => () => {};
+const getMounted = () => true;
+const getMountedServer = () => false;
+
 export function BookmarksContent({ surahs }: BookmarksContentProps) {
+  const mounted = useSyncExternalStore(subscribeMount, getMounted, getMountedServer);
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
   const removeBookmark = useBookmarkStore((s) => s.removeBookmark);
   const updateBookmarkNote = useBookmarkStore((s) => s.updateBookmarkNote);
@@ -77,6 +84,21 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
       setEditNoteValue("");
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
+          Označeni ajeti
+        </h1>
+        <div
+          className="mt-8 min-h-48 w-full animate-pulse rounded-2xl border border-stone-200/80 bg-white/50 dark:border-stone-700/80 dark:bg-stone-900/20"
+          aria-hidden
+          data-testid="bookmarks-placeholder"
+        />
+      </div>
+    );
+  }
 
   if (bookmarks.length === 0) {
     return (
@@ -161,7 +183,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                             <TajwidTextRenderer
                               segments={[{ text: b.arabicText, rule: "normal" }]}
                               showColors={showTajwidColors}
-                              className="text-left text-lg"
+                              className="line-clamp-2 text-right text-2xl"
                             />
                           </div>
                           {b.translationBosnian && (

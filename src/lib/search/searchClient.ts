@@ -13,9 +13,10 @@
  * - Reference search: "2:255" jumps to exact ayah; "yasin" matches surah names.
  * - Result ranking: ayah-reference > surah-name > Arabic > Bosnian
  *   translation > transliteration. Position-0 matches get a small boost.
+ * - Every match is returned; the search page shows them 50 at a time.
  */
 
-import type { SearchResult } from "@/types/quran";
+import type { SearchResult, SnippetScript } from "@/types/quran";
 
 const SEARCH_INDEX_URL = "/data/search-index.json";
 
@@ -35,9 +36,11 @@ type IndexSurah = {
   ayahs: IndexAyah[];
 };
 
-const MAX_RESULTS = 50;
 const SNIPPET_LEN = 80;
+/** The Arabic preview under a Latin snippet. */
 const ARABIC_SNIPPET_LEN = 50;
+/** An Arabic match; harakat make up about half of the characters. */
+const ARABIC_MATCH_SNIPPET_LEN = 100;
 
 // Relevance scores (higher = more relevant)
 const SCORE_AYAH_REFERENCE = 1000;
@@ -100,18 +103,23 @@ function foldTransliteration(s: string): string {
 }
 
 /**
- * Where a normalized query lies in the original transliteration. Normalizing drops characters
- * (the line below a letter, the signs for ayn and hamza), so a position in the normalized
- * text is not a position in the original: "naʻbudu" is 7 characters, "nabudu" is 6.
+ * Where a normalized query lies in the original text, `fold` being the normalization, applied
+ * one character at a time. Normalizing drops characters (the line below a letter, the signs
+ * for ayn and hamza, the harakat), so a position in the normalized text is not a position in
+ * the original: "naʻbudu" is 7 characters, "nabudu" is 6.
  */
-function locateTransliteration(original: string, qNorm: string): { idx: number; len: number } | null {
+function locateFolded(
+  original: string,
+  qNorm: string,
+  fold: (char: string) => string,
+): { idx: number; len: number } | null {
   if (!qNorm) return null;
   let normalized = "";
   /** For every character of `normalized`: where the character it came from starts in `original`. */
   const origins: number[] = [];
   let offset = 0;
   for (const char of original) {
-    const folded = foldTransliteration(char);
+    const folded = fold(char);
     for (let i = 0; i < folded.length; i++) origins.push(offset);
     normalized += folded;
     offset += char.length;
@@ -135,12 +143,16 @@ function locateTransliteration(original: string, qNorm: string): { idx: number; 
  * "ٱللَّهِ" → "الله"
  */
 export function normalizeArabic(s: string): string {
+  return foldArabic(s).trim();
+}
+
+/** `normalizeArabic` without the trim, so it can be applied one character at a time. */
+function foldArabic(s: string): string {
   return s
     .replace(/[ً-ْٰٓ-ٟۖ-ۭ]/g, "")
     .replace(/ـ/g, "")
     .replace(/[ٱأإآ]/g, "ا")
-    .replace(/ى/g, "ي")
-    .trim();
+    .replace(/ى/g, "ي");
 }
 
 function isArabicQuery(q: string): boolean {
@@ -157,44 +169,65 @@ function parseAyahReference(q: string): { surah: number; ayah: number } | null {
   return { surah, ayah };
 }
 
-function buildSnippet(
-  fullText: string,
-  matchIdx: number,
-  matchLen: number,
-  maxLen: number,
-): { snippet: string; snippetHighlight: string } {
-  if (matchIdx < 0 || matchLen === 0) {
-    const plain = fullText.slice(0, maxLen);
-    return { snippet: plain, snippetHighlight: plain };
-  }
-  const start = Math.max(0, matchIdx - Math.floor(maxLen / 3));
-  const end = Math.min(fullText.length, start + maxLen);
-  const segment = fullText.slice(start, end);
-  const inSegmentStart = matchIdx - start;
-  const inSegmentEnd = Math.min(segment.length, inSegmentStart + matchLen);
-  const before = segment.slice(0, inSegmentStart);
-  const match = segment.slice(inSegmentStart, inSegmentEnd);
-  const after = segment.slice(inSegmentEnd);
-  const snippetHighlight = `${before}<mark>${match}</mark>${after}`;
-  return { snippet: segment, snippetHighlight };
+type Span = { start: number; end: number };
+
+function wordSpans(text: string): Span[] {
+  return Array.from(text.matchAll(/\S+/g), (m) => ({ start: m.index, end: m.index + m[0].length }));
 }
 
 /**
- * Find query in a string that has equal length pre/post normalization
- * (Latin: NFD-strip preserves base chars in the same positions; Arabic: our
- * replacements may shrink length, so we fall back to a search on the original
- * text using the normalized query if positions don't line up).
+ * A snippet of at most `maxLen` characters around the match, cut only between words, with "…"
+ * where words are left out (QA P2-5). Without a match (`matchIdx` -1) it is the start of the
+ * text. `script` "arabic" widens the mark to whole words: a mark inside an Arabic word would
+ * break its joined letters. A Latin mark covers just the matched letters.
  */
-function findIndex(original: string, normalized: string, qNorm: string): number {
+function buildSnippet(
+  text: string,
+  matchIdx: number,
+  matchLen: number,
+  maxLen: number,
+  script: SnippetScript,
+): { snippet: string; snippetHighlight: string } {
+  const words = wordSpans(text);
+  if (words.length === 0) return { snippet: "", snippetHighlight: "" };
+  const hasMatch = matchIdx >= 0 && matchLen > 0;
+  const first = hasMatch ? words.findIndex((w) => w.end > matchIdx) : 0;
+  const last = hasMatch ? words.findLastIndex((w) => w.start < matchIdx + matchLen) : 0;
+  const width = (a: number, b: number) => words[b].end - words[a].start;
+
+  let lo = first;
+  let hi = last;
+  // Up to a third of the room before the match...
+  while (lo > 0 && width(lo - 1, hi) <= maxLen && words[first].start - words[lo - 1].start <= maxLen / 3) lo--;
+  while (hi < words.length - 1 && width(lo, hi + 1) <= maxLen) hi++;
+  // ...and whatever the end of the ayah leaves over.
+  while (lo > 0 && width(lo - 1, hi) <= maxLen) lo--;
+
+  const lead = lo > 0 ? "… " : "";
+  const tail = hi < words.length - 1 ? " …" : "";
+  const snippet = `${lead}${text.slice(words[lo].start, words[hi].end)}${tail}`;
+  if (!hasMatch) return { snippet, snippetHighlight: snippet };
+  const markStart = script === "arabic" ? words[first].start : matchIdx;
+  const markEnd = script === "arabic" ? words[last].end : matchIdx + matchLen;
+  const before = text.slice(words[lo].start, markStart);
+  const match = text.slice(markStart, markEnd);
+  const after = text.slice(markEnd, words[hi].end);
+  return { snippet, snippetHighlight: `${lead}${before}<mark>${match}</mark>${after}${tail}` };
+}
+
+/**
+ * Find query in the translation: in its NFC text, NFD-stripping keeps every base character in
+ * its place, so a position in the normalized text is a position in the original.
+ */
+function findIndex(normalized: string, qNorm: string): number {
   if (!qNorm) return -1;
-  const idx = normalized.indexOf(qNorm);
-  if (idx === -1) return -1;
-  // Char positions in `normalized` and `original` line up for Latin NFD when
-  // we only stripped combining marks (those are zero-width in display, but
-  // present as separate code points after NFD). For our Arabic normalizer,
-  // some chars are dropped so `idx` may be slightly off; cap at original
-  // length and treat as approximate. Snippet quality > perfect alignment.
-  return Math.min(idx, original.length - 1);
+  return normalized.indexOf(qNorm);
+}
+
+/** Snippet source for a hit without a position in the text (ayah reference, surah name). */
+function plainSource(ayah: IndexAyah): { snippetSource: string; script: SnippetScript } {
+  const latin = ayah.translationBosnian || ayah.transliteration;
+  return latin ? { snippetSource: latin, script: "latin" } : { snippetSource: ayah.arabicText, script: "arabic" };
 }
 
 type Scored = { score: number; result: SearchResult };
@@ -245,33 +278,35 @@ export async function searchAyahs(
     }
 
     for (const ayah of surah.ayahs) {
-      let best = { score: 0, idx: -1, len: 0, snippetSource: "" };
+      let best: { score: number; idx: number; len: number; snippetSource: string; script: SnippetScript } = {
+        score: 0,
+        idx: -1,
+        len: 0,
+        snippetSource: "",
+        script: "latin",
+      };
 
       // Ayah reference exact
       if (ref && ref.surah === surah.surahNumber && ref.ayah === ayah.ayahNumber) {
-        best = {
-          score: SCORE_AYAH_REFERENCE,
-          idx: -1,
-          len: 0,
-          snippetSource:
-            ayah.translationBosnian || ayah.transliteration || ayah.arabicText,
-        };
+        best = { score: SCORE_AYAH_REFERENCE, idx: -1, len: 0, ...plainSource(ayah) };
       }
 
       if (!ref && isArabic) {
-        const norm = normalizeArabic(ayah.arabicText);
-        const idx = findIndex(ayah.arabicText, norm, queryNorm);
-        if (idx >= 0) {
-          const score = SCORE_ARABIC + (idx === 0 ? POSITION_BOOST : 0);
+        // The cheap test first; the exact position is only worked out for ayahs that match.
+        const hit = normalizeArabic(ayah.arabicText).includes(queryNorm)
+          ? locateFolded(ayah.arabicText, queryNorm, foldArabic)
+          : null;
+        if (hit) {
+          const score = SCORE_ARABIC + (hit.idx === 0 ? POSITION_BOOST : 0);
           if (score > best.score) {
-            best = { score, idx, len: trimmed.length, snippetSource: ayah.arabicText };
+            best = { score, idx: hit.idx, len: hit.len, snippetSource: ayah.arabicText, script: "arabic" };
           }
         }
       }
 
       if (!ref && !isArabic) {
         const tN = normalizeLatin(ayah.translationBosnian);
-        const tIdx = findIndex(ayah.translationBosnian, tN, queryNorm);
+        const tIdx = findIndex(tN, queryNorm);
         if (tIdx >= 0) {
           const score = SCORE_TRANSLATION + (tIdx === 0 ? POSITION_BOOST : 0);
           if (score > best.score) {
@@ -280,13 +315,14 @@ export async function searchAyahs(
               idx: tIdx,
               len: queryNorm.length,
               snippetSource: ayah.translationBosnian,
+              script: "latin",
             };
           }
         }
         // The cheap test first; the exact position is only worked out for ayahs that match.
         const tlHit =
           queryTransliteration && foldTransliteration(ayah.transliteration).includes(queryTransliteration)
-            ? locateTransliteration(ayah.transliteration, queryTransliteration)
+            ? locateFolded(ayah.transliteration, queryTransliteration, foldTransliteration)
             : null;
         if (tlHit) {
           const score = SCORE_TRANSLITERATION + (tlHit.idx === 0 ? POSITION_BOOST : 0);
@@ -296,6 +332,7 @@ export async function searchAyahs(
               idx: tlHit.idx,
               len: tlHit.len,
               snippetSource: ayah.transliteration,
+              script: "latin",
             };
           }
         }
@@ -308,13 +345,11 @@ export async function searchAyahs(
         ayah.ayahNumber === 1 &&
         surahNameScore > best.score
       ) {
-        best = {
-          score: surahNameScore,
-          idx: -1,
-          len: 0,
-          snippetSource:
-            ayah.translationBosnian || ayah.transliteration || ayah.arabicText,
-        };
+        // A match in the text keeps its snippet and mark; only its rank rises.
+        best =
+          best.score > 0
+            ? { ...best, score: surahNameScore }
+            : { score: surahNameScore, idx: -1, len: 0, ...plainSource(ayah) };
       }
 
       if (best.score === 0) continue;
@@ -323,12 +358,10 @@ export async function searchAyahs(
         best.snippetSource,
         best.idx,
         best.len,
-        SNIPPET_LEN,
+        best.script === "arabic" ? ARABIC_MATCH_SNIPPET_LEN : SNIPPET_LEN,
+        best.script,
       );
-      const arabicSnippet =
-        ayah.arabicText.length > ARABIC_SNIPPET_LEN
-          ? ayah.arabicText.slice(0, ARABIC_SNIPPET_LEN) + "…"
-          : ayah.arabicText;
+      const arabicSnippet = buildSnippet(ayah.arabicText, -1, 0, ARABIC_SNIPPET_LEN, "arabic").snippet;
 
       scored.push({
         score: best.score,
@@ -339,6 +372,7 @@ export async function searchAyahs(
           ayahId: `${surah.surahNumber}:${ayah.ayahNumber}`,
           snippet,
           snippetHighlight,
+          snippetScript: best.script,
           arabicSnippet,
         },
       });
@@ -346,7 +380,7 @@ export async function searchAyahs(
   }
 
   scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, MAX_RESULTS).map((s) => s.result);
+  return scored.map((s) => s.result);
 }
 
 /** Test-only utility to reset the cached index promise. */

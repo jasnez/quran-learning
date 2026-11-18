@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useProgressStore } from "@/store/progressStore";
+import { isTajwidQuizPassed, tajwidQuizPassScore, useProgressStore } from "@/store/progressStore";
 import type { QuizQuestion } from "@/data/tajwid-lessons";
 
 type TajwidQuizProps = {
@@ -11,6 +11,15 @@ type TajwidQuizProps = {
   nextLessonSlug: string | null;
   nextLessonTitle: string | null;
 };
+
+/** "od 2 tačna odgovora", "od 5 tačnih odgovora", "od 21 tačnog odgovora". */
+function correctAnswersOf(total: number): string {
+  const lastDigit = total % 10;
+  const lastTwo = total % 100;
+  if (lastDigit === 1 && lastTwo !== 11) return "tačnog odgovora";
+  if (lastDigit >= 2 && lastDigit <= 4 && (lastTwo < 12 || lastTwo > 14)) return "tačna odgovora";
+  return "tačnih odgovora";
+}
 
 export function TajwidQuiz({
   quiz,
@@ -25,7 +34,7 @@ export function TajwidQuiz({
   const [quizFinished, setQuizFinished] = useState(false);
 
   const markStarted = useProgressStore((s) => s.markTajwidLessonStarted);
-  const markCompleted = useProgressStore((s) => s.markTajwidLessonCompleted);
+  const recordResult = useProgressStore((s) => s.recordTajwidQuizResult);
 
   const total = quiz.length;
   const question = quiz[currentIndex];
@@ -43,7 +52,7 @@ export function TajwidQuiz({
   const handleNext = () => {
     if (currentIndex + 1 >= total) {
       const finalScore = score;
-      markCompleted(lessonSlug, finalScore, total);
+      recordResult(lessonSlug, finalScore, total);
       setQuizFinished(true);
       return;
     }
@@ -76,9 +85,9 @@ export function TajwidQuiz({
           <p className="mt-1 text-sm text-emerald-800 dark:text-emerald-200">
             {totalCorrect === total
               ? "Odlično! Savladao/la si ovu lekciju."
-              : totalCorrect >= total / 2
+              : isTajwidQuizPassed(totalCorrect, total)
                 ? "Dobro! Možeš ponoviti lekciju za još bolji rezultat."
-                : "Ponovi lekciju i pokušaj ponovo."}
+                : `Za završetak lekcije treba bar ${tajwidQuizPassScore(total)} od ${total} ${correctAnswersOf(total)}. Ponovi lekciju i pokušaj ponovo.`}
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <button

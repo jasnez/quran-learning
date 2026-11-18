@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,19 @@ const MIN_QUERY_LEN_ARABIC = 1;
 const DEBOUNCE_MS = 300;
 const RECENT_KEY = "quran-search-recent";
 const RECENT_MAX = 5;
+/** Results shown at first and added by each "Prikaži još" (QA P2-5). */
+const PAGE_SIZE = 50;
+
+/** "1 rezultat", "21 rezultat", "2 rezultata", "11 rezultata". */
+function resultCountLabel(shown: number, total: number): string {
+  if (shown < total) return `Prikazano ${shown} od ${total} rezultata`;
+  const singular = total % 10 === 1 && total % 100 !== 11;
+  return `${total} ${singular ? "rezultat" : "rezultata"}`;
+}
+
+// text-inherit: the browser's own mark text is black, unreadable on the dark-theme highlight.
+const MARK_CLASSES =
+  "[&_mark]:rounded [&_mark]:bg-amber-100 [&_mark]:px-0.5 [&_mark]:font-medium [&_mark]:text-inherit dark:[&_mark]:bg-amber-900/40";
 
 function getMinQueryLength(q: string): number {
   const trimmed = q.trim();
@@ -52,6 +65,8 @@ export default function SearchPage() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  /** How many results of which query are shown; a new query starts again from PAGE_SIZE. */
+  const [shown, setShown] = useState({ query: "", count: PAGE_SIZE });
   const listRef = useRef<HTMLUListElement>(null);
   const linkRefsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const LISTBOX_ID = "search-results-list";
@@ -74,26 +89,28 @@ export default function SearchPage() {
   const isQueryLongEnough = trimmed.length >= getMinQueryLength(trimmed);
 
   // React Query: cache po upitu, automatski deduplicira iste zahtjeve
-  const { data: results = [], isFetching } = useQuery<SearchResult[]>({
+  const { data: allResults = [], isFetching } = useQuery<SearchResult[]>({
     queryKey: ["search", trimmed],
     queryFn: ({ signal }) => searchAyahs(trimmed, { signal }),
     enabled: isQueryLongEnough,
     staleTime: 2 * 60 * 1000, // rezultati svježi 2 minute
     placeholderData: (prev) => prev, // prikaži stare rezultate dok novi stižu
   });
+  const visibleCount = shown.query === trimmed ? shown.count : PAGE_SIZE;
+  const results = useMemo(() => allResults.slice(0, visibleCount), [allResults, visibleCount]);
 
   // Snimi upit u localStorage historiju (bez setState — state će se osvježiti kad
   // korisnik isprazni input ili klikne nedavnu pretragu).
   useEffect(() => {
-    if (results.length > 0 && trimmed) {
+    if (allResults.length > 0 && trimmed) {
       pushRecent(trimmed);
     }
-  }, [results, trimmed]);
+  }, [allResults, trimmed]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset highlighta na nove rezultate
     setSelectedIndex(0);
-  }, [results]);
+  }, [allResults]);
 
   useEffect(() => {
     linkRefsRef.current = linkRefsRef.current.slice(0, results.length);
@@ -235,20 +252,50 @@ export default function SearchPage() {
                     <span aria-hidden>·</span>
                     <span>Ajet {r.ayahNumber}</span>
                   </div>
-                  <p
-                    className="text-stone-700 dark:text-stone-300 [&_mark]:rounded [&_mark]:bg-amber-100 [&_mark]:px-0.5 [&_mark]:font-medium dark:[&_mark]:bg-amber-900/40"
-                    dangerouslySetInnerHTML={{ __html: r.snippetHighlight }}
-                  />
-                  <p
-                    className="mt-3 text-right font-arabic text-lg leading-relaxed text-stone-600 dark:text-stone-400"
-                    dir="rtl"
-                  >
-                    {stripWaqfSigns(r.arabicSnippet)}
-                  </p>
+                  {r.snippetScript === "arabic" ? (
+                    // An Arabic match: the highlighted Arabic itself, once (QA P2-5).
+                    <p
+                      className={`text-right font-arabic text-xl leading-loose text-stone-800 dark:text-stone-200 ${MARK_CLASSES}`}
+                      dir="rtl"
+                      lang="ar"
+                      dangerouslySetInnerHTML={{ __html: stripWaqfSigns(r.snippetHighlight) }}
+                    />
+                  ) : (
+                    <>
+                      <p
+                        className={`text-stone-700 dark:text-stone-300 ${MARK_CLASSES}`}
+                        dangerouslySetInnerHTML={{ __html: r.snippetHighlight }}
+                      />
+                      <p
+                        className="mt-3 text-right font-arabic text-lg leading-relaxed text-stone-600 dark:text-stone-400"
+                        dir="rtl"
+                        lang="ar"
+                      >
+                        {stripWaqfSigns(r.arabicSnippet)}
+                      </p>
+                    </>
+                  )}
                 </Link>
               </li>
             ))}
           </ul>
+        )}
+
+        {hasResults && (
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <p role="status" className="text-sm text-stone-500 dark:text-stone-400">
+              {resultCountLabel(results.length, allResults.length)}
+            </p>
+            {results.length < allResults.length && (
+              <button
+                type="button"
+                onClick={() => setShown({ query: trimmed, count: visibleCount + PAGE_SIZE })}
+                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
+              >
+                Prikaži još
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

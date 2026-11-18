@@ -208,7 +208,10 @@ describe("SettingsPanel", () => {
   it("has repeat mode and auto-play next controls", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByRole("group", { name: /ponavljanje/i })).toBeInTheDocument();
-    expect(screen.getByRole("switch", { name: /auto-play|sljedeći ajet|next ayah/i })).toBeInTheDocument();
+    // QA P2-8: the switch turns on going on to the next surah (ayahs always follow each
+    // other), so it is named like the player's own toggle.
+    expect(screen.getByRole("switch", { name: "Sljedeća sura automatski" })).toBeInTheDocument();
+    expect(screen.queryByRole("switch", { name: /sljedeći ajet/i })).not.toBeInTheDocument();
   });
 
   // QA section 5: repeat has three states, so a two-state switch (on/off) misreports it.
@@ -362,7 +365,7 @@ describe("SettingsPanel", () => {
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: /auto-play|sljedeći|next ayah/i });
+    const toggle = screen.getByRole("switch", { name: "Sljedeća sura automatski" });
     await userEvent.click(toggle);
     expect(mockToggleAutoPlayNext).toHaveBeenCalled();
   });

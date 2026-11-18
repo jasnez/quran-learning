@@ -243,7 +243,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               <RepeatModeRow repeatMode={repeatMode} onChange={setRepeatMode} />
               <ToggleRow
                 id="autoplay"
-                label="Automatski puštaj sljedeći ajet"
+                label="Sljedeća sura automatski"
                 checked={autoPlayNext}
                 onChange={toggleAutoPlayNext}
               />

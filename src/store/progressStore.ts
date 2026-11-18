@@ -97,13 +97,42 @@ type ProgressStore = LearningProgress & {
   getLastPosition: () => { surahNumber: number; ayahNumber: number; mode: "reader" | "learning" } | null;
   getStats: () => { totalTime: number; surahsCount: number; ayahsCount: number };
   markTajwidLessonStarted: (lessonSlug: string) => void;
-  markTajwidLessonCompleted: (lessonSlug: string, quizScore: number, quizTotal: number) => void;
+  /** Saves a finished quiz: completes the lesson from the pass mark, never lowers the best result. */
+  recordTajwidQuizResult: (lessonSlug: string, quizScore: number, quizTotal: number) => void;
   getTajwidLessonStatus: (lessonSlug: string) => TajwidLessonProgress | undefined;
   addTestResult: (result: Omit<TestResultEntry, "timestamp">) => void;
   getTestResultsForSurah: (surahNumber: number) => TestResultEntry[];
 };
 
 const TOTAL_AYAHS_IN_QURAN = 6236;
+
+/** A tajwid lesson is completed from this share of correct quiz answers (owner's rule, QA P2-8). */
+const TAJWID_PASS_PERCENT = 60;
+
+/** Correct answers needed to complete a lesson whose quiz has `total` questions. */
+export function tajwidQuizPassScore(total: number): number {
+  return Math.ceil((total * TAJWID_PASS_PERCENT) / 100);
+}
+
+export function isTajwidQuizPassed(score: number, total: number): boolean {
+  return total > 0 && score >= tajwidQuizPassScore(total);
+}
+
+/**
+ * Lesson progress saved before the pass mark existed: a lesson "completed" below it (even 0/5)
+ * goes back to in progress, keeping its score.
+ */
+function repairTajwidProgress(
+  progress: Record<string, TajwidLessonProgress>,
+): Record<string, TajwidLessonProgress> {
+  const repaired: Record<string, TajwidLessonProgress> = {};
+  for (const [slug, p] of Object.entries(progress)) {
+    const belowPassMark =
+      p.status === "completed" && p.quizScore != null && p.quizTotal != null && !isTajwidQuizPassed(p.quizScore, p.quizTotal);
+    repaired[slug] = belowPassMark ? { status: "in_progress", quizScore: p.quizScore, quizTotal: p.quizTotal } : p;
+  }
+  return repaired;
+}
 
 /**
  * Pure overall-progress calculation. Render code must use this through a
@@ -278,16 +307,18 @@ export const useProgressStore = create<ProgressStore>()(
           return { tajwidLessonProgress: map };
         }),
 
-      markTajwidLessonCompleted: (lessonSlug, quizScore, quizTotal) =>
+      recordTajwidQuizResult: (lessonSlug, quizScore, quizTotal) =>
         set((s) => {
-          const map = { ...s.tajwidLessonProgress };
-          map[lessonSlug] = {
-            status: "completed",
-            quizScore,
-            quizTotal,
-            completedAt: new Date().toISOString(),
-          };
-          return { tajwidLessonProgress: map };
+          if (quizTotal <= 0) return {};
+          const best = s.tajwidLessonProgress[lessonSlug];
+          // A retake that does not beat the saved result leaves it as it is (QA P2-8).
+          if (best?.quizScore != null && best.quizTotal && best.quizScore / best.quizTotal >= quizScore / quizTotal) {
+            return {};
+          }
+          const entry: TajwidLessonProgress = isTajwidQuizPassed(quizScore, quizTotal)
+            ? { status: "completed", quizScore, quizTotal, completedAt: new Date().toISOString() }
+            : { status: "in_progress", quizScore, quizTotal };
+          return { tajwidLessonProgress: { ...s.tajwidLessonProgress, [lessonSlug]: entry } };
         }),
 
       getTajwidLessonStatus: (lessonSlug) => get().tajwidLessonProgress[lessonSlug],
@@ -349,7 +380,9 @@ export const useProgressStore = create<ProgressStore>()(
           ...currentState,
           ...persisted,
           surahProgressMap,
-          tajwidLessonProgress: (persisted.tajwidLessonProgress ?? currentState.tajwidLessonProgress ?? {}) as Record<string, TajwidLessonProgress>,
+          tajwidLessonProgress: repairTajwidProgress(
+            (persisted.tajwidLessonProgress ?? currentState.tajwidLessonProgress ?? {}) as Record<string, TajwidLessonProgress>,
+          ),
           testResults: persisted.testResults ?? currentState.testResults ?? [],
         } as ProgressStore;
       },
