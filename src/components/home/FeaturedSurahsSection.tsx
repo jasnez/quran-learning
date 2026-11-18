@@ -108,11 +108,11 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
                 {surah.nameLatin}
               </span>
               {!isInProgress && NOTES[surah.surahNumber] && (
-                <p className="mt-1 text-xs leading-relaxed text-stone-500 dark:text-stone-500">
+                <p className="mt-1 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
                   {NOTES[surah.surahNumber]}
                 </p>
               )}
-              <p className="mt-1 text-xs text-stone-500 dark:text-stone-500">
+              <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
                 {isInProgress
                   ? `${percent}% završeno · ${surah.ayahCount} ajeta`
                   : `${surah.ayahCount} ajeta`}

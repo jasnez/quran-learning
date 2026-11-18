@@ -25,7 +25,7 @@ export function DuaCard({ dua }: DuaCardProps) {
       aria-labelledby={`dua-arabic-${dua.id}`}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
-        <p className="text-xs font-medium uppercase tracking-wide text-stone-400 dark:text-stone-500">
+        <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
           Dova iz Kur&apos;ana
         </p>
         <button

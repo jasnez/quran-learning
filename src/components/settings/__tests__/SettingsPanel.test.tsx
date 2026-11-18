@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, cleanup, within } from "@testing-library/react";
+import { render, screen, cleanup, within, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SettingsPanel } from "../SettingsPanel";
 
@@ -16,6 +16,7 @@ const mockToggleTajwidColors = vi.fn();
 const mockSetReciter = vi.fn();
 const mockSetPlaybackSpeed = vi.fn();
 const mockCycleRepeatMode = vi.fn();
+const mockSetRepeatMode = vi.fn();
 const mockToggleAutoPlayNext = vi.fn();
 
 const defaultStore = {
@@ -27,7 +28,7 @@ const defaultStore = {
   showTajwidColors: true,
   selectedReciterId: "mishary-alafasy",
   playbackSpeed: 1,
-  repeatMode: "off" as const,
+  repeatMode: "off" as "off" | "surah" | "ayah",
   autoPlayNext: true,
   setTheme: mockSetTheme,
   setArabicFontSize: mockSetArabicFontSize,
@@ -38,6 +39,7 @@ const defaultStore = {
   setReciter: mockSetReciter,
   setPlaybackSpeed: mockSetPlaybackSpeed,
   cycleRepeatMode: mockCycleRepeatMode,
+  setRepeatMode: mockSetRepeatMode,
   toggleAutoPlayNext: mockToggleAutoPlayNext,
 };
 
@@ -86,11 +88,65 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("dialog", { name: /settings|postavke/i })).toBeInTheDocument();
   });
 
-  it("when closed, panel is hidden (aria-hidden or off-screen)", () => {
+  // QA section 5: the closed panel was aria-hidden but its ~24 controls stayed in the Tab order.
+  it("when closed, is a closed native dialog, so its controls are out of the Tab order", () => {
     const { container } = render(<SettingsPanel isOpen={false} onClose={() => {}} />);
-    const dialog = container.querySelector("[role='dialog']");
+    const dialog = container.querySelector("dialog");
     expect(dialog).toBeInTheDocument();
-    expect(dialog).toHaveAttribute("aria-hidden", "true");
+    expect(dialog!.open).toBe(false);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /zatvori/i })).not.toBeInTheDocument();
+  });
+
+  it("opens as a modal (showModal), which makes the page inert and keeps focus in the panel", () => {
+    const showModal = vi.spyOn(HTMLDialogElement.prototype, "showModal");
+    const { container, rerender } = render(<SettingsPanel isOpen={false} onClose={() => {}} />);
+    expect(showModal).not.toHaveBeenCalled();
+    rerender(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    expect(showModal).toHaveBeenCalledTimes(1);
+    const dialog = container.querySelector("dialog")!;
+    expect(dialog.open).toBe(true);
+    // The native modal already is a named, modal dialog; no hand-made ARIA on top.
+    expect(dialog).not.toHaveAttribute("role");
+    expect(dialog).not.toHaveAttribute("aria-modal");
+    expect(dialog).not.toHaveAttribute("aria-hidden");
+    expect(screen.getByRole("dialog", { name: "Postavke" })).toBe(dialog);
+    showModal.mockRestore();
+  });
+
+  // The slide-out keeps the closed dialog on screen for 200ms (display is transitioned); its
+  // controls must not take focus or clicks in that time.
+  it("is inert while closed, already when close() starts the exit animation", () => {
+    const inertAtClose: boolean[] = [];
+    const close = vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (this: HTMLDialogElement) {
+      inertAtClose.push(this.hasAttribute("inert"));
+      this.removeAttribute("open");
+    });
+    try {
+      const { container, rerender } = render(<SettingsPanel isOpen={false} onClose={() => {}} />);
+      const dialog = container.querySelector("dialog")!;
+      expect(dialog).toHaveAttribute("inert");
+      rerender(<SettingsPanel isOpen={true} onClose={() => {}} />);
+      expect(dialog).not.toHaveAttribute("inert");
+      rerender(<SettingsPanel isOpen={false} onClose={() => {}} />);
+      expect(inertAtClose).toEqual([true]);
+      expect(dialog).toHaveAttribute("inert");
+    } finally {
+      close.mockRestore();
+    }
+  });
+
+  it("closes the dialog when the parent closes it", () => {
+    const { container, rerender } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    rerender(<SettingsPanel isOpen={false} onClose={() => {}} />);
+    expect(container.querySelector("dialog")!.open).toBe(false);
+  });
+
+  it("reports a close by the browser (Esc, back gesture, light dismiss) through onClose", () => {
+    const onClose = vi.fn();
+    const { container } = render(<SettingsPanel isOpen={true} onClose={onClose} />);
+    container.querySelector("dialog")!.close();
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("has Display Settings section with font size control", () => {
@@ -151,8 +207,19 @@ describe("SettingsPanel", () => {
 
   it("has repeat mode and auto-play next controls", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByRole("switch", { name: /ponavljanje/i })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: /ponavljanje/i })).toBeInTheDocument();
     expect(screen.getByRole("switch", { name: /auto-play|sljedeći ajet|next ayah/i })).toBeInTheDocument();
+  });
+
+  // QA section 5: repeat has three states, so a two-state switch (on/off) misreports it.
+  it("offers the three repeat modes as one group of options with the current one pressed", () => {
+    defaultStore.repeatMode = "surah";
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    expect(screen.queryByRole("switch", { name: /ponavljanje/i })).not.toBeInTheDocument();
+    const group = within(screen.getByRole("group", { name: /ponavljanje/i }));
+    expect(group.getByRole("button", { name: "Isključeno" })).toHaveAttribute("aria-pressed", "false");
+    expect(group.getByRole("button", { name: "Sura" })).toHaveAttribute("aria-pressed", "true");
+    expect(group.getByRole("button", { name: "Ajet" })).toHaveAttribute("aria-pressed", "false");
   });
 
   it("has Theme section with Light and Dark; Sepia hidden behind 'Više opcija' (advanced)", async () => {
@@ -175,13 +242,38 @@ describe("SettingsPanel", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("clicking overlay calls onClose", async () => {
-    const onClose = vi.fn();
-    const { container } = render(<SettingsPanel isOpen={true} onClose={onClose} />);
-    const overlay = container.querySelector("[data-settings-overlay]");
-    expect(overlay).toBeInTheDocument();
-    if (overlay) await userEvent.click(overlay as HTMLElement);
-    expect(onClose).toHaveBeenCalled();
+  describe("light dismiss where the browser has no closedby (Safari)", () => {
+    function renderOpenPanel(onClose: () => void) {
+      const { container } = render(<SettingsPanel isOpen={true} onClose={onClose} />);
+      const dialog = container.querySelector("dialog")!;
+      // The panel is the right-hand strip from x=400; everything left of it is the backdrop.
+      vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({
+        left: 400, right: 800, top: 0, bottom: 600, width: 400, height: 600, x: 400, y: 0,
+        toJSON: () => ({}),
+      } as DOMRect);
+      return dialog;
+    }
+
+    it("closes on a press and release on the backdrop", () => {
+      expect("closedBy" in HTMLDialogElement.prototype).toBe(false);
+      const onClose = vi.fn();
+      const dialog = renderOpenPanel(onClose);
+      fireEvent.pointerDown(dialog, { clientX: 100, clientY: 300 });
+      fireEvent.pointerUp(dialog, { clientX: 100, clientY: 300 });
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(dialog.open).toBe(false);
+    });
+
+    it("stays open for a press inside the panel, also when it ends on the backdrop (text selection)", () => {
+      const onClose = vi.fn();
+      const dialog = renderOpenPanel(onClose);
+      fireEvent.pointerDown(dialog, { clientX: 500, clientY: 300 });
+      fireEvent.pointerUp(dialog, { clientX: 500, clientY: 300 });
+      fireEvent.pointerDown(dialog, { clientX: 500, clientY: 300 });
+      fireEvent.pointerUp(dialog, { clientX: 100, clientY: 300 });
+      expect(onClose).not.toHaveBeenCalled();
+      expect(dialog.open).toBe(true);
+    });
   });
 
   it("font size decrease button calls setArabicFontSize with smaller value", async () => {
@@ -227,6 +319,16 @@ describe("SettingsPanel", () => {
     expect(mockToggleTransliteration).toHaveBeenCalled();
   });
 
+  // The theme radios are visually hidden inside their labels, so the label shows the focus.
+  it("theme options show a focus ring when their radio has keyboard focus", async () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    await userEvent.click(screen.getByRole("button", { name: /više opcija/i }));
+    for (const name of [/svijetla/i, /tamna/i, /sepia/i]) {
+      const label = screen.getByRole("radio", { name }).closest("label");
+      expect(label).toHaveClass("has-[:focus-visible]:ring-2", "has-[:focus-visible]:ring-emerald-600");
+    }
+  });
+
   it("selecting Dark theme calls setTheme with dark", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const dark = screen.getByRole("radio", { name: /dark|tamna/i });
@@ -250,11 +352,12 @@ describe("SettingsPanel", () => {
     expect(mockSetPlaybackSpeed).toHaveBeenCalledWith(1.5);
   });
 
-  it("repeat mode control calls cycleRepeatMode", async () => {
+  it("choosing a repeat mode sets exactly that mode", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const control = screen.getByRole("switch", { name: /ponavljanje/i });
-    await userEvent.click(control);
-    expect(mockCycleRepeatMode).toHaveBeenCalled();
+    const group = within(screen.getByRole("group", { name: /ponavljanje/i }));
+    await userEvent.click(group.getByRole("button", { name: "Ajet" }));
+    expect(mockSetRepeatMode).toHaveBeenCalledWith("ayah");
+    expect(mockCycleRepeatMode).not.toHaveBeenCalled();
   });
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {

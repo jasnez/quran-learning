@@ -134,6 +134,15 @@ describe("settingsStore", () => {
     });
   });
 
+  describe("setRepeatMode", () => {
+    it("sets the chosen mode directly", () => {
+      useSettingsStore.getState().setRepeatMode("ayah");
+      expect(useSettingsStore.getState().repeatMode).toBe("ayah");
+      useSettingsStore.getState().setRepeatMode("off");
+      expect(useSettingsStore.getState().repeatMode).toBe("off");
+    });
+  });
+
   describe("toggleAutoPlayNext", () => {
     it("toggles autoPlayNext", () => {
       expect(useSettingsStore.getState().autoPlayNext).toBe(true);

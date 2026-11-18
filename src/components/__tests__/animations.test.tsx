@@ -10,6 +10,14 @@ import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { TajwidLegend } from "@/components/quran/TajwidLegend";
 import type { Ayah } from "@/types/quran";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const globalsCss = readFileSync(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "../../app/globals.css"),
+  "utf-8"
+);
 
 const mockAyah: Ayah = {
   id: "1:1",
@@ -126,16 +134,26 @@ describe("Progress bar animation", () => {
 });
 
 describe("Settings panel slide transition", () => {
-  it("panel has transition for slide open/close", () => {
+  // A native <dialog> is display: none while closed, so the slide is CSS (globals.css):
+  // @starting-style for the entry, allow-discrete display/overlay for the exit.
+  it("panel slides in from @starting-style and out with a discrete display transition", () => {
     const { container } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const panel = container.querySelector("[role='dialog']");
-    expect(panel?.className).toMatch(/transition/);
+    expect(container.querySelector("dialog")).toHaveClass("settings-dialog");
+    expect(globalsCss).toMatch(/@starting-style\s*\{\s*\.settings-dialog\[open\]/);
+    expect(globalsCss).toMatch(/\.settings-dialog\s*\{[^}]*transition-property:[^;]*display[^;]*overlay/);
+    expect(globalsCss).toMatch(/\.settings-dialog\s*\{[^}]*transition-behavior:\s*allow-discrete/);
   });
 
-  it("overlay has transition for fade", () => {
-    const { container } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const overlay = container.querySelector("[data-settings-overlay]");
-    expect(overlay?.className).toMatch(/transition/);
+  // The browser closes the dialog itself on Esc or a backdrop click; React's inert attribute
+  // follows one task later. CSS takes over at once while the panel slides out.
+  it("the closing panel takes no clicks or focus while it slides out", () => {
+    expect(globalsCss).toMatch(
+      /\.settings-dialog:not\(\[open\]\)\s*\{[^}]*pointer-events:\s*none;[^}]*interactivity:\s*inert;/
+    );
+  });
+
+  it("backdrop fades", () => {
+    expect(globalsCss).toMatch(/\.settings-dialog::backdrop\s*\{[^}]*transition-property:[^;]*background-color/);
   });
 });
 

@@ -76,7 +76,7 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
           {juz.juz < 30 ? (
             <Link
               href={`/juz/${juz.juz + 1}`}
-              className="inline-flex items-center gap-1 rounded-full bg-amber-600 px-3 py-1.5 text-white hover:bg-amber-500 dark:bg-amber-500 dark:hover:bg-amber-400"
+              className="inline-flex items-center gap-1 rounded-full bg-amber-700 px-3 py-1.5 text-white hover:bg-amber-800"
             >
               Džuz {juz.juz + 1}
               <span aria-hidden>→</span>

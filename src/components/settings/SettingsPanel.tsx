@@ -28,8 +28,20 @@ const ADVANCED_THEMES = [
 
 type SettingsPanelProps = { isOpen: boolean; onClose: () => void };
 
+/** Light dismiss (click on the backdrop) for browsers without dialog closedby (Safari). */
+function isOutside(e: React.PointerEvent<HTMLDialogElement>, dialog: HTMLDialogElement): boolean {
+  const r = dialog.getBoundingClientRect();
+  return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+}
+
+/**
+ * A native modal <dialog> (QA section 5): showModal() makes the rest of the page inert, keeps
+ * Tab inside the panel, closes on Esc and returns focus to the control that opened it. While
+ * closed the dialog is display: none, so none of its controls can take focus.
+ */
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const pressedOutsideRef = useRef(false);
 
   const theme = useSettingsStore((s) => s.theme);
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
@@ -50,21 +62,26 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const toggleTranslation = useSettingsStore((s) => s.toggleTranslation);
   const toggleTajwidColors = useSettingsStore((s) => s.toggleTajwidColors);
   const setPlaybackSpeed = useSettingsStore((s) => s.setPlaybackSpeed);
-  const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
+  const setRepeatMode = useSettingsStore((s) => s.setRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const setPauseAfterAyah = useSettingsStore((s) => s.setPauseAfterAyah);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose]);
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isOpen && !dialog.open) dialog.showModal();
+    else if (!isOpen && dialog.open) dialog.close();
+  }, [isOpen]);
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
+  // Native closedby="any" handles the backdrop where supported. Press and release must both be
+  // outside, so a text selection that ends on the backdrop does not close the panel.
+  const handlePointerDown = (e: React.PointerEvent<HTMLDialogElement>) => {
+    const hasNativeLightDismiss = "closedBy" in HTMLDialogElement.prototype;
+    pressedOutsideRef.current = !hasNativeLightDismiss && isOutside(e, e.currentTarget);
+  };
+  const handlePointerUp = (e: React.PointerEvent<HTMLDialogElement>) => {
+    if (pressedOutsideRef.current && isOutside(e, e.currentTarget)) e.currentTarget.close();
+    pressedOutsideRef.current = false;
   };
 
   const fontDecrease = () =>
@@ -76,28 +93,19 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
     selectedReciterId === "mishary-alafasy" ? "Mishary Alafasy" : selectedReciterId ?? "—";
 
   return (
-    <>
-      <div
-        data-settings-overlay
-        role="presentation"
-        aria-hidden={!isOpen}
-        className={`fixed inset-0 z-50 bg-stone-900/50 backdrop-blur-sm transition-opacity duration-200 ease-out ${
-          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        onClick={handleOverlayClick}
-      />
-      <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="settings-panel-title"
-        aria-hidden={!isOpen}
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-[var(--theme-border)] bg-[var(--theme-card)] shadow-xl transition-transform duration-200 ease-out max-sm:inset-x-0 max-sm:top-auto max-sm:bottom-0 max-sm:max-h-[85vh] max-sm:rounded-t-2xl lg:max-w-lg ${
-          isOpen
-            ? "translate-x-0 max-sm:translate-y-0"
-            : "translate-x-full pointer-events-none max-sm:translate-y-full"
-        }`}
-      >
+    <dialog
+      ref={dialogRef}
+      aria-labelledby="settings-panel-title"
+      // The slide-out keeps the closed panel on screen for 200ms; inert keeps its controls out
+      // of reach meanwhile. React sets it before the effect calls close(), and removes it before
+      // showModal().
+      inert={!isOpen}
+      closedby="any"
+      className="settings-dialog"
+      onClose={onClose}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+    >
         <div className="flex flex-shrink-0 items-center justify-between border-b border-stone-200 px-4 py-3 dark:border-stone-700">
           <h2 id="settings-panel-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
             Postavke
@@ -160,9 +168,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                       key={style}
                       type="button"
                       className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        arabicFontStyle === style
-                          ? "bg-emerald-600 text-white dark:bg-emerald-500"
-                          : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                        arabicFontStyle === style ? OPTION_SELECTED : OPTION_IDLE
                       }`}
                       aria-pressed={arabicFontStyle === style}
                       onClick={() => {
@@ -223,9 +229,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                       key={speed}
                       type="button"
                       className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        playbackSpeed === speed
-                          ? "bg-emerald-600 text-white dark:bg-emerald-500"
-                          : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                        playbackSpeed === speed ? OPTION_SELECTED : OPTION_IDLE
                       }`}
                       aria-pressed={playbackSpeed === speed}
                       aria-label={`${speed}x`}
@@ -236,11 +240,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   ))}
                 </div>
               </div>
-              <RepeatModeRow
-                id="repeat"
-                repeatMode={repeatMode}
-                onCycle={cycleRepeatMode}
-              />
+              <RepeatModeRow repeatMode={repeatMode} onChange={setRepeatMode} />
               <ToggleRow
                 id="autoplay"
                 label="Automatski puštaj sljedeći ajet"
@@ -261,9 +261,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                       key={opt.value}
                       type="button"
                       className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        pauseAfterAyah === opt.value
-                          ? "bg-emerald-600 text-white dark:bg-emerald-500"
-                          : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                        pauseAfterAyah === opt.value ? OPTION_SELECTED : OPTION_IDLE
                       }`}
                       aria-pressed={pauseAfterAyah === opt.value}
                       onClick={() => setPauseAfterAyah(opt.value)}
@@ -282,47 +280,44 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           {/* Theme */}
           <ThemeSection theme={theme} setTheme={setTheme} />
         </div>
-      </div>
-    </>
+    </dialog>
   );
 }
 
-const REPEAT_LABELS: Record<RepeatMode, string> = {
-  off: "Isključeno",
-  surah: "Ponavljaj suru",
-  ayah: "Ponavljaj ajet",
-};
+const REPEAT_OPTIONS: { value: RepeatMode; label: string }[] = [
+  { value: "off", label: "Isključeno" },
+  { value: "surah", label: "Sura" },
+  { value: "ayah", label: "Ajet" },
+];
 
+/** Three modes, so a group of options like "Pauza između ajeta", not an on/off switch (QA section 5). */
 function RepeatModeRow({
-  id,
   repeatMode,
-  onCycle,
+  onChange,
 }: {
-  id: string;
   repeatMode: RepeatMode;
-  onCycle: () => void;
+  onChange: (mode: RepeatMode) => void;
 }) {
-  const label = REPEAT_LABELS[repeatMode];
   return (
-    <div className="flex items-center justify-between">
-      <span id={`${id}-label`} className="text-sm font-medium text-stone-700 dark:text-stone-300">
+    <div>
+      <span id="repeat-mode-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
         Ponavljanje
       </span>
-      <button
-        id={id}
-        type="button"
-        role="switch"
-        aria-checked={repeatMode !== "off"}
-        aria-label={`Ponavljanje: ${label}. Klik za promjenu.`}
-        className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
-          repeatMode !== "off"
-            ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-500"
-            : "border-stone-300 bg-white text-stone-600 hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-        }`}
-        onClick={onCycle}
-      >
-        {label}
-      </button>
+      <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="repeat-mode-label">
+        {REPEAT_OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            type="button"
+            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              repeatMode === opt.value ? OPTION_SELECTED : OPTION_IDLE
+            }`}
+            aria-pressed={repeatMode === opt.value}
+            onClick={() => onChange(opt.value)}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -349,7 +344,7 @@ function ToggleRow({
         role="switch"
         aria-checked={checked}
         aria-label={label}
-        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
+        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 ${
           checked ? "bg-emerald-600 dark:bg-emerald-500" : "bg-stone-200 dark:bg-stone-600"
         }`}
         onClick={onChange}
@@ -408,7 +403,7 @@ function ThemeSection({
         {PRIMARY_THEMES.map((t) => (
           <label
             key={t.value}
-            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-emerald-600 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
           >
             <input
               type="radio"
@@ -432,7 +427,7 @@ function ThemeSection({
           {ADVANCED_THEMES.map((t) => (
             <label
               key={t.value}
-              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-emerald-600 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
             >
               <input
                 type="radio"
@@ -460,10 +455,15 @@ function ThemeSection({
   );
 }
 
+// White on emerald-700 is 5.5:1; on emerald-600 it was 3.65:1 and on emerald-500 2.5:1 (QA section 5).
+const OPTION_SELECTED = "bg-emerald-700 text-white";
+const OPTION_IDLE =
+  "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600";
+
 const SECONDARY_BUTTON =
-  "w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800";
+  "w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800";
 const PRIMARY_BUTTON =
-  "w-full rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500";
+  "w-full rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600";
 
 function failureHints(failures: SurahFailure[]): string[] {
   const hints: string[] = [];

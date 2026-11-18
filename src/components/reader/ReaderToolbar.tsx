@@ -17,7 +17,7 @@ const FONT_MAX = 44;
 const FONT_STEP = 4;
 
 const ICON_BTN =
-  "flex h-9 items-center justify-center rounded-md px-2.5 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100";
+  "flex h-9 items-center justify-center rounded-md px-2.5 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100";
 
 const ICON_BTN_DISABLED =
   "flex h-9 items-center justify-center rounded-md px-2.5 text-stone-300 dark:text-stone-600 cursor-not-allowed";
@@ -88,7 +88,7 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setArabicFontStyle("naskh")}
           aria-pressed={arabicFontStyle === "naskh"}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
             arabicFontStyle === "naskh"
               ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
               : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
@@ -100,7 +100,7 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setArabicFontStyle("uthmanic")}
           aria-pressed={arabicFontStyle === "uthmanic"}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
             arabicFontStyle === "uthmanic"
               ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
               : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
@@ -120,7 +120,7 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setWordByWordMode(false)}
           aria-pressed={!wordByWordMode}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
             !wordByWordMode
               ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
               : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
@@ -132,7 +132,7 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setWordByWordMode(true)}
           aria-pressed={wordByWordMode}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
             wordByWordMode
               ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
               : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
@@ -205,7 +205,7 @@ function ToggleChip({
       aria-pressed={active}
       aria-label={ariaLabel}
       title={ariaLabel}
-      className={`flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border px-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+      className={`flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border px-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
         active
           ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
           : "border-stone-200 bg-transparent text-stone-500 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"

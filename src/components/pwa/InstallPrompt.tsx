@@ -152,7 +152,7 @@ export function InstallPrompt() {
             <button
               type="button"
               onClick={handleInstall}
-              className="shrink-0 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+              className="shrink-0 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
             >
               Instaliraj
             </button>
@@ -160,7 +160,7 @@ export function InstallPrompt() {
               type="button"
               onClick={handleDismiss}
               aria-label="Zatvori"
-              className="shrink-0 rounded-full p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+              className="shrink-0 rounded-full p-2 text-stone-500 dark:text-stone-400 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-800 dark:hover:text-stone-200"
             >
               <CloseIcon />
             </button>

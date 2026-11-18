@@ -20,11 +20,11 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
     <Link
       href={`/surah/${surah.surahNumber}`}
       prefetch={false}
-      className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-emerald-600/30 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
+      className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
     >
       <div className="flex min-h-[4rem] items-center gap-3 px-4 py-3">
         <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-400"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
           aria-hidden
         >
           {surah.surahNumber}

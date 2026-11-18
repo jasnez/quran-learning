@@ -73,7 +73,7 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
                 <a
                   href={`#ayah-${ayah.id.replace(":", "-")}`}
                   onClick={handleJump(ayah.id)}
-                  className={`flex items-center justify-between rounded-md px-3 py-1 text-xs tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 ${
+                  className={`flex items-center justify-between rounded-md px-3 py-1 text-xs tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
                     isActive
                       ? "bg-emerald-100 font-medium text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300"
                       : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"

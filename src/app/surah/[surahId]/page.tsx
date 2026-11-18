@@ -115,7 +115,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
           {nextSurah && (
             <Link
               href={`/surah/${nextSurah.surahNumber}`}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+              className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
             >
               <span>Sljedeća: {nextSurah.nameLatin}</span>
               <span aria-hidden>→</span>

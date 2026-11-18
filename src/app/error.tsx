@@ -34,7 +34,7 @@ export default function Error({
         .
       </p>
       {error.digest && (
-        <p className="mt-2 text-xs text-stone-500 dark:text-stone-500">
+        <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">
           Digest: {error.digest}
         </p>
       )}
@@ -42,7 +42,7 @@ export default function Error({
         <button
           type="button"
           onClick={reset}
-          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-800"
         >
           Pokušaj ponovo
         </button>

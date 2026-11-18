@@ -148,7 +148,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                         >
                           <div className="flex items-center gap-2">
                             <span
-                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-400"
+                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
                               aria-hidden
                             >
                               {b.ayahNumber}
@@ -214,7 +214,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                         <button
                           type="button"
                           onClick={() => setConfirmRemove(b)}
-                          className="rounded-lg p-2 text-stone-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+                          className="rounded-lg p-2 text-stone-500 dark:text-stone-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                           aria-label="Ukloni oznaku"
                         >
                           <TrashIcon className="h-5 w-5" />

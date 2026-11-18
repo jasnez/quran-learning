@@ -18,6 +18,7 @@ type SettingsStore = SettingsState & {
   setReciter: (selectedReciterId: string | null) => void;
   setPlaybackSpeed: (playbackSpeed: number) => void;
   cycleRepeatMode: () => void;
+  setRepeatMode: (repeatMode: RepeatMode) => void;
   toggleAutoPlayNext: () => void;
   setPauseAfterAyah: (mode: PauseAfterAyah) => void;
 };
@@ -70,6 +71,8 @@ export const useSettingsStore = create<SettingsStore>()(
 
       cycleRepeatMode: () =>
         set((s) => ({ repeatMode: nextRepeatMode(s.repeatMode) })),
+
+      setRepeatMode: (repeatMode) => set({ repeatMode }),
 
       toggleAutoPlayNext: () => set((s) => ({ autoPlayNext: !s.autoPlayNext })),
 

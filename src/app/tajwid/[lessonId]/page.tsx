@@ -41,7 +41,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8">
       <LessonProgressTracker lessonSlug={lesson.slug} />
       <header className="mb-6 sm:mb-8">
-        <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+        <p className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
           Tedžvid lekcija
         </p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-3xl">
@@ -200,7 +200,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
           {nextLesson && (
             <Link
               href={`/tajwid/${nextLesson.slug}`}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+              className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
             >
               <span>Sljedeća: {nextLesson.title}</span>
               <span aria-hidden>→</span>

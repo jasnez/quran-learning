@@ -33,17 +33,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <SettingsOpenProvider>
       <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
+        {/* The bottom padding keeps the end of the page, the footer included, clear of the fixed
+            bottom bars: the mobile navigation (56px) and the audio player (70px). */}
         <div
           ref={scrollContainerRef}
-          className="flex min-h-dvh flex-col bg-[var(--theme-bg)] pt-12 transition-colors duration-200"
+          className={`flex min-h-dvh flex-col bg-[var(--theme-bg)] pt-12 transition-colors duration-200 ${
+            hasAudio ? "max-md:pb-[126px] md:pb-[70px]" : "max-md:pb-14"
+          }`}
           data-scroll-container
         >
           <Header />
-          <main
-            className={`min-h-0 flex-1 px-4 py-8 transition-opacity duration-300 md:py-12 ${
-              hasAudio ? "max-md:pb-[126px] md:pb-16" : "pb-10 md:pb-16"
-            }`}
-          >
+          <main className="min-h-0 flex-1 px-4 py-8 pb-10 transition-opacity duration-300 md:py-12 md:pb-16">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
           <Footer />

@@ -23,7 +23,7 @@ export default function SearchError({
         Pretraga trenutno nije dostupna. Provjeri internet vezu i pokušaj ponovo.
       </p>
       {error.digest && (
-        <p className="mt-2 text-xs text-stone-500 dark:text-stone-500">
+        <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">
           Digest: {error.digest}
         </p>
       )}
@@ -31,7 +31,7 @@ export default function SearchError({
         <button
           type="button"
           onClick={reset}
-          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500"
+          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-800"
         >
           Pokušaj ponovo
         </button>

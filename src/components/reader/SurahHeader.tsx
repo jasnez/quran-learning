@@ -67,11 +67,11 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
           </>
         )}
       </p>
-      <p className="mt-2 text-sm text-stone-500 dark:text-stone-500">
+      <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
         {surah.ayahCount} ajeta · {revelationLabel[surah.revelationType] ?? surah.revelationType}
       </p>
       {pageLabel && (
-        <p className="mt-1 text-xs text-stone-500 dark:text-stone-500" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
+        <p className="mt-1 text-xs text-stone-500 dark:text-stone-400" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
           {pageLabel}
         </p>
       )}
@@ -93,7 +93,7 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
           <button
             type="button"
             onClick={handlePlayFullSurah}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-800"
             aria-label="Pusti cijelu suru"
           >
             <PlayIcon className="h-4 w-4" />

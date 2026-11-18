@@ -35,6 +35,15 @@
   --theme-border: #e8dcc8;
   --background: var(--theme-bg);
   --foreground: var(--theme-text);
+  /*
+   * Sepia reuses the light-theme classes. Tailwind's stone-500, the muted text gray, is made
+   * for white: on these cream backgrounds it is 4.1-4.5:1, below WCAG AA (QA section 5).
+   * A darker warm gray gives about 5:1 on --theme-bg.
+   */
+  --color-stone-500: oklch(50% 0.015 58);
+  /* The qalqalah tajwid color (amber-600) was 2.97:1 on the sepia card; 3:1 is the minimum for
+     the large Arabic text. A slightly darker amber of the same hue gives about 3.5:1. */
+  --color-amber-600: oklch(62% 0.17 58.318);
 }
 
 @theme inline {
@@ -96,6 +105,135 @@ html[data-arabic-font="uthmanic"] .font-arabic {
 
 html[data-arabic-font="naskh"] .font-arabic {
   font-family: var(--font-naskh-arabic), var(--font-amiri), serif !important;
+}
+
+/*
+ * Settings panel (SettingsPanel.tsx): a native modal <dialog>, opened with showModal().
+ * A side sheet on the right; a bottom sheet below 40rem (Tailwind sm).
+ * The UA dialog box (centered, padded, Canvas colors) is reset here; display is only set
+ * while [open], so the closed dialog stays display: none and out of the Tab order.
+ */
+.settings-dialog {
+  position: fixed;
+  inset: 0 0 0 auto;
+  inline-size: 100%;
+  max-inline-size: 28rem;
+  block-size: 100%;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-inline-start: 1px solid var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.settings-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * While the closed panel slides out it is still on screen. The browser closes it itself on Esc
+ * or a backdrop click, and React's inert attribute follows one task later; until then these keep
+ * it out of reach. interactivity: inert (keyboard focus too) is progressive enhancement, Chromium
+ * only; elsewhere pointer-events covers the mouse and the inert attribute the keyboard.
+ */
+.settings-dialog:not([open]) {
+  pointer-events: none;
+  interactivity: inert;
+}
+
+/* Scrolling inside the panel or over the backdrop must not scroll the page behind it. */
+.settings-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.settings-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgb(28 25 23 / 0.5);
+  backdrop-filter: blur(4px);
+}
+
+@media (width >= 64rem) {
+  .settings-dialog {
+    max-inline-size: 32rem;
+  }
+}
+
+@media (width < 40rem) {
+  .settings-dialog {
+    inset: auto 0 0 0;
+    max-inline-size: none;
+    block-size: auto;
+    max-block-size: 85vh;
+    border-inline-start: 0;
+    border-start-start-radius: 1rem;
+    border-start-end-radius: 1rem;
+  }
+}
+
+/*
+ * Slide in and out. Progressive enhancement: without @starting-style the panel appears at once;
+ * without discrete display/overlay transitions (Firefox, Safari) it closes at once.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .settings-dialog {
+    translate: 100% 0;
+    transition-property: translate, display, overlay;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    transition-behavior: allow-discrete;
+  }
+
+  .settings-dialog[open] {
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .settings-dialog[open] {
+      translate: 100% 0;
+    }
+  }
+
+  .settings-dialog::backdrop {
+    transition-property: background-color, backdrop-filter, display, overlay;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    transition-behavior: allow-discrete;
+    background-color: rgb(28 25 23 / 0);
+    backdrop-filter: blur(0);
+  }
+
+  .settings-dialog[open]::backdrop {
+    background-color: rgb(28 25 23 / 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  @starting-style {
+    .settings-dialog[open]::backdrop {
+      background-color: rgb(28 25 23 / 0);
+      backdrop-filter: blur(0);
+    }
+  }
+
+  @media (width < 40rem) {
+    .settings-dialog {
+      translate: 0 100%;
+    }
+
+    .settings-dialog[open] {
+      translate: 0 0;
+    }
+
+    @starting-style {
+      .settings-dialog[open] {
+        translate: 0 100%;
+      }
+    }
+  }
 }
 
 /* Brief highlight for ayah opened from search (?ayah=N) */

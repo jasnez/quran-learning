@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
-import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleLabelClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
 import type { TajwidLesson } from "@/data/tajwid-lessons";
 
 export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; index: number }) {
   const status = useProgressStore((s) => s.tajwidLessonProgress[lesson.slug]);
-  const colorClass = tajwidRuleClasses[lesson.ruleType];
+  const colorClass = tajwidRuleLabelClasses[lesson.ruleType];
 
   const statusLabel =
     status?.status === "completed"
@@ -30,7 +30,7 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
             Lekcija {index + 1}
           </p>
           <h2 className="mt-1 text-lg font-semibold text-stone-900 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
@@ -53,7 +53,7 @@ export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; inde
           {status?.status === "completed" &&
             status.quizScore != null &&
             status.quizTotal != null && (
-              <span className="text-stone-400 dark:text-stone-500">
+              <span className="text-stone-500 dark:text-stone-400">
                 ({status.quizScore}/{status.quizTotal})
               </span>
             )}
