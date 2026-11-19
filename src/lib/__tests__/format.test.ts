@@ -66,6 +66,16 @@ describe("formatTimeAgo", () => {
     [365 * DAY, "prošle godine"],
     [730 * DAY, "prije 2 godine"],
   ])("%i ms ago -> %s", (ms, expected) => expect(formatTimeAgo(ago(ms), now)).toBe(expected));
+  // Just below and at each threshold (D2): the unit changes only when the next one is reached.
+  it.each([
+    [59 * MIN + 59_000, "prije 59 minuta"],
+    [23 * HOUR + 59 * MIN, "prije 23 sata"],
+    [6 * DAY + 23 * HOUR, "prije 6 dana"],
+    [29 * DAY, "prije 4 sedmice"],
+    [364 * DAY, "prije 12 mjeseci"],
+  ])("%i ms ago (just below a threshold) -> %s", (ms, expected) =>
+    expect(formatTimeAgo(ago(ms), now)).toBe(expected),
+  );
   it("reads a timestamp in the future as now", () => expect(formatTimeAgo(ago(-5 * MIN), now)).toBe("sada"));
   it("returns an empty string for a missing or invalid timestamp", () => {
     expect(formatTimeAgo("", now)).toBe("");

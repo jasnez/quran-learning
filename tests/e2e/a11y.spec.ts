@@ -6,7 +6,7 @@ import { expect, test } from "@playwright/test";
  *
  * Run: `npm run test:a11y` (own config, own dev server on port 3210; fails if
  * another `next dev` of this worktree is running). A full run takes about
- * 7.5 minutes on this machine, mostly dev-server compiles. CI does not run it.
+ * 7-12 minutes on this machine (19 routes), mostly dev-server compiles. CI does not run it.
  *
  * Every route is one test and fails on its own with a readable list of
  * violations that are not allowlisted. The last test checks that every
@@ -26,8 +26,10 @@ const ROUTES = [
   "/surah/36",
   "/juz/30",
   "/learn/36",
+  "/learn/1",
   "/bookmarks",
   "/progress",
+  "/settings",
   "/search",
   "/duas",
   "/names",
@@ -68,8 +70,21 @@ type AllowEntry = {
 const SEPIA_LINK = "Sepia accent link text (#6b7c2e) is 3.92:1 on #f5ecd7 (needs 4.5:1).";
 const DARK_NOTE = "Muted note (stone-500 #79716b) is 3.94:1 on #111111 (needs 4.5:1).";
 const PHASE_2 = "Phase 2: tokens";
+const LEARN_PILL =
+  "Inactive learn-mode pill (no previous surah) in stone-400 / dark stone-500; the WCAG audit's learn-mode disabled text.";
+const LEARN_PILL_TARGET = String.raw`.dark\:text-stone-500.border-stone-200.text-stone-400`;
 
 const ALLOWLIST: AllowEntry[] = [
+  ...THEMES.map(
+    (theme): AllowEntry => ({
+      rule: "color-contrast",
+      route: "/learn/1",
+      theme,
+      targets: [LEARN_PILL_TARGET],
+      reason: LEARN_PILL,
+      phase: PHASE_2,
+    }),
+  ),
   {
     rule: "color-contrast",
     route: "/harfovi",

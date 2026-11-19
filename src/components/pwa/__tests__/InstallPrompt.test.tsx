@@ -129,6 +129,17 @@ describe("InstallPrompt on iOS Safari", () => {
     expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
   });
 
+  it("a native close (Esc or backdrop) also closes only the steps", () => {
+    showBanner();
+    fireEvent.click(screen.getByRole("button", { name: "Instaliraj" }));
+    const dialog = screen.getByRole("dialog", { name: "Dodaj na iPhone" }) as HTMLDialogElement;
+    // The browser closes the dialog itself and fires "close"; jsdom's polyfill does the same.
+    act(() => dialog.close());
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
+  });
+
   it("the banner's Zatvori stores the dismissal and hides the banner", () => {
     showBanner();
     fireEvent.click(screen.getByRole("button", { name: "Zatvori" }));
