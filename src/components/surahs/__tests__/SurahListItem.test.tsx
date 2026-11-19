@@ -73,7 +73,7 @@ describe("SurahListItem", () => {
     });
     const { container } = render(<SurahListItem surah={mockSurah} />);
     expect(screen.getByText("43%")).toBeInTheDocument();
-    const bar = container.querySelector(".bg-emerald-400");
+    const bar = container.querySelector(".bg-accent");
     expect(bar).toBeInTheDocument();
     expect(screen.queryByLabelText(/završeno/i)).not.toBeInTheDocument();
   });

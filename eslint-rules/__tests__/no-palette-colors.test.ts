@@ -17,6 +17,7 @@ tester.run("no-palette-colors", rule, {
     'const a = "text-ink-muted";',
     'const a = "bg-surface/95 hover:bg-accent-hover";',
     'const a = "text-tj-medd";',
+    'const a = "[&_mark]:bg-mark has-[:checked]:bg-accent-wash";',
     'const a = "whitelist blackboard";',
     'const a = "border-stone";',
     'const a = "dark-mode";',
@@ -32,5 +33,7 @@ tester.run("no-palette-colors", rule, {
     invalid('const a = "focus:ring-emerald-600";', "focus:ring-emerald-600"),
     invalid("const a = <div className=\"text-white\" />;", "text-white"),
     invalid('const a = "md:dark:hover:bg-amber-50/50";', "md:dark:hover:bg-amber-50/50"),
+    invalid('const a = "[&_mark]:bg-amber-100";', "[&_mark]:bg-amber-100"),
+    invalid('const a = "has-[:checked]:border-emerald-500";', "has-[:checked]:border-emerald-500"),
   ],
 });

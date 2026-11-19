@@ -72,89 +72,9 @@ type AllowEntry = {
 
 // Known exceptions. Each listed target must still occur on every covered
 // viewport of its route and theme, otherwise the last test fails.
-const SEPIA_LINK = "Sepia accent link text (#6b7c2e) is 3.92:1 on #f5ecd7 (needs 4.5:1).";
-const DARK_NOTE = "Muted note (stone-500 #79716b) is 3.94:1 on #111111 (needs 4.5:1).";
-const PHASE_2 = "Phase 2: tokens";
-
-const ALLOWLIST: AllowEntry[] = [
-  {
-    rule: "color-contrast",
-    route: "/harfovi",
-    theme: "sepia",
-    targets: [
-      String.raw`a[target="_blank"]`,
-      [
-        // Windows
-        String.raw`.mt-3.max-w-\[65ch\]:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
-        // Linux (CI)
-        String.raw`.mt-3.max-w-\[65ch\].leading-relaxed:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
-        // After the shared controls moved to the Tezhib tokens (Phase 2, PR 2.2)
-        String.raw`.mt-3.max-w-\[65ch\].text-stone-600:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
-      ],
-    ],
-    reason: SEPIA_LINK,
-    phase: PHASE_2,
-  },
-  ...["/about", "/contact"].map(
-    (route): AllowEntry => ({
-      rule: "color-contrast",
-      route,
-      theme: "sepia",
-      targets: [".underline", String.raw`.hover\:underline`],
-      reason: SEPIA_LINK,
-      phase: PHASE_2,
-    }),
-  ),
-  {
-    rule: "color-contrast",
-    route: "/sources",
-    theme: "sepia",
-    targets: [
-      `section:nth-child(1) > .mt-1 > a[href$="quran.com"][target="_blank"][rel="noopener noreferrer"]`,
-      [
-        // Windows
-        `.mt-2.leading-relaxed > .underline[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`,
-        // Linux (CI): same node, classes in another order
-        `.leading-relaxed.mt-2 > .underline[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`,
-      ],
-      `.underline[target="_blank"][rel="noopener noreferrer"]:nth-child(2)`,
-      `a[href$="tanzil.net"]`,
-      `a[href$="harfovi"]`,
-      `section:nth-child(3) > .mt-1 > .underline[target="_blank"][rel="noopener noreferrer"]`,
-      `section:nth-child(4) > .mt-1 > a[href$="quran.com"][target="_blank"][rel="noopener noreferrer"]`,
-      `a[href$="everyayah.com"]`,
-      String.raw`.hover\:underline`,
-    ],
-    reason: SEPIA_LINK,
-    phase: PHASE_2,
-  },
-  {
-    rule: "color-contrast",
-    route: "/about",
-    theme: "dark",
-    // One node; its selector changed when the shared controls moved to the tokens (PR 2.2).
-    targets: [[".italic", String.raw`.border-\[var\(--theme-border\)\]`]],
-    reason: DARK_NOTE,
-    phase: PHASE_2,
-  },
-  {
-    rule: "color-contrast",
-    route: "/sources",
-    theme: "dark",
-    // One node; its selector changed when the shared controls moved to the tokens (PR 2.2).
-    targets: [[".italic", String.raw`.border-\[var\(--theme-border\)\]`]],
-    reason: DARK_NOTE,
-    phase: PHASE_2,
-  },
-  {
-    rule: "color-contrast",
-    route: "/contact",
-    theme: "dark",
-    targets: [[String.raw`.dark\:text-stone-500`, ".text-stone-500"]],
-    reason: DARK_NOTE,
-    phase: PHASE_2,
-  },
-];
+// Phase 2 (Tezhib tokens) fixed every earlier contrast exception; add new ones only with a
+// reason and the phase that removes them.
+const ALLOWLIST: AllowEntry[] = [];
 
 type Finding = {
   route: string;

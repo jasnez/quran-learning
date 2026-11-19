@@ -3,21 +3,13 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import noPaletteColors from "./eslint-rules/no-palette-colors.mjs";
 
-// Files already moved to the Tezhib tokens (Phase 2). Each class-migration step adds its group;
-// the last step widens this to all of src.
-const PALETTE_GUARDED_FILES = [
-  "src/components/ui/**/*.{ts,tsx}",
-  "src/components/layout/**/*.{ts,tsx}",
-  "src/components/audio/AudioPlayer.tsx",
-  "src/components/settings/**/*.{ts,tsx}",
-  "src/components/pwa/**/*.{ts,tsx}",
-  "src/components/reader/**/*.{ts,tsx}",
-  "src/components/quran/**/*.{ts,tsx}",
-  "src/components/learn/**/*.{ts,tsx}",
-  "src/components/test/**/*.{ts,tsx}",
-  "src/app/surah/**/*.{ts,tsx}",
-  "src/app/juz/**/*.{ts,tsx}",
-  "src/app/learn/**/*.{ts,tsx}",
+// Every component and page uses the Tezhib tokens (Phase 2). The tajwid rule colors are the
+// exception until Phase 3 replaces them with the --tj-* tokens.
+const PALETTE_GUARDED_FILES = ["src/**/*.{ts,tsx}"];
+const PALETTE_UNGUARDED_FILES = [
+  "**/__tests__/**",
+  "src/lib/quran/tajwidStyles.ts",
+  "src/data/tajwid-lessons/**",
 ];
 
 const eslintConfig = defineConfig([
@@ -58,7 +50,7 @@ const eslintConfig = defineConfig([
   },
   {
     files: PALETTE_GUARDED_FILES,
-    ignores: ["**/__tests__/**"],
+    ignores: PALETTE_UNGUARDED_FILES,
     plugins: { local: { rules: { "no-palette-colors": noPaletteColors } } },
     rules: { "local/no-palette-colors": "error" },
   },

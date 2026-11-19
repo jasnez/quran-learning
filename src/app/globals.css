@@ -14,7 +14,7 @@
  * "sepia"; the UI calls that theme "Hartija".
  * Spacing follows Tailwind's 4 px scale (the design system's space-1 ... space-12 are
  * Tailwind's 1 ... 12), so it needs no variables of its own.
- * The --theme-* variables are the old palette; they go once every component uses the tokens.
+ * --background and --foreground (page background, text-foreground) are aliases of paper and ink.
  */
 :root,
 [data-theme="light"] {
@@ -43,14 +43,8 @@
   --tj-kalkala: #0E72A8;
   --overlay: rgb(16 20 27 / 0.5);
 
-  --theme-bg: #FAFAF5;
-  --theme-card: #FFFFFF;
-  --theme-text: #1A1A1A;
-  --theme-text-muted: #525252;
-  --theme-accent: #047857;
-  --theme-border: #e5e5e5;
-  --background: var(--theme-bg);
-  --foreground: var(--theme-text);
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 [data-theme="dark"] {
@@ -79,14 +73,8 @@
   --tj-kalkala: #64B5F6;
   --overlay: rgb(0 0 0 / 0.6);
 
-  --theme-bg: #111111;
-  --theme-card: #252525;
-  --theme-text: #E5E5E5;
-  --theme-text-muted: #a3a3a3;
-  --theme-accent: #34d399;
-  --theme-border: #404040;
-  --background: var(--theme-bg);
-  --foreground: var(--theme-text);
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 [data-theme="sepia"] {
@@ -115,23 +103,17 @@
   --tj-kalkala: #0B6A9C;
   --overlay: rgb(51 40 26 / 0.45);
 
-  --theme-bg: #F5ECD7;
-  --theme-card: #FDF6E3;
-  --theme-text: #3B2E1A;
-  --theme-text-muted: #6b5344;
-  --theme-accent: #6b7c2e;
-  --theme-border: #e8dcc8;
-  --background: var(--theme-bg);
-  --foreground: var(--theme-text);
+  --background: var(--paper);
+  --foreground: var(--ink);
   /*
-   * Sepia reuses the light-theme classes. Tailwind's stone-500, the muted text gray, is made
-   * for white: on these cream backgrounds it is 4.1-4.5:1, below WCAG AA (QA section 5).
-   * A darker warm gray gives about 5:1 on --theme-bg.
+   * The qalqalah tajwid color (amber-600, from tajwidStyles.ts) was 2.97:1 on the sepia card; 3:1
+   * is the minimum for the large Arabic text. A slightly darker amber of the same hue gives about
+   * 3.5:1. Phase 3 removes this together with the amber class (tajwid colors become --tj-*).
    */
-  --color-stone-500: oklch(50% 0.015 58);
-  /* The qalqalah tajwid color (amber-600) was 2.97:1 on the sepia card; 3:1 is the minimum for
-     the large Arabic text. A slightly darker amber of the same hue gives about 3.5:1. */
   --color-amber-600: oklch(62% 0.17 58.318);
+  /* The kalkala label on lesson cards (amber-700, small text) is 4.47:1 on the sepia surface;
+     this darker amber gives 5.6:1. Removed with the amber-600 override in Phase 3. */
+  --color-amber-700: #A34300;
 }
 
 @theme inline {
@@ -223,11 +205,6 @@ html {
   --app-header-offset: 0px;
 }
 
-/*
- * The page background and text go through --background/--foreground: they keep the old palette
- * until every component uses the tokens (old gray text fails contrast on the darker paper), and
- * then become aliases of --paper and --ink.
- */
 body {
   background: var(--background);
   color: var(--foreground);

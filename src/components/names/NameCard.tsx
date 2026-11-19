@@ -22,24 +22,24 @@ export function NameCard({ name: n }: { name: AllahName }) {
 
   return (
     <article
-      className="rounded-2xl border border-stone-200/80 bg-white/50 p-6 dark:border-stone-700/80 dark:bg-stone-900/20"
+      className="rounded-2xl border border-line bg-surface/50 p-6"
       aria-labelledby={`name-arabic-${n.index}`}
     >
-      <div className="mb-2 text-xs font-medium text-stone-500 dark:text-stone-400">
+      <div className="mb-2 text-xs font-medium text-ink-muted">
         {n.index} / 99
       </div>
       <p
         id={`name-arabic-${n.index}`}
-        className="font-arabic text-3xl font-medium text-[var(--theme-text)] md:text-4xl"
+        className="font-arabic text-3xl font-medium text-ink md:text-4xl"
         dir="rtl"
         lang="ar"
       >
         {n.arabic}
       </p>
-      <p className="mt-4 font-transliteration text-lg text-stone-500 dark:text-stone-400">
+      <p className="mt-4 font-transliteration text-lg text-ink-muted">
         {n.transliteration}
       </p>
-      <p className="mt-2 text-base text-stone-700 dark:text-stone-300">
+      <p className="mt-2 text-base text-ink">
         {n.translationBosnian}
       </p>
       <audio
@@ -55,7 +55,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       <button
         type="button"
         onClick={togglePlay}
-        className="mt-4 flex items-center gap-2 rounded-full bg-[var(--theme-accent)] px-4 py-2 text-white transition-opacity dark:text-stone-900 hover:opacity-90"
+        className="mt-4 flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-on-accent transition-opacity hover:opacity-90"
         aria-label={playing ? `Pauziraj: ${n.transliteration}` : `Pusti: ${n.transliteration}`}
       >
         {playing ? (
