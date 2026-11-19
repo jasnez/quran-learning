@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { Bookmark } from "@/types/bookmarks";
 import type { SurahSummary } from "@/types/quran";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
+import { ModalDialog } from "@/components/ui/ModalDialog";
 import { formatTimeAgo } from "@/lib/format";
 
 type SortOption = "date" | "surah";
@@ -33,6 +34,16 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   const [confirmRemove, setConfirmRemove] = useState<Bookmark | null>(null);
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [editNoteValue, setEditNoteValue] = useState("");
+  // After a removal the trash button is gone with its item, so focus goes to the page heading.
+  // The flag is set on confirm; the effect below runs after the list (or empty state) rendered.
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const focusHeadingRef = useRef(false);
+
+  useEffect(() => {
+    if (!focusHeadingRef.current) return;
+    focusHeadingRef.current = false;
+    headingRef.current?.focus();
+  });
 
   const surahMap = useMemo(() => {
     const m = new Map<number, SurahSummary>();
@@ -68,6 +79,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   }, [bookmarks, sortBy, surahMap]);
 
   const handleRemoveConfirm = (b: Bookmark) => {
+    focusHeadingRef.current = true;
     removeBookmark(b.surahNumber, b.ayahNumber);
     setConfirmRemove(null);
   };
@@ -103,7 +115,11 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   if (bookmarks.length === 0) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl"
+        >
           Označeni ajeti
         </h1>
         <div
@@ -127,7 +143,11 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl"
+        >
           Označeni ajeti
         </h1>
         <label className="flex items-center gap-2 text-sm text-stone-600 dark:text-stone-400">
@@ -237,7 +257,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                           type="button"
                           onClick={() => setConfirmRemove(b)}
                           className="rounded-lg p-2 text-stone-500 dark:text-stone-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
-                          aria-label="Ukloni oznaku"
+                          aria-label={`Ukloni iz sačuvanih: ${surah?.nameLatin ?? b.surahNameLatin}, ${b.ayahNumber}. ajet`}
                         >
                           <TrashIcon className="h-5 w-5" />
                         </button>
@@ -251,24 +271,23 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         ))}
       </ul>
 
-      {confirmRemove && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="confirm-remove-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
-          onClick={() => setConfirmRemove(null)}
-        >
-          <div
-            className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl dark:bg-stone-800"
-            onClick={(e) => e.stopPropagation()}
-          >
+      <ModalDialog
+        open={confirmRemove !== null}
+        onClose={() => setConfirmRemove(null)}
+        labelledBy="confirm-remove-title"
+        className="max-w-sm"
+      >
+        {confirmRemove && (
+          <>
             <h2 id="confirm-remove-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-              Ukloniti bookmark?
+              Ukloniti {confirmRemove.ayahNumber}. ajet sure{" "}
+              {surahMap.get(confirmRemove.surahNumber)?.nameLatin ?? confirmRemove.surahNameLatin} iz sačuvanih?
             </h2>
-            <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
-              Ajet {surahMap.get(confirmRemove.surahNumber)?.nameLatin ?? confirmRemove.surahNameLatin} {confirmRemove.ayahNumber} će biti uklonjen iz označenih.
-            </p>
+            {confirmRemove.note && (
+              <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                Bilješka uz ovaj ajet briše se s njim.
+              </p>
+            )}
             <div className="mt-6 flex gap-3">
               <button
                 type="button"
@@ -285,9 +304,9 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                 Ukloni
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </ModalDialog>
     </div>
   );
 }

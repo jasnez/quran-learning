@@ -147,17 +147,73 @@ describe("BookmarksContent", () => {
     expect(surahLink).toBeInTheDocument();
   });
 
-  it("remove button opens confirmation and removes on confirm", async () => {
-    const user = userEvent.setup();
-    mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
-    render(<BookmarksContent surahs={mockSurahs} />);
-    const removeBtn = screen.getByRole("button", { name: /ukloni oznaku/i });
-    await user.click(removeBtn);
-    const dialog = screen.getByRole("dialog");
-    expect(dialog).toBeInTheDocument();
-    const confirmBtn = within(dialog).getByRole("button", { name: "Ukloni" });
-    await user.click(confirmBtn);
-    expect(mockRemoveBookmark).toHaveBeenCalledWith(1, 1);
+  describe("removing a bookmark", () => {
+    const surah = mockSurahs[1].nameLatin;
+    const target: Bookmark = { ...mockBookmarks[1], ayahNumber: 12, id: "2-12" };
+
+    function setup(bookmarks: Bookmark[]) {
+      mockGetAllBookmarks.mockReturnValue(bookmarks);
+      return render(<BookmarksContent surahs={mockSurahs} />);
+    }
+    const trash = () =>
+      screen.getByRole("button", { name: `Ukloni iz sačuvanih: ${surah}, 12. ajet` });
+    const dialogName = `Ukloniti 12. ajet sure ${surah} iz sačuvanih?`;
+
+    it("names the trash button by surah and ayah", () => {
+      setup([target]);
+      expect(trash()).toBeInTheDocument();
+    });
+
+    it("opens a native dialog named by the question, without body text when there is no note", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      expect(dialog.tagName).toBe("DIALOG");
+      expect(dialog).not.toHaveAttribute("aria-modal");
+      expect(within(dialog).queryByText(/bilješka uz ovaj ajet/i)).not.toBeInTheDocument();
+    });
+
+    it("warns that the note goes with the ayah when there is one", async () => {
+      const user = userEvent.setup();
+      setup([{ ...target, note: "Moja bilješka" }]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      expect(within(dialog).getByText("Bilješka uz ovaj ajet briše se s njim.")).toBeInTheDocument();
+    });
+
+    it("Odustani closes the dialog and keeps the bookmark", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Odustani" }));
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(mockRemoveBookmark).not.toHaveBeenCalled();
+    });
+
+    it("Ukloni removes the bookmark, closes the dialog and focuses the page heading", async () => {
+      const user = userEvent.setup();
+      setup([target, mockBookmarks[0]]);
+      mockRemoveBookmark.mockImplementation(() => mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]));
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Ukloni" }));
+      expect(mockRemoveBookmark).toHaveBeenCalledWith(2, 12);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1, name: "Označeni ajeti" })).toHaveFocus();
+    });
+
+    it("removing the only bookmark focuses the heading of the empty state", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      mockRemoveBookmark.mockImplementation(() => mockGetAllBookmarks.mockReturnValue([]));
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Ukloni" }));
+      expect(document.querySelector("[data-empty-state]")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveFocus();
+    });
   });
 
   it("note can be edited", async () => {
