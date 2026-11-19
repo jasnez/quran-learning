@@ -5,11 +5,11 @@ export function ReaderSkeleton({ count = 5 }: { count?: number }) {
         <li key={i}>
           <div
             data-skeleton-ayah
-            className="animate-pulse rounded-2xl border border-stone-200/80 bg-stone-50/50 px-6 py-10 dark:border-stone-700/80 dark:bg-stone-900/20"
+            className="animate-pulse rounded-2xl border border-line bg-paper/50 px-6 py-10"
           >
-            <div className="mx-auto h-12 w-full max-w-md rounded bg-stone-200 dark:bg-stone-700" />
-            <div className="mx-auto mt-6 h-4 w-3/4 max-w-xs rounded bg-stone-100 dark:bg-stone-700" />
-            <div className="mx-auto mt-4 h-4 w-full max-w-sm rounded bg-stone-100 dark:bg-stone-700" />
+            <div className="mx-auto h-12 w-full max-w-md rounded bg-surface-sunken" />
+            <div className="mx-auto mt-6 h-4 w-3/4 max-w-xs rounded bg-surface-sunken" />
+            <div className="mx-auto mt-4 h-4 w-full max-w-sm rounded bg-surface-sunken" />
           </div>
         </li>
       ))}

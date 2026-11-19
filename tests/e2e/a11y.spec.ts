@@ -75,22 +75,8 @@ type AllowEntry = {
 const SEPIA_LINK = "Sepia accent link text (#6b7c2e) is 3.92:1 on #f5ecd7 (needs 4.5:1).";
 const DARK_NOTE = "Muted note (stone-500 #79716b) is 3.94:1 on #111111 (needs 4.5:1).";
 const PHASE_2 = "Phase 2: tokens";
-const LEARN_PILL =
-  "Inactive learn-mode pill (no previous surah) in stone-400 / dark stone-500; the WCAG audit's learn-mode disabled text.";
-// axe names the pill by its shortest unique selector, which changes as other classes change.
-const LEARN_PILL_TARGET = ".border-stone-200";
 
 const ALLOWLIST: AllowEntry[] = [
-  ...THEMES.map(
-    (theme): AllowEntry => ({
-      rule: "color-contrast",
-      route: "/learn/1",
-      theme,
-      targets: [LEARN_PILL_TARGET],
-      reason: LEARN_PILL,
-      phase: PHASE_2,
-    }),
-  ),
   {
     rule: "color-contrast",
     route: "/harfovi",

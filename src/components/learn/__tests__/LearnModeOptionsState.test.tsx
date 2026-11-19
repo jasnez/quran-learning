@@ -155,7 +155,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/transkripcij/i, true);
     expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    expect(btn.className).toMatch(/bg-accent-wash|ring/);
   });
 
   it("Transkripcija button has data-active and muted styling when off", () => {
@@ -163,7 +163,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/transkripcij/i, false);
     expect(btn).toHaveAttribute("data-active", "false");
-    expect(btn.className).toMatch(/stone/);
+    expect(btn.className).toMatch(/text-ink-muted/);
   });
 
   it("Prijevod button has data-active and distinct styling when on", () => {
@@ -171,7 +171,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/prijevod/i, true);
     expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    expect(btn.className).toMatch(/bg-accent-wash|ring/);
   });
 
   it("Prijevod button has data-active and muted styling when off", () => {
@@ -179,7 +179,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/prijevod/i, false);
     expect(btn).toHaveAttribute("data-active", "false");
-    expect(btn.className).toMatch(/stone/);
+    expect(btn.className).toMatch(/text-ink-muted/);
   });
 
   it("Ponavljanje button has data-active and muted styling when repeat is off", () => {
@@ -188,7 +188,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     const btn = getOptionButton("Ponavljanje: isključeno", false);
     expect(btn).not.toHaveAttribute("aria-pressed");
     expect(btn).toHaveAttribute("data-active", "false");
-    expect(btn.className).toMatch(/stone/);
+    expect(btn.className).toMatch(/text-ink-muted/);
   });
 
   it("Ponavljanje uses same OptionToggle as other options (active state when repeatMode !== 'off')", () => {
@@ -196,7 +196,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton("Ponavljanje: sura", true);
     expect(btn).not.toHaveAttribute("aria-pressed");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    expect(btn.className).toMatch(/bg-accent-wash|ring/);
   });
 
   // A toggle has a fixed name plus aria-pressed, or a name that carries its state: never both.
@@ -218,7 +218,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/riječ po riječ|isključi riječ/i, true);
     expect(btn).toHaveAttribute("data-active", "true");
-    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+    expect(btn.className).toMatch(/bg-accent-wash|ring/);
   });
 
   it("Riječ po riječ button has data-active and muted styling when off", () => {
@@ -228,7 +228,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     const btn = getOptionButton(/uključi riječ|riječ po riječ/i, false);
     expect(btn).toHaveAttribute("data-active", "false");
-    expect(btn.className).toMatch(/stone/);
+    expect(btn.className).toMatch(/text-ink-muted/);
   });
 
   // The word-meaning toggle was removed (QA P1-2): there is no Bosnian word-gloss source.

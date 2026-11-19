@@ -51,39 +51,39 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
   };
 
   return (
-    <header className="rounded-2xl border border-stone-200/80 bg-stone-50/80 px-6 py-8 text-center dark:border-stone-700/80 dark:bg-stone-900/40">
+    <header className="rounded-2xl border border-line bg-paper/80 px-6 py-8 text-center">
       <h1
-        className="font-arabic text-4xl font-medium tracking-wide text-stone-900 dark:text-stone-100 md:text-5xl"
+        className="font-arabic text-4xl font-medium tracking-wide text-ink md:text-5xl"
         dir="rtl"
         lang="ar"
       >
         {surah.nameArabic}
       </h1>
-      <p className="mt-3 text-lg text-stone-600 dark:text-stone-400">
+      <p className="mt-3 text-lg text-ink-muted">
         {surah.nameLatin}
         {commonSurahName(surah) && (
           <>
-            <span className="mx-2 text-stone-400 dark:text-stone-500">·</span>
+            <span className="mx-2 text-ink-muted">·</span>
             {commonSurahName(surah)}
           </>
         )}
       </p>
-      <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+      <p className="mt-2 text-sm text-ink-muted">
         {formatCount(surah.ayahCount, AYAH_FORMS)} · {revelationLabel[surah.revelationType] ?? surah.revelationType}
       </p>
       {pageLabel && (
-        <p className="mt-1 text-xs text-stone-500 dark:text-stone-400" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
+        <p className="mt-1 text-xs text-ink-muted" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
           {pageLabel}
         </p>
       )}
       {showProgress && (
         <div className="mt-4">
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+          <p className="text-xs text-ink-muted">
             Preslušano: {formatNumber(listened)} od {formatNumber(totalAyahs)} ajeta
           </p>
-          <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-stone-200 dark:bg-stone-700">
+          <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-surface-sunken">
             <div
-              className="h-full rounded-full bg-emerald-500 dark:bg-emerald-600"
+              className="h-full rounded-full bg-accent"
               style={{ width: `${Math.min(100, percent)}%` }}
             />
           </div>
@@ -94,7 +94,7 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
           <button
             type="button"
             onClick={handlePlayFullSurah}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-800"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
             aria-label="Pusti cijelu suru"
           >
             <PlayIcon className="h-4 w-4" />
