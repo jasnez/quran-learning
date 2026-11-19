@@ -53,7 +53,7 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
   return (
     <header className="rounded-2xl border border-line bg-paper/80 px-6 py-8 text-center">
       <h1
-        className="font-arabic text-4xl font-medium tracking-wide text-ink md:text-5xl"
+        className="font-arabic text-4xl font-normal tracking-wide text-ink md:text-5xl"
         dir="rtl"
         lang="ar"
       >

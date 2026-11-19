@@ -50,7 +50,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+      <h1 className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl">
         Napredak
       </h1>
 

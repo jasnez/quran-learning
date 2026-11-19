@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
+import { Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
 import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
@@ -10,9 +10,25 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { THEME_INIT_SCRIPT } from "./themeInitScript";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// The Latin faces are subsets of our own (scripts/subset-fonts.py, SIL OFL): "Elif Sans" from
+// Source Sans 3 for the interface, "Elif Book" from Gentium Book Plus for transcription,
+// translation and page titles. Both OFL fonts reserve their names ("Source", "Gentium"), so the
+// subsets, their files and the CSS names (next/font names the @font-face family after the const)
+// say "Elif". Elif Sans sets most text on every page, so it is preloaded; Elif Book is not.
+const elifSans = localFont({
+  src: [{ path: "./fonts/ElifSans.woff2", weight: "400 700", style: "normal" }],
+  variable: "--font-elif-sans",
+  display: "swap",
+});
+
+const elifBook = localFont({
+  src: [
+    { path: "./fonts/ElifBook-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ElifBook-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-elif-book",
+  display: "swap",
+  preload: false,
 });
 
 // Fallback for glyphs the selected Arabic font lacks. Not preloaded: the browser downloads
@@ -24,8 +40,9 @@ const amiri = Amiri({
   preload: false,
 });
 
+// The default Arabic face. Only regular and semibold are used (Tezhib type roles).
 const notoNaskhArabic = Noto_Naskh_Arabic({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   subsets: ["arabic", "latin"],
   variable: "--font-naskh-arabic",
 });
@@ -37,22 +54,6 @@ const scheherazade = Scheherazade_New({
   weight: ["400", "700"],
   subsets: ["arabic", "latin"],
   variable: "--font-scheherazade",
-  preload: false,
-});
-
-// Transcription line only (class font-transliteration). Subset of Gentium Book Plus (SIL OFL)
-// built by scripts/subset-transliteration-font.py: Geist lacks the letters of the IZ BiH
-// "specijal" system and no Google Fonts subset has U+0331. The OFL reserves the name
-// "Gentium", so the family, the files and the CSS names (next/font names the @font-face
-// family after this const) say "Transcription". Not preloaded: only pages that show a
-// transcription download it.
-const transcriptionFont = localFont({
-  src: [
-    { path: "./fonts/TranscriptionBook-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/TranscriptionBook-Italic.woff2", weight: "400", style: "italic" },
-  ],
-  variable: "--font-transcription",
-  display: "swap",
   preload: false,
 });
 
@@ -102,7 +103,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} ${transcriptionFont.variable} antialiased`}
+        className={`${elifSans.variable} ${elifBook.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
         <PersistentStorageRequest />

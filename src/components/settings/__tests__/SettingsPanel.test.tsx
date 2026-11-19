@@ -157,13 +157,13 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("button", { name: "Veća slova" })).toBeInTheDocument();
   });
 
-  it("has Arabic script options (Osnovno, Klasično)", () => {
+  it("has Arabic script options (Moderno, Klasično)", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByText("Arapsko pismo")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Osnovno" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Moderno" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Klasično" })).toBeInTheDocument();
     expect(
-      screen.getByText("Klasično pismo ima tradicionalniji oblik slova; osnovno je jednostavnije."),
+      screen.getByText("Klasično pismo ima tradicionalniji oblik slova; moderno je jednostavnije."),
     ).toBeInTheDocument();
     expect(screen.queryByText(/uthmanic/i)).toBeNull();
   });
@@ -176,11 +176,11 @@ describe("SettingsPanel", () => {
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("uthmanic");
   });
 
-  it("clicking Osnovno calls setArabicFontStyle with \"naskh\"", async () => {
+  it("clicking Moderno calls setArabicFontStyle with \"naskh\"", async () => {
     const user = userEvent.setup();
     defaultStore.arabicFontStyle = "uthmanic";
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const naskhBtn = screen.getByRole("button", { name: "Osnovno" });
+    const naskhBtn = screen.getByRole("button", { name: "Moderno" });
     await user.click(naskhBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("naskh");
   });

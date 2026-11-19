@@ -39,7 +39,7 @@ export default async function CategoryDuasPage({ params }: PageProps) {
             Sve dove iz Kur&apos;ana
           </Link>
         </p>
-        <h1 className="mb-2 text-2xl font-semibold text-ink md:text-3xl">
+        <h1 className="mb-2 text-2xl font-read font-bold text-ink md:text-3xl">
           {CATEGORY_LABELS[cat]}
         </h1>
         <p className="mb-8 text-ink-muted">

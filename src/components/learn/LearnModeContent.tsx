@@ -152,7 +152,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       <header className="flex flex-shrink-0 items-center justify-between gap-4 border-b border-line pb-4">
         <div className="min-w-0">
           <h1
-            className="font-arabic text-xl font-medium text-ink truncate"
+            className="font-arabic text-xl font-normal text-ink truncate"
             dir="rtl"
             lang="ar"
           >
@@ -249,7 +249,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             </p>
           )}
           {showTranslation && ayah.translationBosnian && (
-            <p className="mt-6 text-center text-base leading-relaxed text-ink">
+            <p className="mt-6 text-center font-read text-[1.0625rem] leading-[1.6] md:text-lg text-ink">
               {ayah.translationBosnian}
             </p>
           )}

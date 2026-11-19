@@ -161,7 +161,7 @@ describe("ReaderToolbar names", () => {
     expect(screen.getByRole("button", { name: "Veća slova" })).toBeInTheDocument();
     expect(screen.getByText("Veličina slova:")).toHaveClass("sr-only");
     expect(screen.getByRole("group", { name: "Arapsko pismo" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Osnovno" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Moderno" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Klasično" })).toBeInTheDocument();
     expect(screen.getByRole("group", { name: "Praćenje uz zvuk" })).toBeInTheDocument();
     const translation = screen.getByRole("button", { name: "Prijevod", pressed: true });

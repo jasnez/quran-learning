@@ -91,7 +91,7 @@ export function ReaderToolbar() {
               : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
-          Osnovno
+          Moderno
         </button>
         <button
           type="button"
