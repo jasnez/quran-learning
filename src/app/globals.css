@@ -50,6 +50,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-transliteration: var(--font-gentium), var(--font-geist-sans), sans-serif;
 }
 
 /* Arabic font: direct selectors so font switch always applies (production) */

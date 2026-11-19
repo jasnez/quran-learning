@@ -239,7 +239,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             </p>
           )}
           {showTransliteration && ayah.transliteration && (
-            <p className="mt-8 text-center text-lg leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-8 text-center font-transliteration text-lg leading-relaxed text-stone-500 dark:text-stone-400">
               {ayah.transliteration}
             </p>
           )}

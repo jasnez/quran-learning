@@ -11,6 +11,7 @@ vi.mock("next/font/google", () => {
   const font = () => ({ variable: "", className: "" });
   return { Geist: font, Amiri: font, Noto_Naskh_Arabic: font, Scheherazade_New: font };
 });
+vi.mock("next/font/local", () => ({ default: () => ({ variable: "", className: "" }) }));
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcDir = path.join(__dirname, "../..");

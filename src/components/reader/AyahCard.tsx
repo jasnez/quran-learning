@@ -274,7 +274,7 @@ export const AyahCard = memo(function AyahCard({
 
           {showTransliteration && ayah.transliteration && (
             <p
-              className={`mt-5 text-sm italic leading-relaxed text-stone-500 dark:text-stone-400 ${
+              className={`mt-5 font-transliteration text-sm italic leading-relaxed text-stone-500 dark:text-stone-400 ${
                 showTranslation && ayah.translationBosnian
                   ? "text-center lg:text-right"
                   : "text-center"

@@ -36,7 +36,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       >
         {n.arabic}
       </p>
-      <p className="mt-4 text-lg text-stone-500 dark:text-stone-400">
+      <p className="mt-4 font-transliteration text-lg text-stone-500 dark:text-stone-400">
         {n.transliteration}
       </p>
       <p className="mt-2 text-base text-stone-700 dark:text-stone-300">

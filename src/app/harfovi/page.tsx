@@ -42,15 +42,15 @@ export default function LettersPage() {
                     <span className="font-arabic letter-glyph" lang="ar" dir="rtl">
                       {letter.arabic}
                     </span>{" "}
-                    <span>{letter.name}</span>
+                    <span className="font-transliteration">{letter.name}</span>
                   </th>
-                  <td data-label="U aplikaciji" className="letter-sign">
+                  <td data-label="U aplikaciji" className="letter-sign font-transliteration">
                     {letter.special}
                   </td>
-                  <td data-label="Opća" className="letter-sign">
+                  <td data-label="Opća" className="letter-sign font-transliteration">
                     {letter.general}
                   </td>
-                  <td data-label="Naučna (DMG)" className="letter-sign">
+                  <td data-label="Naučna (DMG)" className="letter-sign font-transliteration">
                     {letter.dmg}
                   </td>
                   <td data-label="Izgovor">{letter.pronunciation}</td>
@@ -79,15 +79,15 @@ export default function LettersPage() {
                     <span className="font-arabic letter-glyph" lang="ar" dir="rtl">
                       {vowel.arabic}
                     </span>{" "}
-                    <span>{vowel.name}</span>
+                    <span className="font-transliteration">{vowel.name}</span>
                   </th>
-                  <td data-label="U aplikaciji" className="letter-sign">
+                  <td data-label="U aplikaciji" className="letter-sign font-transliteration">
                     {vowel.special}
                   </td>
-                  <td data-label="Opća" className="letter-sign">
+                  <td data-label="Opća" className="letter-sign font-transliteration">
                     {vowel.general}
                   </td>
-                  <td data-label="Naučna (DMG)" className="letter-sign">
+                  <td data-label="Naučna (DMG)" className="letter-sign font-transliteration">
                     {vowel.dmg}
                   </td>
                 </tr>

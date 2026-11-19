@@ -22,7 +22,7 @@ export function AyahLine({ ayah, showTransliteration = true }: AyahLineProps) {
             {stripWaqfSigns(ayah.arabicText)}
           </p>
           {showTransliteration && ayah.transliteration && (
-            <p className="mt-2 text-base italic leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 font-transliteration text-base italic leading-relaxed text-zinc-600 dark:text-zinc-400">
               {ayah.transliteration}
             </p>
           )}

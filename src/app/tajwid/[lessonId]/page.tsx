@@ -111,7 +111,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               {ex.arabic}
             </p>
             <p
-              className="mt-2 text-center text-sm text-stone-500 dark:text-stone-400"
+              className="mt-2 text-center font-transliteration text-sm text-stone-500 dark:text-stone-400"
               dir="ltr"
             >
               {ex.transliteration}
