@@ -15,7 +15,7 @@ export default function LettersPage() {
   return (
     <div className="min-h-screen px-4 pb-24 pt-16 md:py-12">
       <article className="mx-auto max-w-4xl">
-        <h1 className="mb-2 text-2xl font-semibold text-ink md:text-3xl">Harfovi i izgovor</h1>
+        <h1 className="mb-2 text-2xl font-read font-bold text-ink md:text-3xl">Harfovi i izgovor</h1>
         <p className="max-w-[65ch] leading-relaxed text-ink-muted">
           Transkripcija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
           &bdquo;specijal&ldquo; i preporučuju za učenje kur&apos;anskog teksta. Tabela pokazuje kako se svaki harf piše

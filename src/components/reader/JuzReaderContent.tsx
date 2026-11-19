@@ -80,7 +80,7 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
         {bySegment.map(({ segment, ayahs }) => (
           <li key={segment.surah.surahNumber}>
             <div className="mb-6 rounded-xl border border-line bg-highlight px-4 py-3">
-              <p className="font-arabic text-2xl font-medium text-ink" dir="rtl" lang="ar">
+              <p className="font-arabic text-2xl font-normal text-ink" dir="rtl" lang="ar">
                 {segment.surah.nameArabic}
               </p>
               <p className="mt-1 text-sm text-ink-muted">

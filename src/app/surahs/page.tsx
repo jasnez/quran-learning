@@ -16,7 +16,7 @@ export default async function SurahsPage() {
 
   return (
     <article className="mx-auto max-w-7xl">
-      <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+      <h1 className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl">
         Sve sure
       </h1>
       <div className="mt-8">

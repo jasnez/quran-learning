@@ -44,7 +44,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
           Tedžvid lekcija
         </p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+        <h1 className="mt-1 text-2xl font-read font-bold tracking-tight text-ink sm:text-3xl">
           {lesson.title}
         </h1>
         <p className="mt-2 text-sm text-ink-muted">
@@ -116,7 +116,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             >
               {ex.transliteration}
             </p>
-            <p className="mt-1 text-center text-xs text-ink-muted">
+            <p className="mt-1 text-center font-read text-xs text-ink-muted">
               {ex.translation}
             </p>
             <p className="mt-2 text-center text-xs font-medium text-ink-muted">

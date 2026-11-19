@@ -50,7 +50,7 @@ export default async function JuzPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <header className="mb-8 rounded-2xl border border-line bg-highlight px-6 py-8 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+        <h1 className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl">
           Džuz {juz.juz} — {juz.name}
         </h1>
         <p className="mt-2 font-arabic text-xl text-ink" dir="rtl" lang="ar">

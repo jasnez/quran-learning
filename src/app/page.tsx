@@ -25,7 +25,7 @@ export default async function Home() {
         <div className="relative">
           <h1
             id="hero-title"
-            className="text-2xl font-semibold tracking-tight text-ink md:text-3xl lg:text-4xl"
+            className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl lg:text-4xl"
           >
             Aplikacija za učenje Kur&apos;ana
           </h1>

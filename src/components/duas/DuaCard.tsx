@@ -39,7 +39,7 @@ export function DuaCard({ dua }: DuaCardProps) {
       </div>
       <p
         id={`dua-arabic-${dua.id}`}
-        className="font-arabic text-2xl font-medium text-ink leading-relaxed md:text-3xl"
+        className="font-arabic text-2xl font-normal text-ink leading-relaxed md:text-3xl"
         dir="rtl"
         lang="ar"
       >
@@ -48,7 +48,7 @@ export function DuaCard({ dua }: DuaCardProps) {
       <p className="mt-4 font-transliteration text-lg text-ink-muted">
         {dua.transliteration}
       </p>
-      <p className="mt-2 text-base leading-relaxed text-ink">
+      <p className="mt-2 font-read text-[1.0625rem] leading-[1.6] md:text-lg text-ink">
         {dua.translationBosnian}
       </p>
       <p className="mt-4 text-sm text-ink-muted">
