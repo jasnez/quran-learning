@@ -102,10 +102,10 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   if (!ayah) {
     return (
       <div className="py-12 text-center" data-empty-state>
-        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500" data-empty-icon aria-hidden>
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-surface-sunken text-ink-muted" data-empty-icon aria-hidden>
           <BookIcon />
         </span>
-        <p className="mt-4 text-stone-500 dark:text-stone-400">
+        <p className="mt-4 text-ink-muted">
           Sura se nije učitala. Treba osvježiti stranicu.
         </p>
       </div>
@@ -149,31 +149,31 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
         <LearnModeUrlEffects ayahs={ayahs} />
       </Suspense>
       {/* Top: surah name, ayah X of Y, close/back */}
-      <header className="flex flex-shrink-0 items-center justify-between gap-4 border-b border-stone-200/80 pb-4 dark:border-stone-700/80">
+      <header className="flex flex-shrink-0 items-center justify-between gap-4 border-b border-line pb-4">
         <div className="min-w-0">
           <h1
-            className="font-arabic text-xl font-medium text-stone-800 dark:text-stone-200 truncate"
+            className="font-arabic text-xl font-medium text-ink truncate"
             dir="rtl"
             lang="ar"
           >
             {surah.nameArabic}
           </h1>
-          <p className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">
+          <p className="mt-0.5 text-sm text-ink-muted">
             {surah.nameLatin}
             {commonSurahName(surah) && (
               <>
-                <span className="mx-1.5 text-stone-400">·</span>
+                <span className="mx-1.5 text-ink-muted">·</span>
                 {commonSurahName(surah)}
               </>
             )}
           </p>
         </div>
-        <p className="flex-shrink-0 text-sm font-medium text-stone-500 dark:text-stone-400" aria-live="polite">
+        <p className="flex-shrink-0 text-sm font-medium text-ink-muted" aria-live="polite">
           Ajet {currentIndex + 1} od {ayahs.length}
         </p>
         <Link
           href={`/surah/${surah.surahNumber}`}
-          className="flex-shrink-0 rounded-lg p-2 text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+          className="flex-shrink-0 rounded-lg p-2 text-ink-muted hover:bg-surface-sunken hover:text-ink"
           aria-label="Zatvori učenje"
         >
           <CloseIcon />
@@ -182,19 +182,19 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
       {(prevSurah || nextSurah) && (
         <nav
-          className="flex flex-shrink-0 flex-wrap items-center justify-between gap-3 border-b border-stone-200/80 pb-4 text-sm dark:border-stone-700/80"
+          className="flex flex-shrink-0 flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm"
           aria-label="Navigacija između sura"
         >
           <div className="flex items-center gap-2">
             {prevSurah ? (
               <Link
                 href={`/learn/${prevSurah.surahNumber}`}
-                className="inline-flex items-center gap-1 rounded-full border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="inline-flex items-center gap-1 rounded-full border border-line-strong px-3 py-1.5 text-ink hover:bg-surface-sunken"
               >
                 <span>Prethodna sura: {prevSurah.nameLatin}</span>
               </Link>
             ) : (
-              <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
+              <span className="rounded-full border border-line px-3 py-1.5 text-ink-muted" aria-hidden>
                 Prethodna sura
               </span>
             )}
@@ -203,12 +203,12 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             {nextSurah ? (
               <Link
                 href={`/learn/${nextSurah.surahNumber}`}
-                className="inline-flex items-center gap-1 rounded-full border border-emerald-600 bg-emerald-50 px-3 py-1.5 font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+                className="inline-flex items-center gap-1 rounded-full border border-accent-text bg-accent-wash px-3 py-1.5 font-medium text-accent-text hover:bg-accent-wash"
               >
                 <span>Sljedeća sura: {nextSurah.nameLatin}</span>
               </Link>
             ) : (
-              <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
+              <span className="rounded-full border border-line px-3 py-1.5 text-ink-muted" aria-hidden>
                 Sljedeća sura
               </span>
             )}
@@ -218,7 +218,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
       {/* Center: Arabic (very large), transliteration, translation */}
       <section className="flex flex-1 flex-col justify-center py-8" aria-label="Trenutni ajet">
-        <article className="rounded-2xl border border-stone-200/80 bg-white/50 px-6 py-10 dark:border-stone-700/80 dark:bg-stone-900/20">
+        <article className="rounded-2xl border border-line bg-surface/50 px-6 py-10">
           {wordByWordMode && !chapterDataError ? (
             <AyahWordByWord
               ayah={ayah}
@@ -238,18 +238,18 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             />
           )}
           <p
-            className={wordDataFailed ? "mt-4 text-center text-sm text-amber-700 dark:text-amber-400" : "sr-only"}
+            className={wordDataFailed ? "mt-4 text-center text-sm text-warning-text" : "sr-only"}
             role="status"
           >
             {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
           </p>
           {showTransliteration && ayah.transliteration && (
-            <p className="mt-8 text-center font-transliteration text-lg leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-8 text-center font-transliteration text-lg leading-relaxed text-ink-muted">
               {ayah.transliteration}
             </p>
           )}
           {showTranslation && ayah.translationBosnian && (
-            <p className="mt-6 text-center text-base leading-relaxed text-stone-700 dark:text-stone-300">
+            <p className="mt-6 text-center text-base leading-relaxed text-ink">
               {ayah.translationBosnian}
             </p>
           )}
@@ -257,19 +257,19 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
       </section>
 
       {/* Bottom controls */}
-      <footer className="flex flex-shrink-0 flex-col gap-4 border-t border-stone-200/80 pt-6 dark:border-stone-700/80">
+      <footer className="flex flex-shrink-0 flex-col gap-4 border-t border-line pt-6">
         {showTajwidColors && (
-          <div className="rounded-xl border border-stone-200/80 bg-stone-50/60 dark:border-stone-700/80 dark:bg-stone-900/40">
+          <div className="rounded-xl border border-line bg-paper/60">
             <TajwidLegend />
           </div>
         )}
-        <p className={surahFinished ? "text-center text-sm text-stone-500 dark:text-stone-400" : "sr-only"} role="status">
+        <p className={surahFinished ? "text-center text-sm text-ink-muted" : "sr-only"} role="status">
           {surahFinished ? "Sura je završena. Mašallah!" : null}
         </p>
         <div className="flex items-center justify-center gap-4">
           <button
             type="button"
-            className="rounded-xl p-3 text-stone-500 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-40 disabled:hover:bg-transparent dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            className="rounded-xl p-3 text-ink-muted hover:bg-surface-sunken hover:text-ink disabled:opacity-40 disabled:hover:bg-transparent"
             aria-label="Prethodni ajet"
             disabled={!canGoPrev}
             // Navigation, not listening: audio starts only if it was already playing (QA P2-2).
@@ -282,8 +282,8 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             onClick={handleBookmark}
             className={`rounded-xl p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
               bookmarked
-                ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
-                : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                ? "text-accent-text hover:bg-surface-sunken"
+                : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
             }`}
             aria-label={bookmarked ? "Ukloni iz sačuvanih" : "Sačuvaj ajet"}
             title={bookmarked ? "Ukloni iz sačuvanih" : "Sačuvaj ajet"}
@@ -292,7 +292,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           </button>
           <button
             type="button"
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-500 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-on-accent shadow-lg hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
             aria-label={isThisAyahPlaying ? "Pauziraj" : "Pusti ajet"}
             onClick={handlePlayPause}
           >
@@ -300,7 +300,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           </button>
           <button
             type="button"
-            className="rounded-xl p-3 text-stone-500 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-40 disabled:hover:bg-transparent dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            className="rounded-xl p-3 text-ink-muted hover:bg-surface-sunken hover:text-ink disabled:opacity-40 disabled:hover:bg-transparent"
             aria-label="Sljedeći ajet"
             disabled={!canGoNext}
             onClick={() => goToAyah(ayahs[currentIndex + 1])}
@@ -350,9 +350,9 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 const optionToggleBase =
   "rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150";
 const optionToggleInactive =
-  "text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-700";
+  "text-ink-muted hover:bg-surface-sunken";
 const optionToggleActive =
-  "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:bg-emerald-900/50 dark:text-emerald-200 dark:hover:bg-emerald-900/70";
+  "bg-accent-wash text-accent-text hover:bg-accent-wash";
 
 function OptionToggle({
   active,

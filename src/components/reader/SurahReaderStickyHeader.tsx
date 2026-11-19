@@ -50,23 +50,23 @@ export function SurahReaderStickyHeader({
 
   return (
     <div
-      className="sticky top-[var(--app-header-offset)] z-30 -mx-4 mb-4 flex items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-3 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85 transition-[top] duration-200 lg:static"
+      className="sticky top-[var(--app-header-offset)] z-30 -mx-4 mb-4 flex items-center gap-2 border-b border-line bg-surface/95 px-3 py-2 backdrop-blur supports-[backdrop-filter]:bg-surface/85 transition-[top] duration-200 lg:static"
       data-testid="surah-reader-sticky-header"
     >
       <Link
         href="/surahs"
         aria-label="Nazad na sve sure"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink"
       >
         <ChevronLeft className="h-5 w-5" aria-hidden />
       </Link>
       <div className="min-w-0 flex-1 leading-tight">
         <div className="flex items-baseline gap-2">
-          <span className="truncate text-sm font-semibold text-stone-900 dark:text-stone-100">
+          <span className="truncate text-sm font-semibold text-ink">
             {surahNameLatin}
           </span>
           <span
-            className="shrink-0 text-base text-stone-500 dark:text-stone-400"
+            className="shrink-0 text-base text-ink-muted"
             dir="rtl"
             lang="ar"
             aria-hidden
@@ -74,7 +74,7 @@ export function SurahReaderStickyHeader({
             {surahNumberArabic}
           </span>
         </div>
-        <div className="text-[11px] tabular-nums text-stone-500 dark:text-stone-400">
+        <div className="text-[11px] tabular-nums text-ink-muted">
           Ajet {activeAyahNumber} / {totalAyahs}
         </div>
       </div>
@@ -83,7 +83,7 @@ export function SurahReaderStickyHeader({
           type="button"
           onClick={() => settingsCtx.open()}
           aria-label="Postavke čitanja"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink"
         >
           <SettingsIcon className="h-[18px] w-[18px]" aria-hidden />
         </button>
@@ -91,7 +91,7 @@ export function SurahReaderStickyHeader({
         <Link
           href="/settings"
           aria-label="Postavke čitanja"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink"
         >
           <SettingsIcon className="h-[18px] w-[18px]" aria-hidden />
         </Link>

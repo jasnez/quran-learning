@@ -16,10 +16,10 @@ const FONT_MAX = 44;
 const FONT_STEP = 4;
 
 const ICON_BTN =
-  "flex h-9 items-center justify-center rounded-md px-2.5 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100";
+  "flex h-9 items-center justify-center rounded-md px-2.5 text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text";
 
 const ICON_BTN_DISABLED =
-  "flex h-9 items-center justify-center rounded-md px-2.5 text-stone-300 dark:text-stone-600 cursor-not-allowed";
+  "flex h-9 items-center justify-center rounded-md px-2.5 text-ink-muted cursor-not-allowed";
 
 export function ReaderToolbar() {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
@@ -45,12 +45,12 @@ export function ReaderToolbar() {
 
   return (
     <div
-      className="hidden lg:flex sticky top-[var(--app-header-offset)] z-20 -mx-4 mb-6 flex-wrap items-center gap-2 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/85 transition-[top] duration-200"
+      className="hidden lg:flex sticky top-[var(--app-header-offset)] z-20 -mx-4 mb-6 flex-wrap items-center gap-2 border-b border-line bg-surface/95 px-4 py-2 backdrop-blur supports-[backdrop-filter]:bg-surface/85 transition-[top] duration-200"
       role="toolbar"
       aria-label="Postavke čitanja"
     >
       {/* Font size cluster */}
-      <div className="flex items-center gap-0.5 rounded-md border border-[var(--theme-border)] p-0.5">
+      <div className="flex items-center gap-0.5 rounded-md border border-line p-0.5">
         <button
           type="button"
           onClick={decreaseFont}
@@ -60,7 +60,7 @@ export function ReaderToolbar() {
         >
           <Minus className="h-4 w-4" aria-hidden />
         </button>
-        <span className="min-w-[2.5rem] text-center text-xs font-medium tabular-nums text-stone-600 dark:text-stone-300">
+        <span className="min-w-[2.5rem] text-center text-xs font-medium tabular-nums text-ink-muted">
           <span className="sr-only">Veličina slova: </span>
           {arabicFontSize}
         </span>
@@ -77,7 +77,7 @@ export function ReaderToolbar() {
 
       {/* Font style */}
       <div
-        className="flex items-center gap-0.5 rounded-md border border-[var(--theme-border)] p-0.5"
+        className="flex items-center gap-0.5 rounded-md border border-line p-0.5"
         role="group"
         aria-label="Arapsko pismo"
       >
@@ -85,10 +85,10 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setArabicFontStyle("naskh")}
           aria-pressed={arabicFontStyle === "naskh"}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             arabicFontStyle === "naskh"
-              ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
-              : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+              ? "bg-surface-sunken text-ink"
+              : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
           Osnovno
@@ -97,10 +97,10 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setArabicFontStyle("uthmanic")}
           aria-pressed={arabicFontStyle === "uthmanic"}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             arabicFontStyle === "uthmanic"
-              ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
-              : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+              ? "bg-surface-sunken text-ink"
+              : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
           Klasično
@@ -109,7 +109,7 @@ export function ReaderToolbar() {
 
       {/* View toggle */}
       <div
-        className="flex items-center gap-0.5 rounded-md border border-[var(--theme-border)] p-0.5"
+        className="flex items-center gap-0.5 rounded-md border border-line p-0.5"
         role="group"
         aria-label="Praćenje uz zvuk"
       >
@@ -117,10 +117,10 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setWordByWordMode(false)}
           aria-pressed={!wordByWordMode}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             !wordByWordMode
-              ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
-              : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+              ? "bg-surface-sunken text-ink"
+              : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
           Po ajetu
@@ -129,10 +129,10 @@ export function ReaderToolbar() {
           type="button"
           onClick={() => setWordByWordMode(true)}
           aria-pressed={wordByWordMode}
-          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+          className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             wordByWordMode
-              ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-50"
-              : "text-stone-500 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+              ? "bg-surface-sunken text-ink"
+              : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
           Riječ po riječ
@@ -194,10 +194,10 @@ function ToggleChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border px-2 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+      className={`flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border px-2 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
         active
-          ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-          : "border-stone-200 bg-transparent text-stone-500 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
+          ? "border-accent-text bg-accent-wash text-accent-text"
+          : "border-line bg-transparent text-ink-muted hover:bg-surface-sunken"
       }`}
     >
       {label}
