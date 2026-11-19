@@ -62,4 +62,27 @@ describe("Toast", () => {
     expect(screen.getByRole("status")).toBe(status);
     expect(status).toBeEmptyDOMElement();
   });
+
+  it("restarts the 5 seconds when the same message is shown again", () => {
+    vi.useFakeTimers();
+    render(<Toast />);
+    const status = screen.getByRole("status");
+    act(() => {
+      useToastStore.getState().showToast("12. ajet je sačuvan.");
+    });
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    act(() => {
+      useToastStore.getState().showToast("12. ajet je sačuvan.");
+    });
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(status).toHaveTextContent("12. ajet je sačuvan.");
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(status).toBeEmptyDOMElement();
+  });
 });

@@ -165,6 +165,32 @@ describe("TajwidQuiz status messages and focus", () => {
     expect(screen.getByRole("heading", { name: "Kviz završen" })).toHaveFocus();
   });
 
+  it("Ponovi kviz moves focus to the first question", () => {
+    renderQuiz();
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Y/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Završi kviz/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Ponovi kviz" }));
+    expect(screen.getByText("First question?")).toHaveFocus();
+  });
+
+  it("does not move focus to the question on first render", () => {
+    renderQuiz();
+    expect(document.body).toHaveFocus();
+  });
+
+  it("hides the finished heading's ring only for keyboard focus, not for every focus", () => {
+    renderQuiz();
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Y/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Završi kviz/ }));
+    const heading = screen.getByRole("heading", { name: "Kviz završen" });
+    expect(heading).toHaveClass("focus-visible:outline-hidden");
+    expect(heading).not.toHaveClass("focus:outline-hidden");
+  });
+
   it("uses the new result copy, without gendered forms", () => {
     const { container } = renderQuiz();
     fireEvent.click(screen.getByRole("button", { name: /A/ }));

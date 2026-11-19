@@ -33,9 +33,16 @@ export function TajwidQuiz({
   const [announcement, setAnnouncement] = useState("");
   const finishedHeadingRef = useRef<HTMLHeadingElement>(null);
   const questionRef = useRef<HTMLParagraphElement>(null);
+  const retriedRef = useRef(false);
 
+  // "Ponovi kviz" unmounts with the result, so focus moves to the first question.
   useEffect(() => {
-    if (quizFinished) finishedHeadingRef.current?.focus();
+    if (quizFinished) {
+      finishedHeadingRef.current?.focus();
+    } else if (retriedRef.current) {
+      retriedRef.current = false;
+      questionRef.current?.focus();
+    }
   }, [quizFinished]);
 
   // "Sljedeće pitanje" unmounts with the feedback, so focus moves to the new question.
@@ -85,6 +92,7 @@ export function TajwidQuiz({
     setShowFeedback(false);
     setScore(0);
     setAnnouncement("");
+    retriedRef.current = true;
     setQuizFinished(false);
   };
 
@@ -106,7 +114,7 @@ export function TajwidQuiz({
         <h2
           ref={finishedHeadingRef}
           tabIndex={-1}
-          className="text-base font-semibold text-stone-900 focus:outline-hidden dark:text-stone-50"
+          className="text-base font-semibold text-stone-900 focus-visible:outline-hidden dark:text-stone-50"
         >
           Kviz završen
         </h2>

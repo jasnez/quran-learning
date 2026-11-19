@@ -10,6 +10,7 @@ const VISIBLE_CLASSES =
 
 export function Toast() {
   const message = useToastStore((s) => s.message);
+  const showCount = useToastStore((s) => s.showCount);
   const clearToast = useToastStore((s) => s.clearToast);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export function Toast() {
       clearToast();
     }, TOAST_DURATION_MS);
     return () => clearTimeout(id);
-  }, [message, clearToast]);
+  }, [message, showCount, clearToast]);
 
   // The live region is always in the DOM; only its text changes, so screen readers announce it.
   return (
