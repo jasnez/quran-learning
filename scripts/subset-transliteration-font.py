@@ -10,7 +10,7 @@ Regenerate (needs `python -m pip install --user fonttools`, plus `brotli` for wo
   2. python -I scripts/subset-transliteration-font.py <ttf-dir> src/app/fonts
   (-I: the font files are untrusted data, so Python must not load code from its surroundings.)
 
-Output: <out-dir>/GentiumBookPlus-{Regular,Italic}-subset.woff2 and gentium-coverage.json
+Output: <out-dir>/TranscriptionBook-{Regular,Italic}.woff2 and transcription-font-coverage.json
 ({ "files": { name: { "sha256", "codepoints" } } }, read back from each subset's cmap).
 
 Kept characters: ASCII, Latin-1, and every Latin-range code point (U+0020-024F, U+0250-02FF,
@@ -18,9 +18,9 @@ U+0300-036F, U+1E00-1EFF, U+2000-206F) found anywhere in src/**/*.{ts,tsx,json} 
 All layout features stay so that mark positioning for U+0331 survives.
 
 Licence: the OFL reserves the names "Gentium" and "SIL". A subset is a Modified Version, so
-the family is renamed inside the font (FAMILY below). The copyright notice stays. The file
-names keep "GentiumBookPlus" only to say where the glyphs come from; the OFL.txt is copied
-next to the fonts.
+the family is renamed inside the font (FAMILY below), and the output files and the app's CSS
+names (src/app/layout.tsx, globals.css) say "Transcription" as well. The copyright notice
+stays, and the OFL.txt is copied next to the fonts.
 """
 import hashlib
 import json
@@ -111,7 +111,7 @@ def main() -> None:
         subsetter.populate(unicodes=sorted(cps))
         subsetter.subset(font)
         rename(font, style)
-        out_name = f"GentiumBookPlus-{style}-subset.woff2"
+        out_name = f"TranscriptionBook-{style}.woff2"
         out_path = out_dir / out_name
         font.flavor = "woff2"
         font.save(str(out_path))
@@ -126,7 +126,7 @@ def main() -> None:
         }
         print(f"{out_name}: {out_path.stat().st_size} bytes, {len(have)} code points, {len(written.getGlyphOrder())} glyphs")
 
-    (out_dir / "gentium-coverage.json").write_text(
+    (out_dir / "transcription-font-coverage.json").write_text(
         json.dumps(coverage, indent=1) + "\n", encoding="utf-8", newline="\n"
     )
     ofl = ttf_dir / "OFL.txt"

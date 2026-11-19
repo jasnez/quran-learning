@@ -2,6 +2,8 @@
  * The transcription line is set in a self-hosted subset of Gentium Book Plus (SIL OFL)
  * because Geist lacks most letters of the IZ BiH "specijal" system and no Google Fonts
  * subset contains U+0331. Regenerate the subset with scripts/subset-transliteration-font.py.
+ * The OFL reserves the name "Gentium", so the family, the files and the CSS names say
+ * "Transcription".
  */
 import { describe, it, expect } from "vitest";
 import { createHash } from "node:crypto";
@@ -17,11 +19,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const fontsDir = path.join(__dirname, "../fonts");
 const dataDir = path.join(__dirname, "../../data");
 const layoutPath = path.join(__dirname, "../layout.tsx");
+const globalsPath = path.join(__dirname, "../globals.css");
 
 type Coverage = { files: Record<string, { sha256: string; codepoints: number[] }> };
 
 function readCoverage(): Coverage {
-  return JSON.parse(readFileSync(path.join(fontsDir, "gentium-coverage.json"), "utf8")) as Coverage;
+  return JSON.parse(readFileSync(path.join(fontsDir, "transcription-font-coverage.json"), "utf8")) as Coverage;
 }
 
 /** Every string stored under a "transliteration" key, at any depth of a JSON value. */
@@ -75,10 +78,7 @@ describe("transliteration font", () => {
 
     const coverage = readCoverage();
     const names = Object.keys(coverage.files);
-    expect(names.sort()).toEqual([
-      "GentiumBookPlus-Italic-subset.woff2",
-      "GentiumBookPlus-Regular-subset.woff2",
-    ]);
+    expect(names.sort()).toEqual(["TranscriptionBook-Italic.woff2", "TranscriptionBook-Regular.woff2"]);
     for (const name of names) {
       const have = new Set(coverage.files[name].codepoints);
       const missing = [...needed].filter((cp) => !have.has(cp)).map((cp) => cp.toString(16));
@@ -94,10 +94,17 @@ describe("transliteration font", () => {
     }
   });
 
-  it("layout.tsx registers --font-gentium through next/font/local", () => {
+  // next/font names the @font-face family after the const, so it must not say "Gentium" either.
+  it("layout.tsx registers --font-transcription through next/font/local, and the theme token uses it", () => {
     const layout = readFileSync(layoutPath, "utf8");
     expect(layout).toMatch(/from "next\/font\/local"/);
-    expect(layout).toContain('variable: "--font-gentium"');
-    expect(layout).toContain("gentiumBookPlus.variable");
+    expect(layout).toContain('variable: "--font-transcription"');
+    expect(layout).toContain("const transcriptionFont = localFont(");
+    expect(layout).toContain("transcriptionFont.variable");
+    expect(readFileSync(globalsPath, "utf8")).toContain("--font-transliteration: var(--font-transcription),");
+  });
+
+  it("no font file in src/app/fonts is named after Gentium", () => {
+    expect(readdirSync(fontsDir).filter((f) => /gentium/i.test(f))).toEqual([]);
   });
 });

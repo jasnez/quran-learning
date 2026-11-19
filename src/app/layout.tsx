@@ -42,14 +42,16 @@ const scheherazade = Scheherazade_New({
 
 // Transcription line only (class font-transliteration). Subset of Gentium Book Plus (SIL OFL)
 // built by scripts/subset-transliteration-font.py: Geist lacks the letters of the IZ BiH
-// "specijal" system and no Google Fonts subset has U+0331. Not preloaded: only pages that
-// show a transcription download it.
-const gentiumBookPlus = localFont({
+// "specijal" system and no Google Fonts subset has U+0331. The OFL reserves the name
+// "Gentium", so the family, the files and the CSS names (next/font names the @font-face
+// family after this const) say "Transcription". Not preloaded: only pages that show a
+// transcription download it.
+const transcriptionFont = localFont({
   src: [
-    { path: "./fonts/GentiumBookPlus-Regular-subset.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/GentiumBookPlus-Italic-subset.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/TranscriptionBook-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/TranscriptionBook-Italic.woff2", weight: "400", style: "italic" },
   ],
-  variable: "--font-gentium",
+  variable: "--font-transcription",
   display: "swap",
   preload: false,
 });
@@ -100,7 +102,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} ${gentiumBookPlus.variable} antialiased`}
+        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} ${transcriptionFont.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
         <PersistentStorageRequest />
