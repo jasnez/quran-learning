@@ -13,6 +13,7 @@ import { AyahCard } from "./AyahCard";
 import { SurahReaderStickyHeader } from "./SurahReaderStickyHeader";
 import { ReaderToolbar } from "./ReaderToolbar";
 import { SurahReaderUrlEffects } from "./SurahReaderUrlEffects";
+import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
 type SurahReaderContentProps = { ayahs: Ayah[]; initialAyahNumber?: number; surahNameLatin: string; initialAutoplay?: boolean };
 
@@ -50,7 +51,7 @@ export function SurahReaderContent({
     if (prev !== null && prev !== currentAyahId) {
       const el = document.querySelector(`[data-ayah-id="${currentAyahId}"]`);
       if (el && typeof el.scrollIntoView === "function") {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.scrollIntoView({ behavior: preferredScrollBehavior(), block: "center" });
       }
     }
   }, [currentAyahId, isPlaying]);

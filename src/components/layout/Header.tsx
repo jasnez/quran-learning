@@ -37,14 +37,22 @@ export function Header() {
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
   const { isHidden, hasShadow } = useStickyHeader();
+  // The header slides away while scrolling down; it stays shown while it holds focus, or the
+  // focused element would be hidden under it (WCAG 2.4.11).
+  const [hasFocus, setHasFocus] = React.useState(false);
+  const hidden = isHidden && !hasFocus;
 
   return (
     <header
       role="banner"
-      data-hidden={isHidden ? "true" : "false"}
+      data-hidden={hidden ? "true" : "false"}
+      onFocus={() => setHasFocus(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHasFocus(false);
+      }}
       className={`fixed left-0 right-0 top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
         hasShadow ? "shadow-sm" : ""
-      } ${isHidden ? "-translate-y-full" : ""}`}
+      } ${hidden ? "-translate-y-full" : ""}`}
     >
       <div className="mx-auto flex h-12 max-h-[52px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
         {/* Brand */}

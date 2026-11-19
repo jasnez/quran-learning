@@ -366,6 +366,7 @@ export function AudioPlayer() {
   return (
     <div
       data-testid="audio-player"
+      data-audio-player=""
       className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 max-md:bottom-14 md:bottom-0"
       role="region"
       aria-label="Audio player"

@@ -193,7 +193,7 @@ export default function SearchPage() {
           aria-controls={LISTBOX_ID}
           aria-activedescendant={hasResults && results[selectedIndex] ? getResultId(selectedIndex) : undefined}
           aria-autocomplete="list"
-          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
+          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
           aria-describedby={showEmpty ? "search-empty" : undefined}
         />
         {showRecent && (
@@ -292,7 +292,7 @@ export default function SearchPage() {
               <button
                 type="button"
                 onClick={() => setShown({ query: trimmed, count: visibleCount + PAGE_SIZE })}
-                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
               >
                 Prikaži još
               </button>

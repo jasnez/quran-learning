@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePlayerStore } from "@/store/playerStore";
 import { useScrollContainer } from "@/contexts/ScrollContainerContext";
+import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
 const DEFAULT_THRESHOLD = 400;
 
@@ -41,9 +42,9 @@ export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProp
   const scrollToTop = () => {
     const container = scrollContext?.scrollContainerRef?.current;
     if (container && container.scrollHeight > container.clientHeight) {
-      container.scrollTo({ top: 0, behavior: "smooth" });
+      container.scrollTo({ top: 0, behavior: preferredScrollBehavior() });
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: preferredScrollBehavior() });
     }
   };
 
@@ -58,8 +59,8 @@ export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProp
       aria-label="Povratak na vrh stranice"
       className={
         hasAudio
-          ? "fixed right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-[8.5rem] md:bottom-24"
-          : "fixed bottom-24 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-24 md:bottom-8"
+          ? "fixed right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-[8.5rem] md:bottom-24"
+          : "fixed bottom-24 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-24 md:bottom-8"
       }
     >
       <span aria-hidden>

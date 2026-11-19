@@ -287,7 +287,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           </button>
           <button
             type="button"
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-500 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-emerald-500 dark:hover:bg-emerald-400"
             aria-label={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
             onClick={handlePlayPause}
           >
