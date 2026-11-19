@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isTajwidQuizPassed, tajwidQuizPassScore, useProgressStore } from "@/store/progressStore";
+import { formatCount, type PluralForms } from "@/lib/format";
 import type { QuizQuestion } from "@/data/tajwid-lessons";
 
 type TajwidQuizProps = {
@@ -12,14 +13,11 @@ type TajwidQuizProps = {
   nextLessonTitle: string | null;
 };
 
-/** "od 2 tačna odgovora", "od 5 tačnih odgovora", "od 21 tačnog odgovora". */
-function correctAnswersOf(total: number): string {
-  const lastDigit = total % 10;
-  const lastTwo = total % 100;
-  if (lastDigit === 1 && lastTwo !== 11) return "tačnog odgovora";
-  if (lastDigit >= 2 && lastDigit <= 4 && (lastTwo < 12 || lastTwo > 14)) return "tačna odgovora";
-  return "tačnih odgovora";
-}
+const CORRECT_ANSWER_FORMS: PluralForms = {
+  one: "tačan odgovor",
+  few: "tačna odgovora",
+  other: "tačnih odgovora",
+};
 
 export function TajwidQuiz({
   quiz,
@@ -32,6 +30,12 @@ export function TajwidQuiz({
   const [showFeedback, setShowFeedback] = useState(false);
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const finishedHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (quizFinished) finishedHeadingRef.current?.focus();
+  }, [quizFinished]);
 
   const markStarted = useProgressStore((s) => s.markTajwidLessonStarted);
   const recordResult = useProgressStore((s) => s.recordTajwidQuizResult);
@@ -46,6 +50,12 @@ export function TajwidQuiz({
     setShowFeedback(true);
     if (optionIndex === question.correctIndex) {
       setScore((s) => s + 1);
+      setAnnouncement("Tačno.");
+    } else {
+      const letter = String.fromCharCode(65 + question.correctIndex);
+      setAnnouncement(
+        `Nije tačno. Tačan odgovor je ${letter}: ${question.options[question.correctIndex]}.`,
+      );
     }
   };
 
@@ -54,9 +64,11 @@ export function TajwidQuiz({
       const finalScore = score;
       recordResult(lessonSlug, finalScore, total);
       setQuizFinished(true);
+      setAnnouncement("");
       return;
     }
     setCurrentIndex((i) => i + 1);
+    setAnnouncement("");
     setSelectedIndex(null);
     setShowFeedback(false);
   };
@@ -66,16 +78,30 @@ export function TajwidQuiz({
     setSelectedIndex(null);
     setShowFeedback(false);
     setScore(0);
+    setAnnouncement("");
     setQuizFinished(false);
   };
 
   if (quiz.length === 0) return null;
 
+  // One node in both views, so the live region is never mounted together with its text.
+  const statusRegion = (
+    <p role="status" aria-live="polite" className="sr-only">
+      {announcement}
+    </p>
+  );
+
   if (quizFinished) {
     const totalCorrect = score;
     return (
+      <>
+        {statusRegion}
       <section className="mb-8 space-y-4">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+        <h2
+          ref={finishedHeadingRef}
+          tabIndex={-1}
+          className="text-base font-semibold text-stone-900 focus:outline-hidden dark:text-stone-50"
+        >
           Kviz završen
         </h2>
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-center dark:border-emerald-900/40 dark:bg-emerald-950/30">
@@ -84,10 +110,10 @@ export function TajwidQuiz({
           </p>
           <p className="mt-1 text-sm text-emerald-800 dark:text-emerald-200">
             {totalCorrect === total
-              ? "Odlično! Savladao/la si ovu lekciju."
+              ? "Sve je tačno. Lekcija je savladana."
               : isTajwidQuizPassed(totalCorrect, total)
-                ? "Dobro! Možeš ponoviti lekciju za još bolji rezultat."
-                : `Za završetak lekcije treba bar ${tajwidQuizPassScore(total)} od ${total} ${correctAnswersOf(total)}. Ponovi lekciju i pokušaj ponovo.`}
+                ? "Lekcija je savladana. Kviz možeš ponoviti kad god hoćeš."
+                : `Za završetak lekcije treba najmanje ${formatCount(tajwidQuizPassScore(total), CORRECT_ANSWER_FORMS)} od ${total}. Pročitaj lekciju još jednom pa ponovi kviz.`}
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             <button
@@ -103,7 +129,6 @@ export function TajwidQuiz({
                 className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
               >
                 Sljedeća lekcija: {nextLessonTitle}
-                <span aria-hidden>→</span>
               </Link>
             )}
             <Link
@@ -115,10 +140,13 @@ export function TajwidQuiz({
           </div>
         </div>
       </section>
+      </>
     );
   }
 
   return (
+    <>
+      {statusRegion}
     <section className="mb-8 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
@@ -143,7 +171,7 @@ export function TajwidQuiz({
                 <button
                   type="button"
                   onClick={() => handleSelect(i)}
-                  disabled={showFeedback}
+                  aria-disabled={showFeedback}
                   className={`flex w-full gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors ${
                     showCorrect
                       ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
@@ -188,5 +216,6 @@ export function TajwidQuiz({
         )}
       </div>
     </section>
+    </>
   );
 }

@@ -101,6 +101,100 @@ describe("TajwidQuiz score", () => {
     fireEvent.click(screen.getByRole("button", { name: /Završi kviz/i }));
 
     expect(screen.getByText(/Rezultat: 0 \/ 2/)).toBeInTheDocument();
-    expect(screen.getByText(/Za završetak lekcije treba bar 2 od 2 tačna odgovora/)).toBeInTheDocument();
+    expect(screen.getByText(/Za završetak lekcije treba najmanje 2 tačna odgovora od 2/)).toBeInTheDocument();
+  });
+});
+
+describe("TajwidQuiz status messages and focus", () => {
+  const renderQuiz = (quiz = twoQuestionQuiz) =>
+    render(<TajwidQuiz quiz={quiz} lessonSlug="s" nextLessonSlug={null} nextLessonTitle={null} />);
+
+  it("has an empty status region before answering", () => {
+    renderQuiz();
+    expect(screen.getByRole("status")).toBeEmptyDOMElement();
+  });
+
+  it("announces a correct answer", () => {
+    renderQuiz();
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    expect(screen.getByRole("status")).toHaveTextContent("Tačno.");
+  });
+
+  it("announces the right answer after a wrong one and keeps focus on the chosen option", () => {
+    renderQuiz([
+      { question: "Q?", options: ["Prva", "Druga", "Treća"], correctIndex: 1, explanation: "E." },
+    ]);
+    const chosen = screen.getByRole("button", { name: /Prva/ });
+    chosen.focus();
+    fireEvent.click(chosen);
+    expect(screen.getByRole("status")).toHaveTextContent("Nije tačno. Tačan odgovor je B: Druga.");
+    expect(chosen).toHaveAttribute("aria-disabled", "true");
+    expect(chosen).not.toBeDisabled();
+    expect(chosen).toHaveFocus();
+  });
+
+  it("clears the message when moving to the next question", () => {
+    renderQuiz();
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
+    expect(screen.getByRole("status")).toBeEmptyDOMElement();
+  });
+
+  it("on finish keeps the region, clears it and focuses the heading", () => {
+    renderQuiz();
+    const status = screen.getByRole("status");
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Y/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Završi kviz/ }));
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
+    expect(screen.getByRole("heading", { name: "Kviz završen" })).toHaveFocus();
+  });
+
+  it("uses the new result copy, without gendered forms", () => {
+    const { container } = renderQuiz();
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Y/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Završi kviz/ }));
+    expect(screen.getByText("Sve je tačno. Lekcija je savladana.")).toBeInTheDocument();
+    expect(container.textContent).not.toContain("/la");
+  });
+
+  it("uses the middle copy when passed but not perfect", () => {
+    const five = Array.from({ length: 5 }, (_, i) => ({
+      question: `Q${i}?`,
+      options: ["Aa", "Bb"],
+      correctIndex: 0,
+      explanation: "E.",
+    }));
+    renderQuiz(five);
+    for (let i = 0; i < 5; i++) {
+      fireEvent.click(screen.getByRole("button", { name: i === 4 ? /Bb/ : /Aa/ }));
+      fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje|Završi kviz/ }));
+    }
+    expect(
+      screen.getByText("Lekcija je savladana. Kviz možeš ponoviti kad god hoćeš."),
+    ).toBeInTheDocument();
+  });
+
+  it("fail copy states the pass score with the right plural", () => {
+    const five = Array.from({ length: 5 }, (_, i) => ({
+      question: `Q${i}?`,
+      options: ["Aa", "Bb"],
+      correctIndex: 0,
+      explanation: "E.",
+    }));
+    renderQuiz(five);
+    for (let i = 0; i < 5; i++) {
+      fireEvent.click(screen.getByRole("button", { name: /Bb/ }));
+      fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje|Završi kviz/ }));
+    }
+    expect(
+      screen.getByText(
+        "Za završetak lekcije treba najmanje 3 tačna odgovora od 5. Pročitaj lekciju još jednom pa ponovi kviz.",
+      ),
+    ).toBeInTheDocument();
   });
 });
