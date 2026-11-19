@@ -315,9 +315,18 @@ describe("Surah Reader page", () => {
     const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
     expect(within(nav).getByRole("link", { name: "Prethodna sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
     expect(within(nav).getByRole("link", { name: "Sljedeća sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
+    expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
     expect(within(nav).getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
     expect(nav.textContent).not.toMatch(/[←→]/);
     expect(container.textContent).not.toContain("Pregled sura");
+  });
+
+  it("has exactly one Sve sure link in the nav of the first surah (no previous surah)", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
+    expect(within(nav).queryByRole("link", { name: /^Prethodna/ })).toBeNull();
   });
 
   it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {
