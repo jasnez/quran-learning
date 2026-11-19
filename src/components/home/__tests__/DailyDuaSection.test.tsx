@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, describe, it, expect, vi } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import { DailyDuaSection } from "../DailyDuaSection";
 import { getDailyDua } from "@/lib/duas/dailyDua";
 
@@ -37,6 +37,8 @@ vi.mock("next/link", () => ({
   }) => <a href={href}>{children}</a>,
 }));
 
+afterEach(cleanup);
+
 describe("DailyDuaSection", () => {
   it("renders a heading for daily dua", () => {
     render(<DailyDuaSection />);
@@ -55,6 +57,12 @@ describe("DailyDuaSection", () => {
     render(<DailyDuaSection />);
     const els = screen.getAllByText(/Kur'an\s+2:201/i);
     expect(els.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("says it is one dua a day, and the link to all duas has no arrow", () => {
+    render(<DailyDuaSection />);
+    expect(screen.getByText("Svaki dan jedna dova iz Kur'ana.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sve dove iz Kur'ana" })).toHaveAttribute("href", "/duas");
   });
 
   it("includes link to full duas page", () => {

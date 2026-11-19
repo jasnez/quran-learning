@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import CategoryDuasPage from "../page";
+import CategoryDuasPage, { generateMetadata } from "../page";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -45,8 +45,19 @@ describe("Duas category page (/duas/[category])", () => {
       params: Promise.resolve({ category: "forgiveness" }),
     });
     render(Page);
-    const links = screen.getAllByRole("link", { name: /sve kur'anske dove|nazad|sve dove/i });
-    expect(links.length).toBeGreaterThanOrEqual(1);
-    expect(links[0]).toHaveAttribute("href", "/duas");
+    const link = screen.getByRole("link", { name: "Sve dove iz Kur'ana" });
+    expect(link).toHaveAttribute("href", "/duas");
+    expect(link.textContent).not.toMatch(/[←→]/);
+  });
+
+  it("describes the category and where the duas are in the Quran", async () => {
+    render(
+      await CategoryDuasPage({ params: Promise.resolve({ category: "forgiveness" }) })
+    );
+    expect(
+      screen.getByText("Dove iz Kur'ana na ovu temu, uz tačno mjesto u Kur'anu")
+    ).toBeInTheDocument();
+    const metadata = await generateMetadata({ params: Promise.resolve({ category: "forgiveness" }) });
+    expect(metadata.description).toMatch(/^Kur'anske dove: .+\. Uz tačno mjesto u Kur'anu\.$/);
   });
 });

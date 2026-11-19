@@ -27,17 +27,17 @@ export default async function Home() {
             id="hero-title"
             className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl lg:text-4xl"
           >
-            Platforma za učenje Kur&apos;ana
+            Aplikacija za učenje Kur&apos;ana
           </h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg lg:mt-4 lg:max-w-2xl">
-            Uči Kur&apos;an uz tedžvid pomagala, transliteraciju, prijevod i audio.
+            Arapski tekst, transliteracija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 lg:mt-8">
             <ButtonLink href="/learn/1" variant="primary" size="md">
-              Počni učiti
+              Počni od Fatihe
             </ButtonLink>
             <ButtonLink href="/surahs" variant="secondary" size="md">
-              Pregled sura
+              Sve sure
             </ButtonLink>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default async function Home() {
           id="features-heading"
           className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
         >
-          Šta nudi platforma
+          Šta je u aplikaciji
         </h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           <div className="flex gap-4">
@@ -67,10 +67,10 @@ export default async function Home() {
             </div>
             <div>
               <h3 className="font-medium text-stone-900 dark:text-stone-100">
-                Tedžvid boje
+                Tedžvid u boji
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                Obojeni segmenti za pravila izgovora (mad, ghunnah, ikhfa, qalqalah).
+                Četiri pravila izgovora obojena su u tekstu: mad, ghunnah, ikhfa i qalqalah.
               </p>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default async function Home() {
                 Transliteracija
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                Latinični zapis arapskog teksta za lakše učenje izgovora.
+                Izgovor svakog ajeta latinicom, po pravilima Rijaseta IZ BiH.
               </p>
             </div>
           </div>
@@ -93,10 +93,10 @@ export default async function Home() {
             </div>
             <div>
               <h3 className="font-medium text-stone-900 dark:text-stone-100">
-                Bosanski prijevod
+                Prijevod Besima Korkuta
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                Prijevod značenja (Besim Korkut) uz svaki ajet.
+                Prijevod značenja uz svaki ajet.
               </p>
             </div>
           </div>
@@ -106,10 +106,10 @@ export default async function Home() {
             </div>
             <div>
               <h3 className="font-medium text-stone-900 dark:text-stone-100">
-                Audio s označavanjem ajeta
+                Slušanje ajet po ajet
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                Slušaj recitaciju uz istovremeno označavanje trenutnog ajeta.
+                Dok učač uči, istaknut je ajet koji se čuje.
               </p>
             </div>
           </div>

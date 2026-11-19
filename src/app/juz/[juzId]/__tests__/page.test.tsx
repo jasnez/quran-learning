@@ -22,4 +22,11 @@ describe("Juz page", () => {
     render(await JuzPage({ params: Promise.resolve({ juzId: "1" }) }));
     expect(screen.getByText("148 ajeta · 2 sure")).toBeInTheDocument();
   });
+
+  it("links back to all juzes without an arrow", async () => {
+    render(await JuzPage({ params: Promise.resolve({ juzId: "1" }) }));
+    const link = screen.getByRole("link", { name: "Svi džuzevi" });
+    expect(link).toHaveAttribute("href", "/surahs?view=juz");
+    expect(link.textContent).toBe("Svi džuzevi");
+  });
 });

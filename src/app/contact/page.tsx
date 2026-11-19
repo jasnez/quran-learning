@@ -4,7 +4,7 @@ import { ISSUES_NEW_URL } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Kontakt | Quran Learning",
-  description: "Kontaktirajte nas za pitanja, prijedloge ili povratne informacije o platformi Quran Learning.",
+  description: "Pitanja, prijedlozi i prijave grešaka.",
 };
 
 export default function ContactPage() {
@@ -16,8 +16,7 @@ export default function ContactPage() {
 
       <div className="mt-8 space-y-6 text-stone-600 dark:text-stone-400">
         <p className="leading-relaxed">
-          Imate pitanja, prijedloge ili želite prijaviti grešku? Slobodno nam
-          pišite preko GitHub Issues.
+          Pitanja, prijedlozi i prijave grešaka stižu nam preko GitHub Issues.
         </p>
 
         <section>
@@ -35,8 +34,8 @@ export default function ContactPage() {
             </a>
           </p>
           <p className="mt-2 text-sm text-stone-500 dark:text-stone-500">
-            Za prijavu je potreban besplatan GitHub nalog. Prijave su javno
-            vidljive, pa ne upisujte lične podatke.
+            Za prijavu je potreban besplatan GitHub nalog. Prijave su javne, pa u
+            njih ne treba upisivati lične podatke.
           </p>
         </section>
 
@@ -45,8 +44,8 @@ export default function ContactPage() {
             Povratne informacije
           </h2>
           <p className="mt-2 leading-relaxed">
-            Ako primijetite grešku u tekstu, transliteraciji, prijevodu ili
-            audio recitaciji, molimo navedite suru i ajet (ili link) u poruci.
+            Kod greške u tekstu, transliteraciji, prijevodu ili snimku najviše
+            pomaže kad prijava navodi suru i ajet ili link.
           </p>
         </section>
       </div>
@@ -56,7 +55,7 @@ export default function ContactPage() {
           href="/"
           className="inline-flex items-center gap-1 text-sm font-medium text-[var(--theme-accent)] hover:underline dark:text-emerald-400"
         >
-          ← Povratak na početnu
+          Na početnu
         </Link>
       </p>
     </article>

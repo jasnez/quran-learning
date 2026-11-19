@@ -58,3 +58,16 @@ describe("FeaturedSurahsSection progress", () => {
     expect(screen.getByText("4 ajeta")).toBeInTheDocument();
   });
 });
+
+describe("FeaturedSurahsSection copy", () => {
+  it("explains the list for a new visitor", () => {
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("Počni s kratkim surama koje se često uče.")).toBeInTheDocument();
+  });
+
+  it("explains the list once a surah was visited", () => {
+    useProgressStore.setState({ surahsVisited: [1] });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("Započete sure i kratke sure za početak.")).toBeInTheDocument();
+  });
+});

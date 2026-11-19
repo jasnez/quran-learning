@@ -31,7 +31,7 @@ export function DailyDuaSection() {
         Dova dana
       </h2>
       <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
-        Jedna Kur&apos;anska dova svaki dan.
+        Svaki dan jedna dova iz Kur&apos;ana.
       </p>
       <div className="mt-4">
         {dailyDua ? (
@@ -48,7 +48,7 @@ export function DailyDuaSection() {
             href="/duas"
             className="text-sm font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"
           >
-            Sve Kur&apos;anske dove →
+            Sve dove iz Kur&apos;ana
           </Link>
         </p>
       </div>

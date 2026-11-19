@@ -4,7 +4,7 @@ import { NamesPageContent } from "@/components/names/NamesPageContent";
 export const metadata: Metadata = {
   title: "Allahova lijepa imena | Quran Learning",
   description:
-    "El-Esmāʼul-Ḥusnā – 99 Allahovih lijepih imena s arapskim tekstom, transliteracijom i prijevodom na bosanski.",
+    "El-Esmāʼul-Ḥusnā: 99 Allahovih lijepih imena s arapskim tekstom, transliteracijom i prijevodom.",
 };
 
 export default function NamesPage() {
@@ -15,7 +15,7 @@ export default function NamesPage() {
           Allahova lijepa imena
         </h1>
         <p className="mb-8 text-stone-500 dark:text-stone-400">
-          El-Esmāʼul-Ḥusnā – 99 imena: arapski, transliteracija i prijevod na bosanski
+          El-Esmāʼul-Ḥusnā: 99 Allahovih lijepih imena s arapskim tekstom, transliteracijom i prijevodom
         </p>
         <NamesPageContent />
       </div>

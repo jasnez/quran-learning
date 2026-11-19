@@ -141,6 +141,23 @@ describe("Tajwid lesson detail page", () => {
   });
 });
 
+describe("Tajwid lesson page copy", () => {
+  it("labels the sound and practice sections plainly", async () => {
+    render(await LessonPage({ params: Promise.resolve({ lessonId: "mad-duljenje" }) }));
+    expect(screen.getByRole("heading", { name: "Kako se izgovara" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Vježba na ajetima iz Kur'ana" })).toBeInTheDocument();
+  });
+
+  it("has no arrow characters in the practice links or the pager", async () => {
+    const { container } = render(
+      await LessonPage({ params: Promise.resolve({ lessonId: "mad-duljenje" }) })
+    );
+    expect(screen.getByRole("link", { name: "Sura 1, ajet 4" })).toHaveAttribute("href", "/surah/1?ayah=4");
+    expect(screen.getByRole("link", { name: "Prethodna: Intro" })).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/[←→↗]/);
+  });
+});
+
 describe("Tajwid lesson page metadata", () => {
   it("uses the lesson title", async () => {
     const metadata = await generateMetadata({

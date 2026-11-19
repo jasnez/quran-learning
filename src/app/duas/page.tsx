@@ -4,7 +4,7 @@ import { DuasPageContent } from "@/components/duas/DuasPageContent";
 export const metadata: Metadata = {
   title: "Kur'anske dove | Quran Learning",
   description:
-    "Dove iz Kur'ana po kategorijama: za oprost, znanje, uputu, strpljenje, porodicu i Rabbena dove. Sa tačnom referencom (sura i ajet).",
+    "Dove iz Kur'ana po kategorijama: za oprost, znanje, uputu, strpljenje, porodicu i Rabbena dove. Uz tačno mjesto u Kur'anu.",
 };
 
 export default function DuasPage() {
@@ -15,7 +15,7 @@ export default function DuasPage() {
           Kur&apos;anske dove
         </h1>
         <p className="mb-8 text-stone-500 dark:text-stone-400">
-          Dove iz Kur&apos;ana po kategorijama, sa tačnom referencom (sura i ajet)
+          Dove iz Kur&apos;ana po temama, uz tačno mjesto u Kur&apos;anu (sura i ajet)
         </p>
         <DuasPageContent />
       </div>

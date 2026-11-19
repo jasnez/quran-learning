@@ -68,7 +68,7 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
   const hasProgress = mounted && Array.isArray(surahsVisited) && surahsVisited.length > 0;
   const heading = hasProgress ? "Za tebe" : "Preporučene sure";
   const subheading = hasProgress
-    ? "Nedavno započete + preporučene kratke sure."
+    ? "Započete sure i kratke sure za početak."
     : "Počni s kratkim surama koje se često uče.";
 
   return (

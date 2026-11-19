@@ -134,7 +134,7 @@ export function MobileNav() {
               icon={<Bookmark className="h-4 w-4" />}
               onClick={() => setMoreOpen(false)}
             >
-              Označeni ajeti
+              Sačuvani ajeti
             </MoreLink>
             <MoreLink
               href="/progress"

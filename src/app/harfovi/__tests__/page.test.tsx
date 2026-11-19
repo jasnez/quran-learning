@@ -79,6 +79,11 @@ describe("Harfovi i izgovor page", () => {
       "href",
       "https://ilmijja.ba/wp-content/uploads/2022/03/Pravila.pdf"
     );
-    expect(screen.getByRole("link", { name: /javite nam/i })).toHaveAttribute("href", "/contact");
+    expect(screen.getByRole("link", { name: "Kontakt" })).toHaveAttribute("href", "/contact");
+  });
+
+  it("says where to report mistakes", () => {
+    render(<LettersPage />);
+    expect(screen.getByText(/Greške se prijavljuju na stranici/)).toBeInTheDocument();
   });
 });

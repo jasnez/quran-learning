@@ -61,7 +61,7 @@ export function Header() {
             <Link
               href="/surahs"
               className={`${ICON_BTN} shrink-0`}
-              aria-label="Nazad na listu sura"
+              aria-label="Nazad na sve sure"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden />
             </Link>
@@ -85,7 +85,7 @@ export function Header() {
               <button
                 type="button"
                 className={ICON_BTN}
-                aria-label={isPlaying ? "Pauza" : "Pusti"}
+                aria-label={isPlaying ? "Pauziraj" : "Pusti"}
                 onClick={() => (isPlaying ? pause() : resume())}
               >
                 {isPlaying ? (
@@ -118,7 +118,7 @@ export function Header() {
             <Link
               href="/bookmarks"
               className={`${ICON_BTN} hidden sm:flex`}
-              aria-label="Označeni ajeti"
+              aria-label="Sačuvani ajeti"
             >
               <Bookmark className="h-5 w-5" aria-hidden />
             </Link>
@@ -155,7 +155,7 @@ function LearnMenu() {
   return (
     <NavDisclosure
       label="Učenje"
-      buttonLabel="Učenje – Tedžvid, Allahova lijepa imena"
+      buttonLabel="Učenje: tedžvid, harfovi i Allahova imena"
       isActive={!!isActive}
       links={LEARN_LINKS}
     />

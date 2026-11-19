@@ -278,6 +278,28 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: /džuzevi/i })).not.toBeInTheDocument();
   });
 
+  it("names the play button Pusti, and Pauziraj while playing", async () => {
+    const { usePlayerStore } = await import("@/store/playerStore");
+    const state = usePlayerStore.getState() as { isPlaying: boolean };
+    const { unmount } = render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(screen.getByRole("button", { name: "Pusti" })).toBeInTheDocument();
+    unmount();
+    state.isPlaying = true;
+    try {
+      render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+      expect(screen.getByRole("button", { name: "Pauziraj" })).toBeInTheDocument();
+    } finally {
+      state.isPlaying = false;
+    }
+  });
+
+  it("names the Učenje menu button after what it holds", () => {
+    render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
+    expect(
+      screen.getByRole("button", { name: "Učenje: tedžvid, harfovi i Allahova imena" })
+    ).toBeInTheDocument();
+  });
+
   it("Učenje dropdown offers lessons and names but not the quiz, which is hidden for now", async () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
     const ucenjeBtn = screen.getByRole("button", { name: /učenje/i });
@@ -306,7 +328,7 @@ describe("Header", () => {
 
   it("has Bookmarks link", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const links = screen.getAllByRole("link", { name: /zabilješke|označeni ajeti/i });
+    const links = screen.getAllByRole("link", { name: /sačuvani ajeti/i });
     expect(links.length).toBeGreaterThanOrEqual(1);
     expect(links.some((el) => (el as HTMLAnchorElement).getAttribute("href") === "/bookmarks")).toBe(true);
   });
@@ -362,12 +384,17 @@ describe("Footer", () => {
     expect(screen.getByRole("link", { name: /kontakt/i })).toHaveAttribute("href", "/contact");
   });
 
-  it("has link O platformi", () => {
+  it("has link O aplikaciji", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: /o platformi|about/i })).toHaveAttribute("href", "/about");
+    expect(screen.getByRole("link", { name: "O aplikaciji" })).toHaveAttribute("href", "/about");
   });
 
-  it("shows platform name", () => {
+  it("names its navigation Podnožje", () => {
+    render(<Footer />);
+    expect(screen.getByRole("navigation", { name: "Podnožje" })).toBeInTheDocument();
+  });
+
+  it("shows the app name", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
     expect(footer).toHaveTextContent(/quran learning/i);
@@ -376,7 +403,9 @@ describe("Footer", () => {
   it("shows short description", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
-    expect(footer).toHaveTextContent(/Platforma za učenje Kur'ana|transliteracijom/i);
+    expect(footer).toHaveTextContent(
+      "Kur'an na bosanskom: arapski tekst, transliteracija, Korkutov prijevod i učač Mishary Alafasy."
+    );
   });
 
   it("shows copyright and Sva prava zadržana", () => {
@@ -404,7 +433,7 @@ describe("Footer", () => {
   // QA section 5: the links were 20px tall on mobile.
   it("links are at least 44px tall on mobile and 24px on desktop", () => {
     render(<Footer />);
-    for (const name of [/izvori/i, /kontakt/i, /o platformi/i]) {
+    for (const name of [/izvori/i, /kontakt/i, /o aplikaciji/i]) {
       expect(screen.getByRole("link", { name })).toHaveClass("min-h-11", "md:min-h-6");
     }
   });
@@ -443,7 +472,7 @@ describe("MobileNav", () => {
     const user = (await import("@testing-library/user-event")).default;
     await user.click(moreBtn);
     expect(screen.getByRole("list", { name: /više opcija/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /označeni ajeti/i })).toHaveAttribute("href", "/bookmarks");
+    expect(screen.getByRole("link", { name: "Sačuvani ajeti" })).toHaveAttribute("href", "/bookmarks");
     expect(screen.getByRole("link", { name: /napredak/i })).toHaveAttribute("href", "/progress");
     expect(screen.getByRole("button", { name: /postavke/i })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /kviz/i })).not.toBeInTheDocument();

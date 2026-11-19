@@ -67,7 +67,7 @@ export default async function JuzPage({ params }: PageProps) {
             href="/surahs?view=juz"
             className="inline-flex items-center rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
           >
-            ← Pregled džuzeva
+            Svi džuzevi
           </Link>
         </div>
       </header>

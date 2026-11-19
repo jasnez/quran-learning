@@ -79,34 +79,36 @@ beforeEach(() => {
 
 describe("Home page", () => {
   describe("Hero section", () => {
-    it("shows platform title in Bosnian", async () => {
+    it("shows the app title in Bosnian (D9)", async () => {
       const Page = await Home();
       render(Page);
       expect(
-        await screen.findByRole("heading", { name: /platforma za učenje kur'an/i })
+        await screen.findByRole("heading", { level: 1, name: "Aplikacija za učenje Kur'ana" })
       ).toBeInTheDocument();
     }, 10000);
 
-    it("shows subtitle about learning with tedžvid and translation", async () => {
+    it("shows the subtitle naming the text, transliteration, translation and reciter", async () => {
       const Page = await Home();
       render(Page);
-      const hero = screen.getByRole("heading", { name: /platforma za učenje kur'an/i }).closest("section");
+      const hero = screen.getByRole("heading", { level: 1 }).closest("section");
       expect(hero).toBeInTheDocument();
-      expect(hero).toHaveTextContent(/uči kur'an|tedžvid|transliteracij|prijevod|audio/i);
+      expect(hero).toHaveTextContent(
+        "Arapski tekst, transliteracija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet."
+      );
     });
 
-    it("has primary CTA Počni učiti linking to learn page (first surah)", async () => {
+    it("has primary CTA Počni od Fatihe linking to learn page (first surah)", async () => {
       const Page = await Home();
       render(Page);
-      const cta = screen.getByRole("link", { name: /počni učit/i });
+      const cta = screen.getByRole("link", { name: "Počni od Fatihe" });
       expect(cta).toHaveAttribute("href", "/learn/1");
     });
 
-    it("has secondary CTA Pregled sura", async () => {
+    it("has secondary CTA Sve sure", async () => {
       const Page = await Home();
       render(Page);
-      const cta = screen.getByRole("link", { name: /pregled sura/i });
-      expect(cta).toBeInTheDocument();
+      const cta = screen.getByRole("link", { name: "Sve sure" });
+      expect(cta).toHaveAttribute("href", "/surahs");
     });
   });
 
@@ -170,10 +172,10 @@ describe("Home page", () => {
       ).toBeInTheDocument();
     });
 
-    it("has link to Kur'anske dove page", async () => {
+    it("has link to the duas page without an arrow", async () => {
       const Page = await Home();
       render(Page);
-      const link = screen.getByRole("link", { name: /sve kur'anske dove/i });
+      const link = screen.getByRole("link", { name: "Sve dove iz Kur'ana" });
       expect(link).toHaveAttribute("href", "/duas");
     });
   });
@@ -182,10 +184,11 @@ describe("Home page", () => {
     it("shows 4 feature blocks", async () => {
       const Page = await Home();
       render(Page);
-      expect(screen.getByRole("heading", { name: /tedžvid boje/i })).toBeInTheDocument();
-      expect(screen.getByRole("heading", { name: /^transliteracija$/i })).toBeInTheDocument();
-      expect(screen.getByRole("heading", { name: /bosanski prijevod/i })).toBeInTheDocument();
-      expect(screen.getByRole("heading", { name: /audio s označavanjem ajeta/i })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Šta je u aplikaciji" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Tedžvid u boji" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Transliteracija" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Prijevod Besima Korkuta" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Slušanje ajet po ajet" })).toBeInTheDocument();
     });
   });
 
@@ -248,7 +251,7 @@ describe("Home page", () => {
       mockProgressState.getStats.mockReturnValue({ totalTime: 0, surahsCount: 0, ayahsCount: 0 });
       const Page = await Home();
       render(Page);
-      expect(screen.queryByText(/posjećeno|posjeceno|preslušano|preslusano|min ukupno|slušanje/i)).not.toBeInTheDocument();
+      expect(screen.queryByTestId("overall-stats-cards")).not.toBeInTheDocument();
     });
 
     it("stats row is visible when any stat is greater than zero", async () => {

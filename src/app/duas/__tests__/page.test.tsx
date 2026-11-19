@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import DuasPage from "../page";
+import DuasPage, { metadata } from "../page";
 
 vi.mock("next/link", () => ({
   default: ({
@@ -23,6 +23,15 @@ describe("Duas page", () => {
     expect(
       screen.getByRole("heading", { name: /kur'anske dove/i })
     ).toBeInTheDocument();
+  });
+
+  it("says where each dua is in the Quran, with no loan word", async () => {
+    render(await DuasPage());
+    expect(
+      screen.getAllByText("Dove iz Kur'ana po temama, uz tačno mjesto u Kur'anu (sura i ajet)").length
+    ).toBeGreaterThanOrEqual(1);
+    expect(metadata.description).toMatch(/Uz tačno mjesto u Kur'anu\.$/);
+    expect(metadata.description).not.toMatch(/referenc/i);
   });
 
   it("renders category sections with duas", async () => {
