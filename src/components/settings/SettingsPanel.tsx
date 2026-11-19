@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
 import { SURAH_FORMS, formatCount, formatNumber, pluralForm, type PluralForms } from "@/lib/format";
+import { useLightDismiss } from "@/components/ui/useLightDismiss";
 import { useOfflineDownload, TOTAL_SURAHS, type SurahFailure } from "@/hooks/useOfflineDownload";
 
 const FONT_MIN = 20;
@@ -41,12 +42,6 @@ const ADVANCED_THEMES = [
 
 type SettingsPanelProps = { isOpen: boolean; onClose: () => void };
 
-/** Light dismiss (click on the backdrop) for browsers without dialog closedby (Safari). */
-function isOutside(e: React.PointerEvent<HTMLDialogElement>, dialog: HTMLDialogElement): boolean {
-  const r = dialog.getBoundingClientRect();
-  return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
-}
-
 /**
  * A native modal <dialog> (QA section 5): showModal() makes the rest of the page inert, keeps
  * Tab inside the panel, closes on Esc and returns focus to the control that opened it. While
@@ -54,7 +49,7 @@ function isOutside(e: React.PointerEvent<HTMLDialogElement>, dialog: HTMLDialogE
  */
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const pressedOutsideRef = useRef(false);
+  const lightDismiss = useLightDismiss();
 
   const theme = useSettingsStore((s) => s.theme);
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
@@ -86,17 +81,6 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
     else if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
 
-  // Native closedby="any" handles the backdrop where supported. Press and release must both be
-  // outside, so a text selection that ends on the backdrop does not close the panel.
-  const handlePointerDown = (e: React.PointerEvent<HTMLDialogElement>) => {
-    const hasNativeLightDismiss = "closedBy" in HTMLDialogElement.prototype;
-    pressedOutsideRef.current = !hasNativeLightDismiss && isOutside(e, e.currentTarget);
-  };
-  const handlePointerUp = (e: React.PointerEvent<HTMLDialogElement>) => {
-    if (pressedOutsideRef.current && isOutside(e, e.currentTarget)) e.currentTarget.close();
-    pressedOutsideRef.current = false;
-  };
-
   const fontDecrease = () =>
     setArabicFontSize(Math.max(FONT_MIN, arabicFontSize - FONT_STEP));
   const fontIncrease = () =>
@@ -116,8 +100,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
       closedby="any"
       className="settings-dialog"
       onClose={onClose}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
+      {...lightDismiss}
     >
         <div className="flex flex-shrink-0 items-center justify-between border-b border-stone-200 px-4 py-3 dark:border-stone-700">
           <h2 id="settings-panel-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
