@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { AYAH_FORMS, SURAH_FORMS, formatCount, formatNumber, formatTimeAgo } from "../format";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { AYAH_FORMS, SURAH_FORMS, formatCount, formatNumber, formatTimeAgo, relativePhrase } from "../format";
 
 describe("formatNumber", () => {
   it("groups thousands with a dot and uses a decimal comma", () => {
@@ -70,5 +70,56 @@ describe("formatTimeAgo", () => {
   it("returns an empty string for a missing or invalid timestamp", () => {
     expect(formatTimeAgo("", now)).toBe("");
     expect(formatTimeAgo("not a date", now)).toBe("");
+  });
+});
+
+// Oracle: Node has full ICU with Bosnian relative-time data. The app builds the phrases itself
+// (Chrome and Edge lack that data), so every unit is compared for more n than the thresholds reach.
+describe("relativePhrase matches ICU's Bosnian relative time", () => {
+  const icu = new Intl.RelativeTimeFormat("bs", { numeric: "auto" });
+  it.each(["minute", "hour", "day", "week", "month", "year"] as const)("%s, n = 1..120", (unit) => {
+    for (let n = 1; n <= 120; n++) expect(relativePhrase(n, unit), `${n} ${unit}`).toBe(icu.format(-n, unit));
+  });
+});
+
+// Chrome and Edge 157 (Windows) resolve "bs" but format with root data: 6236.75 -> "6,236.75",
+// -3 hours -> "-3 h", -1 day -> "yesterday". The stub gives "bs" the same gap; "en" formats
+// numbers like root.
+describe("without Bosnian number and relative-time data (Chrome, Edge)", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.resetModules();
+  });
+
+  it("formats numbers with Croatian data and still says the time in Bosnian", async () => {
+    const asRoot = (locales?: Intl.LocalesArgument) =>
+      (Array.isArray(locales) ? locales[0] : locales) === "bs" ? "en" : locales;
+    class ChromeNumberFormat extends Intl.NumberFormat {
+      constructor(locales?: Intl.LocalesArgument, options?: Intl.NumberFormatOptions) {
+        super(asRoot(locales), options);
+      }
+    }
+    class ChromeRelativeTimeFormat extends Intl.RelativeTimeFormat {
+      constructor(locales?: Intl.LocalesArgument, options?: Intl.RelativeTimeFormatOptions) {
+        super(asRoot(locales), options);
+      }
+    }
+    vi.stubGlobal(
+      "Intl",
+      Object.create(Intl, {
+        NumberFormat: { value: ChromeNumberFormat },
+        RelativeTimeFormat: { value: ChromeRelativeTimeFormat },
+      }),
+    );
+    expect(new Intl.NumberFormat("bs").format(6236.75)).toBe("6,236.75");
+    expect(new Intl.NumberFormat("bs").format(1234.5)).toBe("1,234.5");
+
+    vi.resetModules();
+    const chrome = await import("../format");
+    expect(chrome.formatNumber(6236)).toBe("6.236");
+    expect(chrome.formatNumber(0.75)).toBe("0,75");
+    const now = Date.parse("2026-11-19T12:00:00Z");
+    expect(chrome.formatTimeAgo(new Date(now - 3 * 60 * 60_000).toISOString(), now)).toBe("prije 3 sata");
+    expect(chrome.formatTimeAgo(new Date(now - 24 * 60 * 60_000).toISOString(), now)).toBe("jučer");
   });
 });
