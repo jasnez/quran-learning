@@ -84,7 +84,7 @@ describe("Harfovi i izgovor page", () => {
 
   it("says where to report mistakes", () => {
     render(<LettersPage />);
-    expect(screen.getByText(/Greške se prijavljuju na stranici/)).toBeInTheDocument();
+    expect(screen.getByText(/Grešku prijavi na stranici/)).toBeInTheDocument();
   });
 
   it("says the transcription is made from the Arabic text, as the sources page does", () => {

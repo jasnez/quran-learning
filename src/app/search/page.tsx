@@ -10,8 +10,8 @@ import { formatCount, formatNumber } from "@/lib/format";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 const PLACEHOLDER = "npr. milost, jasin ili 2:255";
-const EMPTY_HINT = "Traži se po riječi iz prijevoda, nazivu sure ili broju ajeta (2:255), a može i arapskim pismom.";
-const NO_RESULTS_MESSAGE = "Ništa nije pronađeno. Može pomoći druga riječ ili broj ajeta.";
+const EMPTY_HINT = "Upiši riječ iz prijevoda, naziv sure ili broj ajeta (2:255). Može i arapskim pismom.";
+const NO_RESULTS_MESSAGE = "Ništa nije pronađeno. Pokušaj s drugom riječju ili brojem ajeta.";
 const MIN_QUERY_LEN_LATIN = 3;
 const MIN_QUERY_LEN_ARABIC = 1;
 const DEBOUNCE_MS = 300;

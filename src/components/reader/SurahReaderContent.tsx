@@ -63,7 +63,7 @@ export function SurahReaderContent({
           <BookIcon />
         </span>
         <p className="mt-4 text-ink-muted">
-          Sura se nije učitala. Treba osvježiti stranicu.
+          Sura se nije učitala. Osvježi stranicu.
         </p>
       </div>
     );
@@ -132,7 +132,7 @@ export function SurahReaderContent({
       {/* The status region stays in the DOM and only its text changes: a region mounted together
           with its text is often not announced. Empty, it is sr-only, so no empty box shows. */}
       <p className={wordDataFailed ? "mb-4 text-sm text-warning-text" : "sr-only"} role="status">
-        {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
+        {wordDataFailed ? "Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo." : null}
       </p>
       <ul className="space-y-6 list-none" role="list">
         {ayahs.map((ayah, index) => {

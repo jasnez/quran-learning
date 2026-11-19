@@ -84,7 +84,7 @@ describe("Search page", () => {
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
     expect(emptyEl?.textContent).toBe(
-      "Traži se po riječi iz prijevoda, nazivu sure ili broju ajeta (2:255), a može i arapskim pismom.",
+      "Upiši riječ iz prijevoda, naziv sure ili broj ajeta (2:255). Može i arapskim pismom.",
     );
   });
 
@@ -94,7 +94,7 @@ describe("Search page", () => {
     const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "xyznonexistent");
     expect(
-      await screen.findByText("Ništa nije pronađeno. Može pomoći druga riječ ili broj ajeta."),
+      await screen.findByText("Ništa nije pronađeno. Pokušaj s drugom riječju ili brojem ajeta."),
     ).toBeInTheDocument();
   });
 
@@ -202,7 +202,7 @@ describe("Search page", () => {
     renderSearch();
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
-    expect(emptyEl?.textContent).toMatch(/Traži se po riječi/);
+    expect(emptyEl?.textContent).toMatch(/Upiši riječ iz prijevoda/);
     expect(emptyEl?.textContent?.toLowerCase()).not.toMatch(/ništa nije pronađeno/i);
     vi.mocked(Storage.prototype.getItem).mockRestore();
   });

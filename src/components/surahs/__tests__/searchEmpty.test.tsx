@@ -52,7 +52,7 @@ describe("Search no results", () => {
     await user.type(search, "xyznonexistent");
     expect(
       await screen.findByText(
-        "Traži se po broju od 1 do 114 ili po dijelu naziva, npr. jasin.",
+        "Upiši broj od 1 do 114 ili dio naziva, npr. jasin.",
         {},
         { timeout: 8000 },
       ),
