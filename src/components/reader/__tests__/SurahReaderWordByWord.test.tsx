@@ -238,7 +238,7 @@ describe("SurahReaderContent word-by-word", () => {
     fetchMock.mockImplementation(() => Promise.resolve({ ok: false, status: 500 }));
     render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
     expect(
-      await screen.findByText("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+      await screen.findByText("Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo."),
     ).toBeInTheDocument();
     expect(document.querySelector("[data-word-by-word]")).toBeNull();
     expect(card("1:1").textContent).toContain("ٱللَّهِ");
@@ -252,7 +252,7 @@ describe("SurahReaderContent word-by-word", () => {
     expect(status).toBeEmptyDOMElement();
     expect(status).toHaveClass("sr-only");
     await waitFor(() =>
-      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo."),
     );
     expect(screen.getByRole("status")).toBe(status);
     expect(status).not.toHaveClass("sr-only");

@@ -26,7 +26,7 @@ describe("SurahReaderContent empty state", () => {
   it("when ayahs is empty shows message about data coming soon", () => {
     render(<SurahReaderContent ayahs={[]} surahNameLatin="Al-Fatihah" />);
     expect(
-      screen.getByText("Sura se nije učitala. Treba osvježiti stranicu.")
+      screen.getByText("Sura se nije učitala. Osvježi stranicu.")
     ).toBeInTheDocument();
   });
 

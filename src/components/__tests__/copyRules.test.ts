@@ -1,5 +1,6 @@
 /**
- * Guard for the copy deck: user-visible text stays neutral (no "Vi" address), says
+ * Guard for the copy deck and the voice guide (docs/glas.md): user-visible text addresses the
+ * reader with "ti", gender-neutral (no "Vi" address, no impersonal "Treba provjeriti"), says
  * "aplikacija" not "platforma", keeps placeholders free of "...", and has no emoji or
  * arrows. It scans the source, so it also catches strings in constants and metadata.
  */
@@ -88,8 +89,27 @@ describe("copy rules", () => {
         "kontaktirajte",
       ].join("|"),
     );
-    const capitalised = word("Vam|Vas|Vaš\\p{L}*", "u");
+    const capitalised = word("Vi|Vam|Vama|Vas|Vaš\\p{L}*", "u");
     expect([...offenders(lower), ...offenders(capitalised)]).toEqual([]);
+  });
+
+  it("gives instructions with ti, not impersonally (Treba provjeriti, ne treba upisivati)", () => {
+    expect(offenders(word("[Tt]reba (?:provjeriti|osvježiti|pokušati|upisivati)", "u"))).toEqual([]);
+  });
+
+  it("never names the app by its old name, in src or in public/ (comments included)", () => {
+    const hits: string[] = [];
+    const scan = (rel: string, text: string) =>
+      text.split(/\r?\n/).forEach((line, i) => {
+        if (line.includes("Quran Learning")) hits.push(`${rel}:${i + 1}`);
+      });
+    for (const rel of readdirSync(SRC, { recursive: true, encoding: "utf-8" })) {
+      if (isScanned(rel)) scan(rel, readFileSync(path.join(SRC, rel), "utf-8"));
+    }
+    for (const rel of ["manifest.webmanifest", "sw.js"]) {
+      scan(`public/${rel}`, readFileSync(path.join(SRC, "../public", rel), "utf-8"));
+    }
+    expect(hits).toEqual([]);
   });
 
   it("has no gendered slash forms like /la", () => {

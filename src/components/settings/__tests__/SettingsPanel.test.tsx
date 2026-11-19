@@ -402,7 +402,7 @@ describe("SettingsPanel offline download", () => {
     expect(
       region.getByText(/Snimci učača nisu uključeni: za slušanje treba internet\./),
     ).toBeInTheDocument();
-    expect(region.getByText(/arapski tekst, transkripciju i prijevod/)).toBeInTheDocument();
+    expect(region.getByText(/arapski, transkripciju i prijevod\) i čitaj bez interneta/)).toBeInTheDocument();
   });
 
   it("shows how many surahs are already saved after a reload", () => {
@@ -444,9 +444,9 @@ describe("SettingsPanel offline download", () => {
     ];
     const region = offlineRegion();
     expect(region.getByText("Možda nema internet veze.")).toBeInTheDocument();
-    expect(region.getByText("Server trenutno ne odgovara (greška 503). Treba pokušati kasnije.")).toBeInTheDocument();
+    expect(region.getByText("Server trenutno ne odgovara (greška 503). Pokušaj kasnije.")).toBeInTheDocument();
     expect(
-      region.getByText("Preglednik ih nije uspio pohraniti; možda na uređaju nema dovoljno prostora."),
+      region.getByText("Preglednik ih nije sačuvao; provjeri ima li telefon slobodnog prostora."),
     ).toBeInTheDocument();
   });
 
@@ -511,7 +511,7 @@ describe("SettingsPanel offline download", () => {
     const region = offlineRegion();
     expect(
       region.getByText(
-        "Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo.",
+        "Preuzimanje još ne radi na ovoj stranici. Osvježi stranicu i pokušaj ponovo.",
       ),
     ).toBeInTheDocument();
   });

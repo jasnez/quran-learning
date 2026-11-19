@@ -136,7 +136,7 @@ export default function LettersPage() {
         </p>
         <p className="mt-3 max-w-[65ch] leading-relaxed text-ink-muted">
           Transkripcija je napravljena iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
-          između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Greške se prijavljuju na stranici{" "}
+          između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Grešku prijavi na stranici{" "}
           <Link href="/contact" className={LINK}>
             Kontakt
           </Link>
