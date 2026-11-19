@@ -74,7 +74,7 @@ beforeEach(() => {
 describe("Search page", () => {
   it("renders a large search input with placeholder", () => {
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute("type", "search");
   });
@@ -83,24 +83,25 @@ describe("Search page", () => {
     renderSearch();
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
-    expect(emptyEl?.textContent).toMatch(/unesite pojam|upisati|pretraž/i);
+    expect(emptyEl?.textContent).toBe(
+      "Traži se po riječi iz prijevoda, nazivu sure ili broju ajeta (2:255), a može i arapskim pismom.",
+    );
   });
 
   it("shows no results message when search returns empty", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "xyznonexistent");
-    await screen.findByText(/nije pronađeno|pronadjeno/i);
     expect(
-      screen.getByText(/pokušajte sa drugim pojmom|pokusajte/i)
+      await screen.findByText("Ništa nije pronađeno. Može pomoći druga riječ ili broj ajeta."),
     ).toBeInTheDocument();
   });
 
   it("shows results when search matches", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     const link = await screen.findByRole("link", { name: /al-fatiha|1:1|milostiv/i });
     expect(link).toBeInTheDocument();
@@ -110,7 +111,7 @@ describe("Search page", () => {
   it("result shows surah name and ayah number", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     const link = await screen.findByRole("link");
     expect(link).toHaveAttribute("href", "/surah/1?ayah=1#ayah-1-1");
@@ -121,7 +122,7 @@ describe("Search page", () => {
   it("result shows Arabic snippet", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     expect(await screen.findByRole("link")).toHaveAttribute(
       "href",
@@ -133,7 +134,7 @@ describe("Search page", () => {
   it("result link includes ?ayah= query param for scroll target", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     const link = await screen.findByRole("link");
     expect(link).toHaveAttribute("href", "/surah/1?ayah=1#ayah-1-1");
@@ -142,7 +143,7 @@ describe("Search page", () => {
   it("matching text in snippet has highlight styling (mark element)", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     expect(await screen.findByRole("link")).toHaveAttribute(
       "href",
@@ -156,7 +157,7 @@ describe("Search page", () => {
   it("results list is keyboard navigable (listbox, tabindex for focus)", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     const list = await screen.findByRole("listbox");
     expect(list).toBeInTheDocument();
@@ -174,7 +175,8 @@ describe("Search page", () => {
     await waitFor(() => {
       const el = document.querySelector("[data-recent-searches]");
       expect(el).toBeInTheDocument();
-      expect(el?.textContent).toMatch(/allah|rahman|nedavne/i);
+      expect(el?.textContent).toMatch(/Nedavno traženo/);
+      expect(el?.textContent).toMatch(/allah/);
     });
     vi.mocked(Storage.prototype.getItem).mockRestore();
   });
@@ -200,15 +202,15 @@ describe("Search page", () => {
     renderSearch();
     const emptyEl = document.getElementById("search-empty");
     expect(emptyEl).toBeInTheDocument();
-    expect(emptyEl?.textContent?.toLowerCase()).toMatch(/unesite|upisati|pretraž|pojam/i);
-    expect(emptyEl?.textContent?.toLowerCase()).not.toMatch(/nije pronađeno|pronadjeno/i);
+    expect(emptyEl?.textContent).toMatch(/Traži se po riječi/);
+    expect(emptyEl?.textContent?.toLowerCase()).not.toMatch(/ništa nije pronađeno/i);
     vi.mocked(Storage.prototype.getItem).mockRestore();
   });
 
   it("Escape key clears input and results", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "milostiv");
     await screen.findByRole("listbox");
     await user.keyboard("{Escape}");
@@ -219,7 +221,7 @@ describe("Search page", () => {
   it("does not run search for Latin query shorter than 3 characters", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     await user.type(input, "ab");
     await waitFor(() => {
       expect(mockSearchAyahs).not.toHaveBeenCalled();
@@ -229,7 +231,7 @@ describe("Search page", () => {
   it("input has aria-expanded and aria-controls when results are shown", async () => {
     const user = userEvent.setup();
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     expect(input).toHaveAttribute("aria-expanded", "false");
     await user.type(input, "milostiv");
     await screen.findByRole("listbox");
@@ -239,7 +241,7 @@ describe("Search page", () => {
 
   it("mobile sticky search bar sits below the fixed global header (QA P1-3)", () => {
     renderSearch();
-    const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+    const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
     const bar = input.parentElement!;
     const c = bar.className.split(/\s+/);
     expect(c).toContain("sticky");
@@ -260,7 +262,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
       const user = userEvent.setup();
       renderSearch();
-      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
       await user.type(input, "milostiv");
       await screen.findByRole("listbox");
       expect(document.activeElement).toBe(input);
@@ -271,7 +273,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
       const user = userEvent.setup();
       renderSearch();
-      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
       await user.type(input, "milostiv");
       await screen.findByRole("listbox");
       await user.keyboard("{ArrowDown}");
@@ -287,7 +289,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(twoResults));
       const user = userEvent.setup();
       renderSearch();
-      const input = screen.getByPlaceholderText(/pretrazi ajete|pretraži ajete/i);
+      const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
       await user.type(input, "milostiv");
       await screen.findByRole("listbox");
       await user.keyboard("og");
@@ -311,7 +313,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve([arabicResult]));
       const user = userEvent.setup();
       renderSearch();
-      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), words[1]);
+      await user.type(screen.getByPlaceholderText("npr. milost, jasin ili 2:255"), words[1]);
       const option = await screen.findByRole("option");
       const mark = option.querySelector("mark");
       expect(mark).toHaveTextContent(words[1]);
@@ -325,7 +327,7 @@ describe("Search page", () => {
     it("keeps a Latin match left to right, with the Arabic preview below it", async () => {
       const user = userEvent.setup();
       renderSearch();
-      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      await user.type(screen.getByPlaceholderText("npr. milost, jasin ili 2:255"), "milostiv");
       const option = await screen.findByRole("option");
       const mark = option.querySelector("mark");
       expect(mark!.closest("p")).not.toHaveAttribute("dir", "rtl");
@@ -350,7 +352,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
       const user = userEvent.setup();
       renderSearch();
-      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      await user.type(screen.getByPlaceholderText("npr. milost, jasin ili 2:255"), "milostiv");
       await screen.findByRole("listbox");
       expect(screen.getAllByRole("option")).toHaveLength(50);
       expect(screen.getByText("Prikazano 50 od 120 rezultata")).toBeInTheDocument();
@@ -369,7 +371,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
       const user = userEvent.setup();
       renderSearch();
-      const input = screen.getByPlaceholderText(/pretraži ajete/i);
+      const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
       await user.type(input, "milostiv");
       await screen.findByRole("listbox");
       await user.keyboard("{ArrowUp}");
@@ -380,7 +382,7 @@ describe("Search page", () => {
       mockSearchAyahs.mockImplementation(() => Promise.resolve(many));
       const user = userEvent.setup();
       renderSearch();
-      const input = screen.getByPlaceholderText(/pretraži ajete/i);
+      const input = screen.getByPlaceholderText("npr. milost, jasin ili 2:255");
       await user.type(input, "milostiv");
       await screen.findByRole("listbox");
       await user.click(screen.getByRole("button", { name: "Prikaži još" }));
@@ -393,7 +395,7 @@ describe("Search page", () => {
     it("names a single result in the singular", async () => {
       const user = userEvent.setup();
       renderSearch();
-      await user.type(screen.getByPlaceholderText(/pretraži ajete/i), "milostiv");
+      await user.type(screen.getByPlaceholderText("npr. milost, jasin ili 2:255"), "milostiv");
       await screen.findByRole("listbox");
       expect(screen.getByText("1 rezultat")).toBeInTheDocument();
     });

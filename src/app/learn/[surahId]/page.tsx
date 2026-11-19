@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { surah } = await getSurahByNumber(n);
     return {
       title: `Učenje: ${surah.nameLatin} | Quran Learning`,
-      description: `Fokusirano učenje sure ${surahNameWithCommon(surah)}`,
+      description: `Učenje sure ${surahNameWithCommon(surah)} ajet po ajet`,
     };
   } catch {
     return { title: "Učenje | Quran Learning" };

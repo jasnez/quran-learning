@@ -9,9 +9,9 @@ import type { SearchResult } from "@/types/quran";
 import { formatCount, formatNumber } from "@/lib/format";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
-const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
-const EMPTY_HINT = "Unesite pojam za pretragu (npr. Milostivog, Allah).";
-const NO_RESULTS_MESSAGE = "Nije pronađeno. Pokušajte sa drugim pojmom.";
+const PLACEHOLDER = "npr. milost, jasin ili 2:255";
+const EMPTY_HINT = "Traži se po riječi iz prijevoda, nazivu sure ili broju ajeta (2:255), a može i arapskim pismom.";
+const NO_RESULTS_MESSAGE = "Ništa nije pronađeno. Može pomoći druga riječ ili broj ajeta.";
 const MIN_QUERY_LEN_LATIN = 3;
 const MIN_QUERY_LEN_ARABIC = 1;
 const DEBOUNCE_MS = 300;
@@ -198,7 +198,7 @@ export default function SearchPage() {
         />
         {showRecent && (
           <div data-recent-searches className="mt-3 flex flex-wrap gap-2">
-            <span className="text-xs text-stone-500 dark:text-stone-400">Nedavne pretrage:</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">Nedavno traženo</span>
             {recentSearches.map((term) => (
               <button
                 key={term}

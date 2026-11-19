@@ -85,7 +85,7 @@ describe("BookmarksContent", () => {
   it("renders page title Oznaceni ajeti", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     render(<BookmarksContent surahs={mockSurahs} />);
-    expect(screen.getByRole("heading", { name: /označeni ajeti/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /sačuvani ajeti/i })).toBeInTheDocument();
   });
 
   // The static HTML is built without the reader's bookmarks (they are in localStorage): it
@@ -93,7 +93,7 @@ describe("BookmarksContent", () => {
   it("static HTML shows a placeholder, not the empty state", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     const html = renderToString(<BookmarksContent surahs={mockSurahs} />);
-    expect(html).toContain("Označeni ajeti");
+    expect(html).toContain("Sačuvani ajeti");
     expect(html).not.toContain("Nemate označenih ajeta");
     expect(html).toContain('data-testid="bookmarks-placeholder"');
   });
@@ -102,8 +102,11 @@ describe("BookmarksContent", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     render(<BookmarksContent surahs={mockSurahs} />);
     expect(
-      screen.getByText(/nemate označenih ajeta|označite ajete klikom/i)
+      screen.getByText(
+        "Još nema sačuvanih ajeta. Ajet se čuva dodirom na ikonu za čuvanje pored njega.",
+      ),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
   });
 
   it("shows bookmarks grouped by surah when bookmarks exist", () => {
@@ -201,7 +204,7 @@ describe("BookmarksContent", () => {
       await user.click(within(dialog).getByRole("button", { name: "Ukloni" }));
       expect(mockRemoveBookmark).toHaveBeenCalledWith(2, 12);
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-      expect(screen.getByRole("heading", { level: 1, name: "Označeni ajeti" })).toHaveFocus();
+      expect(screen.getByRole("heading", { level: 1, name: "Sačuvani ajeti" })).toHaveFocus();
     });
 
     it("removing the only bookmark focuses the heading of the empty state", async () => {
@@ -231,6 +234,9 @@ describe("BookmarksContent", () => {
   it("has sort/filter options", () => {
     mockGetAllBookmarks.mockReturnValue(mockBookmarks);
     render(<BookmarksContent surahs={mockSurahs} />);
-    expect(screen.getByRole("combobox", { name: /sortiraj po/i })).toBeInTheDocument();
+    const select = screen.getByRole("combobox", { name: "Redoslijed" });
+    expect(select).not.toHaveAttribute("aria-label");
+    expect(within(select).getByRole("option", { name: "Po redu u Kur'anu" })).toBeInTheDocument();
+    expect(within(select).getByRole("option", { name: "Najnovije prvo" })).toBeInTheDocument();
   });
 });

@@ -125,13 +125,13 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             <div className="space-y-4">
               <div>
                 <label id="font-size-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
-                  Veličina arapskog fonta
+                  Veličina arapskih slova
                 </label>
                 <div className="mt-2 flex items-center gap-2">
                   <button
                     type="button"
                     className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-stone-600 hover:bg-stone-50 disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-                    aria-label="Smanji veličinu fonta"
+                    aria-label="Manja slova"
                     disabled={arabicFontSize <= FONT_MIN}
                     onClick={fontDecrease}
                   >
@@ -146,7 +146,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   <button
                     type="button"
                     className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-stone-600 hover:bg-stone-50 disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-                    aria-label="Povećaj veličinu fonta"
+                    aria-label="Veća slova"
                     disabled={arabicFontSize >= FONT_MAX}
                     onClick={fontIncrease}
                   >
@@ -156,7 +156,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               </div>
               <div>
                 <span id="font-style-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
-                  Stil arapskog fonta
+                  Arapsko pismo
                 </span>
                 <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="font-style-label">
                   {(["naskh", "uthmanic"] as const).map((style) => (
@@ -172,12 +172,12 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                         document.documentElement.setAttribute("data-arabic-font", style);
                       }}
                     >
-                      {style === "naskh" ? "Naskh (zaobljen)" : "Scheherazade"}
+                      {style === "naskh" ? "Osnovno" : "Klasično"}
                     </button>
                   ))}
                 </div>
                 <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
-                  Naskh = blago zaobljena slova (kao u mushafu). Scheherazade = tradicionalni kur&apos;anski stil.
+                  Klasično pismo ima tradicionalniji oblik slova; osnovno je jednostavnije.
                 </p>
               </div>
               <ToggleRow
@@ -209,7 +209,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             <div className="space-y-4">
               <div>
                 <span className="block text-sm font-medium text-stone-700 dark:text-stone-300">
-                  Recitator
+                  Učač
                 </span>
                 <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
                   {reciterLabel}
@@ -217,9 +217,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               </div>
               <div>
                 <span className="block text-sm font-medium text-stone-700 dark:text-stone-300">
-                  Brzina reprodukcije
+                  Brzina
                 </span>
-                <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Brzina reprodukcije">
+                <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Brzina">
                   {SPEED_OPTIONS.map((speed) => (
                     <button
                       key={speed}
@@ -239,7 +239,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               <RepeatModeRow repeatMode={repeatMode} onChange={setRepeatMode} />
               <ToggleRow
                 id="autoplay"
-                label="Sljedeća sura automatski"
+                label="Nakon sure pusti sljedeću"
                 checked={autoPlayNext}
                 onChange={toggleAutoPlayNext}
               />
@@ -248,8 +248,8 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   Pauza između ajeta
                 </span>
                 <p className="mb-2 text-xs text-stone-500 dark:text-stone-400">
-                  Koliko čekati nakon svakog ajeta prije nego pređe na sljedeći.
-                  &ldquo;Ručno&rdquo; čeka dok ne klikneš &ldquo;Nastavi&rdquo;.
+                  Koliko se čeka nakon svakog ajeta. Uz &bdquo;Ručno&ldquo; sljedeći ajet počinje tek kad
+                  dodirneš &bdquo;Nastavi&ldquo;.
                 </p>
                 <div className="flex flex-wrap gap-2" role="group" aria-labelledby="pause-after-ayah-label">
                   {PAUSE_OPTIONS.map((opt) => (
@@ -463,11 +463,11 @@ const PRIMARY_BUTTON =
 
 function failureHints(failures: SurahFailure[]): string[] {
   const hints: string[] = [];
-  if (failures.some((f) => f.reason === "network")) hints.push("Provjerite internet vezu.");
+  if (failures.some((f) => f.reason === "network")) hints.push("Možda nema internet veze.");
   const statuses = [...new Set(failures.flatMap((f) => (f.httpStatus ? [f.httpStatus] : [])))];
-  if (statuses.length > 0) hints.push(`Server je vratio grešku (${statuses.join(", ")}).`);
+  if (statuses.length > 0) hints.push(`Server trenutno ne odgovara (greška ${statuses.join(", ")}). Treba pokušati kasnije.`);
   if (failures.some((f) => f.reason === "not-saved")) {
-    hints.push("Preglednik ih nije spremio (možda nema dovoljno prostora).");
+    hints.push("Preglednik ih nije uspio pohraniti; možda na uređaju nema dovoljno prostora.");
   }
   return hints;
 }
@@ -499,23 +499,23 @@ function OfflineSection({ active }: { active: boolean }) {
         id="offline-heading"
         className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400"
       >
-        Offline čitanje
+        Čitanje bez interneta
       </h3>
 
       {status === "unsupported" ? (
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          Ovaj preglednik ne podržava spremanje sura za čitanje bez interneta.
+          Ovaj preglednik ne može preuzeti sure za čitanje bez interneta.
         </p>
       ) : (
         <p className="mb-3 text-sm text-stone-600 dark:text-stone-400">
-          Preuzimanje sprema tekst svih {TOTAL_SURAHS} sura (arapski tekst, prijevod i transliteraciju) za čitanje
-          bez interneta, oko 40 MB. Audio (učenje) nije uključen: za slušanje je uvijek potrebna internet veza.
+          Preuzimanje sprema tekst svih {TOTAL_SURAHS} sura (arapski tekst, transkripciju i prijevod) za čitanje
+          bez interneta, oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet.
         </p>
       )}
 
       {status === "checking" && (
         <p className="text-sm text-stone-500 dark:text-stone-400" role="status">
-          Provjeravam šta je već spremljeno…
+          Provjera preuzetih sura…
         </p>
       )}
 
@@ -523,7 +523,7 @@ function OfflineSection({ active }: { active: boolean }) {
         <div className="space-y-3">
           {availableCount > 0 && availableLine}
           <button type="button" onClick={start} className={PRIMARY_BUTTON}>
-            Preuzmi sve sure za offline
+            Preuzmi sve sure (40 MB)
           </button>
         </div>
       )}
@@ -551,7 +551,7 @@ function OfflineSection({ active }: { active: boolean }) {
             />
           </div>
           <button type="button" onClick={cancel} className={SECONDARY_BUTTON}>
-            Otkaži
+            Prekini preuzimanje
           </button>
         </div>
       )}
@@ -560,7 +560,7 @@ function OfflineSection({ active }: { active: boolean }) {
         <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
             <span aria-hidden>✓</span>
-            Svih {TOTAL_SURAHS} sura je spremljeno za čitanje bez interneta.
+            Svih {TOTAL_SURAHS} sura je preuzeto. Čitanje radi i bez interneta.
           </div>
           <button type="button" onClick={start} className={SECONDARY_BUTTON}>
             Preuzmi ponovo
@@ -571,8 +571,7 @@ function OfflineSection({ active }: { active: boolean }) {
       {status === "error" && error === "not-controlled" && (
         <div className="space-y-3" role="alert">
           <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
-            Ništa nije spremljeno: offline način još nije aktivan na ovoj stranici. Osvježite stranicu i
-            pokušajte ponovo.
+            Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo.
           </div>
           <button type="button" onClick={start} className={PRIMARY_BUTTON}>
             Pokušaj ponovo

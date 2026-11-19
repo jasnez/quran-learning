@@ -193,11 +193,9 @@ export const AyahCard = memo(function AyahCard({
         </span>
         <div className="flex items-center gap-2">
           {showPageBadge && ayah.page > 0 && (
-            <span
-              className="text-xs text-stone-500 dark:text-stone-400"
-              aria-label={`Stranica ${ayah.page}`}
-            >
-              Str. {ayah.page}
+            <span className="text-xs text-stone-500 dark:text-stone-400">
+              <span aria-hidden>Str. {ayah.page}</span>
+              <span className="sr-only">Stranica {ayah.page}</span>
             </span>
           )}
           {isThisAyahPlaying && (

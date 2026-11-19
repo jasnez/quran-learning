@@ -42,17 +42,15 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
           {isCompleted && (
             <span
               className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-              aria-label="Završeno"
             >
               <Check className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+              <span className="sr-only">Završeno</span>
             </span>
           )}
           {isInProgress && (
-            <span
-              className="text-xs tabular-nums text-stone-500 dark:text-stone-400"
-              aria-label={`${percent}% preslušano`}
-            >
+            <span className="text-xs tabular-nums text-stone-500 dark:text-stone-400">
               {percent}%
+              <span className="sr-only"> preslušano</span>
             </span>
           )}
           <span

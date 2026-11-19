@@ -7,7 +7,7 @@ import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
 const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
 
 const ruleDisplayNames: Record<TajwidRule, string> = {
-  normal: "Normalan",
+  normal: "Bez pravila",
   mad: "Mad",
   ghunnah: "Ghunnah",
   ikhfa: "Ikhfa",
@@ -30,7 +30,7 @@ export function TajwidLegend() {
         <span aria-hidden className="text-stone-400 dark:text-stone-500">
           {open ? "▼" : "▶"}
         </span>
-        Legenda tedžvida
+        Šta znače boje
       </button>
       <div
         id="tajwid-legend-panel"
@@ -42,7 +42,7 @@ export function TajwidLegend() {
         }`}
       >
         <p className="px-4 pt-3 text-xs text-stone-500 dark:text-stone-400">
-          Boje se prikazuju kada u podacima ajeta postoje anotacije (mad, ghunnah, ikhfa, qalqalah). Ako ajet nema anotacije, cijeli tekst ostaje uobičajene boje.
+          Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena.
         </p>
         <ul className="space-y-2.5 p-4 list-none" role="list">
           {TAJWID_RULES.map((rule) => (

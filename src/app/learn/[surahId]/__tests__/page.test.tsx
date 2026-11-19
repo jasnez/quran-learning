@@ -288,6 +288,11 @@ describe("Learn Mode page metadata", () => {
     expect(metadata.title).toBe("Učenje: Al-Fatihah | Quran Learning");
   });
 
+  it("describes the page as learning a surah ayah by ayah", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
+    expect(metadata.description).toMatch(/^Učenje sure .+ ajet po ajet$/);
+  });
+
   it("falls back to a Bosnian title for an invalid surah number", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
     expect(metadata.title).toBe("Učenje | Quran Learning");

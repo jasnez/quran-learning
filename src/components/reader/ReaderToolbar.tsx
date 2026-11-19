@@ -140,7 +140,7 @@ export function ReaderToolbar() {
       </div>
 
       {/* Display chips */}
-      <div className="flex items-center gap-1" aria-label="Prikaz">
+      <div className="flex items-center gap-1" role="group" aria-label="Prikaz">
         <ToggleChip
           active={showTransliteration}
           onClick={toggleTransliteration}

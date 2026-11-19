@@ -88,7 +88,7 @@ export function AyahWordByWord({
         <TajwidTextRenderer segments={segments} showColors={showColors} className={className} style={style} />
         {verse && (
           <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">
-            Označavanje riječi nije dostupno za ovaj ajet.
+            Za ovaj ajet nema praćenja riječ po riječ.
           </p>
         )}
       </>

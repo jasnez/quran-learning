@@ -9,7 +9,7 @@ type SearchInputProps = {
 export function SearchInput({
   value,
   onChange,
-  placeholder = "Pretraži po broju ili nazivu...",
+  placeholder = "Broj ili naziv sure",
 }: SearchInputProps) {
   return (
     <div className="sticky top-[var(--app-header-offset)] z-10 -mx-4 bg-[#faf9f7] px-4 pb-3 transition-[top] duration-200 dark:bg-stone-950 md:static md:mx-0 md:bg-transparent md:p-0">

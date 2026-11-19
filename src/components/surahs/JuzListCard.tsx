@@ -53,8 +53,9 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {progress.percent >= 1 && (
-            <span className="text-xs text-stone-500 dark:text-stone-400" aria-label={`${progress.percent}% preslušano`}>
+            <span className="text-xs text-stone-500 dark:text-stone-400">
               {progress.percent}%
+              <span className="sr-only"> preslušano</span>
             </span>
           )}
           <span className="text-right text-lg font-medium text-stone-700 dark:text-stone-300" dir="rtl" lang="ar">

@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import SurahReaderPage, { generateMetadata } from "../page";
 import { usePlayerStore } from "@/store/playerStore";
 import type { SurahDetail, Ayah } from "@/types/quran";
@@ -298,15 +298,26 @@ describe("Surah Reader page", () => {
   it("has link to learning mode for this surah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    const learnLink = screen.getByRole("link", { name: "Uči ajet po ajet" });
     expect(learnLink).toHaveAttribute("href", "/learn/1");
   });
 
   it("has link to learning mode for surah 2 pointing to /learn/2", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     render(Page);
-    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    const learnLink = screen.getByRole("link", { name: "Uči ajet po ajet" });
     expect(learnLink).toHaveAttribute("href", "/learn/2");
+  });
+
+  it("names the surah navigation links in words, without arrows", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    expect(within(nav).getByRole("link", { name: "Prethodna sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
+    expect(within(nav).getByRole("link", { name: "Sljedeća sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
+    expect(within(nav).getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
+    expect(nav.textContent).not.toMatch(/[←→]/);
+    expect(container.textContent).not.toContain("Pregled sura");
   });
 
   it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {

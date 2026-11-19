@@ -112,9 +112,9 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
           <SearchInput value={query} onChange={setQuery} />
           {isEmptySearch ? (
             <div className="py-12 text-center" role="status">
-              <p className="font-medium text-stone-700 dark:text-stone-300">Nije pronađeno</p>
+              <p className="font-medium text-stone-700 dark:text-stone-300">Nema takve sure</p>
               <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
-                Pokušajte ponovo s drugim pojmom ili provjerite pravopis.
+                Traži se po broju od 1 do 114 ili po dijelu naziva, npr. jasin.
               </p>
             </div>
           ) : (

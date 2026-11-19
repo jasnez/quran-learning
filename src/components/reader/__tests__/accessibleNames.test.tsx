@@ -137,7 +137,24 @@ describe("AyahCard names", () => {
   });
 });
 
+describe("AyahCard page badge", () => {
+  it("shows Str. N visibly and says Stranica N to screen readers, without aria-label", () => {
+    const a = { ...ayah("1:5"), page: 3 };
+    const { container } = render(<AyahCard {...props(a, { showPageBadge: true })} />);
+    const visible = screen.getByText("Str. 3");
+    expect(visible).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByText("Stranica 3")).toHaveClass("sr-only");
+    expect(container.querySelector("[aria-label^='Stranica']")).toBeNull();
+  });
+});
+
 describe("ReaderToolbar names", () => {
+  it("the display chips are a group named Prikaz", () => {
+    render(<ReaderToolbar />);
+    const group = screen.getByRole("group", { name: "Prikaz" });
+    expect(within(group).getByRole("button", { name: "Prijevod" })).toBeInTheDocument();
+  });
+
   it("visible text is the name; toggles have aria-pressed and no aria-label", () => {
     render(<ReaderToolbar />);
     expect(screen.getByRole("button", { name: "Manja slova" })).toBeInTheDocument();

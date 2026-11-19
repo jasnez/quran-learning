@@ -14,7 +14,7 @@ export function VirtualSurahList({ surahs }: Props) {
     <ul
       className="grid gap-3 sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3"
       role="list"
-      aria-label="Lista sura"
+      aria-label="Sve sure"
     >
       {surahs.map((surah) => (
         <li key={surah.id}>

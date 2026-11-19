@@ -151,32 +151,36 @@ describe("SettingsPanel", () => {
 
   it("has Display Settings section with font size control", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText(/display|prikaz|font size|veličina fonta/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /decrease|smanji|minus|-/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /increase|povećaj|plus|\+/i })).toBeInTheDocument();
+    expect(screen.getByText("Prikaz")).toBeInTheDocument();
+    expect(screen.getByText("Veličina arapskih slova")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Manja slova" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Veća slova" })).toBeInTheDocument();
   });
 
-  it("has Arabic font style options (Naskh, Scheherazade)", () => {
+  it("has Arabic script options (Osnovno, Klasično)", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText(/stil arapskog fonta/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /naskh.*zaobljen/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /scheherazade/i })).toBeInTheDocument();
+    expect(screen.getByText("Arapsko pismo")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Osnovno" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Klasično" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Klasično pismo ima tradicionalniji oblik slova; osnovno je jednostavnije."),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/uthmanic/i)).toBeNull();
   });
 
-  it("clicking Scheherazade calls setArabicFontStyle with \"uthmanic\" (saved key unchanged)", async () => {
+  it("clicking Klasično calls setArabicFontStyle with \"uthmanic\" (saved key unchanged)", async () => {
     const user = userEvent.setup();
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const uthmanicBtn = screen.getByRole("button", { name: /scheherazade/i });
+    const uthmanicBtn = screen.getByRole("button", { name: "Klasično" });
     await user.click(uthmanicBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("uthmanic");
   });
 
-  it("clicking Naskh (zaobljen) calls setArabicFontStyle with \"naskh\"", async () => {
+  it("clicking Osnovno calls setArabicFontStyle with \"naskh\"", async () => {
     const user = userEvent.setup();
     defaultStore.arabicFontStyle = "uthmanic";
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const naskhBtn = screen.getByRole("button", { name: /naskh.*zaobljen/i });
+    const naskhBtn = screen.getByRole("button", { name: "Osnovno" });
     await user.click(naskhBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("naskh");
   });
@@ -201,7 +205,7 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByRole("heading", { name: /zvuk/i })).toBeInTheDocument();
     expect(screen.getByText(/Mishary Alafasy/i)).toBeInTheDocument();
-    expect(screen.getByText(/brzina reprodukcije/i)).toBeInTheDocument();
+    expect(screen.getByText("Brzina")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "1,5×" })).toBeInTheDocument();
   });
 
@@ -210,7 +214,7 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("group", { name: /ponavljanje/i })).toBeInTheDocument();
     // QA P2-8: the switch turns on going on to the next surah (ayahs always follow each
     // other), so it is named like the player's own toggle.
-    expect(screen.getByRole("switch", { name: "Sljedeća sura automatski" })).toBeInTheDocument();
+    expect(screen.getByRole("switch", { name: "Nakon sure pusti sljedeću" })).toBeInTheDocument();
     expect(screen.queryByRole("switch", { name: /sljedeći ajet/i })).not.toBeInTheDocument();
   });
 
@@ -281,14 +285,14 @@ describe("SettingsPanel", () => {
 
   it("font size decrease button calls setArabicFontSize with smaller value", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const decrease = screen.getByRole("button", { name: /decrease|smanji|minus|-/i });
+    const decrease = screen.getByRole("button", { name: "Manja slova" });
     await userEvent.click(decrease);
     expect(mockSetArabicFontSize).toHaveBeenCalledWith(24);
   });
 
   it("font size increase button calls setArabicFontSize with larger value", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const increase = screen.getByRole("button", { name: /increase|povećaj|plus|\+/i });
+    const increase = screen.getByRole("button", { name: "Veća slova" });
     await userEvent.click(increase);
     expect(mockSetArabicFontSize).toHaveBeenCalledWith(32);
   });
@@ -300,7 +304,7 @@ describe("SettingsPanel", () => {
       s(defaultStore as unknown as ReturnType<typeof useSettingsStore.getState>)
     );
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const decrease = screen.getByRole("button", { name: /decrease|smanji|minus|-/i });
+    const decrease = screen.getByRole("button", { name: "Manja slova" });
     expect(decrease).toBeDisabled();
   });
 
@@ -311,7 +315,7 @@ describe("SettingsPanel", () => {
       s(defaultStore as unknown as ReturnType<typeof useSettingsStore.getState>)
     );
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const increase = screen.getByRole("button", { name: /increase|povećaj|plus|\+/i });
+    const increase = screen.getByRole("button", { name: "Veća slova" });
     expect(increase).toBeDisabled();
   });
 
@@ -357,7 +361,7 @@ describe("SettingsPanel", () => {
 
   it("writes speeds with a decimal comma and the multiplication sign", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const group = within(screen.getByRole("group", { name: "Brzina reprodukcije" }));
+    const group = within(screen.getByRole("group", { name: "Brzina" }));
     for (const name of ["0,5×", "0,75×", "1×", "1,25×", "1,5×"]) {
       expect(group.getByRole("button", { name })).toHaveTextContent(name);
     }
@@ -380,7 +384,7 @@ describe("SettingsPanel", () => {
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: "Sljedeća sura automatski" });
+    const toggle = screen.getByRole("switch", { name: "Nakon sure pusti sljedeću" });
     await userEvent.click(toggle);
     expect(mockToggleAutoPlayNext).toHaveBeenCalled();
   });
@@ -389,12 +393,15 @@ describe("SettingsPanel", () => {
 describe("SettingsPanel offline download", () => {
   function offlineRegion() {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    return within(screen.getByRole("region", { name: /offline čitanje/i }));
+    return within(screen.getByRole("region", { name: "Čitanje bez interneta" }));
   }
 
   it("says plainly that the download is text only and audio needs the internet", () => {
     const region = offlineRegion();
-    expect(region.getByText(/audio.*nije uključen/i)).toBeInTheDocument();
+    expect(
+      region.getByText(/Snimci učača nisu uključeni: za slušanje treba internet\./),
+    ).toBeInTheDocument();
+    expect(region.getByText(/arapski tekst, transkripciju i prijevod/)).toBeInTheDocument();
   });
 
   it("shows how many surahs are already saved after a reload", () => {
@@ -407,7 +414,7 @@ describe("SettingsPanel offline download", () => {
     offline.state.status = "done";
     offline.state.availableCount = 114;
     const region = offlineRegion();
-    expect(region.getByText(/svih 114 sura je spremljeno/i)).toBeInTheDocument();
+    expect(region.getByText("Svih 114 sura je preuzeto. Čitanje radi i bez interneta.")).toBeInTheDocument();
   });
 
   it("names the surahs that failed and retries only those", async () => {
@@ -424,6 +431,34 @@ describe("SettingsPanel offline download", () => {
     await userEvent.click(region.getByRole("button", { name: /pokušaj ponovo/i }));
     expect(offline.retry).toHaveBeenCalled();
     expect(offline.start).not.toHaveBeenCalled();
+  });
+
+  it("gives each failure a plain hint on what happened and what to do", () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.failures = [
+      { surah: 5, reason: "network" },
+      { surah: 17, reason: "http", httpStatus: 503 },
+      { surah: 20, reason: "not-saved" },
+    ];
+    const region = offlineRegion();
+    expect(region.getByText("Možda nema internet veze.")).toBeInTheDocument();
+    expect(region.getByText("Server trenutno ne odgovara (greška 503). Treba pokušati kasnije.")).toBeInTheDocument();
+    expect(
+      region.getByText("Preglednik ih nije uspio pohraniti; možda na uređaju nema dovoljno prostora."),
+    ).toBeInTheDocument();
+  });
+
+  it("names the buttons by what they do", () => {
+    offline.state.status = "idle";
+    expect(offlineRegion().getByRole("button", { name: "Preuzmi sve sure (40 MB)" })).toBeInTheDocument();
+    cleanup();
+    offline.state.status = "downloading";
+    offline.state.total = 114;
+    expect(offlineRegion().getByRole("button", { name: "Prekini preuzimanje" })).toBeInTheDocument();
+    cleanup();
+    offline.state.status = "checking";
+    expect(offlineRegion().getByText("Provjera preuzetih sura…")).toBeInTheDocument();
   });
 
   it("reports static files that were not saved", () => {
@@ -473,14 +508,17 @@ describe("SettingsPanel offline download", () => {
     offline.state.status = "error";
     offline.state.error = "not-controlled";
     const region = offlineRegion();
-    expect(region.getByText(/ništa nije spremljeno/i)).toBeInTheDocument();
-    expect(region.getByText(/osvježite stranicu/i)).toBeInTheDocument();
+    expect(
+      region.getByText(
+        "Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("says when the browser cannot save pages for offline use", () => {
     offline.state.status = "unsupported";
     const region = offlineRegion();
-    expect(region.getByText(/ne podržava/i)).toBeInTheDocument();
+    expect(region.getByText(/ne može preuzeti sure/)).toBeInTheDocument();
     expect(region.queryByRole("button", { name: /preuzmi/i })).toBeNull();
   });
 });

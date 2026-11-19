@@ -92,10 +92,10 @@ describe("Progress page", () => {
     expect(screen.getAllByText(/^\d+ od 6\.236 ajeta$/).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("has filter buttons: Sve, Započete, Završene, Nepočete", async () => {
+  it("has filter buttons: Sve, Započete, Završene, Nezapočete", async () => {
     const Page = await ProgressPage();
     render(Page);
-    const filterLabels = ["Sve", "Započete", "Završene", "Nepočete"];
+    const filterLabels = ["Sve", "Započete", "Završene", "Nezapočete"];
     for (const label of filterLabels) {
       const buttons = screen.getAllByRole("button", { name: new RegExp(label, "i") });
       expect(buttons.length).toBeGreaterThanOrEqual(1);
@@ -106,12 +106,12 @@ describe("Progress page", () => {
   it("has sort select with options", async () => {
     const Page = await ProgressPage();
     render(Page);
-    const comboboxes = screen.getAllByRole("combobox", { name: /sortiraj po/i });
+    const comboboxes = screen.getAllByRole("combobox", { name: "Redoslijed" });
     expect(comboboxes.length).toBeGreaterThanOrEqual(1);
-    expect(comboboxes[0]).toBeInTheDocument();
-    expect(screen.getAllByRole("option", { name: /redoslijed sura/i }).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByRole("option", { name: /po napretku/i }).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByRole("option", { name: /zadnji pristup/i }).length).toBeGreaterThanOrEqual(1);
+    expect(comboboxes[0]).not.toHaveAttribute("aria-label");
+    expect(screen.getAllByRole("option", { name: "Po redu u Kur'anu" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("option", { name: "Po napretku" }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("option", { name: "Nedavno otvorene" }).length).toBeGreaterThanOrEqual(1);
   });
 
   it("lists surahs with links to reader", async () => {

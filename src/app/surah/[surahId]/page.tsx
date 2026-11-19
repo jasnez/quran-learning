@@ -85,15 +85,14 @@ export default async function SurahReaderPage({ params }: PageProps) {
               href={`/surah/${prevSurah.surahNumber}`}
               className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
             >
-              <span aria-hidden>←</span>
-              <span>Prethodna: {prevSurah.nameLatin}</span>
+              Prethodna sura: {prevSurah.nameLatin}
             </Link>
           ) : (
             <Link
               href="/surahs"
               className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
             >
-              Pregled sura
+              Sve sure
             </Link>
           )}
         </div>
@@ -104,7 +103,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
             prefetch={false}
             className="rounded-full border-2 border-emerald-600 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
           >
-            Režim učenja
+            Uči ajet po ajet
           </Link>
           <Link
             href="/surahs"
@@ -117,8 +116,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
               href={`/surah/${nextSurah.surahNumber}`}
               className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
             >
-              <span>Sljedeća: {nextSurah.nameLatin}</span>
-              <span aria-hidden>→</span>
+              Sljedeća sura: {nextSurah.nameLatin}
             </Link>
           )}
         </div>
