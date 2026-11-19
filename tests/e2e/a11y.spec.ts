@@ -60,8 +60,12 @@ type AllowEntry = {
   rule: string;
   route: string;
   theme: Theme;
-  /** Exact axe targets, as reported for the node (same at both widths). */
-  targets: string[];
+  /**
+   * Exact axe targets, as reported for the node (same at both widths). An inner array lists the
+   * forms axe reports for ONE node on different platforms (its selector heuristic can differ
+   * between Windows and the Linux CI runner); any one of them counts as that node.
+   */
+  targets: (string | string[])[];
   reason: string;
   phase: string;
 };
@@ -92,7 +96,12 @@ const ALLOWLIST: AllowEntry[] = [
     theme: "sepia",
     targets: [
       String.raw`a[target="_blank"]`,
-      String.raw`.mt-3.max-w-\[65ch\]:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
+      [
+        // Windows
+        String.raw`.mt-3.max-w-\[65ch\]:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
+        // Linux (CI)
+        String.raw`.mt-3.max-w-\[65ch\].leading-relaxed:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
+      ],
     ],
     reason: SEPIA_LINK,
     phase: PHASE_2,
@@ -167,8 +176,15 @@ const covered = new Set<string>();
 function isAllowed(f: Finding): boolean {
   return ALLOWLIST.some(
     (e) =>
-      e.rule === f.rule && e.route === f.route && e.theme === f.theme && e.targets.includes(f.target),
+      e.rule === f.rule &&
+      e.route === f.route &&
+      e.theme === f.theme &&
+      e.targets.some((t) => forms(t).includes(f.target)),
   );
+}
+
+function forms(target: string | string[]): string[] {
+  return typeof target === "string" ? [target] : target;
 }
 
 function format(f: Finding): string {
@@ -236,9 +252,11 @@ test("every allowlisted target still occurs", () => {
             f.route === e.route &&
             f.theme === e.theme &&
             f.viewport === vp.name &&
-            f.target === target,
+            forms(target).includes(f.target),
         );
-        if (!hit) stale.push(`  ${e.rule} ${e.route} [${e.theme}, ${vp.name}px] ${target} (${e.phase})`);
+        if (!hit) {
+          stale.push(`  ${e.rule} ${e.route} [${e.theme}, ${vp.name}px] ${forms(target).join(" | ")} (${e.phase})`);
+        }
       }
     }
   }
