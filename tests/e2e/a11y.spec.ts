@@ -122,7 +122,12 @@ const ALLOWLIST: AllowEntry[] = [
     theme: "sepia",
     targets: [
       `section:nth-child(1) > .mt-1 > a[href$="quran.com"][target="_blank"][rel="noopener noreferrer"]`,
-      `.mt-2.leading-relaxed > .underline[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`,
+      [
+        // Windows
+        `.mt-2.leading-relaxed > .underline[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`,
+        // Linux (CI): same node, classes in another order
+        `.leading-relaxed.mt-2 > .underline[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`,
+      ],
       `.underline[target="_blank"][rel="noopener noreferrer"]:nth-child(2)`,
       `a[href$="tanzil.net"]`,
       `a[href$="harfovi"]`,
