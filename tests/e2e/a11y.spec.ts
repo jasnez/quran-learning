@@ -77,7 +77,8 @@ const DARK_NOTE = "Muted note (stone-500 #79716b) is 3.94:1 on #111111 (needs 4.
 const PHASE_2 = "Phase 2: tokens";
 const LEARN_PILL =
   "Inactive learn-mode pill (no previous surah) in stone-400 / dark stone-500; the WCAG audit's learn-mode disabled text.";
-const LEARN_PILL_TARGET = String.raw`.dark\:text-stone-500.border-stone-200.text-stone-400`;
+// axe names the pill by its shortest unique selector, which changes as other classes change.
+const LEARN_PILL_TARGET = ".border-stone-200";
 
 const ALLOWLIST: AllowEntry[] = [
   ...THEMES.map(
@@ -101,6 +102,8 @@ const ALLOWLIST: AllowEntry[] = [
         String.raw`.mt-3.max-w-\[65ch\]:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
         // Linux (CI)
         String.raw`.mt-3.max-w-\[65ch\].leading-relaxed:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
+        // After the shared controls moved to the Tezhib tokens (Phase 2, PR 2.2)
+        String.raw`.mt-3.max-w-\[65ch\].text-stone-600:nth-child(10) > .text-\[var\(--theme-accent\)\].underline.hover\:no-underline`,
       ],
     ],
     reason: SEPIA_LINK,
@@ -143,7 +146,8 @@ const ALLOWLIST: AllowEntry[] = [
     rule: "color-contrast",
     route: "/about",
     theme: "dark",
-    targets: [".italic"],
+    // One node; its selector changed when the shared controls moved to the tokens (PR 2.2).
+    targets: [[".italic", String.raw`.border-\[var\(--theme-border\)\]`]],
     reason: DARK_NOTE,
     phase: PHASE_2,
   },
@@ -151,7 +155,8 @@ const ALLOWLIST: AllowEntry[] = [
     rule: "color-contrast",
     route: "/sources",
     theme: "dark",
-    targets: [".italic"],
+    // One node; its selector changed when the shared controls moved to the tokens (PR 2.2).
+    targets: [[".italic", String.raw`.border-\[var\(--theme-border\)\]`]],
     reason: DARK_NOTE,
     phase: PHASE_2,
   },
@@ -159,7 +164,7 @@ const ALLOWLIST: AllowEntry[] = [
     rule: "color-contrast",
     route: "/contact",
     theme: "dark",
-    targets: [String.raw`.dark\:text-stone-500`],
+    targets: [[String.raw`.dark\:text-stone-500`, ".text-stone-500"]],
     reason: DARK_NOTE,
     phase: PHASE_2,
   },

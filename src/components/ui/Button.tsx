@@ -24,11 +24,11 @@ const sizeClass: Record<ButtonSize, string> = {
 
 const variantClass: Record<ButtonVariant, string> = {
   primary:
-    "bg-emerald-700 text-white hover:bg-emerald-800",
+    "bg-accent text-on-accent hover:bg-accent-hover",
   secondary:
-    "border border-stone-300 bg-transparent text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-200 dark:hover:bg-stone-800",
+    "border border-line-strong bg-transparent text-ink hover:bg-surface-sunken",
   ghost:
-    "text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800",
+    "text-ink hover:bg-surface-sunken",
 };
 
 const shapeClass: Record<ButtonShape, string> = {
@@ -44,7 +44,7 @@ function buildClassName({
 }: BaseProps & { className?: string }) {
   return [
     "inline-flex items-center justify-center gap-2 font-medium transition-colors",
-    "focus:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text",
     "disabled:opacity-50 disabled:pointer-events-none",
     sizeClass[size],
     variantClass[variant],
