@@ -19,7 +19,7 @@ const ICON_BTN =
   "flex h-9 items-center justify-center rounded-md px-2.5 text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text";
 
 const ICON_BTN_DISABLED =
-  "flex h-9 items-center justify-center rounded-md px-2.5 text-ink-muted cursor-not-allowed";
+  "flex h-9 items-center justify-center rounded-md px-2.5 text-ink-muted opacity-40 cursor-not-allowed";
 
 export function ReaderToolbar() {
   const arabicFontSize = useSettingsStore((s) => s.arabicFontSize);
@@ -87,7 +87,7 @@ export function ReaderToolbar() {
           aria-pressed={arabicFontStyle === "naskh"}
           className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             arabicFontStyle === "naskh"
-              ? "bg-surface-sunken text-ink"
+              ? "bg-accent-wash text-accent-text"
               : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
@@ -99,7 +99,7 @@ export function ReaderToolbar() {
           aria-pressed={arabicFontStyle === "uthmanic"}
           className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             arabicFontStyle === "uthmanic"
-              ? "bg-surface-sunken text-ink"
+              ? "bg-accent-wash text-accent-text"
               : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
@@ -119,7 +119,7 @@ export function ReaderToolbar() {
           aria-pressed={!wordByWordMode}
           className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             !wordByWordMode
-              ? "bg-surface-sunken text-ink"
+              ? "bg-accent-wash text-accent-text"
               : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >
@@ -131,7 +131,7 @@ export function ReaderToolbar() {
           aria-pressed={wordByWordMode}
           className={`flex h-9 items-center justify-center rounded px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
             wordByWordMode
-              ? "bg-surface-sunken text-ink"
+              ? "bg-accent-wash text-accent-text"
               : "text-ink-muted hover:bg-surface-sunken"
           }`}
         >

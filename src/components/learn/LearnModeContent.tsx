@@ -203,7 +203,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             {nextSurah ? (
               <Link
                 href={`/learn/${nextSurah.surahNumber}`}
-                className="inline-flex items-center gap-1 rounded-full border border-accent-text bg-accent-wash px-3 py-1.5 font-medium text-accent-text hover:bg-accent-wash"
+                className="inline-flex items-center gap-1 rounded-full border border-accent-text bg-accent-wash px-3 py-1.5 font-medium text-accent-text hover:bg-line"
               >
                 <span>Sljedeća sura: {nextSurah.nameLatin}</span>
               </Link>
@@ -352,7 +352,7 @@ const optionToggleBase =
 const optionToggleInactive =
   "text-ink-muted hover:bg-surface-sunken";
 const optionToggleActive =
-  "bg-accent-wash text-accent-text hover:bg-accent-wash";
+  "bg-accent-wash text-accent-text hover:bg-line";
 
 function OptionToggle({
   active,

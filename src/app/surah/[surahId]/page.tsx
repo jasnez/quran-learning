@@ -93,7 +93,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
           <Link
             href={`/learn/${surahNumber}`}
             prefetch={false}
-            className="rounded-full border-2 border-accent-text bg-accent-wash px-3 py-1.5 text-sm font-medium text-accent-text hover:bg-accent-wash"
+            className="rounded-full border-2 border-accent-text bg-accent-wash px-3 py-1.5 text-sm font-medium text-accent-text hover:bg-line"
           >
             Uči ajet po ajet
           </Link>
