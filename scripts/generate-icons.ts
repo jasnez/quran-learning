@@ -29,11 +29,11 @@ type Variant = {
 };
 
 const VARIANTS: Variant[] = [
-  { file: "public/icons/icon-192.png", size: 192, fullBleed: false, scale: 1 },
-  { file: "public/icons/icon-512.png", size: 512, fullBleed: false, scale: 1 },
+  { file: "public/icons/icon-elif-192.png", size: 192, fullBleed: false, scale: 1 },
+  { file: "public/icons/icon-elif-512.png", size: 512, fullBleed: false, scale: 1 },
   // A launcher crops a maskable icon to its own shape; only a centred circle 80 % wide is sure to
   // stay visible, so the mark (whose rosette nearly touches its edges) is drawn at 80 %.
-  { file: "public/icons/icon-maskable-512.png", size: 512, fullBleed: true, scale: 0.8 },
+  { file: "public/icons/icon-elif-maskable-512.png", size: 512, fullBleed: true, scale: 0.8 },
   // iOS rounds the corners itself and shows transparent pixels as black.
   { file: "src/app/apple-icon.png", size: 180, fullBleed: true, scale: 1 },
 ];

@@ -46,12 +46,14 @@ describe("manifest and icons", () => {
     expect(manifest.background_color).toBe("#F7F4ED");
   });
 
+  // The service worker serves /icons/* cache-first and never prunes them, so the new icons have
+  // new file names: an installed app cannot get the old qaf icon back from its cache.
   it("has the 192, 512 and maskable 512 icons at their stated pixel sizes, and the iOS icon", () => {
     const icons = manifest.icons.map((i) => `${i.src} ${i.sizes} ${i.purpose}`);
     expect(icons).toEqual([
-      "/icons/icon-192.png 192x192 any",
-      "/icons/icon-512.png 512x512 any",
-      "/icons/icon-maskable-512.png 512x512 maskable",
+      "/icons/icon-elif-192.png 192x192 any",
+      "/icons/icon-elif-512.png 512x512 any",
+      "/icons/icon-elif-maskable-512.png 512x512 maskable",
     ]);
     for (const icon of manifest.icons) {
       const [w, h] = pngSize(path.join("public", icon.src));
