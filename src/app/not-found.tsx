@@ -11,22 +11,22 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
-      <h1 className="text-3xl font-semibold text-stone-900 dark:text-stone-100">
+      <h1 className="text-3xl font-semibold text-ink">
         Ova stranica ne postoji
       </h1>
-      <p className="mt-3 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
+      <p className="mt-3 max-w-md text-center text-sm text-ink-muted">
         Možda je adresa pogrešno upisana ili je stranica premještena.
       </p>
       <div className="mt-8 flex gap-3">
         <Link
           href="/"
-          className="rounded-full bg-emerald-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-800"
+          className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-on-accent hover:bg-accent-hover"
         >
           Na početnu
         </Link>
         <Link
           href="/surahs"
-          className="rounded-full border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
+          className="rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-ink hover:bg-surface-sunken"
         >
           Sve sure
         </Link>

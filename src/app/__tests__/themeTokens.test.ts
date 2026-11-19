@@ -117,6 +117,20 @@ describe("Tezhib tokens", () => {
     expect(failures).toEqual([]);
   });
 
+  it("has retired the old palette: no --theme-* variables, page background and text are tokens", () => {
+    expect(CSS).not.toMatch(/--theme-[\w-]+\s*:/);
+    for (const theme of THEMES) {
+      const vars = themeVars(theme);
+      expect(vars.background, theme).toBe("var(--paper)");
+      expect(vars.foreground, theme).toBe("var(--ink)");
+    }
+    const sepia = themeVars("sepia");
+    expect(sepia["color-stone-500"]).toBeUndefined();
+    // Phase 3 removes this override together with the amber qalqalah class in tajwidStyles.ts.
+    expect(sepia["color-amber-600"]).toBeDefined();
+    expect(contrastRatio(sepia["color-amber-700"], sepia.surface)).toBeGreaterThanOrEqual(4.5);
+  });
+
   it("maps every color token and the radii into Tailwind's theme", () => {
     const theme = themeInline();
     for (const token of [...Object.keys(EXPECTED), "overlay"]) {

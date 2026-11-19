@@ -16,11 +16,11 @@ export default async function SurahsPage() {
 
   return (
     <article className="mx-auto max-w-7xl">
-      <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl">
+      <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
         Sve sure
       </h1>
       <div className="mt-8">
-        <Suspense fallback={<div className="h-32 animate-pulse rounded-xl bg-stone-100 dark:bg-stone-800" />}>
+        <Suspense fallback={<div className="h-32 animate-pulse rounded-xl bg-surface-sunken" />}>
           <SurahsPageContent surahs={surahs} juzList={juzList} />
         </Suspense>
       </div>

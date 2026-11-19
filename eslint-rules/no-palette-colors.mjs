@@ -10,7 +10,10 @@ const UTILITY =
   "(?:bg|text|border|ring|outline|fill|stroke|from|to|via|divide|decoration|placeholder|shadow|accent|caret)";
 const PALETTE =
   "(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)";
-const PALETTE_CLASS = new RegExp(`^(?:[\\w-]+:)*${UTILITY}-(?:white|black|${PALETTE}-\\d{2,3})(?:/\\d+)?$`);
+// Variant prefixes, including arbitrary ones with colons inside brackets: hover:, [&_mark]:,
+// has-[:checked]:.
+const VARIANTS = "(?:(?:\\[[^\\]]*\\]|[^\\s:\\[])+:)*";
+const PALETTE_CLASS = new RegExp(`^${VARIANTS}${UTILITY}-(?:white|black|${PALETTE}-\\d{2,3})(?:/\\d+)?$`);
 const DARK_VARIANT = /(?:^|:)dark:/;
 const OLD_THEME_VAR = "var(--theme-";
 

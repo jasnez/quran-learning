@@ -34,15 +34,15 @@ export default async function CategoryDuasPage({ params }: PageProps) {
         <p className="mb-2">
           <Link
             href="/duas"
-            className="text-sm font-medium text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+            className="text-sm font-medium text-ink-muted hover:text-ink"
           >
             Sve dove iz Kur&apos;ana
           </Link>
         </p>
-        <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">
+        <h1 className="mb-2 text-2xl font-semibold text-ink md:text-3xl">
           {CATEGORY_LABELS[cat]}
         </h1>
-        <p className="mb-8 text-stone-500 dark:text-stone-400">
+        <p className="mb-8 text-ink-muted">
           Dove iz Kur&apos;ana na ovu temu, uz tačno mjesto u Kur&apos;anu
         </p>
         <DuasPageContent category={cat} />

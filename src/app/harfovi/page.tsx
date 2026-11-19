@@ -8,15 +8,15 @@ export const metadata: Metadata = {
     "Tabela arapskih harfova: kako se pišu u transkripciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
 };
 
-const LINK = "text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400";
-const H2 = "mt-10 text-lg font-medium text-[var(--theme-text)]";
+const LINK = "text-accent-text underline hover:no-underline";
+const H2 = "mt-10 text-lg font-medium text-ink";
 
 export default function LettersPage() {
   return (
     <div className="min-h-screen px-4 pb-24 pt-16 md:py-12">
       <article className="mx-auto max-w-4xl">
-        <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">Harfovi i izgovor</h1>
-        <p className="max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
+        <h1 className="mb-2 text-2xl font-semibold text-ink md:text-3xl">Harfovi i izgovor</h1>
+        <p className="max-w-[65ch] leading-relaxed text-ink-muted">
           Transkripcija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
           &bdquo;specijal&ldquo; i preporučuju za učenje kur&apos;anskog teksta. Tabela pokazuje kako se svaki harf piše
           u tom sistemu, kako u druga dva sistema iz istih Pravila, i kako se izgovara.
@@ -97,7 +97,7 @@ export default function LettersPage() {
         </div>
 
         <h2 className={H2}>Kako čitati transkripciju</h2>
-        <ul className="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 leading-relaxed text-stone-600 dark:text-stone-400">
+        <ul className="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 leading-relaxed text-ink-muted">
           <li>
             <strong>Dugi vokali</strong> imaju crticu iznad slova (ā, ī, ū) i izgovaraju se dvostruko duže od kratkih.
           </li>
@@ -126,7 +126,7 @@ export default function LettersPage() {
         </ul>
 
         <h2 className={H2}>Izvor</h2>
-        <p className="mt-3 max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
+        <p className="mt-3 max-w-[65ch] leading-relaxed text-ink-muted">
           Znakovi u tabeli preuzeti su iz dokumenta{" "}
           <a href={LETTER_RULES_SOURCE.url} target="_blank" rel="noopener noreferrer" className={LINK}>
             {LETTER_RULES_SOURCE.title}
@@ -134,7 +134,7 @@ export default function LettersPage() {
           ({LETTER_RULES_SOURCE.publisher}). Nazivi harfova i opisi izgovora su objašnjenja ove aplikacije i nisu dio
           Pravila.
         </p>
-        <p className="mt-3 max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
+        <p className="mt-3 max-w-[65ch] leading-relaxed text-ink-muted">
           Transkripcija je napravljena iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
           između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Greške se prijavljuju na stranici{" "}
           <Link href="/contact" className={LINK}>

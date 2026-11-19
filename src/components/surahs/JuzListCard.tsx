@@ -29,45 +29,45 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
     <Link
       href={`/juz/${juz.juz}`}
       prefetch={false}
-      className="group flex min-h-[4rem] flex-col rounded-xl border border-amber-200/80 bg-white transition-colors hover:bg-amber-50/80 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-amber-800/50 dark:bg-stone-900/50 dark:hover:bg-amber-950/30"
+      className="group flex min-h-[4rem] flex-col rounded-xl border border-line bg-surface transition-colors hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
     >
       <div className="flex min-h-[4rem] items-center gap-4 px-4 py-4">
         <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-sm font-medium text-amber-800 dark:bg-amber-900/50 dark:text-amber-200"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-sunken text-sm font-medium text-ink"
           aria-hidden
         >
           {juz.juz}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="font-medium text-stone-900 dark:text-stone-100">
+          <p className="font-medium text-ink">
             Džuz {juz.juz} · {juz.name}
           </p>
-          <p className="text-sm text-stone-500 dark:text-stone-400" dir="rtl" lang="ar">
+          <p className="text-sm text-ink-muted" dir="rtl" lang="ar">
             {juz.nameArabic}
           </p>
-          <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
+          <p className="mt-0.5 text-xs text-ink-muted">
             {rangeLabel}
           </p>
-          <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
+          <p className="mt-0.5 text-xs text-ink-muted">
             {formatCount(surahCount, SURAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {progress.percent >= 1 && (
-            <span className="text-xs text-stone-500 dark:text-stone-400">
+            <span className="text-xs text-ink-muted">
               {progress.percent}%
               <span className="sr-only"> preslušano</span>
             </span>
           )}
-          <span className="text-right text-lg font-medium text-stone-700 dark:text-stone-300" dir="rtl" lang="ar">
+          <span className="text-right text-lg font-medium text-ink" dir="rtl" lang="ar">
             {juz.nameArabic}
           </span>
         </div>
       </div>
       {progress.percent >= 1 && progress.percent < 100 && (
-        <div className="h-0.5 overflow-hidden rounded-b-xl bg-stone-100 dark:bg-stone-800" aria-hidden>
+        <div className="h-0.5 overflow-hidden rounded-b-xl bg-surface-sunken" aria-hidden>
           <div
-            className="h-full rounded-b-xl bg-amber-400 dark:bg-amber-600"
+            className="h-full rounded-b-xl bg-accent"
             style={{ width: `${progress.percent}%` }}
           />
         </div>

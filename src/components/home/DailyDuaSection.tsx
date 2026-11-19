@@ -26,11 +26,11 @@ export function DailyDuaSection() {
     <section aria-labelledby="daily-dua-heading">
       <h2
         id="daily-dua-heading"
-        className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
+        className="text-lg font-semibold tracking-tight text-ink md:text-xl"
       >
         Dova dana
       </h2>
-      <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+      <p className="mt-1 text-sm text-ink-muted">
         Svaki dan jedna dova iz Kur&apos;ana.
       </p>
       <div className="mt-4">
@@ -38,7 +38,7 @@ export function DailyDuaSection() {
           <DuaCard dua={dailyDua} />
         ) : (
           <div
-            className="min-h-48 w-full animate-pulse rounded-2xl border border-stone-200/80 bg-white/50 dark:border-stone-700/80 dark:bg-stone-900/20"
+            className="min-h-48 w-full animate-pulse rounded-2xl border border-line bg-surface/50"
             aria-hidden
             data-testid="daily-dua-placeholder"
           />
@@ -46,7 +46,7 @@ export function DailyDuaSection() {
         <p className="mt-3">
           <Link
             href="/duas"
-            className="text-sm font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"
+            className="text-sm font-medium text-accent-text underline-offset-2 hover:underline"
           >
             Sve dove iz Kur&apos;ana
           </Link>

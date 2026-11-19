@@ -41,19 +41,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
     <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8">
       <LessonProgressTracker lessonSlug={lesson.slug} />
       <header className="mb-6 sm:mb-8">
-        <p className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
           Tedžvid lekcija
         </p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-3xl">
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
           {lesson.title}
         </h1>
-        <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+        <p className="mt-2 text-sm text-ink-muted">
           {lesson.subtitle}
         </p>
       </header>
 
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
+        <h2 className="text-base font-semibold text-ink">
           Uvod
         </h2>
         {lesson.sections.introduction.map((p, idx) => (
@@ -61,8 +61,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
         ))}
       </section>
 
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
+        <h2 className="text-base font-semibold text-ink">
           Šta je ovo pravilo?
         </h2>
         {lesson.sections.definition.map((p, idx) => (
@@ -70,8 +70,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
         ))}
       </section>
 
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
+        <h2 className="text-base font-semibold text-ink">
           Kada nastaje?
         </h2>
         <ul className="list-disc space-y-1 pl-5">
@@ -82,8 +82,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
       </section>
 
       {lesson.sections.howToProduce && (
-        <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-          <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+        <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
+          <h2 className="text-base font-semibold text-ink">
             Kako se izgovara
           </h2>
           <ol className="list-decimal space-y-1 pl-5">
@@ -95,13 +95,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
       )}
 
       <section className="mb-8 space-y-4">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+        <h2 className="text-base font-semibold text-ink">
           Primjeri
         </h2>
         {lesson.sections.examples.map((ex, idx) => (
           <div
             key={idx}
-            className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4"
+            className="rounded-xl border border-line bg-surface p-4"
           >
             <p
               className={`font-arabic text-2xl leading-relaxed text-center ${ruleClass}`}
@@ -111,15 +111,15 @@ export default async function LessonPage({ params }: LessonPageProps) {
               {ex.arabic}
             </p>
             <p
-              className="mt-2 text-center font-transliteration text-sm text-stone-500 dark:text-stone-400"
+              className="mt-2 text-center font-transliteration text-sm text-ink-muted"
               dir="ltr"
             >
               {ex.transliteration}
             </p>
-            <p className="mt-1 text-center text-xs text-stone-500 dark:text-stone-400">
+            <p className="mt-1 text-center text-xs text-ink-muted">
               {ex.translation}
             </p>
-            <p className="mt-2 text-center text-xs font-medium text-stone-600 dark:text-stone-300">
+            <p className="mt-2 text-center text-xs font-medium text-ink-muted">
               {ex.rule}
             </p>
           </div>
@@ -128,22 +128,22 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
       {lesson.sections.practiceAyahs && lesson.sections.practiceAyahs.length > 0 && (
         <section className="mb-8 space-y-4">
-          <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+          <h2 className="text-base font-semibold text-ink">
             Vježba na ajetima iz Kur&apos;ana
           </h2>
-          <ul className="space-y-2 text-sm text-stone-700 dark:text-stone-300">
+          <ul className="space-y-2 text-sm text-ink">
             {lesson.sections.practiceAyahs.map((p, idx) => (
               <li key={idx}>
                 <Link
                   href={`/surah/${p.surah}?ayah=${p.ayah}`}
-                  className="inline-flex items-center gap-1 text-emerald-700 hover:underline dark:text-emerald-300"
+                  className="inline-flex items-center gap-1 text-accent-text hover:underline"
                 >
                   <span>
                     Sura {p.surah}, ajet {p.ayah}
                   </span>
                 </Link>
                 {p.description && (
-                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                  <p className="text-xs text-ink-muted">
                     {p.description}
                   </p>
                 )}
@@ -154,7 +154,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       )}
 
       {lesson.sections.tip && (
-        <section className="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/30 dark:text-emerald-100">
+        <section className="mb-8 rounded-2xl border border-line bg-accent-wash px-4 py-3 text-sm text-accent-text">
           <h2 className="text-sm font-semibold">
             {lesson.sections.tip.title}
           </h2>
@@ -171,19 +171,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
         />
       </section>
 
-      <section className="mb-6 text-sm text-stone-700 dark:text-stone-300">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+      <section className="mb-6 text-sm text-ink">
+        <h2 className="text-base font-semibold text-ink">
           Sažetak
         </h2>
         <p className="mt-1">{lesson.summary}</p>
       </section>
 
-      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm max-md:pr-16">
+      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-sm max-md:pr-16">
         <div className="flex items-center gap-2">
           {prevLesson && (
             <Link
               href={`/tajwid/${prevLesson.slug}`}
-              className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+              className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-ink hover:bg-surface-sunken"
             >
               <span>Prethodna: {prevLesson.title}</span>
             </Link>
@@ -192,14 +192,14 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <div className="flex items-center gap-2">
           <Link
             href="/tajwid"
-            className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+            className="rounded-full border border-line px-3 py-1.5 text-ink-muted hover:bg-surface-sunken"
           >
             Sve lekcije
           </Link>
           {nextLesson && (
             <Link
               href={`/tajwid/${nextLesson.slug}`}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
+              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-on-accent hover:bg-accent-hover"
             >
               <span>Sljedeća: {nextLesson.title}</span>
             </Link>

@@ -184,6 +184,8 @@ Disabled controls: `text-ink-muted` plus the existing disabled mechanism; no new
 - [ ] **Step 4:** Screenshots for every route in the axe spec's route list, 375/1280, three themes; keyboard pass on home, bookmarks, progress, search, tajwid quiz.
 - [ ] **Step 5:** Gates; the axe allowlist has no "Phase 2: tokens" entry left (remove the `PHASE_2` constant if unused). Commit `feat: Tezhib tokens on all screens; retire the old theme variables`.
 
+**Plan change (2026-11-19, during Task 4):** the rule chips on lesson cards (tajwid label colors, Phase 3) failed contrast on `surface-sunken`; the chip is now `bg-surface ring-1 ring-inset ring-line`, and sepia gets a second temporary override, `--color-amber-700: #A34300` (5.6:1 on the sepia surface), which Phase 3 removes with the amber-600 one. The palette guard's variant matching also had to learn arbitrary variants (`[&_mark]:`, `has-[:checked]:`).
+
 ### Task 5 (PR 2.5 prep): measure today's fonts
 
 - [ ] **Step 1:** On a build of the PR 2.4 branch, Playwright (scratchpad `fontbytes.mjs`, same static server) records every response with `resource type === "font"` on `/` and `/surah/1` (theme light, default settings, after `document.fonts.ready` and a scroll to the end): file, transfer size. Save as the "before" table for the PR text.
