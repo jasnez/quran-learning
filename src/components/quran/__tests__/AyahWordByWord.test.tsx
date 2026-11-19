@@ -40,7 +40,7 @@ const verse: VerseTimestamp = {
   ],
 };
 
-const NOTE = /Označavanje riječi nije dostupno za ovaj ajet/;
+const NOTE = /Za ovaj ajet nema praćenja riječ po riječ/;
 
 function activeIndexes(container: HTMLElement) {
   return Array.from(container.querySelectorAll<HTMLElement>("[data-word-index][data-active=true]")).map(

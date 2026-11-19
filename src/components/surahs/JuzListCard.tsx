@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { JuzInfo } from "@/types/quran";
 import { getJuzProgress } from "@/lib/data/juzUtils";
+import { SURAH_FORMS, formatCount } from "@/lib/format";
 import { useProgressStore } from "@/store/progressStore";
 import type { SurahSummary } from "@/types/quran";
 
@@ -28,7 +29,7 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
     <Link
       href={`/juz/${juz.juz}`}
       prefetch={false}
-      className="group flex min-h-[4rem] flex-col rounded-xl border border-amber-200/80 bg-white transition-colors hover:bg-amber-50/80 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-amber-800/50 dark:bg-stone-900/50 dark:hover:bg-amber-950/30"
+      className="group flex min-h-[4rem] flex-col rounded-xl border border-amber-200/80 bg-white transition-colors hover:bg-amber-50/80 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-amber-800/50 dark:bg-stone-900/50 dark:hover:bg-amber-950/30"
     >
       <div className="flex min-h-[4rem] items-center gap-4 px-4 py-4">
         <span
@@ -48,13 +49,14 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
             {rangeLabel}
           </p>
           <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
-            {surahCount} {surahCount === 1 ? "sura" : "sure"}
+            {formatCount(surahCount, SURAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {progress.percent >= 1 && (
-            <span className="text-xs text-stone-500 dark:text-stone-400" aria-label={`${progress.percent}% preslušano`}>
+            <span className="text-xs text-stone-500 dark:text-stone-400">
               {progress.percent}%
+              <span className="sr-only"> preslušano</span>
             </span>
           )}
           <span className="text-right text-lg font-medium text-stone-700 dark:text-stone-300" dir="rtl" lang="ar">

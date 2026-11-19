@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import type { SurahSummary } from "@/types/quran";
 import { computeOverallProgress, useProgressStore } from "@/store/progressStore";
 import { useShallow } from "zustand/react/shallow";
+import { formatNumber } from "@/lib/format";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 
 const TOTAL_AYAHS_QURAN = 6236;
@@ -15,6 +16,7 @@ type SortKind = "surah" | "progress" | "lastAccessed";
 export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
   const [filter, setFilter] = useState<FilterKind>("sve");
   const [sort, setSort] = useState<SortKind>("surah");
+  const sortId = useId();
 
   const overall = useProgressStore(useShallow((s) => computeOverallProgress(s.surahProgressMap)));
   const progressMap = useProgressStore((s) => s.surahProgressMap);
@@ -55,28 +57,28 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
       {hasAnyProgress && (
         <section aria-labelledby="progress-overall-heading" className="space-y-4">
           <h2 id="progress-overall-heading" className="sr-only">
-            Ukupna statistika
+            Ukupno
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Sure započeto
+                Započete sure
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalSurahsStarted}
+                {formatNumber(overall.totalSurahsStarted)}
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Ajeta preslušano
+                Preslušani ajeti
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalAyahsListened}
+                {formatNumber(overall.totalAyahsListened)}
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Ukupno slušanje
+                Vrijeme slušanja
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
                 {formatListeningTime(totalTimeMs)}
@@ -84,10 +86,10 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Napredak
+                {"Od cijelog Kur'ana"}
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalAyahsListened}/{TOTAL_AYAHS_QURAN}
+                {formatNumber(overall.totalAyahsListened)} od {formatNumber(TOTAL_AYAHS_QURAN)} ajeta
               </p>
             </div>
           </div>
@@ -115,20 +117,22 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
                 {f === "sve" && "Sve"}
                 {f === "zapocete" && "Započete"}
                 {f === "zavrsene" && "Završene"}
-                {f === "nepocete" && "Nepočete"}
+                {f === "nepocete" && "Nezapočete"}
               </button>
             ))}
           </div>
-          <span className="ml-2 text-sm text-stone-500 dark:text-stone-400">Sortiraj:</span>
+          <label htmlFor={sortId} className="ml-2 text-sm text-stone-500 dark:text-stone-400">
+            Redoslijed
+          </label>
           <select
+            id={sortId}
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKind)}
             className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-sm text-stone-800 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200"
-            aria-label="Sortiraj po"
           >
-            <option value="surah">Redoslijed sura</option>
-            <option value="progress">Po napretku %</option>
-            <option value="lastAccessed">Zadnji pristup</option>
+            <option value="surah">Po redu u Kur&apos;anu</option>
+            <option value="progress">Po napretku</option>
+            <option value="lastAccessed">Nedavno otvorene</option>
           </select>
         </div>
 
@@ -146,7 +150,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-stone-900 dark:text-stone-100">{surah.nameLatin}</p>
                     <p className="text-xs text-stone-500 dark:text-stone-400">
-                      {listened}/{total} ajeta · {percent}%
+                      {formatNumber(listened)} od {formatNumber(total)} ajeta · {percent}%
                     </p>
                   </div>
                   {percent >= 100 && (

@@ -167,7 +167,11 @@ describe("SurahReaderContent word-by-word", () => {
     playerState.wordByWordMode = false;
     render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
     expect(screen.queryAllByRole("switch")).toHaveLength(0);
-    const group = within(screen.getByRole("group", { name: "Sinhronizacija s audioom" }));
+    // The desktop toolbar has a group of the same name; this one is labelled by the visible text.
+    const mobileGroup = screen
+      .getAllByRole("group", { name: "Praćenje uz zvuk" })
+      .find((g) => g.hasAttribute("aria-labelledby"))!;
+    const group = within(mobileGroup);
     expect(group.getByRole("button", { name: "Po ajetu" })).toHaveAttribute("aria-pressed", "true");
     expect(group.getByRole("button", { name: "Riječ po riječ" })).toHaveAttribute("aria-pressed", "false");
     fireEvent.click(group.getByRole("button", { name: "Riječ po riječ" }));
@@ -234,10 +238,24 @@ describe("SurahReaderContent word-by-word", () => {
     fetchMock.mockImplementation(() => Promise.resolve({ ok: false, status: 500 }));
     render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
     expect(
-      await screen.findByText("Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo."),
+      await screen.findByText("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
     ).toBeInTheDocument();
     expect(document.querySelector("[data-word-by-word]")).toBeNull();
     expect(card("1:1").textContent).toContain("ٱللَّهِ");
+  });
+
+  // A live region mounted together with its text is often not announced.
+  it("has the status region before chapter data fails and puts the error into it", async () => {
+    fetchMock.mockImplementation(() => Promise.resolve({ ok: false, status: 500 }));
+    render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    expect(status).toHaveClass("sr-only");
+    await waitFor(() =>
+      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+    );
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).not.toHaveClass("sr-only");
   });
 
   it("does not fetch /data/words", async () => {

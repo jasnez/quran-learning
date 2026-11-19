@@ -55,7 +55,7 @@ export function SurahReaderStickyHeader({
     >
       <Link
         href="/surahs"
-        aria-label="Nazad na listu sura"
+        aria-label="Nazad na sve sure"
         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
       >
         <ChevronLeft className="h-5 w-5" aria-hidden />

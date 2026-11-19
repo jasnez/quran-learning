@@ -366,16 +366,17 @@ export function AudioPlayer() {
   return (
     <div
       data-testid="audio-player"
+      data-audio-player=""
       className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 max-md:bottom-14 md:bottom-0"
       role="region"
-      aria-label="Audio player"
+      aria-label="Kontrole zvuka"
     >
       <div className="mx-auto flex max-h-[70px] max-w-7xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
         <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
             <span className="truncate text-sm font-medium text-stone-800 dark:text-stone-100 md:text-[15px]">
-              {surahName ?? `Sura ${currentSurahId ?? "—"}`} · Ajet {ayahNum}
+              {surahName ? `${surahName}, ${ayahNum}. ajet` : `Sura ${currentSurahId ?? "—"}, ${ayahNum}. ajet`}
             </span>
             <span className="truncate text-[11px] tabular-nums text-stone-500 dark:text-stone-400 md:text-xs">
               {formatTime(currentTime)} / {formatTime(duration)} · Mishary Alafasy
@@ -407,7 +408,7 @@ export function AudioPlayer() {
                 type="button"
                 onClick={isPlaying ? pause : resume}
                 className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300"
-                aria-label={isPlaying ? "Pauza" : "Pusti"}
+                aria-label={isPlaying ? "Pauziraj" : "Pusti"}
               >
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </button>
@@ -437,14 +438,7 @@ export function AudioPlayer() {
               <button
                 type="button"
                 onClick={cycleRepeatMode}
-                aria-label={
-                  repeatMode === "off"
-                    ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
-                    : repeatMode === "surah"
-                      ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
-                      : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
-                }
-                aria-pressed={repeatMode !== "off"}
+                aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
                 className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
                   repeatMode !== "off"
                     ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
@@ -460,7 +454,7 @@ export function AudioPlayer() {
               <button
                 type="button"
                 onClick={toggleAutoPlayNext}
-                aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
+                aria-label="Pusti sljedeću suru"
                 aria-pressed={autoPlayNext}
                 className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
                   autoPlayNext
@@ -501,7 +495,7 @@ export function AudioPlayer() {
             onChange={handleSeek}
             aria-valuetext={spokenPosition(currentTime, duration)}
             className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-stone-200 transition-[width] duration-150 ease-out dark:bg-stone-600 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-stone-700 [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:dark:bg-stone-300"
-            aria-label="Trajanje"
+            aria-label="Mjesto u ajetu"
           />
         </div>
       </div>
@@ -573,7 +567,7 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
-        aria-label="Više opcija playera"
+        aria-label="Više opcija zvuka"
         className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
       >
         <span className="flex flex-col items-center">
@@ -587,19 +581,12 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
           id={panelId}
           className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
           role="group"
-          aria-label="Dodatne kontrole playera"
+          aria-label="Dodatne kontrole zvuka"
         >
           <button
             type="button"
             onClick={onToggleRepeat}
-            aria-label={
-              repeatMode === "off"
-                ? "Ponavljaj suru (prvi klik) ili ajet (drugi klik)"
-                : repeatMode === "surah"
-                  ? "Ponavljanje sure (uključeno). Klik za ponavljanje ajeta."
-                  : "Ponavljanje ajeta (uključeno). Klik za isključivanje."
-            }
-            aria-pressed={repeatMode !== "off"}
+            aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
             className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
               repeatMode !== "off"
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
@@ -607,26 +594,28 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
             }`}
           >
             <span>Ponavljanje</span>
-            <span className="ml-2 text-[10px] uppercase tracking-wide">
-              {repeatMode === "ayah" ? "AJET" : repeatMode === "surah" ? "SURA" : "ISKLJ."}
-            </span>
+            <span className="ml-2 text-[10px]">{repeatStateWord(repeatMode)}</span>
           </button>
           <button
             type="button"
             onClick={onToggleAutoPlayNext}
-            aria-label={autoPlayNext ? "Sljedeća sura automatski (uključeno)" : "Uključi sljedeću suru automatski"}
             aria-pressed={autoPlayNext}
             className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
           >
-            <span>Automatski sljedeća sura</span>
-            <span className="ml-2 text-[10px] uppercase tracking-wide">
-              {autoPlayNext ? "UKLJ." : "ISKLJ."}
+            <span>Pusti sljedeću suru</span>
+            <span className="ml-2 text-[10px]" aria-hidden>
+              {autoPlayNext ? "uključeno" : "isključeno"}
             </span>
           </button>
         </div>
       )}
     </div>
   );
+}
+
+/** The state of the repeat button as a word; the button's name is "Ponavljanje: <word>". */
+function repeatStateWord(mode: "off" | "surah" | "ayah"): string {
+  return mode === "ayah" ? "ajet" : mode === "surah" ? "sura" : "isključeno";
 }
 
 function RepeatIcon({ className }: { className?: string }) {

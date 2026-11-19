@@ -40,6 +40,22 @@ describe("TestProgress", () => {
 });
 
 describe("TestResult", () => {
+  it("praises a full score without a gendered form", () => {
+    const { container } = render(
+      <TestResult
+        score={10}
+        total={10}
+        surahName="Al-Fatiha"
+        testType="listen_identify"
+        nextTestType={null}
+        onRetry={vi.fn()}
+        onNextType={vi.fn()}
+      />
+    );
+    expect(screen.getByText("Odlično! Test je savladan.")).toBeInTheDocument();
+    expect(container.textContent).not.toContain("/la");
+  });
+
   it("shows score and calls callbacks", () => {
     const onRetry = vi.fn();
     const onNextType = vi.fn();

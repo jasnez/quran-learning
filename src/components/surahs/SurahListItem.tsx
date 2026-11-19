@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import type { SurahSummary } from "@/types/quran";
+import { AYAH_FORMS, formatCount } from "@/lib/format";
 import { commonSurahName } from "@/lib/quran/surahNames";
 import { useProgressStore } from "@/store/progressStore";
 
@@ -20,7 +21,7 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
     <Link
       href={`/surah/${surah.surahNumber}`}
       prefetch={false}
-      className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
+      className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
     >
       <div className="flex min-h-[4rem] items-center gap-3 px-4 py-3">
         <span
@@ -30,28 +31,26 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
           {surah.surahNumber}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-medium text-stone-900 dark:text-stone-100">
+          <p className="font-medium text-stone-900 dark:text-stone-100">
             {surah.nameLatin}
           </p>
-          <p className="truncate text-xs text-stone-500 dark:text-stone-400">
-            {commonName ? `${commonName} · ` : ""}{surah.ayahCount} ajeta
+          <p className="text-xs text-stone-500 dark:text-stone-400">
+            {commonName ? `${commonName} · ` : ""}{formatCount(surah.ayahCount, AYAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {isCompleted && (
             <span
               className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-              aria-label="Završeno"
             >
               <Check className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+              <span className="sr-only">Završeno</span>
             </span>
           )}
           {isInProgress && (
-            <span
-              className="text-xs tabular-nums text-stone-500 dark:text-stone-400"
-              aria-label={`${percent}% preslušano`}
-            >
+            <span className="text-xs tabular-nums text-stone-500 dark:text-stone-400">
               {percent}%
+              <span className="sr-only"> preslušano</span>
             </span>
           )}
           <span

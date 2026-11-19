@@ -42,7 +42,7 @@ describe("Search no results", () => {
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await userEvent.clear(search);
     await userEvent.type(search, "xyznonexistent", { delay: 0 });
-    expect(await screen.findByText(/nije pronađeno|nije pronadjeno/i, {}, { timeout: 8000 })).toBeInTheDocument();
+    expect(await screen.findByText("Nema takve sure", {}, { timeout: 8000 })).toBeInTheDocument();
   }, 10000);
 
   it("suggests trying again or different search", async () => {
@@ -51,7 +51,11 @@ describe("Search no results", () => {
     const search = screen.getByRole("searchbox", { name: /pretraži|search|sure/i });
     await user.type(search, "xyznonexistent");
     expect(
-      await screen.findByText(/pokušajte ponovo|probajte drugi|drugačiji|druga pretraga/i, {}, { timeout: 8000 })
+      await screen.findByText(
+        "Traži se po broju od 1 do 114 ili po dijelu naziva, npr. jasin.",
+        {},
+        { timeout: 8000 },
+      ),
     ).toBeInTheDocument();
   }, 10000);
 });

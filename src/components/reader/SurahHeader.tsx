@@ -4,6 +4,7 @@ import type { SurahSummary, Ayah } from "@/types/quran";
 import { commonSurahName } from "@/lib/quran/surahNames";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
+import { AYAH_FORMS, formatCount, formatNumber } from "@/lib/format";
 import * as audioManager from "@/lib/audio/audioManager";
 
 const revelationLabel: Record<string, string> = {
@@ -68,7 +69,7 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
         )}
       </p>
       <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
-        {surah.ayahCount} ajeta · {revelationLabel[surah.revelationType] ?? surah.revelationType}
+        {formatCount(surah.ayahCount, AYAH_FORMS)} · {revelationLabel[surah.revelationType] ?? surah.revelationType}
       </p>
       {pageLabel && (
         <p className="mt-1 text-xs text-stone-500 dark:text-stone-400" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
@@ -76,9 +77,9 @@ export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
         </p>
       )}
       {showProgress && (
-        <div className="mt-4" aria-label={`${listened} od ${totalAyahs} ajeta preslušano`}>
+        <div className="mt-4">
           <p className="text-xs text-stone-500 dark:text-stone-400">
-            {listened}/{totalAyahs} ajeta preslušano
+            Preslušano: {formatNumber(listened)} od {formatNumber(totalAyahs)} ajeta
           </p>
           <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-stone-200 dark:bg-stone-700">
             <div

@@ -21,8 +21,8 @@ type LessonPageProps = {
 export async function generateMetadata({ params }: LessonPageProps): Promise<Metadata> {
   const { lessonId } = await params;
   const lesson = await getTajwidLessonBySlug(lessonId);
-  if (!lesson) return { title: "Tedžvid lekcije | Quran Learning" };
-  return { title: `${lesson.title} | Tedžvid lekcije | Quran Learning` };
+  if (!lesson) return { title: "Tedžvid lekcije" };
+  return { title: `${lesson.title} | Tedžvid lekcije` };
 }
 
 export default async function LessonPage({ params }: LessonPageProps) {
@@ -84,7 +84,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson.sections.howToProduce && (
         <section className="mb-8 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
           <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
-            Kako proizvesti ovaj zvuk
+            Kako se izgovara
           </h2>
           <ol className="list-decimal space-y-1 pl-5">
             {lesson.sections.howToProduce.map((step, idx) => (
@@ -106,11 +106,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <p
               className={`font-arabic text-2xl leading-relaxed text-center ${ruleClass}`}
               dir="rtl"
+              lang="ar"
             >
               {ex.arabic}
             </p>
             <p
-              className="mt-2 text-center text-sm text-stone-500 dark:text-stone-400"
+              className="mt-2 text-center font-transliteration text-sm text-stone-500 dark:text-stone-400"
               dir="ltr"
             >
               {ex.transliteration}
@@ -128,7 +129,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson.sections.practiceAyahs && lesson.sections.practiceAyahs.length > 0 && (
         <section className="mb-8 space-y-4">
           <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
-            Vježba na pravim ajetima
+            Vježba na ajetima iz Kur&apos;ana
           </h2>
           <ul className="space-y-2 text-sm text-stone-700 dark:text-stone-300">
             {lesson.sections.practiceAyahs.map((p, idx) => (
@@ -140,7 +141,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
                   <span>
                     Sura {p.surah}, ajet {p.ayah}
                   </span>
-                  <span aria-hidden>↗</span>
                 </Link>
                 {p.description && (
                   <p className="text-xs text-stone-500 dark:text-stone-400">
@@ -178,14 +178,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <p className="mt-1">{lesson.summary}</p>
       </section>
 
-      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm">
+      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm max-md:pr-16">
         <div className="flex items-center gap-2">
           {prevLesson && (
             <Link
               href={`/tajwid/${prevLesson.slug}`}
               className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
             >
-              <span aria-hidden>←</span>
               <span>Prethodna: {prevLesson.title}</span>
             </Link>
           )}
@@ -203,7 +202,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
               className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
             >
               <span>Sljedeća: {nextLesson.title}</span>
-              <span aria-hidden>→</span>
             </Link>
           )}
         </div>

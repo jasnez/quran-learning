@@ -45,13 +45,13 @@ describe("Header back link to the surah list", () => {
     route.pathname = "/surah/2";
     route.segment = "surah";
     render(header);
-    expect(screen.getByRole("link", { name: "Nazad na listu sura" })).toHaveAttribute("href", "/surahs");
+    expect(screen.getByRole("link", { name: "Nazad na sve sure" })).toHaveAttribute("href", "/surahs");
   });
 
   it("is not shown on the surah list", () => {
     route.pathname = "/surahs";
     route.segment = "surahs";
     render(header);
-    expect(screen.queryByRole("link", { name: "Nazad na listu sura" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Nazad na sve sure" })).not.toBeInTheDocument();
   });
 });

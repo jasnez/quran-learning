@@ -3,6 +3,6 @@ import { metadata } from "../layout";
 
 describe("Search layout metadata", () => {
   it("has a Bosnian page title", () => {
-    expect(metadata.title).toBe("Pretraga | Quran Learning");
+    expect(metadata.title).toBe("Pretraga");
   });
 });

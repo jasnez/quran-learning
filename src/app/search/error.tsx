@@ -17,10 +17,10 @@ export default function SearchError({
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
       <h1 className="text-xl font-semibold text-stone-900 dark:text-stone-100">
-        Greška pretrage
+        Pretraga se nije učitala
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
-        Pretraga trenutno nije dostupna. Provjeri internet vezu i pokušaj ponovo.
+        Provjeri internet i pokušaj ponovo.
       </p>
       {error.digest && (
         <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">

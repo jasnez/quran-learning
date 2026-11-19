@@ -2,17 +2,14 @@
 
 import { useState } from "react";
 import type { TajwidRule } from "@/types/quran";
-import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleDescriptions, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
 
 const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
 
-const ruleDisplayNames: Record<TajwidRule, string> = {
-  normal: "Normalan",
-  mad: "Mad",
-  ghunnah: "Ghunnah",
-  ikhfa: "Ikhfa",
-  qalqalah: "Qalqalah",
-};
+function describe(rule: TajwidRule): string {
+  const text = tajwidRuleDescriptions[rule];
+  return text ? `${text[0].toUpperCase()}${text.slice(1)}.` : "";
+}
 
 export function TajwidLegend() {
   const [open, setOpen] = useState(false);
@@ -30,7 +27,7 @@ export function TajwidLegend() {
         <span aria-hidden className="text-stone-400 dark:text-stone-500">
           {open ? "▼" : "▶"}
         </span>
-        Legenda tedžvida
+        Šta znače boje
       </button>
       <div
         id="tajwid-legend-panel"
@@ -42,7 +39,7 @@ export function TajwidLegend() {
         }`}
       >
         <p className="px-4 pt-3 text-xs text-stone-500 dark:text-stone-400">
-          Boje se prikazuju kada u podacima ajeta postoje anotacije (mad, ghunnah, ikhfa, qalqalah). Ako ajet nema anotacije, cijeli tekst ostaje uobičajene boje.
+          Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena.
         </p>
         <ul className="space-y-2.5 p-4 list-none" role="list">
           {TAJWID_RULES.map((rule) => (
@@ -59,11 +56,11 @@ export function TajwidLegend() {
               </span>
               <div className="min-w-0 flex-1">
                 <span className="font-medium text-stone-800 dark:text-stone-200">
-                  {ruleDisplayNames[rule]}
+                  {tajwidRuleNames[rule]}
                 </span>
-                <p className="mt-0.5 text-stone-600 dark:text-stone-400">
-                  {tajwidRuleLabels[rule]}
-                </p>
+                {rule !== "normal" && (
+                  <p className="mt-0.5 text-stone-600 dark:text-stone-400">{describe(rule)}</p>
+                )}
               </div>
             </li>
           ))}

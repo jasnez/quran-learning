@@ -131,7 +131,7 @@ describe("AudioPlayer mobile", () => {
   it("control buttons have minimum 44x44px touch target", () => {
     const { container } = render(<AudioPlayer />);
     const prev = container.querySelector("[aria-label='Prethodni ajet']");
-    const play = container.querySelector("[aria-label='Pusti'], [aria-label='Pauza']");
+    const play = container.querySelector("[aria-label='Pusti'], [aria-label='Pauziraj']");
     const next = container.querySelector("[aria-label='Sljedeći ajet']");
     [prev, play, next].forEach((btn) => {
       expect(btn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|h-12|w-12/);
@@ -180,7 +180,7 @@ describe("AudioPlayer mobile", () => {
 
   it("play/pause button does not exceed row height (same size as prev/next to avoid overflow)", () => {
     const { container } = render(<AudioPlayer />);
-    const playBtn = container.querySelector("[aria-label='Pusti'], [aria-label='Pauza']");
+    const playBtn = container.querySelector("[aria-label='Pusti'], [aria-label='Pauziraj']");
     const prevBtn = container.querySelector("[aria-label='Prethodni ajet']");
     expect(playBtn).toBeInTheDocument();
     expect(prevBtn).toBeInTheDocument();
@@ -226,8 +226,8 @@ describe("AyahCard mobile", () => {
         showTajwidColors={true}
       />
     );
-    const playBtn = container.querySelector("[aria-label='Pusti audio'], [aria-label='Pauza']");
-    const bookmarkBtn = container.querySelector("[aria-label='Označi ajet']");
+    const playBtn = container.querySelector("[aria-label^='Pusti '], [aria-label^='Pauziraj ']");
+    const bookmarkBtn = container.querySelector("[aria-label^='Sačuvaj '], [aria-label^='Ukloni ']");
     expect(playBtn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|p-3/);
     expect(bookmarkBtn?.className).toMatch(/min-h-\[44px\]|min-w-\[44px\]|h-11|w-11|p-3/);
   });

@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import SurahReaderPage, { generateMetadata } from "../page";
 import { usePlayerStore } from "@/store/playerStore";
 import type { SurahDetail, Ayah } from "@/types/quran";
@@ -155,7 +155,7 @@ describe("Surah Reader page", () => {
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("when progress exists, SurahHeader shows X/Y ajeta preslušano and progress bar", async () => {
+  it("when progress exists, SurahHeader shows Preslušano: X od Y ajeta and progress bar", async () => {
     hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
       num === 1
         ? {
@@ -171,9 +171,7 @@ describe("Surah Reader page", () => {
     );
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText(/1\/2 ajeta preslušano/i)).toBeInTheDocument();
-    const progressRegion = screen.getByLabelText(/1 od 2 ajeta preslušano/i);
-    expect(progressRegion).toBeInTheDocument();
+    expect(screen.getByText("Preslušano: 1 od 2 ajeta")).toBeInTheDocument();
   });
 
   it("renders an AyahCard for each ayah", async () => {
@@ -205,7 +203,7 @@ describe("Surah Reader page", () => {
     expect(ayah2Card).toBeInTheDocument();
     expect(ayah1Card?.textContent).toMatch(/\b1\b/);
     expect(ayah2Card?.textContent).toMatch(/\b2\b/);
-    const playButtons = screen.getAllByRole("button", { name: /play|pusti|pusti audio/i });
+    const playButtons = screen.getAllByRole("button", { name: /^Pusti \d+\. ajet$/ });
     expect(playButtons.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -246,10 +244,10 @@ describe("Surah Reader page", () => {
   it("clicking play on an ayah sets queue to all surah ayahs and plays that ayah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const playButtons = screen.getAllByRole("button", { name: /pusti audio|pusti/i });
+    const playButtons = screen.getAllByRole("button", { name: /^Pusti \d+\. ajet$/ });
     expect(playButtons.length).toBeGreaterThanOrEqual(1);
     playButtons[0].click();
-    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
+    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs, "surah");
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
@@ -258,7 +256,7 @@ describe("Surah Reader page", () => {
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const pauseButton = screen.getByRole("button", { name: /pauza/i });
+    const pauseButton = screen.getByRole("button", { name: "Pauziraj 1. ajet" });
     expect(pauseButton).toBeInTheDocument();
     pauseButton.click();
     expect(mockPause).toHaveBeenCalled();
@@ -279,7 +277,7 @@ describe("Surah Reader page", () => {
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText(/sada se pušta|now playing|trenutno se pušta/i)).toBeInTheDocument();
+    expect(screen.getByText("Sluša se")).toBeInTheDocument();
   });
 
   it("when not playing, no card has active highlight", async () => {
@@ -300,15 +298,35 @@ describe("Surah Reader page", () => {
   it("has link to learning mode for this surah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    const learnLink = screen.getByRole("link", { name: "Uči ajet po ajet" });
     expect(learnLink).toHaveAttribute("href", "/learn/1");
   });
 
   it("has link to learning mode for surah 2 pointing to /learn/2", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     render(Page);
-    const learnLink = screen.getByRole("link", { name: /režim učenja|učenje|uči suru|learning/i });
+    const learnLink = screen.getByRole("link", { name: "Uči ajet po ajet" });
     expect(learnLink).toHaveAttribute("href", "/learn/2");
+  });
+
+  it("names the surah navigation links in words, without arrows", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    expect(within(nav).getByRole("link", { name: "Prethodna sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
+    expect(within(nav).getByRole("link", { name: "Sljedeća sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
+    expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
+    expect(within(nav).getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
+    expect(nav.textContent).not.toMatch(/[←→]/);
+    expect(container.textContent).not.toContain("Pregled sura");
+  });
+
+  it("has exactly one Sve sure link in the nav of the first surah (no previous surah)", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    render(Page);
+    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
+    expect(within(nav).queryByRole("link", { name: /^Prethodna/ })).toBeNull();
   });
 
   it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {
@@ -363,6 +381,12 @@ describe("Surah Reader page", () => {
 describe("Surah reader page metadata", () => {
   it("falls back to a Bosnian title for an invalid surah number", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
-    expect(metadata.title).toBe("Sura | Quran Learning");
+    expect(metadata.title).toBe("Sura");
+  });
+
+  it("describes the surah with its transcription and translation", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
+    expect(metadata.title).toBe("Al-Fatihah");
+    expect(metadata.description).toBe("Sura Al-Fatihah s transkripcijom i prijevodom");
   });
 });

@@ -14,6 +14,7 @@ import {
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
+import { SITE_NAME } from "@/lib/site";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
@@ -37,14 +38,22 @@ export function Header() {
   const resume = usePlayerStore((s) => s.resume);
   const pause = usePlayerStore((s) => s.pause);
   const { isHidden, hasShadow } = useStickyHeader();
+  // The header slides away while scrolling down; it stays shown while it holds focus, or the
+  // focused element would be hidden under it (WCAG 2.4.11).
+  const [hasFocus, setHasFocus] = React.useState(false);
+  const hidden = isHidden && !hasFocus;
 
   return (
     <header
       role="banner"
-      data-hidden={isHidden ? "true" : "false"}
+      data-hidden={hidden ? "true" : "false"}
+      onFocus={() => setHasFocus(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHasFocus(false);
+      }}
       className={`fixed left-0 right-0 top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
         hasShadow ? "shadow-sm" : ""
-      } ${isHidden ? "-translate-y-full" : ""}`}
+      } ${hidden ? "-translate-y-full" : ""}`}
     >
       <div className="mx-auto flex h-12 max-h-[52px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
         {/* Brand */}
@@ -53,7 +62,7 @@ export function Header() {
             <Link
               href="/surahs"
               className={`${ICON_BTN} shrink-0`}
-              aria-label="Nazad na listu sura"
+              aria-label="Nazad na sve sure"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden />
             </Link>
@@ -61,9 +70,9 @@ export function Header() {
           <Link
             href="/"
             className={`min-w-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
-            aria-label="Quran Learning, početna"
+            aria-label={`${SITE_NAME}, početna`}
           >
-            Quran Learning
+            {SITE_NAME}
           </Link>
         </div>
 
@@ -77,7 +86,7 @@ export function Header() {
               <button
                 type="button"
                 className={ICON_BTN}
-                aria-label={isPlaying ? "Pauza" : "Pusti"}
+                aria-label={isPlaying ? "Pauziraj" : "Pusti"}
                 onClick={() => (isPlaying ? pause() : resume())}
               >
                 {isPlaying ? (
@@ -110,7 +119,7 @@ export function Header() {
             <Link
               href="/bookmarks"
               className={`${ICON_BTN} hidden sm:flex`}
-              aria-label="Označeni ajeti"
+              aria-label="Sačuvani ajeti"
             >
               <Bookmark className="h-5 w-5" aria-hidden />
             </Link>
@@ -147,7 +156,7 @@ function LearnMenu() {
   return (
     <NavDisclosure
       label="Učenje"
-      buttonLabel="Učenje – Tedžvid, Allahova lijepa imena"
+      buttonLabel="Učenje: tedžvid, harfovi i Allahova imena"
       isActive={!!isActive}
       links={LEARN_LINKS}
     />

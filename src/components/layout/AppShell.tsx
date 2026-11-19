@@ -42,8 +42,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }`}
           data-scroll-container
         >
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-2 focus:z-[60] focus:rounded-lg focus:bg-[var(--theme-card)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[var(--theme-text)] focus:shadow-lg focus:ring-2 focus:ring-emerald-600"
+          >
+            Preskoči na sadržaj
+          </a>
           <Header />
-          <main className="min-h-0 flex-1 px-4 py-8 pb-10 transition-opacity duration-300 md:py-12 md:pb-16">
+          <main
+            id="main-content"
+            tabIndex={-1}
+            className="focus-visible:outline-hidden min-h-0 flex-1 px-4 py-8 pb-10 transition-opacity duration-300 md:py-12 md:pb-16"
+          >
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
           <Footer />

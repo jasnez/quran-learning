@@ -26,12 +26,34 @@ export const tajwidRuleLabelClasses: Record<TajwidRule, string> = {
 };
 
 /**
- * Bosnian labels for each tajwid rule (for tooltips/accessibility).
+ * Bosnian names of the tajwid rules as the app shows them (Medd, Gunne, Ihfa, Kalkala).
+ */
+export const tajwidRuleNames: Record<TajwidRule, string> = {
+  normal: "Bez pravila",
+  mad: "Medd",
+  ghunnah: "Gunne",
+  ikhfa: "Ihfa",
+  qalqalah: "Kalkala",
+};
+
+/**
+ * One short description per rule, lower case and without a final period; "normal" has none.
+ */
+export const tajwidRuleDescriptions: Record<TajwidRule, string> = {
+  normal: "",
+  mad: "glas se produžava",
+  ghunnah: "izgovor kroz nos",
+  ikhfa: "prikriven izgovor kroz nos",
+  qalqalah: "odskok glasa",
+};
+
+/**
+ * Bosnian labels for each tajwid rule (for tooltips/accessibility): name and description.
  */
 export const tajwidRuleLabels: Record<TajwidRule, string> = {
-  normal: "Normalan tekst",
-  mad: "Duljenje (Mad) — produžiti glas",
-  ghunnah: "Ghunnah — nazalni zvuk",
-  ikhfa: "Ikhfa — skriveni nazalni zvuk",
-  qalqalah: "Qalqalah — odskok zvuka",
+  normal: tajwidRuleNames.normal,
+  mad: `${tajwidRuleNames.mad}: ${tajwidRuleDescriptions.mad}`,
+  ghunnah: `${tajwidRuleNames.ghunnah}: ${tajwidRuleDescriptions.ghunnah}`,
+  ikhfa: `${tajwidRuleNames.ikhfa}: ${tajwidRuleDescriptions.ikhfa}`,
+  qalqalah: `${tajwidRuleNames.qalqalah}: ${tajwidRuleDescriptions.qalqalah}`,
 };

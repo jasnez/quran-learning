@@ -32,10 +32,11 @@ export function NameCard({ name: n }: { name: AllahName }) {
         id={`name-arabic-${n.index}`}
         className="font-arabic text-3xl font-medium text-[var(--theme-text)] md:text-4xl"
         dir="rtl"
+        lang="ar"
       >
         {n.arabic}
       </p>
-      <p className="mt-4 text-lg text-stone-500 dark:text-stone-400">
+      <p className="mt-4 font-transliteration text-lg text-stone-500 dark:text-stone-400">
         {n.transliteration}
       </p>
       <p className="mt-2 text-base text-stone-700 dark:text-stone-300">
@@ -55,12 +56,12 @@ export function NameCard({ name: n }: { name: AllahName }) {
         type="button"
         onClick={togglePlay}
         className="mt-4 flex items-center gap-2 rounded-full bg-[var(--theme-accent)] px-4 py-2 text-white transition-opacity dark:text-stone-900 hover:opacity-90"
-        aria-label={playing ? "Zaustavi" : "Pusti audio"}
+        aria-label={playing ? `Pauziraj: ${n.transliteration}` : `Pusti: ${n.transliteration}`}
       >
         {playing ? (
           <>
             <PauseIcon className="h-4 w-4" />
-            Pauza
+            Pauziraj
           </>
         ) : (
           <>

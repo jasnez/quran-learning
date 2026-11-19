@@ -112,7 +112,7 @@ describe("AyahCard mobile playback", () => {
 
     render(<AyahCard {...defaultProps} />);
 
-    const playButton = screen.getByRole("button", { name: /pusti audio/i });
+    const playButton = screen.getByRole("button", { name: "Pusti 1. ajet" });
     await user.click(playButton);
 
     expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);

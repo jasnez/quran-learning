@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { Ayah } from "@/types/quran";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
+import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
 type SurahReaderUrlEffectsProps = {
   ayahs: Ayah[];
@@ -69,7 +70,7 @@ export function SurahReaderUrlEffects({
     if (!el) return;
     const rafId = requestAnimationFrame(() => {
       if (typeof el.scrollIntoView === "function") {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.scrollIntoView({ behavior: preferredScrollBehavior(), block: "center" });
       }
       el.setAttribute("data-highlight-from-search", "true");
     });

@@ -15,7 +15,10 @@ describe("Izvori (Sources) page", () => {
 
   it("has a meta description without HTML entities", () => {
     expect(metadata.description).not.toMatch(/&\w+;/);
-    expect(metadata.description).toMatch(/kur'anski tekst/i);
+    expect(metadata.description).toMatch(/arapski tekst/i);
+    expect(metadata.description).toBe(
+      "Izvori: arapski tekst, tedžvid oznake, transkripcija, prijevod i snimci učenja."
+    );
   });
 
   it("contains section about the Kur'an text (Quran.com)", async () => {
@@ -40,10 +43,10 @@ describe("Izvori (Sources) page", () => {
     expect(screen.getAllByText(/izmjene:/i).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("names everyayah.com as the audio source", async () => {
+  it("names everyayah.com as the source of the recordings", async () => {
     const Page = await SourcesPage();
     render(Page);
-    expect(screen.getAllByRole("heading", { name: /^audio recitacija$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: "Snimci učenja" }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByRole("link", { name: "everyayah.com" })[0]).toHaveAttribute(
       "href",
       "https://everyayah.com"
@@ -53,7 +56,7 @@ describe("Izvori (Sources) page", () => {
   it("says the transliteration follows the IZ BiH rules and links to the letter table", async () => {
     const Page = await SourcesPage();
     render(Page);
-    expect(screen.getAllByRole("heading", { name: /^transliteracija$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: /^transkripcija$/i }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByRole("link", { name: /pravila transkripcije i transliteracije/i })[0]).toHaveAttribute(
       "href",
       "https://ilmijja.ba/wp-content/uploads/2022/03/Pravila.pdf"
@@ -84,7 +87,7 @@ describe("Izvori (Sources) page", () => {
   it("contains disclaimer about no official affiliation", async () => {
     const Page = await SourcesPage();
     render(Page);
-    const disclaimer = screen.getAllByText(/ova platforma nije.*povezana.*navedenih institucija/i);
+    const disclaimer = screen.getAllByText("Aplikacija nije zvanično povezana ni s jednom od navedenih ustanova.");
     expect(disclaimer.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -94,6 +97,18 @@ describe("Izvori (Sources) page", () => {
     const article = container.querySelector("article");
     const homeLink = article?.querySelector('a[href="/"]');
     expect(homeLink).toBeInTheDocument();
-    expect(homeLink).toHaveTextContent(/povratak|početnu/i);
+    expect(homeLink).toHaveTextContent(/^Na početnu$/);
+  });
+
+  it("names Quran.com as a service, not as an API of a platform", async () => {
+    const { container } = render(await SourcesPage());
+    expect(container.textContent).not.toMatch(/API|platform/i);
+    expect(container.textContent).toContain("Arapski tekst Kur'ana (Uthmani pismo) preuzet je sa servisa Quran.com.");
+    expect(container.textContent).toContain("Tekst prijevoda preuzet je sa servisa Quran.com.");
+    expect(container.textContent).toContain(
+      "vremena riječi za praćenje učenja preuzeti su sa servisa Quran.com."
+    );
+    expect(container.textContent).toContain("bojom su istaknuta samo četiri pravila (medd, gunne, ihfa i kalkala).");
+    expect(container.textContent).toContain("Transkripcija ajeta i dova napravljena je iz arapskog teksta, sistemom");
   });
 });

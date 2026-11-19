@@ -3,7 +3,7 @@ import { getAllTajwidLessons } from "@/data/tajwid-lessons";
 import { TajwidLessonCard } from "@/components/tajwid/TajwidLessonCard";
 
 export const metadata: Metadata = {
-  title: "Tedžvid lekcije | Quran Learning",
+  title: "Tedžvid lekcije",
 };
 
 export default async function TajwidLessonsPage() {
@@ -16,8 +16,8 @@ export default async function TajwidLessonsPage() {
           Tedžvid lekcije
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-stone-600 dark:text-stone-400">
-          Kratke, fokusirane lekcije koje te vode kroz najvažnija pravila
-          tedžvida uz primjere, praksu i mini kviz na kraju.
+          Kratke lekcije o najvažnijim pravilima tedžvida, s primjerima iz
+          Kur&apos;ana i kvizom na kraju.
         </p>
       </header>
 

@@ -17,10 +17,10 @@ export default function LearnError({
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
       <h1 className="text-xl font-semibold text-stone-900 dark:text-stone-100">
-        Greška u načinu učenja
+        Učenje se nije otvorilo
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
-        Nije moguće pokrenuti način učenja za ovu suru. Provjeri internet vezu i pokušaj ponovo.
+        Provjeri internet i pokušaj ponovo.
       </p>
       {error.digest && (
         <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">
@@ -39,7 +39,7 @@ export default function LearnError({
           href="/surahs"
           className="rounded-full border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
         >
-          Lista sura
+          Sve sure
         </Link>
       </div>
     </div>

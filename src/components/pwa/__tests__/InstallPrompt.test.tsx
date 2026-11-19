@@ -8,7 +8,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { render, act } from "@testing-library/react";
+import { render, act, screen, within, fireEvent, cleanup } from "@testing-library/react";
 import { InstallPrompt } from "../InstallPrompt";
 
 const DISMISSED_KEY = "quran-pwa-install-dismissed";
@@ -60,5 +60,90 @@ describe("InstallPrompt", () => {
       vi.advanceTimersByTime(60_000);
     });
     expect(container.firstChild).toBeNull();
+  });
+});
+
+describe("InstallPrompt on iOS Safari", () => {
+  const IOS_UA =
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+  // Built from code points: no emoji literal in the source.
+  const EMOJI = new RegExp(`[${String.fromCodePoint(0x1f300)}-${String.fromCodePoint(0x1faff)}]`, "u");
+
+  beforeEach(() => {
+    localStorage.clear();
+    vi.useFakeTimers();
+    vi.spyOn(window.navigator, "userAgent", "get").mockReturnValue(IOS_UA);
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: false,
+      media: "",
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }) as unknown as typeof window.matchMedia;
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  function showBanner() {
+    render(<InstallPrompt />);
+    act(() => {
+      vi.advanceTimersByTime(30_000);
+    });
+  }
+
+  it("shows the banner as a complementary landmark, not a dialog", () => {
+    showBanner();
+    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(
+      screen.getByText("Otvara se s početnog ekrana; preuzete sure rade i bez interneta."),
+    ).toBeInTheDocument();
+  });
+
+  it("Instaliraj opens a native dialog with the three steps and a share icon, no emoji", () => {
+    showBanner();
+    fireEvent.click(screen.getByRole("button", { name: "Instaliraj" }));
+    const dialog = screen.getByRole("dialog", { name: "Dodaj na iPhone" });
+    expect(dialog.tagName).toBe("DIALOG");
+    expect(dialog).not.toHaveAttribute("aria-modal");
+    const steps = within(dialog).getAllByRole("listitem");
+    expect(steps).toHaveLength(3);
+    expect(steps[0]).toHaveTextContent(/Dodirni ikonu za dijeljenje\s+u Safariju\./);
+    expect(steps[1]).toHaveTextContent(
+      "Izaberi „Dodaj na početni zaslon“ (engleski: „Add to Home Screen“).",
+    );
+    expect(steps[2]).toHaveTextContent("Dodirni „Dodaj“ gore desno.");
+    expect(steps[0].querySelector("svg")).toBeInTheDocument();
+    expect(dialog.textContent).not.toMatch(EMOJI);
+  });
+
+  it("Razumijem closes only the steps; the banner stays and nothing is stored", () => {
+    showBanner();
+    fireEvent.click(screen.getByRole("button", { name: "Instaliraj" }));
+    fireEvent.click(screen.getByRole("button", { name: "Razumijem" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
+  });
+
+  it("a native close (Esc or backdrop) also closes only the steps", () => {
+    showBanner();
+    fireEvent.click(screen.getByRole("button", { name: "Instaliraj" }));
+    const dialog = screen.getByRole("dialog", { name: "Dodaj na iPhone" }) as HTMLDialogElement;
+    // The browser closes the dialog itself and fires "close"; jsdom's polyfill does the same.
+    act(() => dialog.close());
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
+  });
+
+  it("the banner's Zatvori stores the dismissal and hides the banner", () => {
+    showBanner();
+    fireEvent.click(screen.getByRole("button", { name: "Zatvori" }));
+    expect(localStorage.getItem(DISMISSED_KEY)).not.toBeNull();
+    expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
   });
 });

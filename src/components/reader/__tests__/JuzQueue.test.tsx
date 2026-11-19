@@ -78,13 +78,13 @@ describe("JuzReaderContent playback queue", () => {
     );
 
     const card = document.querySelector('[data-ayah-id="1:7"]') as HTMLElement;
-    await userEvent.click(within(card).getByRole("button", { name: "Pusti audio" }));
+    await userEvent.click(within(card).getByRole("button", { name: "Pusti 7. ajet sure Surah 1" }));
 
     const state = usePlayerStore.getState();
     expect(state.queue.map((a) => a.id)).toEqual(["1:6", "1:7", "2:1", "2:2"]);
     expect(state.queueSource).toBe("juz");
     expect(state.currentAyahId).toBe("1:7");
-    expect(screen.getAllByRole("button", { name: /Pusti audio|Pauza/ }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: /^(Pusti|Pauziraj) \d+\. ajet sure Surah \d$/ }).length).toBeGreaterThan(0);
   });
 
   it("renders the playing ayah even when playback has moved past the loaded page of 20 ayahs", () => {

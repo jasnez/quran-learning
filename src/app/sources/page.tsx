@@ -3,9 +3,9 @@ import Link from "next/link";
 import { LETTER_RULES_SOURCE } from "@/lib/letters/data";
 
 export const metadata: Metadata = {
-  title: "Izvori | Quran Learning",
+  title: "Izvori",
   description:
-    "Izvori podataka: kur'anski tekst, tedžvid oznake, transliteracija, prijevod i audio recitacija.",
+    "Izvori: arapski tekst, tedžvid oznake, transkripcija, prijevod i snimci učenja.",
 };
 
 const LINK_CLASS =
@@ -32,7 +32,7 @@ export default function SourcesPage() {
             Kur&apos;anski tekst
           </h2>
           <p className="mt-2 leading-relaxed">
-            Arapski tekst Kur&apos;ana (Uthmani pismo) preuzet je preko API-ja platforme Quran.com.
+            Arapski tekst Kur&apos;ana (Uthmani pismo) preuzet je sa servisa Quran.com.
           </p>
           <p className="mt-1">
             Izvor: <ExternalLink href="https://quran.com">quran.com</ExternalLink>
@@ -52,17 +52,17 @@ export default function SourcesPage() {
             <ExternalLink href="https://tanzil.net">tanzil.net</ExternalLink>.
           </p>
           <p className="mt-1 leading-relaxed">
-            Izmjene: oznake su prenesene na tekst koji se ovdje prikazuje, a bojom se označavaju samo
-            četiri pravila (mad, ghunnah, ikhfa i qalqalah).
+            Izmjene: oznake su prenesene na tekst koji se ovdje prikazuje, a bojom su istaknuta samo
+            četiri pravila (medd, gunne, ihfa i kalkala).
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Transliteracija
+            Transkripcija
           </h2>
           <p className="mt-2 leading-relaxed">
-            Transliteracija ajeta i dova napravljena je pravilima iz arapskog teksta, sistemom
+            Transkripcija ajeta i dova napravljena je iz arapskog teksta, sistemom
             &bdquo;specijal&ldquo; koji Rijaset Islamske zajednice u Bosni i Hercegovini preporučuje za
             kur&apos;anski tekst. Pregled slova i izgovora je na stranici{" "}
             <Link href="/harfovi" className={LINK_CLASS}>
@@ -81,7 +81,7 @@ export default function SourcesPage() {
             Struktura ajeta i vremena riječi
           </h2>
           <p className="mt-2 leading-relaxed">
-            Podjela na ajete i vremena riječi za praćenje recitacije preuzeti su s platforme
+            Podjela na ajete i vremena riječi za praćenje učenja preuzeti su sa servisa
             Quran.com.
           </p>
           <p className="mt-1">
@@ -91,7 +91,7 @@ export default function SourcesPage() {
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Audio recitacija
+            Snimci učenja
           </h2>
           <p className="mt-2 leading-relaxed">
             Učač: Mishary Alafasy. Snimci po ajetu učitavaju se sa stranice everyayah.com.
@@ -106,12 +106,12 @@ export default function SourcesPage() {
             Bosanski prijevod značenja Kur&apos;ana
           </h2>
           <p className="mt-2 leading-relaxed">
-            Besim Korkut. Tekst prijevoda preuzet je preko API-ja platforme Quran.com.
+            Besim Korkut. Tekst prijevoda preuzet je sa servisa Quran.com.
           </p>
         </section>
 
         <p className="border-t border-[var(--theme-border)] pt-6 text-sm italic text-stone-500 dark:text-stone-500">
-          Ova platforma nije zvanično povezana ni sa jednom od navedenih institucija.
+          Aplikacija nije zvanično povezana ni s jednom od navedenih ustanova.
         </p>
       </div>
 
@@ -120,7 +120,7 @@ export default function SourcesPage() {
           href="/"
           className="inline-flex items-center gap-1 text-sm font-medium text-[var(--theme-accent)] hover:underline dark:text-emerald-400"
         >
-          ← Povratak na početnu
+          Na početnu
         </Link>
       </p>
     </article>

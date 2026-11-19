@@ -150,18 +150,18 @@ function getOptionButton(
 }
 
 describe("Learn mode options visual state (enabled vs disabled)", () => {
-  it("Transliteracija button has data-active and distinct styling when on", () => {
+  it("Transkripcija button has data-active and distinct styling when on", () => {
     settingsState.showTransliteration = true;
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/transliteracij/i, true);
+    const btn = getOptionButton(/transkripcij/i, true);
     expect(btn).toHaveAttribute("data-active", "true");
     expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
   });
 
-  it("Transliteracija button has data-active and muted styling when off", () => {
+  it("Transkripcija button has data-active and muted styling when off", () => {
     settingsState.showTransliteration = false;
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/transliteracij/i, false);
+    const btn = getOptionButton(/transkripcij/i, false);
     expect(btn).toHaveAttribute("data-active", "false");
     expect(btn.className).toMatch(/stone/);
   });
@@ -182,23 +182,33 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     expect(btn.className).toMatch(/stone/);
   });
 
-  it("Ponavljaj button has data-active and muted styling when repeat is off", () => {
+  it("Ponavljanje button has data-active and muted styling when repeat is off", () => {
     settingsState.repeatMode = "off";
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/ponavljaj/i, false);
+    const btn = getOptionButton("Ponavljanje: isključeno", false);
+    expect(btn).not.toHaveAttribute("aria-pressed");
     expect(btn).toHaveAttribute("data-active", "false");
     expect(btn.className).toMatch(/stone/);
   });
 
-  it("Ponavljaj uses same OptionToggle as other options (active state when repeatMode !== 'off')", () => {
+  it("Ponavljanje uses same OptionToggle as other options (active state when repeatMode !== 'off')", () => {
     settingsState.repeatMode = "surah";
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const ponavljajButtons = screen.getAllByRole("button", { name: /ponavljaj/i });
-    expect(ponavljajButtons.length).toBeGreaterThanOrEqual(1);
-    const withActive = ponavljajButtons.filter((b) => b.getAttribute("data-active") === "true");
-    if (withActive.length > 0) {
-      expect(withActive[0]!.className).toMatch(/emerald|bg-.*-100|ring/);
-    }
+    const btn = getOptionButton("Ponavljanje: sura", true);
+    expect(btn).not.toHaveAttribute("aria-pressed");
+    expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
+  });
+
+  // A toggle has a fixed name plus aria-pressed, or a name that carries its state: never both.
+  it("fixed-name toggles use aria-pressed and no aria-label; repeat has neither", () => {
+    settingsState.showTranslation = true;
+    render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const prijevod = getOptionButton("Prijevod");
+    expect(prijevod).toHaveAttribute("aria-pressed", "true");
+    expect(prijevod).not.toHaveAttribute("aria-label");
+    expect(getOptionButton("Transkripcija")).toHaveAttribute("aria-pressed");
+    expect(getOptionButton("Riječ po riječ")).toHaveAttribute("aria-pressed");
+    expect(getOptionButton("Ponavljanje: isključeno")).not.toHaveAttribute("aria-label");
   });
 
   it("Riječ po riječ button has data-active and distinct styling when on", () => {

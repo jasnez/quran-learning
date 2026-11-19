@@ -2,9 +2,11 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import { SurahListItem } from "../SurahListItem";
+import { JuzListCard } from "../JuzListCard";
+import { getAllJuz } from "@/lib/data/juzUtils";
 import type { SurahSummary } from "@/types/quran";
 
 const mockSurah: SurahSummary = {
@@ -30,11 +32,21 @@ vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
 }));
 
+afterEach(cleanup);
+
 beforeEach(() => {
   mockGetSurahProgress.mockReturnValue(undefined);
 });
 
 describe("SurahListItem", () => {
+  it("counts ayahs with the right plural form", () => {
+    const first = render(<SurahListItem surah={{ ...mockSurah, ayahCount: 21 }} />);
+    expect(screen.getByText(/· 21 ajet$/)).toBeInTheDocument();
+    first.unmount();
+    render(<SurahListItem surah={{ ...mockSurah, ayahCount: 4 }} />);
+    expect(screen.getByText(/· 4 ajeta$/)).toBeInTheDocument();
+  });
+
   it("renders surah name and link to reader", () => {
     render(<SurahListItem surah={mockSurah} />);
     const link = screen.getByRole("link", { name: /al-fatihah/i });
@@ -76,7 +88,52 @@ describe("SurahListItem", () => {
       lastAccessedAt: "",
       timeSpentMs: 0,
     });
-    render(<SurahListItem surah={mockSurah} />);
-    expect(screen.getByLabelText(/završeno/i)).toBeInTheDocument();
+    const { container } = render(<SurahListItem surah={mockSurah} />);
+    // The text is for screen readers (no aria-label on a plain span); the icon stays hidden.
+    expect(screen.getByText("Završeno")).toHaveClass("sr-only");
+    expect(container.querySelector("[aria-label]")).toBeNull();
+  });
+
+  it("names the percent with sr-only text, not an aria-label", () => {
+    mockGetSurahProgress.mockReturnValue({
+      surahNumber: 1,
+      totalAyahs: 7,
+      ayahsListened: new Set([1, 2, 3]),
+      ayahsRead: new Set([]),
+      completionPercent: 42,
+      lastAccessedAt: "",
+      timeSpentMs: 0,
+    });
+    const { container } = render(<SurahListItem surah={mockSurah} />);
+    expect(screen.getByText("43%")).toBeInTheDocument();
+    expect(screen.getByText("preslušano", { exact: false })).toHaveClass("sr-only");
+    expect(container.querySelector("[aria-label]")).toBeNull();
+  });
+});
+
+describe("JuzListCard", () => {
+  it.each([
+    [2, "1 sura"],
+    [1, "2 sure"],
+    [30, "37 sura"],
+  ])("juz %i counts its surahs as %s", (n, expected) => {
+    render(<JuzListCard juz={getAllJuz().find((j) => j.juz === n)!} allSurahs={[mockSurah]} />);
+    expect(screen.getByText(expected)).toBeInTheDocument();
+  });
+
+  it("names the percent with sr-only text, not an aria-label", () => {
+    mockGetSurahProgress.mockReturnValue({
+      surahNumber: 1,
+      totalAyahs: 7,
+      ayahsListened: new Set([1, 2, 3, 4, 5, 6, 7]),
+      ayahsRead: new Set([]),
+      completionPercent: 100,
+      lastAccessedAt: "",
+      timeSpentMs: 0,
+    });
+    const { container } = render(<JuzListCard juz={getAllJuz()[0]} allSurahs={[mockSurah]} />);
+    expect(screen.getByText(/^\d+%$/)).toBeInTheDocument();
+    expect(screen.getByText("preslušano", { exact: false })).toHaveClass("sr-only");
+    expect(container.querySelector("[aria-label]")).toBeNull();
   });
 });

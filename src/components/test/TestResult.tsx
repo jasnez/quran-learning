@@ -42,7 +42,7 @@ export function TestResult({
 
   let message: string;
   if (ratio === 1) {
-    message = "Odlično! Savladao/la si ovaj test.";
+    message = "Odlično! Test je savladan.";
   } else if (ratio >= 0.6) {
     message = "Vrlo dobro! Uz malo ponavljanja bit će još bolje.";
   } else {

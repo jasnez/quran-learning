@@ -74,11 +74,11 @@ beforeEach(() => {
 });
 
 describe("Surahs page", () => {
-  it("shows page title Sure", async () => {
+  it("shows page title Sve sure", async () => {
     const Page = await SurahsPage();
     render(Page);
     expect(
-      screen.getByRole("heading", { name: /^sure$/i })
+      screen.getByRole("heading", { name: /^sve sure$/i })
     ).toBeInTheDocument();
   });
 
@@ -170,6 +170,6 @@ describe("Surahs page", () => {
 
 describe("Surahs page metadata", () => {
   it("has a Bosnian page title", () => {
-    expect(metadata.title).toBe("Sure | Quran Learning");
+    expect(metadata.title).toBe("Sve sure");
   });
 });

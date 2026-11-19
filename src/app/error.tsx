@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { ISSUES_NEW_URL } from "@/lib/contact";
 
 export default function Error({
   error,
@@ -18,19 +17,13 @@ export default function Error({
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
       <h1 className="text-xl font-semibold text-stone-900 dark:text-stone-100">
-        Nešto nije u redu
+        Stranica se nije učitala
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
-        Došlo je do neočekivane greške pri učitavanju. Pokušaj osvježiti stranicu.
-        Ako se greška ponavlja, prijavi je preko{" "}
-        <a
-          href={ISSUES_NEW_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:no-underline"
-        >
-          GitHub Issues
-        </a>
+        Osvježi stranicu. Ako se greška ponovi, javi je preko stranice{" "}
+        <Link href="/contact" className="underline hover:no-underline">
+          Kontakt
+        </Link>
         .
       </p>
       {error.digest && (

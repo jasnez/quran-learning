@@ -96,6 +96,15 @@ describe("Tajwid lessons listing page", () => {
     expect(screen.getByText("Mad (duljenje)")).toBeInTheDocument();
   });
 
+  it("describes the lessons in one plain sentence", async () => {
+    render(await TajwidLessonsPage());
+    expect(
+      screen.getByText(
+        "Kratke lekcije o najvažnijim pravilima tedžvida, s primjerima iz Kur'ana i kvizom na kraju."
+      )
+    ).toBeInTheDocument();
+  });
+
   it("each lesson links to its detail page", async () => {
     const Page = await TajwidLessonsPage();
     render(Page);
@@ -106,7 +115,7 @@ describe("Tajwid lessons listing page", () => {
 
 describe("Tajwid lessons page metadata", () => {
   it("has a Bosnian page title", () => {
-    expect(metadata.title).toBe("Tedžvid lekcije | Quran Learning");
+    expect(metadata.title).toBe("Tedžvid lekcije");
   });
 });
 

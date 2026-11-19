@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { searchAyahs } from "@/lib/search/searchClient";
 import type { SearchResult } from "@/types/quran";
+import { formatCount, formatNumber } from "@/lib/format";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
-const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
-const EMPTY_HINT = "Unesite pojam za pretragu (npr. Milostivog, Allah).";
-const NO_RESULTS_MESSAGE = "Nije pronađeno. Pokušajte sa drugim pojmom.";
+const PLACEHOLDER = "npr. milost, jasin ili 2:255";
+const EMPTY_HINT = "Traži se po riječi iz prijevoda, nazivu sure ili broju ajeta (2:255), a može i arapskim pismom.";
+const NO_RESULTS_MESSAGE = "Ništa nije pronađeno. Može pomoći druga riječ ili broj ajeta.";
 const MIN_QUERY_LEN_LATIN = 3;
 const MIN_QUERY_LEN_ARABIC = 1;
 const DEBOUNCE_MS = 300;
@@ -19,11 +20,12 @@ const RECENT_MAX = 5;
 /** Results shown at first and added by each "Prikaži još" (QA P2-5). */
 const PAGE_SIZE = 50;
 
+const RESULT_FORMS = { one: "rezultat", few: "rezultata", other: "rezultata" } as const;
+
 /** "1 rezultat", "21 rezultat", "2 rezultata", "11 rezultata". */
 function resultCountLabel(shown: number, total: number): string {
-  if (shown < total) return `Prikazano ${shown} od ${total} rezultata`;
-  const singular = total % 10 === 1 && total % 100 !== 11;
-  return `${total} ${singular ? "rezultat" : "rezultata"}`;
+  if (shown < total) return `Prikazano ${formatNumber(shown)} od ${formatNumber(total)} rezultata`;
+  return formatCount(total, RESULT_FORMS);
 }
 
 // text-inherit: the browser's own mark text is black, unreadable on the dark-theme highlight.
@@ -191,12 +193,12 @@ export default function SearchPage() {
           aria-controls={LISTBOX_ID}
           aria-activedescendant={hasResults && results[selectedIndex] ? getResultId(selectedIndex) : undefined}
           aria-autocomplete="list"
-          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
+          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
           aria-describedby={showEmpty ? "search-empty" : undefined}
         />
         {showRecent && (
           <div data-recent-searches className="mt-3 flex flex-wrap gap-2">
-            <span className="text-xs text-stone-500 dark:text-stone-400">Nedavne pretrage:</span>
+            <span className="text-xs text-stone-500 dark:text-stone-400">Nedavno traženo</span>
             {recentSearches.map((term) => (
               <button
                 key={term}
@@ -290,7 +292,7 @@ export default function SearchPage() {
               <button
                 type="button"
                 onClick={() => setShown({ query: trimmed, count: visibleCount + PAGE_SIZE })}
-                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
               >
                 Prikaži još
               </button>

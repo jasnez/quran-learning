@@ -3,7 +3,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen, act, cleanup } from "@testing-library/react";
 import { Toast } from "../Toast";
 import { useToastStore } from "@/store/toastStore";
 
@@ -14,11 +14,27 @@ describe("Toast", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    cleanup();
   });
 
-  it("renders nothing when message is null", () => {
-    const { container } = render(<Toast />);
-    expect(container.firstChild).toBeNull();
+  it("always renders an empty status region when there is no message", () => {
+    render(<Toast />);
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    expect(status).not.toHaveClass("bg-stone-800");
+  });
+
+  it("puts the message into the same region node", () => {
+    const { rerender } = render(<Toast />);
+    const before = screen.getByRole("status");
+    act(() => {
+      useToastStore.setState({ message: "12. ajet je sačuvan." });
+    });
+    rerender(<Toast />);
+    const after = screen.getByRole("status");
+    expect(after).toBe(before);
+    expect(after).toHaveTextContent("12. ajet je sačuvan.");
+    expect(after).toHaveClass("bg-stone-800");
   });
 
   it("renders message when set in store", () => {
@@ -29,13 +45,44 @@ describe("Toast", () => {
     expect(toast).toHaveTextContent("Test message");
   });
 
-  it("auto-dismisses after 2 seconds", async () => {
+  it("clears the text after 5 seconds, not after 2", () => {
     vi.useFakeTimers();
     useToastStore.setState({ message: "Will disappear" });
-    const { container } = render(<Toast />);
-    const toast = container.querySelector("[data-testid='toast']");
-    expect(toast).toHaveTextContent("Will disappear");
-    vi.advanceTimersByTime(2000);
+    render(<Toast />);
+    const status = screen.getByRole("status");
+    expect(status).toHaveTextContent("Will disappear");
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+    expect(status).toHaveTextContent("Will disappear");
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
     expect(useToastStore.getState().message).toBeNull();
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
+  });
+
+  it("restarts the 5 seconds when the same message is shown again", () => {
+    vi.useFakeTimers();
+    render(<Toast />);
+    const status = screen.getByRole("status");
+    act(() => {
+      useToastStore.getState().showToast("12. ajet je sačuvan.");
+    });
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    act(() => {
+      useToastStore.getState().showToast("12. ajet je sačuvan.");
+    });
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(status).toHaveTextContent("12. ajet je sačuvan.");
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(status).toBeEmptyDOMElement();
   });
 });

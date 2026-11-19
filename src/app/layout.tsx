@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Amiri, Noto_Naskh_Arabic, Scheherazade_New } from "next/font/google";
+import localFont from "next/font/local";
 import { AppShell, ThemeProvider } from "@/components/layout";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
@@ -39,10 +40,27 @@ const scheherazade = Scheherazade_New({
   preload: false,
 });
 
+// Transcription line only (class font-transliteration). Subset of Gentium Book Plus (SIL OFL)
+// built by scripts/subset-transliteration-font.py: Geist lacks the letters of the IZ BiH
+// "specijal" system and no Google Fonts subset has U+0331. The OFL reserves the name
+// "Gentium", so the family, the files and the CSS names (next/font names the @font-face
+// family after this const) say "Transcription". Not preloaded: only pages that show a
+// transcription download it.
+const transcriptionFont = localFont({
+  src: [
+    { path: "./fonts/TranscriptionBook-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/TranscriptionBook-Italic.woff2", weight: "400", style: "italic" },
+  ],
+  variable: "--font-transcription",
+  display: "swap",
+  preload: false,
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_NAME,
-  description: "Čitanje Kur’ana s transliteracijom",
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description:
+    "Kur'an na bosanskom: arapski tekst, transkripcija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy.",
   manifest: "/manifest.webmanifest",
   // "./" resolves against each page's own path: every page is its own canonical URL,
   // without the query (?ayah=5 shows the same static page).
@@ -84,7 +102,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} antialiased`}
+        className={`${geistSans.variable} ${amiri.variable} ${notoNaskhArabic.variable} ${scheherazade.variable} ${transcriptionFont.variable} antialiased`}
       >
         <ServiceWorkerRegistration />
         <PersistentStorageRequest />

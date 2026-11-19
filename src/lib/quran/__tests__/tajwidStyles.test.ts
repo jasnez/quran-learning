@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { TajwidRule } from "@/types/quran";
-import { tajwidRuleClasses, tajwidRuleLabelClasses, tajwidRuleLabels } from "../tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleDescriptions, tajwidRuleLabelClasses, tajwidRuleLabels, tajwidRuleNames } from "../tajwidStyles";
 
 const ALL_TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
 
@@ -49,11 +49,30 @@ describe("tajwidStyles", () => {
     });
 
     it("provides Bosnian descriptions for each rule", () => {
-      expect(tajwidRuleLabels.normal).toBe("Normalan tekst");
-      expect(tajwidRuleLabels.mad).toBe("Duljenje (Mad) — produžiti glas");
-      expect(tajwidRuleLabels.ghunnah).toBe("Ghunnah — nazalni zvuk");
-      expect(tajwidRuleLabels.ikhfa).toBe("Ikhfa — skriveni nazalni zvuk");
-      expect(tajwidRuleLabels.qalqalah).toBe("Qalqalah — odskok zvuka");
+      expect(tajwidRuleLabels.normal).toBe("Bez pravila");
+      expect(tajwidRuleLabels.mad).toBe("Medd: glas se produžava");
+      expect(tajwidRuleLabels.ghunnah).toBe("Gunne: izgovor kroz nos");
+      expect(tajwidRuleLabels.ikhfa).toBe("Ihfa: prikriven izgovor kroz nos");
+      expect(tajwidRuleLabels.qalqalah).toBe("Kalkala: odskok glasa");
+    });
+  });
+
+  describe("tajwidRuleNames and tajwidRuleDescriptions", () => {
+    it("name the rules Medd, Gunne, Ihfa and Kalkala with a short description each", () => {
+      expect(tajwidRuleNames).toEqual({
+        normal: "Bez pravila",
+        mad: "Medd",
+        ghunnah: "Gunne",
+        ikhfa: "Ihfa",
+        qalqalah: "Kalkala",
+      });
+      expect(tajwidRuleDescriptions).toEqual({
+        normal: "",
+        mad: "glas se produžava",
+        ghunnah: "izgovor kroz nos",
+        ikhfa: "prikriven izgovor kroz nos",
+        qalqalah: "odskok glasa",
+      });
     });
   });
 });

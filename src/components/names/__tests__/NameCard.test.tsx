@@ -25,11 +25,18 @@ describe("NameCard", () => {
     expect(audio).toHaveAttribute("src", name.audioUrl);
   });
 
+  it("marks the Arabic as Arabic and names the button after the name", () => {
+    render(<NameCard name={name} />);
+    expect(screen.getByText(name.arabic)).toHaveAttribute("lang", "ar");
+    const button = screen.getByRole("button", { name: "Pusti: Er-Rahman" });
+    expect(button).toHaveTextContent("Pusti");
+  });
+
   it("plays the audio on click", () => {
     const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     try {
       render(<NameCard name={name} />);
-      fireEvent.click(screen.getByRole("button", { name: "Pusti audio" }));
+      fireEvent.click(screen.getByRole("button", { name: /^Pusti: / }));
       expect(play).toHaveBeenCalledTimes(1);
     } finally {
       play.mockRestore();

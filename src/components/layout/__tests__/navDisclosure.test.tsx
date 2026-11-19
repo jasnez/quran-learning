@@ -102,7 +102,7 @@ describe("Mobile \"Više\" disclosure", () => {
     expect(more).toHaveAttribute("aria-expanded", "true");
     expect(more).not.toHaveAttribute("aria-haspopup");
     await user.tab();
-    expect(screen.getByRole("link", { name: /označeni ajeti/i })).toHaveFocus();
+    expect(screen.getByRole("link", { name: /sačuvani ajeti/i })).toHaveFocus();
 
     await user.keyboard("{Escape}");
 

@@ -3,7 +3,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { computeOverallProgress, useProgressStore } from "@/store/progressStore";
 import { useShallow } from "zustand/react/shallow";
-import { timeSince } from "@/lib/timeSince";
+import { formatNumber, formatTimeAgo } from "@/lib/format";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 import { ButtonLink } from "@/components/ui";
 import surahsData from "@/data/surahs.json";
@@ -51,9 +51,8 @@ export function ContinueLearningSection() {
   const hasPosition = pos !== null && pos.surahNumber >= 1;
   const readerHref = hasPosition ? `/surah/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/surah/1";
   const learnHref = hasPosition ? `/learn/${pos.surahNumber}?ayah=${pos.ayahNumber}` : "/learn/1";
-  const timeLabel = timestamp ? timeSince(timestamp) : "";
+  const timeLabel = timestamp ? formatTimeAgo(timestamp) : "";
   const showStats = stats.totalTime > 0 || stats.surahsCount > 0 || stats.ayahsCount > 0;
-  const totalMinutes = Math.floor(stats.totalTime / 60000);
   const overall = useProgressStore(useShallow((s) => computeOverallProgress(s.surahProgressMap)));
   const showOverallStats =
     overall.totalSurahsStarted > 0 ||
@@ -66,7 +65,7 @@ export function ContinueLearningSection() {
       <section aria-labelledby="continue-heading" className="space-y-6">
         <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
           <p className="text-base font-medium text-stone-800 dark:text-stone-200">
-            Dobrodošli! Počnite sa kratkim surama.
+            Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
       </section>
@@ -88,18 +87,18 @@ export function ContinueLearningSection() {
               Nastavi učenje
             </h2>
             <p className="mt-1 text-base text-stone-700 dark:text-stone-300">
-              {lastSurahName} · Ajet {pos!.ayahNumber}
+              {lastSurahName}, {pos!.ayahNumber}. ajet
             </p>
             <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
-              Način: {pos!.mode === "reader" ? "Čitanje" : "Učenje"}
-              {timeLabel ? ` · ${timeLabel}` : ""}
+              {pos!.mode === "reader" ? "Čitanje" : "Učenje"}
+              {timeLabel ? `, ${timeLabel}` : ""}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <ButtonLink href={readerHref} variant="primary" size="sm">
                 Nastavi čitanje
               </ButtonLink>
               <ButtonLink href={learnHref} variant="secondary" size="sm">
-                Učenje
+                Uči ajet po ajet
               </ButtonLink>
             </div>
           </div>
@@ -107,7 +106,7 @@ export function ContinueLearningSection() {
       ) : (
         <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
           <p className="text-base font-medium text-stone-800 dark:text-stone-200">
-            Dobrodošli! Počnite sa kratkim surama.
+            Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
       )}
@@ -117,11 +116,11 @@ export function ContinueLearningSection() {
           className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-400"
           data-testid="progress-stats-row"
         >
-          <span>{stats.surahsCount} sura posjećeno</span>
+          <span>Otvorene sure: {formatNumber(stats.surahsCount)}</span>
           <span aria-hidden>·</span>
-          <span>{stats.ayahsCount} ajeta preslušano</span>
+          <span>Preslušani ajeti: {formatNumber(stats.ayahsCount)}</span>
           <span aria-hidden>·</span>
-          <span>{totalMinutes} min ukupno slušanje</span>
+          <span>Slušanje: {formatListeningTime(stats.totalTime)}</span>
         </div>
       )}
 
@@ -132,23 +131,23 @@ export function ContinueLearningSection() {
         >
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
             <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-              Sure započeto
+              Započete sure
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
-              {overall.totalSurahsStarted}
+              {formatNumber(overall.totalSurahsStarted)}
             </p>
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
             <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-              Ajeta preslušano
+              Preslušani ajeti
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
-              {overall.totalAyahsListened}
+              {formatNumber(overall.totalAyahsListened)}
             </p>
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
             <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-              Ukupno slušanje
+              Vrijeme slušanja
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
               {formatListeningTime(stats.totalTime)}
@@ -156,10 +155,10 @@ export function ContinueLearningSection() {
           </div>
           <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
             <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-              Napredak
+              {"Od cijelog Kur'ana"}
             </p>
             <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
-              {overall.totalAyahsListened}/{TOTAL_AYAHS_QURAN} ajeta
+              {formatNumber(overall.totalAyahsListened)} od {formatNumber(TOTAL_AYAHS_QURAN)} ajeta
             </p>
           </div>
         </div>

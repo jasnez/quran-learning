@@ -16,10 +16,10 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const cat = categoryFromSlug(category);
-  if (!cat) return { title: "Kur'anske dove | Quran Learning" };
+  if (!cat) return { title: "Kur'anske dove" };
   return {
-    title: `${CATEGORY_LABELS[cat]} | Kur'anske dove | Quran Learning`,
-    description: `Kur'anske dove – kategorija ${CATEGORY_LABELS[cat]}. Sa tačnom referencom (sura i ajet).`,
+    title: `${CATEGORY_LABELS[cat]} | Kur'anske dove`,
+    description: `Kur'anske dove: ${CATEGORY_LABELS[cat]}. Uz tačno mjesto u Kur'anu.`,
   };
 }
 
@@ -36,14 +36,14 @@ export default async function CategoryDuasPage({ params }: PageProps) {
             href="/duas"
             className="text-sm font-medium text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
           >
-            ← Sve Kur&apos;anske dove
+            Sve dove iz Kur&apos;ana
           </Link>
         </p>
         <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">
           {CATEGORY_LABELS[cat]}
         </h1>
         <p className="mb-8 text-stone-500 dark:text-stone-400">
-          Dove iz Kur&apos;ana – kategorija sa tačnom referencom (sura i ajet)
+          Dove iz Kur&apos;ana na ovu temu, uz tačno mjesto u Kur&apos;anu
         </p>
         <DuasPageContent category={cat} />
       </div>

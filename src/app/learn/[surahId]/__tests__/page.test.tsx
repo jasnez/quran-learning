@@ -178,14 +178,14 @@ describe("Learn Mode page", () => {
   it("has Repeat toggle button", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByRole("button", { name: /repeat|ponavljaj/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ponavljanje/i })).toBeInTheDocument();
   });
 
   it("has Show/hide transliteration toggle", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(
-      screen.getByRole("button", { name: /transliteration|transliteraci|prikaži|sakrij transliteraciju/i })
+      screen.getByRole("button", { name: /transliteration|transkripci|prikaži|sakrij transkripciju/i })
     ).toBeInTheDocument();
   });
 
@@ -226,7 +226,7 @@ describe("Learn Mode page", () => {
   it("clicking Repeat control calls cycleRepeatMode", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const repeatBtn = screen.getByRole("button", { name: /repeat|ponavljaj/i });
+    const repeatBtn = screen.getByRole("button", { name: /ponavljanje/i });
     await userEvent.click(repeatBtn);
     expect(mockSettings.cycleRepeatMode).toHaveBeenCalled();
   });
@@ -251,13 +251,13 @@ describe("Learn Mode page", () => {
     expect(screen.queryByRole("main")).toBeNull();
   });
 
-  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljaj)", async () => {
+  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transkripcija, Prijevod, Ponavljanje)", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "2" }) });
     render(Page);
     expect(screen.getByRole("button", { name: /riječ po riječ/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /transliteracija|transliteraci/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /transkripcija|transkripci/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /prijevod/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /ponavljaj/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ponavljanje/i })).toBeInTheDocument();
   });
 
   it("on first surah (1) shows link to next sura only", async () => {
@@ -285,11 +285,16 @@ describe("Learn Mode page", () => {
 describe("Learn Mode page metadata", () => {
   it("titles the page in Bosnian with the surah name", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
-    expect(metadata.title).toBe("Učenje: Al-Fatihah | Quran Learning");
+    expect(metadata.title).toBe("Učenje: Al-Fatihah");
+  });
+
+  it("describes the page as learning a surah ayah by ayah", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
+    expect(metadata.description).toMatch(/^Učenje sure .+ ajet po ajet$/);
   });
 
   it("falls back to a Bosnian title for an invalid surah number", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
-    expect(metadata.title).toBe("Učenje | Quran Learning");
+    expect(metadata.title).toBe("Učenje");
   });
 });

@@ -85,7 +85,7 @@ describe("BookmarksContent", () => {
   it("renders page title Oznaceni ajeti", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     render(<BookmarksContent surahs={mockSurahs} />);
-    expect(screen.getByRole("heading", { name: /označeni ajeti/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /sačuvani ajeti/i })).toBeInTheDocument();
   });
 
   // The static HTML is built without the reader's bookmarks (they are in localStorage): it
@@ -93,8 +93,9 @@ describe("BookmarksContent", () => {
   it("static HTML shows a placeholder, not the empty state", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     const html = renderToString(<BookmarksContent surahs={mockSurahs} />);
-    expect(html).toContain("Označeni ajeti");
-    expect(html).not.toContain("Nemate označenih ajeta");
+    expect(html).toContain("Sačuvani ajeti");
+    expect(html).not.toContain("Još nema sačuvanih ajeta.");
+    expect(html).not.toContain("data-empty-state");
     expect(html).toContain('data-testid="bookmarks-placeholder"');
   });
 
@@ -102,8 +103,11 @@ describe("BookmarksContent", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     render(<BookmarksContent surahs={mockSurahs} />);
     expect(
-      screen.getByText(/nemate označenih ajeta|označite ajete klikom/i)
+      screen.getByText(
+        "Još nema sačuvanih ajeta. Ajet se čuva dodirom na ikonu za čuvanje pored njega.",
+      ),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
   });
 
   it("shows bookmarks grouped by surah when bookmarks exist", () => {
@@ -130,6 +134,14 @@ describe("BookmarksContent", () => {
     expect(classes).toContain("line-clamp-2");
   });
 
+  it("shows when a bookmark was saved in words", () => {
+    mockGetAllBookmarks.mockReturnValue([
+      { ...mockBookmarks[0], createdAt: new Date(Date.now() - 2 * 60 * 1000).toISOString() },
+    ]);
+    render(<BookmarksContent surahs={mockSurahs} />);
+    expect(screen.getByText("prije 2 minute")).toBeInTheDocument();
+  });
+
   it("each bookmark links to /surah/[id]?ayah=[number]", () => {
     mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
     render(<BookmarksContent surahs={mockSurahs} />);
@@ -139,17 +151,73 @@ describe("BookmarksContent", () => {
     expect(surahLink).toBeInTheDocument();
   });
 
-  it("remove button opens confirmation and removes on confirm", async () => {
-    const user = userEvent.setup();
-    mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
-    render(<BookmarksContent surahs={mockSurahs} />);
-    const removeBtn = screen.getByRole("button", { name: /ukloni oznaku/i });
-    await user.click(removeBtn);
-    const dialog = screen.getByRole("dialog");
-    expect(dialog).toBeInTheDocument();
-    const confirmBtn = within(dialog).getByRole("button", { name: "Ukloni" });
-    await user.click(confirmBtn);
-    expect(mockRemoveBookmark).toHaveBeenCalledWith(1, 1);
+  describe("removing a bookmark", () => {
+    const surah = mockSurahs[1].nameLatin;
+    const target: Bookmark = { ...mockBookmarks[1], ayahNumber: 12, id: "2-12" };
+
+    function setup(bookmarks: Bookmark[]) {
+      mockGetAllBookmarks.mockReturnValue(bookmarks);
+      return render(<BookmarksContent surahs={mockSurahs} />);
+    }
+    const trash = () =>
+      screen.getByRole("button", { name: `Ukloni iz sačuvanih: ${surah}, 12. ajet` });
+    const dialogName = `Ukloniti 12. ajet sure ${surah} iz sačuvanih?`;
+
+    it("names the trash button by surah and ayah", () => {
+      setup([target]);
+      expect(trash()).toBeInTheDocument();
+    });
+
+    it("opens a native dialog named by the question, without body text when there is no note", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      expect(dialog.tagName).toBe("DIALOG");
+      expect(dialog).not.toHaveAttribute("aria-modal");
+      expect(within(dialog).queryByText(/bilješka uz ovaj ajet/i)).not.toBeInTheDocument();
+    });
+
+    it("warns that the note goes with the ayah when there is one", async () => {
+      const user = userEvent.setup();
+      setup([{ ...target, note: "Moja bilješka" }]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      expect(within(dialog).getByText("Bilješka uz ovaj ajet briše se s njim.")).toBeInTheDocument();
+    });
+
+    it("Odustani closes the dialog and keeps the bookmark", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Odustani" }));
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(mockRemoveBookmark).not.toHaveBeenCalled();
+    });
+
+    it("Ukloni removes the bookmark, closes the dialog and focuses the page heading", async () => {
+      const user = userEvent.setup();
+      setup([target, mockBookmarks[0]]);
+      mockRemoveBookmark.mockImplementation(() => mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]));
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Ukloni" }));
+      expect(mockRemoveBookmark).toHaveBeenCalledWith(2, 12);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1, name: "Sačuvani ajeti" })).toHaveFocus();
+    });
+
+    it("removing the only bookmark focuses the heading of the empty state", async () => {
+      const user = userEvent.setup();
+      setup([target]);
+      mockRemoveBookmark.mockImplementation(() => mockGetAllBookmarks.mockReturnValue([]));
+      await user.click(trash());
+      const dialog = screen.getByRole("dialog", { name: dialogName });
+      await user.click(within(dialog).getByRole("button", { name: "Ukloni" }));
+      expect(document.querySelector("[data-empty-state]")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveFocus();
+    });
   });
 
   it("note can be edited", async () => {
@@ -167,6 +235,9 @@ describe("BookmarksContent", () => {
   it("has sort/filter options", () => {
     mockGetAllBookmarks.mockReturnValue(mockBookmarks);
     render(<BookmarksContent surahs={mockSurahs} />);
-    expect(screen.getByRole("combobox", { name: /sortiraj po/i })).toBeInTheDocument();
+    const select = screen.getByRole("combobox", { name: "Redoslijed" });
+    expect(select).not.toHaveAttribute("aria-label");
+    expect(within(select).getByRole("option", { name: "Po redu u Kur'anu" })).toBeInTheDocument();
+    expect(within(select).getByRole("option", { name: "Najnovije prvo" })).toBeInTheDocument();
   });
 });

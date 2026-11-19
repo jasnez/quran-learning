@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Stranica nije pronađena | Quran Learning",
+  title: "Ova stranica ne postoji",
   // The layout's "./" would point to /_not-found, an address that does not exist.
   alternates: { canonical: null },
   openGraph: null,
@@ -12,10 +12,10 @@ export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
       <h1 className="text-3xl font-semibold text-stone-900 dark:text-stone-100">
-        Stranica nije pronađena
+        Ova stranica ne postoji
       </h1>
       <p className="mt-3 max-w-md text-center text-sm text-stone-600 dark:text-stone-400">
-        Adresa koju si tražio ne postoji ili je premještena.
+        Možda je adresa pogrešno upisana ili je stranica premještena.
       </p>
       <div className="mt-8 flex gap-3">
         <Link

@@ -128,10 +128,28 @@ describe("Learning mode first/last ayah", () => {
     expect(next).toBeDisabled();
   });
 
+  // A live region mounted together with its text is often not announced.
+  it("has the status regions before the last ayah and puts the end message into one of them there", () => {
+    const { rerender } = render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const regions = screen.getAllByRole("status");
+    for (const region of regions) {
+      expect(region).toBeEmptyDOMElement();
+      expect(region).toHaveClass("sr-only");
+    }
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, currentAyahId: "1:2" } as unknown as PlayerState)
+    );
+    rerender(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const done = screen.getByText("Sura je završena. Mašallah!");
+    expect(done).toHaveAttribute("role", "status");
+    expect(regions).toContain(done);
+    expect(done).not.toHaveClass("sr-only");
+  });
+
   it("when ayahs empty shows data coming soon message", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={[]} />);
     expect(
-      screen.getByText(/podaci za ovu suru.*uskoro|dostupni.*uskoro/i)
+      screen.getByText("Sura se nije učitala. Treba osvježiti stranicu.")
     ).toBeInTheDocument();
   });
 });
@@ -140,17 +158,17 @@ describe("Learn mode bookmark", () => {
   it("shows bookmark button for current ayah", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     expect(
-      screen.getByRole("button", { name: /dodaj u označene|ukloni iz označenih|bookmark/i })
+      screen.getByRole("button", { name: "Sačuvaj ajet" })
     ).toBeInTheDocument();
   });
 
   it("clicking bookmark calls toggleBookmark and showToast", async () => {
     const user = userEvent.setup();
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = screen.getByRole("button", { name: /dodaj u označene|označene|bookmark/i });
+    const btn = screen.getByRole("button", { name: "Sačuvaj ajet" });
     await user.click(btn);
     expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
-    expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u označene");
+    expect(mockShowToast).toHaveBeenCalledWith("1. ajet je sačuvan.");
   });
 });
 

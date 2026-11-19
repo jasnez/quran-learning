@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ARABIC_LETTERS, ARABIC_VOWELS, LETTER_RULES_SOURCE } from "@/lib/letters/data";
 
 export const metadata: Metadata = {
-  title: "Harfovi i izgovor | Quran Learning",
+  title: "Harfovi i izgovor",
   description:
-    "Tabela arapskih harfova: kako se pišu u transliteraciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
+    "Tabela arapskih harfova: kako se pišu u transkripciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
 };
 
 const LINK = "text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400";
@@ -17,7 +17,7 @@ export default function LettersPage() {
       <article className="mx-auto max-w-4xl">
         <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">Harfovi i izgovor</h1>
         <p className="max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
-          Transliteracija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
+          Transkripcija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
           &bdquo;specijal&ldquo; i preporučuju za učenje kur&apos;anskog teksta. Tabela pokazuje kako se svaki harf piše
           u tom sistemu, kako u druga dva sistema iz istih Pravila, i kako se izgovara.
         </p>
@@ -42,15 +42,15 @@ export default function LettersPage() {
                     <span className="font-arabic letter-glyph" lang="ar" dir="rtl">
                       {letter.arabic}
                     </span>{" "}
-                    <span>{letter.name}</span>
+                    <span className="font-transliteration">{letter.name}</span>
                   </th>
-                  <td data-label="U aplikaciji" className="letter-sign">
+                  <td data-label="U aplikaciji" className="letter-sign font-transliteration">
                     {letter.special}
                   </td>
-                  <td data-label="Opća" className="letter-sign">
+                  <td data-label="Opća" className="letter-sign font-transliteration">
                     {letter.general}
                   </td>
-                  <td data-label="Naučna (DMG)" className="letter-sign">
+                  <td data-label="Naučna (DMG)" className="letter-sign font-transliteration">
                     {letter.dmg}
                   </td>
                   <td data-label="Izgovor">{letter.pronunciation}</td>
@@ -79,15 +79,15 @@ export default function LettersPage() {
                     <span className="font-arabic letter-glyph" lang="ar" dir="rtl">
                       {vowel.arabic}
                     </span>{" "}
-                    <span>{vowel.name}</span>
+                    <span className="font-transliteration">{vowel.name}</span>
                   </th>
-                  <td data-label="U aplikaciji" className="letter-sign">
+                  <td data-label="U aplikaciji" className="letter-sign font-transliteration">
                     {vowel.special}
                   </td>
-                  <td data-label="Opća" className="letter-sign">
+                  <td data-label="Opća" className="letter-sign font-transliteration">
                     {vowel.general}
                   </td>
-                  <td data-label="Naučna (DMG)" className="letter-sign">
+                  <td data-label="Naučna (DMG)" className="letter-sign font-transliteration">
                     {vowel.dmg}
                   </td>
                 </tr>
@@ -96,7 +96,7 @@ export default function LettersPage() {
           </table>
         </div>
 
-        <h2 className={H2}>Kako čitati transliteraciju</h2>
+        <h2 className={H2}>Kako čitati transkripciju</h2>
         <ul className="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 leading-relaxed text-stone-600 dark:text-stone-400">
           <li>
             <strong>Dugi vokali</strong> imaju crticu iznad slova (ā, ī, ū) i izgovaraju se dvostruko duže od kratkih.
@@ -135,10 +135,10 @@ export default function LettersPage() {
           Pravila.
         </p>
         <p className="mt-3 max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
-          Transliteracija je napravljena pravilima iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
-          između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Ako uočite grešku,{" "}
+          Transkripcija je napravljena iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
+          između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Greške se prijavljuju na stranici{" "}
           <Link href="/contact" className={LINK}>
-            javite nam
+            Kontakt
           </Link>
           .
         </p>

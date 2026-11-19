@@ -33,6 +33,71 @@ describe("FeaturedSurahsSection progress", () => {
       },
     });
     render(<FeaturedSurahsSection allSurahs={surahs} />);
-    expect(screen.getByText("14% završeno · 7 ajeta")).toBeInTheDocument();
+    expect(screen.getByText("14% preslušano · 7 ajeta")).toBeInTheDocument();
+  });
+
+  it("uses the singular form for 31 ayahs and the few form for 4", () => {
+    const dehr = surahs.find((s) => s.surahNumber === 76)!;
+    const ikhlas = surahs.find((s) => s.surahNumber === 112)!;
+    expect([dehr.ayahCount, ikhlas.ayahCount]).toEqual([31, 4]);
+    useProgressStore.setState({
+      surahProgressMap: {
+        76: {
+          surahNumber: 76,
+          totalAyahs: 31,
+          ayahsListened: new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
+          ayahsRead: new Set(),
+          completionPercent: (13 / 31) * 100,
+          lastAccessedAt: new Date().toISOString(),
+          timeSpentMs: 0,
+        },
+      },
+    });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("42% preslušano · 31 ajet")).toBeInTheDocument();
+    expect(screen.getByText("4 ajeta")).toBeInTheDocument();
+  });
+});
+
+describe("FeaturedSurahsSection copy", () => {
+  it("explains the list for a new visitor", () => {
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("Počni s kratkim surama koje se često uče.")).toBeInTheDocument();
+  });
+
+  it("explains the list once a surah was visited", () => {
+    useProgressStore.setState({ surahsVisited: [1] });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("Započete sure i kratke sure za početak.")).toBeInTheDocument();
+  });
+});
+
+describe("FeaturedSurahsSection badge and notes", () => {
+  it("puts the Nastavi badge in flow after the Latin name, in normal case", () => {
+    const fatiha = surahs.find((s) => s.surahNumber === 1)!;
+    useProgressStore.setState({
+      surahProgressMap: {
+        1: {
+          surahNumber: 1,
+          totalAyahs: 7,
+          ayahsListened: new Set([1]),
+          ayahsRead: new Set(),
+          completionPercent: (1 / 7) * 100,
+          lastAccessedAt: new Date().toISOString(),
+          timeSpentMs: 0,
+        },
+      },
+    });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    const badge = screen.getByText("Nastavi");
+    expect(badge).not.toHaveClass("absolute");
+    expect(badge).not.toHaveClass("uppercase");
+    const latin = screen.getByText(fatiha.nameLatin);
+    expect(latin.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("renders no surah note on any card", () => {
+    const { container } = render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(container.textContent).not.toMatch(/rekiji|Jednost Boga|utočišta/);
   });
 });

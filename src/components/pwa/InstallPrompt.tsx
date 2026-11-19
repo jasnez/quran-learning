@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { Share } from "lucide-react";
+import { ModalDialog } from "@/components/ui/ModalDialog";
 
 const DISMISSED_KEY = "quran-pwa-install-dismissed";
 const INSTALLED_KEY = "quran-pwa-install-installed";
@@ -107,6 +109,8 @@ export function InstallPrompt() {
     setShowBanner(false);
   }, [deferredPrompt, isIosBrowser]);
 
+  const closeIosInstructions = useCallback(() => setShowIosInstructions(false), []);
+
   const handleDismiss = useCallback(() => {
     try {
       localStorage.setItem(DISMISSED_KEY, Date.now().toString());
@@ -126,8 +130,7 @@ export function InstallPrompt() {
   return (
     <>
       {bannerVisible && (
-        <div
-          role="dialog"
+        <aside
           aria-labelledby="install-prompt-title"
           className="fixed bottom-[72px] left-2 right-2 z-40 md:bottom-4 md:left-auto md:right-4 md:max-w-md"
         >
@@ -143,10 +146,10 @@ export function InstallPrompt() {
                 id="install-prompt-title"
                 className="text-sm font-medium text-stone-900 dark:text-stone-100"
               >
-                Instaliraj Quran Learning
+                Instaliraj aplikaciju
               </p>
               <p className="text-xs text-stone-500 dark:text-stone-400">
-                Brži pristup, radi offline
+                Otvara se s početnog ekrana; preuzete sure rade i bez interneta.
               </p>
             </div>
             <button
@@ -165,68 +168,58 @@ export function InstallPrompt() {
               <CloseIcon />
             </button>
           </div>
-        </div>
+        </aside>
       )}
 
-      {showIosInstructions && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="ios-install-title"
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 md:items-center"
-          onClick={handleDismiss}
+      <ModalDialog
+        open={showIosInstructions}
+        onClose={closeIosInstructions}
+        labelledBy="ios-install-title"
+        className="max-w-md"
+      >
+        <h2
+          id="ios-install-title"
+          className="text-lg font-semibold text-stone-900 dark:text-stone-100"
         >
-          <div
-            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-stone-900"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2
-              id="ios-install-title"
-              className="text-lg font-semibold text-stone-900 dark:text-stone-100"
-            >
-              Instaliraj na iOS
-            </h2>
-            <ol className="mt-4 space-y-3 text-sm text-stone-700 dark:text-stone-300">
-              <li className="flex items-start gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                  1
-                </span>
-                <span>
-                  Tapni dugme za dijeljenje{" "}
-                  <span aria-hidden className="inline-block">
-                    📤
-                  </span>{" "}
-                  na dnu Safari-ja
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                  2
-                </span>
-                <span>
-                  Pomakni dolje i odaberi{" "}
-                  <strong>&quot;Add to Home Screen&quot;</strong>
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                  3
-                </span>
-                <span>
-                  Tapni <strong>&quot;Add&quot;</strong> u gornjem desnom uglu
-                </span>
-              </li>
-            </ol>
-            <button
-              type="button"
-              onClick={handleDismiss}
-              className="mt-6 w-full rounded-full border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
-            >
-              Razumijem
-            </button>
-          </div>
-        </div>
-      )}
+          Dodaj na iPhone
+        </h2>
+        <ol className="mt-4 space-y-3 text-sm text-stone-700 dark:text-stone-300">
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+              1
+            </span>
+            <span>
+              Dodirni ikonu za dijeljenje{" "}
+              <Share aria-hidden className="inline-block h-4 w-4 align-text-bottom" />{" "}
+              u Safariju.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+              2
+            </span>
+            <span>
+              Izaberi <strong>&bdquo;Dodaj na početni zaslon&ldquo;</strong> (engleski:{" "}
+              &bdquo;Add to Home Screen&ldquo;).
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+              3
+            </span>
+            <span>
+              Dodirni <strong>&bdquo;Dodaj&ldquo;</strong> gore desno.
+            </span>
+          </li>
+        </ol>
+        <button
+          type="button"
+          onClick={closeIosInstructions}
+          className="mt-6 w-full rounded-full border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
+        >
+          Razumijem
+        </button>
+      </ModalDialog>
     </>
   );
 }

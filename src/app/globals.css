@@ -50,6 +50,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-transliteration: var(--font-transcription), var(--font-geist-sans), sans-serif;
 }
 
 /* Arabic font: direct selectors so font switch always applies (production) */
@@ -67,6 +68,30 @@ html[data-arabic-font="naskh"] {
 
 html {
   transition: background-color 0.25s ease, color 0.25s ease;
+  /*
+   * Keep a scrolled-to or focused element clear of the fixed bars (WCAG 2.4.11).
+   * Top: header 3rem + sticky reader header + air = 7.5rem.
+   * Bottom: back-to-top button (bottom 2rem + 3rem tall = 5rem) + 1rem air = 6rem on desktop;
+   * on mobile the button sits at 6rem (nav 3.5rem + gap), so 6rem + 3rem + 1rem = 10rem.
+   * With the audio player (70px = 4.375rem): desktop button at 6rem + 3rem + 1rem = 10rem;
+   * mobile button at 8.5rem + 3rem + 1rem = 12.5rem.
+   */
+  scroll-padding-top: 7.5rem;
+  scroll-padding-bottom: 6rem;
+}
+
+:root:has([data-audio-player]) {
+  scroll-padding-bottom: 10rem;
+}
+
+@media (width < 48rem) {
+  html {
+    scroll-padding-bottom: 10rem;
+  }
+
+  :root:has([data-audio-player]) {
+    scroll-padding-bottom: 12.5rem;
+  }
 }
 
 /*
@@ -352,4 +377,14 @@ html[data-arabic-font="naskh"] .font-arabic {
     font-weight: 600;
     color: var(--theme-text-muted);
   }
+}
+
+/* Scrolling inside a modal dialog or over its backdrop must not scroll the page behind it. */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
