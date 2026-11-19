@@ -178,7 +178,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <p className="mt-1">{lesson.summary}</p>
       </section>
 
-      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm">
+      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--theme-border)] pt-4 text-sm max-md:pr-16">
         <div className="flex items-center gap-2">
           {prevLesson && (
             <Link

@@ -71,3 +71,33 @@ describe("FeaturedSurahsSection copy", () => {
     expect(screen.getByText("Započete sure i kratke sure za početak.")).toBeInTheDocument();
   });
 });
+
+describe("FeaturedSurahsSection badge and notes", () => {
+  it("puts the Nastavi badge in flow after the Latin name, in normal case", () => {
+    const fatiha = surahs.find((s) => s.surahNumber === 1)!;
+    useProgressStore.setState({
+      surahProgressMap: {
+        1: {
+          surahNumber: 1,
+          totalAyahs: 7,
+          ayahsListened: new Set([1]),
+          ayahsRead: new Set(),
+          completionPercent: (1 / 7) * 100,
+          lastAccessedAt: new Date().toISOString(),
+          timeSpentMs: 0,
+        },
+      },
+    });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    const badge = screen.getByText("Nastavi");
+    expect(badge).not.toHaveClass("absolute");
+    expect(badge).not.toHaveClass("uppercase");
+    const latin = screen.getByText(fatiha.nameLatin);
+    expect(latin.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("renders no surah note on any card", () => {
+    const { container } = render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(container.textContent).not.toMatch(/rekiji|Jednost Boga|utočišta/);
+  });
+});

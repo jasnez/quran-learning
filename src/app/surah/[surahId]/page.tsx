@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
-import { surahNameWithCommon } from "@/lib/quran/surahNames";
 import { SurahHeader, SurahReaderContent } from "@/components/reader";
 import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
 
@@ -23,7 +22,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { surah } = await getSurahByNumber(n);
     return {
       title: `${surah.nameLatin}`,
-      description: `Čitanje sure ${surahNameWithCommon(surah)}`,
+      description: `Sura ${surah.nameLatin} s transkripcijom i prijevodom`,
     };
   } catch {
     return { title: "Sura" };

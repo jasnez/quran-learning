@@ -156,10 +156,10 @@ describe("Home page", () => {
       expect(screen.getByText("El-Iḫlāṣ")).toBeInTheDocument();
     });
 
-    it("shows short note for at least one featured surah", async () => {
+    it("shows no surah notes on the featured cards", async () => {
       const Page = await Home();
       render(Page);
-      expect(screen.getByText(/otvaranje kur'an/i)).toBeInTheDocument();
+      expect(screen.queryByText(/otvaranje kur'an/i)).not.toBeInTheDocument();
     });
   });
 

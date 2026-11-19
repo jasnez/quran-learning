@@ -8,13 +8,6 @@ import { useProgressStore } from "@/store/progressStore";
 
 const DEFAULT_NUMBERS = [1, 112, 113, 114];
 
-const NOTES: Record<number, string> = {
-  1: "Otvaranje Kur'ana; uči se u svakoj rekiji.",
-  112: "Čistoća vjerovanja u Jednost Boga.",
-  113: "Traženje utočišta u Allaha od zla izvana.",
-  114: "Traženje utočišta u Allaha od zla iznutra.",
-};
-
 const subscribeMount = () => () => {};
 const getMounted = () => true;
 const getMountedServer = () => false;
@@ -91,13 +84,8 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
             <Link
               key={surah.id}
               href={`/surah/${surah.surahNumber}`}
-              className="group relative flex flex-col rounded-xl border border-stone-200 bg-white p-4 transition-colors hover:border-emerald-200 hover:bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50 dark:hover:border-emerald-900/50 dark:hover:bg-stone-800/50"
+              className="group flex flex-col rounded-xl border border-stone-200 bg-white p-4 transition-colors hover:border-emerald-200 hover:bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50 dark:hover:border-emerald-900/50 dark:hover:bg-stone-800/50"
             >
-              {isInProgress && (
-                <span className="absolute right-3 top-3 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-                  Nastavi
-                </span>
-              )}
               <span
                 className="text-2xl font-medium text-stone-900 dark:text-stone-100"
                 dir="rtl"
@@ -108,10 +96,10 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
               <span className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
                 {surah.nameLatin}
               </span>
-              {!isInProgress && NOTES[surah.surahNumber] && (
-                <p className="mt-1 text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-                  {NOTES[surah.surahNumber]}
-                </p>
+              {isInProgress && (
+                <span className="mt-2 self-start rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                  Nastavi
+                </span>
               )}
               <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
                 {isInProgress

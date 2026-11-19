@@ -383,4 +383,10 @@ describe("Surah reader page metadata", () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
     expect(metadata.title).toBe("Sura");
   });
+
+  it("describes the surah with its transcription and translation", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
+    expect(metadata.title).toBe("Al-Fatihah");
+    expect(metadata.description).toBe("Sura Al-Fatihah s transkripcijom i prijevodom");
+  });
 });

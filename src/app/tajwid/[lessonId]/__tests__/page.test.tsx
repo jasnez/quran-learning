@@ -158,6 +158,13 @@ describe("Tajwid lesson page copy", () => {
   });
 });
 
+describe("Tajwid lesson pager", () => {
+  it("keeps the back-to-top button's column free below md", async () => {
+    render(await LessonPage({ params: Promise.resolve({ lessonId: "mad-duljenje" }) }));
+    expect(screen.getByRole("contentinfo")).toHaveClass("max-md:pr-16");
+  });
+});
+
 describe("Tajwid lesson page metadata", () => {
   it("uses the lesson title", async () => {
     const metadata = await generateMetadata({
