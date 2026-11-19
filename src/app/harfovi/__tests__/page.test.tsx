@@ -86,4 +86,9 @@ describe("Harfovi i izgovor page", () => {
     render(<LettersPage />);
     expect(screen.getByText(/Greške se prijavljuju na stranici/)).toBeInTheDocument();
   });
+
+  it("says the transcription is made from the Arabic text, as the sources page does", () => {
+    const { container } = render(<LettersPage />);
+    expect(container.textContent).toContain("Transkripcija je napravljena iz arapskog teksta.");
+  });
 });

@@ -6,7 +6,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor, cleanup, fireEvent, within } from "@testing-library/react";
 import { LearnModeContent } from "../LearnModeContent";
 import type { SurahSummary, Ayah } from "@/types/quran";
 import { clearWordTimingCache } from "@/lib/audio/wordTimingService";
@@ -202,6 +202,23 @@ describe("LearnModeContent word-by-word", () => {
     await waitFor(() => expect(article().querySelector("[data-word-by-word]")).not.toBeNull());
     expect(article().textContent).not.toMatch(/[A-Za-z]/);
     expect(screen.queryByRole("button", { name: /značenje riječi/i })).toBeNull();
+  });
+
+  // A live region mounted together with its text is often not announced.
+  it("has the word-data status region before chapter data fails and puts the error into it", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    playerState.wordByWordMode = true;
+    fetchMock.mockImplementation(() => Promise.resolve({ ok: false, status: 500 }));
+    render(<LearnModeContent surah={surah} ayahs={ayahs} />);
+    const status = within(article()).getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    expect(status).toHaveClass("sr-only");
+    await waitFor(() =>
+      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+    );
+    expect(within(article()).getByRole("status")).toBe(status);
+    expect(status).not.toHaveClass("sr-only");
+    warn.mockRestore();
   });
 
   it("tajwid classes present in word-by-word mode", async () => {

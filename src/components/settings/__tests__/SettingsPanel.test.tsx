@@ -213,7 +213,8 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByRole("group", { name: /ponavljanje/i })).toBeInTheDocument();
     // QA P2-8: the switch turns on going on to the next surah (ayahs always follow each
-    // other), so it is named like the player's own toggle.
+    // other). Its name differs from the player's own toggle ("Pusti sljedeću suru"); both
+    // come from the copy deck.
     expect(screen.getByRole("switch", { name: "Nakon sure pusti sljedeću" })).toBeInTheDocument();
     expect(screen.queryByRole("switch", { name: /sljedeći ajet/i })).not.toBeInTheDocument();
   });

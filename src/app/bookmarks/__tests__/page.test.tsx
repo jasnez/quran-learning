@@ -94,7 +94,8 @@ describe("BookmarksContent", () => {
     mockGetAllBookmarks.mockReturnValue([]);
     const html = renderToString(<BookmarksContent surahs={mockSurahs} />);
     expect(html).toContain("Sačuvani ajeti");
-    expect(html).not.toContain("Nemate označenih ajeta");
+    expect(html).not.toContain("Još nema sačuvanih ajeta.");
+    expect(html).not.toContain("data-empty-state");
     expect(html).toContain('data-testid="bookmarks-placeholder"');
   });
 

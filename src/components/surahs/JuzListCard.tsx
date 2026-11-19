@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { JuzInfo } from "@/types/quran";
 import { getJuzProgress } from "@/lib/data/juzUtils";
+import { SURAH_FORMS, formatCount } from "@/lib/format";
 import { useProgressStore } from "@/store/progressStore";
 import type { SurahSummary } from "@/types/quran";
 
@@ -48,7 +49,7 @@ export function JuzListCard({ juz, allSurahs }: JuzListCardProps) {
             {rangeLabel}
           </p>
           <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
-            {surahCount} {surahCount === 1 ? "sura" : "sure"}
+            {formatCount(surahCount, SURAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">

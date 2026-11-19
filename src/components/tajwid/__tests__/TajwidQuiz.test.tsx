@@ -133,6 +133,19 @@ describe("TajwidQuiz status messages and focus", () => {
     expect(chosen).toHaveFocus();
   });
 
+  // "Sljedeće pitanje" unmounts with the feedback; focus would fall to the body.
+  it("moves focus to the next question's text, but not on mount", () => {
+    renderQuiz();
+    expect(document.activeElement).toBe(document.body);
+    fireEvent.click(screen.getByRole("button", { name: /A/ }));
+    const next = screen.getByRole("button", { name: /Sljedeće pitanje/ });
+    next.focus();
+    fireEvent.click(next);
+    const question = screen.getByText("Second question?");
+    expect(document.activeElement).toBe(question);
+    expect(question).toHaveAttribute("tabindex", "-1");
+  });
+
   it("clears the message when moving to the next question", () => {
     renderQuiz();
     fireEvent.click(screen.getByRole("button", { name: /A/ }));

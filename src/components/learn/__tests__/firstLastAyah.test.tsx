@@ -128,6 +128,24 @@ describe("Learning mode first/last ayah", () => {
     expect(next).toBeDisabled();
   });
 
+  // A live region mounted together with its text is often not announced.
+  it("has the status regions before the last ayah and puts the end message into one of them there", () => {
+    const { rerender } = render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const regions = screen.getAllByRole("status");
+    for (const region of regions) {
+      expect(region).toBeEmptyDOMElement();
+      expect(region).toHaveClass("sr-only");
+    }
+    vi.mocked(usePlayerStore).mockImplementation((sel) =>
+      sel({ ...defaultPlayerState, currentAyahId: "1:2" } as unknown as PlayerState)
+    );
+    rerender(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
+    const done = screen.getByText("Sura je završena. Mašallah!");
+    expect(done).toHaveAttribute("role", "status");
+    expect(regions).toContain(done);
+    expect(done).not.toHaveClass("sr-only");
+  });
+
   it("when ayahs empty shows data coming soon message", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={[]} />);
     expect(

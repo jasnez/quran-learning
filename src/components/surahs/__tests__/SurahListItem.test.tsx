@@ -112,6 +112,15 @@ describe("SurahListItem", () => {
 });
 
 describe("JuzListCard", () => {
+  it.each([
+    [2, "1 sura"],
+    [1, "2 sure"],
+    [30, "37 sura"],
+  ])("juz %i counts its surahs as %s", (n, expected) => {
+    render(<JuzListCard juz={getAllJuz().find((j) => j.juz === n)!} allSurahs={[mockSurah]} />);
+    expect(screen.getByText(expected)).toBeInTheDocument();
+  });
+
   it("names the percent with sr-only text, not an aria-label", () => {
     mockGetSurahProgress.mockReturnValue({
       surahNumber: 1,

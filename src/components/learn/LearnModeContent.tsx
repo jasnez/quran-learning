@@ -137,6 +137,10 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
   };
 
   const learnFontSize = Math.max(arabicFontSize + 12, 40);
+  // The status regions stay in the DOM and only their text changes: a region mounted together
+  // with its text is often not announced. Empty, they are sr-only, so no empty box shows.
+  const wordDataFailed = wordByWordMode && chapterDataError;
+  const surahFinished = !canGoNext && ayahs.length > 0;
 
   return (
     <>
@@ -233,11 +237,12 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
               style={{ fontSize: `${learnFontSize}px` }}
             />
           )}
-          {wordByWordMode && chapterDataError && (
-            <p className="mt-4 text-center text-sm text-amber-700 dark:text-amber-400" role="status">
-              Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo.
-            </p>
-          )}
+          <p
+            className={wordDataFailed ? "mt-4 text-center text-sm text-amber-700 dark:text-amber-400" : "sr-only"}
+            role="status"
+          >
+            {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
+          </p>
           {showTransliteration && ayah.transliteration && (
             <p className="mt-8 text-center font-transliteration text-lg leading-relaxed text-stone-500 dark:text-stone-400">
               {ayah.transliteration}
@@ -258,11 +263,9 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             <TajwidLegend />
           </div>
         )}
-        {!canGoNext && ayahs.length > 0 && (
-          <p className="text-center text-sm text-stone-500 dark:text-stone-400" role="status">
-            Sura je završena. Mašallah!
-          </p>
-        )}
+        <p className={surahFinished ? "text-center text-sm text-stone-500 dark:text-stone-400" : "sr-only"} role="status">
+          {surahFinished ? "Sura je završena. Mašallah!" : null}
+        </p>
         <div className="flex items-center justify-center gap-4">
           <button
             type="button"

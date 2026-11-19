@@ -244,6 +244,20 @@ describe("SurahReaderContent word-by-word", () => {
     expect(card("1:1").textContent).toContain("ٱللَّهِ");
   });
 
+  // A live region mounted together with its text is often not announced.
+  it("has the status region before chapter data fails and puts the error into it", async () => {
+    fetchMock.mockImplementation(() => Promise.resolve({ ok: false, status: 500 }));
+    render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    expect(status).toHaveClass("sr-only");
+    await waitFor(() =>
+      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+    );
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).not.toHaveClass("sr-only");
+  });
+
   it("does not fetch /data/words", async () => {
     render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
     await waitFor(() => expect(card("1:1").querySelector("[data-word-by-word]")).not.toBeNull());

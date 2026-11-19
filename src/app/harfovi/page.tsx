@@ -135,7 +135,7 @@ export default function LettersPage() {
           Pravila.
         </p>
         <p className="mt-3 max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
-          Transkripcija je napravljena pravilima iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
+          Transkripcija je napravljena iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
           između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Greške se prijavljuju na stranici{" "}
           <Link href="/contact" className={LINK}>
             Kontakt

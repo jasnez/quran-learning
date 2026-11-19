@@ -72,6 +72,7 @@ export function SurahReaderContent({
   const currentSurahMeta = (surahsData as Array<{ surahNumber: number; nameArabic: string }>).find(
     (s) => s.surahNumber === surahNumber,
   );
+  const wordDataFailed = wordByWordMode && chapterDataError;
 
   return (
     <>
@@ -128,11 +129,11 @@ export function SurahReaderContent({
           </button>
         </div>
       </div>
-      {wordByWordMode && chapterDataError && (
-        <p className="mb-4 text-sm text-amber-700 dark:text-amber-400" role="status">
-          Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo.
-        </p>
-      )}
+      {/* The status region stays in the DOM and only its text changes: a region mounted together
+          with its text is often not announced. Empty, it is sr-only, so no empty box shows. */}
+      <p className={wordDataFailed ? "mb-4 text-sm text-amber-700 dark:text-amber-400" : "sr-only"} role="status">
+        {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
+      </p>
       <ul className="space-y-6 list-none" role="list">
         {ayahs.map((ayah, index) => {
           const prevAyah = index > 0 ? ayahs[index - 1] : null;

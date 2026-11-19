@@ -252,6 +252,7 @@ describe("Home page", () => {
       const Page = await Home();
       render(Page);
       expect(screen.queryByTestId("overall-stats-cards")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("progress-stats-row")).toBeNull();
     });
 
     it("stats row is visible when any stat is greater than zero", async () => {

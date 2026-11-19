@@ -32,10 +32,16 @@ export function TajwidQuiz({
   const [quizFinished, setQuizFinished] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const finishedHeadingRef = useRef<HTMLHeadingElement>(null);
+  const questionRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (quizFinished) finishedHeadingRef.current?.focus();
   }, [quizFinished]);
+
+  // "Sljedeće pitanje" unmounts with the feedback, so focus moves to the new question.
+  useEffect(() => {
+    if (currentIndex > 0) questionRef.current?.focus();
+  }, [currentIndex]);
 
   const markStarted = useProgressStore((s) => s.markTajwidLessonStarted);
   const recordResult = useProgressStore((s) => s.recordTajwidQuizResult);
@@ -157,7 +163,11 @@ export function TajwidQuiz({
         </span>
       </div>
       <div className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4">
-        <p className="font-medium text-stone-800 dark:text-stone-200">
+        <p
+          ref={questionRef}
+          tabIndex={-1}
+          className="font-medium text-stone-800 focus-visible:outline-hidden dark:text-stone-200"
+        >
           {question.question}
         </p>
         <ul className="mt-3 space-y-2">
