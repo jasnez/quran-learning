@@ -346,7 +346,7 @@ function ToggleRow({
         onClick={onChange}
       >
         <span
-          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-surface shadow ring-0 transition ${
+          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-on-accent shadow ring-0 transition ${
             checked ? "translate-x-5" : "translate-x-0.5"
           }`}
         />

@@ -464,7 +464,7 @@ export function AudioPlayer() {
               >
                 <span
                   data-autoplay-thumb
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-surface text-ink shadow md:h-8 md:w-8"
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-on-accent text-accent shadow md:h-8 md:w-8"
                   aria-hidden
                 >
                   <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
