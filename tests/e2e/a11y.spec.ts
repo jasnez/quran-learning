@@ -6,7 +6,8 @@ import { expect, test } from "@playwright/test";
  *
  * Run: `npm run test:a11y` (own config, own dev server on port 3210; fails if
  * another `next dev` of this worktree is running). A full run takes about
- * 7-12 minutes on this machine (19 routes), mostly dev-server compiles. CI does not run it.
+ * 7-12 minutes on this machine (19 routes), mostly dev-server compiles. CI runs it on pull
+ * requests only (job `a11y` in .github/workflows/ci.yml).
  *
  * Every route is one test and fails on its own with a readable list of
  * violations that are not allowlisted. The last test checks that every
