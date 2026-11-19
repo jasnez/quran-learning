@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { Share } from "lucide-react";
 import { ModalDialog } from "@/components/ui/ModalDialog";
+import { SITE_NAME } from "@/lib/site";
 
 const DISMISSED_KEY = "quran-pwa-install-dismissed";
 const INSTALLED_KEY = "quran-pwa-install-installed";
@@ -146,7 +147,7 @@ export function InstallPrompt() {
                 id="install-prompt-title"
                 className="text-sm font-medium text-ink"
               >
-                Instaliraj aplikaciju
+                Dodaj {SITE_NAME} na početni ekran
               </p>
               <p className="text-xs text-ink-muted">
                 Otvara se s početnog ekrana; preuzete sure rade i bez interneta.

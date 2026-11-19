@@ -1,4 +1,4 @@
-// Quran Learning -- service worker (static export; audio comes from everyayah.com and is not cached).
+// Elif -- service worker (static export; audio comes from everyayah.com and is not cached).
 // Three caches: shell (HTML pages, including the surahs saved by the offline download),
 // static (Next.js /_next/static files, icons and fonts from /public), api (JSON in /data/).
 
