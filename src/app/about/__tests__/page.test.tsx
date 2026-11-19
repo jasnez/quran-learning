@@ -16,7 +16,7 @@ describe("O aplikaciji page", () => {
     expect(container.textContent).not.toMatch(/platform/i);
     expect(metadata.title).toBe("O aplikaciji | Quran Learning");
     expect(metadata.description).toBe(
-      `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transliteracija, Korkutov prijevod i učač Mishary Alafasy.`
+      `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy.`
     );
   });
 
@@ -24,7 +24,7 @@ describe("O aplikaciji page", () => {
     render(<AboutPage />);
     expect(
       screen.getByText(
-        `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana na bosanskom jeziku. Uz svaki ajet su arapski tekst, transliteracija po pravilima Rijaseta Islamske zajednice u Bosni i Hercegovini, prijevod značenja Besima Korkuta i učenje Mishary Alafasyja. Tu su i lekcije tedžvida, Allahova lijepa imena i dove iz Kur'ana.`
+        `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana na bosanskom jeziku. Uz svaki ajet su arapski tekst, transkripcija po pravilima Rijaseta Islamske zajednice u Bosni i Hercegovini, prijevod značenja Besima Korkuta i učenje Mishary Alafasyja. Tu su i lekcije tedžvida, Allahova lijepa imena i dove iz Kur'ana.`
       )
     ).toBeInTheDocument();
   });
@@ -33,7 +33,7 @@ describe("O aplikaciji page", () => {
     render(<AboutPage />);
     const section = screen.getByRole("heading", { name: "Mogućnosti" }).closest("section")!;
     expect(within(section).getAllByRole("listitem").map((li) => li.textContent)).toEqual([
-      "Čitanje sure ajet po ajet, s transliteracijom i prijevodom",
+      "Čitanje sure ajet po ajet, s transkripcijom i prijevodom",
       "Slušanje svakog ajeta, uz ponavljanje",
       "Lekcije tedžvida s kvizom",
       "Sačuvani ajeti s bilješkama",
@@ -48,7 +48,7 @@ describe("O aplikaciji page", () => {
       screen.getByText(
         (_, el) =>
           el?.tagName === "P" &&
-          el.textContent === "Tekst, transliteracija i snimci dolaze iz otvorenih izvora, navedenih na stranici Izvori."
+          el.textContent === "Tekst, transkripcija i snimci dolaze iz otvorenih izvora, navedenih na stranici Izvori."
       )
     ).toBeInTheDocument();
     expect(

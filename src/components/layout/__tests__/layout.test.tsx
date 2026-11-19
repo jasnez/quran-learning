@@ -404,7 +404,7 @@ describe("Footer", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
     expect(footer).toHaveTextContent(
-      "Kur'an na bosanskom: arapski tekst, transliteracija, Korkutov prijevod i učač Mishary Alafasy."
+      "Kur'an na bosanskom: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy."
     );
   });
 

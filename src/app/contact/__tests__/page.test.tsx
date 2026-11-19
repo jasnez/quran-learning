@@ -34,7 +34,7 @@ describe("Contact page (QA P1-7)", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Kod greške u tekstu, transliteraciji, prijevodu ili snimku najviše pomaže kad prijava navodi suru i ajet ili link."
+        "Kod greške u tekstu, transkripciji, prijevodu ili snimku najviše pomaže kad prijava navodi suru i ajet ili link."
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Na početnu" })).toHaveAttribute("href", "/");

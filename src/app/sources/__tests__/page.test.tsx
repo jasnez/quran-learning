@@ -17,7 +17,7 @@ describe("Izvori (Sources) page", () => {
     expect(metadata.description).not.toMatch(/&\w+;/);
     expect(metadata.description).toMatch(/arapski tekst/i);
     expect(metadata.description).toBe(
-      "Izvori: arapski tekst, tedžvid oznake, transliteracija, prijevod i snimci učenja."
+      "Izvori: arapski tekst, tedžvid oznake, transkripcija, prijevod i snimci učenja."
     );
   });
 
@@ -56,7 +56,7 @@ describe("Izvori (Sources) page", () => {
   it("says the transliteration follows the IZ BiH rules and links to the letter table", async () => {
     const Page = await SourcesPage();
     render(Page);
-    expect(screen.getAllByRole("heading", { name: /^transliteracija$/i }).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByRole("heading", { name: /^transkripcija$/i }).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByRole("link", { name: /pravila transkripcije i transliteracije/i })[0]).toHaveAttribute(
       "href",
       "https://ilmijja.ba/wp-content/uploads/2022/03/Pravila.pdf"
@@ -108,7 +108,7 @@ describe("Izvori (Sources) page", () => {
     expect(container.textContent).toContain(
       "vremena riječi za praćenje učenja preuzeti su sa servisa Quran.com."
     );
-    expect(container.textContent).toContain("bojom su istaknuta samo četiri pravila (mad, ghunnah, ikhfa i qalqalah).");
-    expect(container.textContent).toContain("Transliteracija ajeta i dova napravljena je iz arapskog teksta, sistemom");
+    expect(container.textContent).toContain("bojom su istaknuta samo četiri pravila (medd, gunne, ihfa i kalkala).");
+    expect(container.textContent).toContain("Transkripcija ajeta i dova napravljena je iz arapskog teksta, sistemom");
   });
 });

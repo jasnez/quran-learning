@@ -110,9 +110,9 @@ export function TajwidQuiz({
           </p>
           <p className="mt-1 text-sm text-emerald-800 dark:text-emerald-200">
             {totalCorrect === total
-              ? "Sve je tačno. Lekcija je savladana."
+              ? "Sve je tačno. Lekcija je savladana. Mašallah!"
               : isTajwidQuizPassed(totalCorrect, total)
-                ? "Lekcija je savladana. Kviz možeš ponoviti kad god hoćeš."
+                ? "Lekcija je savladana. Mašallah! Kviz možeš ponoviti kad god hoćeš."
                 : `Za završetak lekcije treba najmanje ${formatCount(tajwidQuizPassScore(total), CORRECT_ANSWER_FORMS)} od ${total}. Pročitaj lekciju još jednom pa ponovi kviz.`}
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-2">

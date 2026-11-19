@@ -5,7 +5,7 @@ import { SITE_NAME } from "@/lib/site";
 export const metadata: Metadata = {
   title: "O aplikaciji | Quran Learning",
   description:
-    `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transliteracija, Korkutov prijevod i učač Mishary Alafasy.`,
+    `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy.`,
 };
 
 export default function AboutPage() {
@@ -22,7 +22,7 @@ export default function AboutPage() {
           </h2>
           <p className="mt-2 leading-relaxed">
             {SITE_NAME} je besplatna aplikacija za učenje Kur&apos;ana na bosanskom
-            jeziku. Uz svaki ajet su arapski tekst, transliteracija po pravilima
+            jeziku. Uz svaki ajet su arapski tekst, transkripcija po pravilima
             Rijaseta Islamske zajednice u Bosni i Hercegovini, prijevod značenja
             Besima Korkuta i učenje Mishary Alafasyja. Tu su i lekcije tedžvida,
             Allahova lijepa imena i dove iz Kur&apos;ana.
@@ -34,7 +34,7 @@ export default function AboutPage() {
             Mogućnosti
           </h2>
           <ul className="mt-2 list-inside list-disc space-y-1.5 leading-relaxed">
-            <li>Čitanje sure ajet po ajet, s transliteracijom i prijevodom</li>
+            <li>Čitanje sure ajet po ajet, s transkripcijom i prijevodom</li>
             <li>Slušanje svakog ajeta, uz ponavljanje</li>
             <li>Lekcije tedžvida s kvizom</li>
             <li>Sačuvani ajeti s bilješkama</li>
@@ -48,7 +48,7 @@ export default function AboutPage() {
             Izvori
           </h2>
           <p className="mt-2 leading-relaxed">
-            Tekst, transliteracija i snimci dolaze iz otvorenih izvora, navedenih
+            Tekst, transkripcija i snimci dolaze iz otvorenih izvora, navedenih
             na stranici{" "}
             <Link
               href="/sources"

@@ -185,7 +185,7 @@ describe("Learn Mode page", () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(
-      screen.getByRole("button", { name: /transliteration|transliteraci|prikaži|sakrij transliteraciju/i })
+      screen.getByRole("button", { name: /transliteration|transkripci|prikaži|sakrij transkripciju/i })
     ).toBeInTheDocument();
   });
 
@@ -251,11 +251,11 @@ describe("Learn Mode page", () => {
     expect(screen.queryByRole("main")).toBeNull();
   });
 
-  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljanje)", async () => {
+  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transkripcija, Prijevod, Ponavljanje)", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "2" }) });
     render(Page);
     expect(screen.getByRole("button", { name: /riječ po riječ/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /transliteracija|transliteraci/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /transkripcija|transkripci/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /prijevod/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /ponavljanje/i })).toBeInTheDocument();
   });

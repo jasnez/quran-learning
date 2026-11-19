@@ -5,7 +5,7 @@ import { ARABIC_LETTERS, ARABIC_VOWELS, LETTER_RULES_SOURCE } from "@/lib/letter
 export const metadata: Metadata = {
   title: "Harfovi i izgovor | Quran Learning",
   description:
-    "Tabela arapskih harfova: kako se pišu u transliteraciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
+    "Tabela arapskih harfova: kako se pišu u transkripciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
 };
 
 const LINK = "text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400";
@@ -17,7 +17,7 @@ export default function LettersPage() {
       <article className="mx-auto max-w-4xl">
         <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">Harfovi i izgovor</h1>
         <p className="max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
-          Transliteracija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
+          Transkripcija ajeta i dova u aplikaciji pisana je sistemom koji Pravila Islamske zajednice zovu
           &bdquo;specijal&ldquo; i preporučuju za učenje kur&apos;anskog teksta. Tabela pokazuje kako se svaki harf piše
           u tom sistemu, kako u druga dva sistema iz istih Pravila, i kako se izgovara.
         </p>
@@ -96,7 +96,7 @@ export default function LettersPage() {
           </table>
         </div>
 
-        <h2 className={H2}>Kako čitati transliteraciju</h2>
+        <h2 className={H2}>Kako čitati transkripciju</h2>
         <ul className="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 leading-relaxed text-stone-600 dark:text-stone-400">
           <li>
             <strong>Dugi vokali</strong> imaju crticu iznad slova (ā, ī, ū) i izgovaraju se dvostruko duže od kratkih.
@@ -135,7 +135,7 @@ export default function LettersPage() {
           Pravila.
         </p>
         <p className="mt-3 max-w-[65ch] leading-relaxed text-stone-600 dark:text-stone-400">
-          Transliteracija je napravljena pravilima iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
+          Transkripcija je napravljena pravilima iz arapskog teksta. Za sure čiji tekst Pravila ne donose, izbor
           između <em>e</em> i <em>a</em> slijedi pravilo izvedeno iz teksta koji Pravila donose. Greške se prijavljuju na stranici{" "}
           <Link href="/contact" className={LINK}>
             Kontakt

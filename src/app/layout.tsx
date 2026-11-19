@@ -42,7 +42,7 @@ const scheherazade = Scheherazade_New({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: SITE_NAME,
-  description: "Čitanje Kur’ana s transliteracijom",
+  description: "Čitanje Kur’ana s transkripcijom",
   manifest: "/manifest.webmanifest",
   // "./" resolves against each page's own path: every page is its own canonical URL,
   // without the query (?ayah=5 shows the same static page).

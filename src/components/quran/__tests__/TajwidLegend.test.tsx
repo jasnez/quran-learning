@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TajwidLegend } from "../TajwidLegend";
-import { tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleDescriptions, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
 import type { TajwidRule } from "@/types/quran";
 
 const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
@@ -46,7 +46,11 @@ describe("TajwidLegend", () => {
     await user.click(toggle);
 
     for (const rule of TAJWID_RULES) {
-      expect(screen.getByText(tajwidRuleLabels[rule])).toBeInTheDocument();
+      expect(screen.getByText(tajwidRuleNames[rule])).toBeInTheDocument();
+      if (rule !== "normal") {
+        const text = tajwidRuleDescriptions[rule];
+        expect(screen.getByText(`${text[0].toUpperCase()}${text.slice(1)}.`)).toBeInTheDocument();
+      }
     }
   });
 
@@ -56,17 +60,19 @@ describe("TajwidLegend", () => {
     await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
 
     expect(screen.getByText("Bez pravila")).toBeInTheDocument();
-    expect(screen.getByText("Mad")).toBeInTheDocument();
-    expect(screen.getByText("Ghunnah")).toBeInTheDocument();
-    expect(screen.getByText("Ikhfa")).toBeInTheDocument();
-    expect(screen.getByText("Qalqalah")).toBeInTheDocument();
+    expect(screen.getByText("Medd")).toBeInTheDocument();
+    expect(screen.getByText("Gunne")).toBeInTheDocument();
+    expect(screen.getByText("Ihfa")).toBeInTheDocument();
+    expect(screen.getByText("Kalkala")).toBeInTheDocument();
+    expect(screen.getByText("Glas se produžava.")).toBeInTheDocument();
+    expect(screen.getByText("Odskok glasa.")).toBeInTheDocument();
   });
 
   it("when opened, each rule has a color swatch (dot) with matching tajwid class", async () => {
     const user = userEvent.setup();
     const { container } = render(<TajwidLegend />);
     await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
-    await screen.findByText(tajwidRuleLabels.mad);
+    await screen.findByText(tajwidRuleNames.mad);
 
     // Swatches use the same colors as tajwidRuleClasses (emerald, rose, sky, amber)
     expect(container.querySelector("[class*='text-emerald']")).not.toBeNull();
@@ -80,7 +86,7 @@ describe("TajwidLegend", () => {
     const { container } = render(<TajwidLegend />);
     const toggle = screen.getByRole("button", { name: /šta znače boje/i });
     await user.click(toggle);
-    expect(screen.getByText(tajwidRuleLabels.mad)).toBeInTheDocument();
+    expect(screen.getByText(tajwidRuleNames.mad)).toBeInTheDocument();
     let panel = container.querySelector("#tajwid-legend-panel");
     expect(panel?.className).toMatch(/max-h-96/);
     await user.click(toggle);

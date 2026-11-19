@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const PLATFORM_NAME = "Quran Learning";
-const DESCRIPTION = "Kur'an na bosanskom: arapski tekst, transliteracija, Korkutov prijevod i učač Mishary Alafasy.";
+const DESCRIPTION = "Kur'an na bosanskom: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy.";
 // The text alone was 20px tall: 44px touch targets on phones, the WCAG 2.5.8 minimum of 24px from md up.
 const FOOTER_LINK =
   "inline-flex min-h-11 items-center text-stone-600 transition-colors hover:text-[var(--theme-accent)] md:min-h-6 dark:text-stone-400 dark:hover:text-emerald-400";

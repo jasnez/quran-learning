@@ -2,17 +2,14 @@
 
 import { useState } from "react";
 import type { TajwidRule } from "@/types/quran";
-import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleDescriptions, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
 
 const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
 
-const ruleDisplayNames: Record<TajwidRule, string> = {
-  normal: "Bez pravila",
-  mad: "Mad",
-  ghunnah: "Ghunnah",
-  ikhfa: "Ikhfa",
-  qalqalah: "Qalqalah",
-};
+function describe(rule: TajwidRule): string {
+  const text = tajwidRuleDescriptions[rule];
+  return text ? `${text[0].toUpperCase()}${text.slice(1)}.` : "";
+}
 
 export function TajwidLegend() {
   const [open, setOpen] = useState(false);
@@ -59,11 +56,11 @@ export function TajwidLegend() {
               </span>
               <div className="min-w-0 flex-1">
                 <span className="font-medium text-stone-800 dark:text-stone-200">
-                  {ruleDisplayNames[rule]}
+                  {tajwidRuleNames[rule]}
                 </span>
-                <p className="mt-0.5 text-stone-600 dark:text-stone-400">
-                  {tajwidRuleLabels[rule]}
-                </p>
+                {rule !== "normal" && (
+                  <p className="mt-0.5 text-stone-600 dark:text-stone-400">{describe(rule)}</p>
+                )}
               </div>
             </li>
           ))}

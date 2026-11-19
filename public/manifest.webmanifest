@@ -1,7 +1,7 @@
 {
   "name": "Quran Learning",
   "short_name": "Quran",
-  "description": "Čitanje Kur'ana s transliteracijom i prijevodom",
+  "description": "Čitanje Kur'ana s transkripcijom i prijevodom",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FAFAF5",
@@ -33,7 +33,7 @@
       "sizes": "780x1688",
       "type": "image/webp",
       "form_factor": "narrow",
-      "label": "Sura El-Fatiha: arapski tekst, transliteracija i prijevod"
+      "label": "Sura El-Fatiha: arapski tekst, transkripcija i prijevod"
     },
     {
       "src": "/screenshots/wide-home.webp",

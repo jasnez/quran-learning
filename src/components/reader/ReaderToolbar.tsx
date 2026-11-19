@@ -144,7 +144,7 @@ export function ReaderToolbar() {
         <ToggleChip
           active={showTransliteration}
           onClick={toggleTransliteration}
-          label="Transliteracija"
+          label="Transkripcija"
         />
         <ToggleChip
           active={showTranslation}

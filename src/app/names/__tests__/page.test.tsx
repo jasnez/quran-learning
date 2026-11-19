@@ -13,7 +13,7 @@ afterEach(cleanup);
 describe("Allahova lijepa imena page", () => {
   it("describes the 99 names the same way in the description and the intro", () => {
     const { container } = render(<NamesPage />);
-    const tail = ": 99 Allahovih lijepih imena s arapskim tekstom, transliteracijom i prijevodom";
+    const tail = ": 99 Allahovih lijepih imena s arapskim tekstom, transkripcijom i prijevodom";
     expect(container.querySelector("h1 + p")?.textContent?.endsWith(tail)).toBe(true);
     expect(metadata.description).toContain(tail);
     expect(metadata.description).not.toContain("na bosanski");

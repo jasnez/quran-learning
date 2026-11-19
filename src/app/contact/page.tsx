@@ -44,7 +44,7 @@ export default function ContactPage() {
             Povratne informacije
           </h2>
           <p className="mt-2 leading-relaxed">
-            Kod greške u tekstu, transliteraciji, prijevodu ili snimku najviše
+            Kod greške u tekstu, transkripciji, prijevodu ili snimku najviše
             pomaže kad prijava navodi suru i ajet ili link.
           </p>
         </section>

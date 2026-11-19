@@ -65,7 +65,7 @@ export function ContinueLearningSection() {
       <section aria-labelledby="continue-heading" className="space-y-6">
         <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
           <p className="text-base font-medium text-stone-800 dark:text-stone-200">
-            Dobar početak su kratke sure ispod.
+            Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export function ContinueLearningSection() {
       ) : (
         <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
           <p className="text-base font-medium text-stone-800 dark:text-stone-200">
-            Dobar početak su kratke sure ispod.
+            Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
       )}

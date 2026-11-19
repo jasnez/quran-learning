@@ -97,7 +97,7 @@ describe("ContinueLearningSection", () => {
     Object.assign(mockStore, { lastSurahNumber: 0, surahProgressMap: {}, surahsVisited: [], ayahsListened: 0, totalListeningTimeMs: 0 });
     try {
       render(<ContinueLearningSection />);
-      expect(await screen.findByText("Dobar početak su kratke sure ispod.")).toBeInTheDocument();
+      expect(await screen.findByText("Selam! Dobar početak su kratke sure ispod.")).toBeInTheDocument();
     } finally {
       Object.assign(mockStore, saved);
     }

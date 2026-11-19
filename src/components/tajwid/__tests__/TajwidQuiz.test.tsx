@@ -158,7 +158,7 @@ describe("TajwidQuiz status messages and focus", () => {
     fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje/ }));
     fireEvent.click(screen.getByRole("button", { name: /Y/ }));
     fireEvent.click(screen.getByRole("button", { name: /Završi kviz/ }));
-    expect(screen.getByText("Sve je tačno. Lekcija je savladana.")).toBeInTheDocument();
+    expect(screen.getByText("Sve je tačno. Lekcija je savladana. Mašallah!")).toBeInTheDocument();
     expect(container.textContent).not.toContain("/la");
   });
 
@@ -175,7 +175,7 @@ describe("TajwidQuiz status messages and focus", () => {
       fireEvent.click(screen.getByRole("button", { name: /Sljedeće pitanje|Završi kviz/ }));
     }
     expect(
-      screen.getByText("Lekcija je savladana. Kviz možeš ponoviti kad god hoćeš."),
+      screen.getByText("Lekcija je savladana. Mašallah! Kviz možeš ponoviti kad god hoćeš."),
     ).toBeInTheDocument();
   });
 

@@ -166,7 +166,7 @@ describe("ReaderToolbar names", () => {
     expect(screen.getByRole("group", { name: "Praćenje uz zvuk" })).toBeInTheDocument();
     const translation = screen.getByRole("button", { name: "Prijevod", pressed: true });
     expect(translation).not.toHaveAttribute("aria-label");
-    expect(screen.getByRole("button", { name: "Transliteracija", pressed: false })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Transkripcija", pressed: false })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Tedžvid boje", pressed: false })).toBeInTheDocument();
     expect(screen.queryByLabelText("Sve postavke")).toBeNull();
   });

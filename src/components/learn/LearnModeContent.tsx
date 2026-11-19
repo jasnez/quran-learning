@@ -260,7 +260,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
         )}
         {!canGoNext && ayahs.length > 0 && (
           <p className="text-center text-sm text-stone-500 dark:text-stone-400" role="status">
-            Sura je završena.
+            Sura je završena. Mašallah!
           </p>
         )}
         <div className="flex items-center justify-center gap-4">
@@ -329,7 +329,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             pressed={showTransliteration}
             onClick={toggleTransliteration}
           >
-            Transliteracija
+            Transkripcija
           </OptionToggle>
           <OptionToggle
             active={showTranslation}

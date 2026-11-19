@@ -5,7 +5,7 @@ import { LETTER_RULES_SOURCE } from "@/lib/letters/data";
 export const metadata: Metadata = {
   title: "Izvori | Quran Learning",
   description:
-    "Izvori: arapski tekst, tedžvid oznake, transliteracija, prijevod i snimci učenja.",
+    "Izvori: arapski tekst, tedžvid oznake, transkripcija, prijevod i snimci učenja.",
 };
 
 const LINK_CLASS =
@@ -53,16 +53,16 @@ export default function SourcesPage() {
           </p>
           <p className="mt-1 leading-relaxed">
             Izmjene: oznake su prenesene na tekst koji se ovdje prikazuje, a bojom su istaknuta samo
-            četiri pravila (mad, ghunnah, ikhfa i qalqalah).
+            četiri pravila (medd, gunne, ihfa i kalkala).
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Transliteracija
+            Transkripcija
           </h2>
           <p className="mt-2 leading-relaxed">
-            Transliteracija ajeta i dova napravljena je iz arapskog teksta, sistemom
+            Transkripcija ajeta i dova napravljena je iz arapskog teksta, sistemom
             &bdquo;specijal&ldquo; koji Rijaset Islamske zajednice u Bosni i Hercegovini preporučuje za
             kur&apos;anski tekst. Pregled slova i izgovora je na stranici{" "}
             <Link href="/harfovi" className={LINK_CLASS}>

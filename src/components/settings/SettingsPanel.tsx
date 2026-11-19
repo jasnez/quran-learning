@@ -182,7 +182,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               </div>
               <ToggleRow
                 id="transliteration"
-                label="Transliteracija"
+                label="Transkripcija"
                 checked={showTransliteration}
                 onChange={toggleTransliteration}
               />

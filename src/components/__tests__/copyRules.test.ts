@@ -4,7 +4,7 @@
  * arrows. It scans the source, so it also catches strings in constants and metadata.
  */
 import { describe, it, expect } from "vitest";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,6 +24,14 @@ function isCommentLine(line: string): boolean {
   const t = line.trim();
   return t.startsWith("//") || t.startsWith("*") || t.startsWith("/*") || t.startsWith("{/*");
 }
+
+// Owner decisions of 2026-11-19: the app's Latin line is called "transkripcija", the tajwid rules
+// Medd, Gunne, Ihfa and Kalkala, and "Selam!" / "Mašallah!" appear in exactly three files.
+const SELAM_MASALLAH_FILES = [
+  "components/home/ContinueLearningSection.tsx",
+  "components/learn/LearnModeContent.tsx",
+  "components/tajwid/TajwidQuiz.tsx",
+];
 
 type Line = { file: string; number: number; text: string };
 
@@ -109,5 +117,29 @@ describe("copy rules", () => {
   it("has no arrows in text (left, right, north east)", () => {
     const arrows = new RegExp(`[${[0x2190, 0x2192, 0x2197].map((c) => String.fromCodePoint(c)).join("")}]`);
     expect(offenders(arrows)).toEqual([]);
+  });
+
+  it("says transkripcija, not transliteracija (only the IZ BiH document title keeps the old word)", () => {
+    const manifest = path.join(SRC, "../public/manifest.webmanifest");
+    expect(existsSync(manifest)).toBe(true);
+    const manifestLines = readFileSync(manifest, "utf-8")
+      .split(/\r?\n/)
+      .map((text, i) => ({ file: "public/manifest.webmanifest", number: i + 1, text }));
+    const old = /[Tt]ransliteracij/;
+    const title = /transkripcije i transliteracije/;
+    const hits = [...codeLines(), ...manifestLines]
+      .filter((l) => old.test(l.text) && !title.test(l.text))
+      .map((l) => `${l.file}:${l.number}: ${l.text.trim()}`);
+    expect(hits).toEqual([]);
+  });
+
+  it("uses the Bosnian tajwid names, not Mad, Ghunnah, Ikhfa or Qalqalah", () => {
+    // src/data (lesson texts) keeps its old names until the owner approves the rewrite; it is not scanned.
+    expect(offenders(/(?<!\p{L})(?:Mad|Ghunnah|Ikhfa|Qalqalah)(?!\p{L})/u)).toEqual([]);
+  });
+
+  it("uses Selam! and Mašallah! only in the three approved files", () => {
+    const found = new Set(codeLines().filter((l) => /Selam!|Mašallah!/.test(l.text)).map((l) => l.file));
+    expect([...found].sort()).toEqual([...SELAM_MASALLAH_FILES].sort());
   });
 });

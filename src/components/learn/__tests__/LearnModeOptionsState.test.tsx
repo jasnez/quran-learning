@@ -150,18 +150,18 @@ function getOptionButton(
 }
 
 describe("Learn mode options visual state (enabled vs disabled)", () => {
-  it("Transliteracija button has data-active and distinct styling when on", () => {
+  it("Transkripcija button has data-active and distinct styling when on", () => {
     settingsState.showTransliteration = true;
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/transliteracij/i, true);
+    const btn = getOptionButton(/transkripcij/i, true);
     expect(btn).toHaveAttribute("data-active", "true");
     expect(btn.className).toMatch(/emerald|bg-.*-100|ring/);
   });
 
-  it("Transliteracija button has data-active and muted styling when off", () => {
+  it("Transkripcija button has data-active and muted styling when off", () => {
     settingsState.showTransliteration = false;
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = getOptionButton(/transliteracij/i, false);
+    const btn = getOptionButton(/transkripcij/i, false);
     expect(btn).toHaveAttribute("data-active", "false");
     expect(btn.className).toMatch(/stone/);
   });
@@ -206,7 +206,7 @@ describe("Learn mode options visual state (enabled vs disabled)", () => {
     const prijevod = getOptionButton("Prijevod");
     expect(prijevod).toHaveAttribute("aria-pressed", "true");
     expect(prijevod).not.toHaveAttribute("aria-label");
-    expect(getOptionButton("Transliteracija")).toHaveAttribute("aria-pressed");
+    expect(getOptionButton("Transkripcija")).toHaveAttribute("aria-pressed");
     expect(getOptionButton("Riječ po riječ")).toHaveAttribute("aria-pressed");
     expect(getOptionButton("Ponavljanje: isključeno")).not.toHaveAttribute("aria-label");
   });

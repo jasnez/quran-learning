@@ -30,7 +30,7 @@ export default async function Home() {
             Aplikacija za učenje Kur&apos;ana
           </h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-stone-600 dark:text-stone-400 md:text-lg lg:mt-4 lg:max-w-2xl">
-            Arapski tekst, transliteracija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet.
+            Arapski tekst, transkripcija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 lg:mt-8">
             <ButtonLink href="/learn/1" variant="primary" size="md">
@@ -70,7 +70,7 @@ export default async function Home() {
                 Tedžvid u boji
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                Četiri pravila izgovora obojena su u tekstu: mad, ghunnah, ikhfa i qalqalah.
+                Četiri pravila izgovora obojena su u tekstu: medd, gunne, ihfa i kalkala.
               </p>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default async function Home() {
             </div>
             <div>
               <h3 className="font-medium text-stone-900 dark:text-stone-100">
-                Transliteracija
+                Transkripcija
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
                 Izgovor svakog ajeta latinicom, po pravilima Rijaseta IZ BiH.

@@ -187,7 +187,7 @@ describe("SettingsPanel", () => {
 
   it("has transliteration toggle in Display section", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: /transliteration|transliteracija/i });
+    const toggle = screen.getByRole("switch", { name: /transkripcija/i });
     expect(toggle).toBeInTheDocument();
   });
 
@@ -321,7 +321,7 @@ describe("SettingsPanel", () => {
 
   it("toggling transliteration switch calls toggleTransliteration", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: /transliteration|transliteracija/i });
+    const toggle = screen.getByRole("switch", { name: /transkripcija/i });
     await userEvent.click(toggle);
     expect(mockToggleTransliteration).toHaveBeenCalled();
   });

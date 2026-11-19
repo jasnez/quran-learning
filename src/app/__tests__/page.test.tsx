@@ -93,7 +93,7 @@ describe("Home page", () => {
       const hero = screen.getByRole("heading", { level: 1 }).closest("section");
       expect(hero).toBeInTheDocument();
       expect(hero).toHaveTextContent(
-        "Arapski tekst, transliteracija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet."
+        "Arapski tekst, transkripcija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet."
       );
     });
 
@@ -186,7 +186,7 @@ describe("Home page", () => {
       render(Page);
       expect(screen.getByRole("heading", { name: "Šta je u aplikaciji" })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Tedžvid u boji" })).toBeInTheDocument();
-      expect(screen.getByRole("heading", { name: "Transliteracija" })).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "Transkripcija" })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Prijevod Besima Korkuta" })).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Slušanje ajet po ajet" })).toBeInTheDocument();
     });
@@ -197,7 +197,7 @@ describe("Home page", () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       const Page = await Home();
       render(Page);
-      expect(screen.getByText("Dobar početak su kratke sure ispod.")).toBeInTheDocument();
+      expect(screen.getByText("Selam! Dobar početak su kratke sure ispod.")).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /preporučene|sure/i })).toBeInTheDocument();
     });
 
