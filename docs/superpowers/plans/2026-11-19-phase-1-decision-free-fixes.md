@@ -12,13 +12,13 @@
 
 ## Global Constraints
 
-- Do not change until the decisions are made: the name "Quran Learning" and its icons; tajwid colors; the theme label "Sepia"; "Selam!" and "Mašallah!" only where Task 13 puts them; the surah notes in `FeaturedSurahsSection.tsx` lines 11-14 (incl. "rekiji"); "Sva prava zadržana"; the contact channel (GitHub Issues); lesson texts in `src/data/tajwid-lessons`; colors, tokens and typography (except Task 11); the reader layout; `src/app/_test`.
+- Do not change in this branch: the name "Quran Learning" and its icons; tajwid colors; the theme label "Sepia"; "Selam!" and "Mašallah!" only where Task 13 puts them; "Sva prava zadržana"; the contact channel (GitHub Issues); lesson texts in `src/data/tajwid-lessons`; colors, tokens and typography (except Task 11); the reader layout; `src/app/_test`.
 - Address: no "Vi" and no new "ti" sentence. The 19 "Vi" strings become neutral (impersonal "Treba + infinitive", passive "Traži se ...", or a plain statement). Imperative singular on buttons and links is allowed ("Sačuvaj", "Preuzmi", "Počni od Fatihe", "Preskoči na sadržaj"). Existing "ti" sentences stay "ti"; the deck's edits to them are applied as written.
 - No gendered forms. Errors say what happened, then what to do. Confirmations reuse the button's verb with the ayah number ("12. ajet je sačuvan."). A toggle is named by its state ("Ponavljanje: sura") or has a fixed name plus `aria-pressed` -- never both. Placeholders without "...". No arrows or "+" in link or button text. No emoji.
 - Glossary: platforma -> aplikacija; označeni/označi/oznaka/bookmark -> sačuvani/sačuvaj/ukloni iz sačuvanih; offline/spremljeno/sačuvane sure (downloads) -> preuzeto/preuzete sure/bez interneta; označavanje riječi/ajeta (audio sync) -> praćenje riječi/istaknut ajet; recitator -> učač; recitacija/audio (content) -> učenje/snimak; player -> zvuk/kontrole zvuka; režim/način/fokusirano učenje -> Učenje, entry button "Uči ajet po ajet"; font/Naskh/Scheherazade -> slova/osnovno pismo/klasično pismo; klik/tapni -> dodirni; Lista sura/Pregled sura -> Sve sure; Nepočete -> Nezapočete; Zadnji pristup -> Nedavno otvorene; "kur'anske" lowercase mid-sentence; "s" not "sa" except before s, z, š, ž.
 - Keep the storage keys `quran-learning-settings` and `quran-learning-progress` and the theme value `sepia`. Never hand-edit the generated `transliteration` field.
 - Browser target: Baseline Widely available. `:has()` qualifies (Baseline since 2023-12-19). `<dialog closedby>` does not (no Safari): keep the pointer fallback that `SettingsPanel.tsx` already uses.
-- No new dependencies. Task 11 downloads font files and installs fonttools only after the owner's OK.
+- No new dependencies, except `@axe-core/playwright` as a devDependency (approved 2026-11-19, Task 14). Task 11 downloads font files and installs fonttools (approved).
 - Code, comments and commits in English; UI copy in Bosnian; quotes in JSX text as `&bdquo;...&ldquo;`. Files UTF-8 without BOM. In tests, build Arabic characters with `String.fromCodePoint` (escapes typed through the tools land as literal characters).
 - Gates for every task: `npm run typecheck`, `npm run lint`, `npm test` (full suite). Task 12 adds `npm run build` and the browser check. Dependency changes only with `npx npm@11`.
 - Pushing or merging needs the owner's request. (The baseline reader test was postponed on 2026-11-19, so no deployment waits on it.)
@@ -31,6 +31,12 @@ Relayed by the parent session after the plan was approved, quoting the owner: "9
 - Tajwid rule names in the UI become Medd, Gunne, Ihfa, Kalkala; the `TajwidRule` values, lesson slugs and URLs, lesson texts in `src/data/tajwid-lessons` and the colors stay.
 - "Selam!" and "Mašallah!" go only into the three places Task 13 lists; the rest of each sentence stays neutral ("ti"/"Vi" is still open).
 - Tasks 1-7 had already run with the old terms, so Task 13 (after Task 8, before Task 9) applies these three changes everywhere at once, with a guard test. Task 8 and later write "transkripcija" directly.
+
+Second batch, relayed the same way (owner, quoted): "3. Opisi sura: ... - ukloni" and "4. Alat za automatsku provjeru pristupačnosti (`@axe-core/playwright`, besplatna razvojna zavisnost): da ili ne? - da". So:
+
+- The four surah notes in `FeaturedSurahsSection.tsx` (`NOTES`) are removed with their rendering (Task 10).
+- `@axe-core/playwright` is approved as a devDependency; Task 14 adds it and an axe regression test over the key routes in light, dark and sepia, with every accepted exception listed and justified. CI (`.github/workflows/ci.yml`) does not run `test:e2e`; changing CI needs the owner's explicit OK, so Task 14 does not touch it.
+- For information only (Phases 2 and 3, not this branch): the owner confirmed the name "Elif", "ti" address, the Tezhib direction, and approved the tajwid color and lesson proposals. This branch keeps "Quran Learning", the current colors and the lesson texts.
 
 ## Decisions This Plan Makes (the owner can veto any)
 
@@ -55,7 +61,8 @@ Relayed by the parent session after the plan was approved, quoting the owner: "9
 - Search: links inside `role="option"` (best practice): the report also praises the combobox; restructuring the search interaction needs a decision.
 - "Prati ajet koji se uči" setting and the warning before auto-advancing to the next surah: new settings and behavior, reader redesign.
 - Surah `h1` with both names (best practice): the reader header is redesigned in Phase 2.
-- Copy that waits for a decision: every [naziv], "Hartija", the hero slogan, surah notes, footer rights line ("© 2026 Elif" comes with the rename), the contact channel (stays GitHub).
+- Copy that waits for Phase 2: every [naziv] (the name "Elif" comes with the rename), "Hartija", the hero slogan, footer rights line ("© 2026 Elif" comes with the rename), the contact channel (stays GitHub).
+- Running the e2e/axe tests in CI (needs the owner's OK to change `.github/workflows/ci.yml`).
 - Uppercase labels and transliteration size/italic (typography).
 - Testing with real screen readers (NVDA, TalkBack, VoiceOver) and Safari on iPhone (install step wording): not possible from this machine.
 
@@ -447,15 +454,17 @@ Rules: the live region element is always rendered (empty when there is nothing t
 - [ ] **Step 2: Run, expect FAIL.** **Step 3: Implement.** **Step 4: Run, expect PASS**; gates.
 - [ ] **Step 5: Commit** `refactor: page titles from one template and the app name from SITE_NAME`
 
-### Task 10: The NASTAVI badge and the back-to-top button
+### Task 10: The NASTAVI badge, the surah notes and the back-to-top button
 
-**Files:** `src/components/home/FeaturedSurahsSection.tsx:95-99`, `src/app/tajwid/[lessonId]/page.tsx:181-210` (or `BackToTop.tsx`, see Step 3). Tests: `FeaturedSurahsSection.test.tsx`, `src/app/tajwid/[lessonId]/__tests__/page.test.tsx`.
+**Files:** `src/components/home/FeaturedSurahsSection.tsx` (badge at ~95-99; `NOTES` at 10-15 and its rendering at ~110-114 are removed per the owner's 2026-11-19 decision -- the card keeps the Arabic name, the Latin name and the ayah count), `src/app/tajwid/[lessonId]/page.tsx:181-210` (or `BackToTop.tsx`, see Step 3). Tests: `FeaturedSurahsSection.test.tsx`, `src/app/tajwid/[lessonId]/__tests__/page.test.tsx`.
+
+Measured before this task (production at 375x812, Playwright): the back-to-top button (x 311-359, y 668-716) covers up to 13% of the lesson pager's "Sljedeća ..." link (x 122-343) and 8% of "Prethodna ..." while scrolling past; at the end of the page the pager sits above it; the surah and juz pagers never meet the button. The NOTES test: no featured card renders a note (e.g. no "rekiji", "Jednost Boga", "utočišta").
 
 - [ ] **Step 1: Reproduce in the browser** at 375 px: the badge over the Arabic name on a surah in progress; on `/tajwid/<slug>` scroll until "Sljedeća" passes the bottom right and note where the button covers it (record the scroll positions).
 - [ ] **Step 2: Write the failing tests** -- the badge is not absolutely positioned (no `absolute` class), comes after the Latin name in DOM order, reads "Nastavi" without `uppercase`; the lesson pager keeps the button's column free below `md` (assert the class chosen in Step 3).
 - [ ] **Step 3: Implement.** Badge: in flow under the Latin name, `self-start mt-2 rounded-full px-2 py-0.5 text-xs font-medium` with today's colors (D11). Back-to-top: reserve its column on the lesson pager below `md` (`max-md:pr-16` on the footer row so no pill sits under the 3rem button at `right-4`); if Step 1 shows the overlap elsewhere too, the same reservation goes on the surah and juz pagers.
 - [ ] **Step 4: Run, expect PASS**; gates; recheck both in the browser.
-- [ ] **Step 5: Commit** `fix: NASTAVI badge under the surah name; back-to-top button off the lesson pager (critique)`
+- [ ] **Step 5: Commit** `fix: NASTAVI badge under the surah name, no surah notes, back-to-top button off the lesson pager (critique)`
 
 ### Task 11: Transliteration font (only with the owner's OK; otherwise Phase 2)
 
@@ -467,10 +476,24 @@ Needs: download `GentiumBookPlus-Regular.ttf` (818,952 bytes), `GentiumBookPlus-
 - [ ] **Step 2: Run, expect FAIL.** **Step 3: Download, subset, wire up.** **Step 4: Run, expect PASS**; gates; in the browser, the canvas width check from the memory note shows no fallback glyph for "s̱", "ḥ", "ẓ", "ʿ".
 - [ ] **Step 5: Commit** `feat: self-hosted transliteration font that covers every letter (Gentium Book Plus subset, OFL)`
 
+### Task 14: Axe regression test (runs after Task 11, before Task 12)
+
+**Files:** `package.json` and `package-lock.json` (devDependency `@axe-core/playwright`, installed with `npx npm@11 install -D @axe-core/playwright`), create `tests/e2e/a11y.spec.ts`; `playwright.config.ts` only if the spec needs a project or option it does not have (do not change `.github/workflows/ci.yml`).
+
+- The spec runs axe (WCAG 2.0-2.2 A and AA tags, as the audit did) on the key routes -- `/`, `/surahs`, `/surah/1`, `/surah/36`, `/juz/30`, `/learn/36`, `/bookmarks`, `/progress`, `/search`, `/duas`, `/names`, `/harfovi`, `/tajwid`, `/tajwid/mad-duljenje`, `/about`, `/contact`, `/sources` -- at 375 px and 1280 px, in the light, dark and sepia themes (set the persisted theme in `localStorage` key `quran-learning-settings` before the page loads, the way the app's theme init script reads it), with no service worker in the way.
+- Expected result: no violations, except an explicit, commented allowlist of known exceptions (rule id + selector + reason + the phase that fixes it), e.g. the dark-theme muted notes and the "Uredi" link contrast deferred to the Phase 2 tokens. No rule is disabled wholesale; an allowlisted entry that no longer occurs fails the test so the list cannot rot.
+- It runs with `npx playwright test tests/e2e/a11y.spec.ts --project=chromium` (Firefox is not installed on this machine); the plan records how long it takes.
+
+- [ ] **Step 1: Install the devDependency** and confirm `npm ls @axe-core/playwright`.
+- [ ] **Step 2: Write the spec** with an empty allowlist; run it; it fails with the current violations.
+- [ ] **Step 3: For each violation** either fix it when it is a Phase 1 regression or a decision-free one-liner (report which), or add it to the allowlist with its reason and phase.
+- [ ] **Step 4: Run, expect PASS**; gates (typecheck covers the spec).
+- [ ] **Step 5: Commit** `test: axe regression check over the key routes in three themes`
+
 ### Task 12: Verification and report
 
 - [ ] `npm run typecheck`, `npm run lint`, `npm test`, `npm run build` (exit 0 each; report counts).
 - [ ] Serve `out/` and check in the browser pane at 375 px and desktop, in light, dark and sepia: home (returning user with seeded progress), `/surah/36`, `/surah/76` ("31 ajet"), `/learn/36`, `/bookmarks` (dialog, focus after removal), `/progress`, `/search`, `/settings` panel (0,75×), a tajwid lesson and its quiz, `/names`, iOS steps (forced iOS UA). Keyboard: Tab through `/surah/36` on mobile and desktop, Shift+Tab back into the hidden header; nothing focused is covered; skip link works.
 - [ ] Forced colors: Playwright Chromium with `forcedColors: "active"` -- focus visible on the search field, surah list, toolbar and settings.
-- [ ] Re-run axe-core (from `node_modules`, as in the audit) on the 20 audited routes; expect no `nested-interactive`; `color-contrast` stays deferred.
+- [ ] Run the Task 14 axe spec against the production build; expect no `nested-interactive` and only the allowlisted exceptions.
 - [ ] Short Bosnian summary for the owner: what changed, what waits for Phase 2, the risks (Safari wording, real screen readers), and the reminder about the baseline URL before any production deploy.
