@@ -21,6 +21,15 @@ beforeEach(() => {
 });
 
 describe("DuasPageContent", () => {
+  it("every listen button on the page has its own name (WCAG 2.5.3, 4.1.2)", () => {
+    render(<DuasPageContent />);
+    const names = screen
+      .getAllByRole("button", { name: /^Slušaj dovu, Kur'an / })
+      .map((b) => b.getAttribute("aria-label"));
+    expect(names.length).toBeGreaterThan(18);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   it("when no category prop, renders multiple category sections", () => {
     render(<DuasPageContent />);
     const rabbana = screen.getAllByRole("heading", { name: /Rabbena dove/i });

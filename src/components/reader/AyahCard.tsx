@@ -148,8 +148,19 @@ export const AyahCard = memo(function AyahCard({
   const handleBookmark = () => {
     const wasBookmarked = bookmarked;
     toggleBookmark(surahNumber, ayahNumber, surahNameLatin, ayah.arabicText, ayah.translationBosnian);
-    showToast(wasBookmarked ? "Ajet uklonjen iz označenih" : "Ajet dodan u označene");
+    showToast(
+      wasBookmarked
+        ? `${ayah.ayahNumber}. ajet je uklonjen iz sačuvanih.`
+        : `${ayah.ayahNumber}. ajet je sačuvan.`,
+    );
   };
+
+  // Names say which ayah; in the juz reader the surah too, since one page mixes several.
+  const label =
+    queueSource === "juz"
+      ? `${ayah.ayahNumber}. ajet sure ${surahNameLatin}`
+      : `${ayah.ayahNumber}. ajet`;
+  const numberId = `ayah-number-${ayah.id.replace(":", "-")}`;
 
   const segments =
     ayah.tajwidSegments?.length > 0
@@ -160,6 +171,7 @@ export const AyahCard = memo(function AyahCard({
     <article
       ref={cardRef}
       id={`ayah-${ayah.id.replace(":", "-")}`}
+      aria-labelledby={numberId}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
       className={`rounded-xl border bg-[var(--theme-card)] p-4 transition-colors duration-300 border-[var(--theme-border)] md:px-6 md:py-6 ${
@@ -171,10 +183,13 @@ export const AyahCard = memo(function AyahCard({
       {/* Meta row */}
       <div className="mb-4 flex items-center justify-between gap-3">
         <span
+          id={numberId}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
-          aria-hidden
         >
           {ayah.ayahNumber}
+          <span className="sr-only">
+            {queueSource === "juz" ? `. ajet sure ${surahNameLatin}` : ". ajet"}
+          </span>
         </span>
         <div className="flex items-center gap-2">
           {showPageBadge && ayah.page > 0 && (
@@ -187,7 +202,7 @@ export const AyahCard = memo(function AyahCard({
           )}
           {isThisAyahPlaying && (
             <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400" aria-hidden>
-              Sada se pušta
+              Sluša se
             </span>
           )}
           <button
@@ -198,9 +213,8 @@ export const AyahCard = memo(function AyahCard({
                 ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
                 : "text-stone-500 hover:bg-stone-100 hover:text-stone-600 dark:text-stone-400 dark:hover:bg-stone-700 dark:hover:text-stone-300"
             }`}
-            aria-label="Označi ajet"
-            aria-pressed={bookmarked}
-            title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
+            aria-label={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
+            title={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
           >
             <Bookmark
               className={`h-5 w-5 transition-transform duration-200 ${bookmarked ? "fill-current" : ""}`}
@@ -210,8 +224,8 @@ export const AyahCard = memo(function AyahCard({
           <button
             type="button"
             className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-stone-500 hover:bg-stone-100 hover:text-emerald-600 dark:hover:bg-stone-700 dark:hover:text-emerald-400"
-            aria-label={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
-            title={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
+            aria-label={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
+            title={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
             onClick={handlePlayPause}
           >
             {isThisAyahPlaying ? (

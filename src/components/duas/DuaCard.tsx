@@ -32,7 +32,7 @@ export function DuaCard({ dua }: DuaCardProps) {
           type="button"
           onClick={handlePlay}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
-          aria-label="Slušaj dovu"
+          aria-label={`Slušaj dovu, ${citationLabel}`}
         >
           <PlayIcon className="h-5 w-5" />
         </button>

@@ -131,7 +131,7 @@ describe("Learning mode first/last ayah", () => {
   it("when ayahs empty shows data coming soon message", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={[]} />);
     expect(
-      screen.getByText(/podaci za ovu suru.*uskoro|dostupni.*uskoro/i)
+      screen.getByText("Sura se nije učitala. Treba osvježiti stranicu.")
     ).toBeInTheDocument();
   });
 });
@@ -140,17 +140,17 @@ describe("Learn mode bookmark", () => {
   it("shows bookmark button for current ayah", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
     expect(
-      screen.getByRole("button", { name: /dodaj u označene|ukloni iz označenih|bookmark/i })
+      screen.getByRole("button", { name: "Sačuvaj ajet" })
     ).toBeInTheDocument();
   });
 
   it("clicking bookmark calls toggleBookmark and showToast", async () => {
     const user = userEvent.setup();
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
-    const btn = screen.getByRole("button", { name: /dodaj u označene|označene|bookmark/i });
+    const btn = screen.getByRole("button", { name: "Sačuvaj ajet" });
     await user.click(btn);
     expect(mockToggleBookmark).toHaveBeenCalledWith(1, 1, "Al-Fatihah", "بِسْمِ", "U ime");
-    expect(mockShowToast).toHaveBeenCalledWith("Ajet dodan u označene");
+    expect(mockShowToast).toHaveBeenCalledWith("1. ajet je sačuvan.");
   });
 });
 

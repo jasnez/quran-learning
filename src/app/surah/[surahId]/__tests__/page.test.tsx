@@ -203,7 +203,7 @@ describe("Surah Reader page", () => {
     expect(ayah2Card).toBeInTheDocument();
     expect(ayah1Card?.textContent).toMatch(/\b1\b/);
     expect(ayah2Card?.textContent).toMatch(/\b2\b/);
-    const playButtons = screen.getAllByRole("button", { name: /play|pusti|pusti audio/i });
+    const playButtons = screen.getAllByRole("button", { name: /^Pusti \d+\. ajet$/ });
     expect(playButtons.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -244,10 +244,10 @@ describe("Surah Reader page", () => {
   it("clicking play on an ayah sets queue to all surah ayahs and plays that ayah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const playButtons = screen.getAllByRole("button", { name: /pusti audio|pusti/i });
+    const playButtons = screen.getAllByRole("button", { name: /^Pusti \d+\. ajet$/ });
     expect(playButtons.length).toBeGreaterThanOrEqual(1);
     playButtons[0].click();
-    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
+    expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs, "surah");
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
@@ -256,7 +256,7 @@ describe("Surah Reader page", () => {
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const pauseButton = screen.getByRole("button", { name: /pauza/i });
+    const pauseButton = screen.getByRole("button", { name: "Pauziraj 1. ajet" });
     expect(pauseButton).toBeInTheDocument();
     pauseButton.click();
     expect(mockPause).toHaveBeenCalled();
@@ -277,7 +277,7 @@ describe("Surah Reader page", () => {
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText(/sada se pušta|now playing|trenutno se pušta/i)).toBeInTheDocument();
+    expect(screen.getByText("Sluša se")).toBeInTheDocument();
   });
 
   it("when not playing, no card has active highlight", async () => {

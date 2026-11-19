@@ -63,7 +63,7 @@ export function SurahReaderContent({
           <BookIcon />
         </span>
         <p className="mt-4 text-stone-500 dark:text-stone-400">
-          Podaci za ovu suru će uskoro biti dostupni.
+          Sura se nije učitala. Treba osvježiti stranicu.
         </p>
       </div>
     );
@@ -98,7 +98,7 @@ export function SurahReaderContent({
       )}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3 lg:hidden">
         <span id={syncLabelId} className="text-sm text-stone-600 dark:text-stone-400">
-          Sinhronizacija s audioom
+          Praćenje uz zvuk
         </span>
         {/* One choice between two modes: toggle buttons in a group, as in ReaderToolbar, not two switches. */}
         <div className="flex items-center gap-2" role="group" aria-labelledby={syncLabelId}>
@@ -130,7 +130,7 @@ export function SurahReaderContent({
       </div>
       {wordByWordMode && chapterDataError && (
         <p className="mb-4 text-sm text-amber-700 dark:text-amber-400" role="status">
-          Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo.
+          Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo.
         </p>
       )}
       <ul className="space-y-6 list-none" role="list">
@@ -147,19 +147,15 @@ export function SurahReaderContent({
           return (
             <li key={ayah.id}>
               {showJuzDivider && (
-                <div
-                  className="flex items-center gap-3 py-6"
-                  role="separator"
-                  aria-label={`Početak džuza ${currentJuz}`}
-                >
-                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+                <div className="flex items-center gap-3 py-6">
+                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" aria-hidden />
                   <Link
                     href={`/juz/${currentJuz}`}
                     className="rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-200 dark:hover:bg-amber-900/50"
                   >
                     Džuz {currentJuz}
                   </Link>
-                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" />
+                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" aria-hidden />
                 </div>
               )}
               <AyahCard

@@ -48,14 +48,14 @@ describe("DuaCard", () => {
 
   it("renders a play button to listen to the dua", () => {
     render(<DuaCard dua={mockDua} />);
-    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu/i });
+    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu, kur'an/i });
     expect(playBtns.length).toBeGreaterThanOrEqual(1);
   });
 
   it("clicking play button calls playAyahIds with single ayah id for single-verse dua", async () => {
     const user = userEvent.setup();
     render(<DuaCard dua={mockDua} />);
-    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu/i });
+    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu, kur'an/i });
     await user.click(playBtns[0]);
     expect(playAyahIdsSpy).toHaveBeenCalledTimes(1);
     expect(playAyahIdsSpy).toHaveBeenCalledWith(["2:201"]);
@@ -75,7 +75,7 @@ describe("DuaCard", () => {
       category: "rabbana" as const,
     };
     render(<DuaCard dua={mergedDua} />);
-    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu/i });
+    const playBtns = screen.getAllByRole("button", { name: /slušaj dovu, kur'an/i });
     await user.click(playBtns[0]);
     expect(playAyahIdsSpy).toHaveBeenCalledTimes(1);
     expect(playAyahIdsSpy).toHaveBeenCalledWith(["3:191", "3:192", "3:193", "3:194"]);

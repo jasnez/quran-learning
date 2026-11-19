@@ -106,6 +106,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <p
               className={`font-arabic text-2xl leading-relaxed text-center ${ruleClass}`}
               dir="rtl"
+              lang="ar"
             >
               {ex.arabic}
             </p>

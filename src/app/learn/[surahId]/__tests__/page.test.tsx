@@ -178,7 +178,7 @@ describe("Learn Mode page", () => {
   it("has Repeat toggle button", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByRole("button", { name: /repeat|ponavljaj/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ponavljanje/i })).toBeInTheDocument();
   });
 
   it("has Show/hide transliteration toggle", async () => {
@@ -226,7 +226,7 @@ describe("Learn Mode page", () => {
   it("clicking Repeat control calls cycleRepeatMode", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const repeatBtn = screen.getByRole("button", { name: /repeat|ponavljaj/i });
+    const repeatBtn = screen.getByRole("button", { name: /ponavljanje/i });
     await userEvent.click(repeatBtn);
     expect(mockSettings.cycleRepeatMode).toHaveBeenCalled();
   });
@@ -251,13 +251,13 @@ describe("Learn Mode page", () => {
     expect(screen.queryByRole("main")).toBeNull();
   });
 
-  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljaj)", async () => {
+  it("for surah 2 shows same learning options as surah 1 (Riječ po riječ, Transliteracija, Prijevod, Ponavljanje)", async () => {
     const Page = await LearnPage({ params: Promise.resolve({ surahId: "2" }) });
     render(Page);
     expect(screen.getByRole("button", { name: /riječ po riječ/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /transliteracija|transliteraci/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /prijevod/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /ponavljaj/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ponavljanje/i })).toBeInTheDocument();
   });
 
   it("on first surah (1) shows link to next sura only", async () => {

@@ -127,7 +127,7 @@ describe("LearnModeContent playback (mobile-style)", () => {
 
     render(<LearnModeContent surah={mockSurah} ayahs={mockAyahs} />);
 
-    const playButton = screen.getByRole("button", { name: /pusti audio/i });
+    const playButton = screen.getByRole("button", { name: "Pusti ajet" });
     await user.click(playButton);
 
     expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);

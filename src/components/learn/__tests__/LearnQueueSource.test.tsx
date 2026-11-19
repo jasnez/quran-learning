@@ -61,7 +61,7 @@ describe("LearnModeContent playback queue", () => {
 
   it("keeps the learn queue when the user starts playback", async () => {
     render(<LearnModeContent surah={surah} ayahs={[ayah(1), ayah(2)]} />);
-    await userEvent.click(screen.getByRole("button", { name: "Pusti audio" }));
+    await userEvent.click(screen.getByRole("button", { name: "Pusti ajet" }));
     const state = usePlayerStore.getState();
     expect(state.isPlaying).toBe(true);
     expect(state.queueSource).toBe("learn");

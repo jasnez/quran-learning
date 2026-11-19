@@ -80,7 +80,7 @@ describe("LearnModeContent ayah navigation and playback", () => {
 
   it("Sljedeći ajet while audio plays continues playback at the next ayah", async () => {
     render(<LearnModeContent surah={surah} ayahs={ayahs} />);
-    await userEvent.click(screen.getByRole("button", { name: "Pusti audio" }));
+    await userEvent.click(screen.getByRole("button", { name: "Pusti ajet" }));
     await userEvent.click(screen.getByRole("button", { name: "Sljedeći ajet" }));
     expect(player()).toEqual({
       currentAyahId: "1:2",
@@ -93,8 +93,8 @@ describe("LearnModeContent ayah navigation and playback", () => {
   it("Prethodni ajet while paused moves there and stays paused", async () => {
     render(<LearnModeContent surah={surah} ayahs={ayahs} />);
     await userEvent.click(screen.getByRole("button", { name: "Sljedeći ajet" }));
-    await userEvent.click(screen.getByRole("button", { name: "Pusti audio" }));
-    await userEvent.click(screen.getByRole("button", { name: "Pauza" }));
+    await userEvent.click(screen.getByRole("button", { name: "Pusti ajet" }));
+    await userEvent.click(screen.getByRole("button", { name: "Pauziraj" }));
     await userEvent.click(screen.getByRole("button", { name: "Prethodni ajet" }));
     expect(player()).toEqual({
       currentAyahId: "1:1",

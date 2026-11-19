@@ -73,7 +73,11 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
     if (!ayah) return;
     const wasBookmarked = bookmarked;
     toggleBookmark(surahNumber, ayahNumber, surah.nameLatin, ayah.arabicText, ayah.translationBosnian);
-    showToast(wasBookmarked ? "Ajet uklonjen iz označenih" : "Ajet dodan u označene");
+    showToast(
+      wasBookmarked
+        ? `${ayahNumber}. ajet je uklonjen iz sačuvanih.`
+        : `${ayahNumber}. ajet je sačuvan.`,
+    );
   };
 
   // The ayah learn mode opens at is chosen by LearnModeUrlEffects.
@@ -102,7 +106,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           <BookIcon />
         </span>
         <p className="mt-4 text-stone-500 dark:text-stone-400">
-          Podaci za ovu suru će uskoro biti dostupni.
+          Sura se nije učitala. Treba osvježiti stranicu.
         </p>
       </div>
     );
@@ -166,7 +170,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
         <Link
           href={`/surah/${surah.surahNumber}`}
           className="flex-shrink-0 rounded-lg p-2 text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
-          aria-label="Zatvori režim učenja"
+          aria-label="Zatvori učenje"
         >
           <CloseIcon />
         </Link>
@@ -183,8 +187,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
                 href={`/learn/${prevSurah.surahNumber}`}
                 className="inline-flex items-center gap-1 rounded-full border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-200 dark:hover:bg-stone-800"
               >
-                <span aria-hidden>←</span>
-                <span>Prethodna: {prevSurah.nameLatin}</span>
+                <span>Prethodna sura: {prevSurah.nameLatin}</span>
               </Link>
             ) : (
               <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
@@ -198,8 +201,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
                 href={`/learn/${nextSurah.surahNumber}`}
                 className="inline-flex items-center gap-1 rounded-full border border-emerald-600 bg-emerald-50 px-3 py-1.5 font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
               >
-                <span>Sljedeća: {nextSurah.nameLatin}</span>
-                <span aria-hidden>→</span>
+                <span>Sljedeća sura: {nextSurah.nameLatin}</span>
               </Link>
             ) : (
               <span className="rounded-full border border-stone-200 px-3 py-1.5 text-stone-400 dark:border-stone-700 dark:text-stone-500" aria-hidden>
@@ -233,7 +235,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           )}
           {wordByWordMode && chapterDataError && (
             <p className="mt-4 text-center text-sm text-amber-700 dark:text-amber-400" role="status">
-              Podaci za označavanje riječi se nisu učitali. Provjerite vezu i pokušajte ponovo.
+              Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo.
             </p>
           )}
           {showTransliteration && ayah.transliteration && (
@@ -258,7 +260,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
         )}
         {!canGoNext && ayahs.length > 0 && (
           <p className="text-center text-sm text-stone-500 dark:text-stone-400" role="status">
-            Završili ste ovu suru.
+            Sura je završena.
           </p>
         )}
         <div className="flex items-center justify-center gap-4">
@@ -280,15 +282,15 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
                 ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
                 : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
             }`}
-            aria-label={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
-            title={bookmarked ? "Ukloni iz označenih" : "Dodaj u označene"}
+            aria-label={bookmarked ? "Ukloni iz sačuvanih" : "Sačuvaj ajet"}
+            title={bookmarked ? "Ukloni iz sačuvanih" : "Sačuvaj ajet"}
           >
             <BookmarkIcon filled={bookmarked} />
           </button>
           <button
             type="button"
             className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-500 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-emerald-500 dark:hover:bg-emerald-400"
-            aria-label={isThisAyahPlaying ? "Pauza" : "Pusti audio"}
+            aria-label={isThisAyahPlaying ? "Pauziraj" : "Pusti ajet"}
             onClick={handlePlayPause}
           >
             {isThisAyahPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -311,38 +313,27 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
         >
           <OptionToggle
             active={wordByWordMode}
-            ariaLabel={wordByWordMode ? "Isključi riječ po riječ" : "Uključi riječ po riječ"}
-            ariaPressed={wordByWordMode}
+            pressed={wordByWordMode}
             onClick={() => setWordByWordMode(!wordByWordMode)}
           >
             Riječ po riječ
           </OptionToggle>
           <OptionToggle
             active={repeatMode !== "off"}
-            ariaLabel={
-              repeatMode === "off"
-                ? "Ponavljaj (prvi klik: sura, drugi klik: ajet)"
-                : repeatMode === "surah"
-                  ? "Ponavljanje sure. Klik za ponavljanje ajeta."
-                  : "Ponavljanje ajeta. Klik za isključivanje."
-            }
-            ariaPressed={repeatMode !== "off"}
             onClick={cycleRepeatMode}
           >
-            Ponavljaj{repeatMode !== "off" ? ` (${repeatMode === "surah" ? "sura" : "ajet"})` : ""}
+            Ponavljanje: {repeatMode === "off" ? "isključeno" : repeatMode === "surah" ? "sura" : "ajet"}
           </OptionToggle>
           <OptionToggle
             active={showTransliteration}
-            ariaLabel={showTransliteration ? "Sakrij transliteraciju" : "Prikaži transliteraciju"}
-            ariaPressed={showTransliteration}
+            pressed={showTransliteration}
             onClick={toggleTransliteration}
           >
             Transliteracija
           </OptionToggle>
           <OptionToggle
             active={showTranslation}
-            ariaLabel={showTranslation ? "Sakrij prijevod" : "Prikaži prijevod"}
-            ariaPressed={showTranslation}
+            pressed={showTranslation}
             onClick={toggleTranslation}
           >
             Prijevod
@@ -362,14 +353,13 @@ const optionToggleActive =
 
 function OptionToggle({
   active,
-  ariaLabel,
-  ariaPressed,
+  pressed,
   onClick,
   children,
 }: {
   active: boolean;
-  ariaLabel: string;
-  ariaPressed: boolean;
+  /** Set for a toggle with a fixed name; leave out for a button whose name carries the state. */
+  pressed?: boolean;
   onClick: () => void;
   children: React.ReactNode;
 }) {
@@ -378,8 +368,7 @@ function OptionToggle({
       type="button"
       data-active={String(active)}
       className={`${optionToggleBase} ${active ? optionToggleActive : optionToggleInactive}`}
-      aria-label={ariaLabel}
-      aria-pressed={ariaPressed}
+      aria-pressed={pressed}
       onClick={onClick}
     >
       {children}

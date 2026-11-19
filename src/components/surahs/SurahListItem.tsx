@@ -31,10 +31,10 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
           {surah.surahNumber}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-medium text-stone-900 dark:text-stone-100">
+          <p className="font-medium text-stone-900 dark:text-stone-100">
             {surah.nameLatin}
           </p>
-          <p className="truncate text-xs text-stone-500 dark:text-stone-400">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
             {commonName ? `${commonName} · ` : ""}{formatCount(surah.ayahCount, AYAH_FORMS)}
           </p>
         </div>

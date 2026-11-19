@@ -83,10 +83,10 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
                 >
                   <span>{ayahNumber}</span>
                   {isBookmarked && (
-                    <span
-                      className="h-1.5 w-1.5 rounded-full bg-amber-500"
-                      aria-label="Označen"
-                    />
+                    <>
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500" aria-hidden />
+                      <span className="sr-only">, sačuvan</span>
+                    </>
                   )}
                 </a>
               </li>

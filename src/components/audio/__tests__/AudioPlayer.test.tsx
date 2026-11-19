@@ -187,26 +187,25 @@ describe("AudioPlayer", () => {
 
   it("renders sticky bar when activeAudioSrc is set", () => {
     render(<AudioPlayer />);
-    expect(screen.getByRole("region", { name: /audio player/i })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Kontrole zvuka" })).toBeInTheDocument();
   });
 
   it("shows surah and ayah label", () => {
     render(<AudioPlayer />);
-    // Sad pokazuje surah ime + ajet broj (npr. "El-Fātiḥa · Ajet 3").
-    expect(screen.getAllByText(/El-Fātiḥa/).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText(/Ajet\s+3/).length).toBeGreaterThanOrEqual(1);
+    // Surah name and ayah number in one phrase, e.g. "El-Fātiḥa, 3. ajet".
+    expect(screen.getAllByText(/El-Fātiḥa, 3\. ajet/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("shows play button when paused", () => {
     render(<AudioPlayer />);
-    const playBtn = screen.getByRole("button", { name: /pusti/i });
+    const playBtn = screen.getByRole("button", { name: "Pusti" });
     expect(playBtn).toBeInTheDocument();
   });
 
   it("shows pause button when playing", () => {
     playerState.isPlaying = true;
     render(<AudioPlayer />);
-    expect(screen.getByRole("button", { name: /pause|pauza/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Pauziraj" })).toBeInTheDocument();
   });
 
   it("Previous button calls store previous", () => {
@@ -238,7 +237,7 @@ describe("AudioPlayer", () => {
 
   it("Play button calls resume", () => {
     render(<AudioPlayer />);
-    const playBtn = screen.getByRole("button", { name: /pusti/i });
+    const playBtn = screen.getByRole("button", { name: "Pusti" });
     fireEvent.click(playBtn);
     expect(mockResume).toHaveBeenCalled();
   });
@@ -246,21 +245,21 @@ describe("AudioPlayer", () => {
   it("Pause button calls store pause", () => {
     playerState.isPlaying = true;
     render(<AudioPlayer />);
-    const pauseBtn = screen.getByRole("button", { name: /pauza/i });
+    const pauseBtn = screen.getByRole("button", { name: "Pauziraj" });
     fireEvent.click(pauseBtn);
     expect(mockPauseStore).toHaveBeenCalled();
   });
 
   it("progress bar is present", () => {
     render(<AudioPlayer />);
-    const slider = screen.getByRole("slider", { name: /trajanje/i });
+    const slider = screen.getByRole("slider", { name: "Mjesto u ajetu" });
     expect(slider).toBeInTheDocument();
   });
 
   // Word highlight reads currentTimeMs; it must follow scrubs even while paused (no rAF then).
   it("scrubbing the progress bar also updates the word-highlight time", () => {
     render(<AudioPlayer />);
-    fireEvent.change(screen.getByRole("slider", { name: /trajanje/i }), { target: { value: "2.5" } });
+    fireEvent.change(screen.getByRole("slider", { name: "Mjesto u ajetu" }), { target: { value: "2.5" } });
     expect(mockSeek).toHaveBeenCalledWith(2.5);
     expect(mockSetCurrentTimeMs).toHaveBeenCalledWith(2500);
   });
@@ -552,7 +551,7 @@ describe("AudioPlayer", () => {
 
   it("autoplay control is a toggle switch with thumb containing play icon", () => {
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
     expect(thumb).toBeInTheDocument();
     expect(autoplayBtn.querySelector("[data-autoplay-thumb] svg")).toBeInTheDocument();
@@ -561,7 +560,7 @@ describe("AudioPlayer", () => {
   it("autoplay switch thumb is on right when on", () => {
     settingsStateRef.current.autoPlayNext = true;
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
     const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
     expect(thumb?.parentElement).toHaveClass("justify-end");
@@ -570,7 +569,7 @@ describe("AudioPlayer", () => {
   it("autoplay switch thumb is on left when off", () => {
     settingsStateRef.current.autoPlayNext = false;
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "false");
     const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
     expect(thumb?.parentElement).toHaveClass("justify-start");
@@ -578,28 +577,29 @@ describe("AudioPlayer", () => {
 
   it("shows repeat control with accessible label (surah or ayah)", () => {
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
     expect(repeatBtn).toBeInTheDocument();
   });
 
   it("clicking repeat control calls cycleRepeatMode", () => {
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
     fireEvent.click(repeatBtn);
     expect(mockCycleRepeatMode).toHaveBeenCalledTimes(1);
   });
 
-  it("repeat button has pressed state when repeatMode is surah or ayah", () => {
+  it("repeat button names its state, without aria-pressed, when repeatMode is surah or ayah", () => {
     settingsStateRef.current.repeatMode = "surah";
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
-    expect(repeatBtn).toHaveAttribute("aria-pressed", "true");
+    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
+    expect(repeatBtn).toHaveAccessibleName("Ponavljanje: sura");
+    expect(repeatBtn).not.toHaveAttribute("aria-pressed");
   });
 
   it("when repeatMode is ayah, repeat button shows Repeat One icon (with 1)", () => {
     settingsStateRef.current.repeatMode = "ayah";
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
     const svg = repeatBtn.querySelector("svg");
     expect(svg).toBeInTheDocument();
     expect(repeatBtn.textContent).toContain("1");
@@ -608,19 +608,19 @@ describe("AudioPlayer", () => {
   it("when repeatMode is off, repeat button shows loop icon without 1", () => {
     settingsStateRef.current.repeatMode = "off";
     render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /ponavljaj|ponavljanje|repeat/i });
+    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
     expect(repeatBtn.textContent).not.toContain("1");
   });
 
   it("shows autoplay next surah toggle with accessible label", () => {
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     expect(autoplayBtn).toBeInTheDocument();
   });
 
   it("clicking autoplay toggle calls toggleAutoPlayNext", () => {
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     fireEvent.click(autoplayBtn);
     expect(mockToggleAutoPlayNext).toHaveBeenCalledTimes(1);
   });
@@ -628,13 +628,13 @@ describe("AudioPlayer", () => {
   it("autoplay button has pressed state when autoPlayNext is true", () => {
     settingsStateRef.current.autoPlayNext = true;
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: /sljedeća sura|autoplay|automatski/i });
+    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
     expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
   });
 
   it("shows compact vertical more menu icon on mobile", () => {
     render(<AudioPlayer />);
-    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
     const wrapper = moreBtn.firstElementChild as HTMLElement | null;
     const dots = wrapper ? wrapper.querySelectorAll("span") : [];
     expect(dots.length).toBe(3);
@@ -645,9 +645,9 @@ describe("AudioPlayer", () => {
 
   it("opens more menu panel above the player bar", () => {
     render(<AudioPlayer />);
-    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
     fireEvent.click(moreBtn);
-    const panel = screen.getByRole("group", { name: /dodatne kontrole playera/i });
+    const panel = screen.getByRole("group", { name: "Dodatne kontrole zvuka" });
     expect(panel).toBeInTheDocument();
     // Panel should be positioned above the control bar (using bottom offset), not below it
     expect(panel).toHaveClass("bottom-11");
@@ -657,25 +657,28 @@ describe("AudioPlayer", () => {
   it("more panel holds plain toggle buttons, not ARIA menu items", () => {
     settingsStateRef.current.repeatMode = "surah";
     render(<AudioPlayer />);
-    const moreBtn = screen.getByRole("button", { name: /više opcija playera/i });
+    const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
     expect(moreBtn).not.toHaveAttribute("aria-haspopup");
     fireEvent.click(moreBtn);
     expect(moreBtn).toHaveAttribute("aria-expanded", "true");
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     expect(screen.queryByRole("menuitemcheckbox")).not.toBeInTheDocument();
-    const panel = within(screen.getByRole("group", { name: /dodatne kontrole playera/i }));
-    expect(panel.getByRole("button", { name: /ponavljanje sure/i })).toHaveAttribute("aria-pressed", "true");
-    expect(panel.getByRole("button", { name: /sljedeća sura/i })).toHaveAttribute("aria-pressed", "true");
+    const panel = within(screen.getByRole("group", { name: "Dodatne kontrole zvuka" }));
+    expect(panel.getByRole("button", { name: "Ponavljanje: sura" })).not.toHaveAttribute("aria-pressed");
+    expect(panel.getByRole("button", { name: "Pusti sljedeću suru" })).toHaveAttribute("aria-pressed", "true");
+    // State words are plain text in normal case; the autoplay one is hidden from assistive tech.
+    expect(panel.getByText("sura").className).not.toMatch(/uppercase/);
+    expect(panel.getByText("uključeno")).toHaveAttribute("aria-hidden", "true");
   });
 });
 
 describe("AudioPlayer seek slider", () => {
-  // QA section 5: a screen reader read only the raw seconds (e.g. "42.3") of the "Trajanje" slider.
+  // QA section 5: a screen reader read only the raw seconds (e.g. "42.3") of the "Mjesto u ajetu" slider.
   it("announces position and length as words", () => {
     playerState.currentTime = 42.3;
     playerState.duration = 75;
     render(<AudioPlayer />);
-    expect(screen.getByRole("slider", { name: "Trajanje" })).toHaveAttribute(
+    expect(screen.getByRole("slider", { name: "Mjesto u ajetu" })).toHaveAttribute(
       "aria-valuetext",
       "42 sekunde od 1 minute i 15 sekundi"
     );
@@ -685,7 +688,7 @@ describe("AudioPlayer seek slider", () => {
     playerState.currentTime = 0;
     playerState.duration = 0;
     render(<AudioPlayer />);
-    expect(screen.getByRole("slider", { name: "Trajanje" })).toHaveAttribute(
+    expect(screen.getByRole("slider", { name: "Mjesto u ajetu" })).toHaveAttribute(
       "aria-valuetext",
       "0 sekundi od 0 sekundi"
     );
