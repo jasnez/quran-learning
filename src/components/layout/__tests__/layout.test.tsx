@@ -264,7 +264,7 @@ describe("AppShell", () => {
 describe("Header", () => {
   it("shows app name or logo", () => {
     render(<SettingsOpenProvider><Header /></SettingsOpenProvider>);
-    const link = screen.getByRole("link", { name: /quran learning/i });
+    const link = screen.getByRole("link", { name: "Elif, početna" });
     expect(link).toBeInTheDocument();
   });
 
@@ -397,7 +397,8 @@ describe("Footer", () => {
   it("shows the app name", () => {
     const { container } = render(<Footer />);
     const footer = container.querySelector("footer[role='contentinfo']");
-    expect(footer).toHaveTextContent(/quran learning/i);
+    expect(footer).toHaveTextContent(/Elif/);
+    expect(footer).toHaveTextContent("© 2026 Elif");
   });
 
   it("shows short description", () => {

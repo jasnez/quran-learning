@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 vi.mock("next/font/google", () => {
   const font = () => ({ variable: "", className: "" });
-  return { Geist: font, Amiri: font, Noto_Naskh_Arabic: font, Scheherazade_New: font };
+  return { Amiri: font, Noto_Naskh_Arabic: font, Scheherazade_New: font };
 });
 vi.mock("next/font/local", () => ({ default: () => ({ variable: "", className: "" }) }));
 
@@ -36,12 +36,22 @@ describe("page titles", () => {
   it("root layout sets the title default and template from SITE_NAME", async () => {
     const { metadata } = await import("../layout");
     expect(metadata.title).toEqual({
-      default: "Quran Learning",
-      template: "%s | Quran Learning",
+      default: "Elif",
+      template: "%s | Elif",
     });
   });
 
-  it("the app name is typed in no source file except src/lib/site.ts", () => {
+  it("link previews use the 1200x630 image and the large card; the browser color is the accent", async () => {
+    const { metadata, viewport } = await import("../layout");
+    expect(metadata.openGraph?.siteName).toBe("Elif");
+    expect(metadata.openGraph?.images).toEqual([{ url: "/og.png", width: 1200, height: 630, alt: "Elif" }]);
+    expect(metadata.twitter).toEqual({ card: "summary_large_image" });
+    expect(metadata.appleWebApp).toMatchObject({ title: "Elif" });
+    expect(viewport.themeColor).toBe("#1F3A5F");
+  });
+
+  // The old name must not come back in any source file ("Elif" itself is also the letter's name).
+  it("the old app name is typed in no source file", () => {
     const root = path.join(srcDir, "..");
     const offenders = sourceFiles(srcDir)
       .filter((file) => !EXCLUDED.some((ex) => path.relative(root, file).startsWith(ex)))

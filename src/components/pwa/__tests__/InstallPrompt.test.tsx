@@ -96,7 +96,7 @@ describe("InstallPrompt on iOS Safari", () => {
 
   it("shows the banner as a complementary landmark, not a dialog", () => {
     showBanner();
-    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Dodaj Elif na početni ekran" })).toBeInTheDocument();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
       screen.getByText("Otvara se s početnog ekrana; preuzete sure rade i bez interneta."),
@@ -125,7 +125,7 @@ describe("InstallPrompt on iOS Safari", () => {
     fireEvent.click(screen.getByRole("button", { name: "Instaliraj" }));
     fireEvent.click(screen.getByRole("button", { name: "Razumijem" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Dodaj Elif na početni ekran" })).toBeInTheDocument();
     expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
   });
 
@@ -136,7 +136,7 @@ describe("InstallPrompt on iOS Safari", () => {
     // The browser closes the dialog itself and fires "close"; jsdom's polyfill does the same.
     act(() => dialog.close());
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("complementary", { name: "Instaliraj aplikaciju" })).toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "Dodaj Elif na početni ekran" })).toBeInTheDocument();
     expect(localStorage.getItem(DISMISSED_KEY)).toBeNull();
   });
 
