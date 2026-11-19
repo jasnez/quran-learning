@@ -59,10 +59,10 @@ export function SurahReaderContent({
   if (ayahs.length === 0) {
     return (
       <div className="py-12 text-center" data-empty-state>
-        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500" data-empty-icon aria-hidden>
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-surface-sunken text-ink-muted" data-empty-icon aria-hidden>
           <BookIcon />
         </span>
-        <p className="mt-4 text-stone-500 dark:text-stone-400">
+        <p className="mt-4 text-ink-muted">
           Sura se nije učitala. Treba osvježiti stranicu.
         </p>
       </div>
@@ -97,8 +97,8 @@ export function SurahReaderContent({
           <TajwidLegend />
         </div>
       )}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-3 lg:hidden">
-        <span id={syncLabelId} className="text-sm text-stone-600 dark:text-stone-400">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-surface p-3 lg:hidden">
+        <span id={syncLabelId} className="text-sm text-ink-muted">
           Praćenje uz zvuk
         </span>
         {/* One choice between two modes: toggle buttons in a group, as in ReaderToolbar, not two switches. */}
@@ -109,8 +109,8 @@ export function SurahReaderContent({
             onClick={() => setWordByWordMode(false)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               !wordByWordMode
-                ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                ? "bg-surface-sunken text-ink"
+                : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
             Po ajetu
@@ -121,8 +121,8 @@ export function SurahReaderContent({
             onClick={() => setWordByWordMode(true)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               wordByWordMode
-                ? "bg-stone-200 text-stone-800 dark:bg-stone-600 dark:text-stone-100"
-                : "text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 dark:text-stone-400"
+                ? "bg-surface-sunken text-ink"
+                : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
             Riječ po riječ
@@ -131,7 +131,7 @@ export function SurahReaderContent({
       </div>
       {/* The status region stays in the DOM and only its text changes: a region mounted together
           with its text is often not announced. Empty, it is sr-only, so no empty box shows. */}
-      <p className={wordDataFailed ? "mb-4 text-sm text-amber-700 dark:text-amber-400" : "sr-only"} role="status">
+      <p className={wordDataFailed ? "mb-4 text-sm text-warning-text" : "sr-only"} role="status">
         {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
       </p>
       <ul className="space-y-6 list-none" role="list">
@@ -149,14 +149,14 @@ export function SurahReaderContent({
             <li key={ayah.id}>
               {showJuzDivider && (
                 <div className="flex items-center gap-3 py-6">
-                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" aria-hidden />
+                  <span className="h-px flex-1 bg-line" aria-hidden />
                   <Link
                     href={`/juz/${currentJuz}`}
-                    className="rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/50 dark:text-amber-200 dark:hover:bg-amber-900/50"
+                    className="rounded-full border border-line-strong bg-surface px-4 py-1.5 text-sm font-medium text-ink hover:bg-surface-sunken"
                   >
                     Džuz {currentJuz}
                   </Link>
-                  <span className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50" aria-hidden />
+                  <span className="h-px flex-1 bg-line" aria-hidden />
                 </div>
               )}
               <AyahCard

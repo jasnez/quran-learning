@@ -75,14 +75,14 @@ export default async function SurahReaderPage({ params }: PageProps) {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SurahHeader surah={surah} ayahs={ayahs} />
       <nav
-        className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[var(--theme-border)] pb-4 text-sm"
+        className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm"
         aria-label="Navigacija između sura"
       >
         <div className="flex items-center gap-2">
           {prevSurah ? (
             <Link
               href={`/surah/${prevSurah.surahNumber}`}
-              className="inline-flex items-center gap-1 rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+              className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-ink hover:bg-surface-sunken"
             >
               Prethodna sura: {prevSurah.nameLatin}
             </Link>
@@ -93,20 +93,20 @@ export default async function SurahReaderPage({ params }: PageProps) {
           <Link
             href={`/learn/${surahNumber}`}
             prefetch={false}
-            className="rounded-full border-2 border-emerald-600 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+            className="rounded-full border-2 border-accent-text bg-accent-wash px-3 py-1.5 text-sm font-medium text-accent-text hover:bg-accent-wash"
           >
             Uči ajet po ajet
           </Link>
           <Link
             href="/surahs"
-            className="rounded-full border border-[var(--theme-border)] px-3 py-1.5 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+            className="rounded-full border border-line px-3 py-1.5 text-ink-muted hover:bg-surface-sunken"
           >
             Sve sure
           </Link>
           {nextSurah && (
             <Link
               href={`/surah/${nextSurah.surahNumber}`}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-3 py-1.5 text-white hover:bg-emerald-800"
+              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-on-accent hover:bg-accent-hover"
             >
               Sljedeća sura: {nextSurah.nameLatin}
             </Link>

@@ -11,15 +11,15 @@ export function TestProgress({ current, total }: TestProgressProps) {
   const percent = (value / clampedTotal) * 100;
 
   return (
-    <div className="mb-3 flex flex-col gap-1 text-xs text-stone-500 dark:text-stone-400">
+    <div className="mb-3 flex flex-col gap-1 text-xs text-ink-muted">
       <div className="flex items-center justify-between">
         <span>
           Pitanje {value} od {clampedTotal}
         </span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-stone-200 dark:bg-stone-800">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-sunken">
         <div
-          className="h-full rounded-full bg-emerald-500 transition-[width]"
+          className="h-full rounded-full bg-accent transition-[width]"
           style={{ width: `${percent}%` }}
           data-testid="test-progress-bar"
         />

@@ -33,7 +33,7 @@ describe("SurahReaderContent empty state", () => {
   it("empty state includes a calm icon", () => {
     const { container } = render(<SurahReaderContent ayahs={[]} surahNameLatin="Al-Fatihah" />);
     const icon = container.querySelector("[data-empty-icon], [aria-hidden='true'] svg");
-    expect(icon || container.querySelector(".text-stone-400, .text-stone-500")).toBeTruthy();
+    expect(icon || container.querySelector(".text-ink-muted")).toBeTruthy();
   });
 });
 

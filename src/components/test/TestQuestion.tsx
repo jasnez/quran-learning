@@ -34,28 +34,28 @@ export function TestQuestion({
     <section className="mb-6 space-y-4" aria-label="Pitanje testa">
       <TestProgress current={index + 1} total={total} />
 
-      <div className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4">
+      <div className="rounded-xl border border-line bg-surface p-4">
         <header className="mb-3 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             Test pitanje {index + 1}
           </p>
           {question.type === "listen_identify" && (
-            <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
+            <p className="text-sm font-medium text-ink">
               Preslušaj ajet i odaberi tačan tekst.
             </p>
           )}
           {question.type === "complete_ayah" && (
-            <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
+            <p className="text-sm font-medium text-ink">
               Dovrši ajet odabirom ispravnog nastavka.
             </p>
           )}
           {question.type === "translation_match" && (
-            <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
+            <p className="text-sm font-medium text-ink">
               Nađi ispravan prevod za dati ajet.
             </p>
           )}
           {question.type === "tajwid_identify" && (
-            <p className="text-sm font-medium text-stone-900 dark:text-stone-50">
+            <p className="text-sm font-medium text-ink">
               Prepoznaj koje se tedžvid pravilo primjenjuje.
             </p>
           )}
@@ -75,7 +75,7 @@ export function TestQuestion({
 
           {question.type === "complete_ayah" && (
             <p
-              className="font-arabic text-2xl leading-relaxed text-right text-stone-900 dark:text-stone-50"
+              className="font-arabic text-2xl leading-relaxed text-right text-ink"
               dir="rtl"
             >
               {question.prefixText} ...
@@ -84,7 +84,7 @@ export function TestQuestion({
 
           {question.type === "translation_match" && (
             <p
-              className="font-arabic text-2xl leading-relaxed text-right text-stone-900 dark:text-stone-50"
+              className="font-arabic text-2xl leading-relaxed text-right text-ink"
               dir="rtl"
             >
               {stripWaqfSigns(question.arabicText)}
@@ -93,10 +93,10 @@ export function TestQuestion({
 
           {question.type === "tajwid_identify" && (
             <p
-              className="font-arabic text-2xl leading-relaxed text-right text-stone-900 dark:text-stone-50"
+              className="font-arabic text-2xl leading-relaxed text-right text-ink"
               dir="rtl"
             >
-              <span className="rounded-md bg-emerald-100 px-1.5 py-0.5 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
+              <span className="rounded-md bg-accent-wash px-1.5 py-0.5 text-accent-text">
                 {stripWaqfSigns(question.highlightedText)}
               </span>
             </p>
@@ -119,7 +119,7 @@ export function TestQuestion({
           </ul>
 
           {showFeedback && (
-            <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-100">
+            <div className="mt-3 rounded-lg border border-line bg-highlight p-3 text-sm text-ink">
               <p className="font-medium">
                 {selectedIndex === question.correctIndex
                   ? "Tačno!"
@@ -129,7 +129,7 @@ export function TestQuestion({
               <button
                 type="button"
                 onClick={onNext}
-                className="mt-3 rounded-full bg-emerald-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+                className="mt-3 rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-on-accent hover:bg-accent-hover"
               >
                 Sljedeće
               </button>
