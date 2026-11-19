@@ -37,7 +37,7 @@ const PRIMARY_THEMES = [
   { value: "dark" as const, label: "Tamna" },
 ] as const;
 const ADVANCED_THEMES = [
-  { value: "sepia" as const, label: "Sepia" },
+  { value: "sepia" as const, label: "Hartija" },
 ] as const;
 
 type SettingsPanelProps = { isOpen: boolean; onClose: () => void };
@@ -102,13 +102,13 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
       onClose={onClose}
       {...lightDismiss}
     >
-        <div className="flex flex-shrink-0 items-center justify-between border-b border-stone-200 px-4 py-3 dark:border-stone-700">
-          <h2 id="settings-panel-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-line px-4 py-3">
+          <h2 id="settings-panel-title" className="text-lg font-semibold text-ink">
             Postavke
           </h2>
           <button
             type="button"
-            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-ink-muted hover:bg-surface-sunken hover:text-ink"
             aria-label="Zatvori"
             onClick={onClose}
           >
@@ -119,18 +119,18 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         <div className="flex-1 overflow-y-auto px-4 py-6">
           {/* Display Settings */}
           <section className="mb-8" aria-labelledby="display-heading">
-            <h3 id="display-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+            <h3 id="display-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted">
               Prikaz
             </h3>
             <div className="space-y-4">
               <div>
-                <label id="font-size-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                <label id="font-size-label" className="block text-sm font-medium text-ink">
                   Veličina arapskih slova
                 </label>
                 <div className="mt-2 flex items-center gap-2">
                   <button
                     type="button"
-                    className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-stone-600 hover:bg-stone-50 disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+                    className="rounded-lg border border-line-strong bg-surface px-3 py-1.5 text-ink-muted hover:bg-surface-sunken disabled:opacity-50"
                     aria-label="Manja slova"
                     disabled={arabicFontSize <= FONT_MIN}
                     onClick={fontDecrease}
@@ -138,14 +138,14 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                     −
                   </button>
                   <span
-                    className="min-w-[3rem] text-center text-stone-900 dark:text-stone-100"
+                    className="min-w-[3rem] text-center text-ink"
                     aria-live="polite"
                   >
                     {arabicFontSize}
                   </span>
                   <button
                     type="button"
-                    className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-stone-600 hover:bg-stone-50 disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+                    className="rounded-lg border border-line-strong bg-surface px-3 py-1.5 text-ink-muted hover:bg-surface-sunken disabled:opacity-50"
                     aria-label="Veća slova"
                     disabled={arabicFontSize >= FONT_MAX}
                     onClick={fontIncrease}
@@ -155,7 +155,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 </div>
               </div>
               <div>
-                <span id="font-style-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                <span id="font-style-label" className="block text-sm font-medium text-ink">
                   Arapsko pismo
                 </span>
                 <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="font-style-label">
@@ -176,7 +176,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                     </button>
                   ))}
                 </div>
-                <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                <p className="mt-1 text-xs text-ink-muted">
                   Klasično pismo ima tradicionalniji oblik slova; osnovno je jednostavnije.
                 </p>
               </div>
@@ -203,20 +203,20 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
 
           {/* Audio Settings */}
           <section className="mb-8" aria-labelledby="audio-heading">
-            <h3 id="audio-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+            <h3 id="audio-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted">
               Zvuk
             </h3>
             <div className="space-y-4">
               <div>
-                <span className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                <span className="block text-sm font-medium text-ink">
                   Učač
                 </span>
-                <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+                <p className="mt-1 text-sm text-ink-muted">
                   {reciterLabel}
                 </p>
               </div>
               <div>
-                <span className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                <span className="block text-sm font-medium text-ink">
                   Brzina
                 </span>
                 <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Brzina">
@@ -244,10 +244,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 onChange={toggleAutoPlayNext}
               />
               <div>
-                <span id="pause-after-ayah-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                <span id="pause-after-ayah-label" className="block text-sm font-medium text-ink">
                   Pauza između ajeta
                 </span>
-                <p className="mb-2 text-xs text-stone-500 dark:text-stone-400">
+                <p className="mb-2 text-xs text-ink-muted">
                   Koliko se čeka nakon svakog ajeta. Uz &bdquo;Ručno&ldquo; sljedeći ajet počinje tek kad
                   dodirneš &bdquo;Nastavi&ldquo;.
                 </p>
@@ -296,7 +296,7 @@ function RepeatModeRow({
 }) {
   return (
     <div>
-      <span id="repeat-mode-label" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+      <span id="repeat-mode-label" className="block text-sm font-medium text-ink">
         Ponavljanje
       </span>
       <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="repeat-mode-label">
@@ -331,7 +331,7 @@ function ToggleRow({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <label htmlFor={id} className="text-sm font-medium text-stone-700 dark:text-stone-300">
+      <label htmlFor={id} className="text-sm font-medium text-ink">
         {label}
       </label>
       <button
@@ -340,13 +340,13 @@ function ToggleRow({
         role="switch"
         aria-checked={checked}
         aria-label={label}
-        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 ${
-          checked ? "bg-emerald-600 dark:bg-emerald-500" : "bg-stone-200 dark:bg-stone-600"
+        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 ${
+          checked ? "bg-accent" : "bg-line-strong"
         }`}
         onClick={onChange}
       >
         <span
-          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition ${
+          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-surface shadow ring-0 transition ${
             checked ? "translate-x-5" : "translate-x-0.5"
           }`}
         />
@@ -391,7 +391,7 @@ function ThemeSection({
     <section aria-labelledby="theme-heading">
       <h3
         id="theme-heading"
-        className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400"
+        className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted"
       >
         Tema
       </h3>
@@ -399,7 +399,7 @@ function ThemeSection({
         {PRIMARY_THEMES.map((t) => (
           <label
             key={t.value}
-            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-emerald-600 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
           >
             <input
               type="radio"
@@ -423,7 +423,7 @@ function ThemeSection({
           {ADVANCED_THEMES.map((t) => (
             <label
               key={t.value}
-              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-emerald-600 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-700 dark:has-[:checked]:bg-emerald-900/30 dark:has-[:checked]:text-emerald-300 dark:has-[:checked]:border-emerald-500"
+              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
             >
               <input
                 type="radio"
@@ -442,7 +442,7 @@ function ThemeSection({
         <button
           type="button"
           onClick={() => setShowAdvanced(true)}
-          className="mt-2 text-xs font-medium text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
+          className="mt-2 text-xs font-medium text-ink-muted hover:text-ink"
         >
           Više opcija…
         </button>
@@ -452,14 +452,14 @@ function ThemeSection({
 }
 
 // White on emerald-700 is 5.5:1; on emerald-600 it was 3.65:1 and on emerald-500 2.5:1 (QA section 5).
-const OPTION_SELECTED = "bg-emerald-700 text-white";
+const OPTION_SELECTED = "bg-accent text-on-accent";
 const OPTION_IDLE =
-  "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600";
+  "bg-surface-sunken text-ink hover:bg-line";
 
 const SECONDARY_BUTTON =
-  "w-full rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 transition-colors hover:bg-stone-50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 dark:border-stone-600 dark:text-stone-400 dark:hover:bg-stone-800";
+  "w-full rounded-lg border border-line-strong px-4 py-2 text-sm text-ink-muted transition-colors hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-accent-text";
 const PRIMARY_BUTTON =
-  "w-full rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-800 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600";
+  "w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-accent-text";
 
 function failureHints(failures: SurahFailure[]): string[] {
   const hints: string[] = [];
@@ -488,7 +488,7 @@ function OfflineSection({ active }: { active: boolean }) {
   } = useOfflineDownload({ active });
 
   const availableLine = (
-    <p className="text-sm text-stone-600 dark:text-stone-400">
+    <p className="text-sm text-ink-muted">
       Preuzeto: {formatNumber(availableCount)} od {formatNumber(TOTAL_SURAHS)} sura.
     </p>
   );
@@ -497,24 +497,24 @@ function OfflineSection({ active }: { active: boolean }) {
     <section aria-labelledby="offline-heading">
       <h3
         id="offline-heading"
-        className="mb-4 text-sm font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400"
+        className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted"
       >
         Čitanje bez interneta
       </h3>
 
       {status === "unsupported" ? (
-        <p className="text-sm text-stone-600 dark:text-stone-400">
+        <p className="text-sm text-ink-muted">
           Ovaj preglednik ne može preuzeti sure za čitanje bez interneta.
         </p>
       ) : (
-        <p className="mb-3 text-sm text-stone-600 dark:text-stone-400">
+        <p className="mb-3 text-sm text-ink-muted">
           Preuzimanje sprema tekst svih {TOTAL_SURAHS} sura (arapski tekst, transkripciju i prijevod) za čitanje
           bez interneta, oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet.
         </p>
       )}
 
       {status === "checking" && (
-        <p className="text-sm text-stone-500 dark:text-stone-400" role="status">
+        <p className="text-sm text-ink-muted" role="status">
           Provjera preuzetih sura…
         </p>
       )}
@@ -531,22 +531,22 @@ function OfflineSection({ active }: { active: boolean }) {
       {status === "downloading" && (
         <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-stone-700 dark:text-stone-300">
+            <span className="text-ink">
               Preuzimanje: {formatNumber(progress)} od {formatNumber(total)} sura
             </span>
-            <span className="tabular-nums text-stone-500 dark:text-stone-400">
+            <span className="tabular-nums text-ink-muted">
               {progressPercent}%
             </span>
           </div>
           <div
-            className="h-2 w-full overflow-hidden rounded-full bg-stone-200 dark:bg-stone-700"
+            className="h-2 w-full overflow-hidden rounded-full bg-surface-sunken"
             role="progressbar"
             aria-valuenow={progressPercent}
             aria-valuemin={0}
             aria-valuemax={100}
           >
             <div
-              className="h-full rounded-full bg-emerald-500 transition-all duration-300"
+              className="h-full rounded-full bg-accent transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -558,7 +558,7 @@ function OfflineSection({ active }: { active: boolean }) {
 
       {status === "done" && (
         <div className="space-y-3" role="status" aria-live="polite">
-          <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
+          <div className="flex items-center gap-2 rounded-lg bg-accent-wash px-4 py-3 text-sm text-accent-text">
             <span aria-hidden>✓</span>
             Svih {TOTAL_SURAHS} sura je preuzeto. Čitanje radi i bez interneta.
           </div>
@@ -570,7 +570,7 @@ function OfflineSection({ active }: { active: boolean }) {
 
       {status === "error" && error === "not-controlled" && (
         <div className="space-y-3" role="alert">
-          <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+          <div className="rounded-lg bg-surface-sunken px-4 py-3 text-sm text-danger-text">
             Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo.
           </div>
           <button type="button" onClick={start} className={PRIMARY_BUTTON}>
@@ -581,7 +581,7 @@ function OfflineSection({ active }: { active: boolean }) {
 
       {status === "error" && error === "incomplete" && (
         <div className="space-y-3" role="alert">
-          <div className="space-y-1 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+          <div className="space-y-1 rounded-lg bg-surface-sunken px-4 py-3 text-sm text-danger-text">
             <p className="font-medium">Preuzimanje nije završeno.</p>
             {failures.length > 0 && (
               <p>

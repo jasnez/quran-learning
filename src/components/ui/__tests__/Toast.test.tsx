@@ -34,7 +34,7 @@ describe("Toast", () => {
     const after = screen.getByRole("status");
     expect(after).toBe(before);
     expect(after).toHaveTextContent("12. ajet je sačuvan.");
-    expect(after).toHaveClass("bg-stone-800");
+    expect(after).toHaveClass("bg-ink");
   });
 
   it("renders message when set in store", () => {

@@ -134,9 +134,9 @@ export function InstallPrompt() {
           aria-labelledby="install-prompt-title"
           className="fixed bottom-[72px] left-2 right-2 z-40 md:bottom-4 md:left-auto md:right-4 md:max-w-md"
         >
-          <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-white p-3 shadow-lg dark:border-emerald-800 dark:bg-stone-900">
+          <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3 shadow-lg">
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-wash text-accent-text"
               aria-hidden
             >
               <InstallIcon />
@@ -144,18 +144,18 @@ export function InstallPrompt() {
             <div className="min-w-0 flex-1">
               <p
                 id="install-prompt-title"
-                className="text-sm font-medium text-stone-900 dark:text-stone-100"
+                className="text-sm font-medium text-ink"
               >
                 Instaliraj aplikaciju
               </p>
-              <p className="text-xs text-stone-500 dark:text-stone-400">
+              <p className="text-xs text-ink-muted">
                 Otvara se s početnog ekrana; preuzete sure rade i bez interneta.
               </p>
             </div>
             <button
               type="button"
               onClick={handleInstall}
-              className="shrink-0 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+              className="shrink-0 rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-hover"
             >
               Instaliraj
             </button>
@@ -163,7 +163,7 @@ export function InstallPrompt() {
               type="button"
               onClick={handleDismiss}
               aria-label="Zatvori"
-              className="shrink-0 rounded-full p-2 text-stone-500 dark:text-stone-400 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+              className="shrink-0 rounded-full p-2 text-ink-muted hover:bg-surface-sunken hover:text-ink"
             >
               <CloseIcon />
             </button>
@@ -179,13 +179,13 @@ export function InstallPrompt() {
       >
         <h2
           id="ios-install-title"
-          className="text-lg font-semibold text-stone-900 dark:text-stone-100"
+          className="text-lg font-semibold text-ink"
         >
           Dodaj na iPhone
         </h2>
-        <ol className="mt-4 space-y-3 text-sm text-stone-700 dark:text-stone-300">
+        <ol className="mt-4 space-y-3 text-sm text-ink">
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-wash text-xs font-medium text-accent-text">
               1
             </span>
             <span>
@@ -195,7 +195,7 @@ export function InstallPrompt() {
             </span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-wash text-xs font-medium text-accent-text">
               2
             </span>
             <span>
@@ -204,7 +204,7 @@ export function InstallPrompt() {
             </span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-medium text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-wash text-xs font-medium text-accent-text">
               3
             </span>
             <span>
@@ -215,7 +215,7 @@ export function InstallPrompt() {
         <button
           type="button"
           onClick={closeIosInstructions}
-          className="mt-6 w-full rounded-full border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800"
+          className="mt-6 w-full rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-ink hover:bg-surface-sunken"
         >
           Razumijem
         </button>

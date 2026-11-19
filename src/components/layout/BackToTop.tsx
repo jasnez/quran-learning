@@ -59,8 +59,8 @@ export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProp
       aria-label="Povratak na vrh stranice"
       className={
         hasAudio
-          ? "fixed right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-[8.5rem] md:bottom-24"
-          : "fixed bottom-24 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-stone-700 text-white shadow-lg transition-opacity hover:bg-stone-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:bg-stone-300 dark:text-stone-900 dark:hover:bg-stone-200 max-md:bottom-24 md:bottom-8"
+          ? "fixed right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-paper shadow-lg transition-opacity hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 max-md:bottom-[8.5rem] md:bottom-24"
+          : "fixed bottom-24 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-paper shadow-lg transition-opacity hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 max-md:bottom-24 md:bottom-8"
       }
     >
       <span aria-hidden>
