@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { searchAyahs } from "@/lib/search/searchClient";
 import type { SearchResult } from "@/types/quran";
+import { formatCount, formatNumber } from "@/lib/format";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 const PLACEHOLDER = "Pretraži ajete, sure, prijevod...";
@@ -19,11 +20,12 @@ const RECENT_MAX = 5;
 /** Results shown at first and added by each "Prikaži još" (QA P2-5). */
 const PAGE_SIZE = 50;
 
+const RESULT_FORMS = { one: "rezultat", few: "rezultata", other: "rezultata" } as const;
+
 /** "1 rezultat", "21 rezultat", "2 rezultata", "11 rezultata". */
 function resultCountLabel(shown: number, total: number): string {
-  if (shown < total) return `Prikazano ${shown} od ${total} rezultata`;
-  const singular = total % 10 === 1 && total % 100 !== 11;
-  return `${total} ${singular ? "rezultat" : "rezultata"}`;
+  if (shown < total) return `Prikazano ${formatNumber(shown)} od ${formatNumber(total)} rezultata`;
+  return formatCount(total, RESULT_FORMS);
 }
 
 // text-inherit: the browser's own mark text is black, unreadable on the dark-theme highlight.
