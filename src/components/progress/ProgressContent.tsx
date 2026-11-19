@@ -108,9 +108,10 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
                 key={f}
                 type="button"
                 onClick={() => setFilter(f)}
+                aria-pressed={filter === f}
                 className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                   filter === f
-                    ? "bg-accent-wash text-accent-text"
+                    ? "bg-accent text-on-accent"
                     : "bg-surface-sunken text-ink hover:bg-line"
                 }`}
               >
