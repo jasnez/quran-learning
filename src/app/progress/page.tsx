@@ -2,7 +2,7 @@ import { getAllSurahs } from "@/lib/data";
 import { ProgressContent } from "@/components/progress/ProgressContent";
 
 export const metadata = {
-  title: "Napredak | Quran Learning",
+  title: "Napredak",
   description: "Pregled napretka učenja Kur'ana",
 };
 

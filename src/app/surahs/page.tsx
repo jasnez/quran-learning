@@ -8,7 +8,7 @@ import { SurahsPageContent } from "@/components/surahs";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Sure | Quran Learning",
+  title: "Sve sure",
 };
 
 export default async function SurahsPage() {
@@ -17,7 +17,7 @@ export default async function SurahsPage() {
   return (
     <article className="mx-auto max-w-7xl">
       <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl">
-        Sure
+        Sve sure
       </h1>
       <div className="mt-8">
         <Suspense fallback={<div className="h-32 animate-pulse rounded-xl bg-stone-100 dark:bg-stone-800" />}>

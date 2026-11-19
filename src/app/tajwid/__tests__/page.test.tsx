@@ -115,7 +115,7 @@ describe("Tajwid lessons listing page", () => {
 
 describe("Tajwid lessons page metadata", () => {
   it("has a Bosnian page title", () => {
-    expect(metadata.title).toBe("Tedžvid lekcije | Quran Learning");
+    expect(metadata.title).toBe("Tedžvid lekcije");
   });
 });
 

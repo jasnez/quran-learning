@@ -3,7 +3,7 @@ import { getAllTajwidLessons } from "@/data/tajwid-lessons";
 import { TajwidLessonCard } from "@/components/tajwid/TajwidLessonCard";
 
 export const metadata: Metadata = {
-  title: "Tedžvid lekcije | Quran Learning",
+  title: "Tedžvid lekcije",
 };
 
 export default async function TajwidLessonsPage() {

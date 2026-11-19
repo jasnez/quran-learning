@@ -17,16 +17,16 @@ export async function generateMetadata({ params }: PageProps) {
   const { surahId } = await params;
   const n = parseInt(surahId, 10);
   if (Number.isNaN(n) || n < 1 || n > 114) {
-    return { title: "Sura | Quran Learning" };
+    return { title: "Sura" };
   }
   try {
     const { surah } = await getSurahByNumber(n);
     return {
-      title: `${surah.nameLatin} | Quran Learning`,
+      title: `${surah.nameLatin}`,
       description: `Čitanje sure ${surahNameWithCommon(surah)}`,
     };
   } catch {
-    return { title: "Sura | Quran Learning" };
+    return { title: "Sura" };
   }
 }
 

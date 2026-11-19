@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Stranica nije pronađena | Quran Learning",
+  title: "Ova stranica ne postoji",
   // The layout's "./" would point to /_not-found, an address that does not exist.
   alternates: { canonical: null },
   openGraph: null,

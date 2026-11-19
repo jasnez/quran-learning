@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LETTER_RULES_SOURCE } from "@/lib/letters/data";
 
 export const metadata: Metadata = {
-  title: "Izvori | Quran Learning",
+  title: "Izvori",
   description:
     "Izvori: arapski tekst, tedžvid oznake, transkripcija, prijevod i snimci učenja.",
 };

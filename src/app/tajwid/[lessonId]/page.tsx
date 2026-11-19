@@ -21,8 +21,8 @@ type LessonPageProps = {
 export async function generateMetadata({ params }: LessonPageProps): Promise<Metadata> {
   const { lessonId } = await params;
   const lesson = await getTajwidLessonBySlug(lessonId);
-  if (!lesson) return { title: "Tedžvid lekcije | Quran Learning" };
-  return { title: `${lesson.title} | Tedžvid lekcije | Quran Learning` };
+  if (!lesson) return { title: "Tedžvid lekcije" };
+  return { title: `${lesson.title} | Tedžvid lekcije` };
 }
 
 export default async function LessonPage({ params }: LessonPageProps) {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "O aplikaciji | Quran Learning",
+  title: "O aplikaciji",
   description:
     `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy.`,
 };
@@ -18,7 +18,7 @@ export default function AboutPage() {
       <div className="mt-8 space-y-8 text-stone-600 dark:text-stone-400">
         <section>
           <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
-            Šta je Quran Learning?
+            Šta je {SITE_NAME}?
           </h2>
           <p className="mt-2 leading-relaxed">
             {SITE_NAME} je besplatna aplikacija za učenje Kur&apos;ana na bosanskom

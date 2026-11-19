@@ -16,9 +16,9 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const cat = categoryFromSlug(category);
-  if (!cat) return { title: "Kur'anske dove | Quran Learning" };
+  if (!cat) return { title: "Kur'anske dove" };
   return {
-    title: `${CATEGORY_LABELS[cat]} | Kur'anske dove | Quran Learning`,
+    title: `${CATEGORY_LABELS[cat]} | Kur'anske dove`,
     description: `Kur'anske dove: ${CATEGORY_LABELS[cat]}. Uz tačno mjesto u Kur'anu.`,
   };
 }

@@ -163,14 +163,14 @@ describe("Tajwid lesson page metadata", () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ lessonId: "mad-duljenje" }),
     });
-    expect(metadata.title).toBe("Mad (duljenje) | Tedžvid lekcije | Quran Learning");
+    expect(metadata.title).toBe("Mad (duljenje) | Tedžvid lekcije");
   });
 
   it("falls back to the lessons title for an unknown lesson", async () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ lessonId: "nepostojeca" }),
     });
-    expect(metadata.title).toBe("Tedžvid lekcije | Quran Learning");
+    expect(metadata.title).toBe("Tedžvid lekcije");
   });
 });
 

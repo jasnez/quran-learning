@@ -3,7 +3,7 @@ import { getAllSurahs } from "@/lib/data";
 import { BookmarksContent } from "@/components/bookmarks";
 
 export const metadata: Metadata = {
-  title: "Sačuvani ajeti | Quran Learning",
+  title: "Sačuvani ajeti",
   description: "Ajeti sačuvani tokom čitanja, s bilješkama.",
 };
 

@@ -14,6 +14,7 @@ import {
 import { usePlayerStore } from "@/store/playerStore";
 import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
+import { SITE_NAME } from "@/lib/site";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
 
 const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
@@ -69,9 +70,9 @@ export function Header() {
           <Link
             href="/"
             className={`min-w-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
-            aria-label="Quran Learning, početna"
+            aria-label={`${SITE_NAME}, početna`}
           >
-            Quran Learning
+            {SITE_NAME}
           </Link>
         </div>
 

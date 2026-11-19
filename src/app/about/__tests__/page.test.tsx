@@ -14,7 +14,7 @@ describe("O aplikaciji page", () => {
     const { container } = render(<AboutPage />);
     expect(screen.getByRole("heading", { level: 1, name: "O aplikaciji" })).toBeInTheDocument();
     expect(container.textContent).not.toMatch(/platform/i);
-    expect(metadata.title).toBe("O aplikaciji | Quran Learning");
+    expect(metadata.title).toBe("O aplikaciji");
     expect(metadata.description).toBe(
       `${SITE_NAME} je besplatna aplikacija za učenje Kur'ana: arapski tekst, transkripcija, Korkutov prijevod i učač Mishary Alafasy.`
     );

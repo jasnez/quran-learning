@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ISSUES_NEW_URL } from "@/lib/contact";
 
 export const metadata: Metadata = {
-  title: "Kontakt | Quran Learning",
+  title: "Kontakt",
   description: "Pitanja, prijedlozi i prijave grešaka.",
 };
 

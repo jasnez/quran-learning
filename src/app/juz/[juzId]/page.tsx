@@ -17,12 +17,12 @@ export async function generateMetadata({ params }: PageProps) {
   const { juzId } = await params;
   const n = parseInt(juzId, 10);
   if (Number.isNaN(n) || n < 1 || n > 30) {
-    return { title: "Džuz | Quran Learning" };
+    return { title: "Džuz" };
   }
   const juz = getJuzByNumber(n);
-  if (!juz) return { title: "Džuz | Quran Learning" };
+  if (!juz) return { title: "Džuz" };
   return {
-    title: `Džuz ${juz.juz} — ${juz.name} | Quran Learning`,
+    title: `Džuz ${juz.juz} — ${juz.name}`,
     description: `Čitanje džuza ${juz.juz} (${juz.nameArabic})`,
   };
 }

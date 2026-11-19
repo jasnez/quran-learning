@@ -285,7 +285,7 @@ describe("Learn Mode page", () => {
 describe("Learn Mode page metadata", () => {
   it("titles the page in Bosnian with the surah name", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "1" }) });
-    expect(metadata.title).toBe("Učenje: Al-Fatihah | Quran Learning");
+    expect(metadata.title).toBe("Učenje: Al-Fatihah");
   });
 
   it("describes the page as learning a surah ayah by ayah", async () => {
@@ -295,6 +295,6 @@ describe("Learn Mode page metadata", () => {
 
   it("falls back to a Bosnian title for an invalid surah number", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
-    expect(metadata.title).toBe("Učenje | Quran Learning");
+    expect(metadata.title).toBe("Učenje");
   });
 });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { NamesPageContent } from "@/components/names/NamesPageContent";
 
 export const metadata: Metadata = {
-  title: "Allahova lijepa imena | Quran Learning",
+  title: "Allahova lijepa imena",
   description:
     "El-Esmāʼul-Ḥusnā: 99 Allahovih lijepih imena s arapskim tekstom, transkripcijom i prijevodom.",
 };

@@ -381,6 +381,6 @@ describe("Surah Reader page", () => {
 describe("Surah reader page metadata", () => {
   it("falls back to a Bosnian title for an invalid surah number", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ surahId: "115" }) });
-    expect(metadata.title).toBe("Sura | Quran Learning");
+    expect(metadata.title).toBe("Sura");
   });
 });

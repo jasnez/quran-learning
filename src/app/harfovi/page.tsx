@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ARABIC_LETTERS, ARABIC_VOWELS, LETTER_RULES_SOURCE } from "@/lib/letters/data";
 
 export const metadata: Metadata = {
-  title: "Harfovi i izgovor | Quran Learning",
+  title: "Harfovi i izgovor",
   description:
     "Tabela arapskih harfova: kako se pišu u transkripciji po Pravilima Islamske zajednice u Bosni i Hercegovini i kako se izgovaraju.",
 };
