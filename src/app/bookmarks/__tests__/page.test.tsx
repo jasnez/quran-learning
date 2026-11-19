@@ -130,6 +130,14 @@ describe("BookmarksContent", () => {
     expect(classes).toContain("line-clamp-2");
   });
 
+  it("shows when a bookmark was saved in words", () => {
+    mockGetAllBookmarks.mockReturnValue([
+      { ...mockBookmarks[0], createdAt: new Date(Date.now() - 2 * 60 * 1000).toISOString() },
+    ]);
+    render(<BookmarksContent surahs={mockSurahs} />);
+    expect(screen.getByText("prije 2 minute")).toBeInTheDocument();
+  });
+
   it("each bookmark links to /surah/[id]?ayah=[number]", () => {
     mockGetAllBookmarks.mockReturnValue([mockBookmarks[0]]);
     render(<BookmarksContent surahs={mockSurahs} />);

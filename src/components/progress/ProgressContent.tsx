@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { SurahSummary } from "@/types/quran";
 import { computeOverallProgress, useProgressStore } from "@/store/progressStore";
 import { useShallow } from "zustand/react/shallow";
+import { formatNumber } from "@/lib/format";
 import { formatListeningTime } from "@/lib/formatListeningTime";
 
 const TOTAL_AYAHS_QURAN = 6236;
@@ -60,23 +61,23 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Sure započeto
+                Započete sure
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalSurahsStarted}
+                {formatNumber(overall.totalSurahsStarted)}
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Ajeta preslušano
+                Preslušani ajeti
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalAyahsListened}
+                {formatNumber(overall.totalAyahsListened)}
               </p>
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Ukupno slušanje
+                Vrijeme slušanja
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
                 {formatListeningTime(totalTimeMs)}
@@ -84,10 +85,10 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
             </div>
             <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-4 dark:border-stone-700/80 dark:bg-stone-900/40">
               <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                Napredak
+                {"Od cijelog Kur'ana"}
               </p>
               <p className="mt-1 text-2xl font-semibold text-stone-800 dark:text-stone-200">
-                {overall.totalAyahsListened}/{TOTAL_AYAHS_QURAN}
+                {formatNumber(overall.totalAyahsListened)} od {formatNumber(TOTAL_AYAHS_QURAN)} ajeta
               </p>
             </div>
           </div>
@@ -146,7 +147,7 @@ export function ProgressContent({ surahs }: { surahs: SurahSummary[] }) {
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-stone-900 dark:text-stone-100">{surah.nameLatin}</p>
                     <p className="text-xs text-stone-500 dark:text-stone-400">
-                      {listened}/{total} ajeta · {percent}%
+                      {formatNumber(listened)} od {formatNumber(total)} ajeta · {percent}%
                     </p>
                   </div>
                   {percent >= 100 && (

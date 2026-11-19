@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useSettingsStore } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
+import { SURAH_FORMS, formatCount, formatNumber, pluralForm, type PluralForms } from "@/lib/format";
 import { useOfflineDownload, TOTAL_SURAHS, type SurahFailure } from "@/hooks/useOfflineDownload";
 
 const FONT_MIN = 20;
@@ -11,11 +12,23 @@ const FONT_STEP = 4;
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5] as const;
 
+const SECOND_FORMS: PluralForms = { one: "sekunda", few: "sekunde", other: "sekundi" };
+const MISSING_VERB: PluralForms = { one: "Nedostaje", few: "Nedostaju", other: "Nedostaje" };
+
+function missingAssetsSentence(count: number): string {
+  const n = formatNumber(count);
+  return pluralForm(count, {
+    one: `Nedostaje ${n} dio aplikacije potreban za prikaz sura.`,
+    few: `Nedostaju ${n} dijela aplikacije potrebna za prikaz sura.`,
+    other: `Nedostaje ${n} dijelova aplikacije potrebnih za prikaz sura.`,
+  });
+}
+
 const PAUSE_OPTIONS: { value: PauseAfterAyah; label: string }[] = [
   { value: "off", label: "Odmah" },
-  { value: "3s", label: "3 sek" },
-  { value: "5s", label: "5 sek" },
-  { value: "10s", label: "10 sek" },
+  { value: "3s", label: formatCount(3, SECOND_FORMS) },
+  { value: "5s", label: formatCount(5, SECOND_FORMS) },
+  { value: "10s", label: formatCount(10, SECOND_FORMS) },
   { value: "manual", label: "Ručno" },
 ];
 const PRIMARY_THEMES = [
@@ -232,10 +245,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                         playbackSpeed === speed ? OPTION_SELECTED : OPTION_IDLE
                       }`}
                       aria-pressed={playbackSpeed === speed}
-                      aria-label={`${speed}x`}
+                      aria-label={`${formatNumber(speed)}×`}
                       onClick={() => setPlaybackSpeed(speed)}
                     >
-                      {speed}x
+                      {formatNumber(speed)}×
                     </button>
                   ))}
                 </div>
@@ -493,7 +506,7 @@ function OfflineSection({ active }: { active: boolean }) {
 
   const availableLine = (
     <p className="text-sm text-stone-600 dark:text-stone-400">
-      Bez interneta je dostupno {availableCount} od {TOTAL_SURAHS} sura.
+      Preuzeto: {formatNumber(availableCount)} od {formatNumber(TOTAL_SURAHS)} sura.
     </p>
   );
 
@@ -536,7 +549,7 @@ function OfflineSection({ active }: { active: boolean }) {
         <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center justify-between text-sm">
             <span className="text-stone-700 dark:text-stone-300">
-              Preuzimanje {progress}/{total}…
+              Preuzimanje: {formatNumber(progress)} od {formatNumber(total)} sura
             </span>
             <span className="tabular-nums text-stone-500 dark:text-stone-400">
               {progressPercent}%
@@ -587,14 +600,14 @@ function OfflineSection({ active }: { active: boolean }) {
       {status === "error" && error === "incomplete" && (
         <div className="space-y-3" role="alert">
           <div className="space-y-1 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
-            <p className="font-medium">Preuzimanje nije potpuno.</p>
+            <p className="font-medium">Preuzimanje nije završeno.</p>
             {failures.length > 0 && (
               <p>
-                Sure koje nisu spremljene ({failures.length}): {failures.map((f) => f.surah).join(", ")}.
+                {pluralForm(failures.length, MISSING_VERB)} {formatCount(failures.length, SURAH_FORMS)}: {failures.map((f) => f.surah).join(", ")}.
               </p>
             )}
             {failedAssetCount > 0 && (
-              <p>Datoteke aplikacije koje nisu spremljene: {failedAssetCount} (potrebne su za prikaz sura).</p>
+              <p>{missingAssetsSentence(failedAssetCount)}</p>
             )}
             {failureHints(failures).map((hint) => (
               <p key={hint}>{hint}</p>

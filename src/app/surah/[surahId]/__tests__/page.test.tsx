@@ -155,7 +155,7 @@ describe("Surah Reader page", () => {
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("when progress exists, SurahHeader shows X/Y ajeta preslušano and progress bar", async () => {
+  it("when progress exists, SurahHeader shows Preslušano: X od Y ajeta and progress bar", async () => {
     hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
       num === 1
         ? {
@@ -171,9 +171,7 @@ describe("Surah Reader page", () => {
     );
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText(/1\/2 ajeta preslušano/i)).toBeInTheDocument();
-    const progressRegion = screen.getByLabelText(/1 od 2 ajeta preslušano/i);
-    expect(progressRegion).toBeInTheDocument();
+    expect(screen.getByText("Preslušano: 1 od 2 ajeta")).toBeInTheDocument();
   });
 
   it("renders an AyahCard for each ayah", async () => {

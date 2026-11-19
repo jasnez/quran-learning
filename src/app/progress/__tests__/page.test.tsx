@@ -83,6 +83,15 @@ describe("Progress page", () => {
     expect(screen.getByRole("heading", { name: /napredak/i })).toBeInTheDocument();
   });
 
+  it("names the stat tiles and writes the Quran total with a thousands separator", async () => {
+    const Page = await ProgressPage();
+    render(Page);
+    for (const label of ["Započete sure", "Preslušani ajeti", "Vrijeme slušanja", "Od cijelog Kur'ana"]) {
+      expect(screen.getAllByText(label).length).toBeGreaterThanOrEqual(1);
+    }
+    expect(screen.getAllByText(/^\d+ od 6\.236 ajeta$/).length).toBeGreaterThanOrEqual(1);
+  });
+
   it("has filter buttons: Sve, Započete, Završene, Nepočete", async () => {
     const Page = await ProgressPage();
     render(Page);
@@ -121,7 +130,7 @@ describe("Progress page", () => {
     render(Page);
     const zavrseno = screen.getAllByText("Završeno");
     expect(zavrseno.length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText(/7\/7 ajeta/).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText(/2\/286 ajeta/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/7 od 7 ajeta/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/2 od 286 ajeta/).length).toBeGreaterThanOrEqual(1);
   });
 });

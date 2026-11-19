@@ -194,8 +194,7 @@ describe("Home page", () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       const Page = await Home();
       render(Page);
-      expect(screen.getByText(/dobrodošli|dobrodosli/i)).toBeInTheDocument();
-      expect(screen.getByText(/počnite sa kratkim surama|pocnite sa kratkim surama/i)).toBeInTheDocument();
+      expect(screen.getByText("Dobar početak su kratke sure ispod.")).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /preporučene|sure/i })).toBeInTheDocument();
     });
 
@@ -227,12 +226,12 @@ describe("Home page", () => {
       const Page = await Home();
       render(Page);
       const readerLink = await screen.findByRole("link", { name: /nastavi čitanje/i });
-      const learnLink = await screen.findByRole("link", { name: /^učenje$/i });
+      const learnLink = await screen.findByRole("link", { name: /^uči ajet po ajet$/i });
       expect(readerLink).toHaveAttribute("href", "/surah/2?ayah=15");
       expect(learnLink).toHaveAttribute("href", "/learn/2?ayah=15");
     });
 
-    it("when saved position exists, shows time-since label (e.g. 'upravo sad' / 'prije X min')", async () => {
+    it("when saved position exists, shows time-since label (e.g. 'sada' / 'prije 5 minuta')", async () => {
       mockProgressState.getLastPosition.mockReturnValue({ surahNumber: 1, ayahNumber: 1, mode: "learning" });
       mockProgressState.lastSurahNumber = 1;
       mockProgressState.lastAyahNumber = 1;
@@ -241,8 +240,7 @@ describe("Home page", () => {
       mockProgressState.timestamp = new Date().toISOString();
       const Page = await Home();
       render(Page);
-      // Microcopy je kompaktnija: "Način: Učenje · upravo sad"
-      expect(screen.getByText(/upravo sad|prije \d/i)).toBeInTheDocument();
+      expect(screen.getByText("Učenje, sada")).toBeInTheDocument();
     });
 
     it("stats row is hidden when all stats are zero (new user)", async () => {
@@ -271,7 +269,7 @@ describe("Home page", () => {
       expect(cards).toBeInTheDocument();
       expect(cards).toHaveTextContent("3");
       expect(cards).toHaveTextContent("10");
-      expect(cards).toHaveTextContent("10/6236");
+      expect(cards).toHaveTextContent("10 od 6.236 ajeta");
     });
   });
 });

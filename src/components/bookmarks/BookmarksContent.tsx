@@ -7,7 +7,7 @@ import type { SurahSummary } from "@/types/quran";
 import { useBookmarkStore } from "@/store/bookmarkStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
-import { getRelativeTimeBosnian } from "@/lib/utils/relativeTime";
+import { formatTimeAgo } from "@/lib/format";
 
 type SortOption = "date" | "surah";
 
@@ -176,7 +176,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                               {b.ayahNumber}
                             </span>
                             <span className="text-xs text-stone-500 dark:text-stone-400">
-                              {getRelativeTimeBosnian(b.createdAt)}
+                              {formatTimeAgo(b.createdAt)}
                             </span>
                           </div>
                           <div className="mt-3">

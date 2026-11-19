@@ -3,6 +3,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
 import type { SurahSummary } from "@/types/quran";
+import { AYAH_FORMS, formatCount } from "@/lib/format";
 import { useProgressStore } from "@/store/progressStore";
 
 const DEFAULT_NUMBERS = [1, 112, 113, 114];
@@ -114,8 +115,8 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
               )}
               <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
                 {isInProgress
-                  ? `${percent}% završeno · ${surah.ayahCount} ajeta`
-                  : `${surah.ayahCount} ajeta`}
+                  ? `${percent}% preslušano · ${formatCount(surah.ayahCount, AYAH_FORMS)}`
+                  : formatCount(surah.ayahCount, AYAH_FORMS)}
               </p>
               {isInProgress && (
                 <div

@@ -202,7 +202,7 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("heading", { name: /zvuk/i })).toBeInTheDocument();
     expect(screen.getByText(/Mishary Alafasy/i)).toBeInTheDocument();
     expect(screen.getByText(/brzina reprodukcije/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /1\.5x|1,5x/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "1,5×" })).toBeInTheDocument();
   });
 
   it("has repeat mode and auto-play next controls", () => {
@@ -350,9 +350,24 @@ describe("SettingsPanel", () => {
 
   it("clicking playback speed 1.5x calls setPlaybackSpeed with 1.5", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const speed = screen.getByRole("button", { name: /1\.5x|1,5x/i });
+    const speed = screen.getByRole("button", { name: "1,5×" });
     await userEvent.click(speed);
     expect(mockSetPlaybackSpeed).toHaveBeenCalledWith(1.5);
+  });
+
+  it("writes speeds with a decimal comma and the multiplication sign", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const group = within(screen.getByRole("group", { name: "Brzina reprodukcije" }));
+    for (const name of ["0,5×", "0,75×", "1×", "1,25×", "1,5×"]) {
+      expect(group.getByRole("button", { name })).toHaveTextContent(name);
+    }
+  });
+
+  it("names the pause options with the right form of sekunda", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    for (const name of ["3 sekunde", "5 sekundi", "10 sekundi"]) {
+      expect(screen.getByRole("button", { name })).toBeInTheDocument();
+    }
   });
 
   it("choosing a repeat mode sets exactly that mode", async () => {
@@ -385,7 +400,7 @@ describe("SettingsPanel offline download", () => {
   it("shows how many surahs are already saved after a reload", () => {
     offline.state.availableCount = 10;
     const region = offlineRegion();
-    expect(region.getByText(/10 od 114/)).toBeInTheDocument();
+    expect(region.getByText("Preuzeto: 10 od 114 sura.")).toBeInTheDocument();
   });
 
   it("shows done only with every surah saved", () => {
@@ -404,7 +419,8 @@ describe("SettingsPanel offline download", () => {
       { surah: 17, reason: "http", httpStatus: 500 },
     ];
     const region = offlineRegion();
-    expect(region.getByText(/5, 17/)).toBeInTheDocument();
+    expect(region.getByText("Preuzimanje nije završeno.")).toBeInTheDocument();
+    expect(region.getByText("Nedostaju 2 sure: 5, 17.")).toBeInTheDocument();
     await userEvent.click(region.getByRole("button", { name: /pokušaj ponovo/i }));
     expect(offline.retry).toHaveBeenCalled();
     expect(offline.start).not.toHaveBeenCalled();
@@ -416,7 +432,41 @@ describe("SettingsPanel offline download", () => {
     offline.state.availableCount = 114;
     offline.state.failedAssetCount = 2;
     const region = offlineRegion();
-    expect(region.getByText(/datoteke aplikacije koje nisu spremljene: 2/i)).toBeInTheDocument();
+    expect(region.getByText("Nedostaju 2 dijela aplikacije potrebna za prikaz sura.")).toBeInTheDocument();
+  });
+
+  it("agrees the verb and noun with one missing surah", () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.failures = [{ surah: 5, reason: "network" }];
+    const region = offlineRegion();
+    expect(region.getByText("Nedostaje 1 sura: 5.")).toBeInTheDocument();
+  });
+
+  it("agrees the verb and noun with five or more missing surahs", () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.failures = [2, 3, 4, 5, 6].map((surah) => ({ surah, reason: "network" }));
+    const region = offlineRegion();
+    expect(region.getByText("Nedostaje 5 sura: 2, 3, 4, 5, 6.")).toBeInTheDocument();
+  });
+
+  it("uses the singular and the many form for missing app files", () => {
+    offline.state.status = "error";
+    offline.state.error = "incomplete";
+    offline.state.failedAssetCount = 1;
+    expect(offlineRegion().getByText("Nedostaje 1 dio aplikacije potreban za prikaz sura.")).toBeInTheDocument();
+    cleanup();
+    offline.state.failedAssetCount = 5;
+    expect(offlineRegion().getByText("Nedostaje 5 dijelova aplikacije potrebnih za prikaz sura.")).toBeInTheDocument();
+  });
+
+  it("shows the download progress as N od M sura", () => {
+    offline.state.status = "downloading";
+    offline.state.progress = 37;
+    offline.state.total = 114;
+    const region = offlineRegion();
+    expect(region.getByText("Preuzimanje: 37 od 114 sura")).toBeInTheDocument();
   });
 
   it("explains that nothing was saved when the service worker does not control the page", () => {

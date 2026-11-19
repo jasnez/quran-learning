@@ -33,6 +33,28 @@ describe("FeaturedSurahsSection progress", () => {
       },
     });
     render(<FeaturedSurahsSection allSurahs={surahs} />);
-    expect(screen.getByText("14% završeno · 7 ajeta")).toBeInTheDocument();
+    expect(screen.getByText("14% preslušano · 7 ajeta")).toBeInTheDocument();
+  });
+
+  it("uses the singular form for 31 ayahs and the few form for 4", () => {
+    const dehr = surahs.find((s) => s.surahNumber === 76)!;
+    const ikhlas = surahs.find((s) => s.surahNumber === 112)!;
+    expect([dehr.ayahCount, ikhlas.ayahCount]).toEqual([31, 4]);
+    useProgressStore.setState({
+      surahProgressMap: {
+        76: {
+          surahNumber: 76,
+          totalAyahs: 31,
+          ayahsListened: new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
+          ayahsRead: new Set(),
+          completionPercent: (13 / 31) * 100,
+          lastAccessedAt: new Date().toISOString(),
+          timeSpentMs: 0,
+        },
+      },
+    });
+    render(<FeaturedSurahsSection allSurahs={surahs} />);
+    expect(screen.getByText("42% preslušano · 31 ajet")).toBeInTheDocument();
+    expect(screen.getByText("4 ajeta")).toBeInTheDocument();
   });
 });

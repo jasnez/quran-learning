@@ -36,7 +36,10 @@ vi.mock("next/link", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
 });
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 
 describe("ContinueLearningSection", () => {
   it("when overall progress exists, shows overall stat cards after mount", async () => {
@@ -44,19 +47,19 @@ describe("ContinueLearningSection", () => {
     await waitFor(() => {
       expect(screen.getByTestId("overall-stats-cards")).toBeInTheDocument();
     });
-    expect(screen.getByText("Sure započeto")).toBeInTheDocument();
-    expect(screen.getByText("Ajeta preslušano")).toBeInTheDocument();
-    expect(screen.getByText("Ukupno slušanje")).toBeInTheDocument();
-    expect(screen.getByText("Napredak")).toBeInTheDocument();
+    expect(screen.getByText("Započete sure")).toBeInTheDocument();
+    expect(screen.getByText("Preslušani ajeti")).toBeInTheDocument();
+    expect(screen.getByText("Vrijeme slušanja")).toBeInTheDocument();
+    expect(screen.getByText("Od cijelog Kur'ana")).toBeInTheDocument();
     expect(screen.getByText("1")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();
-    expect(screen.getByText(/10\/6236 ajeta/)).toBeInTheDocument();
+    expect(screen.getByText("10 od 6.236 ajeta")).toBeInTheDocument();
   });
 
   it("opens the saved ayah from both buttons (QA P2-1)", async () => {
     render(<ContinueLearningSection />);
     expect(await screen.findByRole("link", { name: "Nastavi čitanje" })).toHaveAttribute("href", "/surah/1?ayah=5");
-    expect(screen.getByRole("link", { name: "Učenje" })).toHaveAttribute("href", "/learn/1?ayah=5");
+    expect(screen.getByRole("link", { name: "Uči ajet po ajet" })).toHaveAttribute("href", "/learn/1?ayah=5");
   });
 
   it("formats listening time in stat cards", async () => {
@@ -68,5 +71,54 @@ describe("ContinueLearningSection", () => {
     });
     const cards = screen.getAllByTestId("overall-stats-cards");
     expect(cards[0]).toHaveTextContent("2 min");
+  });
+
+  it("shows the saved position as name, ordinal ayah and the mode with its age", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-11-19T12:00:00Z"));
+    const saved = { ...mockStore };
+    Object.assign(mockStore, {
+      lastSurahNumber: 67,
+      lastAyahNumber: 12,
+      lastSurahNameLatin: "El-Mulk",
+      timestamp: "2026-11-19T09:00:00Z",
+    });
+    try {
+      render(<ContinueLearningSection />);
+      expect(await screen.findByText("El-Mulk, 12. ajet")).toBeInTheDocument();
+      expect(screen.getByText("Čitanje, prije 3 sata")).toBeInTheDocument();
+    } finally {
+      Object.assign(mockStore, saved);
+    }
+  });
+
+  it("shows the welcome line when nothing is saved", async () => {
+    const saved = { ...mockStore };
+    Object.assign(mockStore, { lastSurahNumber: 0, surahProgressMap: {}, surahsVisited: [], ayahsListened: 0, totalListeningTimeMs: 0 });
+    try {
+      render(<ContinueLearningSection />);
+      expect(await screen.findByText("Dobar početak su kratke sure ispod.")).toBeInTheDocument();
+    } finally {
+      Object.assign(mockStore, saved);
+    }
+  });
+
+  it("labels the stats row with the counted thing first", async () => {
+    const saved = { ...mockStore };
+    Object.assign(mockStore, {
+      surahsVisited: [1, 2, 3, 4, 5],
+      ayahsListened: 12,
+      totalListeningTimeMs: 0,
+      surahProgressMap: {},
+    });
+    try {
+      render(<ContinueLearningSection />);
+      const row = await screen.findByTestId("progress-stats-row");
+      expect(row).toHaveTextContent("Otvorene sure: 5");
+      expect(row).toHaveTextContent("Preslušani ajeti: 12");
+      expect(row).toHaveTextContent("Slušanje: 0 min");
+    } finally {
+      Object.assign(mockStore, saved);
+    }
   });
 });

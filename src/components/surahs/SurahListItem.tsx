@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import type { SurahSummary } from "@/types/quran";
+import { AYAH_FORMS, formatCount } from "@/lib/format";
 import { commonSurahName } from "@/lib/quran/surahNames";
 import { useProgressStore } from "@/store/progressStore";
 
@@ -34,7 +35,7 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
             {surah.nameLatin}
           </p>
           <p className="truncate text-xs text-stone-500 dark:text-stone-400">
-            {commonName ? `${commonName} · ` : ""}{surah.ayahCount} ajeta
+            {commonName ? `${commonName} · ` : ""}{formatCount(surah.ayahCount, AYAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">

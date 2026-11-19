@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import { SurahListItem } from "../SurahListItem";
 import type { SurahSummary } from "@/types/quran";
 
@@ -30,11 +30,21 @@ vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
 }));
 
+afterEach(cleanup);
+
 beforeEach(() => {
   mockGetSurahProgress.mockReturnValue(undefined);
 });
 
 describe("SurahListItem", () => {
+  it("counts ayahs with the right plural form", () => {
+    const first = render(<SurahListItem surah={{ ...mockSurah, ayahCount: 21 }} />);
+    expect(screen.getByText(/· 21 ajet$/)).toBeInTheDocument();
+    first.unmount();
+    render(<SurahListItem surah={{ ...mockSurah, ayahCount: 4 }} />);
+    expect(screen.getByText(/· 4 ajeta$/)).toBeInTheDocument();
+  });
+
   it("renders surah name and link to reader", () => {
     render(<SurahListItem surah={mockSurah} />);
     const link = screen.getByRole("link", { name: /al-fatihah/i });
