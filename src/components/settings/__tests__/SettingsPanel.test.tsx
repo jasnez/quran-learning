@@ -213,9 +213,9 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByRole("group", { name: /ponavljanje/i })).toBeInTheDocument();
     // QA P2-8: the switch turns on going on to the next surah (ayahs always follow each
-    // other). Its name differs from the player's own toggle ("Pusti sljedeću suru"); both
-    // come from the copy deck.
-    expect(screen.getByRole("switch", { name: "Nakon sure pusti sljedeću" })).toBeInTheDocument();
+    // other). Its name matches the player's own toggle ("Pusti sljedeću suru"), the owner's
+    // choice of 2026-11-19.
+    expect(screen.getByRole("switch", { name: "Pusti sljedeću suru" })).toBeInTheDocument();
     expect(screen.queryByRole("switch", { name: /sljedeći ajet/i })).not.toBeInTheDocument();
   });
 
@@ -385,7 +385,7 @@ describe("SettingsPanel", () => {
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const toggle = screen.getByRole("switch", { name: "Nakon sure pusti sljedeću" });
+    const toggle = screen.getByRole("switch", { name: "Pusti sljedeću suru" });
     await userEvent.click(toggle);
     expect(mockToggleAutoPlayNext).toHaveBeenCalled();
   });
