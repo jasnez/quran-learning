@@ -1,10 +1,48 @@
 @import "tailwindcss";
 
+/* The design docs and plans name utility classes in prose; they are not app sources. */
+@source not "../../docs";
+
 /* Class-based dark mode so settingsStore.theme controls it */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Tezhib tokens (developer handoff "Tezhib u kodu", 2026-11-19): paper, ink, a lacivert accent,
+ * gold only as ornament. Components use them through the utilities in @theme inline below
+ * (bg-paper, text-ink, border-line-strong, ...); src/app/__tests__/themeTokens.test.ts checks
+ * every value and the contrast of every pair they are used in. The stored theme value stays
+ * "sepia"; the UI calls that theme "Hartija".
+ * Spacing follows Tailwind's 4 px scale (the design system's space-1 ... space-12 are
+ * Tailwind's 1 ... 12), so it needs no variables of its own.
+ * The --theme-* variables are the old palette; they go once every component uses the tokens.
+ */
 :root,
 [data-theme="light"] {
+  --paper: #F7F4ED;
+  --surface: #FFFDF8;
+  --surface-sunken: #EFE9DC;
+  --ink: #1E1B16;
+  --ink-muted: #5F584A;
+  --line: #E2DBCB;
+  --line-strong: #8A8170;
+  --accent: #1F3A5F;
+  --accent-hover: #182E4C;
+  --accent-text: #1F3A5F;
+  --accent-wash: #E3E9F2;
+  --on-accent: #FFFFFF;
+  --gold: #A9843A;
+  --highlight: #F1E6CC;
+  --mark: #F3DF9B;
+  --danger: #A3241B;
+  --danger-text: #A3241B;
+  --success-text: #2E6B34;
+  --warning-text: #7A5200;
+  --tj-medd: #B3261E;
+  --tj-gunne: #2E7D32;
+  --tj-ihfa: #00796B;
+  --tj-kalkala: #0E72A8;
+  --overlay: rgb(16 20 27 / 0.5);
+
   --theme-bg: #FAFAF5;
   --theme-card: #FFFFFF;
   --theme-text: #1A1A1A;
@@ -16,6 +54,31 @@
 }
 
 [data-theme="dark"] {
+  --paper: #10141B;
+  --surface: #171D27;
+  --surface-sunken: #0C1015;
+  --ink: #ECE6DA;
+  --ink-muted: #A69F91;
+  --line: #2A3242;
+  --line-strong: #6B7486;
+  --accent: #3B5F95;
+  --accent-hover: #4A6FA8;
+  --accent-text: #A9C3EC;
+  --accent-wash: #1F2A3D;
+  --on-accent: #FFFFFF;
+  --gold: #D4B46C;
+  --highlight: #2A2618;
+  --mark: #4A3F1A;
+  --danger: #C2453B;
+  --danger-text: #F2A196;
+  --success-text: #9BD3A0;
+  --warning-text: #E8C27A;
+  --tj-medd: #FF8A80;
+  --tj-gunne: #81C784;
+  --tj-ihfa: #4DB6AC;
+  --tj-kalkala: #64B5F6;
+  --overlay: rgb(0 0 0 / 0.6);
+
   --theme-bg: #111111;
   --theme-card: #252525;
   --theme-text: #E5E5E5;
@@ -27,6 +90,31 @@
 }
 
 [data-theme="sepia"] {
+  --paper: #F1E8D5;
+  --surface: #F8F1E2;
+  --surface-sunken: #E9DDC4;
+  --ink: #33281A;
+  --ink-muted: #64543D;
+  --line: #DCCDB0;
+  --line-strong: #8A7A5E;
+  --accent: #22406B;
+  --accent-hover: #1B3456;
+  --accent-text: #22406B;
+  --accent-wash: #DEDCD4;
+  --on-accent: #FFFFFF;
+  --gold: #977532;
+  --highlight: #E8D9B5;
+  --mark: #EBD38A;
+  --danger: #A3241B;
+  --danger-text: #A3241B;
+  --success-text: #2B6631;
+  --warning-text: #734D00;
+  --tj-medd: #A3241B;
+  --tj-gunne: #2B6E2F;
+  --tj-ihfa: #0B6B5F;
+  --tj-kalkala: #0B6A9C;
+  --overlay: rgb(51 40 26 / 0.45);
+
   --theme-bg: #F5ECD7;
   --theme-card: #FDF6E3;
   --theme-text: #3B2E1A;
@@ -47,6 +135,33 @@
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-accent-wash: var(--accent-wash);
+  --color-on-accent: var(--on-accent);
+  --color-gold: var(--gold);
+  --color-highlight: var(--highlight);
+  --color-mark: var(--mark);
+  --color-danger: var(--danger);
+  --color-danger-text: var(--danger-text);
+  --color-success-text: var(--success-text);
+  --color-warning-text: var(--warning-text);
+  --color-tj-medd: var(--tj-medd);
+  --color-tj-gunne: var(--tj-gunne);
+  --color-tj-ihfa: var(--tj-ihfa);
+  --color-tj-kalkala: var(--tj-kalkala);
+  --color-overlay: var(--overlay);
+  --radius-control: 0.625rem;
+  --radius-card: 0.875rem;
+  --radius-sheet: 1.25rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
