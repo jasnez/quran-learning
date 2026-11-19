@@ -109,7 +109,7 @@ export function SurahReaderContent({
             onClick={() => setWordByWordMode(false)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               !wordByWordMode
-                ? "bg-surface-sunken text-ink"
+                ? "bg-accent-wash text-accent-text"
                 : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
@@ -121,7 +121,7 @@ export function SurahReaderContent({
             onClick={() => setWordByWordMode(true)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               wordByWordMode
-                ? "bg-surface-sunken text-ink"
+                ? "bg-accent-wash text-accent-text"
                 : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
