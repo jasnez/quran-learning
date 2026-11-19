@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Do not change until the decisions are made: the name "Quran Learning" and its icons; the term "transliteracija" (not "transkripcija"); tajwid rule names (Mad, Ghunnah, Ikhfa, Qalqalah) and colors; the theme label "Sepia"; no new "Selam!" or "Mašallah!"; the surah notes in `FeaturedSurahsSection.tsx` lines 11-14 (incl. "rekiji"); "Sva prava zadržana"; the contact channel (GitHub Issues); lesson texts in `src/data/tajwid-lessons`; colors, tokens and typography (except Task 11); the reader layout; `src/app/_test`.
+- Do not change until the decisions are made: the name "Quran Learning" and its icons; tajwid colors; the theme label "Sepia"; "Selam!" and "Mašallah!" only where Task 13 puts them; the surah notes in `FeaturedSurahsSection.tsx` lines 11-14 (incl. "rekiji"); "Sva prava zadržana"; the contact channel (GitHub Issues); lesson texts in `src/data/tajwid-lessons`; colors, tokens and typography (except Task 11); the reader layout; `src/app/_test`.
 - Address: no "Vi" and no new "ti" sentence. The 19 "Vi" strings become neutral (impersonal "Treba + infinitive", passive "Traži se ...", or a plain statement). Imperative singular on buttons and links is allowed ("Sačuvaj", "Preuzmi", "Počni od Fatihe", "Preskoči na sadržaj"). Existing "ti" sentences stay "ti"; the deck's edits to them are applied as written.
 - No gendered forms. Errors say what happened, then what to do. Confirmations reuse the button's verb with the ayah number ("12. ajet je sačuvan."). A toggle is named by its state ("Ponavljanje: sura") or has a fixed name plus `aria-pressed` -- never both. Placeholders without "...". No arrows or "+" in link or button text. No emoji.
 - Glossary: platforma -> aplikacija; označeni/označi/oznaka/bookmark -> sačuvani/sačuvaj/ukloni iz sačuvanih; offline/spremljeno/sačuvane sure (downloads) -> preuzeto/preuzete sure/bez interneta; označavanje riječi/ajeta (audio sync) -> praćenje riječi/istaknut ajet; recitator -> učač; recitacija/audio (content) -> učenje/snimak; player -> zvuk/kontrole zvuka; režim/način/fokusirano učenje -> Učenje, entry button "Uči ajet po ajet"; font/Naskh/Scheherazade -> slova/osnovno pismo/klasično pismo; klik/tapni -> dodirni; Lista sura/Pregled sura -> Sve sure; Nepočete -> Nezapočete; Zadnji pristup -> Nedavno otvorene; "kur'anske" lowercase mid-sentence; "s" not "sa" except before s, z, š, ž.
@@ -21,7 +21,16 @@
 - No new dependencies. Task 11 downloads font files and installs fonttools only after the owner's OK.
 - Code, comments and commits in English; UI copy in Bosnian; quotes in JSX text as `&bdquo;...&ldquo;`. Files UTF-8 without BOM. In tests, build Arabic characters with `String.fromCodePoint` (escapes typed through the tools land as literal characters).
 - Gates for every task: `npm run typecheck`, `npm run lint`, `npm test` (full suite). Task 12 adds `npm run build` and the browser check. Dependency changes only with `npx npm@11`.
-- Nothing from this branch reaches production before the owner has the permanent Vercel URL of the current production deployment (baseline for the reader usability test). Pushing or merging needs the owner's request.
+- Pushing or merging needs the owner's request. (The baseline reader test was postponed on 2026-11-19, so no deployment waits on it.)
+
+## Plan Change: Owner Decisions of 2026-11-19
+
+Relayed by the parent session after the plan was approved, quoting the owner: "9 - Nazivi pravila: medd, gunne, ihfa i kalkala", "10 - Transkripcija", "14 - Da za sve" ("Selam!" greeting a new user, "Mašallah!" when a lesson is passed and a surah finished, counting listened ayahs, ornament next to the Quranic text), "4 - za sada samo git" (contact unchanged), "6 - besplatna je, barem trenutno" ("besplatna" stays), "3 - © 2026 Elif" (footer changes with the rename in Phase 2, not now). User research is postponed.
+
+- "transliteracija" becomes "transkripcija" in all user-visible text; identifiers, the generated `transliteration` field, settings keys and scripts keep their names.
+- Tajwid rule names in the UI become Medd, Gunne, Ihfa, Kalkala; the `TajwidRule` values, lesson slugs and URLs, lesson texts in `src/data/tajwid-lessons` and the colors stay.
+- "Selam!" and "Mašallah!" go only into the three places Task 13 lists; the rest of each sentence stays neutral ("ti"/"Vi" is still open).
+- Tasks 1-7 had already run with the old terms, so Task 13 (after Task 8, before Task 9) applies these three changes everywhere at once, with a guard test. Task 8 and later write "transkripcija" directly.
 
 ## Decisions This Plan Makes (the owner can veto any)
 
@@ -46,7 +55,7 @@
 - Search: links inside `role="option"` (best practice): the report also praises the combobox; restructuring the search interaction needs a decision.
 - "Prati ajet koji se uči" setting and the warning before auto-advancing to the next surah: new settings and behavior, reader redesign.
 - Surah `h1` with both names (best practice): the reader header is redesigned in Phase 2.
-- Copy that waits for a decision: every [naziv], "transkripcija", medd/gunne/ihfa/kalkala, "Hartija", "Selam!"/"Mašallah!", the hero slogan, surah notes, footer rights line, contact channel, the about-page "Mogućnosti" claims about progress tracking stay as the deck words them except the term.
+- Copy that waits for a decision: every [naziv], "Hartija", the hero slogan, surah notes, footer rights line ("© 2026 Elif" comes with the rename), the contact channel (stays GitHub).
 - Uppercase labels and transliteration size/italic (typography).
 - Testing with real screen readers (NVDA, TalkBack, VoiceOver) and Safari on iPhone (install step wording): not possible from this machine.
 
@@ -403,7 +412,7 @@ Rules: the live region element is always rendered (empty when there is nothing t
 | SettingsPanel 246 | Sljedeća sura automatski | Nakon sure pusti sljedeću |
 | SettingsPanel 255-256 | ... prije nego pređe na sljedeći. "Ručno" čeka dok ne klikneš "Nastavi". | Koliko se čeka nakon svakog ajeta. Uz &bdquo;Ručno&ldquo; sljedeći ajet počinje tek kad dodirneš &bdquo;Nastavi&ldquo;. |
 | SettingsPanel 506, 511 | Offline čitanje / Ovaj preglednik ne podržava spremanje sura za čitanje bez interneta. | Čitanje bez interneta / Ovaj preglednik ne može preuzeti sure za čitanje bez interneta. |
-| SettingsPanel 515-516 | Preuzimanje sprema tekst ... Audio (učenje) nije uključen: za slušanje je uvijek potrebna internet veza. | Preuzimanje sprema tekst svih 114 sura (arapski tekst, transliteraciju i prijevod) za čitanje bez interneta, oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet. |
+| SettingsPanel 515-516 | Preuzimanje sprema tekst ... Audio (učenje) nije uključen: za slušanje je uvijek potrebna internet veza. | Preuzimanje sprema tekst svih 114 sura (arapski tekst, transkripciju i prijevod) za čitanje bez interneta, oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet. |
 | SettingsPanel 522, 530, 558 | Provjeravam šta je već spremljeno… / Preuzmi sve sure za offline / Otkaži | Provjera preuzetih sura… / Preuzmi sve sure (40 MB) / Prekini preuzimanje |
 | SettingsPanel 567 | Svih 114 sura je spremljeno za čitanje bez interneta. | Svih 114 sura je preuzeto. Čitanje radi i bez interneta. |
 | SettingsPanel 578-579 | Ništa nije spremljeno: offline način još nije aktivan ... Osvježite stranicu i pokušajte ponovo. | Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo. |
@@ -414,11 +423,23 @@ Rules: the live region element is always rendered (empty when there is nothing t
 - [ ] **Step 2: Run, expect FAIL.** **Step 3: Implement.** **Step 4: Run, expect PASS**; gates.
 - [ ] **Step 5: Commit** `fix: neutral, consistent wording in the reader, search, saved ayahs, progress and settings (copy deck)`
 
+### Task 13: Owner decisions of 2026-11-19 -- transkripcija, Bosnian tajwid names, Selam/Mašallah (runs after Task 8, before Task 9)
+
+**Files:** every file with user-visible "transliteracij..." (at the time of writing: `src/app/page.tsx`, `src/app/layout.tsx`, `src/app/about/page.tsx`, `src/app/contact/page.tsx`, `src/app/sources/page.tsx`, `src/app/harfovi/page.tsx`, `src/app/names/page.tsx`, `src/components/layout/Footer.tsx`, `src/components/settings/SettingsPanel.tsx`, `src/components/reader/ReaderToolbar.tsx`, `src/components/learn/LearnModeContent.tsx`, `public/manifest.webmanifest`; check `src/lib/letters/data.ts` and `src/lib/names/data.ts` for user-visible strings), `src/lib/quran/tajwidStyles.ts`, `src/components/quran/TajwidLegend.tsx`, `src/components/home/ContinueLearningSection.tsx`, `src/components/tajwid/TajwidQuiz.tsx`, the tests that assert these strings, `src/components/__tests__/copyRules.test.ts` (extend).
+
+- transliteracija -> transkripcija in user-visible text, keeping case and declension (transliteracije -> transkripcije, transliteraciji -> transkripciji, transliteraciju -> transkripciju, transliteracijom -> transkripcijom). Keep: identifiers, the `transliteration` data field, settings keys such as `showTransliteration`, scripts, file names, code comments, the title of the IZ BiH document "Pravila transkripcije i transliteracije", and any text that names the Pravila's own systems as the Pravila name them (on `/harfovi`, change only sentences about the app's own Latin line). Report every occurrence kept, with the reason.
+- Tajwid names: `tajwidStyles.ts` exports `tajwidRuleNames` (normal "Bez pravila", mad "Medd", ghunnah "Gunne", ikhfa "Ihfa", qalqalah "Kalkala") and `tajwidRuleDescriptions` (normal "", mad "glas se produžava", ghunnah "izgovor kroz nos", ikhfa "prikriven izgovor kroz nos", qalqalah "odskok glasa"); `tajwidRuleLabels` becomes "Bez pravila" for normal and `${name}: ${description}` for the rest ("Medd: glas se produžava", as in the copy deck). `TajwidLegend` drops its local `ruleDisplayNames`: bold name from `tajwidRuleNames`, second line the description with a capital first letter and a final period, no second line for normal. `TajwidLessonCard` keeps showing `tajwidRuleLabels`. Running text: home feature "Četiri pravila izgovora obojena su u tekstu: medd, gunne, ihfa i kalkala."; sources "(medd, gunne, ihfa i kalkala)". `TajwidRule` values, lesson titles and texts from `src/data` and colors do not change.
+- "Selam!" / "Mašallah!" only here: ContinueLearningSection welcome (both places) "Selam! Dobar početak su kratke sure ispod."; LearnModeContent end of surah "Sura je završena. Mašallah!"; TajwidQuiz all correct "Sve je tačno. Lekcija je savladana. Mašallah!", passed "Lekcija je savladana. Mašallah! Kviz možeš ponoviti kad god hoćeš."
+
+- [ ] **Step 1: Write the failing tests** -- update the component and page tests to the new strings; extend `copyRules.test.ts`: no `/[Tt]ransliteracij/` in non-comment lines of the scanned sources and in `public/manifest.webmanifest` (allowlist: the document title "Pravila transkripcije i transliteracije" and any kept /harfovi system name the report justifies), and no `\b(Mad|Ghunnah|Ikhfa|Qalqalah)\b` in non-comment lines outside `src/data`; "Selam!" and "Mašallah!" occur only in the three files above.
+- [ ] **Step 2: Run, expect FAIL.** **Step 3: Implement.** **Step 4: Run, expect PASS**; gates.
+- [ ] **Step 5: Commit** `fix: transkripcija, Bosnian tajwid rule names, Selam and Mašallah (owner decisions 2026-11-19)`
+
 ### Task 9: Page titles from one template; app name only in SITE_NAME
 
 **Files:** `src/app/layout.tsx:42-46`, every `metadata`/`generateMetadata` title (about, bookmarks, contact, duas, duas/[category], harfovi, juz, learn, names, not-found, progress, search/layout, settings/layout, sources, surah, surahs, tajwid, tajwid/[lessonId]), `src/components/layout/Header.tsx:63-66`, `src/components/layout/Footer.tsx:3,20,55`, `src/app/about/page.tsx` (h2 and description name). Tests: the seven page/layout tests that assert "| Quran Learning", `src/app/__tests__/metadata.test.ts` (new).
 
-- Root: `title: { default: SITE_NAME, template: \`%s | ${SITE_NAME}\` }`, description "Kur'an na bosanskom: arapski tekst, transliteracija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy."
+- Root: `title: { default: SITE_NAME, template: \`%s | ${SITE_NAME}\` }`, description "Kur'an na bosanskom: arapski tekst, transkripcija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy."
 - Pages give only their part: "O aplikaciji", "Sačuvani ajeti", "Kontakt", "Kur'anske dove", "{kategorija} | Kur'anske dove", "Harfovi i izgovor", "Džuz {n} — {name}", "Učenje: {surah}", "Allahova lijepa imena", "Ova stranica ne postoji", "Napredak", "Pretraga", "Postavke", "Izvori", "{surah}", "Sve sure" (also the `/surahs` `h1`), "Tedžvid lekcije", "{lekcija} | Tedžvid lekcije"; fallbacks "Sura", "Učenje", "Džuz", "Tedžvid lekcije", "Kur'anske dove".
 - Header brand text and `aria-label` "{SITE_NAME}, početna"; Footer and about use `SITE_NAME`.
 
