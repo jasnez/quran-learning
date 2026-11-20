@@ -17,15 +17,15 @@ import { useStickyHeader } from "./useStickyHeader";
 import { SITE_NAME } from "@/lib/site";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
 
-const BRAND_COLOR = "text-stone-800 dark:text-stone-100";
-const LINK_HOVER = "hover:text-emerald-800 dark:hover:text-emerald-200";
+const BRAND_COLOR = "text-ink";
+const LINK_HOVER = "hover:text-accent-text";
 const ICON_BTN =
-  "flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200 sm:min-h-[36px] sm:min-w-[36px]";
+  "flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink sm:min-h-[36px] sm:min-w-[36px]";
 const TEXT_LINK =
-  "hidden text-sm font-medium text-stone-600 transition-colors dark:text-stone-400 sm:inline-flex sm:py-2 sm:px-1 " +
+  "hidden text-sm font-medium text-ink-muted transition-colors sm:inline-flex sm:py-2 sm:px-1 " +
   LINK_HOVER;
 const SEPARATOR =
-  "hidden h-5 w-px shrink-0 bg-[var(--theme-border)] sm:block";
+  "hidden h-5 w-px shrink-0 bg-line sm:block";
 
 export function Header() {
   const { isOpen: settingsOpen, open: openSettings } = useSettingsOpen();
@@ -51,7 +51,7 @@ export function Header() {
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHasFocus(false);
       }}
-      className={`fixed left-0 right-0 top-0 z-50 border-b border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 transition-transform duration-200 will-change-transform ${
+      className={`fixed left-0 right-0 top-0 z-50 border-b border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 transition-transform duration-200 will-change-transform ${
         hasShadow ? "shadow-sm" : ""
       } ${hidden ? "-translate-y-full" : ""}`}
     >
@@ -229,7 +229,7 @@ function NavDisclosure({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={buttonLabel}
-        className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-emerald-700 dark:text-emerald-400" : "text-stone-600 dark:text-stone-400 " + LINK_HOVER}`}
+        className={`text-sm font-medium sm:py-2 sm:px-1 ${isActive ? "text-accent-text" : "text-ink-muted " + LINK_HOVER}`}
       >
         {label}
       </button>
@@ -237,13 +237,13 @@ function NavDisclosure({
         <ul
           id={listId}
           aria-label={label}
-          className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-1 shadow-lg"
+          className="absolute left-0 top-full mt-1 min-w-[200px] rounded-xl border border-line bg-surface py-1 shadow-lg"
         >
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="flex items-center justify-between px-3 py-2 text-ink hover:bg-surface-sunken"
                 onClick={() => setOpen(false)}
               >
                 {link.label}

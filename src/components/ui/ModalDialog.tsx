@@ -34,7 +34,7 @@ export function ModalDialog({ open, onClose, labelledBy, className, children }: 
       ref={dialogRef}
       aria-labelledby={labelledBy}
       closedby="any"
-      className={`m-auto w-[calc(100%-2rem)] rounded-2xl bg-white p-6 text-stone-900 shadow-xl backdrop:bg-black/40 dark:bg-stone-800 dark:text-stone-100 ${className ?? ""}`}
+      className={`m-auto w-[calc(100%-2rem)] rounded-2xl bg-surface p-6 text-ink shadow-xl backdrop:bg-overlay ${className ?? ""}`}
       onClose={onClose}
       {...lightDismiss}
     >

@@ -1,6 +1,17 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import noPaletteColors from "./eslint-rules/no-palette-colors.mjs";
+
+// Files already moved to the Tezhib tokens (Phase 2). Each class-migration step adds its group;
+// the last step widens this to all of src.
+const PALETTE_GUARDED_FILES = [
+  "src/components/ui/**/*.{ts,tsx}",
+  "src/components/layout/**/*.{ts,tsx}",
+  "src/components/audio/AudioPlayer.tsx",
+  "src/components/settings/**/*.{ts,tsx}",
+  "src/components/pwa/**/*.{ts,tsx}",
+];
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -37,6 +48,12 @@ const eslintConfig = defineConfig([
         },
       ],
     },
+  },
+  {
+    files: PALETTE_GUARDED_FILES,
+    ignores: ["**/__tests__/**"],
+    plugins: { local: { rules: { "no-palette-colors": noPaletteColors } } },
+    rules: { "local/no-palette-colors": "error" },
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([
