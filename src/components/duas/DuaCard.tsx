@@ -21,17 +21,17 @@ export function DuaCard({ dua }: DuaCardProps) {
 
   return (
     <article
-      className="w-full rounded-2xl border border-stone-200/80 bg-white/50 p-6 dark:border-stone-700/80 dark:bg-stone-900/20"
+      className="w-full rounded-2xl border border-line bg-surface/50 p-6"
       aria-labelledby={`dua-arabic-${dua.id}`}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
-        <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+        <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">
           Dova iz Kur&apos;ana
         </p>
         <button
           type="button"
           onClick={handlePlay}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
           aria-label={`Slušaj dovu, ${citationLabel}`}
         >
           <PlayIcon className="h-5 w-5" />
@@ -39,22 +39,22 @@ export function DuaCard({ dua }: DuaCardProps) {
       </div>
       <p
         id={`dua-arabic-${dua.id}`}
-        className="font-arabic text-2xl font-medium text-[var(--theme-text)] leading-relaxed md:text-3xl"
+        className="font-arabic text-2xl font-medium text-ink leading-relaxed md:text-3xl"
         dir="rtl"
         lang="ar"
       >
         {dua.arabic}
       </p>
-      <p className="mt-4 font-transliteration text-lg text-stone-500 dark:text-stone-400">
+      <p className="mt-4 font-transliteration text-lg text-ink-muted">
         {dua.transliteration}
       </p>
-      <p className="mt-2 text-base leading-relaxed text-stone-700 dark:text-stone-300">
+      <p className="mt-2 text-base leading-relaxed text-ink">
         {dua.translationBosnian}
       </p>
-      <p className="mt-4 text-sm text-stone-500 dark:text-stone-400">
+      <p className="mt-4 text-sm text-ink-muted">
         <Link
           href={readerHref}
-          className="font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"
+          className="font-medium text-accent-text underline-offset-2 hover:underline"
         >
           {citationLabel}
         </Link>

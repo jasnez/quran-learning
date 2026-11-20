@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const LINK_CLASS =
-  "text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400";
+  "text-accent-text underline hover:no-underline";
 
 function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -22,13 +22,13 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
 export default function SourcesPage() {
   return (
     <article className="mx-auto max-w-[700px] px-4 py-8 md:py-12">
-      <h1 className="text-2xl font-semibold text-stone-800 dark:text-stone-200 md:text-3xl">
+      <h1 className="text-2xl font-semibold text-ink md:text-3xl">
         Izvori podataka
       </h1>
 
-      <div className="mt-8 space-y-8 text-stone-600 dark:text-stone-400">
+      <div className="mt-8 space-y-8 text-ink-muted">
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Kur&apos;anski tekst
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -40,7 +40,7 @@ export default function SourcesPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Tedžvid oznake
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -58,7 +58,7 @@ export default function SourcesPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Transkripcija
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -77,7 +77,7 @@ export default function SourcesPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Struktura ajeta i vremena riječi
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -90,7 +90,7 @@ export default function SourcesPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Snimci učenja
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -102,7 +102,7 @@ export default function SourcesPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Bosanski prijevod značenja Kur&apos;ana
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -110,7 +110,7 @@ export default function SourcesPage() {
           </p>
         </section>
 
-        <p className="border-t border-[var(--theme-border)] pt-6 text-sm italic text-stone-500 dark:text-stone-500">
+        <p className="border-t border-line pt-6 text-sm italic text-ink-muted">
           Aplikacija nije zvanično povezana ni s jednom od navedenih ustanova.
         </p>
       </div>
@@ -118,7 +118,7 @@ export default function SourcesPage() {
       <p className="mt-10">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-sm font-medium text-[var(--theme-accent)] hover:underline dark:text-emerald-400"
+          className="inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline"
         >
           Na početnu
         </Link>

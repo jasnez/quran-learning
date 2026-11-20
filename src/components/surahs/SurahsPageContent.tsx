@@ -74,17 +74,17 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
       <Suspense fallback={null}>
         <ViewParamSync onViewParam={handleViewParam} />
       </Suspense>
-      <div className="flex flex-wrap items-center gap-3 border-b border-[var(--theme-border)] pb-4">
-        <span className="text-sm font-medium text-stone-600 dark:text-stone-400">Pregled:</span>
-        <div className="flex rounded-lg border border-[var(--theme-border)] p-0.5">
+      <div className="flex flex-wrap items-center gap-3 border-b border-line pb-4">
+        <span className="text-sm font-medium text-ink-muted">Pregled:</span>
+        <div className="flex rounded-lg border border-line p-0.5">
           <button
             type="button"
             onClick={setViewSurahs}
             aria-pressed={showSurahs}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
               showSurahs
-                ? "bg-stone-200 text-stone-900 dark:bg-stone-600 dark:text-stone-100"
-                : "text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+                ? "bg-accent-wash text-accent-text"
+                : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
             Sure
@@ -98,8 +98,8 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
             aria-current={showJuz ? "page" : undefined}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
               showJuz
-                ? "bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200"
-                : "text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800"
+                ? "bg-accent-wash text-accent-text"
+                : "text-ink-muted hover:bg-surface-sunken"
             }`}
           >
             Džuzevi
@@ -112,8 +112,8 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
           <SearchInput value={query} onChange={setQuery} />
           {isEmptySearch ? (
             <div className="py-12 text-center" role="status">
-              <p className="font-medium text-stone-700 dark:text-stone-300">Nema takve sure</p>
-              <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+              <p className="font-medium text-ink">Nema takve sure</p>
+              <p className="mt-1 text-sm text-ink-muted">
                 Traži se po broju od 1 do 114 ili po dijelu naziva, npr. jasin.
               </p>
             </div>

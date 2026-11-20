@@ -21,40 +21,40 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
     <Link
       href={`/surah/${surah.surahNumber}`}
       prefetch={false}
-      className="group flex min-h-[4rem] flex-col rounded-xl border border-stone-200/80 bg-white transition-colors hover:bg-stone-50 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-stone-700/80 dark:bg-stone-900/50 dark:hover:bg-stone-800/50"
+      className="group flex min-h-[4rem] flex-col rounded-xl border border-line bg-surface transition-colors hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
     >
       <div className="flex min-h-[4rem] items-center gap-3 px-4 py-3">
         <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-sunken text-sm font-medium text-ink-muted"
           aria-hidden
         >
           {surah.surahNumber}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="font-medium text-stone-900 dark:text-stone-100">
+          <p className="font-medium text-ink">
             {surah.nameLatin}
           </p>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+          <p className="text-xs text-ink-muted">
             {commonName ? `${commonName} · ` : ""}{formatCount(surah.ayahCount, AYAH_FORMS)}
           </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {isCompleted && (
             <span
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+              className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-wash text-accent-text"
             >
               <Check className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
               <span className="sr-only">Završeno</span>
             </span>
           )}
           {isInProgress && (
-            <span className="text-xs tabular-nums text-stone-500 dark:text-stone-400">
+            <span className="text-xs tabular-nums text-ink-muted">
               {percent}%
               <span className="sr-only"> preslušano</span>
             </span>
           )}
           <span
-            className="text-right text-xl font-medium text-stone-700 dark:text-stone-300"
+            className="text-right text-xl font-medium text-ink"
             dir="rtl"
             lang="ar"
           >
@@ -64,11 +64,11 @@ export function SurahListItem({ surah }: { surah: SurahSummary }) {
       </div>
       {isInProgress && (
         <div
-          className="h-0.5 overflow-hidden rounded-b-xl bg-stone-100 dark:bg-stone-800"
+          className="h-0.5 overflow-hidden rounded-b-xl bg-surface-sunken"
           aria-hidden
         >
           <div
-            className="h-full rounded-b-xl bg-emerald-400 dark:bg-emerald-600"
+            className="h-full rounded-b-xl bg-accent"
             style={{ width: `${percent}%` }}
           />
         </div>

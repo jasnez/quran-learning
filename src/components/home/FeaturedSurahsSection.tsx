@@ -68,11 +68,11 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
     <section aria-labelledby="featured-heading">
       <h2
         id="featured-heading"
-        className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
+        className="text-lg font-semibold tracking-tight text-ink md:text-xl"
       >
         {heading}
       </h2>
-      <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{subheading}</p>
+      <p className="mt-1 text-sm text-ink-muted">{subheading}</p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {surahsToShow.map((surah) => {
           const progress = mounted ? progressMap?.[surah.surahNumber] : undefined;
@@ -84,35 +84,35 @@ export function FeaturedSurahsSection({ allSurahs }: { allSurahs: SurahSummary[]
             <Link
               key={surah.id}
               href={`/surah/${surah.surahNumber}`}
-              className="group flex flex-col rounded-xl border border-stone-200 bg-white p-4 transition-colors hover:border-emerald-200 hover:bg-stone-50/80 dark:border-stone-700 dark:bg-stone-900/50 dark:hover:border-emerald-900/50 dark:hover:bg-stone-800/50"
+              className="group flex flex-col rounded-xl border border-line bg-surface p-4 transition-colors hover:border-accent-text hover:bg-surface-sunken"
             >
               <span
-                className="text-2xl font-medium text-stone-900 dark:text-stone-100"
+                className="text-2xl font-medium text-ink"
                 dir="rtl"
                 lang="ar"
               >
                 {surah.nameArabic}
               </span>
-              <span className="mt-1 text-sm font-medium text-stone-700 dark:text-stone-300">
+              <span className="mt-1 text-sm font-medium text-ink">
                 {surah.nameLatin}
               </span>
               {isInProgress && (
-                <span className="mt-2 self-start rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                <span className="mt-2 self-start rounded-full bg-accent-wash px-2 py-0.5 text-xs font-medium text-accent-text">
                   Nastavi
                 </span>
               )}
-              <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+              <p className="mt-1 text-xs text-ink-muted">
                 {isInProgress
                   ? `${percent}% preslušano · ${formatCount(surah.ayahCount, AYAH_FORMS)}`
                   : formatCount(surah.ayahCount, AYAH_FORMS)}
               </p>
               {isInProgress && (
                 <div
-                  className="mt-2 h-1 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800"
+                  className="mt-2 h-1 overflow-hidden rounded-full bg-surface-sunken"
                   aria-hidden
                 >
                   <div
-                    className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400"
+                    className="h-full rounded-full bg-accent"
                     style={{ width: `${percent}%` }}
                   />
                 </div>

@@ -102,11 +102,11 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   if (!mounted) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl">
+        <h1 className="text-2xl font-semibold text-ink md:text-3xl">
           Sačuvani ajeti
         </h1>
         <div
-          className="mt-8 min-h-48 w-full animate-pulse rounded-2xl border border-stone-200/80 bg-white/50 dark:border-stone-700/80 dark:bg-stone-900/20"
+          className="mt-8 min-h-48 w-full animate-pulse rounded-2xl border border-line bg-surface/50"
           aria-hidden
           data-testid="bookmarks-placeholder"
         />
@@ -120,21 +120,21 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl"
+          className="text-2xl font-semibold text-ink md:text-3xl"
         >
           Sačuvani ajeti
         </h1>
         <div
-          className="mt-12 flex flex-col items-center justify-center rounded-2xl border border-dashed border-stone-200 bg-stone-50/50 px-6 py-16 dark:border-stone-700 dark:bg-stone-900/30"
+          className="mt-12 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-paper/50 px-6 py-16"
           data-empty-state
         >
           <span
-            className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400"
+            className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-accent-wash text-accent-text"
             aria-hidden
           >
             <BookmarkIcon className="h-8 w-8" />
           </span>
-          <p className="mt-6 max-w-sm text-center text-stone-600 dark:text-stone-400">
+          <p className="mt-6 max-w-sm text-center text-ink-muted">
             {EMPTY_MESSAGE}
           </p>
           <ButtonLink href="/surahs" variant="secondary" size="md" className="mt-6">
@@ -151,17 +151,17 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="text-2xl font-semibold text-stone-900 dark:text-stone-100 md:text-3xl"
+          className="text-2xl font-semibold text-ink md:text-3xl"
         >
           Sačuvani ajeti
         </h1>
-        <div className="flex items-center gap-2 text-sm text-stone-600 dark:text-stone-400">
+        <div className="flex items-center gap-2 text-sm text-ink-muted">
           <label htmlFor={sortId}>Redoslijed</label>
           <select
             id={sortId}
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-stone-800 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200"
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-ink"
           >
             <option value="surah">Po redu u Kur&apos;anu</option>
             <option value="date">Najnovije prvo</option>
@@ -173,20 +173,20 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         {grouped.map(({ surahNumber, surah, bookmarks: groupBookmarks }) => (
           <li key={surahNumber}>
             <h2
-              className="mb-6 border-b border-stone-200 pb-2 dark:border-stone-700"
+              className="mb-6 border-b border-line pb-2"
               id={`surah-${surahNumber}`}
             >
-              <span className="font-arabic text-xl font-medium text-stone-900 dark:text-stone-100" dir="rtl" lang="ar">
+              <span className="font-arabic text-xl font-medium text-ink" dir="rtl" lang="ar">
                 {surah?.nameArabic ?? ""}
               </span>
-              <span className="ml-2 text-lg text-stone-600 dark:text-stone-400">
+              <span className="ml-2 text-lg text-ink-muted">
                 {surah?.nameLatin ?? ""}
               </span>
             </h2>
             <ul className="space-y-6 list-none" role="list">
               {groupBookmarks.map((b) => (
                 <li key={b.id}>
-                  <article className="rounded-2xl border border-stone-200 bg-[var(--theme-card)] p-5 transition-colors dark:border-stone-700 md:px-6 md:py-6">
+                  <article className="rounded-2xl border border-line bg-surface p-5 transition-colors md:px-6 md:py-6">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0 flex-1">
                         <Link
@@ -195,12 +195,12 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                         >
                           <div className="flex items-center gap-2">
                             <span
-                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
+                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-sunken text-sm font-medium text-ink-muted"
                               aria-hidden
                             >
                               {b.ayahNumber}
                             </span>
-                            <span className="text-xs text-stone-500 dark:text-stone-400">
+                            <span className="text-xs text-ink-muted">
                               {formatTimeAgo(b.createdAt)}
                             </span>
                           </div>
@@ -212,7 +212,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                             />
                           </div>
                           {b.translationBosnian && (
-                            <p className="mt-2 line-clamp-2 text-sm text-stone-600 dark:text-stone-400">
+                            <p className="mt-2 line-clamp-2 text-sm text-ink-muted">
                               {b.translationBosnian}
                             </p>
                           )}
@@ -227,7 +227,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                               onKeyDown={(e) => {
                                 if (e.key === "Enter") saveNote(b.id);
                               }}
-                              className="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm dark:border-stone-600 dark:bg-stone-800"
+                              className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm"
                               placeholder="Bilješka uz ajet"
                               aria-label="Bilješka uz ajet"
                               autoFocus
@@ -235,12 +235,12 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                           </div>
                         ) : (
                           (b.note || null) && (
-                            <p className="mt-4 text-sm text-stone-600 dark:text-stone-400">
+                            <p className="mt-4 text-sm text-ink-muted">
                               {b.note}
                               <button
                                 type="button"
                                 onClick={() => startEditNote(b)}
-                                className="ml-2 text-xs text-emerald-600 hover:underline dark:text-emerald-400"
+                                className="ml-2 text-xs text-accent-text hover:underline"
                               >
                                 Uredi
                               </button>
@@ -251,7 +251,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                           <button
                             type="button"
                             onClick={() => startEditNote(b)}
-                            className="mt-4 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
+                            className="mt-4 text-sm text-ink-muted hover:text-ink"
                           >
                             Dodaj bilješku
                           </button>
@@ -261,7 +261,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                         <button
                           type="button"
                           onClick={() => setConfirmRemove(b)}
-                          className="rounded-lg p-2 text-stone-500 dark:text-stone-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+                          className="rounded-lg p-2 text-ink-muted hover:bg-surface-sunken hover:text-danger-text"
                           aria-label={`Ukloni iz sačuvanih: ${surah?.nameLatin ?? b.surahNameLatin}, ${b.ayahNumber}. ajet`}
                         >
                           <TrashIcon className="h-5 w-5" />
@@ -284,12 +284,12 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
       >
         {confirmRemove && (
           <>
-            <h2 id="confirm-remove-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+            <h2 id="confirm-remove-title" className="text-lg font-semibold text-ink">
               Ukloniti {confirmRemove.ayahNumber}. ajet sure{" "}
               {surahMap.get(confirmRemove.surahNumber)?.nameLatin ?? confirmRemove.surahNameLatin} iz sačuvanih?
             </h2>
             {confirmRemove.note && (
-              <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+              <p className="mt-2 text-sm text-ink-muted">
                 Bilješka uz ovaj ajet briše se s njim.
               </p>
             )}
@@ -297,14 +297,14 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
               <button
                 type="button"
                 onClick={() => setConfirmRemove(null)}
-                className="flex-1 rounded-lg border border-stone-200 py-2 text-sm font-medium text-stone-700 dark:border-stone-600 dark:text-stone-300"
+                className="flex-1 rounded-lg border border-line py-2 text-sm font-medium text-ink"
               >
                 Odustani
               </button>
               <button
                 type="button"
                 onClick={() => handleRemoveConfirm(confirmRemove)}
-                className="flex-1 rounded-lg bg-red-600 py-2 text-sm font-medium text-white hover:bg-red-500"
+                className="flex-1 rounded-lg bg-danger py-2 text-sm font-medium text-on-accent hover:bg-danger/90"
               >
                 Ukloni
               </button>

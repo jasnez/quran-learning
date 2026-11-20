@@ -11,10 +11,10 @@ export default function DuasPage() {
   return (
     <div className="min-h-screen px-4 pb-24 pt-16 md:py-12">
       <div className="mx-auto max-w-6xl">
-        <h1 className="mb-2 text-2xl font-semibold text-[var(--theme-text)] md:text-3xl">
+        <h1 className="mb-2 text-2xl font-semibold text-ink md:text-3xl">
           Kur&apos;anske dove
         </h1>
-        <p className="mb-8 text-stone-500 dark:text-stone-400">
+        <p className="mb-8 text-ink-muted">
           Dove iz Kur&apos;ana po temama, uz tačno mjesto u Kur&apos;anu (sura i ajet)
         </p>
         <DuasPageContent />

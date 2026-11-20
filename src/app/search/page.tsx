@@ -30,7 +30,7 @@ function resultCountLabel(shown: number, total: number): string {
 
 // text-inherit: the browser's own mark text is black, unreadable on the dark-theme highlight.
 const MARK_CLASSES =
-  "[&_mark]:rounded [&_mark]:bg-amber-100 [&_mark]:px-0.5 [&_mark]:font-medium [&_mark]:text-inherit dark:[&_mark]:bg-amber-900/40";
+  "[&_mark]:rounded [&_mark]:bg-mark [&_mark]:px-0.5 [&_mark]:font-medium [&_mark]:text-inherit";
 
 function getMinQueryLength(q: string): number {
   const trimmed = q.trim();
@@ -175,7 +175,7 @@ export default function SearchPage() {
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
-      <div className="sticky top-[var(--app-header-offset)] z-40 -mx-4 transition-[top] duration-200 bg-[var(--theme-bg)]/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-bg)]/90 md:static md:py-8">
+      <div className="sticky top-[var(--app-header-offset)] z-40 -mx-4 transition-[top] duration-200 bg-paper/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-paper/90 md:static md:py-8">
         <h1 className="sr-only">Pretraga</h1>
         <label htmlFor="search-input" className="sr-only">
           Pretraži ajete, sure i prijevod
@@ -193,17 +193,17 @@ export default function SearchPage() {
           aria-controls={LISTBOX_ID}
           aria-activedescendant={hasResults && results[selectedIndex] ? getResultId(selectedIndex) : undefined}
           aria-autocomplete="list"
-          className="w-full rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] py-4 pl-5 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-emerald-600 focus:outline-hidden focus:ring-2 focus:ring-emerald-600 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder:text-stone-400"
+          className="w-full rounded-2xl border border-line bg-surface py-4 pl-5 pr-12 text-base text-ink placeholder:text-ink-muted focus-visible:border-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
           aria-describedby={showEmpty ? "search-empty" : undefined}
         />
         {showRecent && (
           <div data-recent-searches className="mt-3 flex flex-wrap gap-2">
-            <span className="text-xs text-stone-500 dark:text-stone-400">Nedavno traženo</span>
+            <span className="text-xs text-ink-muted">Nedavno traženo</span>
             {recentSearches.map((term) => (
               <button
                 key={term}
                 type="button"
-                className="rounded-lg bg-stone-100 px-3 py-1.5 text-sm text-stone-700 hover:bg-stone-200 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                className="rounded-lg bg-surface-sunken px-3 py-1.5 text-sm text-ink hover:bg-line"
                 onClick={() => {
                   setQuery(term);
                   setDebouncedQuery(term);
@@ -218,7 +218,7 @@ export default function SearchPage() {
 
       <div className="flex-1 py-6">
         {isLoading && (
-          <p className="text-center text-sm text-stone-500 dark:text-stone-400">
+          <p className="text-center text-sm text-ink-muted">
             Pretraga…
           </p>
         )}
@@ -226,7 +226,7 @@ export default function SearchPage() {
         {showEmpty && !showRecent && (
           <p
             id="search-empty"
-            className="text-center text-stone-500 dark:text-stone-400"
+            className="text-center text-ink-muted"
           >
             {emptyMessage}
           </p>
@@ -247,9 +247,9 @@ export default function SearchPage() {
                 <Link
                   ref={(el) => { linkRefsRef.current[idx] = el; }}
                   href={`/surah/${r.surahId}?ayah=${r.ayahNumber}#ayah-${r.surahId}-${r.ayahNumber}`}
-                  className={`block rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4 transition-colors hover:border-emerald-500/50 hover:bg-stone-50 dark:hover:bg-stone-800/80 md:p-5 ${idx === selectedIndex ? "ring-2 ring-emerald-500/50" : ""}`}
+                  className={`block rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-accent-text hover:bg-surface-sunken md:p-5 ${idx === selectedIndex ? "ring-2 ring-accent-text/50" : ""}`}
                 >
-                  <div className="mb-2 flex items-center gap-2 text-sm font-medium text-stone-600 dark:text-stone-400">
+                  <div className="mb-2 flex items-center gap-2 text-sm font-medium text-ink-muted">
                     <span>{r.surahName}</span>
                     <span aria-hidden>·</span>
                     <span>Ajet {r.ayahNumber}</span>
@@ -257,7 +257,7 @@ export default function SearchPage() {
                   {r.snippetScript === "arabic" ? (
                     // An Arabic match: the highlighted Arabic itself, once (QA P2-5).
                     <p
-                      className={`text-right font-arabic text-xl leading-loose text-stone-800 dark:text-stone-200 ${MARK_CLASSES}`}
+                      className={`text-right font-arabic text-xl leading-loose text-ink ${MARK_CLASSES}`}
                       dir="rtl"
                       lang="ar"
                       dangerouslySetInnerHTML={{ __html: stripWaqfSigns(r.snippetHighlight) }}
@@ -265,11 +265,11 @@ export default function SearchPage() {
                   ) : (
                     <>
                       <p
-                        className={`text-stone-700 dark:text-stone-300 ${MARK_CLASSES}`}
+                        className={`text-ink ${MARK_CLASSES}`}
                         dangerouslySetInnerHTML={{ __html: r.snippetHighlight }}
                       />
                       <p
-                        className="mt-3 text-right font-arabic text-lg leading-relaxed text-stone-600 dark:text-stone-400"
+                        className="mt-3 text-right font-arabic text-lg leading-relaxed text-ink-muted"
                         dir="rtl"
                         lang="ar"
                       >
@@ -285,14 +285,14 @@ export default function SearchPage() {
 
         {hasResults && (
           <div className="mt-6 flex flex-col items-center gap-3">
-            <p role="status" className="text-sm text-stone-500 dark:text-stone-400">
+            <p role="status" className="text-sm text-ink-muted">
               {resultCountLabel(results.length, allResults.length)}
             </p>
             {results.length < allResults.length && (
               <button
                 type="button"
                 onClick={() => setShown({ query: trimmed, count: visibleCount + PAGE_SIZE })}
-                className="rounded-full border border-[var(--theme-border)] px-5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-stone-200 dark:hover:bg-stone-800"
+                className="rounded-full border border-line px-5 py-2 text-sm font-medium text-ink hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
               >
                 Prikaži još
               </button>
