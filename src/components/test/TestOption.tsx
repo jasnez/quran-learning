@@ -28,25 +28,25 @@ export function TestOption({
     "flex w-full gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors";
   const stateClass = showFeedback
     ? isCorrect
-      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+      ? "border-accent-text bg-accent-wash"
       : isSelected
-        ? "border-red-400 bg-red-50 dark:bg-red-950/30"
-        : "border-[var(--theme-border)] bg-transparent"
+        ? "border-danger-text bg-surface-sunken"
+        : "border-line bg-transparent"
     : isSelected
-      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
-      : "border-[var(--theme-border)] bg-transparent hover:bg-stone-50 dark:hover:bg-stone-800/50";
+      ? "border-accent-text bg-accent-wash"
+      : "border-line bg-transparent hover:bg-surface-sunken";
 
   const circleBase =
     "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[0.7rem] font-medium";
   const circleClass = showFeedback
     ? isCorrect
-      ? "border-emerald-500 bg-emerald-500 text-white"
+      ? "border-accent bg-accent text-on-accent"
       : isSelected
-        ? "border-red-400 bg-red-400 text-white"
-        : "border-stone-300 dark:border-stone-600"
+        ? "border-danger-text bg-danger text-on-accent"
+        : "border-line-strong"
     : isSelected
-      ? "border-emerald-500 bg-emerald-500 text-white"
-      : "border-stone-300 dark:border-stone-600";
+      ? "border-accent bg-accent text-on-accent"
+      : "border-line-strong";
 
   const circleContent = showFeedback
     ? isCorrect

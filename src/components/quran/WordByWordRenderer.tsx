@@ -60,9 +60,9 @@ function WordSpan({ pieces, index, isActive, isTabStop, showColors, onWordClick 
         interactive ? "cursor-pointer" : ""
       } ${
         isActive
-          ? "bg-stone-200/80 ring-1 ring-stone-400 dark:bg-stone-600/50 dark:ring-stone-400"
+          ? "bg-surface-sunken ring-1 ring-line-strong"
           : interactive
-            ? "hover:bg-stone-100 dark:hover:bg-stone-700"
+            ? "hover:bg-surface-sunken"
             : ""
       }`}
     >

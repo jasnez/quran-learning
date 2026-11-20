@@ -49,23 +49,23 @@ export default async function JuzPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <header className="mb-8 rounded-2xl border border-amber-200/80 bg-amber-50/80 px-6 py-8 text-center dark:border-amber-800/50 dark:bg-stone-900/40">
-        <h1 className="text-2xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-3xl">
+      <header className="mb-8 rounded-2xl border border-line bg-highlight px-6 py-8 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
           Džuz {juz.juz} — {juz.name}
         </h1>
-        <p className="mt-2 font-arabic text-xl text-stone-700 dark:text-stone-300" dir="rtl" lang="ar">
+        <p className="mt-2 font-arabic text-xl text-ink" dir="rtl" lang="ar">
           {juz.nameArabic}
         </p>
-        <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-2 text-sm text-ink-muted">
           {startSurahName} {juz.startSurah}:{juz.startAyah} — {endSurahName} {juz.endSurah}:{juz.endAyah}
         </p>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-ink-muted">
           {formatCount(segments.reduce((acc, s) => acc + s.ayahs.length, 0), AYAH_FORMS)} · {formatCount(juz.surahsIncluded.length, SURAH_FORMS)}
         </p>
         <div className="mt-6">
           <Link
             href="/surahs?view=juz"
-            className="inline-flex items-center rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+            className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:bg-surface-sunken"
           >
             Svi džuzevi
           </Link>

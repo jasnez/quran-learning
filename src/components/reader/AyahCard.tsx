@@ -174,9 +174,13 @@ export const AyahCard = memo(function AyahCard({
       aria-labelledby={numberId}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
-      className={`rounded-xl border bg-[var(--theme-card)] p-4 transition-colors duration-300 border-[var(--theme-border)] md:px-6 md:py-6 ${
+      className={`rounded-xl border bg-surface p-4 transition-colors duration-300 border-line md:px-6 md:py-6 ${
+        // Until Phase 3 moves the tajwid rule colors to the --tj-* tokens, the old palette
+        // colors (amber-600, emerald-600) need a nearly white background to keep 3:1: the full
+        // highlight drops them to 2.6:1, a 20% tint keeps them at 3.0:1 or more. The accent
+        // border carries the playing state.
         isThisAyahPlaying
-          ? "border-l-[3px] border-l-emerald-500 bg-amber-50/50 dark:bg-amber-950/20 dark:border-l-emerald-400"
+          ? "border-l-[3px] border-l-accent-text bg-highlight/20"
           : ""
       }`}
     >
@@ -184,7 +188,7 @@ export const AyahCard = memo(function AyahCard({
       <div className="mb-4 flex items-center justify-between gap-3">
         <span
           id={numberId}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-sm font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-sunken text-sm font-medium text-ink-muted"
         >
           {ayah.ayahNumber}
           <span className="sr-only">
@@ -193,13 +197,13 @@ export const AyahCard = memo(function AyahCard({
         </span>
         <div className="flex items-center gap-2">
           {showPageBadge && ayah.page > 0 && (
-            <span className="text-xs text-stone-500 dark:text-stone-400">
+            <span className="text-xs text-ink-muted">
               <span aria-hidden>Str. {ayah.page}</span>
               <span className="sr-only">Stranica {ayah.page}</span>
             </span>
           )}
           {isThisAyahPlaying && (
-            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400" aria-hidden>
+            <span className="text-xs font-medium text-accent-text" aria-hidden>
               Sluša se
             </span>
           )}
@@ -208,8 +212,8 @@ export const AyahCard = memo(function AyahCard({
             onClick={handleBookmark}
             className={`min-h-[44px] min-w-[44px] rounded-lg p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
               bookmarked
-                ? "text-amber-500 hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/30 dark:hover:text-amber-400"
-                : "text-stone-500 hover:bg-stone-100 hover:text-stone-600 dark:text-stone-400 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                ? "text-accent-text hover:bg-surface-sunken"
+                : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
             }`}
             aria-label={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
             title={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
@@ -221,7 +225,7 @@ export const AyahCard = memo(function AyahCard({
           </button>
           <button
             type="button"
-            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-stone-500 hover:bg-stone-100 hover:text-emerald-600 dark:hover:bg-stone-700 dark:hover:text-emerald-400"
+            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-ink-muted hover:bg-surface-sunken hover:text-accent-text"
             aria-label={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
             title={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
             onClick={handlePlayPause}
@@ -274,7 +278,7 @@ export const AyahCard = memo(function AyahCard({
 
           {showTransliteration && ayah.transliteration && (
             <p
-              className={`mt-5 font-transliteration text-sm italic leading-relaxed text-stone-500 dark:text-stone-400 ${
+              className={`mt-5 font-transliteration text-sm italic leading-relaxed text-ink-muted ${
                 showTranslation && ayah.translationBosnian
                   ? "text-center lg:text-right"
                   : "text-center"
@@ -286,7 +290,7 @@ export const AyahCard = memo(function AyahCard({
         </div>
 
         {showTranslation && ayah.translationBosnian && (
-          <p className="mt-4 text-center text-[17px] leading-relaxed text-stone-800 dark:text-stone-200 lg:order-2 lg:mt-0 lg:pt-2 lg:text-left">
+          <p className="mt-4 text-center text-[17px] leading-relaxed text-ink lg:order-2 lg:mt-0 lg:pt-2 lg:text-left">
             {ayah.translationBosnian}
           </p>
         )}

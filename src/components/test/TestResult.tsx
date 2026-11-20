@@ -51,22 +51,22 @@ export function TestResult({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+      <h2 className="text-base font-semibold text-ink">
         Rezultat testa
       </h2>
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-center dark:border-emerald-900/40 dark:bg-emerald-950/30">
-        <p className="text-xs font-medium uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+      <div className="rounded-2xl border border-line bg-accent-wash p-5 text-center">
+        <p className="text-xs font-medium uppercase tracking-wide text-accent-text">
           {surahName} · {typeLabel}
         </p>
-        <p className="mt-2 text-2xl font-semibold text-emerald-900 dark:text-emerald-100">
+        <p className="mt-2 text-2xl font-semibold text-ink">
           {score} / {total}
         </p>
-        <p className="mt-2 text-sm text-emerald-800 dark:text-emerald-200">{message}</p>
+        <p className="mt-2 text-sm text-ink">{message}</p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
           <button
             type="button"
             onClick={onRetry}
-            className="rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+            className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:bg-surface-sunken"
           >
             Ponovi ovaj test
           </button>
@@ -74,7 +74,7 @@ export function TestResult({
             <button
               type="button"
               onClick={onNextType}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+              className="inline-flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-hover"
             >
               Sljedeći tip testa
               <span aria-hidden>→</span>
@@ -82,7 +82,7 @@ export function TestResult({
           )}
           <Link
             href="/progress"
-            className="rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+            className="rounded-full border border-line px-4 py-2 text-sm text-ink-muted hover:bg-surface-sunken"
           >
             Vidi svoj napredak
           </Link>

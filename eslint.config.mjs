@@ -11,6 +11,13 @@ const PALETTE_GUARDED_FILES = [
   "src/components/audio/AudioPlayer.tsx",
   "src/components/settings/**/*.{ts,tsx}",
   "src/components/pwa/**/*.{ts,tsx}",
+  "src/components/reader/**/*.{ts,tsx}",
+  "src/components/quran/**/*.{ts,tsx}",
+  "src/components/learn/**/*.{ts,tsx}",
+  "src/components/test/**/*.{ts,tsx}",
+  "src/app/surah/**/*.{ts,tsx}",
+  "src/app/juz/**/*.{ts,tsx}",
+  "src/app/learn/**/*.{ts,tsx}",
 ];
 
 const eslintConfig = defineConfig([
