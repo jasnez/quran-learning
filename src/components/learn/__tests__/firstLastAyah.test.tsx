@@ -149,7 +149,7 @@ describe("Learning mode first/last ayah", () => {
   it("when ayahs empty shows data coming soon message", () => {
     render(<LearnModeContent surah={mockSurah} ayahs={[]} />);
     expect(
-      screen.getByText("Sura se nije učitala. Treba osvježiti stranicu.")
+      screen.getByText("Sura se nije učitala. Osvježi stranicu.")
     ).toBeInTheDocument();
   });
 });

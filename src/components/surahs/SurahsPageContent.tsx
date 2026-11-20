@@ -114,7 +114,7 @@ export function SurahsPageContent({ surahs, juzList, initialView = "surahs" }: S
             <div className="py-12 text-center" role="status">
               <p className="font-medium text-ink">Nema takve sure</p>
               <p className="mt-1 text-sm text-ink-muted">
-                Traži se po broju od 1 do 114 ili po dijelu naziva, npr. jasin.
+                Upiši broj od 1 do 114 ili dio naziva, npr. jasin.
               </p>
             </div>
           ) : (

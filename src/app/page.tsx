@@ -27,7 +27,7 @@ export default async function Home() {
             id="hero-title"
             className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl lg:text-4xl"
           >
-            Aplikacija za učenje Kur&apos;ana
+            Uči Kur&apos;an od elifa do hatme
           </h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-ink-muted md:text-lg lg:mt-4 lg:max-w-2xl">
             Arapski tekst, transkripcija po pravilima Rijaseta IZ BiH, Korkutov prijevod i učač Mishary Alafasy, ajet po ajet.

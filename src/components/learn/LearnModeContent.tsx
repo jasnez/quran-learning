@@ -106,7 +106,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
           <BookIcon />
         </span>
         <p className="mt-4 text-ink-muted">
-          Sura se nije učitala. Treba osvježiti stranicu.
+          Sura se nije učitala. Osvježi stranicu.
         </p>
       </div>
     );
@@ -241,7 +241,7 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
             className={wordDataFailed ? "mt-4 text-center text-sm text-warning-text" : "sr-only"}
             role="status"
           >
-            {wordDataFailed ? "Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo." : null}
+            {wordDataFailed ? "Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo." : null}
           </p>
           {showTransliteration && ayah.transliteration && (
             <p className="mt-8 text-center font-transliteration text-lg leading-relaxed text-ink-muted">

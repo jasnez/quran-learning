@@ -465,9 +465,9 @@ function failureHints(failures: SurahFailure[]): string[] {
   const hints: string[] = [];
   if (failures.some((f) => f.reason === "network")) hints.push("Možda nema internet veze.");
   const statuses = [...new Set(failures.flatMap((f) => (f.httpStatus ? [f.httpStatus] : [])))];
-  if (statuses.length > 0) hints.push(`Server trenutno ne odgovara (greška ${statuses.join(", ")}). Treba pokušati kasnije.`);
+  if (statuses.length > 0) hints.push(`Server trenutno ne odgovara (greška ${statuses.join(", ")}). Pokušaj kasnije.`);
   if (failures.some((f) => f.reason === "not-saved")) {
-    hints.push("Preglednik ih nije uspio pohraniti; možda na uređaju nema dovoljno prostora.");
+    hints.push("Preglednik ih nije sačuvao; provjeri ima li telefon slobodnog prostora.");
   }
   return hints;
 }
@@ -504,12 +504,12 @@ function OfflineSection({ active }: { active: boolean }) {
 
       {status === "unsupported" ? (
         <p className="text-sm text-ink-muted">
-          Ovaj preglednik ne može preuzeti sure za čitanje bez interneta.
+          Ovaj preglednik ne može preuzeti sure. Otvori aplikaciju u Chromeu ili Safariju.
         </p>
       ) : (
         <p className="mb-3 text-sm text-ink-muted">
-          Preuzimanje sprema tekst svih {TOTAL_SURAHS} sura (arapski tekst, transkripciju i prijevod) za čitanje
-          bez interneta, oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet.
+          Preuzmi tekst svih {TOTAL_SURAHS} sura (arapski, transkripciju i prijevod) i čitaj bez interneta;
+          to je oko 40 MB. Snimci učača nisu uključeni: za slušanje treba internet.
         </p>
       )}
 
@@ -571,7 +571,7 @@ function OfflineSection({ active }: { active: boolean }) {
       {status === "error" && error === "not-controlled" && (
         <div className="space-y-3" role="alert">
           <div className="rounded-lg bg-surface-sunken px-4 py-3 text-sm text-danger-text">
-            Preuzimanje još ne radi na ovoj stranici. Treba osvježiti stranicu i pokušati ponovo.
+            Preuzimanje još ne radi na ovoj stranici. Osvježi stranicu i pokušaj ponovo.
           </div>
           <button type="button" onClick={start} className={PRIMARY_BUTTON}>
             Pokušaj ponovo
