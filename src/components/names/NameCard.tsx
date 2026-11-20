@@ -30,7 +30,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       </div>
       <p
         id={`name-arabic-${n.index}`}
-        className="font-arabic text-3xl font-medium text-ink md:text-4xl"
+        className="font-arabic text-3xl font-normal text-ink md:text-4xl"
         dir="rtl"
         lang="ar"
       >
@@ -39,7 +39,7 @@ export function NameCard({ name: n }: { name: AllahName }) {
       <p className="mt-4 font-transliteration text-lg text-ink-muted">
         {n.transliteration}
       </p>
-      <p className="mt-2 text-base text-ink">
+      <p className="mt-2 font-read text-[1.0625rem] leading-[1.6] md:text-lg text-ink">
         {n.translationBosnian}
       </p>
       <audio

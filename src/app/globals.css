@@ -146,8 +146,12 @@
   --radius-sheet: 1.25rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-transliteration: var(--font-transcription), var(--font-geist-sans), sans-serif;
+  /* Type roles (Tezhib): ui for the interface, read for transcription, translation and page
+     titles, ar for Arabic. font-transliteration is the transcription line's own role name. */
+  --font-sans: var(--font-elif-sans), system-ui, sans-serif;
+  --font-read: var(--font-elif-book), Georgia, serif;
+  --font-transliteration: var(--font-elif-book), Georgia, serif;
+  --font-ar: var(--font-arabic);
 }
 
 /* Arabic font: direct selectors so font switch always applies (production) */
@@ -208,7 +212,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-elif-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.25s ease, color 0.25s ease;
 }

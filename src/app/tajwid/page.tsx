@@ -12,7 +12,7 @@ export default async function TajwidLessonsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:py-8">
       <header className="mb-6 sm:mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+        <h1 className="text-2xl font-read font-bold tracking-tight text-ink sm:text-3xl">
           Tedžvid lekcije
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-ink-muted">

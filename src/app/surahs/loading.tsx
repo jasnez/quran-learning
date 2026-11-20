@@ -3,7 +3,7 @@ import { SurahListSkeleton } from "@/components/surahs/SurahListSkeleton";
 export default function SurahsLoading() {
   return (
     <article className="mx-auto max-w-7xl">
-      <h1 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+      <h1 className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl">
         Sure
       </h1>
       <div className="mt-8 flex flex-col gap-6">
