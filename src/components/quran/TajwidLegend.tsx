@@ -15,16 +15,16 @@ export function TajwidLegend() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="rounded-xl border border-stone-200/80 bg-stone-50/60 dark:border-stone-700/80 dark:bg-stone-900/40">
+    <section className="rounded-xl border border-line bg-paper/60">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-center gap-2 py-2.5 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+        className="flex w-full items-center justify-center gap-2 py-2.5 text-sm text-ink-muted hover:text-ink"
         aria-expanded={open}
         aria-controls="tajwid-legend-panel"
         id="tajwid-legend-toggle"
       >
-        <span aria-hidden className="text-stone-400 dark:text-stone-500">
+        <span aria-hidden className="text-ink-muted">
           {open ? "▼" : "▶"}
         </span>
         Šta znače boje
@@ -35,10 +35,10 @@ export function TajwidLegend() {
         aria-labelledby="tajwid-legend-toggle"
         aria-hidden={!open}
         className={`overflow-hidden transition-[max-height] duration-200 ease-out ${
-          open ? "max-h-96 border-t border-stone-200/80 dark:border-stone-700/80" : "max-h-0"
+          open ? "max-h-96 border-t border-line" : "max-h-0"
         }`}
       >
-        <p className="px-4 pt-3 text-xs text-stone-500 dark:text-stone-400">
+        <p className="px-4 pt-3 text-xs text-ink-muted">
           Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena.
         </p>
         <ul className="space-y-2.5 p-4 list-none" role="list">
@@ -55,11 +55,11 @@ export function TajwidLegend() {
                 •
               </span>
               <div className="min-w-0 flex-1">
-                <span className="font-medium text-stone-800 dark:text-stone-200">
+                <span className="font-medium text-ink">
                   {tajwidRuleNames[rule]}
                 </span>
                 {rule !== "normal" && (
-                  <p className="mt-0.5 text-stone-600 dark:text-stone-400">{describe(rule)}</p>
+                  <p className="mt-0.5 text-ink-muted">{describe(rule)}</p>
                 )}
               </div>
             </li>

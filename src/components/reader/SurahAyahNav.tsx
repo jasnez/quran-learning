@@ -59,7 +59,7 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
       aria-label="Lista ajeta"
     >
       <div>
-        <p className="px-2 pb-2 text-[10px] font-medium uppercase tracking-wider text-stone-500 dark:text-stone-400">
+        <p className="px-2 pb-2 text-[10px] font-medium uppercase tracking-wider text-ink-muted">
           Ajeti
         </p>
         <ul className="space-y-0.5">
@@ -74,17 +74,17 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
                 <a
                   href={`#ayah-${ayah.id.replace(":", "-")}`}
                   onClick={handleJump(ayah.id)}
-                  className={`flex items-center justify-between rounded-md px-3 py-1 text-xs tabular-nums transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+                  className={`flex items-center justify-between rounded-md px-3 py-1 text-xs tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
                     isActive
-                      ? "bg-emerald-100 font-medium text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300"
-                      : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
+                      ? "bg-accent-wash font-medium text-accent-text"
+                      : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
                   }`}
                   aria-current={isActive ? "true" : undefined}
                 >
                   <span>{ayahNumber}</span>
                   {isBookmarked && (
                     <>
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500" aria-hidden />
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden />
                       <span className="sr-only">, sačuvan</span>
                     </>
                   )}

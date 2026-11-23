@@ -83,7 +83,7 @@ describe("AyahCard typography and spacing", () => {
     );
     const transliteration = screen.getByText("Bismi Allahi");
     expect(transliteration).toBeInTheDocument();
-    expect(transliteration.className).toMatch(/text-stone-500/);
+    expect(transliteration.className).toMatch(/text-ink-muted/);
     expect(transliteration.className).toMatch(/text-sm/);
     expect(transliteration.className).toMatch(/italic/);
   });
@@ -102,7 +102,7 @@ describe("AyahCard typography and spacing", () => {
     );
     const translation = screen.getByText("U ime Allaha");
     expect(translation).toBeInTheDocument();
-    expect(translation.className).toMatch(/text-stone-800|text-stone-200/);
+    expect(translation.className).toMatch(/text-ink/);
   });
 
   it("transliteration has clear spacing above arabic block", () => {

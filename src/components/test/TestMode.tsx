@@ -108,26 +108,26 @@ export function TestMode({ surah, ayahs, allSurahs }: TestModeProps) {
 
   return (
     <div className="space-y-6">
-      <section className="flex flex-col gap-3 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4 sm:flex-row sm:items-center sm:justify-between">
+      <section className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             Test mod
           </p>
-          <h1 className="text-lg font-semibold text-stone-900 dark:text-stone-50">
+          <h1 className="text-lg font-semibold text-ink">
             {surah.nameLatin} — {surah.nameBosnian}
           </h1>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+          <p className="text-xs text-ink-muted">
             Odaberi suru i tip testa, pa uradi 10 pitanja za samoprovjeru.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:items-end">
-          <label className="text-xs font-medium text-stone-600 dark:text-stone-300">
+          <label className="text-xs font-medium text-ink-muted">
             Surah
           </label>
           <select
             value={surah.surahNumber}
             onChange={handleChangeSurah}
-            className="w-full rounded-full border border-[var(--theme-border)] bg-[var(--theme-card)] px-3 py-1.5 text-sm text-stone-800 dark:text-stone-100"
+            className="w-full rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink"
           >
             {allSurahs.map((s) => (
               <option key={s.surahNumber} value={s.surahNumber}>
@@ -147,8 +147,8 @@ export function TestMode({ surah, ayahs, allSurahs }: TestModeProps) {
               onClick={() => handleSelectType(type)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium border ${
                 testType === type
-                  ? "border-emerald-500 bg-emerald-500 text-white"
-                  : "border-[var(--theme-border)] bg-[var(--theme-card)] text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+                  ? "border-accent bg-accent text-on-accent"
+                  : "border-line bg-surface text-ink-muted hover:bg-surface-sunken"
               }`}
             >
               {labelForType(type)}
