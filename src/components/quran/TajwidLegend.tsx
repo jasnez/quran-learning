@@ -1,18 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { TajwidRule } from "@/types/quran";
-import { tajwidRuleClasses, tajwidRuleDescriptions, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleLessonSlugs, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
+import { useSettingsStore } from "@/store/settingsStore";
+import { useToastStore } from "@/store/toastStore";
 
-const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
+type ColoredRule = Exclude<TajwidRule, "normal">;
 
-function describe(rule: TajwidRule): string {
-  const text = tajwidRuleDescriptions[rule];
-  return text ? `${text[0].toUpperCase()}${text.slice(1)}.` : "";
-}
+/** One row per color, by what the voice does; ihfa shares the gunne green. */
+const ROWS: { color: string; voice: string; rules: ColoredRule[] }[] = [
+  { color: "Crveno", voice: "produži", rules: ["mad"] },
+  { color: "Zeleno", voice: "kroz nos", rules: ["ghunnah", "ikhfa"] },
+  { color: "Plavo", voice: "odskok", rules: ["qalqalah"] },
+];
 
+/**
+ * The key to the tajwid colors, and the keyboard and screen-reader path to the rule lessons: the
+ * colored letters in the ayah text are not focusable, the rule names here are links.
+ */
 export function TajwidLegend() {
   const [open, setOpen] = useState(false);
+  const tajwidNoticeSeen = useSettingsStore((s) => s.tajwidNoticeSeen);
+  const markTajwidNoticeSeen = useSettingsStore((s) => s.markTajwidNoticeSeen);
+  const showToast = useToastStore((s) => s.showToast);
+
+  // The legend is shown only with the colors on: the right moment to say the colors changed.
+  useEffect(() => {
+    // Only an explicit false: the flag is missing in tests that stub part of the store.
+    if (tajwidNoticeSeen !== false) return;
+    showToast("Boje su sada kao u tedžvidskom mushafu.");
+    markTajwidNoticeSeen();
+  }, [tajwidNoticeSeen, markTajwidNoticeSeen, showToast]);
 
   return (
     <section className="rounded-xl border border-line bg-paper/60">
@@ -34,6 +54,7 @@ export function TajwidLegend() {
         role="region"
         aria-labelledby="tajwid-legend-toggle"
         aria-hidden={!open}
+        inert={!open}
         className={`overflow-hidden transition-[max-height] duration-200 ease-out ${
           open ? "max-h-96 border-t border-line" : "max-h-0"
         }`}
@@ -42,26 +63,30 @@ export function TajwidLegend() {
           Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena.
         </p>
         <ul className="space-y-2.5 p-4 list-none" role="list">
-          {TAJWID_RULES.map((rule) => (
-            <li
-              key={rule}
-              className="flex items-start gap-3 text-sm"
-            >
+          {ROWS.map((row) => (
+            <li key={row.color} className="flex items-start gap-3 text-sm text-ink">
               <span
-                className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-base leading-none ${tajwidRuleClasses[rule]}`}
+                className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-base leading-none ${tajwidRuleClasses[row.rules[0]]}`}
                 style={{ fontFamily: "sans-serif" }}
                 aria-hidden
               >
                 •
               </span>
-              <div className="min-w-0 flex-1">
-                <span className="font-medium text-ink">
-                  {tajwidRuleNames[rule]}
-                </span>
-                {rule !== "normal" && (
-                  <p className="mt-0.5 text-ink-muted">{describe(rule)}</p>
-                )}
-              </div>
+              <span className="min-w-0 flex-1">
+                <span className="font-medium">{row.color}</span>: {row.voice} (
+                {row.rules.map((rule, i) => (
+                  <span key={rule}>
+                    {i > 0 && ", "}
+                    <Link
+                      href={`/tajwid/${tajwidRuleLessonSlugs[rule]}`}
+                      className="text-accent-text underline underline-offset-2"
+                    >
+                      {tajwidRuleNames[rule].toLowerCase()}
+                    </Link>
+                  </span>
+                ))}
+                )
+              </span>
             </li>
           ))}
         </ul>

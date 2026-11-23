@@ -33,8 +33,6 @@ export interface TajwidLesson {
   title: string;
   subtitle: string;
   ruleType: TajwidRule;
-  color: string;
-  colorHex: string;
   estimatedMinutes: number;
   prerequisite: string | null;
   sections: {
@@ -63,8 +61,6 @@ const LESSONS: TajwidLesson[] = [
     subtitle:
       "Zašto je važno učiti Kur'an s pravilnim tedžvidom i šta znači 'normalan' tekst.",
     ruleType: "normal",
-    color: "text-gray-800 dark:text-gray-200",
-    colorHex: "#1A1A1A",
     estimatedMinutes: 5,
     prerequisite: null,
     sections: {
@@ -188,8 +184,6 @@ const LESSONS: TajwidLesson[] = [
     subtitle:
       "Nauči kada i koliko produžiti glas prilikom učenja Kur'ana.",
     ruleType: "mad",
-    color: "text-emerald-600 dark:text-emerald-400",
-    colorHex: "#16A34A",
     estimatedMinutes: 7,
     prerequisite: "Lekcija 1",
     sections: {
@@ -211,7 +205,7 @@ const LESSONS: TajwidLesson[] = [
         "Slušaj pažljivo gdje učač produžava glas.",
         "Pokušaj izgovoriti zajedno sa učačem — osjeti ritam produženja.",
         "Probaj bez audija — produžavaj na istim mjestima brojeći do 2 (za tabii) ili do 4/6 za duže vrste.",
-        "U aplikaciji: zelena boja ti pokazuje tačno gdje se primjenjuje pravilo mad."
+        "U aplikaciji: crvena boja ti pokazuje tačno gdje se primjenjuje pravilo mad."
       ],
       examples: [
         {
@@ -287,7 +281,7 @@ const LESSONS: TajwidLesson[] = [
     ],
     nextLessonId: 3,
     summary:
-      "Madd je produžavanje glasa na samoglasniku. Tri slova madda su alif, waw i ya. Madd tabii (prirodni) traje 2 harakate i najčešći je. Zelena boja u aplikaciji označava mjesta gdje se primjenjuje mad."
+      "Madd je produžavanje glasa na samoglasniku. Tri slova madda su alif, waw i ya. Madd tabii (prirodni) traje 2 harakate i najčešći je. Crvena boja u aplikaciji označava mjesta gdje se primjenjuje mad."
   },
   {
     id: 3,
@@ -296,8 +290,6 @@ const LESSONS: TajwidLesson[] = [
     subtitle:
       "Prepoznaj i uvježbaj nazalni (nosni) zvuk na nunu i mimu.",
     ruleType: "ghunnah",
-    color: "text-rose-600 dark:text-rose-400",
-    colorHex: "#E11D48",
     estimatedMinutes: 8,
     prerequisite: "Lekcije 1–2",
     sections: {
@@ -390,7 +382,7 @@ const LESSONS: TajwidLesson[] = [
     ],
     nextLessonId: 4,
     summary:
-      "Ghunnah je nazalni zvuk na slovima nun i mim. Najjača je sa tašdidom (2 harakate). Kod idghama, nun se utapa u sljedeće slovo (ya, nun, mim, waw) uz ghunnah. Crvena/ružičasta boja u aplikaciji označava ghunnah."
+      "Ghunnah je nazalni zvuk na slovima nun i mim. Najjača je sa tašdidom (2 harakate). Kod idghama, nun se utapa u sljedeće slovo (ya, nun, mim, waw) uz ghunnah. Zelena boja u aplikaciji označava ghunnah."
   },
   {
     id: 4,
@@ -399,8 +391,6 @@ const LESSONS: TajwidLesson[] = [
     subtitle:
       "Pravilo kada se nun sa sukunom ili tenvinom izgovara skriveno, između jasnog i potpunog idghama.",
     ruleType: "ikhfa",
-    color: "text-sky-600 dark:text-sky-400",
-    colorHex: "#0284C7",
     estimatedMinutes: 8,
     prerequisite: "Lekcije 1–3",
     sections: {
@@ -485,7 +475,7 @@ const LESSONS: TajwidLesson[] = [
     ],
     nextLessonId: 5,
     summary:
-      "Ikhfa je skrivanje nuna sa sukunom ispred 15 slova. Nun se ne izgovara jasno ali ni ne utapa potpuno — čuješ blagi nazalni zvuk (2 harakate) koji prelazi u sljedeće slovo. Plava boja u aplikaciji označava ikhfa."
+      "Ikhfa je skrivanje nuna sa sukunom ispred 15 slova. Nun se ne izgovara jasno ali ni ne utapa potpuno — čuješ blagi nazalni zvuk (2 harakate) koji prelazi u sljedeće slovo. U aplikaciji je ikhfa obojena istom zelenom bojom kao ghunnah."
   },
   {
     id: 5,
@@ -494,8 +484,6 @@ const LESSONS: TajwidLesson[] = [
     subtitle:
       "Pravilo drhtaja / odskoka glasa na određenim sukunisanim slovima.",
     ruleType: "qalqalah",
-    color: "text-amber-600 dark:text-amber-400",
-    colorHex: "#D97706",
     estimatedMinutes: 7,
     prerequisite: "Lekcije 1–4",
     sections: {
@@ -602,7 +590,7 @@ const LESSONS: TajwidLesson[] = [
     ],
     nextLessonId: null,
     summary:
-      "Qalqalah je odskok zvuka na 5 slova: ق ط ب ج د (Qutbu Jad). Primjenjuje se samo na sukun ili vakf. Kubra (na kraju) je jača, sughra (u sredini) blaža. Narandžasta boja u aplikaciji označava qalqalah."
+      "Qalqalah je odskok zvuka na 5 slova: ق ط ب ج د (Qutbu Jad). Primjenjuje se samo na sukun ili vakf. Kubra (na kraju) je jača, sughra (u sredini) blaža. Plava boja u aplikaciji označava qalqalah."
   }
 ];
 

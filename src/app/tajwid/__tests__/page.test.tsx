@@ -13,8 +13,6 @@ const mockLessons = [
     title: "Uvod u tajwid",
     subtitle: "Osnove pravila učenja Kur’ana.",
     ruleType: "normal",
-    color: "",
-    colorHex: "#000000",
     estimatedMinutes: 5,
     prerequisite: null,
     sections: {
@@ -33,8 +31,6 @@ const mockLessons = [
     title: "Mad (duljenje)",
     subtitle: "Duljenje samoglasnika.",
     ruleType: "mad",
-    color: "",
-    colorHex: "#000000",
     estimatedMinutes: 5,
     prerequisite: "Lekcija 1",
     sections: {

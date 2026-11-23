@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useProgressStore } from "@/store/progressStore";
-import { tajwidRuleLabelClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleLabels } from "@/lib/quran/tajwidStyles";
 import type { TajwidLesson } from "@/data/tajwid-lessons";
 
 export function TajwidLessonCard({ lesson, index }: { lesson: TajwidLesson; index: number }) {
   const status = useProgressStore((s) => s.tajwidLessonProgress[lesson.slug]);
-  const colorClass = tajwidRuleLabelClasses[lesson.ruleType];
+  const colorClass = tajwidRuleClasses[lesson.ruleType];
 
   const statusLabel =
     status?.status === "completed"

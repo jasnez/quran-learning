@@ -62,7 +62,7 @@ describe("WordByWordRenderer", () => {
   it("highlights the active word without a tajwid hue", () => {
     const { container } = render(<WordByWordRenderer words={words} activeWordIndex={1} showColors />);
     const active = wordEls(container)[1];
-    expect(active.className).not.toMatch(/amber|emerald|rose|sky/);
+    expect(active.className).not.toMatch(/tj-/);
     expect(active.className).toMatch(/ring-/);
   });
 

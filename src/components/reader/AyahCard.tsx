@@ -175,12 +175,10 @@ export const AyahCard = memo(function AyahCard({
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
       className={`rounded-xl border bg-surface p-4 transition-colors duration-300 border-line md:px-6 md:py-6 ${
-        // Until Phase 3 moves the tajwid rule colors to the --tj-* tokens, the old palette
-        // colors (amber-600, emerald-600) need a nearly white background to keep 3:1: the full
-        // highlight drops them to 2.6:1, a 20% tint keeps them at 3.0:1 or more. The accent
-        // border carries the playing state.
+        // The tajwid colors keep 3:1 or more on the full highlight in every theme (lowest 4.13:1,
+        // themeTokens.test.ts). The accent border marks the playing ayah without relying on color.
         isThisAyahPlaying
-          ? "border-l-[3px] border-l-accent-text bg-highlight/20"
+          ? "border-l-[3px] border-l-accent-text bg-highlight"
           : ""
       }`}
     >

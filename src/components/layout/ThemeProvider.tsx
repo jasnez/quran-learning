@@ -10,11 +10,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-theme", theme);
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
   }, [theme]);
 
   /* useLayoutEffect so attribute is set before paint and font switch is visible immediately */

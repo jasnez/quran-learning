@@ -15,6 +15,7 @@ type SettingsStore = SettingsState & {
   toggleTransliteration: () => void;
   toggleTranslation: () => void;
   toggleTajwidColors: () => void;
+  markTajwidNoticeSeen: () => void;
   setReciter: (selectedReciterId: string | null) => void;
   setPlaybackSpeed: (playbackSpeed: number) => void;
   cycleRepeatMode: () => void;
@@ -30,6 +31,8 @@ const defaultState: SettingsState = {
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
+  // A fresh install never saw the old colors; merge sets false for settings stored before Phase 3.
+  tajwidNoticeSeen: true,
   selectedReciterId: "mishary-alafasy",
   playbackSpeed: 1,
   repeatMode: "off",
@@ -38,6 +41,9 @@ const defaultState: SettingsState = {
 };
 
 export const SETTINGS_STORAGE_KEY = "quran-learning-settings";
+
+/** Progress and bookmark storage keys (progressStore, bookmarkStore): signs of earlier use. */
+const PRIOR_USE_KEYS = ["quran-learning-progress", "quran-learning-bookmarks"];
 
 function nextRepeatMode(current: RepeatMode): RepeatMode {
   if (current === "off") return "surah";
@@ -65,6 +71,8 @@ export const useSettingsStore = create<SettingsStore>()(
       toggleTajwidColors: () =>
         set((s) => ({ showTajwidColors: !s.showTajwidColors })),
 
+      markTajwidNoticeSeen: () => set({ tajwidNoticeSeen: true }),
+
       setReciter: (selectedReciterId) => set({ selectedReciterId }),
 
       setPlaybackSpeed: (playbackSpeed) => set({ playbackSpeed }),
@@ -88,6 +96,7 @@ export const useSettingsStore = create<SettingsStore>()(
         showTransliteration: state.showTransliteration,
         showTranslation: state.showTranslation,
         showTajwidColors: state.showTajwidColors,
+        tajwidNoticeSeen: state.tajwidNoticeSeen,
         selectedReciterId: state.selectedReciterId,
         playbackSpeed: state.playbackSpeed,
         repeatMode: state.repeatMode,
@@ -95,7 +104,15 @@ export const useSettingsStore = create<SettingsStore>()(
         pauseAfterAyah: state.pauseAfterAyah,
       }),
       merge: (persistedState, currentState) => {
-        const p = persistedState as unknown as Record<string, unknown>;
+        // No settings stored: zustand still calls merge, with undefined. Settings are written only
+        // after a change, so this is also someone who used the app with the default settings;
+        // their reading progress or bookmarks show it, and they saw the old tajwid colors.
+        if (typeof persistedState !== "object" || persistedState === null) {
+          const storage = getSafeStorage();
+          const usedBefore = PRIOR_USE_KEYS.some((key) => storage.getItem(key) !== null);
+          return usedBefore ? { ...currentState, tajwidNoticeSeen: false } : currentState;
+        }
+        const p = persistedState as Record<string, unknown>;
         const repeatMode: RepeatMode =
           p.repeatMode === "surah" || p.repeatMode === "ayah"
             ? (p.repeatMode as RepeatMode)
@@ -111,6 +128,8 @@ export const useSettingsStore = create<SettingsStore>()(
           ...(persistedState as object),
           repeatMode,
           selectedReciterId,
+          // Stored before Phase 3: this person knows the old colors, so tell them once.
+          tajwidNoticeSeen: typeof p.tajwidNoticeSeen === "boolean" ? p.tajwidNoticeSeen : false,
         } as SettingsStore;
       },
     }

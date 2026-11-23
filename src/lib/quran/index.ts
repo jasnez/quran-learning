@@ -7,7 +7,7 @@ export {
   AYAH_COUNT_PER_SURAH,
 } from "./constants";
 export type { QuranApiVerse, QuranApiVersesResponse } from "./api-types";
-export { tajwidRuleClasses, tajwidRuleLabelClasses, tajwidRuleLabels } from "./tajwidStyles";
+export { tajwidRuleClasses, tajwidRuleLabels } from "./tajwidStyles";
 export {
   normalizeWordsToAyahRelative,
   normalizeWordFromApi,

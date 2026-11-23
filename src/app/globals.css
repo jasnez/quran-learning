@@ -3,9 +3,6 @@
 /* The design docs and plans name utility classes in prose; they are not app sources. */
 @source not "../../docs";
 
-/* Class-based dark mode so settingsStore.theme controls it */
-@custom-variant dark (&:where(.dark, .dark *));
-
 /*
  * Tezhib tokens (developer handoff "Tezhib u kodu", 2026-11-19): paper, ink, a lacivert accent,
  * gold only as ornament. Components use them through the utilities in @theme inline below
@@ -39,7 +36,7 @@
   --warning-text: #7A5200;
   --tj-medd: #B3261E;
   --tj-gunne: #2E7D32;
-  --tj-ihfa: #00796B;
+  --tj-ihfa: #2E7D32;
   --tj-kalkala: #0E72A8;
   --overlay: rgb(16 20 27 / 0.5);
 
@@ -69,7 +66,7 @@
   --warning-text: #E8C27A;
   --tj-medd: #FF8A80;
   --tj-gunne: #81C784;
-  --tj-ihfa: #4DB6AC;
+  --tj-ihfa: #81C784;
   --tj-kalkala: #64B5F6;
   --overlay: rgb(0 0 0 / 0.6);
 
@@ -99,21 +96,12 @@
   --warning-text: #734D00;
   --tj-medd: #A3241B;
   --tj-gunne: #2B6E2F;
-  --tj-ihfa: #0B6B5F;
+  --tj-ihfa: #2B6E2F;
   --tj-kalkala: #0B6A9C;
   --overlay: rgb(51 40 26 / 0.45);
 
   --background: var(--paper);
   --foreground: var(--ink);
-  /*
-   * The qalqalah tajwid color (amber-600, from tajwidStyles.ts) was 2.97:1 on the sepia card; 3:1
-   * is the minimum for the large Arabic text. A slightly darker amber of the same hue gives about
-   * 3.5:1. Phase 3 removes this together with the amber class (tajwid colors become --tj-*).
-   */
-  --color-amber-600: oklch(62% 0.17 58.318);
-  /* The kalkala label on lesson cards (amber-700, small text) is 4.47:1 on the sepia surface;
-     this darker amber gives 5.6:1. Removed with the amber-600 override in Phase 3. */
-  --color-amber-700: #A34300;
 }
 
 @theme inline {

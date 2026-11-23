@@ -29,7 +29,7 @@ describe("THEME_INIT_SCRIPT (inline theme script in <head>)", () => {
     run();
     const html = document.documentElement;
     expect(html.getAttribute("data-theme")).toBe("dark");
-    expect(html.classList.contains("dark")).toBe(true);
+    expect(html.classList.contains("dark")).toBe(false);
     expect(html.getAttribute("data-arabic-font")).toBe("uthmanic");
   });
 

@@ -12,6 +12,8 @@ export interface SettingsState {
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
+  /** False until the one-time notice about the mushaf tajwid colors (Phase 3) has been shown. */
+  tajwidNoticeSeen: boolean;
   selectedReciterId: string | null;
   playbackSpeed: number;
   repeatMode: RepeatMode;

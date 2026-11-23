@@ -27,10 +27,10 @@ describe("TajwidTextRenderer", () => {
     expect(spans.length).toBe(segments.length);
     // normal -> text-foreground
     expect(spans[0].className).toMatch(/text-foreground/);
-    // mad -> text-emerald
-    expect(spans[1].className).toMatch(/text-emerald/);
-    // ghunnah -> text-rose
-    expect(spans[2].className).toMatch(/text-rose/);
+    // mad -> text-tj-medd
+    expect(spans[1].className).toMatch(/text-tj-medd/);
+    // ghunnah -> text-tj-gunne
+    expect(spans[2].className).toMatch(/text-tj-gunne/);
   });
 
   it("when showColors is false, all segments use normal text color", () => {

@@ -55,7 +55,7 @@ function WordSpan({ pieces, index, isActive, isTabStop, showColors, onWordClick 
             }
           : undefined
       }
-      // Neutral background + ring: no tajwid hue (qalqalah is amber), so every rule color stays readable.
+      // Neutral background + ring: no tajwid hue, so every rule color (red, green, blue) stays readable.
       className={`rounded px-0.5 transition-colors duration-150 ${
         interactive ? "cursor-pointer" : ""
       } ${

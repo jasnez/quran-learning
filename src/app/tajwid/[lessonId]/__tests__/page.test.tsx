@@ -12,8 +12,6 @@ const mockLesson = {
   title: "Mad (duljenje)",
   subtitle: "Duljenje samoglasnika.",
   ruleType: "mad",
-  color: "text-emerald-600",
-  colorHex: "#16A34A",
   estimatedMinutes: 7,
   prerequisite: "Lekcija 1",
   sections: {
@@ -80,8 +78,6 @@ vi.mock("@/data/tajwid-lessons", () => ({
         title: "Intro",
         subtitle: "",
         ruleType: "normal",
-        color: "",
-        colorHex: "#000000",
         estimatedMinutes: 5,
         prerequisite: null,
         sections: {
