@@ -37,14 +37,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             bottom bars: the mobile navigation (56px) and the audio player (70px). */}
         <div
           ref={scrollContainerRef}
-          className={`flex min-h-dvh flex-col bg-[var(--theme-bg)] pt-12 transition-colors duration-200 ${
+          className={`flex min-h-dvh flex-col bg-background pt-12 transition-colors duration-200 ${
             hasAudio ? "max-md:pb-[126px] md:pb-[70px]" : "max-md:pb-14"
           }`}
           data-scroll-container
         >
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-2 focus:z-[60] focus:rounded-lg focus:bg-[var(--theme-card)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[var(--theme-text)] focus:shadow-lg focus:ring-2 focus:ring-emerald-600"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-2 focus:z-[60] focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-ink focus:shadow-lg focus-visible:outline-2 focus-visible:outline-accent-text"
           >
             Preskoči na sadržaj
           </a>

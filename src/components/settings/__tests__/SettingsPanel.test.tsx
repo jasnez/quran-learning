@@ -236,10 +236,10 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("radio", { name: /light|svijetla/i })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: /dark|tamna/i })).toBeInTheDocument();
     // Sepia ne smije biti vidljiv po default-u
-    expect(screen.queryByRole("radio", { name: /sepia/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("radio", { name: /hartija/i })).not.toBeInTheDocument();
     const moreBtn = screen.getByRole("button", { name: /više opcija/i });
     await userEvent.click(moreBtn);
-    expect(screen.getByRole("radio", { name: /sepia/i })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: /hartija/i })).toBeInTheDocument();
   });
 
   it("calling onClose when close button clicked", async () => {
@@ -331,9 +331,9 @@ describe("SettingsPanel", () => {
   it("theme options show a focus ring when their radio has keyboard focus", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     await userEvent.click(screen.getByRole("button", { name: /više opcija/i }));
-    for (const name of [/svijetla/i, /tamna/i, /sepia/i]) {
+    for (const name of [/svijetla/i, /tamna/i, /hartija/i]) {
       const label = screen.getByRole("radio", { name }).closest("label");
-      expect(label).toHaveClass("has-[:focus-visible]:ring-2", "has-[:focus-visible]:ring-emerald-600");
+      expect(label).toHaveClass("has-[:focus-visible]:outline-2", "has-[:focus-visible]:outline-accent-text");
     }
   });
 
@@ -348,7 +348,7 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const moreBtn = screen.getByRole("button", { name: /više opcija/i });
     await userEvent.click(moreBtn);
-    const sepia = screen.getByRole("radio", { name: /sepia/i });
+    const sepia = screen.getByRole("radio", { name: /hartija/i });
     await userEvent.click(sepia);
     expect(mockSetTheme).toHaveBeenCalledWith("sepia");
   });

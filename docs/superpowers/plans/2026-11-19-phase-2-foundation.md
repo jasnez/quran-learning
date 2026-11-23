@@ -160,6 +160,8 @@ The spec and this plan are the first commit on 2.1. After the owner squash-merge
 
 Disabled controls: `text-ink-muted` plus the existing disabled mechanism; no new opacity rules. A class the map does not cover (e.g. `text-sky-600` outside the tajwid files): the subagent stops and reports it; the main model decides and adds a row here.
 
+**Plan change (2026-11-19, during Task 2):** the page background stays on `--background` (body, `AppShell` as `bg-background`, the sticky letter-table header) until Task 4. Axe showed why: on the darker `paper`, not-yet-migrated `text-stone-500` drops to 4.4:1 and the old sepia link color fails too. Task 4 makes `--background`/`--foreground` aliases of `paper`/`ink`, which switches the page background with no class change.
+
 ### Task 3 (PR 2.3): reader and learn mode
 
 **Files:** migrate `src/components/reader/**`, `src/components/quran/**` (not the classes read from `tajwidStyles.ts`), `src/components/learn/**`, `src/components/test/**`, `src/app/surah/**`, `src/app/juz/**`, `src/app/learn/**`; extend `PALETTE_GUARDED_FILES`; `tests/e2e/a11y.spec.ts` (the learn-mode pill entries go: `text-stone-400` becomes `text-ink-muted`).

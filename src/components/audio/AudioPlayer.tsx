@@ -367,7 +367,7 @@ export function AudioPlayer() {
     <div
       data-testid="audio-player"
       data-audio-player=""
-      className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-card)]/90 max-md:bottom-14 md:bottom-0"
+      className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 max-md:bottom-14 md:bottom-0"
       role="region"
       aria-label="Kontrole zvuka"
     >
@@ -375,10 +375,10 @@ export function AudioPlayer() {
         <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
-            <span className="truncate text-sm font-medium text-stone-800 dark:text-stone-100 md:text-[15px]">
+            <span className="truncate text-sm font-medium text-ink md:text-[15px]">
               {surahName ? `${surahName}, ${ayahNum}. ajet` : `Sura ${currentSurahId ?? "—"}, ${ayahNum}. ajet`}
             </span>
-            <span className="truncate text-[11px] tabular-nums text-stone-500 dark:text-stone-400 md:text-xs">
+            <span className="truncate text-[11px] tabular-nums text-ink-muted md:text-xs">
               {formatTime(currentTime)} / {formatTime(duration)} · Mishary Alafasy
             </span>
           </div>
@@ -388,7 +388,7 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={() => { clearPending(); previous(); }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
               aria-label="Prethodni ajet"
             >
               <PrevIcon />
@@ -397,7 +397,7 @@ export function AudioPlayer() {
               <button
                 type="button"
                 onClick={firePending}
-                className="flex h-11 min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-emerald-700 px-4 text-sm font-medium text-white hover:bg-emerald-800"
+                className="flex h-11 min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-accent px-4 text-sm font-medium text-on-accent hover:bg-accent-hover"
                 aria-label="Nastavi na sljedeći ajet"
               >
                 <span>{countdown != null ? `${countdown}s` : "Nastavi"}</span>
@@ -407,7 +407,7 @@ export function AudioPlayer() {
               <button
                 type="button"
                 onClick={isPlaying ? pause : resume}
-                className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-stone-800 text-white hover:bg-stone-700 dark:bg-stone-200 dark:text-stone-900 dark:hover:bg-stone-300"
+                className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-ink text-paper hover:bg-ink/90"
                 aria-label={isPlaying ? "Pauziraj" : "Pusti"}
               >
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -416,7 +416,7 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={() => { clearPending(); next(); }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
               aria-label="Sljedeći ajet"
             >
               <NextIcon />
@@ -428,7 +428,7 @@ export function AudioPlayer() {
                 audioManager.pause();
                 stop();
               }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
               aria-label="Zaustavi"
             >
               <StopIcon />
@@ -441,8 +441,8 @@ export function AudioPlayer() {
                 aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
                 className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
                   repeatMode !== "off"
-                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                    : "text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                    ? "bg-accent-wash text-accent-text"
+                    : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
                 }`}
               >
                 {repeatMode === "ayah" ? (
@@ -458,13 +458,13 @@ export function AudioPlayer() {
                 aria-pressed={autoPlayNext}
                 className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
                   autoPlayNext
-                    ? "justify-end bg-stone-800 dark:bg-stone-200"
-                    : "justify-start bg-stone-200 dark:bg-stone-600"
+                    ? "justify-end bg-accent"
+                    : "justify-start bg-line-strong"
                 }`}
               >
                 <span
                   data-autoplay-thumb
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-stone-800 text-white shadow md:h-8 md:w-8 dark:bg-stone-200 dark:text-stone-900"
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-on-accent text-accent shadow md:h-8 md:w-8"
                   aria-hidden
                 >
                   <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
@@ -494,7 +494,7 @@ export function AudioPlayer() {
             value={currentTime}
             onChange={handleSeek}
             aria-valuetext={spokenPosition(currentTime, duration)}
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-stone-200 transition-[width] duration-150 ease-out dark:bg-stone-600 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-stone-700 [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:dark:bg-stone-300"
+            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-sunken transition-[width] duration-150 ease-out [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150"
             aria-label="Mjesto u ajetu"
           />
         </div>
@@ -568,7 +568,7 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
         aria-label="Više opcija zvuka"
-        className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+        className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
       >
         <span className="flex flex-col items-center">
           <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
@@ -579,7 +579,7 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
       {isOpen && (
         <div
           id={panelId}
-          className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-stone-200 bg-[var(--theme-card)] p-2 text-xs shadow-lg dark:border-stone-700"
+          className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-line bg-surface p-2 text-xs shadow-lg"
           role="group"
           aria-label="Dodatne kontrole zvuka"
         >
@@ -589,8 +589,8 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
             aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
             className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
               repeatMode !== "off"
-                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-                : "text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+                ? "bg-accent-wash text-accent-text"
+                : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
             }`}
           >
             <span>Ponavljanje</span>
@@ -600,7 +600,7 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
             type="button"
             onClick={onToggleAutoPlayNext}
             aria-pressed={autoPlayNext}
-            className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-stone-600 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+            className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-ink-muted hover:bg-surface-sunken hover:text-ink"
           >
             <span>Pusti sljedeću suru</span>
             <span className="ml-2 text-[10px]" aria-hidden>

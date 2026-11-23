@@ -223,9 +223,14 @@ html {
   --app-header-offset: 0px;
 }
 
+/*
+ * The page background and text go through --background/--foreground: they keep the old palette
+ * until every component uses the tokens (old gray text fails contrast on the darker paper), and
+ * then become aliases of --paper and --ink.
+ */
 body {
-  background: var(--theme-bg);
-  color: var(--theme-text);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.25s ease, color 0.25s ease;
@@ -263,10 +268,11 @@ html[data-arabic-font="naskh"] .font-arabic {
   margin: 0;
   padding: 0;
   border: 0;
-  border-inline-start: 1px solid var(--theme-border);
-  background: var(--theme-card);
-  color: var(--theme-text);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  border-inline-start: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  /* Tezhib: sheets and dialogs are the only elements with a shadow. */
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
 }
 
 .settings-dialog[open] {
@@ -293,7 +299,7 @@ html[data-arabic-font="naskh"] .font-arabic {
 .settings-dialog::backdrop {
   overflow: hidden;
   overscroll-behavior: contain;
-  background-color: rgb(28 25 23 / 0.5);
+  background-color: var(--overlay);
   backdrop-filter: blur(4px);
 }
 
@@ -310,8 +316,8 @@ html[data-arabic-font="naskh"] .font-arabic {
     block-size: auto;
     max-block-size: 85vh;
     border-inline-start: 0;
-    border-start-start-radius: 1rem;
-    border-start-end-radius: 1rem;
+    border-start-start-radius: var(--radius-sheet);
+    border-start-end-radius: var(--radius-sheet);
   }
 }
 
@@ -343,18 +349,18 @@ html[data-arabic-font="naskh"] .font-arabic {
     transition-duration: 200ms;
     transition-timing-function: ease-out;
     transition-behavior: allow-discrete;
-    background-color: rgb(28 25 23 / 0);
+    background-color: rgb(0 0 0 / 0);
     backdrop-filter: blur(0);
   }
 
   .settings-dialog[open]::backdrop {
-    background-color: rgb(28 25 23 / 0.5);
+    background-color: var(--overlay);
     backdrop-filter: blur(4px);
   }
 
   @starting-style {
     .settings-dialog[open]::backdrop {
-      background-color: rgb(28 25 23 / 0);
+      background-color: rgb(0 0 0 / 0);
       backdrop-filter: blur(0);
     }
   }
@@ -378,13 +384,8 @@ html[data-arabic-font="naskh"] .font-arabic {
 
 /* Brief highlight for ayah opened from search (?ayah=N) */
 [data-highlight-from-search="true"] {
-  background-color: rgb(254 243 199 / 0.6) !important;
+  background-color: var(--mark) !important;
   transition: background-color 1.5s ease-out;
-}
-
-.dark [data-highlight-from-search="true"],
-[data-theme="dark"] [data-highlight-from-search="true"] {
-  background-color: rgb(120 53 15 / 0.35) !important;
 }
 
 /*
@@ -398,7 +399,7 @@ html[data-arabic-font="naskh"] .font-arabic {
 }
 
 .letter-table-region:focus-visible {
-  outline: 2px solid var(--theme-accent);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
 
@@ -406,20 +407,20 @@ html[data-arabic-font="naskh"] .font-arabic {
   inline-size: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  color: var(--theme-text);
+  color: var(--ink);
 }
 
 .letter-table caption {
   padding-block-end: 0.75rem;
   text-align: start;
   font-size: 0.875rem;
-  color: var(--theme-text-muted);
+  color: var(--ink-muted);
 }
 
 .letter-table th,
 .letter-table td {
   padding: 0.625rem 0.75rem;
-  border-block-end: 1px solid var(--theme-border);
+  border-block-end: 1px solid var(--line);
   text-align: start;
   vertical-align: baseline;
 }
@@ -427,14 +428,14 @@ html[data-arabic-font="naskh"] .font-arabic {
 .letter-table thead th {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--theme-text-muted);
+  color: var(--ink-muted);
 }
 
 /* The row header stays in view when the table is scrolled sideways. */
 .letter-table tbody th {
   position: sticky;
   inset-inline-start: 0;
-  background: var(--theme-bg);
+  background: var(--background);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -470,9 +471,9 @@ html[data-arabic-font="naskh"] .font-arabic {
   .letter-table tr {
     margin-block-end: 0.75rem;
     padding-block-end: 0.375rem;
-    border: 1px solid var(--theme-border);
+    border: 1px solid var(--line);
     border-radius: 0.75rem;
-    background: var(--theme-card);
+    background: var(--surface);
   }
 
   .letter-table tbody th {
@@ -490,7 +491,7 @@ html[data-arabic-font="naskh"] .font-arabic {
     content: attr(data-label) ": ";
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--theme-text-muted);
+    color: var(--ink-muted);
   }
 }
 

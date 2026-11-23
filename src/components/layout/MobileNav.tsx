@@ -20,9 +20,9 @@ import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 
 const tabBase =
   "flex flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium transition-colors";
-const tabActive = "text-emerald-700 dark:text-emerald-400";
+const tabActive = "text-accent-text";
 const tabInactive =
-  "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200";
+  "text-ink-muted hover:text-ink";
 
 const SURAH_SEGMENTS = new Set(["surahs", "surah", "juz"]);
 const MORE_SEGMENTS = new Set(["bookmarks", "progress", "names", "tajwid", "harfovi"]);
@@ -68,7 +68,7 @@ export function MobileNav() {
     <nav
       role="navigation"
       aria-label="Mobilna navigacija"
-      className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-stone-200 bg-white/95 backdrop-blur md:hidden dark:border-stone-700 dark:bg-stone-900/95"
+      className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-line bg-surface/95 backdrop-blur md:hidden"
     >
       <Link
         href="/"
@@ -127,7 +127,7 @@ export function MobileNav() {
           <ul
             id={moreListId}
             aria-label="Više opcija"
-            className="absolute bottom-full right-1 mb-2 w-60 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-700 dark:bg-stone-800"
+            className="absolute bottom-full right-1 mb-2 w-60 overflow-hidden rounded-xl border border-line bg-surface py-1 shadow-lg"
           >
             <MoreLink
               href="/bookmarks"
@@ -153,15 +153,15 @@ export function MobileNav() {
                   setMoreOpen(false);
                   openSettings();
                 }}
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-ink hover:bg-surface-sunken"
               >
-                <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+                <span className="text-ink-muted" aria-hidden>
                   <Settings className="h-4 w-4" />
                 </span>
                 <span>Postavke</span>
               </button>
             </li>
-            <li className="my-1 h-px bg-stone-200 dark:bg-stone-700" aria-hidden />
+            <li className="my-1 h-px bg-line" aria-hidden />
             <MoreLink
               href="/names"
               icon={<Sparkles className="h-4 w-4" />}
@@ -206,9 +206,9 @@ function MoreLink({
       <Link
         href={href}
         onClick={onClick}
-        className="flex items-center gap-3 px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-700"
+        className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-surface-sunken"
       >
-        <span className="text-stone-500 dark:text-stone-400" aria-hidden>
+        <span className="text-ink-muted" aria-hidden>
           {icon}
         </span>
         <span>{children}</span>
