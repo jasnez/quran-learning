@@ -8,6 +8,9 @@ const VALID_RECITER_IDS = new Set(reciters.map((r) => r.id));
 
 type Theme = SettingsState["theme"];
 
+/** The three choices of the "Tedzvid" setting. */
+export type TajwidDisplay = "off" | "colors" | "lines";
+
 type SettingsStore = SettingsState & {
   setTheme: (theme: Theme) => void;
   setArabicFontSize: (arabicFontSize: number) => void;
@@ -16,6 +19,8 @@ type SettingsStore = SettingsState & {
   toggleTranslation: () => void;
   toggleTajwidColors: () => void;
   markTajwidNoticeSeen: () => void;
+  /** "off" keeps the lines choice for when the colors come back on. */
+  setTajwidDisplay: (mode: TajwidDisplay) => void;
   setReciter: (selectedReciterId: string | null) => void;
   setPlaybackSpeed: (playbackSpeed: number) => void;
   cycleRepeatMode: () => void;
@@ -31,6 +36,7 @@ const defaultState: SettingsState = {
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
+  showTajwidLines: false,
   // A fresh install never saw the old colors; merge sets false for settings stored before Phase 3.
   tajwidNoticeSeen: true,
   selectedReciterId: "mishary-alafasy",
@@ -73,6 +79,9 @@ export const useSettingsStore = create<SettingsStore>()(
 
       markTajwidNoticeSeen: () => set({ tajwidNoticeSeen: true }),
 
+      setTajwidDisplay: (mode) =>
+        set(mode === "off" ? { showTajwidColors: false } : { showTajwidColors: true, showTajwidLines: mode === "lines" }),
+
       setReciter: (selectedReciterId) => set({ selectedReciterId }),
 
       setPlaybackSpeed: (playbackSpeed) => set({ playbackSpeed }),
@@ -96,6 +105,7 @@ export const useSettingsStore = create<SettingsStore>()(
         showTransliteration: state.showTransliteration,
         showTranslation: state.showTranslation,
         showTajwidColors: state.showTajwidColors,
+        showTajwidLines: state.showTajwidLines,
         tajwidNoticeSeen: state.tajwidNoticeSeen,
         selectedReciterId: state.selectedReciterId,
         playbackSpeed: state.playbackSpeed,

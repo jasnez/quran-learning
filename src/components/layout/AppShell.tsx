@@ -16,6 +16,7 @@ const SettingsPanel = dynamic(
   { ssr: false }
 );
 import { Toast } from "@/components/ui/Toast";
+import { TajwidRuleBar } from "@/components/quran/TajwidRuleBar";
 import { OfflineIndicator } from "@/components/ui/OfflineIndicator";
 import { SettingsOpenProvider, useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { ScrollContainerProvider } from "@/contexts/ScrollContainerContext";
@@ -60,6 +61,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <BackToTop />
           <AudioPlayer />
           <MobileNav />
+          <TajwidRuleBar />
           <Toast />
           <OfflineIndicator />
         </div>

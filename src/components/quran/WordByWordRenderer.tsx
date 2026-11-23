@@ -2,7 +2,9 @@
 
 import { memo } from "react";
 import type { TajwidSegment } from "@/types/quran";
-import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { tajwidPieceProps } from "@/lib/quran/tajwidStyles";
+import { ruleFromTarget } from "@/lib/quran/tajwidRuleTap";
+import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
 
 export type WordByWordRendererProps = {
   /** One array of tajwid-colored pieces per word (see splitTajwidIntoWords). */
@@ -67,7 +69,7 @@ function WordSpan({ pieces, index, isActive, isTabStop, showColors, onWordClick 
       }`}
     >
       {pieces.map((piece, i) => (
-        <span key={i} className={showColors ? tajwidRuleClasses[piece.rule] : tajwidRuleClasses.normal}>
+        <span key={i} {...tajwidPieceProps(piece.rule, showColors)}>
           {piece.text}
         </span>
       ))}
@@ -87,8 +89,17 @@ export function WordByWordRenderer({
   style,
 }: WordByWordRendererProps) {
   const wrapperClass = ["font-arabic leading-[1.9]", className].filter(Boolean).join(" ");
+  const openRuleBar = useTajwidRuleBarStore((s) => s.open);
+
+  // A tap on a colored letter jumps to its word (the word's own click, which runs first) and also
+  // names the rule (design D3, option A). Enter and Space on a word only jump: no click event.
+  const onClick = (e: React.MouseEvent) => {
+    const rule = ruleFromTarget(e.target);
+    if (rule) openRuleBar(rule);
+  };
+
   return (
-    <p data-word-by-word className={wrapperClass} style={style} dir="rtl" lang="ar">
+    <p data-word-by-word className={wrapperClass} style={style} dir="rtl" lang="ar" onClick={onClick}>
       {words.map((pieces, i) => (
         <span key={i}>
           {i > 0 && " "}

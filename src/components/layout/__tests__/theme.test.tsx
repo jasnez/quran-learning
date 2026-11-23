@@ -83,6 +83,23 @@ describe("ThemeProvider", () => {
   });
 });
 
+describe("ThemeProvider: tajwid lines", () => {
+  const cases: [boolean, boolean, boolean][] = [
+    [true, true, true],
+    [true, false, false],
+    [false, true, false],
+    [false, false, false],
+  ];
+  it.each(cases)("colors %s, lines %s: data-tajwid-lines present = %s", (colors, lines, present) => {
+    document.documentElement.setAttribute("data-tajwid-lines", "");
+    vi.mocked(useSettingsStore).mockImplementation((sel) =>
+      sel({ theme: "light", arabicFontStyle: "naskh", showTajwidColors: colors, showTajwidLines: lines } as SettingsState)
+    );
+    render(<ThemeProvider><span /></ThemeProvider>);
+    expect(document.documentElement.hasAttribute("data-tajwid-lines")).toBe(present);
+  });
+});
+
 describe("Theme CSS variables", () => {
   beforeEach(() => {
     const style = document.createElement("style");

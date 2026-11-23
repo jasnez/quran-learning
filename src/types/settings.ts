@@ -12,6 +12,8 @@ export interface SettingsState {
   showTransliteration: boolean;
   showTranslation: boolean;
   showTajwidColors: boolean;
+  /** "Tedzvid: boje i linije": a line style per rule under the colored letters (needs colors on). */
+  showTajwidLines: boolean;
   /** False until the one-time notice about the mushaf tajwid colors (Phase 3) has been shown. */
   tajwidNoticeSeen: boolean;
   selectedReciterId: string | null;

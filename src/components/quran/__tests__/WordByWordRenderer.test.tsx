@@ -6,7 +6,8 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, fireEvent, cleanup } from "@testing-library/react";
 import { WordByWordRenderer } from "../WordByWordRenderer";
 import type { TajwidSegment } from "@/types/quran";
-import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleLineClasses } from "@/lib/quran/tajwidStyles";
+import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
 
 afterEach(cleanup);
 
@@ -34,6 +35,55 @@ describe("WordByWordRenderer", () => {
     const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors />);
     const mad = Array.from(wordEls(container)[2].querySelectorAll("span")).find((s) => s.textContent === "ـٰ");
     expect(mad?.className).toContain(tajwidRuleClasses.mad.split(" ")[0]);
+  });
+
+  it("with colors, the colored piece carries data-tj-rule and its line classes", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors />);
+    const pieces = Array.from(wordEls(container)[2].querySelectorAll("span"));
+    expect(pieces.map((s) => s.getAttribute("data-tj-rule"))).toEqual([null, "mad", null]);
+    expect(pieces[1].className).toContain(tajwidRuleLineClasses.mad);
+  });
+
+  it("without colors, no piece carries a rule or a line", () => {
+    const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors={false} />);
+    expect(container.querySelector("[data-tj-rule]")).toBeNull();
+    expect(container.innerHTML).not.toContain("data-tajwid-lines");
+  });
+
+  describe("tap on a colored letter (option A: jump and name the rule)", () => {
+    it("jumps to the word and opens the rule bar", () => {
+      useTajwidRuleBarStore.setState({ rule: null });
+      const onWordClick = vi.fn();
+      const { container } = render(
+        <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
+      );
+      fireEvent.click(container.querySelector('[data-tj-rule="mad"]')!);
+      expect(onWordClick).toHaveBeenCalledWith(2);
+      expect(useTajwidRuleBarStore.getState().rule).toBe("mad");
+    });
+
+    it("a tap on a plain letter only jumps", () => {
+      useTajwidRuleBarStore.setState({ rule: null });
+      const onWordClick = vi.fn();
+      const { container } = render(
+        <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
+      );
+      fireEvent.click(wordEls(container)[0]);
+      expect(onWordClick).toHaveBeenCalledWith(0);
+      expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+    });
+
+    it("Enter and Space on a word jump and never open the bar", () => {
+      useTajwidRuleBarStore.setState({ rule: null });
+      const onWordClick = vi.fn();
+      const { container } = render(
+        <WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={onWordClick} />,
+      );
+      fireEvent.keyDown(wordEls(container)[2], { key: "Enter" });
+      fireEvent.keyDown(wordEls(container)[2], { key: " " });
+      expect(onWordClick).toHaveBeenCalledTimes(2);
+      expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+    });
   });
 
   it("uses normal class when showColors is false", () => {

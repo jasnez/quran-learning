@@ -185,7 +185,7 @@ PR 3.3 (lessons) gets its own plan after the review is confirmed.
 **Interfaces:**
 - Produces: `tajwidRuleLineClasses: Record<TajwidRule, string>`: normal `""`; the others underline only
   under an ancestor `[data-tajwid-lines]` (Tailwind arbitrary variant `[[data-tajwid-lines]_&]:...`), styles
-  mad solid, ghunnah dotted, ikhfa dashed, qalqalah wavy; thickness and offset set in Task 8.
+  mad solid, ghunnah dotted, ikhfa dashed, qalqalah double (wavy failed the browser check); thickness and offset set in Task 8.
 - Produces: `<html data-tajwid-lines>` present iff `showTajwidColors && showTajwidLines`.
 
 - [ ] Tests: each line class contains its `decoration-<style>` and the ancestor variant; ThemeProvider and the

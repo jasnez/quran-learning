@@ -187,3 +187,13 @@ lesson 5: orange -> blue).
 
 Exact line thickness and offset (decided by the browser check), the swatch drawing, bar spacing,
 test file names.
+
+## Built differently in PR 3.2 (pending the owner's sign-off)
+
+1. Kalkala line is double, not wavy (D6). Under a single letter Chromium draws a wavy line as one
+   letter-like hook and WebKit does not draw it at all; double shows in both and differs from solid,
+   dotted and dashed. Lines: 2px, offset 0.45em.
+2. The bar is on `--surface` with a border, not on `--ink` (D4). The rule-color dot is about 2:1 on
+   ink in every theme and at least 3:1 on surface.
+3. The line check ran in Chromium and WebKit only (D6 asks for Firefox too): Playwright Firefox is
+   not installed, and installing it downloads a browser.
