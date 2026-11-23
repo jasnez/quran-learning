@@ -16,7 +16,7 @@ export default function SurahError({
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
-      <h1 className="text-xl font-semibold text-ink">
+      <h1 className="text-xl font-read font-bold text-ink">
         Sura se nije učitala
       </h1>
       <p className="mt-2 max-w-md text-center text-sm text-ink-muted">

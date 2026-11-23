@@ -172,12 +172,12 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                         document.documentElement.setAttribute("data-arabic-font", style);
                       }}
                     >
-                      {style === "naskh" ? "Osnovno" : "Klasično"}
+                      {style === "naskh" ? "Moderno" : "Klasično"}
                     </button>
                   ))}
                 </div>
                 <p className="mt-1 text-xs text-ink-muted">
-                  Klasično pismo ima tradicionalniji oblik slova; osnovno je jednostavnije.
+                  Klasično pismo ima tradicionalniji oblik slova; moderno je jednostavnije.
                 </p>
               </div>
               <ToggleRow

@@ -102,7 +102,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
   if (!mounted) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <h1 className="text-2xl font-semibold text-ink md:text-3xl">
+        <h1 className="text-2xl font-read font-bold text-ink md:text-3xl">
           Sačuvani ajeti
         </h1>
         <div
@@ -120,7 +120,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="text-2xl font-semibold text-ink md:text-3xl"
+          className="text-2xl font-read font-bold text-ink md:text-3xl"
         >
           Sačuvani ajeti
         </h1>
@@ -151,7 +151,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="text-2xl font-semibold text-ink md:text-3xl"
+          className="text-2xl font-read font-bold text-ink md:text-3xl"
         >
           Sačuvani ajeti
         </h1>
@@ -176,7 +176,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
               className="mb-6 border-b border-line pb-2"
               id={`surah-${surahNumber}`}
             >
-              <span className="font-arabic text-xl font-medium text-ink" dir="rtl" lang="ar">
+              <span className="font-arabic text-xl font-normal text-ink" dir="rtl" lang="ar">
                 {surah?.nameArabic ?? ""}
               </span>
               <span className="ml-2 text-lg text-ink-muted">
@@ -212,7 +212,7 @@ export function BookmarksContent({ surahs }: BookmarksContentProps) {
                             />
                           </div>
                           {b.translationBosnian && (
-                            <p className="mt-2 line-clamp-2 text-sm text-ink-muted">
+                            <p className="mt-2 line-clamp-2 font-read text-sm text-ink-muted">
                               {b.translationBosnian}
                             </p>
                           )}

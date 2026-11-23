@@ -69,7 +69,9 @@ describe("AyahCard typography and spacing", () => {
     expect(arabicWrapper?.className).toMatch(/font-arabic/);
   });
 
-  it("transliteration has small, muted, italic styling (secondary to translation)", () => {
+  // Tezhib type roles: the transcription is upright, 18 px (19 px from md), in the reading face
+  // (Elif Book), muted.
+  it("transliteration is upright, 18 px, muted, in the reading face", () => {
     render(
       <AyahCard
         ayah={mockAyah}
@@ -84,8 +86,9 @@ describe("AyahCard typography and spacing", () => {
     const transliteration = screen.getByText("Bismi Allahi");
     expect(transliteration).toBeInTheDocument();
     expect(transliteration.className).toMatch(/text-ink-muted/);
-    expect(transliteration.className).toMatch(/text-sm/);
-    expect(transliteration.className).toMatch(/italic/);
+    expect(transliteration.className).toMatch(/font-transliteration/);
+    expect(transliteration.className).toMatch(/text-\[1\.125rem\]/);
+    expect(transliteration.className).not.toMatch(/italic/);
   });
 
   it("translation has standard readable styling (primary)", () => {

@@ -113,7 +113,7 @@ export function TestMode({ surah, ayahs, allSurahs }: TestModeProps) {
           <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             Test mod
           </p>
-          <h1 className="text-lg font-semibold text-ink">
+          <h1 className="text-lg font-read font-bold text-ink">
             {surah.nameLatin} — {surah.nameBosnian}
           </h1>
           <p className="text-xs text-ink-muted">

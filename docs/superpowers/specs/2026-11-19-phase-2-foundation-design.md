@@ -94,8 +94,8 @@ A. Extend the Phase 1 subsetting script (chosen): one script builds both local f
 B. `next/font/google` for Source Sans 3 (the handoff's first idea). Rejected by the task: the
    Bosnian letters c-caron, s-caron, z-caron, c-acute and d-stroke are in Google's `latin-ext`
    subset, so Bosnian text needs two files per weight, and the subset is not ours to check.
-   (Today's UI font, Geist, is loaded with the `latin` subset only, so these letters already
-   fall back to a system font.)
+   (Correction, 2026-11-19: today's Geist does render these letters; next/font declares its
+   `latin-ext` file too, which the browser fetches on demand, about 16.5 KB.)
 
 ## Design, per PR
 
