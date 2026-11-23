@@ -16,7 +16,7 @@ export default function ContactPage() {
 
       <div className="mt-8 space-y-6 text-ink-muted">
         <p className="leading-relaxed">
-          Pitanja, prijedlozi i prijave grešaka stižu nam preko GitHub Issues.
+          Pitanje, prijedlog ili greška u tekstu? Piši nam preko GitHuba.
         </p>
 
         <section>
@@ -34,8 +34,8 @@ export default function ContactPage() {
             </a>
           </p>
           <p className="mt-2 text-sm text-ink-muted">
-            Za prijavu je potreban besplatan GitHub nalog. Prijave su javne, pa u
-            njih ne treba upisivati lične podatke.
+            Za prijavu treba besplatan GitHub nalog. Prijave su javne, pa ne upisuj
+            lične podatke.
           </p>
         </section>
 
@@ -44,8 +44,8 @@ export default function ContactPage() {
             Povratne informacije
           </h2>
           <p className="mt-2 leading-relaxed">
-            Kod greške u tekstu, transkripciji, prijevodu ili snimku najviše
-            pomaže kad prijava navodi suru i ajet ili link.
+            Ako je greška u tekstu, transkripciji, prijevodu ili snimku, navedi
+            suru i ajet ili zalijepi link.
           </p>
         </section>
       </div>

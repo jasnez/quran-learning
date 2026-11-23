@@ -214,7 +214,7 @@ describe("LearnModeContent word-by-word", () => {
     expect(status).toBeEmptyDOMElement();
     expect(status).toHaveClass("sr-only");
     await waitFor(() =>
-      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Treba provjeriti internet i pokušati ponovo."),
+      expect(status).toHaveTextContent("Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo."),
     );
     expect(within(article()).getByRole("status")).toBe(status);
     expect(status).not.toHaveClass("sr-only");

@@ -83,7 +83,7 @@ describe("Home page", () => {
       const Page = await Home();
       render(Page);
       expect(
-        await screen.findByRole("heading", { level: 1, name: "Aplikacija za učenje Kur'ana" })
+        await screen.findByRole("heading", { level: 1, name: "Uči Kur'an od elifa do hatme" })
       ).toBeInTheDocument();
     }, 10000);
 
@@ -197,7 +197,7 @@ describe("Home page", () => {
       mockProgressState.getLastPosition.mockReturnValue(null);
       const Page = await Home();
       render(Page);
-      expect(screen.getByText("Selam! Dobar početak su kratke sure ispod.")).toBeInTheDocument();
+      expect(screen.getByText("Selam! Počni s kratkim surama ispod.")).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: /preporučene|sure/i })).toBeInTheDocument();
     });
 
