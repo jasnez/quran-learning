@@ -4,4 +4,7 @@
  */
 export const SITE_URL = "https://quran-learning-sigma.vercel.app";
 
-export const SITE_NAME = "Quran Learning";
+export const SITE_NAME = "Elif";
+
+/** The one-line description from the copy deck, used on the link-preview image. */
+export const SITE_TAGLINE = "Kur'an na bosanskom, harf po harf.";

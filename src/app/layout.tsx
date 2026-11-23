@@ -73,10 +73,10 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     locale: "bs_BA",
     url: "./",
-    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: SITE_NAME }],
+    // Drawn from the mark by scripts/generate-icons.ts.
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: SITE_NAME }],
   },
-  // The image is the square app icon: "summary" shows it whole, the default large card would crop it.
-  twitter: { card: "summary" },
+  twitter: { card: "summary_large_image" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -85,7 +85,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#047857",
+  // The light theme's accent (Tezhib), as in the manifest.
+  themeColor: "#1F3A5F",
 };
 
 export default function RootLayout({
