@@ -3,7 +3,7 @@
  * (2026-11-19), and the contrast of every pair the handoff says the tokens are used in.
  */
 import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { contrastRatio } from "@/lib/theme/contrast";
@@ -12,6 +12,17 @@ const CSS = readFileSync(
   path.join(path.dirname(fileURLToPath(import.meta.url)), "../globals.css"),
   "utf-8",
 ).replace(/\/\*[\s\S]*?\*\//g, "");
+
+const SRC = path.join(path.dirname(fileURLToPath(import.meta.url)), "../..");
+
+/** Every file under dir whose name matches, skipping __tests__ folders. */
+function sourceFiles(dir: string, name: RegExp): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) return e.name === "__tests__" ? [] : sourceFiles(full, name);
+    return name.test(e.name) ? [full] : [];
+  });
+}
 
 const THEMES = ["light", "sepia", "dark"] as const;
 type Theme = (typeof THEMES)[number];
@@ -39,7 +50,7 @@ const EXPECTED: Record<string, [string, string, string]> = {
   "warning-text": ["#7A5200", "#734D00", "#E8C27A"],
   "tj-medd": ["#B3261E", "#A3241B", "#FF8A80"],
   "tj-gunne": ["#2E7D32", "#2B6E2F", "#81C784"],
-  "tj-ihfa": ["#00796B", "#0B6B5F", "#4DB6AC"],
+  "tj-ihfa": ["#2E7D32", "#2B6E2F", "#81C784"],
   "tj-kalkala": ["#0E72A8", "#0B6A9C", "#64B5F6"],
 };
 
@@ -92,10 +103,12 @@ const PAIRS: [string, string, number][] = [
     [fg, "paper", NON_TEXT],
     [fg, "surface", NON_TEXT],
   ]),
-  // Tajwid colors only ever color large Arabic text (24 px and up): 3:1.
+  // Tajwid colors: large Arabic text and lines (3:1) on every background tajwid text is drawn on;
+  // small text in a rule color (lesson card chip) on paper and surface (4.5:1).
   ...["tj-medd", "tj-gunne", "tj-ihfa", "tj-kalkala"].flatMap((fg): [string, string, number][] => [
-    [fg, "surface", NON_TEXT],
-    [fg, "highlight", NON_TEXT],
+    ...["paper", "surface", "surface-sunken", "highlight", "mark"].map((bg): [string, string, number] => [fg, bg, NON_TEXT]),
+    [fg, "paper", AA_TEXT],
+    [fg, "surface", AA_TEXT],
   ]),
 ];
 
@@ -126,9 +139,20 @@ describe("Tezhib tokens", () => {
     }
     const sepia = themeVars("sepia");
     expect(sepia["color-stone-500"]).toBeUndefined();
-    // Phase 3 removes this override together with the amber qalqalah class in tajwidStyles.ts.
-    expect(sepia["color-amber-600"]).toBeDefined();
-    expect(contrastRatio(sepia["color-amber-700"], sepia.surface)).toBeGreaterThanOrEqual(4.5);
+    expect(sepia["color-amber-600"]).toBeUndefined();
+    expect(sepia["color-amber-700"]).toBeUndefined();
+    // Themes switch on data-theme only; the .dark class and Tailwind's dark: variant are gone.
+    expect(CSS).not.toMatch(/@custom-variant\s+dark/);
+  });
+
+  it.each(THEMES)("%s: ihfa has the same color as gunne (one green for through the nose)", (theme) => {
+    const vars = themeVars(theme);
+    expect(vars["tj-ihfa"]).toBe(vars["tj-gunne"]);
+  });
+
+  it("no source file uses Tailwind's dark: variant (it no longer applies)", () => {
+    const hits = sourceFiles(SRC, /\.(ts|tsx)$/).filter((f) => /(^|[\s"'`])dark:/m.test(readFileSync(f, "utf-8")));
+    expect(hits.map((f) => path.relative(SRC, f))).toEqual([]);
   });
 
   it("maps every color token and the radii into Tailwind's theme", () => {

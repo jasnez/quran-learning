@@ -6,15 +6,16 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TajwidLegend } from "../TajwidLegend";
-import { tajwidRuleDescriptions, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
-import type { TajwidRule } from "@/types/quran";
-
-const TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
+import { useSettingsStore } from "@/store/settingsStore";
+import { useToastStore } from "@/store/toastStore";
+import { tajwidRuleClasses, tajwidRuleLessonSlugs } from "@/lib/quran/tajwidStyles";
 
 describe("TajwidLegend", () => {
   beforeEach(() => {
     cleanup();
     document.body.innerHTML = "";
+    useSettingsStore.setState({ tajwidNoticeSeen: true });
+    useToastStore.getState().clearToast();
   });
 
   it("is collapsed by default (legend panel has max-height 0)", () => {
@@ -39,46 +40,66 @@ describe("TajwidLegend", () => {
     expect(toggle).toBeInTheDocument();
   });
 
-  it("when opened, shows all 5 rules with Bosnian descriptions from central mapping", async () => {
+  it("when opened, shows three rows by what the voice does", async () => {
     const user = userEvent.setup();
     render(<TajwidLegend />);
-    const toggle = screen.getByRole("button", { name: /šta znače boje/i });
-    await user.click(toggle);
+    await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
+    const items = screen.getAllByRole("listitem").map((li) => li.textContent?.replace(/^•/, "").trim());
+    expect(items).toEqual([
+      "Crveno: produži (medd)",
+      "Zeleno: kroz nos (gunne, ihfa)",
+      "Plavo: odskok (kalkala)",
+    ]);
+    expect(screen.queryByText("Bez pravila")).toBeNull();
+  });
 
-    for (const rule of TAJWID_RULES) {
-      expect(screen.getByText(tajwidRuleNames[rule])).toBeInTheDocument();
-      if (rule !== "normal") {
-        const text = tajwidRuleDescriptions[rule];
-        expect(screen.getByText(`${text[0].toUpperCase()}${text.slice(1)}.`)).toBeInTheDocument();
-      }
+  it("links each rule name to its lesson", async () => {
+    const user = userEvent.setup();
+    render(<TajwidLegend />);
+    await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
+    const expected: [string, keyof typeof tajwidRuleLessonSlugs][] = [
+      ["medd", "mad"],
+      ["gunne", "ghunnah"],
+      ["ihfa", "ikhfa"],
+      ["kalkala", "qalqalah"],
+    ];
+    for (const [name, rule] of expected) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute("href", `/tajwid/${tajwidRuleLessonSlugs[rule]}`);
     }
   });
 
-  it("when opened, shows rule names (mad, ghunnah, ikhfa, qalqalah, normal)", async () => {
+  it("each row's dot has the row's tajwid color", async () => {
     const user = userEvent.setup();
     render(<TajwidLegend />);
     await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
-
-    expect(screen.getByText("Bez pravila")).toBeInTheDocument();
-    expect(screen.getByText("Medd")).toBeInTheDocument();
-    expect(screen.getByText("Gunne")).toBeInTheDocument();
-    expect(screen.getByText("Ihfa")).toBeInTheDocument();
-    expect(screen.getByText("Kalkala")).toBeInTheDocument();
-    expect(screen.getByText("Glas se produžava.")).toBeInTheDocument();
-    expect(screen.getByText("Odskok glasa.")).toBeInTheDocument();
+    const dots = screen.getAllByRole("listitem").map((li) => li.querySelector("[aria-hidden]")?.className ?? "");
+    expect(dots[0]).toContain(tajwidRuleClasses.mad);
+    expect(dots[1]).toContain(tajwidRuleClasses.ghunnah);
+    expect(dots[2]).toContain(tajwidRuleClasses.qalqalah);
   });
 
-  it("when opened, each rule has a color swatch (dot) with matching tajwid class", async () => {
+  // jsdom does not take inert content out of the focus order; the Tab order is checked in a browser.
+  it("collapsed: the panel is inert and hidden from screen readers; opened: neither", async () => {
     const user = userEvent.setup();
     const { container } = render(<TajwidLegend />);
+    const panel = container.querySelector("#tajwid-legend-panel");
+    expect(panel).toHaveAttribute("inert");
+    expect(panel).toHaveAttribute("aria-hidden", "true");
     await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
-    await screen.findByText(tajwidRuleNames.mad);
+    expect(panel).not.toHaveAttribute("inert");
+    expect(panel).toHaveAttribute("aria-hidden", "false");
+  });
 
-    // Swatches use the same colors as tajwidRuleClasses (emerald, rose, sky, amber)
-    expect(container.querySelector("[class*='text-emerald']")).not.toBeNull();
-    expect(container.querySelector("[class*='text-rose']")).not.toBeNull();
-    expect(container.querySelector("[class*='text-sky']")).not.toBeNull();
-    expect(container.querySelector("[class*='text-amber']")).not.toBeNull();
+  it("opened: Tab goes from the toggle through medd, gunne, ihfa, kalkala", async () => {
+    const user = userEvent.setup();
+    render(<TajwidLegend />);
+    await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
+    const order: string[] = [];
+    for (let i = 0; i < 4; i++) {
+      await user.tab();
+      order.push(document.activeElement?.textContent ?? "");
+    }
+    expect(order).toEqual(["medd", "gunne", "ihfa", "kalkala"]);
   });
 
   it("toggle closes the panel when open", async () => {
@@ -86,11 +107,34 @@ describe("TajwidLegend", () => {
     const { container } = render(<TajwidLegend />);
     const toggle = screen.getByRole("button", { name: /šta znače boje/i });
     await user.click(toggle);
-    expect(screen.getByText(tajwidRuleNames.mad)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "medd" })).toBeInTheDocument();
     let panel = container.querySelector("#tajwid-legend-panel");
     expect(panel?.className).toMatch(/max-h-96/);
     await user.click(toggle);
     panel = container.querySelector("#tajwid-legend-panel");
     expect(panel?.className).toMatch(/max-h-0/);
+  });
+
+  describe("one-time notice about the new colors", () => {
+    const NOTICE = "Boje su sada kao u tedžvidskom mushafu.";
+
+    it("shows the notice once for someone who used the old colors, then remembers it", () => {
+      useSettingsStore.setState({ tajwidNoticeSeen: false });
+      const before = useToastStore.getState().showCount;
+      render(<TajwidLegend />);
+      expect(useToastStore.getState().message).toBe(NOTICE);
+      expect(useToastStore.getState().showCount).toBe(before + 1);
+      expect(useSettingsStore.getState().tajwidNoticeSeen).toBe(true);
+
+      cleanup();
+      render(<TajwidLegend />);
+      expect(useToastStore.getState().showCount).toBe(before + 1);
+    });
+
+    it("shows nothing when the notice was already seen", () => {
+      const before = useToastStore.getState().showCount;
+      render(<TajwidLegend />);
+      expect(useToastStore.getState().showCount).toBe(before);
+    });
   });
 });

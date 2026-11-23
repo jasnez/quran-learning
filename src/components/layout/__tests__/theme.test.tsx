@@ -51,13 +51,11 @@ describe("ThemeProvider", () => {
     expect(document.documentElement.getAttribute("data-theme")).toBe("sepia");
   });
 
-  it("adds class 'dark' to documentElement when theme is dark", () => {
+  it("never adds a 'dark' class: themes switch on data-theme only", () => {
     vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "dark" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
-    expect(document.documentElement.classList.contains("dark")).toBe(true);
-  });
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
 
-  it("does not add class 'dark' when theme is light or sepia", () => {
     vi.mocked(useSettingsStore).mockImplementation((sel) => sel({ theme: "light" } as SettingsState));
     render(<ThemeProvider><span /></ThemeProvider>);
     expect(document.documentElement.classList.contains("dark")).toBe(false);

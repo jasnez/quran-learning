@@ -1,6 +1,13 @@
 import { describe, it, expect } from "vitest";
 import type { TajwidRule } from "@/types/quran";
-import { tajwidRuleClasses, tajwidRuleDescriptions, tajwidRuleLabelClasses, tajwidRuleLabels, tajwidRuleNames } from "../tajwidStyles";
+import { getAllTajwidLessons } from "@/data/tajwid-lessons";
+import {
+  tajwidRuleClasses,
+  tajwidRuleDescriptions,
+  tajwidRuleLabels,
+  tajwidRuleLessonSlugs,
+  tajwidRuleNames,
+} from "../tajwidStyles";
 
 const ALL_TAJWID_RULES: TajwidRule[] = ["normal", "mad", "ghunnah", "ikhfa", "qalqalah"];
 
@@ -14,28 +21,25 @@ describe("tajwidStyles", () => {
       expect(Object.keys(tajwidRuleClasses).sort()).toEqual([...ALL_TAJWID_RULES].sort());
     });
 
-    it("uses the single source of truth colors (no random/hardcoded elsewhere)", () => {
-      expect(tajwidRuleClasses.normal).toBe("text-foreground");
-      expect(tajwidRuleClasses.mad).toBe("text-emerald-600 dark:text-emerald-400");
-      expect(tajwidRuleClasses.ghunnah).toBe("text-rose-600 dark:text-rose-400");
-      expect(tajwidRuleClasses.ikhfa).toBe("text-sky-600 dark:text-sky-400");
-      expect(tajwidRuleClasses.qalqalah).toBe("text-amber-600 dark:text-amber-400");
+    it("colors each rule with its --tj-* token, the same class in every theme", () => {
+      expect(tajwidRuleClasses).toEqual({
+        normal: "text-foreground",
+        mad: "text-tj-medd",
+        ghunnah: "text-tj-gunne",
+        ikhfa: "text-tj-ihfa",
+        qalqalah: "text-tj-kalkala",
+      });
     });
   });
 
-  // QA section 5: the 600 shades are 2.9-3.7:1 as small text on the stone-100 lesson chips;
-  // small text needs 4.5:1. The Arabic text keeps the 600 shades (large text, 3:1).
-  describe("tajwidRuleLabelClasses (small text in the rule colors)", () => {
-    it("has an entry for every TajwidRule", () => {
-      expect(Object.keys(tajwidRuleLabelClasses).sort()).toEqual([...ALL_TAJWID_RULES].sort());
-    });
-
-    it("uses the darker 700 shades in light themes and the 400 shades in dark", () => {
-      expect(tajwidRuleLabelClasses.normal).toBe("text-foreground");
-      expect(tajwidRuleLabelClasses.mad).toBe("text-emerald-700 dark:text-emerald-400");
-      expect(tajwidRuleLabelClasses.ghunnah).toBe("text-rose-700 dark:text-rose-400");
-      expect(tajwidRuleLabelClasses.ikhfa).toBe("text-sky-700 dark:text-sky-400");
-      expect(tajwidRuleLabelClasses.qalqalah).toBe("text-amber-700 dark:text-amber-400");
+  describe("tajwidRuleLessonSlugs", () => {
+    it("links every colored rule to the lesson that teaches it", async () => {
+      const lessons = await getAllTajwidLessons();
+      const bySlug = new Map(lessons.map((l) => [l.slug, l.ruleType]));
+      expect(Object.keys(tajwidRuleLessonSlugs).sort()).toEqual(["ghunnah", "ikhfa", "mad", "qalqalah"]);
+      for (const [rule, slug] of Object.entries(tajwidRuleLessonSlugs)) {
+        expect(bySlug.get(slug), slug).toBe(rule);
+      }
     });
   });
 

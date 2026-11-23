@@ -1,28 +1,27 @@
 import type { TajwidRule } from "@/types/quran";
 
 /**
- * Single source of truth for tajwid rule colors.
- * Do not hardcode tajwid colors elsewhere.
+ * Single source of truth for tajwid rule colors: the --tj-* tokens in globals.css, one value per
+ * theme, as in the Dar al-Maarifa tajwid mushaf (red = lengthen, green = through the nose,
+ * blue = bounce). Ihfa has its own token with the same green as gunne. Every color passes 3:1 on
+ * every background tajwid text is drawn on and 4.5:1 on paper and surface, so the same class
+ * serves the large Arabic text and small labels. Do not name the tokens or their values elsewhere
+ * (tajwidColorSource.test.ts).
  */
 export const tajwidRuleClasses: Record<TajwidRule, string> = {
   normal: "text-foreground",
-  mad: "text-emerald-600 dark:text-emerald-400",
-  ghunnah: "text-rose-600 dark:text-rose-400",
-  ikhfa: "text-sky-600 dark:text-sky-400",
-  qalqalah: "text-amber-600 dark:text-amber-400",
+  mad: "text-tj-medd",
+  ghunnah: "text-tj-gunne",
+  ikhfa: "text-tj-ihfa",
+  qalqalah: "text-tj-kalkala",
 };
 
-/**
- * The same rule colors for small text such as the rule chips on lesson cards. The 600 shades are
- * fine for the large Arabic text (3:1) but only 2.9-3.7:1 as small text; the 700 shades reach
- * the 4.5:1 that small text needs (QA section 5).
- */
-export const tajwidRuleLabelClasses: Record<TajwidRule, string> = {
-  normal: "text-foreground",
-  mad: "text-emerald-700 dark:text-emerald-400",
-  ghunnah: "text-rose-700 dark:text-rose-400",
-  ikhfa: "text-sky-700 dark:text-sky-400",
-  qalqalah: "text-amber-700 dark:text-amber-400",
+/** The lesson that teaches each colored rule (slugs in src/data/tajwid-lessons). */
+export const tajwidRuleLessonSlugs: Record<Exclude<TajwidRule, "normal">, string> = {
+  mad: "mad-duljenje",
+  ghunnah: "ghunnah-nazalni-zvuk",
+  ikhfa: "ikhfa-skriveni-zvuk",
+  qalqalah: "qalqalah-odskok",
 };
 
 /**

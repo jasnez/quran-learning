@@ -3,14 +3,10 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import noPaletteColors from "./eslint-rules/no-palette-colors.mjs";
 
-// Every component and page uses the Tezhib tokens (Phase 2). The tajwid rule colors are the
-// exception until Phase 3 replaces them with the --tj-* tokens.
+// Every component and page uses the Tezhib tokens, the tajwid rule colors included (--tj-*,
+// through tajwidStyles.ts). Only tests may name palette colors.
 const PALETTE_GUARDED_FILES = ["src/**/*.{ts,tsx}"];
-const PALETTE_UNGUARDED_FILES = [
-  "**/__tests__/**",
-  "src/lib/quran/tajwidStyles.ts",
-  "src/data/tajwid-lessons/**",
-];
+const PALETTE_UNGUARDED_FILES = ["**/__tests__/**"];
 
 const eslintConfig = defineConfig([
   ...nextVitals,

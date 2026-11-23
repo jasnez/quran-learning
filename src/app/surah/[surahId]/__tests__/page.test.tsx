@@ -236,7 +236,7 @@ describe("Surah Reader page", () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     const { container } = render(Page);
     const article = container.querySelector("article");
-    const spanWithMad = article?.querySelector("span.text-emerald-600, span[class*='text-emerald']");
+    const spanWithMad = article?.querySelector("span.text-tj-medd");
     expect(spanWithMad).toBeInTheDocument();
     expect(spanWithMad?.textContent).toMatch(/ٱللَّهِ/);
   });
@@ -262,14 +262,16 @@ describe("Surah Reader page", () => {
     expect(mockPause).toHaveBeenCalled();
   });
 
-  it("when an ayah is playing, that card has active highlight (data-active and left border)", async () => {
+  it("when an ayah is playing, that card has the full highlight (data-active, left border, bg-highlight)", async () => {
     playerState.currentAyahId = "1:1";
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     const activeCard = container.querySelector("[data-active='true']");
     expect(activeCard).toBeInTheDocument();
-    expect(activeCard?.className).toMatch(/border-l|emerald/);
+    expect(activeCard?.className).toMatch(/border-l/);
+    // The --tj-* colors keep 3:1 on the full highlight (4.13:1 or more), so no faded tint.
+    expect(activeCard?.className.split(" ")).toContain("bg-highlight");
   });
 
   it("when an ayah is playing, card shows now playing indicator", async () => {
