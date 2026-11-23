@@ -34,3 +34,7 @@ Ponovno računanje samo tajwid segmenata (bez poziva Quran.com API-ja, ostala po
 ```text
 npx tsx scripts/generate-ayahs-json.ts --tajwid-only
 ```
+
+## Lekcije
+
+Tekst pet lekcija je u `src/data/tajwid-lessons/index.ts` (pregledan 2026-11). Primjer u lekciji ne sadrži arapski tekst ni transkripciju: to je referenca na suru, ajet i raspon riječi (`LessonExampleRef` u `src/lib/quran/lessonExample.ts`), a stranica lekcije uzima tekst i tedžvid segmente iz `src/data/ayahs`. Test `src/data/tajwid-lessons/__tests__/lessons.test.ts` provjerava svaki primjer i svaku transkripciju citiranu uz oznaku ajeta, npr. "Lā eʻbudu" (109:2) u tekstu lekcije.

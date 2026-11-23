@@ -5,7 +5,7 @@ import {
   getAllTajwidLessons,
   getTajwidLessonBySlug,
 } from "@/data/tajwid-lessons";
-import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { LessonSectionView, resolveExamples } from "@/components/tajwid/LessonSections";
 import { TajwidQuiz } from "@/components/tajwid/TajwidQuiz";
 import { LessonProgressTracker } from "@/components/tajwid/LessonProgressTracker";
 
@@ -35,7 +35,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const prevLesson = index > 0 ? all[index - 1] : null;
   const nextLesson = index >= 0 && index < all.length - 1 ? all[index + 1] : null;
 
-  const ruleClass = tajwidRuleClasses[lesson.ruleType];
+  const resolved = await resolveExamples(lesson);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:py-8">
@@ -52,115 +52,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
         </p>
       </header>
 
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
-        <h2 className="text-base font-semibold text-ink">
-          Uvod
-        </h2>
-        {lesson.sections.introduction.map((p, idx) => (
-          <p key={idx}>{p}</p>
-        ))}
-      </section>
-
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
-        <h2 className="text-base font-semibold text-ink">
-          Šta je ovo pravilo?
-        </h2>
-        {lesson.sections.definition.map((p, idx) => (
-          <p key={idx}>{p}</p>
-        ))}
-      </section>
-
-      <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
-        <h2 className="text-base font-semibold text-ink">
-          Kada nastaje?
-        </h2>
-        <ul className="list-disc space-y-1 pl-5">
-          {lesson.sections.whenItOccurs.map((p, idx) => (
-            <li key={idx}>{p}</li>
-          ))}
-        </ul>
-      </section>
-
-      {lesson.sections.howToProduce && (
-        <section className="mb-8 space-y-3 text-sm leading-relaxed text-ink">
-          <h2 className="text-base font-semibold text-ink">
-            Kako se izgovara
-          </h2>
-          <ol className="list-decimal space-y-1 pl-5">
-            {lesson.sections.howToProduce.map((step, idx) => (
-              <li key={idx}>{step}</li>
-            ))}
-          </ol>
-        </section>
-      )}
-
-      <section className="mb-8 space-y-4">
-        <h2 className="text-base font-semibold text-ink">
-          Primjeri
-        </h2>
-        {lesson.sections.examples.map((ex, idx) => (
-          <div
-            key={idx}
-            className="rounded-xl border border-line bg-surface p-4"
-          >
-            <p
-              className={`font-arabic text-2xl leading-relaxed text-center ${ruleClass}`}
-              dir="rtl"
-              lang="ar"
-            >
-              {ex.arabic}
-            </p>
-            <p
-              className="mt-2 text-center font-transliteration text-sm text-ink-muted"
-              dir="ltr"
-            >
-              {ex.transliteration}
-            </p>
-            <p className="mt-1 text-center font-read text-xs text-ink-muted">
-              {ex.translation}
-            </p>
-            <p className="mt-2 text-center text-xs font-medium text-ink-muted">
-              {ex.rule}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      {lesson.sections.practiceAyahs && lesson.sections.practiceAyahs.length > 0 && (
-        <section className="mb-8 space-y-4">
-          <h2 className="text-base font-semibold text-ink">
-            Vježba na ajetima iz Kur&apos;ana
-          </h2>
-          <ul className="space-y-2 text-sm text-ink">
-            {lesson.sections.practiceAyahs.map((p, idx) => (
-              <li key={idx}>
-                <Link
-                  href={`/surah/${p.surah}?ayah=${p.ayah}`}
-                  className="inline-flex items-center gap-1 text-accent-text hover:underline"
-                >
-                  <span>
-                    Sura {p.surah}, ajet {p.ayah}
-                  </span>
-                </Link>
-                {p.description && (
-                  <p className="text-xs text-ink-muted">
-                    {p.description}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {lesson.sections.tip && (
-        <section className="mb-8 rounded-2xl border border-line bg-accent-wash px-4 py-3 text-sm text-accent-text">
-          <h2 className="text-sm font-semibold">
-            {lesson.sections.tip.title}
-          </h2>
-          <p className="mt-1">{lesson.sections.tip.text}</p>
-        </section>
-      )}
+      {lesson.sections.map((section, idx) => (
+        <LessonSectionView key={idx} section={section} resolved={resolved} />
+      ))}
 
       <section className="mb-8">
         <TajwidQuiz
