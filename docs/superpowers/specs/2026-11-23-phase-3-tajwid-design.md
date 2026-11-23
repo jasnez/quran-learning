@@ -176,6 +176,13 @@ ayah. Slugs, ids and progress keys stay. In PR 3.1 only the sentences that name 
 (lesson 2: green -> red; lesson 3: red/pink -> green; lesson 4: blue -> the same green as gunne;
 lesson 5: orange -> blue).
 
+Built in PR 3.3 (review confirmed by the owner on 2026-11-23): an example stores no text at all, only
+sura, ayah, a word range in `arabicText` and in `transliteration`, and an optional character cut for
+assimilated transcription (`src/lib/quran/lessonExample.ts`). The lesson page takes the Arabic, the
+transcription and the tajwid segments from the ayah data, so the example shows the real colors. The
+test (`src/data/tajwid-lessons/__tests__/lessons.test.ts`) checks every example and every transcription
+quoted next to an ayah reference („...“ (109:2)) against the data.
+
 ## PRs
 
 1. **3.1 Colors and legend**: D1, D2, D5 (three rows, links), D7, color words in lessons and quizzes,
