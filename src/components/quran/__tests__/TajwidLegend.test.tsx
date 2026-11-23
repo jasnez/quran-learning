@@ -8,13 +8,13 @@ import userEvent from "@testing-library/user-event";
 import { TajwidLegend } from "../TajwidLegend";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useToastStore } from "@/store/toastStore";
-import { tajwidRuleClasses, tajwidRuleLessonSlugs } from "@/lib/quran/tajwidStyles";
+import { tajwidRuleClasses, tajwidRuleLessonSlugs, tajwidRuleLineClasses } from "@/lib/quran/tajwidStyles";
 
 describe("TajwidLegend", () => {
   beforeEach(() => {
     cleanup();
     document.body.innerHTML = "";
-    useSettingsStore.setState({ tajwidNoticeSeen: true });
+    useSettingsStore.setState({ tajwidNoticeSeen: true, showTajwidLines: false });
     useToastStore.getState().clearToast();
   });
 
@@ -32,6 +32,13 @@ describe("TajwidLegend", () => {
     expect(
       screen.getByText("Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena."),
     ).toBeInTheDocument();
+  });
+
+  it("tells how to get a rule's name from the text", async () => {
+    const user = userEvent.setup();
+    render(<TajwidLegend />);
+    await user.click(screen.getByRole("button", { name: "Šta znače boje" }));
+    expect(screen.getByText("Dodirni obojeni harf za naziv pravila.")).toBeInTheDocument();
   });
 
   it("has a discreet toggle button", () => {
@@ -113,6 +120,27 @@ describe("TajwidLegend", () => {
     await user.click(toggle);
     panel = container.querySelector("#tajwid-legend-panel");
     expect(panel?.className).toMatch(/max-h-0/);
+  });
+
+  describe("line samples", () => {
+    it("with lines on, each rule name has a sample of its line style before it", async () => {
+      useSettingsStore.setState({ showTajwidLines: true });
+      const user = userEvent.setup();
+      const { container } = render(<TajwidLegend />);
+      await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
+      const samples = Array.from(container.querySelectorAll("[data-tj-line-sample]"));
+      expect(samples.map((s) => s.getAttribute("data-tj-line-sample"))).toEqual(["mad", "ghunnah", "ikhfa", "qalqalah"]);
+      expect(samples[1].className).toContain(tajwidRuleLineClasses.ghunnah);
+      expect(samples[1].className).toContain(tajwidRuleClasses.ghunnah);
+      expect(samples.every((s) => s.getAttribute("aria-hidden") === "true")).toBe(true);
+    });
+
+    it("with lines off, no samples", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<TajwidLegend />);
+      await user.click(screen.getByRole("button", { name: /šta znače boje/i }));
+      expect(container.querySelector("[data-tj-line-sample]")).toBeNull();
+    });
   });
 
   describe("one-time notice about the new colors", () => {

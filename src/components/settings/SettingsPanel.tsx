@@ -1,11 +1,17 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useSettingsStore } from "@/store/settingsStore";
+import { useSettingsStore, type TajwidDisplay } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
 import { SURAH_FORMS, formatCount, formatNumber, pluralForm, type PluralForms } from "@/lib/format";
 import { useLightDismiss } from "@/components/ui/useLightDismiss";
 import { useOfflineDownload, TOTAL_SURAHS, type SurahFailure } from "@/hooks/useOfflineDownload";
+
+const TAJWID_DISPLAYS: { value: TajwidDisplay; label: string }[] = [
+  { value: "off", label: "Isključeno" },
+  { value: "colors", label: "Boje" },
+  { value: "lines", label: "Boje i linije" },
+];
 
 const FONT_MIN = 20;
 const FONT_MAX = 44;
@@ -68,7 +74,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const setArabicFontStyle = useSettingsStore((s) => s.setArabicFontStyle);
   const toggleTransliteration = useSettingsStore((s) => s.toggleTransliteration);
   const toggleTranslation = useSettingsStore((s) => s.toggleTranslation);
-  const toggleTajwidColors = useSettingsStore((s) => s.toggleTajwidColors);
+  const showTajwidLines = useSettingsStore((s) => s.showTajwidLines);
+  const setTajwidDisplay = useSettingsStore((s) => s.setTajwidDisplay);
+  const tajwidDisplay: TajwidDisplay = !showTajwidColors ? "off" : showTajwidLines ? "lines" : "colors";
   const setPlaybackSpeed = useSettingsStore((s) => s.setPlaybackSpeed);
   const setRepeatMode = useSettingsStore((s) => s.setRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
@@ -192,12 +200,33 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 checked={showTranslation}
                 onChange={toggleTranslation}
               />
-              <ToggleRow
-                id="tajwid"
-                label="Tedžvid boje"
-                checked={showTajwidColors}
-                onChange={toggleTajwidColors}
-              />
+              <div>
+                <span id="tajwid-display-label" className="text-sm font-medium text-ink">
+                  Tedžvid
+                </span>
+                <div className="mt-2 flex gap-2" role="radiogroup" aria-labelledby="tajwid-display-label">
+                  {TAJWID_DISPLAYS.map((d) => (
+                    <label
+                      key={d.value}
+                      className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-2 py-2.5 text-center text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
+                    >
+                      <input
+                        type="radio"
+                        name="tajwid-display"
+                        value={d.value}
+                        checked={tajwidDisplay === d.value}
+                        onChange={() => setTajwidDisplay(d.value)}
+                        className="sr-only"
+                        aria-label={d.label}
+                      />
+                      {d.label}
+                    </label>
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-ink-muted">
+                  Linije razlikuju pravila i bez boja: puna, tačkice, crtice, dvostruka.
+                </p>
+              </div>
             </div>
           </section>
 

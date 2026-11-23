@@ -41,6 +41,21 @@ describe("THEME_INIT_SCRIPT (inline theme script in <head>)", () => {
     expect(html.classList.contains("dark")).toBe(false);
   });
 
+  it("sets data-tajwid-lines before paint only when colors and lines are both on", () => {
+    const html = document.documentElement;
+    const cases: [boolean, boolean, boolean][] = [
+      [true, true, true],
+      [true, false, false],
+      [false, true, false],
+    ];
+    for (const [colors, lines, present] of cases) {
+      html.removeAttribute("data-tajwid-lines");
+      localStorage.setItem(KEY, JSON.stringify({ state: { theme: "light", showTajwidColors: colors, showTajwidLines: lines } }));
+      run();
+      expect(html.hasAttribute("data-tajwid-lines"), `colors ${colors}, lines ${lines}`).toBe(present);
+    }
+  });
+
   it("does nothing and does not throw when storage is empty or corrupt", () => {
     run();
     expect(document.documentElement.hasAttribute("data-theme")).toBe(false);

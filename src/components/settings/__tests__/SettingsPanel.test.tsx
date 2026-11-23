@@ -13,6 +13,7 @@ const mockSetArabicFontStyle = vi.fn();
 const mockToggleTransliteration = vi.fn();
 const mockToggleTranslation = vi.fn();
 const mockToggleTajwidColors = vi.fn();
+const mockSetTajwidDisplay = vi.fn();
 const mockSetReciter = vi.fn();
 const mockSetPlaybackSpeed = vi.fn();
 const mockCycleRepeatMode = vi.fn();
@@ -26,6 +27,7 @@ const defaultStore = {
   showTransliteration: true,
   showTranslation: true,
   showTajwidColors: true,
+  showTajwidLines: false,
   selectedReciterId: "mishary-alafasy",
   playbackSpeed: 1,
   repeatMode: "off" as "off" | "surah" | "ayah",
@@ -36,6 +38,7 @@ const defaultStore = {
   toggleTransliteration: mockToggleTransliteration,
   toggleTranslation: mockToggleTranslation,
   toggleTajwidColors: mockToggleTajwidColors,
+  setTajwidDisplay: mockSetTajwidDisplay,
   setReciter: mockSetReciter,
   setPlaybackSpeed: mockSetPlaybackSpeed,
   cycleRepeatMode: mockCycleRepeatMode,
@@ -77,6 +80,7 @@ beforeEach(() => {
   defaultStore.showTransliteration = true;
   defaultStore.showTranslation = true;
   defaultStore.showTajwidColors = true;
+  defaultStore.showTajwidLines = false;
   defaultStore.playbackSpeed = 1;
   defaultStore.repeatMode = "off";
   defaultStore.autoPlayNext = true;
@@ -196,9 +200,35 @@ describe("SettingsPanel", () => {
     expect(screen.getByRole("switch", { name: /translation|prijevod/i })).toBeInTheDocument();
   });
 
-  it("has tajwid colors toggle in Display section", () => {
-    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByRole("switch", { name: /tedžvid boje/i })).toBeInTheDocument();
+  describe("Tedžvid: Isključeno / Boje / Boje i linije", () => {
+    function tajwidRadios() {
+      const group = screen.getByRole("radiogroup", { name: "Tedžvid" });
+      return ["Isključeno", "Boje", "Boje i linije"].map((name) => within(group).getByRole("radio", { name }));
+    }
+
+    it.each([
+      [false, false, 0],
+      [false, true, 0],
+      [true, false, 1],
+      [true, true, 2],
+    ])("colors %s, lines %s: option %i is checked", (colors, lines, checked) => {
+      defaultStore.showTajwidColors = colors;
+      defaultStore.showTajwidLines = lines;
+      render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+      const radios = tajwidRadios();
+      radios.forEach((r, i) => expect(r, String(i)).toHaveProperty("checked", i === checked));
+    });
+
+    it("choosing an option calls setTajwidDisplay", async () => {
+      const user = userEvent.setup();
+      render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+      const [off, , lines] = tajwidRadios();
+      await user.click(lines);
+      expect(mockSetTajwidDisplay).toHaveBeenLastCalledWith("lines");
+      await user.click(off);
+      expect(mockSetTajwidDisplay).toHaveBeenLastCalledWith("off");
+      expect(screen.queryByRole("switch", { name: /tedžvid/i })).toBeNull();
+    });
   });
 
   it("has Audio Settings section with reciter and speed", () => {

@@ -10,6 +10,10 @@
 
    Normalan tekst (`normal`) nema boju. Boje dolaze samo iz tokena `--tj-*` u `src/app/globals.css` (jedna vrijednost po temi), preko klasa u `src/lib/quran/tajwidStyles.ts`; `tajwidColorSource.test.ts` pada ako ih neki drugi fajl imenuje. Legenda ("Šta znače boje", `TajwidLegend.tsx`) ima tri reda, a nazivi pravila su linkovi na lekcije: to je put do pravila za tastaturu i čitač ekrana.
 
+   Dodir na obojeni harf otvara traku s nazivom pravila, jednom rečenicom i linkom na lekciju (`TajwidRuleBar.tsx`, jedna u `AppShell`). Obojeni dijelovi nose `data-tj-rule`, a jedan klik po ajetu ga čita (`tajwidRuleTap.ts`); u modu riječ po riječ dodir i premota učenje na riječ i otvori traku. Harfovi nisu u Tab redu.
+
+   Postavka "Tedžvid" ima tri izbora: Isključeno / Boje / Boje i linije. Uz linije svako pravilo dobija i liniju ispod harfa: medd puna, gunne tačkice, ihfa crtice, kalkala dvostruka (valovita se ispod jednog harfa ne vidi u WebKitu). Linije uključuje atribut `data-tajwid-lines` na `<html>` (`ThemeProvider`, `themeInitScript`).
+
 2. **Podaci po ajetu**  
    Za svaki ajet u podacima postoji niz `tajwidSegments`:  
    `[{ "text": "…", "rule": "normal" | "mad" | "ghunnah" | "ikhfa" | "qalqalah" }, …]`.  

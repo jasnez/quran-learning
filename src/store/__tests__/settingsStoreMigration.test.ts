@@ -100,4 +100,37 @@ describe("settingsStore rehydration of earlier builds", () => {
     expect(useSettingsStore.getState().tajwidNoticeSeen).toBe(true);
     expect(localStorage.length).toBe(0);
   });
+
+  it("a setting stored before lines existed loads with lines off and its colors kept", async () => {
+    useSettingsStore.setState({ showTajwidLines: false }); // the default on a fresh page load
+    localStorage.setItem(
+      "quran-learning-settings",
+      JSON.stringify({ state: { theme: "light", showTajwidColors: false, tajwidNoticeSeen: true }, version: 0 }),
+    );
+    await useSettingsStore.persist.rehydrate();
+    expect(useSettingsStore.getState().showTajwidColors).toBe(false);
+    expect(useSettingsStore.getState().showTajwidLines).toBe(false);
+  });
+
+  describe("setTajwidDisplay", () => {
+    it("lines: colors and lines on", () => {
+      useSettingsStore.setState({ showTajwidColors: false, showTajwidLines: false });
+      useSettingsStore.getState().setTajwidDisplay("lines");
+      expect(useSettingsStore.getState()).toMatchObject({ showTajwidColors: true, showTajwidLines: true });
+    });
+
+    it("colors: colors on, lines off", () => {
+      useSettingsStore.setState({ showTajwidColors: false, showTajwidLines: true });
+      useSettingsStore.getState().setTajwidDisplay("colors");
+      expect(useSettingsStore.getState()).toMatchObject({ showTajwidColors: true, showTajwidLines: false });
+    });
+
+    it("off: colors off, the lines choice is kept for when colors come back", () => {
+      useSettingsStore.setState({ showTajwidColors: true, showTajwidLines: true });
+      useSettingsStore.getState().setTajwidDisplay("off");
+      expect(useSettingsStore.getState()).toMatchObject({ showTajwidColors: false, showTajwidLines: true });
+      const stored = JSON.parse(localStorage.getItem("quran-learning-settings") ?? "{}");
+      expect(stored.state).toMatchObject({ showTajwidColors: false, showTajwidLines: true });
+    });
+  });
 });

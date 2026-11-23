@@ -6,6 +6,8 @@ import {
   tajwidRuleDescriptions,
   tajwidRuleLabels,
   tajwidRuleLessonSlugs,
+  tajwidRuleLineClasses,
+  tajwidRuleSentences,
   tajwidRuleNames,
 } from "../tajwidStyles";
 
@@ -28,6 +30,36 @@ describe("tajwidStyles", () => {
         ghunnah: "text-tj-gunne",
         ikhfa: "text-tj-ihfa",
         qalqalah: "text-tj-kalkala",
+      });
+    });
+  });
+
+  describe("tajwidRuleLineClasses", () => {
+    it("draws a line style per rule, only under an ancestor with data-tajwid-lines", () => {
+      expect(tajwidRuleLineClasses.normal).toBe("");
+      const styles: [keyof typeof tajwidRuleLineClasses, string][] = [
+        ["mad", "solid"],
+        ["ghunnah", "dotted"],
+        ["ikhfa", "dashed"],
+        // Wavy is drawn as a letter-like hook (Chromium) or not at all (WebKit) under one letter.
+        ["qalqalah", "double"],
+      ];
+      for (const [rule, style] of styles) {
+        const classes = tajwidRuleLineClasses[rule].split(" ");
+        expect(classes, rule).toContain(`[[data-tajwid-lines]_&]:underline`);
+        expect(classes, rule).toContain(`[[data-tajwid-lines]_&]:decoration-${style}`);
+        expect(classes.every((c) => c.startsWith("[[data-tajwid-lines]_&]:")), rule).toBe(true);
+      }
+    });
+  });
+
+  describe("tajwidRuleSentences (the rule bar)", () => {
+    it("has the approved sentence for each colored rule", () => {
+      expect(tajwidRuleSentences).toEqual({
+        mad: "ovdje se glas uči duže od običnog dugog vokala.",
+        ghunnah: "nun ili mim se ovdje uči kroz nos.",
+        ikhfa: "nun bez vokala, tenvin ili mim se ovdje prikriva i uči kroz nos.",
+        qalqalah: "harf bez vokala ovdje odskoči, da se jasno čuje.",
       });
     });
   });

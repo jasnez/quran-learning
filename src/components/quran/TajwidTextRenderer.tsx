@@ -1,5 +1,9 @@
+"use client";
+
 import type { TajwidSegment } from "@/types/quran";
-import { tajwidRuleClasses } from "@/lib/quran/tajwidStyles";
+import { tajwidPieceProps } from "@/lib/quran/tajwidStyles";
+import { ruleFromTarget } from "@/lib/quran/tajwidRuleTap";
+import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
 type TajwidTextRendererProps = {
@@ -19,19 +23,22 @@ export function TajwidTextRenderer({
 }: TajwidTextRendererProps) {
   const baseClass = "font-arabic leading-[1.9]";
   const wrapperClass = [baseClass, className].filter(Boolean).join(" ");
+  const openRuleBar = useTajwidRuleBarStore((s) => s.open);
+
+  // One listener for the whole ayah: a tap on a colored letter names its rule. The letters stay
+  // plain text (no tab stops); the keyboard path to the rules is the legend.
+  const onClick = (e: React.MouseEvent) => {
+    const rule = ruleFromTarget(e.target);
+    if (rule) openRuleBar(rule);
+  };
 
   return (
-    <p className={wrapperClass} style={style} dir="rtl" lang="ar">
-      {segments.map((seg, i) => {
-        const colorClass = showColors
-          ? tajwidRuleClasses[seg.rule]
-          : tajwidRuleClasses.normal;
-        return (
-          <span key={i} className={colorClass}>
-            {stripWaqfSigns(seg.text)}
-          </span>
-        );
-      })}
+    <p className={wrapperClass} style={style} dir="rtl" lang="ar" onClick={onClick}>
+      {segments.map((seg, i) => (
+        <span key={i} {...tajwidPieceProps(seg.rule, showColors)}>
+          {stripWaqfSigns(seg.text)}
+        </span>
+      ))}
     </p>
   );
 }
