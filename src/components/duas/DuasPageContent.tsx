@@ -29,7 +29,7 @@ export function DuasPageContent({ category }: DuasPageContentProps) {
           >
             <h2
               id={`duas-category-${cat}`}
-              className="mb-6 text-lg font-semibold text-stone-800 dark:text-stone-200"
+              className="mb-6 text-lg font-semibold text-ink"
             >
               {CATEGORY_LABELS[cat]}
             </h2>

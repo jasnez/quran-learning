@@ -114,15 +114,15 @@ export function TajwidQuiz({
         <h2
           ref={finishedHeadingRef}
           tabIndex={-1}
-          className="text-base font-semibold text-stone-900 focus-visible:outline-hidden dark:text-stone-50"
+          className="text-base font-semibold text-ink focus-visible:outline-hidden"
         >
           Kviz završen
         </h2>
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-center dark:border-emerald-900/40 dark:bg-emerald-950/30">
-          <p className="text-lg font-semibold text-emerald-900 dark:text-emerald-100">
+        <div className="rounded-2xl border border-line bg-accent-wash p-5 text-center">
+          <p className="text-lg font-semibold text-accent-text">
             Rezultat: {totalCorrect} / {total}
           </p>
-          <p className="mt-1 text-sm text-emerald-800 dark:text-emerald-200">
+          <p className="mt-1 text-sm text-accent-text">
             {totalCorrect === total
               ? "Sve je tačno. Lekcija je savladana. Mašallah!"
               : isTajwidQuizPassed(totalCorrect, total)
@@ -133,21 +133,21 @@ export function TajwidQuiz({
             <button
               type="button"
               onClick={handleRetry}
-              className="rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
+              className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:bg-surface-sunken"
             >
               Ponovi kviz
             </button>
             {nextLessonSlug && nextLessonTitle && (
               <Link
                 href={`/tajwid/${nextLessonSlug}`}
-                className="inline-flex items-center gap-1 rounded-full bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
+                className="inline-flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-hover"
               >
                 Sljedeća lekcija: {nextLessonTitle}
               </Link>
             )}
             <Link
               href="/tajwid"
-              className="rounded-full border border-[var(--theme-border)] px-4 py-2 text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+              className="rounded-full border border-line px-4 py-2 text-sm text-ink-muted hover:bg-surface-sunken"
             >
               Sve lekcije
             </Link>
@@ -163,18 +163,18 @@ export function TajwidQuiz({
       {statusRegion}
     <section className="mb-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-stone-900 dark:text-stone-50">
+        <h2 className="text-base font-semibold text-ink">
           Kviz
         </h2>
-        <span className="text-xs text-stone-500 dark:text-stone-400">
+        <span className="text-xs text-ink-muted">
           Pitanje {currentIndex + 1} od {total}
         </span>
       </div>
-      <div className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-4">
+      <div className="rounded-xl border border-line bg-surface p-4">
         <p
           ref={questionRef}
           tabIndex={-1}
-          className="font-medium text-stone-800 focus-visible:outline-hidden dark:text-stone-200"
+          className="font-medium text-ink focus-visible:outline-hidden"
         >
           {question.question}
         </p>
@@ -192,19 +192,19 @@ export function TajwidQuiz({
                   aria-disabled={showFeedback}
                   className={`flex w-full gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors ${
                     showCorrect
-                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                      ? "border-accent-text bg-accent-wash"
                       : showWrong
-                        ? "border-red-400 bg-red-50 dark:bg-red-950/30"
-                        : "border-[var(--theme-border)] bg-transparent hover:bg-stone-50 dark:hover:bg-stone-800/50"
+                        ? "border-danger-text bg-surface-sunken"
+                        : "border-line bg-transparent hover:bg-surface-sunken"
                   } ${showFeedback ? "cursor-default" : "cursor-pointer"}`}
                 >
                   <span
                     className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[0.7rem] font-medium ${
                       showCorrect
-                        ? "border-emerald-700 bg-emerald-700 text-white"
+                        ? "border-accent-text bg-accent text-on-accent"
                         : showWrong
-                          ? "border-red-600 bg-red-600 text-white"
-                          : "border-stone-300 dark:border-stone-600"
+                          ? "border-danger-text bg-danger text-on-accent"
+                          : "border-line-strong"
                     }`}
                   >
                     {showFeedback && (showCorrect || showWrong)
@@ -220,13 +220,13 @@ export function TajwidQuiz({
           })}
         </ul>
         {showFeedback && (
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-100">
+          <div className="mt-4 rounded-lg border border-line bg-highlight p-3 text-sm text-warning-text">
             <p className="font-medium">Objašnjenje:</p>
             <p className="mt-1">{question.explanation}</p>
             <button
               type="button"
               onClick={handleNext}
-              className="mt-3 rounded-full bg-emerald-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-emerald-800"
+              className="mt-3 rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-on-accent hover:bg-accent-hover"
             >
               {currentIndex + 1 >= total ? "Završi kviz" : "Sljedeće pitanje"}
             </button>

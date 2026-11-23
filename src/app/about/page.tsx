@@ -11,13 +11,13 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <article className="mx-auto max-w-[700px] px-4 py-8 md:py-12">
-      <h1 className="text-2xl font-semibold text-stone-800 dark:text-stone-200 md:text-3xl">
+      <h1 className="text-2xl font-semibold text-ink md:text-3xl">
         O aplikaciji
       </h1>
 
-      <div className="mt-8 space-y-8 text-stone-600 dark:text-stone-400">
+      <div className="mt-8 space-y-8 text-ink-muted">
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Šta je {SITE_NAME}?
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -30,7 +30,7 @@ export default function AboutPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Mogućnosti
           </h2>
           <ul className="mt-2 list-inside list-disc space-y-1.5 leading-relaxed">
@@ -44,7 +44,7 @@ export default function AboutPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-stone-800 dark:text-stone-200">
+          <h2 className="text-lg font-medium text-ink">
             Izvori
           </h2>
           <p className="mt-2 leading-relaxed">
@@ -52,7 +52,7 @@ export default function AboutPage() {
             na stranici{" "}
             <Link
               href="/sources"
-              className="text-[var(--theme-accent)] underline hover:no-underline dark:text-emerald-400"
+              className="text-accent-text underline hover:no-underline"
             >
               Izvori
             </Link>
@@ -60,7 +60,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <p className="border-t border-[var(--theme-border)] pt-6 text-sm italic text-stone-500 dark:text-stone-500">
+        <p className="border-t border-line pt-6 text-sm italic text-ink-muted">
           Aplikacija je napravljena da olakša učenje Kur&apos;ana. Nije zvanično
           povezana ni s jednom vjerskom ni obrazovnom ustanovom.
         </p>
@@ -69,7 +69,7 @@ export default function AboutPage() {
       <p className="mt-10">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-sm font-medium text-[var(--theme-accent)] hover:underline dark:text-emerald-400"
+          className="inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline"
         >
           Na početnu
         </Link>

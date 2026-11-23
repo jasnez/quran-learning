@@ -63,8 +63,8 @@ export function ContinueLearningSection() {
   if (!mounted) {
     return (
       <section aria-labelledby="continue-heading" className="space-y-6">
-        <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
-          <p className="text-base font-medium text-stone-800 dark:text-stone-200">
+        <div className="rounded-xl border border-line bg-paper/80 px-5 py-4">
+          <p className="text-base font-medium text-ink">
             Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
@@ -76,20 +76,20 @@ export function ContinueLearningSection() {
     <section aria-labelledby="continue-heading" className="space-y-6">
       {hasPosition ? (
         <div
-          className="relative overflow-hidden rounded-xl border border-emerald-200/70 bg-gradient-to-br from-emerald-50/90 to-stone-50 px-5 py-5 dark:border-emerald-800/40 dark:from-emerald-950/40 dark:to-stone-900/60 md:px-7 md:py-6"
+          className="relative overflow-hidden rounded-xl border border-line bg-gradient-to-br from-accent-wash/90 to-paper px-5 py-5 md:px-7 md:py-6"
           data-testid="continue-learning-card"
         >
           <div className="relative">
             <h2
               id="continue-heading"
-              className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 md:text-xl"
+              className="text-lg font-semibold tracking-tight text-ink md:text-xl"
             >
               Nastavi učenje
             </h2>
-            <p className="mt-1 text-base text-stone-700 dark:text-stone-300">
+            <p className="mt-1 text-base text-ink">
               {lastSurahName}, {pos!.ayahNumber}. ajet
             </p>
-            <p className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">
+            <p className="mt-0.5 text-xs text-ink-muted">
               {pos!.mode === "reader" ? "Čitanje" : "Učenje"}
               {timeLabel ? `, ${timeLabel}` : ""}
             </p>
@@ -104,8 +104,8 @@ export function ContinueLearningSection() {
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-stone-200 bg-stone-50/80 px-5 py-4 dark:border-stone-700 dark:bg-stone-900/40">
-          <p className="text-base font-medium text-stone-800 dark:text-stone-200">
+        <div className="rounded-xl border border-line bg-paper/80 px-5 py-4">
+          <p className="text-base font-medium text-ink">
             Selam! Dobar početak su kratke sure ispod.
           </p>
         </div>
@@ -113,7 +113,7 @@ export function ContinueLearningSection() {
 
       {showStats && !showOverallStats && (
         <div
-          className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-500 dark:text-stone-400"
+          className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-muted"
           data-testid="progress-stats-row"
         >
           <span>Otvorene sure: {formatNumber(stats.surahsCount)}</span>
@@ -129,35 +129,35 @@ export function ContinueLearningSection() {
           className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
           data-testid="overall-stats-cards"
         >
-          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">
               Započete sure
             </p>
-            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+            <p className="mt-0.5 text-lg font-semibold text-ink">
               {formatNumber(overall.totalSurahsStarted)}
             </p>
           </div>
-          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">
               Preslušani ajeti
             </p>
-            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+            <p className="mt-0.5 text-lg font-semibold text-ink">
               {formatNumber(overall.totalAyahsListened)}
             </p>
           </div>
-          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">
               Vrijeme slušanja
             </p>
-            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+            <p className="mt-0.5 text-lg font-semibold text-ink">
               {formatListeningTime(stats.totalTime)}
             </p>
           </div>
-          <div className="rounded-xl border border-stone-200/80 bg-white px-4 py-3 dark:border-stone-700/80 dark:bg-stone-900/40">
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted">
               {"Od cijelog Kur'ana"}
             </p>
-            <p className="mt-0.5 text-lg font-semibold text-stone-800 dark:text-stone-200">
+            <p className="mt-0.5 text-lg font-semibold text-ink">
               {formatNumber(overall.totalAyahsListened)} od {formatNumber(TOTAL_AYAHS_QURAN)} ajeta
             </p>
           </div>
