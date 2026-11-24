@@ -68,6 +68,17 @@ describe("TajwidTextRenderer", () => {
     expect(useTajwidRuleBarStore.getState().rule).toBe("ghunnah");
   });
 
+  // A double-click's first click comes before the selection and opens the bar like any tap.
+  it("the click that ends selecting text by dragging does not open the rule bar", () => {
+    useTajwidRuleBarStore.setState({ rule: null });
+    const { container } = render(<TajwidTextRenderer segments={segments} showColors={true} />);
+    const spans = container.querySelectorAll("span");
+    window.getSelection()?.selectAllChildren(spans[2]);
+    fireEvent.click(spans[2]);
+    expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+    window.getSelection()?.removeAllRanges();
+  });
+
   it("wrapper has dir=rtl and Arabic font class", () => {
     const { container } = render(<TajwidTextRenderer segments={segments} showColors={true} />);
     const wrapper = container.firstElementChild;

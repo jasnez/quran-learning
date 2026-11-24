@@ -11,3 +11,10 @@ export function ruleFromTarget(target: EventTarget | null): ColoredTajwidRule | 
   const rule = target.closest("[data-tj-rule]")?.getAttribute("data-tj-rule");
   return rule != null && COLORED_RULES.includes(rule) ? (rule as ColoredTajwidRule) : null;
 }
+
+/** The rule to name for a click, or null: no colored letter there, or the click ended a text selection. */
+export function ruleFromClick(target: EventTarget | null): ColoredTajwidRule | null {
+  const selection = typeof window === "undefined" ? null : window.getSelection();
+  if (selection && !selection.isCollapsed) return null;
+  return ruleFromTarget(target);
+}

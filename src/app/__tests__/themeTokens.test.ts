@@ -151,7 +151,13 @@ describe("Tezhib tokens", () => {
   });
 
   it("no source file uses Tailwind's dark: variant (it no longer applies)", () => {
-    const hits = sourceFiles(SRC, /\.(ts|tsx)$/).filter((f) => /(^|[\s"'`])dark:/m.test(readFileSync(f, "utf-8")));
+    // Also stacked variants ("md:dark:"), and the dark selector or variant in any stylesheet.
+    const hits = [
+      ...sourceFiles(SRC, /\.(ts|tsx)$/).filter((f) => /(^|[\s"'`:])dark:/m.test(readFileSync(f, "utf-8"))),
+      ...sourceFiles(SRC, /\.css$/).filter((f) =>
+        /\.dark\b|@(custom-)?variant\s+dark\b/.test(readFileSync(f, "utf-8").replace(/\/\*[\s\S]*?\*\//g, "")),
+      ),
+    ];
     expect(hits.map((f) => path.relative(SRC, f))).toEqual([]);
   });
 

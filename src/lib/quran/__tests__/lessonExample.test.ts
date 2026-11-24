@@ -30,6 +30,19 @@ describe("resolveLessonExample", () => {
     expect(r.href).toBe("/surah/1?ayah=7");
   });
 
+  it("rules limits the colors to those rules; other colored letters become plain text", () => {
+    const all = resolveLessonExample({ surah: 1, ayah: 7, words: [7, 8], translitWords: [5, 6], note: "" }, ayah7);
+    expect(all.segments.some((s) => s.rule === "mad")).toBe(true);
+    const none = resolveLessonExample(
+      { surah: 1, ayah: 7, words: [7, 8], translitWords: [5, 6], rules: ["qalqalah"], note: "" },
+      ayah7,
+    );
+    expect(none.segments.every((s) => s.rule === "normal")).toBe(true);
+    expect(none.segments.map((s) => s.text).join("")).toBe(all.arabic);
+    const kept = resolveLessonExample({ surah: 1, ayah: 7, words: [7, 8], translitWords: [5, 6], rules: ["mad"], note: "" }, ayah7);
+    expect(kept.segments).toEqual(all.segments);
+  });
+
   it("a character range cuts a part out of an assimilated transcription", () => {
     const r = resolveLessonExample(
       { surah: 1, ayah: 1, words: [2, 2], translitWords: [0, 0], translitChars: [12, 19], note: "" },

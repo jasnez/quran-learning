@@ -486,6 +486,7 @@ const LESSONS: TajwidLesson[] = [
                 ayah: 4,
                 words: [1, 3],
                 translitWords: [1, 3],
+                rules: ["ghunnah"],
                 note: "Mīm sa sukunom ispred mīma: spajaju se, s gunnom.",
               },
               {
@@ -493,6 +494,8 @@ const LESSONS: TajwidLesson[] = [
                 ayah: 4,
                 words: [0, 1],
                 translitWords: [0, 2],
+                // The jā in "muṣallīn" is medd at the end of the ayah; this example is about gunne.
+                rules: ["ghunnah"],
                 note: "Idgam bez gunne: tenvin ispred lāma. Nije obojeno.",
               },
             ],
@@ -639,7 +642,15 @@ const LESSONS: TajwidLesson[] = [
                 translitWords: [1, 2],
                 note: "Iklab: nūn ispred bā uči se kao mīm. U istoj riječi je i nūn s tešdidom.",
               },
-              { surah: 105, ayah: 4, words: [0, 1], translitWords: [0, 2], note: "Ihfa na mīmu: mīm sa sukunom ispred bā." },
+              {
+                surah: 105,
+                ayah: 4,
+                words: [0, 1],
+                translitWords: [0, 2],
+                // The last tenvin is gunne because of the next, unshown word.
+                rules: ["ikhfa"],
+                note: "Ihfa na mīmu: mīm sa sukunom ispred bā.",
+              },
             ],
           },
         ],
@@ -787,7 +798,15 @@ const LESSONS: TajwidLesson[] = [
                 translitWords: [2, 4],
                 note: "Obje u jednom ajetu: slabija na bā u „ḥablun“, jača na dālu na kraju.",
               },
-              { surah: 111, ayah: 1, words: [5, 5], translitWords: [4, 5], note: "Najjača: stane se na bā s tešdidom." },
+              {
+                surah: 111,
+                ayah: 1,
+                words: [5, 5],
+                translitWords: [4, 5],
+                // The wāw is gunne because of the tenvin in the previous, unshown word.
+                rules: ["qalqalah"],
+                note: "Najjača: stane se na bā s tešdidom.",
+              },
             ],
           },
         ],

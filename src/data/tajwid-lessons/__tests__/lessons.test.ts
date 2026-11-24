@@ -81,7 +81,8 @@ describe("tajwid lessons", () => {
     for (const lesson of await getAllTajwidLessons()) {
       for (const ex of blocksOf(lesson).flatMap((b) => (b.kind === "examples" ? b.examples : []))) {
         const r = resolveLessonExample(ex, ayah(ex.surah, ex.ayah));
-        rows.push(`${lesson.id} ${ex.surah}:${ex.ayah} | ${r.arabic} | ${r.transliteration}`);
+        const colored = [...new Set(r.segments.filter((s) => s.rule !== "normal").map((s) => s.rule))].join(",");
+        rows.push(`${lesson.id} ${ex.surah}:${ex.ayah} | ${r.arabic} | ${r.transliteration} | ${colored || "-"}`);
       }
     }
     expect(rows).toMatchSnapshot();

@@ -3,7 +3,7 @@
 import { memo } from "react";
 import type { TajwidSegment } from "@/types/quran";
 import { tajwidPieceProps } from "@/lib/quran/tajwidStyles";
-import { ruleFromTarget } from "@/lib/quran/tajwidRuleTap";
+import { ruleFromClick } from "@/lib/quran/tajwidRuleTap";
 import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
 
 export type WordByWordRendererProps = {
@@ -94,7 +94,7 @@ export function WordByWordRenderer({
   // A tap on a colored letter jumps to its word (the word's own click, which runs first) and also
   // names the rule (design D3, option A). Enter and Space on a word only jump: no click event.
   const onClick = (e: React.MouseEvent) => {
-    const rule = ruleFromTarget(e.target);
+    const rule = ruleFromClick(e.target);
     if (rule) openRuleBar(rule);
   };
 

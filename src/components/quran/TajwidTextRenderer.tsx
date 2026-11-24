@@ -2,7 +2,7 @@
 
 import type { TajwidSegment } from "@/types/quran";
 import { tajwidPieceProps } from "@/lib/quran/tajwidStyles";
-import { ruleFromTarget } from "@/lib/quran/tajwidRuleTap";
+import { ruleFromClick } from "@/lib/quran/tajwidRuleTap";
 import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
 import { stripWaqfSigns } from "@/lib/quran/stripWaqfSigns";
 
@@ -28,7 +28,7 @@ export function TajwidTextRenderer({
   // One listener for the whole ayah: a tap on a colored letter names its rule. The letters stay
   // plain text (no tab stops); the keyboard path to the rules is the legend.
   const onClick = (e: React.MouseEvent) => {
-    const rule = ruleFromTarget(e.target);
+    const rule = ruleFromClick(e.target);
     if (rule) openRuleBar(rule);
   };
 
