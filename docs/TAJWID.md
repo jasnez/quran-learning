@@ -20,7 +20,7 @@
    Aplikacija prikazuje svaki segment u boji koja odgovara `rule` samo ako je uključeno "Tedžvid boje".
 
 3. **Audio**  
-   Reprodukcija audio zapisa **nije** povezana s prikazom tajwid pravila. Audio samo pušta ajet; nema „highlighta” trenutne riječi tijekom puštanja. Tajwid boje su statične – ovise isključivo o tome što je u `tajwidSegments` za taj ajet.
+   Tedžvid boje ne zavise od zvuka: ovise samo o tome šta je u `tajwidSegments` za taj ajet. U načinu "Riječ po riječ" (Praćenje uz zvuk) čitač ističe riječ koju učač upravo uči, po vremenima riječi iz `public/data/chapter-audio/` (svih 114 sura); boje u istaknutoj riječi ostaju iste.
 
 ## Odakle dolaze `tajwidSegments`
 
