@@ -69,6 +69,11 @@ function Block({ block, resolved }: { block: LessonBlock; resolved: ResolvedExam
                       <td key={c} lang="ar" dir="rtl" className="px-3 py-2 font-arabic text-lg leading-relaxed">
                         {cell}
                       </td>
+                    ) : c === 0 ? (
+                      // The first cell names the row (a term, a kind of length).
+                      <th key={c} scope="row" className="px-3 py-2 text-left font-medium">
+                        <WithArabic text={cell} />
+                      </th>
                     ) : (
                       <td key={c} className="px-3 py-2">
                         <WithArabic text={cell} />

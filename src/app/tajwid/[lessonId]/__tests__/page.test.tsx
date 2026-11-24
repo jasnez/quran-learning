@@ -95,6 +95,8 @@ describe("Tajwid lesson detail page", () => {
     const ol = container.querySelector("ol");
     expect(ol).not.toBeNull();
     expect(within(ol as HTMLElement).getByText("Prvo.").tagName).toBe("STRONG");
+    // The first cell names the row, so a screen reader announces it with every cell of the row.
+    expect(screen.getByRole("rowheader", { name: "Sukun" })).toHaveAttribute("scope", "row");
     const cell = screen.getByText("سُكُون");
     expect(cell).toHaveAttribute("lang", "ar");
     expect(cell).toHaveAttribute("dir", "rtl");

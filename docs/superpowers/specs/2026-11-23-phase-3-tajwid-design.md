@@ -195,7 +195,10 @@ quoted next to an ayah reference („...“ (109:2)) against the data.
 Exact line thickness and offset (decided by the browser check), the swatch drawing, bar spacing,
 test file names.
 
-## Built differently in PR 3.2 (pending the owner's sign-off)
+## Built differently in PR 3.2 (accepted by the owner, PR #41 merged 2026-11-23)
+
+The approved D4 and D6 text above is kept as approved; these three points are what shipped. The
+Firefox check (point 3) is still open.
 
 1. Kalkala line is double, not wavy (D6). Under a single letter Chromium draws a wavy line as one
    letter-like hook and WebKit does not draw it at all; double shows in both and differs from solid,
