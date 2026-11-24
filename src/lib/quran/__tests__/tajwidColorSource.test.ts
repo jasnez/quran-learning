@@ -36,6 +36,15 @@ describe("tajwid color source", () => {
     expect(tajwidOnlyHexes().length).toBeGreaterThanOrEqual(6);
   });
 
+  it("reads every --tj-* declaration as a hex value, so none drops out of the scan", () => {
+    const css = readFileSync(GLOBALS, "utf-8");
+    const declared = [...css.matchAll(/--tj-[\w-]+\s*:/g)].length;
+    const hex = [...css.matchAll(/--tj-[\w-]+\s*:\s*#[0-9a-fA-F]{6}\s*;/g)].length;
+    // Four rules in three themes; a token written as rgb() or oklch() would be missed by the scan.
+    expect(declared).toBe(12);
+    expect(hex).toBe(declared);
+  });
+
   it("no file outside globals.css and tajwidStyles.ts names a tajwid token or its color", () => {
     const hexes = tajwidOnlyHexes();
     const hits = sourceFiles(SRC)

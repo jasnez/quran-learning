@@ -14,11 +14,12 @@ import {
 
 /*
  * Above the fixed bottom bars: the mobile navigation (56px, z-50) and, when audio is loaded, the
- * player (70px, z-40); below the toast (z-50). On a surface, not ink: the rule colors keep 3:1 on
- * the surface in every theme, on ink they do not.
+ * player (70px, z-40); below the toast (z-50). On phones it stops short of the right edge, leaving
+ * the back-to-top button (right-4, 48px) its corner. On a surface, not ink: the rule colors keep
+ * 3:1 on the surface in every theme, on ink they do not.
  */
 const VISIBLE =
-  "fixed inset-x-3 z-[45] flex items-start gap-3 rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-ink shadow-lg md:inset-x-auto md:left-1/2 md:w-[min(36rem,calc(100%-2rem))] md:-translate-x-1/2";
+  "fixed inset-x-3 max-md:right-[4.5rem] z-[45] flex items-start gap-3 rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-ink shadow-lg md:inset-x-auto md:left-1/2 md:w-[min(36rem,calc(100%-2rem))] md:-translate-x-1/2";
 const ABOVE_NAV = "max-md:bottom-16 md:bottom-4";
 const ABOVE_PLAYER = "max-md:bottom-[134px] md:bottom-[78px]";
 
@@ -56,14 +57,14 @@ export function TajwidRuleBar() {
   }, [rule, closeBar]);
 
   return (
-    <div
-      ref={barRef}
-      role="status"
-      aria-live="polite"
-      className={rule ? `${VISIBLE} ${hasAudio ? ABOVE_PLAYER : ABOVE_NAV}` : "sr-only"}
-    >
+    <>
+      {/* Always in the DOM, only its text changes: screen readers announce the rule name and the
+          sentence, without the link and the button of the visible bar. */}
+      <p role="status" aria-live="polite" className="sr-only">
+        {rule ? `${tajwidRuleNames[rule]}: ${tajwidRuleSentences[rule]}` : ""}
+      </p>
       {rule && (
-        <>
+        <div ref={barRef} data-tajwid-rule-bar className={`${VISIBLE} ${hasAudio ? ABOVE_PLAYER : ABOVE_NAV}`}>
           <span aria-hidden="true" className={`text-base leading-5 ${tajwidRuleClasses[rule]}`}>
             ●
           </span>
@@ -83,8 +84,8 @@ export function TajwidRuleBar() {
           >
             Zatvori
           </button>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }

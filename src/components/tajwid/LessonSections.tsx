@@ -3,6 +3,7 @@ import type { LeadItem, LessonBlock, LessonSection, TajwidLesson } from "@/data/
 import { getSurahDetail } from "@/lib/data/static-quran";
 import { resolveLessonExample, type LessonExampleRef, type ResolvedLessonExample } from "@/lib/quran/lessonExample";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
+import { WithArabic } from "@/components/ui/WithArabic";
 
 export type ResolvedExamples = Map<LessonExampleRef, ResolvedLessonExample>;
 
@@ -23,10 +24,10 @@ export async function resolveExamples(lesson: TajwidLesson): Promise<ResolvedExa
 }
 
 function Lead({ item }: { item: string | LeadItem }) {
-  if (typeof item === "string") return <>{item}</>;
+  if (typeof item === "string") return <WithArabic text={item} />;
   return (
     <>
-      <strong className="font-semibold">{item.lead}</strong> {item.text}
+      <strong className="font-semibold">{item.lead}</strong> <WithArabic text={item.text} />
     </>
   );
 }
@@ -34,7 +35,7 @@ function Lead({ item }: { item: string | LeadItem }) {
 function Block({ block, resolved }: { block: LessonBlock; resolved: ResolvedExamples }) {
   switch (block.kind) {
     case "p":
-      return <p>{block.lead ? <Lead item={{ lead: block.lead, text: block.text }} /> : block.text}</p>;
+      return <p>{block.lead ? <Lead item={{ lead: block.lead, text: block.text }} /> : <WithArabic text={block.text} />}</p>;
     case "list": {
       const items = block.items.map((item, i) => (
         <li key={i}>
@@ -70,7 +71,7 @@ function Block({ block, resolved }: { block: LessonBlock; resolved: ResolvedExam
                       </td>
                     ) : (
                       <td key={c} className="px-3 py-2">
-                        {cell}
+                        <WithArabic text={cell} />
                       </td>
                     ),
                   )}
@@ -93,7 +94,9 @@ function Block({ block, resolved }: { block: LessonBlock; resolved: ResolvedExam
                 <p className="mt-2 text-center font-transliteration text-sm text-ink-muted" dir="ltr">
                   {ex.transliteration}
                 </p>
-                <p className="mt-3 text-sm text-ink">{ref.note}</p>
+                <p className="mt-3 text-sm text-ink">
+                  <WithArabic text={ref.note} />
+                </p>
                 <p className="mt-2 text-sm">
                   <Link href={ex.href} className="text-accent-text underline underline-offset-2">
                     Sura {ref.surah}, ajet {ref.ayah}

@@ -62,6 +62,16 @@ describe("WordByWordRenderer", () => {
       expect(useTajwidRuleBarStore.getState().rule).toBe("mad");
     });
 
+    it("selecting text does not open the bar", () => {
+      useTajwidRuleBarStore.setState({ rule: null });
+      const { container } = render(<WordByWordRenderer words={words} activeWordIndex={-1} showColors onWordClick={vi.fn()} />);
+      const colored = container.querySelector('[data-tj-rule="mad"]')!;
+      window.getSelection()?.selectAllChildren(colored);
+      fireEvent.click(colored);
+      expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+      window.getSelection()?.removeAllRanges();
+    });
+
     it("a tap on a plain letter only jumps", () => {
       useTajwidRuleBarStore.setState({ rule: null });
       const onWordClick = vi.fn();

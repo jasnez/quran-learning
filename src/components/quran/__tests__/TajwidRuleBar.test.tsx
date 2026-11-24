@@ -16,6 +16,10 @@ function bar() {
   return screen.getByRole("status");
 }
 
+function panel() {
+  return document.querySelector("[data-tajwid-rule-bar]") as HTMLElement;
+}
+
 describe("TajwidRuleBar", () => {
   beforeEach(() => {
     cleanup();
@@ -97,10 +101,20 @@ describe("TajwidRuleBar", () => {
   it("sits above the mobile navigation, above the player too when audio is loaded, below the toast", () => {
     render(<TajwidRuleBar />);
     act(() => useTajwidRuleBarStore.getState().open("mad"));
-    expect(bar().className).toMatch(/max-md:bottom-16/);
-    expect(bar().className).toMatch(/z-\[45\]/);
+    expect(panel().className).toMatch(/max-md:bottom-16/);
+    expect(panel().className).toMatch(/z-\[45\]/);
+    // Leaves the back-to-top button (right-4, 48px wide) its corner on phones.
+    expect(panel().className).toMatch(/max-md:right-\[4\.5rem\]/);
     act(() => usePlayerStore.setState({ activeAudioSrc: "https://example.test/1.mp3" }));
-    expect(bar().className).toMatch(/max-md:bottom-\[134px\]/);
-    expect(bar().className).toMatch(/md:bottom-\[78px\]/);
+    expect(panel().className).toMatch(/max-md:bottom-\[134px\]/);
+    expect(panel().className).toMatch(/md:bottom-\[78px\]/);
+  });
+
+  it("the screen reader hears only the rule name and sentence, not the link and button", () => {
+    render(<TajwidRuleBar />);
+    act(() => useTajwidRuleBarStore.getState().open("mad"));
+    expect(bar().textContent).toBe("Medd: ovdje se glas uči duže od običnog dugog vokala.");
+    expect(panel()).not.toHaveAttribute("role");
+    expect(panel()).not.toHaveAttribute("aria-live");
   });
 });

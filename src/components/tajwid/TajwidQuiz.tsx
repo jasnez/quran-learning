@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isTajwidQuizPassed, tajwidQuizPassScore, useProgressStore } from "@/store/progressStore";
 import { formatCount, type PluralForms } from "@/lib/format";
+import { WithArabic } from "@/components/ui/WithArabic";
 import type { QuizQuestion } from "@/data/tajwid-lessons";
 
 type TajwidQuizProps = {
@@ -176,7 +177,7 @@ export function TajwidQuiz({
           tabIndex={-1}
           className="font-medium text-ink focus-visible:outline-hidden"
         >
-          {question.question}
+          <WithArabic text={question.question} />
         </p>
         <ul className="mt-3 space-y-2">
           {question.options.map((opt, i) => {
@@ -213,7 +214,9 @@ export function TajwidQuiz({
                         : "✗"
                       : String.fromCharCode(65 + i)}
                   </span>
-                  <span>{opt}</span>
+                  <span>
+                    <WithArabic text={opt} />
+                  </span>
                 </button>
               </li>
             );
@@ -222,7 +225,9 @@ export function TajwidQuiz({
         {showFeedback && (
           <div className="mt-4 rounded-lg border border-line bg-highlight p-3 text-sm text-warning-text">
             <p className="font-medium">Objašnjenje:</p>
-            <p className="mt-1">{question.explanation}</p>
+            <p className="mt-1">
+              <WithArabic text={question.explanation} />
+            </p>
             <button
               type="button"
               onClick={handleNext}

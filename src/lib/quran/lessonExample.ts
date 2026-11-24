@@ -1,4 +1,4 @@
-import type { TajwidSegment } from "@/types/quran";
+import type { TajwidRule, TajwidSegment } from "@/types/quran";
 
 /**
  * An example in a tajwid lesson, as a reference into the ayah data: the lesson never stores
@@ -15,6 +15,12 @@ export interface LessonExampleRef {
   translitWords: [number, number];
   /** Optional cut inside those words, for assimilated transcription ("Innel-insāne" -> "Inne"). */
   translitChars?: [number, number];
+  /**
+   * Color only these rules; other colored letters show as plain text. For an example whose fragment
+   * cuts off the cause of a color (a tenvin before the next, unshown word) or shows a rule the
+   * lesson is not about. Omitted: every rule keeps its color.
+   */
+  rules?: TajwidRule[];
   /** What to see in the example; may quote this ayah's transcription in „…“. */
   note: string;
 }
@@ -76,7 +82,9 @@ export function resolveLessonExample(ref: LessonExampleRef, ayah: AyahText): Res
   return {
     arabic,
     transliteration,
-    segments: sliceSegments(ayah.tajwidSegments, ar.start, ar.end),
+    segments: sliceSegments(ayah.tajwidSegments, ar.start, ar.end).map((s) =>
+      ref.rules && s.rule !== "normal" && !ref.rules.includes(s.rule) ? { ...s, rule: "normal" } : s,
+    ),
     href: `/surah/${ref.surah}?ayah=${ref.ayah}`,
   };
 }

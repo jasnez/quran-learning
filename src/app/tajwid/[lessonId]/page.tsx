@@ -7,6 +7,7 @@ import {
 } from "@/data/tajwid-lessons";
 import { LessonSectionView, resolveExamples } from "@/components/tajwid/LessonSections";
 import { TajwidQuiz } from "@/components/tajwid/TajwidQuiz";
+import { WithArabic } from "@/components/ui/WithArabic";
 import { LessonProgressTracker } from "@/components/tajwid/LessonProgressTracker";
 
 export async function generateStaticParams() {
@@ -69,7 +70,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
         <h2 className="text-base font-semibold text-ink">
           Sažetak
         </h2>
-        <p className="mt-1">{lesson.summary}</p>
+        <p className="mt-1">
+          <WithArabic text={lesson.summary} />
+        </p>
       </section>
 
       <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-sm max-md:pr-16">

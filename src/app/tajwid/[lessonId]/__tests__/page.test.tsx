@@ -21,7 +21,7 @@ const mockLesson: TajwidLesson = {
   estimatedMinutes: 7,
   prerequisite: "Lekcija 1",
   sections: [
-    { heading: "Uvod", blocks: [{ kind: "p", text: "Intro paragraf." }] },
+    { heading: "Uvod", blocks: [{ kind: "p", text: `Intro paragraf (${String.fromCodePoint(0x0645, 0x062f)}).` }] },
     {
       heading: "Kada nastaje",
       blocks: [
@@ -109,6 +109,14 @@ describe("Tajwid lesson detail page", () => {
     expect(screen.getByText(fatiha1.transliteration.slice(12, 19))).toBeInTheDocument();
     expect(screen.getByText("Mali elif je obojen.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Sura 1, ajet 1" })).toHaveAttribute("href", "/surah/1?ayah=1");
+  });
+
+  it("marks Arabic inside Bosnian paragraphs as Arabic, not the Latin text around it", async () => {
+    const { container } = await renderLesson();
+    const intro = screen.getByRole("heading", { name: "Uvod" }).closest("section") as HTMLElement;
+    const run = intro.querySelector('bdi[lang="ar"]');
+    expect(run?.textContent).toBe(String.fromCodePoint(0x0645, 0x062f));
+    expect(container.querySelector('td:not([lang]) bdi')).toBeNull();
   });
 
   it("shows a tip section as a highlighted box", async () => {

@@ -219,6 +219,13 @@ describe("SettingsPanel", () => {
       radios.forEach((r, i) => expect(r, String(i)).toHaveProperty("checked", i === checked));
     });
 
+    it("describes the choice: lines tell the rules apart when colors are hard to tell apart", () => {
+      render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+      expect(screen.getByRole("radiogroup", { name: "Tedžvid" })).toHaveAccessibleDescription(
+        "Linije razlikuju pravila i kad se boje teško razlikuju: puna, tačkice, crtice, dvostruka.",
+      );
+    });
+
     it("choosing an option calls setTajwidDisplay", async () => {
       const user = userEvent.setup();
       render(<SettingsPanel isOpen={true} onClose={() => {}} />);

@@ -204,7 +204,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 <span id="tajwid-display-label" className="text-sm font-medium text-ink">
                   Tedžvid
                 </span>
-                <div className="mt-2 flex gap-2" role="radiogroup" aria-labelledby="tajwid-display-label">
+                <div className="mt-2 flex gap-2" role="radiogroup" aria-labelledby="tajwid-display-label" aria-describedby="tajwid-display-hint">
                   {TAJWID_DISPLAYS.map((d) => (
                     <label
                       key={d.value}
@@ -223,8 +223,8 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                     </label>
                   ))}
                 </div>
-                <p className="mt-1 text-xs text-ink-muted">
-                  Linije razlikuju pravila i bez boja: puna, tačkice, crtice, dvostruka.
+                <p id="tajwid-display-hint" className="mt-1 text-xs text-ink-muted">
+                  Linije razlikuju pravila i kad se boje teško razlikuju: puna, tačkice, crtice, dvostruka.
                 </p>
               </div>
             </div>

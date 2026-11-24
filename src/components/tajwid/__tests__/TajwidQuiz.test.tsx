@@ -237,3 +237,22 @@ describe("TajwidQuiz status messages and focus", () => {
     ).toBeInTheDocument();
   });
 });
+
+describe("TajwidQuiz Arabic text", () => {
+  it("marks Arabic letters in the question and the options as Arabic", () => {
+    const qaf = String.fromCodePoint(0x0642);
+    const dal = String.fromCodePoint(0x062f);
+    render(
+      <TajwidQuiz
+        quiz={[
+          { question: `Koji je harf (${qaf})?`, options: [`${qaf} ${dal}`, "qāf", "dāl"], correctIndex: 0, explanation: "Zato." },
+        ]}
+        lessonSlug="qalqalah-odskok"
+        nextLessonSlug={null}
+        nextLessonTitle={null}
+      />,
+    );
+    const runs = Array.from(document.querySelectorAll('bdi[lang="ar"]')).map((b) => b.textContent);
+    expect(runs).toEqual([qaf, `${qaf} ${dal}`]);
+  });
+});
