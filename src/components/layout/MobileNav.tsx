@@ -68,7 +68,7 @@ export function MobileNav() {
     <nav
       role="navigation"
       aria-label="Mobilna navigacija"
-      className="fixed bottom-0 left-0 right-0 z-50 flex min-h-14 items-stretch border-t border-line bg-surface/95 backdrop-blur md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-bars flex h-[var(--bar-nav)] items-stretch border-t border-line bg-surface/95 backdrop-blur md:hidden"
     >
       <Link
         href="/"

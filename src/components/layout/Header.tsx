@@ -51,11 +51,11 @@ export function Header() {
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHasFocus(false);
       }}
-      className={`fixed left-0 right-0 top-0 z-50 border-b border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 transition-transform duration-200 will-change-transform ${
+      className={`fixed left-0 right-0 top-0 z-bars border-b border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 transition-transform duration-sheet ease-standard will-change-transform ${
         hasShadow ? "shadow-sm" : ""
       } ${hidden ? "-translate-y-full" : ""}`}
     >
-      <div className="mx-auto flex h-12 max-h-[52px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
+      <div className="mx-auto flex h-[var(--bar-header)] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
         {/* Brand */}
         <div className="flex min-w-0 flex-1 items-center gap-3">
           {isSurahPage && (

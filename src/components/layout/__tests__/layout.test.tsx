@@ -243,9 +243,9 @@ describe("AppShell", () => {
     );
     const scrollEl = container.querySelector("[data-scroll-container]");
     const main = container.querySelector("main");
-    // mobile: bottom navigation (56px) + player (70px); desktop: player only
-    expect(scrollEl).toHaveClass("max-md:pb-[126px]", "md:pb-[70px]");
-    expect(main?.className).not.toMatch(/max-md:pb-\[126px\]/);
+    // --bars-bottom adds up the tab bar (phones) and the player (while audio is loaded).
+    expect(scrollEl).toHaveClass("pb-[var(--bars-bottom)]");
+    expect(main?.className).not.toMatch(/bars-bottom/);
   });
 
   it("main has bottom padding so content clears bottom UI", () => {

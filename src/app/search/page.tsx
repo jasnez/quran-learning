@@ -175,7 +175,7 @@ export default function SearchPage() {
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-[800px] flex-col px-4 pb-24 md:pb-12">
-      <div className="sticky top-[var(--app-header-offset)] z-40 -mx-4 transition-[top] duration-200 bg-paper/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-paper/90 md:static md:py-8">
+      <div className="sticky top-[var(--app-header-offset)] z-sticky -mx-4 transition-[top] duration-sheet bg-paper/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-paper/90 md:static md:py-8">
         <h1 className="sr-only">Pretraga</h1>
         <label htmlFor="search-input" className="sr-only">
           Pretraži ajete, sure i prijevod

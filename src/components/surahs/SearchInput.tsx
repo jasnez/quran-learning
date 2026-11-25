@@ -12,7 +12,7 @@ export function SearchInput({
   placeholder = "Broj ili naziv sure",
 }: SearchInputProps) {
   return (
-    <div className="sticky top-[var(--app-header-offset)] z-10 -mx-4 bg-paper px-4 pb-3 transition-[top] duration-200 md:static md:mx-0 md:bg-transparent md:p-0">
+    <div className="sticky top-[var(--app-header-offset)] z-sticky -mx-4 bg-paper px-4 pb-3 transition-[top] duration-200 md:static md:mx-0 md:bg-transparent md:p-0">
       <label htmlFor="surah-search" className="sr-only">
         Pretraži sure
       </label>

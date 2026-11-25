@@ -34,8 +34,9 @@ function classes(el: Element | null): string[] {
 }
 
 describe("sticky offsets below the fixed global header (QA P1-3)", () => {
-  it("globals.css sets the header offset to the header height (h-12 = 3rem) and to 0 while the header is hidden", () => {
-    expect(globalsCss).toMatch(/:root\s*\{[^}]*--app-header-offset:\s*3rem/);
+  it("globals.css sets the header offset to the header height and to 0 while the header is hidden", () => {
+    expect(globalsCss).toMatch(/:root\s*\{[^}]*--bar-header:\s*3rem/);
+    expect(globalsCss).toMatch(/:root\s*\{[^}]*--app-header-offset:\s*var\(--bar-header\)/);
     expect(globalsCss).toMatch(
       /\[data-scroll-container\]:has\(>\s*header\[data-hidden="true"\]\)\s*\{[^}]*--app-header-offset:\s*0(px)?\s*;/
     );

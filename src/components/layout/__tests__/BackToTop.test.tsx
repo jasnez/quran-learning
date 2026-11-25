@@ -101,7 +101,8 @@ describe("BackToTop", () => {
       });
       const btn = screen.getByTestId("back-to-top");
       expect(btn).toHaveAttribute("data-above-player", "true");
-      expect(btn.className).toMatch(/bottom-\[8\.5rem\]|bottom-24|md:bottom-24/);
+      // The gap above the bottom bars comes from --bars-bottom, which counts the player in CSS.
+      expect(btn).toHaveClass("bottom-[calc(var(--bars-bottom)+1rem)]");
     });
 
     it("when sticky player is not visible, button has data-above-player false and default position", async () => {
@@ -114,7 +115,7 @@ describe("BackToTop", () => {
       });
       const btn = screen.getByTestId("back-to-top");
       expect(btn).toHaveAttribute("data-above-player", "false");
-      expect(btn.className).toMatch(/max-md:bottom-24|md:bottom-8/);
+      expect(btn).toHaveClass("bottom-[calc(var(--bars-bottom)+1rem)]");
     });
   });
 });

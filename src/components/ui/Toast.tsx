@@ -6,7 +6,7 @@ import { useToastStore } from "@/store/toastStore";
 const TOAST_DURATION_MS = 5000;
 
 const VISIBLE_CLASSES =
-  "fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-ink px-4 py-3 text-sm font-medium text-paper shadow-lg md:bottom-8 lg:bottom-auto lg:left-auto lg:right-6 lg:top-16 lg:translate-x-0";
+  "fixed bottom-[calc(var(--bars-bottom)+1rem)] left-1/2 z-toast -translate-x-1/2 rounded-lg bg-ink px-4 py-3 text-sm font-medium text-paper shadow-lg lg:bottom-auto lg:left-auto lg:right-6 lg:top-[calc(var(--bar-header)+1rem)] lg:translate-x-0";
 
 export function Toast() {
   const message = useToastStore((s) => s.message);

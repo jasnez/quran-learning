@@ -367,12 +367,12 @@ export function AudioPlayer() {
     <div
       data-testid="audio-player"
       data-audio-player=""
-      className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 max-md:bottom-14 md:bottom-0"
+      className="fixed left-0 right-0 bottom-[var(--bar-nav-now)] z-player h-[var(--bar-player)] border-t border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90"
       role="region"
       aria-label="Kontrole zvuka"
     >
-      <div className="mx-auto flex max-h-[70px] max-w-7xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
-        <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+      <div className="mx-auto flex h-full max-w-7xl flex-col justify-center px-3 md:px-4">
+        <div className="flex min-h-11 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
             <span className="truncate text-sm font-medium text-ink md:text-[15px]">
@@ -485,7 +485,7 @@ export function AudioPlayer() {
         </div>
 
         {/* Progress bar */}
-        <div className="w-full px-1 pb-1 md:px-2 md:pb-1.5">
+        <div className="w-full px-1 md:px-2">
           <input
             type="range"
             min={0}
@@ -579,7 +579,7 @@ function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, 
       {isOpen && (
         <div
           id={panelId}
-          className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-line bg-surface p-2 text-xs shadow-lg"
+          className="absolute right-0 bottom-11 z-float w-44 rounded-xl border border-line bg-surface p-2 text-xs shadow-lg"
           role="group"
           aria-label="Dodatne kontrole zvuka"
         >

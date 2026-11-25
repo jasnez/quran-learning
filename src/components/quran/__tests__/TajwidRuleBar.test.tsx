@@ -98,16 +98,13 @@ describe("TajwidRuleBar", () => {
     expect(useTajwidRuleBarStore.getState().rule).toBeNull();
   });
 
-  it("sits above the mobile navigation, above the player too when audio is loaded, below the toast", () => {
+  it("sits above the bottom bars that are in the page, below the toast", () => {
     render(<TajwidRuleBar />);
     act(() => useTajwidRuleBarStore.getState().open("mad"));
-    expect(panel().className).toMatch(/max-md:bottom-16/);
-    expect(panel().className).toMatch(/z-\[45\]/);
+    // --bars-bottom counts the tab bar and, while audio is loaded, the player (globals.css).
+    expect(panel()).toHaveClass("bottom-[calc(var(--bars-bottom)+0.5rem)]", "z-infobar");
     // Leaves the back-to-top button (right-4, 48px wide) its corner on phones.
     expect(panel().className).toMatch(/max-md:right-\[4\.5rem\]/);
-    act(() => usePlayerStore.setState({ activeAudioSrc: "https://example.test/1.mp3" }));
-    expect(panel().className).toMatch(/max-md:bottom-\[134px\]/);
-    expect(panel().className).toMatch(/md:bottom-\[78px\]/);
   });
 
   it("the screen reader hears only the rule name and sentence, not the link and button", () => {

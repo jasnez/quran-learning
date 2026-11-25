@@ -117,15 +117,15 @@ describe("Header mobile", () => {
     );
     const header = container.querySelector("header");
     const inner = header?.querySelector("div");
-    expect(inner?.className).toMatch(/h-12|h-\[48px\]|h-\[52px\]|max-h-\[52px\]/);
+    expect(inner).toHaveClass("h-[var(--bar-header)]");
   });
 });
 
 describe("AudioPlayer mobile", () => {
-  it("sticky player has compact height 60-70px", () => {
+  it("sticky player is as tall as the player bar token (64px)", () => {
     const { container } = render(<AudioPlayer />);
     const player = container.querySelector("[data-testid='audio-player']");
-    expect(player?.className).toMatch(/max-h-\[60px\]|max-h-\[70px\]|h-\[6[0-9]px\]|max-h-6\[0-9\]/);
+    expect(player).toHaveClass("h-[var(--bar-player)]");
   });
 
   it("control buttons have minimum 44x44px touch target", () => {
@@ -148,8 +148,8 @@ describe("AudioPlayer mobile", () => {
     const { container } = render(<AudioPlayer />);
     const player = container.querySelector("[data-testid='audio-player']");
     expect(player).toBeInTheDocument();
-    // On small viewports player must have bottom offset (e.g. 56px) so it appears above MobileNav
-    expect(player?.className).toMatch(/max-md:bottom-14|max-sm:bottom-14|bottom-14|bottom-\[56px\]/);
+    // --bar-nav-now is the tab bar's height under 48rem and 0 above, so the player sits on the tab bar.
+    expect(player).toHaveClass("bottom-[var(--bar-nav-now)]");
   });
 
   it("on mobile label (surah and ayah) is on the left and controls on the right", () => {
