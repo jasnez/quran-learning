@@ -29,19 +29,22 @@ describe("Rosette", () => {
     expect(container.querySelector("svg")).toHaveClass("text-gold");
   });
 
-  it("is 32 px, is not selected with the ayah text, and reads left to right inside Arabic", () => {
+  // The browser check at 24, 28 and 44 px letters: a fixed 32 px mark looks lost next to 44 px
+  // letters, so it grows with them and never goes under 32 px.
+  it("is 32 px and grows with large letters; it is not selected with the text and reads left to right", () => {
     const { container } = render(<Rosette number={12} />);
     const rosette = container.querySelector("[data-rosette]");
-    expect(rosette).toHaveClass("h-8", "w-8", "select-none", "[direction:ltr]", "font-sans", "text-ink");
+    expect(rosette).toHaveClass("h-[max(2rem,1.1em)]", "w-[max(2rem,1.1em)]", "select-none", "[direction:ltr]");
+    // No font size of its own: its em is the Arabic text's size.
+    expect(rosette!.className).not.toMatch(/\btext-(xs|sm|base|\[)/);
+    expect(screen.getByText("12")).toHaveClass("font-sans", "font-semibold", "text-ink");
   });
 
   it("uses a smaller number from three digits on, so 286 fits", () => {
-    const { container, rerender } = render(<Rosette number={99} />);
-    const rosette = () => container.querySelector("[data-rosette]");
-    expect(rosette()).toHaveClass("text-xs");
+    const { rerender } = render(<Rosette number={99} />);
+    expect(screen.getByText("99")).toHaveClass("text-[length:max(0.75rem,0.38em)]");
     rerender(<Rosette number={286} />);
-    expect(rosette()).toHaveClass("text-[0.6875rem]");
-    expect(rosette()).not.toHaveClass("text-xs");
+    expect(screen.getByText("286")).toHaveClass("text-[length:max(0.6875rem,0.33em)]");
   });
 
   it("is filled with gold at 25% only while its ayah plays", () => {
