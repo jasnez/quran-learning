@@ -14,7 +14,7 @@ import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
 import { playAyahFromMs } from "@/lib/audio/playFromWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
-import { TajwidLegend } from "@/components/quran";
+import { useTajwidNotice } from "@/components/quran/useTajwidNotice";
 import { LearnModeUrlEffects } from "./LearnModeUrlEffects";
 
 type SurahNavItem = { surahNumber: number; nameLatin: string; nameBosnian?: string };
@@ -54,6 +54,8 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
   const toggleBookmark = useBookmarkStore((s) => s.toggleBookmark);
   const showToast = useToastStore((s) => s.showToast);
+  // The colors are seen here; their legend is in the settings sheet.
+  useTajwidNotice();
 
   const currentIndex = useMemo(() => {
     const idx = ayahs.findIndex((a) => a.id === currentAyahId);
@@ -258,11 +260,6 @@ export function LearnModeContent({ surah, ayahs, prevSurah = null, nextSurah = n
 
       {/* Bottom controls */}
       <footer className="flex flex-shrink-0 flex-col gap-4 border-t border-line pt-6">
-        {showTajwidColors && (
-          <div className="rounded-xl border border-line bg-paper/60">
-            <TajwidLegend />
-          </div>
-        )}
         <p className={surahFinished ? "text-center text-sm text-ink-muted" : "sr-only"} role="status">
           {surahFinished ? "Sura je završena. Mašallah!" : null}
         </p>

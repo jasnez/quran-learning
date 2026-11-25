@@ -6,6 +6,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, within, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SettingsPanel } from "../SettingsPanel";
+import { SELECTED_CLASSES } from "@/components/ui";
+import { usePlayerStore } from "@/store/playerStore";
 
 const mockSetTheme = vi.fn();
 const mockSetArabicFontSize = vi.fn();
@@ -153,9 +155,12 @@ describe("SettingsPanel", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("has Display Settings section with font size control", () => {
+  it("starts with the reading settings, with the font size control", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText("Prikaz")).toBeInTheDocument();
+    const headings = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
+    expect(headings[0]).toBe("Čitanje");
+    expect(headings).toContain("Zvuk");
+    expect(screen.queryByText("Prikaz")).toBeNull();
     expect(screen.getByText("Veličina arapskih slova")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Manja slova" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Veća slova" })).toBeInTheDocument();
@@ -164,8 +169,9 @@ describe("SettingsPanel", () => {
   it("has Arabic script options (Moderno, Klasično)", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByText("Arapsko pismo")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Moderno" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Klasično" })).toBeInTheDocument();
+    const script = within(screen.getByRole("group", { name: "Arapsko pismo" }));
+    expect(script.getByRole("radio", { name: "Moderno" })).toBeChecked();
+    expect(script.getByRole("radio", { name: "Klasično" })).not.toBeChecked();
     expect(
       screen.getByText("Klasično pismo ima tradicionalniji oblik slova; moderno je jednostavnije."),
     ).toBeInTheDocument();
@@ -175,7 +181,7 @@ describe("SettingsPanel", () => {
   it("clicking Klasično calls setArabicFontStyle with \"uthmanic\" (saved key unchanged)", async () => {
     const user = userEvent.setup();
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const uthmanicBtn = screen.getByRole("button", { name: "Klasično" });
+    const uthmanicBtn = screen.getByRole("radio", { name: "Klasično" });
     await user.click(uthmanicBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("uthmanic");
   });
@@ -184,7 +190,7 @@ describe("SettingsPanel", () => {
     const user = userEvent.setup();
     defaultStore.arabicFontStyle = "uthmanic";
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const naskhBtn = screen.getByRole("button", { name: "Moderno" });
+    const naskhBtn = screen.getByRole("radio", { name: "Moderno" });
     await user.click(naskhBtn);
     expect(mockSetArabicFontStyle).toHaveBeenCalledWith("naskh");
   });
@@ -202,7 +208,7 @@ describe("SettingsPanel", () => {
 
   describe("Tedžvid: Isključeno / Boje / Boje i linije", () => {
     function tajwidRadios() {
-      const group = screen.getByRole("radiogroup", { name: "Tedžvid" });
+      const group = screen.getByRole("group", { name: "Tedžvid" });
       return ["Isključeno", "Boje", "Boje i linije"].map((name) => within(group).getByRole("radio", { name }));
     }
 
@@ -221,7 +227,7 @@ describe("SettingsPanel", () => {
 
     it("describes the choice: lines tell the rules apart when colors are hard to tell apart", () => {
       render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-      expect(screen.getByRole("radiogroup", { name: "Tedžvid" })).toHaveAccessibleDescription(
+      expect(screen.getByRole("group", { name: "Tedžvid" })).toHaveAccessibleDescription(
         "Linije razlikuju pravila i kad se boje teško razlikuju: puna, tačkice, crtice, dvostruka.",
       );
     });
@@ -242,8 +248,8 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.getByRole("heading", { name: /zvuk/i })).toBeInTheDocument();
     expect(screen.getByText(/Mishary Alafasy/i)).toBeInTheDocument();
-    expect(screen.getByText("Brzina")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "1,5×" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Brzina" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "1,5×" })).toBeInTheDocument();
   });
 
   it("has repeat mode and auto-play next controls", () => {
@@ -257,26 +263,26 @@ describe("SettingsPanel", () => {
   });
 
   // QA section 5: repeat has three states, so a two-state switch (on/off) misreports it.
-  it("offers the three repeat modes as one group of options with the current one pressed", () => {
+  it("offers the three repeat modes as one choice with the current one checked", () => {
     defaultStore.repeatMode = "surah";
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     expect(screen.queryByRole("switch", { name: /ponavljanje/i })).not.toBeInTheDocument();
     const group = within(screen.getByRole("group", { name: /ponavljanje/i }));
-    expect(group.getByRole("button", { name: "Isključeno" })).toHaveAttribute("aria-pressed", "false");
-    expect(group.getByRole("button", { name: "Sura" })).toHaveAttribute("aria-pressed", "true");
-    expect(group.getByRole("button", { name: "Ajet" })).toHaveAttribute("aria-pressed", "false");
+    expect(group.getByRole("radio", { name: "Isključeno" })).not.toBeChecked();
+    expect(group.getByRole("radio", { name: "Sura" })).toBeChecked();
+    expect(group.getByRole("radio", { name: "Ajet" })).not.toBeChecked();
   });
 
-  it("has Theme section with Light and Dark; Sepia hidden behind 'Više opcija' (advanced)", async () => {
+  it("offers the three themes as one choice, with the current one checked", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText(/theme|tema/i)).toBeInTheDocument();
-    expect(screen.getByRole("radio", { name: /light|svijetla/i })).toBeInTheDocument();
-    expect(screen.getByRole("radio", { name: /dark|tamna/i })).toBeInTheDocument();
-    // Sepia ne smije biti vidljiv po default-u
-    expect(screen.queryByRole("radio", { name: /hartija/i })).not.toBeInTheDocument();
-    const moreBtn = screen.getByRole("button", { name: /više opcija/i });
-    await userEvent.click(moreBtn);
-    expect(screen.getByRole("radio", { name: /hartija/i })).toBeInTheDocument();
+    const theme = within(screen.getByRole("group", { name: "Tema" }));
+    expect(theme.getAllByRole("radio").map((r) => r.closest("label")?.textContent)).toEqual([
+      "Svijetla",
+      "Hartija",
+      "Tamna",
+    ]);
+    expect(theme.getByRole("radio", { name: "Svijetla" })).toBeChecked();
+    expect(screen.queryByRole("button", { name: /više opcija/i })).toBeNull();
   });
 
   it("calling onClose when close button clicked", async () => {
@@ -367,7 +373,6 @@ describe("SettingsPanel", () => {
   // The theme radios are visually hidden inside their labels, so the label shows the focus.
   it("theme options show a focus ring when their radio has keyboard focus", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    await userEvent.click(screen.getByRole("button", { name: /više opcija/i }));
     for (const name of [/svijetla/i, /tamna/i, /hartija/i]) {
       const label = screen.getByRole("radio", { name }).closest("label");
       expect(label).toHaveClass("has-[:focus-visible]:outline-2", "has-[:focus-visible]:outline-accent-text");
@@ -381,10 +386,8 @@ describe("SettingsPanel", () => {
     expect(mockSetTheme).toHaveBeenCalledWith("dark");
   });
 
-  it("selecting Sepia theme (after expanding advanced) calls setTheme with sepia", async () => {
+  it("selecting the Hartija theme calls setTheme with sepia (the stored value)", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const moreBtn = screen.getByRole("button", { name: /više opcija/i });
-    await userEvent.click(moreBtn);
     const sepia = screen.getByRole("radio", { name: /hartija/i });
     await userEvent.click(sepia);
     expect(mockSetTheme).toHaveBeenCalledWith("sepia");
@@ -392,7 +395,7 @@ describe("SettingsPanel", () => {
 
   it("clicking playback speed 1.5x calls setPlaybackSpeed with 1.5", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    const speed = screen.getByRole("button", { name: "1,5×" });
+    const speed = screen.getByRole("radio", { name: "1,5×" });
     await userEvent.click(speed);
     expect(mockSetPlaybackSpeed).toHaveBeenCalledWith(1.5);
   });
@@ -401,23 +404,90 @@ describe("SettingsPanel", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const group = within(screen.getByRole("group", { name: "Brzina" }));
     for (const name of ["0,5×", "0,75×", "1×", "1,25×", "1,5×"]) {
-      expect(group.getByRole("button", { name })).toHaveTextContent(name);
+      expect(group.getByRole("radio", { name }).closest("label")).toHaveTextContent(name);
     }
   });
 
   it("names the pause options with the right form of sekunda", () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
-    for (const name of ["3 sekunde", "5 sekundi", "10 sekundi"]) {
-      expect(screen.getByRole("button", { name })).toBeInTheDocument();
+    const pause = within(screen.getByRole("group", { name: "Pauza između ajeta" }));
+    for (const name of ["Odmah", "3 sekunde", "5 sekundi", "10 sekundi", "Ručno"]) {
+      expect(pause.getByRole("radio", { name })).toBeInTheDocument();
     }
   });
 
   it("choosing a repeat mode sets exactly that mode", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const group = within(screen.getByRole("group", { name: /ponavljanje/i }));
-    await userEvent.click(group.getByRole("button", { name: "Ajet" }));
+    await userEvent.click(group.getByRole("radio", { name: "Ajet" }));
     expect(mockSetRepeatMode).toHaveBeenCalledWith("ayah");
     expect(mockCycleRepeatMode).not.toHaveBeenCalled();
+  });
+
+  // Phase 4, D5: everything about reading in one group, in the order of the handoff.
+  it("orders the reading group: size, script, transcription, translation, tajwid, following, theme", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const section = screen.getByRole("heading", { name: "Čitanje" }).closest("section")!;
+    const marks = [
+      within(section).getByRole("button", { name: "Manja slova" }),
+      within(section).getByRole("group", { name: "Arapsko pismo" }),
+      within(section).getByRole("switch", { name: "Transkripcija" }),
+      within(section).getByRole("switch", { name: "Prijevod" }),
+      within(section).getByRole("group", { name: "Tedžvid" }),
+      within(section).getByRole("group", { name: "Praćenje uz zvuk" }),
+      within(section).getByRole("group", { name: "Tema" }),
+    ];
+    for (let i = 1; i < marks.length; i++) {
+      expect(marks[i - 1].compareDocumentPosition(marks[i]) & Node.DOCUMENT_POSITION_FOLLOWING, String(i)).toBeTruthy();
+    }
+  });
+
+  it("chooses between following by ayah and word by word (the player store's mode)", async () => {
+    usePlayerStore.setState({ wordByWordMode: false });
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const following = within(screen.getByRole("group", { name: "Praćenje uz zvuk" }));
+    expect(following.getByRole("radio", { name: "Po ajetu" })).toBeChecked();
+    await userEvent.click(following.getByRole("radio", { name: "Riječ po riječ" }));
+    expect(usePlayerStore.getState().wordByWordMode).toBe(true);
+    await userEvent.click(following.getByRole("radio", { name: "Po ajetu" }));
+    expect(usePlayerStore.getState().wordByWordMode).toBe(false);
+  });
+
+  it("holds the legend of the colors under the tajwid choice, only while colors are on", () => {
+    const { unmount } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const legend = screen.getByRole("button", { name: "Šta znače boje" });
+    const tajwid = screen.getByRole("group", { name: "Tedžvid" });
+    expect(tajwid.compareDocumentPosition(legend) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    unmount();
+    defaultStore.showTajwidColors = false;
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    expect(screen.queryByRole("button", { name: "Šta znače boje" })).toBeNull();
+    defaultStore.showTajwidColors = true;
+  });
+
+  it("closes when a rule's lesson is opened from the legend", async () => {
+    const onClose = vi.fn();
+    render(<SettingsPanel isOpen={true} onClose={onClose} />);
+    await userEvent.click(screen.getByRole("button", { name: "Šta znače boje" }));
+    const lesson = screen.getByRole("link", { name: "medd" });
+    lesson.addEventListener("click", (e) => e.preventDefault());
+    await userEvent.click(lesson);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses radios and switches for every choice: no pressed buttons, and one selected look", () => {
+    const { container } = render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    expect(container.querySelector("[aria-pressed]")).toBeNull();
+    const checked = screen.getAllByRole("radio").filter((r) => (r as HTMLInputElement).checked);
+    expect(checked.length).toBeGreaterThanOrEqual(6);
+    for (const radio of checked) expect(radio.closest("label")).toHaveClass(...SELECTED_CLASSES.split(" "));
+  });
+
+  it("writes group titles in plain case", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    for (const heading of screen.getAllByRole("heading", { level: 3 })) {
+      expect(heading.className).not.toMatch(/uppercase/);
+    }
   });
 
   it("auto-play next switch calls toggleAutoPlayNext", async () => {

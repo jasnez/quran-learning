@@ -29,6 +29,7 @@ const ALLOWED: Record<string, string> = {
   "components/test/TestResult.tsx": "unrouted test mode, outside Phase 4",
   "components/pwa/InstallPrompt.tsx": "icon tile on the accent wash, not a choice",
   "components/tajwid/LessonSections.tsx": "note box on the accent wash, not a choice",
+  "components/settings/SettingsPanel.tsx": "the all-downloaded note on the accent wash, not a choice",
 };
 
 const LEGACY = [
@@ -38,7 +39,6 @@ const LEGACY = [
   "components/home/FeaturedSurahsSection.tsx",
   "components/learn/LearnModeContent.tsx",
   "components/progress/ProgressContent.tsx",
-  "components/settings/SettingsPanel.tsx",
   "components/surahs/SurahListItem.tsx",
   "components/surahs/SurahsPageContent.tsx",
   "components/tajwid/TajwidQuiz.tsx",

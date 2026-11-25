@@ -7,6 +7,7 @@ import { commonSurahName } from "@/lib/quran/surahNames";
 import type { JuzSegment } from "@/lib/data";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
+import { useTajwidNotice } from "@/components/quran/useTajwidNotice";
 import { AyahUnit } from "./AyahUnit";
 import type { Ayah } from "@/types/quran";
 
@@ -22,6 +23,8 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
+  // The colors are seen here; their legend is in the settings sheet.
+  useTajwidNotice();
 
   // Playback runs through the whole juz, across surah boundaries.
   const juzAyahs = useMemo(() => segments.flatMap((s) => s.ayahs), [segments]);

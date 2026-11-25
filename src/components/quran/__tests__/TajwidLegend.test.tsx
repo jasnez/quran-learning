@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TajwidLegend } from "../TajwidLegend";
@@ -145,26 +145,28 @@ describe("TajwidLegend", () => {
     });
   });
 
-  describe("one-time notice about the new colors", () => {
-    const NOTICE = "Boje su sada kao u tedžvidskom mushafu.";
+  // The notice about the new colors is fired by the reading screens (useTajwidNotice): the
+  // legend lives in the settings sheet and may never be opened.
+  it("fires no notice of its own", () => {
+    useSettingsStore.setState({ tajwidNoticeSeen: false });
+    const before = useToastStore.getState().showCount;
+    render(<TajwidLegend />);
+    expect(useToastStore.getState().showCount).toBe(before);
+    expect(useSettingsStore.getState().tajwidNoticeSeen).toBe(false);
+  });
 
-    it("shows the notice once for someone who used the old colors, then remembers it", () => {
-      useSettingsStore.setState({ tajwidNoticeSeen: false });
-      const before = useToastStore.getState().showCount;
-      render(<TajwidLegend />);
-      expect(useToastStore.getState().message).toBe(NOTICE);
-      expect(useToastStore.getState().showCount).toBe(before + 1);
-      expect(useSettingsStore.getState().tajwidNoticeSeen).toBe(true);
+  it("tells its host when a lesson link is followed, so a sheet around it can close", async () => {
+    const onNavigate = vi.fn();
+    render(<TajwidLegend onNavigate={onNavigate} />);
+    await userEvent.click(screen.getByRole("button", { name: "Šta znače boje" }));
+    const link = screen.getByRole("link", { name: "kalkala" });
+    link.addEventListener("click", (e) => e.preventDefault());
+    await userEvent.click(link);
+    expect(onNavigate).toHaveBeenCalledTimes(1);
+  });
 
-      cleanup();
-      render(<TajwidLegend />);
-      expect(useToastStore.getState().showCount).toBe(before + 1);
-    });
-
-    it("shows nothing when the notice was already seen", () => {
-      const before = useToastStore.getState().showCount;
-      render(<TajwidLegend />);
-      expect(useToastStore.getState().showCount).toBe(before);
-    });
+  it("is a quiet block, not a card", () => {
+    const { container } = render(<TajwidLegend />);
+    expect(container.firstElementChild?.className).not.toMatch(/rounded-xl|bg-paper/);
   });
 });

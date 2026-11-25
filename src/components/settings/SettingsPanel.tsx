@@ -1,11 +1,38 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
+import { Minus, Plus } from "lucide-react";
 import { useSettingsStore, type TajwidDisplay } from "@/store/settingsStore";
 import type { RepeatMode, PauseAfterAyah } from "@/types/settings";
 import { SURAH_FORMS, formatCount, formatNumber, pluralForm, type PluralForms } from "@/lib/format";
+import { usePlayerStore } from "@/store/playerStore";
+import { ChoiceGroup, Switch } from "@/components/ui";
+import { TajwidLegend } from "@/components/quran/TajwidLegend";
 import { useLightDismiss } from "@/components/ui/useLightDismiss";
 import { useOfflineDownload, TOTAL_SURAHS, type SurahFailure } from "@/hooks/useOfflineDownload";
+
+const GROUP_TITLE = "mb-4 text-[1.0625rem] font-semibold text-ink";
+const HINT = "mt-1.5 text-[0.8125rem] text-ink-muted";
+const STEP_BUTTON =
+  "flex h-9 w-9 items-center justify-center rounded-control border border-line-strong text-ink-muted transition-colors duration-press ease-standard hover:bg-surface-sunken disabled:opacity-45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text";
+
+const FONT_STYLES = [
+  { value: "naskh", label: "Moderno" },
+  { value: "uthmanic", label: "Klasično" },
+] as const;
+
+/** The choice is stored as the player's wordByWordMode flag. */
+const SYNC_MODES = [
+  { value: "ayah", label: "Po ajetu" },
+  { value: "word", label: "Riječ po riječ" },
+] as const;
+
+/** The stored value stays "sepia"; the app calls that theme Hartija. */
+const THEMES = [
+  { value: "light", label: "Svijetla" },
+  { value: "sepia", label: "Hartija" },
+  { value: "dark", label: "Tamna" },
+] as const;
 
 const TAJWID_DISPLAYS: { value: TajwidDisplay; label: string }[] = [
   { value: "off", label: "Isključeno" },
@@ -18,6 +45,7 @@ const FONT_MAX = 44;
 const FONT_STEP = 4;
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5] as const;
+const SPEED_CHOICES = SPEED_OPTIONS.map((speed) => ({ value: String(speed), label: `${formatNumber(speed)}×` }));
 
 const SECOND_FORMS: PluralForms = { one: "sekunda", few: "sekunde", other: "sekundi" };
 const MISSING_VERB: PluralForms = { one: "Nedostaje", few: "Nedostaju", other: "Nedostaje" };
@@ -38,13 +66,6 @@ const PAUSE_OPTIONS: { value: PauseAfterAyah; label: string }[] = [
   { value: "10s", label: formatCount(10, SECOND_FORMS) },
   { value: "manual", label: "Ručno" },
 ];
-const PRIMARY_THEMES = [
-  { value: "light" as const, label: "Svijetla" },
-  { value: "dark" as const, label: "Tamna" },
-] as const;
-const ADVANCED_THEMES = [
-  { value: "sepia" as const, label: "Hartija" },
-] as const;
 
 type SettingsPanelProps = { isOpen: boolean; onClose: () => void };
 
@@ -81,6 +102,8 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const setRepeatMode = useSettingsStore((s) => s.setRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const setPauseAfterAyah = useSettingsStore((s) => s.setPauseAfterAyah);
+  const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
+  const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -125,185 +148,130 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-6">
-          {/* Display Settings */}
-          <section className="mb-8" aria-labelledby="display-heading">
-            <h3 id="display-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted">
-              Prikaz
+          {/* Reading: everything that changes how an ayah looks, in one place (the only way in
+              from a reading screen is the gear in the header). */}
+          <section className="mb-8" aria-labelledby="reading-heading">
+            <h3 id="reading-heading" className={GROUP_TITLE}>
+              Čitanje
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label id="font-size-label" className="block text-sm font-medium text-ink">
+                <span id="font-size-label" className="block text-[0.9375rem] text-ink">
                   Veličina arapskih slova
-                </label>
-                <div className="mt-2 flex items-center gap-2">
+                </span>
+                <div className="mt-2 flex items-center gap-2" role="group" aria-labelledby="font-size-label">
                   <button
                     type="button"
-                    className="rounded-lg border border-line-strong bg-surface px-3 py-1.5 text-ink-muted hover:bg-surface-sunken disabled:opacity-50"
+                    className={STEP_BUTTON}
                     aria-label="Manja slova"
                     disabled={arabicFontSize <= FONT_MIN}
                     onClick={fontDecrease}
                   >
-                    −
+                    <Minus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                   </button>
-                  <span
-                    className="min-w-[3rem] text-center text-ink"
-                    aria-live="polite"
-                  >
+                  <span className="min-w-[3rem] text-center tabular-nums text-ink" aria-live="polite">
                     {arabicFontSize}
                   </span>
                   <button
                     type="button"
-                    className="rounded-lg border border-line-strong bg-surface px-3 py-1.5 text-ink-muted hover:bg-surface-sunken disabled:opacity-50"
+                    className={STEP_BUTTON}
                     aria-label="Veća slova"
                     disabled={arabicFontSize >= FONT_MAX}
                     onClick={fontIncrease}
                   >
-                    +
+                    <Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                   </button>
                 </div>
               </div>
               <div>
-                <span id="font-style-label" className="block text-sm font-medium text-ink">
-                  Arapsko pismo
-                </span>
-                <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="font-style-label">
-                  {(["naskh", "uthmanic"] as const).map((style) => (
-                    <button
-                      key={style}
-                      type="button"
-                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        arabicFontStyle === style ? OPTION_SELECTED : OPTION_IDLE
-                      }`}
-                      aria-pressed={arabicFontStyle === style}
-                      onClick={() => {
-                        setArabicFontStyle(style);
-                        document.documentElement.setAttribute("data-arabic-font", style);
-                      }}
-                    >
-                      {style === "naskh" ? "Moderno" : "Klasično"}
-                    </button>
-                  ))}
-                </div>
-                <p className="mt-1 text-xs text-ink-muted">
+                <ChoiceGroup
+                  legend="Arapsko pismo"
+                  name="arabic-font-style"
+                  options={FONT_STYLES}
+                  value={arabicFontStyle}
+                  describedBy="font-style-hint"
+                  onChange={(style) => {
+                    setArabicFontStyle(style);
+                    document.documentElement.setAttribute("data-arabic-font", style);
+                  }}
+                />
+                <p id="font-style-hint" className={HINT}>
                   Klasično pismo ima tradicionalniji oblik slova; moderno je jednostavnije.
                 </p>
               </div>
-              <ToggleRow
-                id="transliteration"
-                label="Transkripcija"
-                checked={showTransliteration}
-                onChange={toggleTransliteration}
-              />
-              <ToggleRow
-                id="translation"
-                label="Prijevod"
-                checked={showTranslation}
-                onChange={toggleTranslation}
-              />
               <div>
-                <span id="tajwid-display-label" className="text-sm font-medium text-ink">
-                  Tedžvid
-                </span>
-                <div className="mt-2 flex gap-2" role="radiogroup" aria-labelledby="tajwid-display-label" aria-describedby="tajwid-display-hint">
-                  {TAJWID_DISPLAYS.map((d) => (
-                    <label
-                      key={d.value}
-                      className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-2 py-2.5 text-center text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
-                    >
-                      <input
-                        type="radio"
-                        name="tajwid-display"
-                        value={d.value}
-                        checked={tajwidDisplay === d.value}
-                        onChange={() => setTajwidDisplay(d.value)}
-                        className="sr-only"
-                        aria-label={d.label}
-                      />
-                      {d.label}
-                    </label>
-                  ))}
-                </div>
-                <p id="tajwid-display-hint" className="mt-1 text-xs text-ink-muted">
+                <Switch id="transliteration" label="Transkripcija" checked={showTransliteration} onChange={toggleTransliteration} />
+                <Switch id="translation" label="Prijevod" checked={showTranslation} onChange={toggleTranslation} />
+              </div>
+              <div>
+                <ChoiceGroup
+                  legend="Tedžvid"
+                  name="tajwid-display"
+                  options={TAJWID_DISPLAYS}
+                  value={tajwidDisplay}
+                  describedBy="tajwid-display-hint"
+                  onChange={setTajwidDisplay}
+                />
+                <p id="tajwid-display-hint" className={HINT}>
                   Linije razlikuju pravila i kad se boje teško razlikuju: puna, tačkice, crtice, dvostruka.
                 </p>
+                {/* The key to the colors, and the keyboard path to the rule lessons. A lesson link
+                    leaves this page, so it closes the sheet. */}
+                {showTajwidColors && (
+                  <div className="mt-2">
+                    <TajwidLegend onNavigate={onClose} />
+                  </div>
+                )}
               </div>
+              <ChoiceGroup
+                legend="Praćenje uz zvuk"
+                name="sync-mode"
+                options={SYNC_MODES}
+                value={wordByWordMode ? "word" : "ayah"}
+                onChange={(mode) => setWordByWordMode(mode === "word")}
+              />
+              <ChoiceGroup legend="Tema" name="theme" options={THEMES} value={theme} onChange={setTheme} />
             </div>
           </section>
 
-          {/* Audio Settings */}
+          {/* Sound */}
           <section className="mb-8" aria-labelledby="audio-heading">
-            <h3 id="audio-heading" className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted">
+            <h3 id="audio-heading" className={GROUP_TITLE}>
               Zvuk
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <span className="block text-sm font-medium text-ink">
-                  Učač
-                </span>
-                <p className="mt-1 text-sm text-ink-muted">
-                  {reciterLabel}
-                </p>
+                <span className="block text-[0.9375rem] text-ink">Učač</span>
+                <p className="mt-1 text-sm text-ink-muted">{reciterLabel}</p>
               </div>
-              <div>
-                <span className="block text-sm font-medium text-ink">
-                  Brzina
-                </span>
-                <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Brzina">
-                  {SPEED_OPTIONS.map((speed) => (
-                    <button
-                      key={speed}
-                      type="button"
-                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        playbackSpeed === speed ? OPTION_SELECTED : OPTION_IDLE
-                      }`}
-                      aria-pressed={playbackSpeed === speed}
-                      aria-label={`${formatNumber(speed)}×`}
-                      onClick={() => setPlaybackSpeed(speed)}
-                    >
-                      {formatNumber(speed)}×
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <RepeatModeRow repeatMode={repeatMode} onChange={setRepeatMode} />
-              <ToggleRow
-                id="autoplay"
-                label="Pusti sljedeću suru"
-                checked={autoPlayNext}
-                onChange={toggleAutoPlayNext}
+              <ChoiceGroup
+                legend="Brzina"
+                name="playback-speed"
+                options={SPEED_CHOICES}
+                value={String(playbackSpeed)}
+                onChange={(speed) => setPlaybackSpeed(Number(speed))}
               />
+              <ChoiceGroup legend="Ponavljanje" name="repeat-mode" options={REPEAT_OPTIONS} value={repeatMode} onChange={setRepeatMode} />
+              <Switch id="autoplay" label="Pusti sljedeću suru" checked={autoPlayNext} onChange={toggleAutoPlayNext} />
               <div>
-                <span id="pause-after-ayah-label" className="block text-sm font-medium text-ink">
-                  Pauza između ajeta
-                </span>
-                <p className="mb-2 text-xs text-ink-muted">
+                <ChoiceGroup
+                  legend="Pauza između ajeta"
+                  name="pause-after-ayah"
+                  options={PAUSE_OPTIONS}
+                  value={pauseAfterAyah}
+                  describedBy="pause-after-ayah-hint"
+                  onChange={setPauseAfterAyah}
+                />
+                <p id="pause-after-ayah-hint" className={HINT}>
                   Koliko se čeka nakon svakog ajeta. Uz &bdquo;Ručno&ldquo; sljedeći ajet počinje tek kad
                   dodirneš &bdquo;Nastavi&ldquo;.
                 </p>
-                <div className="flex flex-wrap gap-2" role="group" aria-labelledby="pause-after-ayah-label">
-                  {PAUSE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                        pauseAfterAyah === opt.value ? OPTION_SELECTED : OPTION_IDLE
-                      }`}
-                      aria-pressed={pauseAfterAyah === opt.value}
-                      onClick={() => setPauseAfterAyah(opt.value)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
           </section>
 
           {/* Offline */}
           <OfflineSection active={isOpen} />
-
-          {/* Theme */}
-          <ThemeSection theme={theme} setTheme={setTheme} />
         </div>
     </dialog>
   );
@@ -314,75 +282,6 @@ const REPEAT_OPTIONS: { value: RepeatMode; label: string }[] = [
   { value: "surah", label: "Sura" },
   { value: "ayah", label: "Ajet" },
 ];
-
-/** Three modes, so a group of options like "Pauza između ajeta", not an on/off switch (QA section 5). */
-function RepeatModeRow({
-  repeatMode,
-  onChange,
-}: {
-  repeatMode: RepeatMode;
-  onChange: (mode: RepeatMode) => void;
-}) {
-  return (
-    <div>
-      <span id="repeat-mode-label" className="block text-sm font-medium text-ink">
-        Ponavljanje
-      </span>
-      <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="repeat-mode-label">
-        {REPEAT_OPTIONS.map((opt) => (
-          <button
-            key={opt.value}
-            type="button"
-            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              repeatMode === opt.value ? OPTION_SELECTED : OPTION_IDLE
-            }`}
-            aria-pressed={repeatMode === opt.value}
-            onClick={() => onChange(opt.value)}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ToggleRow({
-  id,
-  label,
-  checked,
-  onChange,
-}: {
-  id: string;
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <div className="flex items-center justify-between">
-      <label htmlFor={id} className="text-sm font-medium text-ink">
-        {label}
-      </label>
-      <button
-        id={id}
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        aria-label={label}
-        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 ${
-          checked ? "bg-accent" : "bg-line-strong"
-        }`}
-        onClick={onChange}
-      >
-        <span
-          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-on-accent shadow ring-0 transition ${
-            checked ? "translate-x-5" : "translate-x-0.5"
-          }`}
-        />
-      </button>
-    </div>
-  );
-}
 
 function CloseIcon() {
   return (
@@ -403,87 +302,6 @@ function CloseIcon() {
     </svg>
   );
 }
-
-type ThemeValue = "light" | "dark" | "sepia";
-
-function ThemeSection({
-  theme,
-  setTheme,
-}: {
-  theme: ThemeValue;
-  setTheme: (t: ThemeValue) => void;
-}) {
-  const isAdvanced = ADVANCED_THEMES.some((t) => t.value === theme);
-  const [showAdvanced, setShowAdvanced] = useState(isAdvanced);
-
-  return (
-    <section aria-labelledby="theme-heading">
-      <h3
-        id="theme-heading"
-        className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted"
-      >
-        Tema
-      </h3>
-      <div className="flex gap-2" role="radiogroup" aria-labelledby="theme-heading">
-        {PRIMARY_THEMES.map((t) => (
-          <label
-            key={t.value}
-            className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
-          >
-            <input
-              type="radio"
-              name="theme"
-              value={t.value}
-              checked={theme === t.value}
-              onChange={() => setTheme(t.value)}
-              className="sr-only"
-              aria-label={t.label}
-            />
-            {t.label}
-          </label>
-        ))}
-      </div>
-      {showAdvanced ? (
-        <div
-          className="mt-2 flex gap-2"
-          role="radiogroup"
-          aria-label="Dodatne teme"
-        >
-          {ADVANCED_THEMES.map((t) => (
-            <label
-              key={t.value}
-              className="flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-text has-[:checked]:border-accent-text has-[:checked]:bg-accent-wash has-[:checked]:text-accent-text"
-            >
-              <input
-                type="radio"
-                name="theme"
-                value={t.value}
-                checked={theme === t.value}
-                onChange={() => setTheme(t.value)}
-                className="sr-only"
-                aria-label={t.label}
-              />
-              {t.label}
-            </label>
-          ))}
-        </div>
-      ) : (
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(true)}
-          className="mt-2 text-xs font-medium text-ink-muted hover:text-ink"
-        >
-          Više opcija…
-        </button>
-      )}
-    </section>
-  );
-}
-
-// White on emerald-700 is 5.5:1; on emerald-600 it was 3.65:1 and on emerald-500 2.5:1 (QA section 5).
-const OPTION_SELECTED = "bg-accent text-on-accent";
-const OPTION_IDLE =
-  "bg-surface-sunken text-ink hover:bg-line";
 
 const SECONDARY_BUTTON =
   "w-full rounded-lg border border-line-strong px-4 py-2 text-sm text-ink-muted transition-colors hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-accent-text";
@@ -524,10 +342,7 @@ function OfflineSection({ active }: { active: boolean }) {
 
   return (
     <section aria-labelledby="offline-heading">
-      <h3
-        id="offline-heading"
-        className="mb-4 text-sm font-medium uppercase tracking-wide text-ink-muted"
-      >
+      <h3 id="offline-heading" className={GROUP_TITLE}>
         Čitanje bez interneta
       </h3>
 

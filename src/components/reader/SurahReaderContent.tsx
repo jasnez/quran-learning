@@ -7,7 +7,7 @@ import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
-import { TajwidLegend } from "@/components/quran";
+import { useTajwidNotice } from "@/components/quran/useTajwidNotice";
 import { AyahUnit } from "./AyahUnit";
 import { useActiveAyahObserver } from "./useActiveAyahObserver";
 import { SurahReaderUrlEffects } from "./SurahReaderUrlEffects";
@@ -33,6 +33,8 @@ export function SurahReaderContent({
   const prevAyahIdRef = useRef<string | null>(null);
   // The ayah on screen, for the header's counter and the desktop ayah list.
   useActiveAyahObserver(ayahs);
+  // The colors are seen here; their legend is in the settings sheet.
+  useTajwidNotice();
 
   const surahNumber = ayahs.length > 0 ? parseInt(ayahs[0].id.split(":")[0], 10) : 0;
 
@@ -80,11 +82,6 @@ export function SurahReaderContent({
           initialAutoplay={initialAutoplay}
         />
       </Suspense>
-      {showTajwidColors && (
-        <div className="mb-6">
-          <TajwidLegend />
-        </div>
-      )}
       {/* The status region stays in the DOM and only its text changes: a region mounted together
           with its text is often not announced. Empty, it is sr-only, so no empty box shows. */}
       <p className={wordDataFailed ? "mb-4 text-sm text-warning-text" : "sr-only"} role="status">
