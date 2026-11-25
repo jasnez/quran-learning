@@ -83,7 +83,7 @@ export function TajwidLegend() {
                       <span
                         data-tj-line-sample={rule}
                         aria-hidden="true"
-                        className={`mr-1 ${tajwidRuleClasses[rule]} ${tajwidRuleLineClasses[rule]}`}
+                        className={`tj-line-sample mr-1 ${tajwidRuleClasses[rule]} ${tajwidRuleLineClasses[rule]}`}
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;
                       </span>
