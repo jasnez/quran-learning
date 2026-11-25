@@ -142,27 +142,27 @@ describe("Surah Reader page", () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(screen.getByText(/2\s*ajeta|2 ajeta/i)).toBeInTheDocument();
-    expect(screen.getByText(/meka|meccan/i)).toBeInTheDocument();
+    expect(screen.getByText(/mekanska sura/)).toBeInTheDocument();
   });
 
-  it("shows Play full surah button when ayahs are present", async () => {
+  it("shows the play-surah button when ayahs are present", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const btn = screen.getByRole("button", { name: /pusti cijelu suru/i });
+    const btn = screen.getByRole("button", { name: "Pusti suru" });
     expect(btn).toBeInTheDocument();
     btn.click();
     expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("when progress exists, SurahFrame shows Preslušano: X od Y ajeta and progress bar", async () => {
+  it("when progress exists, SurahFrame shows read and heard ayahs together as text", async () => {
     hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
       num === 1
         ? {
             surahNumber: 1,
             totalAyahs: 2,
             ayahsListened: new Set([1]),
-            ayahsRead: new Set(),
+            ayahsRead: new Set([2]),
             completionPercent: 50,
             lastAccessedAt: "",
             timeSpentMs: 0,
@@ -171,7 +171,7 @@ describe("Surah Reader page", () => {
     );
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText("Preslušano: 1 od 2 ajeta")).toBeInTheDocument();
+    expect(screen.getByText("Pročitano: 2 od 2 ajeta")).toBeInTheDocument();
   });
 
   it("renders an AyahCard for each ayah", async () => {

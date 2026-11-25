@@ -5,37 +5,75 @@ import { commonSurahName } from "@/lib/quran/surahNames";
 import { usePlayerStore } from "@/store/playerStore";
 import { useProgressStore } from "@/store/progressStore";
 import { AYAH_FORMS, formatCount, formatNumber } from "@/lib/format";
+import { ayahsDoneCount } from "@/lib/progress/ayahsDone";
 import * as audioManager from "@/lib/audio/audioManager";
+import { Button, ButtonLink } from "@/components/ui";
+import { PlayIcon } from "@/components/ui/icons";
 
 const revelationLabel: Record<string, string> = {
-  meccan: "Meka",
-  medinan: "Medina",
+  meccan: "mekanska sura",
+  medinan: "medinska sura",
 };
 
-type SurahFrameProps = { surah: SurahSummary; ayahs?: Ayah[] };
+type SurahFrameProps = {
+  surah: SurahSummary;
+  ayahs?: Ayah[];
+  /** "page": the title of a surah page (h1, actions, progress). "segment": a surah inside a juz. */
+  variant?: "page" | "segment";
+};
 
-export function SurahFrame({ surah, ayahs = [] }: SurahFrameProps) {
+/** The frame itself: a gold border with a gold outline, as around a surah title in a mushaf. */
+const FRAME =
+  "m-1 rounded-control border border-gold px-4 pb-3 pt-2.5 text-center outline-1 outline-offset-[3px] outline-gold md:px-5";
+
+function pagePhrase(ayahs: Ayah[]): string | null {
+  const pages = ayahs.map((a) => a.page).filter((p) => typeof p === "number" && p > 0);
+  if (pages.length === 0) return null;
+  const min = Math.min(...pages);
+  const max = Math.max(...pages);
+  return min === max ? `str. ${min}` : `str. ${min}–${max}`;
+}
+
+/**
+ * The title frame of a surah (unvan): both names, one line about the surah, and under the frame
+ * the two things to do with it. Nothing here leaves for another surah (that is at the end of the
+ * surah), and progress is one line of text, not a bar.
+ */
+export function SurahFrame({ surah, ayahs = [], variant = "page" }: SurahFrameProps) {
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
-  const progress = useProgressStore((s) => s.surahProgressMap[surah.surahNumber]);
+  // Read and heard ayahs count together (lib/progress/ayahsDone).
+  const done = useProgressStore((s) => ayahsDoneCount(s.surahProgressMap[surah.surahNumber]));
+
+  const common = commonSurahName(surah);
+  const names = (
+    <>
+      <span lang="ar" dir="rtl" className={variant === "page" ? "font-arabic text-4xl leading-[1.5] md:text-5xl md:leading-[1.5]" : "font-arabic text-2xl leading-[1.5]"}>
+        {surah.nameArabic}
+      </span>
+      <span className="text-[1.0625rem] font-semibold leading-snug">
+        {surah.nameLatin}
+        {common && <span className="font-normal text-ink-muted"> {common}</span>}
+      </span>
+    </>
+  );
+
+  if (variant === "segment") {
+    return (
+      <div data-surah-frame className={FRAME}>
+        <h2 className="flex flex-col gap-0.5 font-normal text-ink">{names}</h2>
+      </div>
+    );
+  }
 
   const totalAyahs = ayahs.length > 0 ? ayahs.length : surah.ayahCount;
-  const listened = progress?.ayahsListened.size ?? 0;
-  const percent = totalAyahs > 0 ? Math.round((listened / totalAyahs) * 100) : 0;
-  const showProgress = listened > 0 && totalAyahs > 0;
-
-  const pages = ayahs
-    .map((a) => a.page)
-    .filter((p) => typeof p === "number" && p > 0);
-  const hasPageInfo = pages.length > 0;
-  const minPage = hasPageInfo ? Math.min(...pages) : null;
-  const maxPage = hasPageInfo ? Math.max(...pages) : null;
-  const pageLabel =
-    hasPageInfo && minPage != null && maxPage != null
-      ? minPage === maxPage
-        ? `Stranica: ${minPage}`
-        : `Stranice: ${minPage}\u2013${maxPage}`
-      : null;
+  const meta = [
+    formatCount(surah.ayahCount, AYAH_FORMS),
+    revelationLabel[surah.revelationType] ?? surah.revelationType,
+    pagePhrase(ayahs),
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   const handlePlayFullSurah = () => {
     if (ayahs.length === 0) return;
@@ -51,65 +89,27 @@ export function SurahFrame({ surah, ayahs = [] }: SurahFrameProps) {
   };
 
   return (
-    <header className="rounded-2xl border border-line bg-paper/80 px-6 py-8 text-center">
-      <h1
-        className="font-arabic text-4xl font-normal tracking-wide text-ink md:text-5xl"
-        dir="rtl"
-        lang="ar"
-      >
-        {surah.nameArabic}
-      </h1>
-      <p className="mt-3 text-lg text-ink-muted">
-        {surah.nameLatin}
-        {commonSurahName(surah) && (
-          <>
-            <span className="mx-2 text-ink-muted">·</span>
-            {commonSurahName(surah)}
-          </>
-        )}
-      </p>
-      <p className="mt-2 text-sm text-ink-muted">
-        {formatCount(surah.ayahCount, AYAH_FORMS)} · {revelationLabel[surah.revelationType] ?? surah.revelationType}
-      </p>
-      {pageLabel && (
-        <p className="mt-1 text-xs text-ink-muted" aria-label={`Stranice mushafa za suru ${surah.nameLatin}`}>
-          {pageLabel}
+    <header>
+      <div data-surah-frame className={FRAME}>
+        <h1 className="flex flex-col gap-0.5 font-normal text-ink">{names}</h1>
+        <p className="mt-0.5 text-sm text-ink-muted">{meta}</p>
+      </div>
+      {ayahs.length > 0 && (
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <Button onClick={handlePlayFullSurah} leadingIcon={<PlayIcon className="h-[1.125rem] w-[1.125rem]" />}>
+            Pusti suru
+          </Button>
+          {/* No prefetch: it would download a second copy of the surah on every visit (QA section 6). */}
+          <ButtonLink href={`/learn/${surah.surahNumber}`} variant="secondary" prefetch={false}>
+            Uči ajet po ajet
+          </ButtonLink>
+        </div>
+      )}
+      {done > 0 && (
+        <p className="mt-3 text-center text-sm text-ink-muted">
+          Pročitano: {formatNumber(done)} od {formatNumber(totalAyahs)} ajeta
         </p>
       )}
-      {showProgress && (
-        <div className="mt-4">
-          <p className="text-xs text-ink-muted">
-            Preslušano: {formatNumber(listened)} od {formatNumber(totalAyahs)} ajeta
-          </p>
-          <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-surface-sunken">
-            <div
-              className="h-full rounded-full bg-accent"
-              style={{ width: `${Math.min(100, percent)}%` }}
-            />
-          </div>
-        </div>
-      )}
-      {ayahs.length > 0 && (
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={handlePlayFullSurah}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
-            aria-label="Pusti cijelu suru"
-          >
-            <PlayIcon className="h-4 w-4" />
-            Pusti cijelu suru
-          </button>
-        </div>
-      )}
     </header>
-  );
-}
-
-function PlayIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M8 5v14l11-7L8 5z" />
-    </svg>
   );
 }

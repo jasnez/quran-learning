@@ -89,14 +89,6 @@ export default async function SurahReaderPage({ params }: PageProps) {
           ) : null}
         </div>
         <div className="flex items-center gap-2">
-          {/* No prefetch: it would download a second copy of the surah on every visit (QA section 6). */}
-          <Link
-            href={`/learn/${surahNumber}`}
-            prefetch={false}
-            className="rounded-full border-2 border-accent-text bg-accent-wash px-3 py-1.5 text-sm font-medium text-accent-text hover:bg-line"
-          >
-            Uči ajet po ajet
-          </Link>
           <Link
             href="/surahs"
             className="rounded-full border border-line px-3 py-1.5 text-ink-muted hover:bg-surface-sunken"
