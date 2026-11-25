@@ -235,10 +235,10 @@ html {
   transition: background-color 0.25s ease, color 0.25s ease;
   /*
    * Keep a scrolled-to or focused element clear of the fixed bars (WCAG 2.4.11).
-   * Top: header 3rem + sticky reader header + air = 7.5rem.
+   * Top: the header and a little air (no second bar under it since Phase 4).
    * Bottom: the bars, then the back-to-top button above them (1rem gap + 3rem tall) and air.
    */
-  scroll-padding-top: 7.5rem;
+  scroll-padding-top: calc(var(--bar-header) + 0.5rem);
   scroll-padding-bottom: calc(var(--bars-bottom) + 6rem);
 }
 

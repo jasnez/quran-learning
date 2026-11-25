@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { useParams, usePathname, useSelectedLayoutSegment } from "next/navigation";
 import {
   ChevronLeft,
   Play,
@@ -16,6 +16,8 @@ import { useSettingsOpen } from "@/contexts/SettingsOpenContext";
 import { useStickyHeader } from "./useStickyHeader";
 import { SITE_NAME } from "@/lib/site";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/duas/categories";
+import { useReaderPositionStore } from "@/store/readerPositionStore";
+import { readerContext } from "./readerContext";
 
 const BRAND_COLOR = "text-ink";
 const LINK_HOVER = "hover:text-accent-text";
@@ -32,7 +34,12 @@ export function Header() {
   // Read the route tree, not the URL: the static 404.html is served for any
   // unknown URL (e.g. /surah/115), so the URL would add a link the server HTML
   // does not have and break hydration (React #418).
-  const isSurahPage = useSelectedLayoutSegment() === "surah";
+  const segment = useSelectedLayoutSegment();
+  const params = useParams();
+  // On a reading screen the header says where you are instead of the brand (no second bar).
+  // The learning screen keeps its own header until it is rebuilt (PR 4.2).
+  const context = readerContext(segment, params);
+  const reader = context?.kind === "learn" ? null : context;
   const activeAudioSrc = usePlayerStore((s) => s.activeAudioSrc);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const resume = usePlayerStore((s) => s.resume);
@@ -55,25 +62,35 @@ export function Header() {
         hasShadow ? "shadow-sm" : ""
       } ${hidden ? "-translate-y-full" : ""}`}
     >
-      <div className="mx-auto flex h-[var(--bar-header)] max-w-7xl items-center justify-between gap-6 px-4 sm:px-5">
-        {/* Brand */}
-        <div className="flex min-w-0 flex-1 items-center gap-3">
-          {isSurahPage && (
-            <Link
-              href="/surahs"
-              className={`${ICON_BTN} shrink-0`}
-              aria-label="Nazad na sve sure"
-            >
-              <ChevronLeft className="h-5 w-5" aria-hidden />
-            </Link>
-          )}
+      <div
+        className={`mx-auto flex h-[var(--bar-header)] max-w-7xl items-center justify-between gap-2 sm:gap-6 sm:px-5 ${reader ? "px-1" : "px-4"}`}
+      >
+        {/* Brand, or on a reading screen: back, the surah's name and the ayah on screen */}
+        <div className="flex min-w-0 flex-1 items-center gap-1 sm:gap-3">
           <Link
             href="/"
-            className={`min-w-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER}`}
+            className={`min-w-0 shrink-0 truncate text-base font-semibold sm:text-[1.05rem] ${BRAND_COLOR} transition-colors ${LINK_HOVER} ${reader ? "hidden sm:block" : ""}`}
             aria-label={`${SITE_NAME}, početna`}
           >
             {SITE_NAME}
           </Link>
+          {reader && (
+            <>
+              <span role="separator" aria-hidden className={SEPARATOR} />
+              <Link href={reader.backHref} className={`${ICON_BTN} shrink-0`} aria-label={reader.backLabel}>
+                <ChevronLeft className="h-5 w-5" aria-hidden />
+              </Link>
+              <p data-reader-title className="min-w-0 truncate text-base font-semibold text-ink">
+                {reader.title}
+                {reader.titleArabic && (
+                  <span className="ml-2 text-[0.9375rem] font-normal text-ink-muted" dir="rtl" lang="ar" aria-hidden>
+                    {reader.titleArabic}
+                  </span>
+                )}
+              </p>
+              {reader.total !== undefined && <ReaderCount total={reader.total} />}
+            </>
+          )}
         </div>
 
         {/* Navigation */}
@@ -83,9 +100,10 @@ export function Header() {
         >
           {activeAudioSrc && (
             <>
+              {/* On a phone's reading screen the player bar right below does this. */}
               <button
                 type="button"
-                className={ICON_BTN}
+                className={`${ICON_BTN} ${reader ? "hidden sm:flex" : ""}`}
                 aria-label={isPlaying ? "Pauziraj" : "Pusti"}
                 onClick={() => (isPlaying ? pause() : resume())}
               >
@@ -113,7 +131,7 @@ export function Header() {
           <span role="separator" aria-hidden className={SEPARATOR} />
 
           <div className="flex items-center gap-1 sm:gap-2">
-            <Link href="/search" className={ICON_BTN} aria-label="Pretraga">
+            <Link href="/search" className={`${ICON_BTN} ${reader ? "hidden sm:flex" : ""}`} aria-label="Pretraga">
               <Search className="h-5 w-5" aria-hidden />
             </Link>
             <Link
@@ -123,10 +141,11 @@ export function Header() {
             >
               <Bookmark className="h-5 w-5" aria-hidden />
             </Link>
+            {/* The one way into settings on a reading screen, on every width. */}
             <button
               type="button"
-              className={`${ICON_BTN} hidden sm:flex`}
-              aria-label="Postavke"
+              className={`${ICON_BTN} ${reader ? "" : "hidden sm:flex"}`}
+              aria-label={reader ? "Postavke čitanja" : "Postavke"}
               aria-expanded={settingsOpen}
               onClick={() => openSettings()}
             >
@@ -136,6 +155,21 @@ export function Header() {
         </nav>
       </div>
     </header>
+  );
+}
+
+/** "3/7": the ayah on screen and the surah's count; in words for screen readers. */
+function ReaderCount({ total }: { total: number }) {
+  const ayahNumber = useReaderPositionStore((s) => s.ayahNumber);
+  return (
+    <span data-reader-count className="shrink-0 px-1 text-sm tabular-nums text-ink-muted">
+      <span aria-hidden="true">
+        {ayahNumber}/{total}
+      </span>
+      <span className="sr-only">
+        {ayahNumber}. ajet od {total}
+      </span>
+    </span>
   );
 }
 

@@ -24,6 +24,7 @@ vi.mock("next/link", () => ({
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useSelectedLayoutSegment: () => null,
+  useParams: () => ({}),
   useRouter: () => ({ push: vi.fn() }),
 }));
 

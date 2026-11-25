@@ -36,6 +36,7 @@ const mockAyah: Ayah = {
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useSelectedLayoutSegment: () => null,
+  useParams: () => ({}),
   useRouter: () => ({ push: vi.fn() }),
 }));
 vi.mock("@/store/playerStore", () => {

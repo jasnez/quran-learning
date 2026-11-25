@@ -5,7 +5,7 @@
  */
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor, cleanup, within } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import type { Ayah } from "@/types/quran";
 import { SurahReaderContent } from "../SurahReaderContent";
 import { clearWordTimingCache } from "@/lib/audio/wordTimingService";
@@ -161,21 +161,13 @@ describe("SurahReaderContent word-by-word", () => {
     expect(activeIn("1:2")).toEqual([]);
   });
 
-  // QA section 5: two role="switch" buttons for one choice between two modes. It is one choice,
-  // so it is a group of two toggle buttons, as in the desktop ReaderToolbar.
-  it("mobile sync mode is one group with the current mode pressed, not two switches", () => {
+  // The choice between following by ayah and word by word is in the settings sheet (Phase 4, D5).
+  it("the reader itself has no control for the sync mode", () => {
     playerState.wordByWordMode = false;
     render(<SurahReaderContent ayahs={ayahs} surahNameLatin="Al-Fatihah" />);
     expect(screen.queryAllByRole("switch")).toHaveLength(0);
-    // The desktop toolbar has a group of the same name; this one is labelled by the visible text.
-    const mobileGroup = screen
-      .getAllByRole("group", { name: "Praćenje uz zvuk" })
-      .find((g) => g.hasAttribute("aria-labelledby"))!;
-    const group = within(mobileGroup);
-    expect(group.getByRole("button", { name: "Po ajetu" })).toHaveAttribute("aria-pressed", "true");
-    expect(group.getByRole("button", { name: "Riječ po riječ" })).toHaveAttribute("aria-pressed", "false");
-    fireEvent.click(group.getByRole("button", { name: "Riječ po riječ" }));
-    expect(playerState.setWordByWordMode).toHaveBeenCalledWith(true);
+    expect(screen.queryByRole("group", { name: "Praćenje uz zvuk" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Riječ po riječ" })).toBeNull();
   });
 
   it("word-by-word off: renders plain tajwid text", () => {
