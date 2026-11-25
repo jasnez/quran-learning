@@ -12,9 +12,9 @@ const revelationLabel: Record<string, string> = {
   medinan: "Medina",
 };
 
-type SurahHeaderProps = { surah: SurahSummary; ayahs?: Ayah[] };
+type SurahFrameProps = { surah: SurahSummary; ayahs?: Ayah[] };
 
-export function SurahHeader({ surah, ayahs = [] }: SurahHeaderProps) {
+export function SurahFrame({ surah, ayahs = [] }: SurahFrameProps) {
   const setQueue = usePlayerStore((s) => s.setQueue);
   const play = usePlayerStore((s) => s.play);
   const progress = useProgressStore((s) => s.surahProgressMap[surah.surahNumber]);

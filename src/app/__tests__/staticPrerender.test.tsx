@@ -34,7 +34,7 @@ function prerender(ui: React.ReactNode): string {
 describe("static HTML of /surah/[id] (P1-6)", () => {
   it("contains the surah title and the Arabic text of every ayah", async () => {
     const html = prerender(await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) }));
-    // SurahHeader: Arabic name in the h1, Latin and Bosnian names below it.
+    // SurahFrame: Arabic name in the h1, Latin and Bosnian names below it.
     expect(html).toMatch(new RegExp(`<h1[^>]*>${fatiha.surah.nameArabic}</h1>`));
     expect(html).toContain(fatiha.surah.nameLatin);
     for (const ayah of fatiha.ayahs) {

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
-import { SurahHeader, SurahReaderContent } from "@/components/reader";
+import { SurahFrame, SurahReaderContent } from "@/components/reader";
 import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
 
 export function generateStaticParams() {
@@ -73,7 +73,7 @@ export default async function SurahReaderPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SurahHeader surah={surah} ayahs={ayahs} />
+      <SurahFrame surah={surah} ayahs={ayahs} />
       <nav
         className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm"
         aria-label="Navigacija između sura"

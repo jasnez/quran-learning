@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { SurahHeader } from "../SurahHeader";
+import { SurahFrame } from "../SurahFrame";
 import type { SurahSummary, Ayah } from "@/types/quran";
 
 const mockSurah: SurahSummary = {
@@ -72,12 +72,12 @@ beforeEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("SurahHeader mobile playback", () => {
+describe("SurahFrame mobile playback", () => {
   it("clicking 'Pusti cijelu suru' primes audioManager.play and enqueues ayahs", async () => {
     const user = userEvent.setup();
     const audioManager = await import("@/lib/audio/audioManager");
 
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah]} />);
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah]} />);
 
     const button = screen.getByRole("button", { name: /pusti cijelu suru/i });
     await user.click(button);
@@ -88,13 +88,13 @@ describe("SurahHeader mobile playback", () => {
   });
 
   it("shows single page label when all ayahs are on one page", () => {
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah]} />);
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah]} />);
     expect(screen.getByText(/Stranica:\s*1/)).toBeInTheDocument();
   });
 
   it("shows page range label when ayahs span multiple pages", () => {
     const secondAyah: Ayah = { ...mockAyah, id: "1:2", ayahNumber: 2, page: 2 };
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah, secondAyah]} />);
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah, secondAyah]} />);
     expect(screen.getByText(/Stranice:\s*1–2/)).toBeInTheDocument();
   });
 });

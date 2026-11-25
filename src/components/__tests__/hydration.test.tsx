@@ -14,7 +14,7 @@ import fatiha from "@/data/ayahs/001-al-fatiha.json";
 import { getAllJuz } from "@/lib/data/juzUtils";
 import { getAllTajwidLessons, type TajwidLesson } from "@/data/tajwid-lessons";
 import type { Ayah, SurahSummary } from "@/types/quran";
-import { SurahHeader } from "../reader/SurahHeader";
+import { SurahFrame } from "../reader/SurahFrame";
 import { AyahCard } from "../reader/AyahCard";
 import { SurahListItem } from "../surahs/SurahListItem";
 import { JuzListCard } from "../surahs/JuzListCard";
@@ -64,8 +64,8 @@ describe("hydration with data from localStorage (P1-6)", () => {
   beforeEach(resetStores);
   afterEach(resetStores);
 
-  it("SurahHeader (listened-ayah counter)", async () => {
-    expect(await collectHydrationErrors(<SurahHeader surah={fatihaSurah} ayahs={fatihaAyahs} />, CLIENT)).toEqual([]);
+  it("SurahFrame (listened-ayah counter)", async () => {
+    expect(await collectHydrationErrors(<SurahFrame surah={fatihaSurah} ayahs={fatihaAyahs} />, CLIENT)).toEqual([]);
   });
 
   it("AyahCard (bookmark button state)", async () => {

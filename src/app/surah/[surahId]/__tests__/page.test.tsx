@@ -129,10 +129,10 @@ beforeEach(() => {
 
 
 describe("Surah Reader page", () => {
-  it("shows SurahHeader with nameArabic, nameLatin, nameBosnian", async () => {
+  it("shows SurahFrame with nameArabic, nameLatin, nameBosnian", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    // Arapski naziv i Latin se ponavljaju (postojeći SurahHeader + novi SurahReaderStickyHeader)
+    // Arapski naziv i Latin se ponavljaju (postojeći SurahFrame + novi SurahReaderStickyHeader)
     expect(screen.getAllByText("الفاتحة").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Al-Fatihah/).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Al-Fatiha/).length).toBeGreaterThanOrEqual(1);
@@ -155,7 +155,7 @@ describe("Surah Reader page", () => {
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("when progress exists, SurahHeader shows Preslušano: X od Y ajeta and progress bar", async () => {
+  it("when progress exists, SurahFrame shows Preslušano: X od Y ajeta and progress bar", async () => {
     hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
       num === 1
         ? {
