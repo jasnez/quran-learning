@@ -34,7 +34,6 @@ const ALLOWED: Record<string, string> = {
 
 const LEGACY = [
   "app/page.tsx",
-  "components/audio/AudioPlayer.tsx",
   "components/bookmarks/BookmarksContent.tsx",
   "components/home/FeaturedSurahsSection.tsx",
   "components/learn/LearnModeContent.tsx",
