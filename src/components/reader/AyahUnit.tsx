@@ -249,7 +249,8 @@ export const AyahUnit = memo(function AyahUnit({
         >
           {isThisAyahPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
-        {/* The name carries the state ("Sačuvaj" / "Ukloni ... iz sačuvanih"), so no aria-pressed. */}
+        {/* The name carries the state ("Sačuvaj" / "Ukloni ... iz sačuvanih"), so the button has
+            no pressed attribute: that would say the state twice. */}
         <button
           type="button"
           onClick={handleBookmark}
