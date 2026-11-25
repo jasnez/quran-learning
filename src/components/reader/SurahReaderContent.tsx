@@ -9,7 +9,7 @@ import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
 import surahsData from "@/data/surahs.json";
 import { TajwidLegend } from "@/components/quran";
-import { AyahCard } from "./AyahCard";
+import { AyahUnit } from "./AyahUnit";
 import { SurahReaderStickyHeader } from "./SurahReaderStickyHeader";
 import { ReaderToolbar } from "./ReaderToolbar";
 import { SurahReaderUrlEffects } from "./SurahReaderUrlEffects";
@@ -27,7 +27,7 @@ export function SurahReaderContent({
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
-  // No playback clock here: every card would re-render on each frame (QA P1-9). AyahCard reads it.
+  // No playback clock here: every card would re-render on each frame (QA P1-9). AyahUnit reads it.
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
@@ -159,7 +159,7 @@ export function SurahReaderContent({
                   <span className="h-px flex-1 bg-line" aria-hidden />
                 </div>
               )}
-              <AyahCard
+              <AyahUnit
                 ayah={ayah}
                 queueAyahs={ayahs}
                 surahNameLatin={surahNameLatin}

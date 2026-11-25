@@ -9,7 +9,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AyahCard } from "../AyahCard";
+import { AyahUnit } from "../AyahUnit";
 import type { Ayah } from "@/types/quran";
 
 const mockAyah: Ayah = {
@@ -104,13 +104,13 @@ beforeEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("AyahCard mobile playback", () => {
+describe("AyahUnit mobile playback", () => {
   it("clicking play on an ayah calls audioManager.play from user interaction", async () => {
     const user = userEvent.setup();
     // Re-import audioManager to get access to the mocked functions
     const audioManager = await import("@/lib/audio/audioManager");
 
-    render(<AyahCard {...defaultProps} />);
+    render(<AyahUnit {...defaultProps} />);
 
     const playButton = screen.getByRole("button", { name: "Pusti 1. ajet" });
     await user.click(playButton);

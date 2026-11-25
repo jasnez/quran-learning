@@ -7,7 +7,7 @@ import { commonSurahName } from "@/lib/quran/surahNames";
 import type { JuzSegment } from "@/lib/data";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
-import { AyahCard } from "./AyahCard";
+import { AyahUnit } from "./AyahUnit";
 import type { Ayah } from "@/types/quran";
 
 const AYAHS_PER_PAGE = 20;
@@ -95,7 +95,7 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
             </div>
             {ayahs.map((ayah) => (
               <div key={ayah.id} className="mb-10">
-                <AyahCard
+                <AyahUnit
                   ayah={ayah}
                   queueAyahs={juzAyahs}
                   queueSource="juz"

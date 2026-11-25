@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { AyahCard } from "../AyahCard";
+import { AyahUnit } from "../AyahUnit";
 import { SurahReaderContent } from "../SurahReaderContent";
 import type { Ayah } from "@/types/quran";
 
@@ -51,10 +51,10 @@ beforeEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("AyahCard typography and spacing", () => {
+describe("AyahUnit typography and spacing", () => {
   it("Arabic block uses font-arabic class", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -73,7 +73,7 @@ describe("AyahCard typography and spacing", () => {
   // (Elif Book), muted.
   it("transliteration is upright, 18 px, muted, in the reading face", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -93,7 +93,7 @@ describe("AyahCard typography and spacing", () => {
 
   it("translation has standard readable styling (primary)", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -110,7 +110,7 @@ describe("AyahCard typography and spacing", () => {
 
   it("transliteration has clear spacing above arabic block", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -126,7 +126,7 @@ describe("AyahCard typography and spacing", () => {
 
   it("translation has clear spacing above", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -142,7 +142,7 @@ describe("AyahCard typography and spacing", () => {
 
   it("UI controls (ayah number, buttons) are smallest and subdued", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"

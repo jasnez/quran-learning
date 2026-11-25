@@ -9,7 +9,7 @@ import { render, screen, within, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { Ayah } from "@/types/quran";
 import surahs from "@/data/surahs.json";
-import { AyahCard } from "../AyahCard";
+import { AyahUnit } from "../AyahUnit";
 import { ReaderToolbar } from "../ReaderToolbar";
 import { SurahAyahNav } from "../SurahAyahNav";
 import { SurahReaderContent } from "../SurahReaderContent";
@@ -102,9 +102,9 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 
-describe("AyahCard names", () => {
+describe("AyahUnit names", () => {
   it("the article is named by its number badge, and the play button says which ayah", () => {
-    render(<AyahCard {...props(ayah("1:12"))} />);
+    render(<AyahUnit {...props(ayah("1:12"))} />);
     const article = screen.getByRole("article", { name: "12. ajet" });
     expect(within(article).getByRole("button", { name: "Pusti 12. ajet" })).toHaveAttribute("title", "Pusti 12. ajet");
     // The badge still shows only the number; the rest is for screen readers.
@@ -113,14 +113,14 @@ describe("AyahCard names", () => {
 
   it("in the juz reader the names add the surah, verbatim from the data", () => {
     const naba = surahs.find((s) => s.surahNumber === 78)!.nameLatin;
-    render(<AyahCard {...props(ayah("78:1"), { queueSource: "juz", surahNameLatin: naba })} />);
+    render(<AyahUnit {...props(ayah("78:1"), { queueSource: "juz", surahNameLatin: naba })} />);
     expect(screen.getByRole("article", { name: `1. ajet sure ${naba}` })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: `Pusti 1. ajet sure ${naba}` })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: `Sačuvaj 1. ajet sure ${naba}` })).toBeInTheDocument();
   });
 
   it("the bookmark button is named by its state, without aria-pressed, and the toast uses the number", async () => {
-    render(<AyahCard {...props(ayah("1:3"))} />);
+    render(<AyahUnit {...props(ayah("1:3"))} />);
     const save = screen.getByRole("button", { name: "Sačuvaj 3. ajet" });
     expect(save).not.toHaveAttribute("aria-pressed");
     expect(save).toHaveAttribute("title", "Sačuvaj 3. ajet");
@@ -129,7 +129,7 @@ describe("AyahCard names", () => {
 
     cleanup();
     bookmarkState.bookmarks = [{ id: "1-3", surahNumber: 1, ayahNumber: 3 }];
-    render(<AyahCard {...props(ayah("1:3"))} />);
+    render(<AyahUnit {...props(ayah("1:3"))} />);
     const remove = screen.getByRole("button", { name: "Ukloni 3. ajet iz sačuvanih" });
     expect(remove).not.toHaveAttribute("aria-pressed");
     await userEvent.click(remove);
@@ -137,10 +137,10 @@ describe("AyahCard names", () => {
   });
 });
 
-describe("AyahCard page badge", () => {
+describe("AyahUnit page badge", () => {
   it("shows Str. N visibly and says Stranica N to screen readers, without aria-label", () => {
     const a = { ...ayah("1:5"), page: 3 };
-    const { container } = render(<AyahCard {...props(a, { showPageBadge: true })} />);
+    const { container } = render(<AyahUnit {...props(a, { showPageBadge: true })} />);
     const visible = screen.getByText("Str. 3");
     expect(visible).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("Stranica 3")).toHaveClass("sr-only");

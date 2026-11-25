@@ -15,7 +15,7 @@ import { getAllJuz } from "@/lib/data/juzUtils";
 import { getAllTajwidLessons, type TajwidLesson } from "@/data/tajwid-lessons";
 import type { Ayah, SurahSummary } from "@/types/quran";
 import { SurahFrame } from "../reader/SurahFrame";
-import { AyahCard } from "../reader/AyahCard";
+import { AyahUnit } from "../reader/AyahUnit";
 import { SurahListItem } from "../surahs/SurahListItem";
 import { JuzListCard } from "../surahs/JuzListCard";
 import { BookmarksContent } from "../bookmarks/BookmarksContent";
@@ -68,9 +68,9 @@ describe("hydration with data from localStorage (P1-6)", () => {
     expect(await collectHydrationErrors(<SurahFrame surah={fatihaSurah} ayahs={fatihaAyahs} />, CLIENT)).toEqual([]);
   });
 
-  it("AyahCard (bookmark button state)", async () => {
+  it("AyahUnit (bookmark button state)", async () => {
     const ui = (
-      <AyahCard
+      <AyahUnit
         ayah={fatihaAyahs[0]}
         queueAyahs={fatihaAyahs}
         surahNameLatin="Al-Fatihah"

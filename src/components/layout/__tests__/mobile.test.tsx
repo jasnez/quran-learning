@@ -8,7 +8,7 @@ import { render } from "@testing-library/react";
 import { Header } from "../Header";
 import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
-import { AyahCard } from "@/components/reader/AyahCard";
+import { AyahUnit } from "@/components/reader/AyahUnit";
 import { SettingsOpenProvider } from "@/contexts/SettingsOpenContext";
 import type { Ayah } from "@/types/quran";
 import { readFileSync } from "node:fs";
@@ -197,10 +197,10 @@ describe("Total sticky height", () => {
   });
 });
 
-describe("AyahCard mobile", () => {
+describe("AyahUnit mobile", () => {
   it("has generous padding p-4 to p-6", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
@@ -216,7 +216,7 @@ describe("AyahCard mobile", () => {
 
   it("play and bookmark buttons have min 44px touch target", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
@@ -241,7 +241,7 @@ describe("Arabic font size on mobile", () => {
       removeEventListener: () => {},
     }));
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"

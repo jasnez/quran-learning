@@ -174,7 +174,7 @@ describe("Surah Reader page", () => {
     expect(screen.getByText("Pročitano: 2 od 2 ajeta")).toBeInTheDocument();
   });
 
-  it("renders an AyahCard for each ayah", async () => {
+  it("renders an AyahUnit for each ayah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(screen.getByText("بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ")).toBeInTheDocument();
@@ -290,7 +290,7 @@ describe("Surah Reader page", () => {
     expect(container.querySelector("[data-active='true']")).not.toBeInTheDocument();
   });
 
-  it("each AyahCard has data-ayah-id attribute for scroll targeting", async () => {
+  it("each AyahUnit has data-ayah-id attribute for scroll targeting", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     expect(container.querySelector("[data-ayah-id='1:1']")).toBeInTheDocument();

@@ -23,7 +23,7 @@ const READ_VISIBLE_SHARE = 0.5;
 /** Steps at which the observer reports, so a tall card is seen filling half the screen. */
 const READ_THRESHOLDS = [0, 0.25, 0.5, 0.75, 1];
 
-type AyahCardProps = {
+type AyahUnitProps = {
   ayah: Ayah;
   /** Ayahs queued when playback starts from this card (the surah in the reader, the whole juz in the juz reader). */
   queueAyahs: Ayah[];
@@ -52,7 +52,7 @@ function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
  * every animation frame, and a surah has up to 286 cards (QA P1-9). Only the card whose own
  * selected values change re-renders.
  */
-export const AyahCard = memo(function AyahCard({
+export const AyahUnit = memo(function AyahUnit({
   ayah,
   queueAyahs,
   queueSource = "surah",
@@ -64,7 +64,7 @@ export const AyahCard = memo(function AyahCard({
   wordByWord = false,
   wordTimestamps,
   showPageBadge,
-}: AyahCardProps) {
+}: AyahUnitProps) {
   const isThisAyahPlaying = usePlayerStore((s) => s.currentAyahId === ayah.id && s.isPlaying);
   // Position in this ayah's audio file for the word highlight. Only the ayah whose audio is
   // loaded gets the clock; every other card (and a stopped player) stays at -1.

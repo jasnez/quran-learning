@@ -1,4 +1,4 @@
 export { SurahFrame } from "./SurahFrame";
-export { AyahCard } from "./AyahCard";
+export { AyahUnit } from "./AyahUnit";
 export { SurahReaderContent } from "./SurahReaderContent";
 export { JuzReaderContent } from "./JuzReaderContent";

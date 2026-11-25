@@ -11,7 +11,7 @@ vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
 }));
 // The juz navigation is rendered; the ayah cards are not under test here.
-vi.mock("@/components/reader/AyahCard", () => ({ AyahCard: () => null }));
+vi.mock("@/components/reader/AyahUnit", () => ({ AyahUnit: () => null }));
 
 afterEach(cleanup);
 
