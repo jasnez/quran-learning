@@ -49,7 +49,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <main
             id="main-content"
             tabIndex={-1}
-            className="focus-visible:outline-hidden min-h-0 flex-1 px-4 py-8 pb-10 transition-opacity duration-300 md:py-12 md:pb-16"
+            className="focus-visible:outline-hidden min-h-0 flex-1 px-4 py-8 pb-10 transition-opacity duration-sheet md:py-12 md:pb-16"
           >
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>

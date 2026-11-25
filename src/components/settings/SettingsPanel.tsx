@@ -390,7 +390,7 @@ function OfflineSection({ active }: { active: boolean }) {
             aria-valuemax={100}
           >
             <div
-              className="h-full rounded-full bg-accent transition-all duration-300"
+              className="h-full rounded-full bg-accent transition-all duration-sheet"
               style={{ width: `${progressPercent}%` }}
             />
           </div>

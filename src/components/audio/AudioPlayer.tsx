@@ -464,7 +464,7 @@ export function AudioPlayer() {
             value={currentTime}
             onChange={handleSeek}
             aria-valuetext={spokenPosition(currentTime, duration)}
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-sunken transition-[width] duration-150 ease-out [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150"
+            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-sunken transition-[width] duration-press ease-out [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-press"
             aria-label="Mjesto u ajetu"
           />
         </div>

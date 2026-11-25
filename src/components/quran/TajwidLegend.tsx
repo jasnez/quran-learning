@@ -46,7 +46,7 @@ export function TajwidLegend({ onNavigate }: { /** A lesson link was followed: a
         aria-labelledby="tajwid-legend-toggle"
         aria-hidden={!open}
         inert={!open}
-        className={`overflow-hidden transition-[max-height] duration-200 ease-out ${
+        className={`overflow-hidden transition-[max-height] duration-sheet ease-standard ${
           open ? "max-h-96" : "max-h-0"
         }`}
       >
