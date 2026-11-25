@@ -103,7 +103,8 @@ describe("Mobile \"Više\" disclosure", () => {
     expect(more).toHaveAttribute("aria-expanded", "true");
     expect(more).not.toHaveAttribute("aria-haspopup");
     await user.tab();
-    expect(screen.getByRole("link", { name: /sačuvani ajeti/i })).toHaveFocus();
+    // The first item: search, which a phone reading screen has nowhere else.
+    expect(screen.getByRole("link", { name: /pretraga/i })).toHaveFocus();
 
     await user.keyboard("{Escape}");
 

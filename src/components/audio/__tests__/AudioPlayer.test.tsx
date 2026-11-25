@@ -624,6 +624,27 @@ describe("AudioPlayer", () => {
     expect(screen.getByRole("switch", { name: "Pusti sljedeću suru" })).toHaveAttribute("aria-checked", "false");
   });
 
+  // The options float over the page on every width, so they close like any disclosure.
+  it("closes the options on Escape and returns focus to their button", () => {
+    render(<AudioPlayer />);
+    const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
+    fireEvent.click(moreBtn);
+    screen.getByRole("radio", { name: "Sura" }).focus();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("group", { name: "Dodatne kontrole zvuka" })).toBeNull();
+    expect(moreBtn).toHaveAttribute("aria-expanded", "false");
+    expect(moreBtn).toHaveFocus();
+  });
+
+  it("closes the options on a click outside them, and keeps them open for a click inside", () => {
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Sura" }));
+    expect(screen.getByRole("group", { name: "Dodatne kontrole zvuka" })).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByRole("group", { name: "Dodatne kontrole zvuka" })).toBeNull();
+  });
+
   // Repeat is no longer a button in the bar, so the bar says in words when it is on.
   it("says in the bar that repeat is on, and nothing when it is off", () => {
     settingsStateRef.current.repeatMode = "ayah";

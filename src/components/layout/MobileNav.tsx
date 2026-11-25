@@ -9,6 +9,7 @@ import {
   GraduationCap,
   HandHelping,
   MoreHorizontal,
+  Search,
   Bookmark,
   Settings,
   BarChart3,
@@ -25,7 +26,7 @@ const tabInactive =
   "text-ink-muted hover:text-ink";
 
 const SURAH_SEGMENTS = new Set(["surahs", "surah", "juz"]);
-const MORE_SEGMENTS = new Set(["bookmarks", "progress", "names", "tajwid", "harfovi"]);
+const MORE_SEGMENTS = new Set(["search", "bookmarks", "progress", "names", "tajwid", "harfovi"]);
 
 export function MobileNav() {
   // The route tree, not the URL: the static 404.html is served for unknown URLs, so the URL
@@ -129,6 +130,10 @@ export function MobileNav() {
             aria-label="Više opcija"
             className="absolute bottom-full right-1 mb-2 w-60 overflow-hidden rounded-xl border border-line bg-surface py-1 shadow-lg"
           >
+            {/* First: on a reading screen the header has no search icon on a phone. */}
+            <MoreLink href="/search" icon={<Search className="h-4 w-4" />} onClick={() => setMoreOpen(false)}>
+              Pretraga
+            </MoreLink>
             <MoreLink
               href="/bookmarks"
               icon={<Bookmark className="h-4 w-4" />}

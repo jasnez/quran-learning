@@ -446,6 +446,7 @@ export function AudioPlayer() {
             <MoreMenu
               isOpen={isMoreOpen}
               onToggle={() => setIsMoreOpen((v) => !v)}
+              onClose={() => setIsMoreOpen(false)}
               repeatMode={repeatMode}
               autoPlayNext={autoPlayNext}
               onRepeatMode={setRepeatMode}
@@ -482,6 +483,7 @@ const REPEAT_OPTIONS = [
 type MoreMenuProps = {
   isOpen: boolean;
   onToggle: () => void;
+  onClose: () => void;
   repeatMode: RepeatMode;
   autoPlayNext: boolean;
   onRepeatMode: (mode: RepeatMode) => void;
@@ -490,13 +492,36 @@ type MoreMenuProps = {
 
 /**
  * Repeat and going on to the next surah. A disclosure that holds a choice and a switch: not
- * role="menu", which promises arrow keys between items (QA section 5).
+ * role="menu", which promises arrow keys between items (QA section 5). It floats over the page,
+ * so Escape closes it and returns focus to its button, and a click anywhere else closes it.
  */
-function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onRepeatMode, onToggleAutoPlayNext }: MoreMenuProps) {
+function MoreMenu({ isOpen, onToggle, onClose, repeatMode, autoPlayNext, onRepeatMode, onToggleAutoPlayNext }: MoreMenuProps) {
   const panelId = useId();
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) onClose();
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (wrapperRef.current?.contains(document.activeElement)) buttonRef.current?.focus();
+      onClose();
+    };
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("click", onDocClick, true);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={wrapperRef}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
