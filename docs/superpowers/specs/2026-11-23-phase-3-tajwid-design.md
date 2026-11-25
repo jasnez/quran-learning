@@ -198,7 +198,7 @@ test file names.
 ## Built differently in PR 3.2 (accepted by the owner, PR #41 merged 2026-11-23)
 
 The approved D4 and D6 text above is kept as approved; these three points are what shipped. The
-Firefox check (point 3) is still open.
+Firefox check (point 3) was done after the merge (below).
 
 1. Kalkala line is double, not wavy (D6). Under a single letter Chromium draws a wavy line as one
    letter-like hook and WebKit does not draw it at all; double shows in both and differs from solid,
@@ -207,3 +207,23 @@ Firefox check (point 3) is still open.
    ink in every theme and at least 3:1 on surface.
 3. The line check ran in Chromium and WebKit only (D6 asks for Firefox too): Playwright Firefox is
    not installed, and installing it downloads a browser.
+
+## After phase 3: Firefox check and pattern lines (owner's choice, 2026-11-25)
+
+The owner approved downloading Playwright Firefox (148.0.2). On the build of `main` (5dc81a1)
+Firefox drew all four lines with the same computed values as Chromium, in three themes at 375 and
+1280 px. The screenshots showed a problem in both browsers: under one narrow letter a dotted line
+shrinks to one dot (Chromium) or two or three (Firefox). At 375 px (surahs 1, 36, 67, 78 and
+112-114), 37% of gunne pieces and 16% of ihfa pieces are under 10 px wide; medd and kalkala lines
+stay readable because solid and double need no repeat.
+
+Of three options (thicker dots, a pattern, leave as is), the owner chose the pattern: gunne dots and
+ihfa dashes are a background pattern in the letter's color (`tj-line-dots`, `tj-line-dashes` in
+`globals.css`), repeated with `round`, so a piece gets two or more whole marks from about 7 px. Dots
+are round and 3 px, dashes 4.5 px long and 2 px thick, so the two still read apart when short. Medd
+and kalkala keep the underline. A background is placed from the bottom of the text box, so
+`--tajwid-line-descent` holds that box's depth below the baseline per font (Naskh 0.643em,
+Scheherazade 0.714em, the legend's UI font 0.429em; the same in Chromium, Firefox and WebKit), and the
+pattern sits where the underline sits. Forced colors drop gradient backgrounds, so the pattern applies
+only under `@media (forced-colors: none)` and the dotted and dashed underline stays there as the
+fallback. Real Safari is still unchecked.

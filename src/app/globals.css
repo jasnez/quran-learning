@@ -222,6 +222,62 @@ html[data-arabic-font="naskh"] .font-arabic {
 }
 
 /*
+ * Tajwid lines for gunne (dots) and ihfa (dashes), "Tedzvid: boje i linije" (tajwidStyles.ts).
+ * A dotted or dashed underline under one narrow letter shrinks to a single dot or dash (Chromium,
+ * Firefox), so these two are a background pattern in the letter's color. "round" repeats whole
+ * marks, scaled to fit: two or more from about 7px. They start at the left edge ("center" shifts an
+ * even count by half a mark and cuts both ends). The underline classes stay as the fallback: forced
+ * colors drop gradient backgrounds, so this block applies only outside forced colors.
+ * A background is placed from the bottom of the text box, not from the baseline:
+ * --tajwid-line-descent is that box's depth below the baseline per font (the same in Chromium,
+ * Firefox and WebKit, measured 2026-11-25), so the pattern sits where the medd and kalkala
+ * underline sits: 0.45em below the baseline, 2px thick.
+ */
+:root {
+  --tajwid-line-descent: 0.429em; /* elifSans, the UI font */
+}
+
+/*
+ * Legend samples (TajwidLegend.tsx): in the UI font the line (0.45em + 2px) lies below the text box,
+ * and a background is not drawn outside its box. Inline padding moves the box bottom down without
+ * changing the line height; the descent grows by the same 0.25em.
+ */
+.tj-line-sample {
+  padding-bottom: 0.25em;
+  --tajwid-line-descent: 0.679em;
+}
+
+.font-arabic {
+  --tajwid-line-descent: 0.643em; /* Noto Naskh Arabic */
+}
+
+html[data-arabic-font="uthmanic"] .font-arabic {
+  --tajwid-line-descent: 0.714em; /* Scheherazade New */
+}
+
+@media (forced-colors: none) {
+  [data-tajwid-lines] .tj-line-dots,
+  [data-tajwid-lines] .tj-line-dashes {
+    --tajwid-line-bottom: calc(var(--tajwid-line-descent) - 0.45em - 2px);
+    text-decoration-line: none;
+    background-repeat: round no-repeat;
+  }
+
+  /* Round dots, 3px: taller than the 2px dashes, so the two read apart even when short. */
+  [data-tajwid-lines] .tj-line-dots {
+    background-image: radial-gradient(circle closest-side, currentColor 90%, transparent);
+    background-size: 4.5px 3px;
+    background-position: left bottom calc(var(--tajwid-line-bottom) - 0.5px);
+  }
+
+  [data-tajwid-lines] .tj-line-dashes {
+    background-image: linear-gradient(to right, transparent 0.75px, currentColor 0.75px calc(100% - 0.75px), transparent 0);
+    background-size: 6px 2px;
+    background-position: left bottom var(--tajwid-line-bottom);
+  }
+}
+
+/*
  * Settings panel (SettingsPanel.tsx): a native modal <dialog>, opened with showModal().
  * A side sheet on the right; a bottom sheet below 40rem (Tailwind sm).
  * The UA dialog box (centered, padded, Canvas colors) is reset here; display is only set

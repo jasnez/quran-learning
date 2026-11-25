@@ -133,6 +133,8 @@ describe("TajwidLegend", () => {
       expect(samples[1].className).toContain(tajwidRuleLineClasses.ghunnah);
       expect(samples[1].className).toContain(tajwidRuleClasses.ghunnah);
       expect(samples.every((s) => s.getAttribute("aria-hidden") === "true")).toBe(true);
+      // The sample box reaches down to the line, so the dot and dash patterns are drawn in it.
+      expect(samples.every((s) => s.classList.contains("tj-line-sample"))).toBe(true);
     });
 
     it("with lines off, no samples", async () => {

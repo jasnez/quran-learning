@@ -14,6 +14,8 @@
 
    Postavka "Tedžvid" ima tri izbora: Isključeno / Boje / Boje i linije. Uz linije svako pravilo dobija i liniju ispod harfa: medd puna, gunne tačkice, ihfa crtice, kalkala dvostruka (valovita se ispod jednog harfa ne vidi u WebKitu). Linije uključuje atribut `data-tajwid-lines` na `<html>` (`ThemeProvider`, `themeInitScript`).
 
+   Medd i kalkala su podvlaka (`text-decoration`). Tačkice i crtice su šablon u pozadini (`tj-line-dots`, `tj-line-dashes` u `globals.css`): podvlaka s tačkicama ispod jednog uskog harfa spadne na jednu tačku, a na 375 px je 37% gunne dijelova uže od 10 px. Šablon ponavlja cijele znakove (`round`), pa i uzak harf dobije bar dva. Pozadina se mjeri od dna okvira teksta, ne od osnovne linije, pa `--tajwid-line-descent` za svaki font (Naskh, Scheherazade, font legende) kaže koliko je to dno ispod osnovne linije; šablon tako stoji tamo gdje i podvlaka (0.45em, 2px). Ako se font promijeni, tu vrijednost treba ponovo izmjeriti. U režimu prisilnih boja (Windows visoki kontrast) šablon se ne crta, pa ostaje podvlaka s tačkicama i crticama. Provjereno u Chromiumu, Firefoxu i WebKitu (Playwright), ne u pravom Safariju.
+
 2. **Podaci po ajetu**  
    Za svaki ajet u podacima postoji niz `tajwidSegments`:  
    `[{ "text": "…", "rule": "normal" | "mad" | "ghunnah" | "ikhfa" | "qalqalah" }, …]`.  

@@ -24,13 +24,17 @@ export const tajwidRuleClasses: Record<TajwidRule, string> = {
  * only under an ancestor with data-tajwid-lines, which ThemeProvider sets on <html> when colors
  * and lines are both on, so the renderers need no extra prop. Thickness 2px and offset 0.45em
  * clear kasra and the dots under ba and ya (checked in Chromium and WebKit, Al-Baqarah 2-5).
+ * Gunne dots and ihfa dashes are drawn as a pattern (tj-line-dots, tj-line-dashes in globals.css):
+ * under one narrow letter a dotted or dashed underline shrinks to a single dot or dash, and at
+ * 375px 37% of gunne pieces are under 10px wide. The underline classes stay as the fallback for
+ * forced colors, where the pattern is not drawn.
  * Tailwind finds these classes only as literal strings: keep them written out in full.
  */
 export const tajwidRuleLineClasses: Record<TajwidRule, string> = {
   normal: "",
   mad: "[[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-solid [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
-  ghunnah: "[[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-dotted [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
-  ikhfa: "[[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-dashed [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
+  ghunnah: "tj-line-dots [[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-dotted [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
+  ikhfa: "tj-line-dashes [[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-dashed [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
   qalqalah: "[[data-tajwid-lines]_&]:underline [[data-tajwid-lines]_&]:decoration-double [[data-tajwid-lines]_&]:decoration-2 [[data-tajwid-lines]_&]:underline-offset-[0.45em] [[data-tajwid-lines]_&]:[text-decoration-skip-ink:none]",
 };
 

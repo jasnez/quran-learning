@@ -48,7 +48,19 @@ describe("tajwidStyles", () => {
         const classes = tajwidRuleLineClasses[rule].split(" ");
         expect(classes, rule).toContain(`[[data-tajwid-lines]_&]:underline`);
         expect(classes, rule).toContain(`[[data-tajwid-lines]_&]:decoration-${style}`);
-        expect(classes.every((c) => c.startsWith("[[data-tajwid-lines]_&]:")), rule).toBe(true);
+        // The pattern classes act only under data-tajwid-lines too (their CSS in globals.css says so).
+        const variant = classes.filter((c) => !c.startsWith("tj-line-"));
+        expect(variant.every((c) => c.startsWith("[[data-tajwid-lines]_&]:")), rule).toBe(true);
+      }
+    });
+
+    it("draws gunne dots and ihfa dashes as a pattern, which stays visible under one narrow letter", () => {
+      // A dotted or dashed underline under one letter shrinks to a single dot or dash.
+      expect(tajwidRuleLineClasses.ghunnah.split(" ")).toContain("tj-line-dots");
+      expect(tajwidRuleLineClasses.ikhfa.split(" ")).toContain("tj-line-dashes");
+      // Solid and double lines read well under one letter: they stay underlines.
+      for (const rule of ["mad", "qalqalah"] as const) {
+        expect(tajwidRuleLineClasses[rule], rule).not.toMatch(/\btj-line-/);
       }
     });
   });
