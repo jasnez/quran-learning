@@ -95,3 +95,29 @@ describe("AyahWordByWord", () => {
     expect(first).not.toHaveBeenCalled();
   });
 });
+
+describe("AyahWordByWord trailing content (the rosette)", () => {
+  it("shows it after the words", () => {
+    const { container } = render(
+      <AyahWordByWord ayah={ayah} verse={verse} currentTimeMs={-1} showColors trailing={<span data-testid="trail">2</span>} />,
+    );
+    expect(container.querySelector('p[lang="ar"]')?.lastElementChild).toHaveAttribute("data-testid", "trail");
+  });
+
+  it("shows it in the plain-text fallback too (no word timings)", () => {
+    const { container } = render(
+      <AyahWordByWord ayah={ayah} verse={undefined} currentTimeMs={-1} showColors trailing={<span data-testid="trail">2</span>} />,
+    );
+    expect(container.querySelector('p[lang="ar"]')?.lastElementChild).toHaveAttribute("data-testid", "trail");
+  });
+
+  it("draws a changed rosette (the ayah starts playing) although the word list is memoized", () => {
+    const { rerender } = render(
+      <AyahWordByWord ayah={ayah} verse={verse} currentTimeMs={-1} showColors trailing={<span data-testid="trail">idle</span>} />,
+    );
+    rerender(
+      <AyahWordByWord ayah={ayah} verse={verse} currentTimeMs={-1} showColors trailing={<span data-testid="trail">playing</span>} />,
+    );
+    expect(screen.getByTestId("trail")).toHaveTextContent("playing");
+  });
+});

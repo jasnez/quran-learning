@@ -158,3 +158,31 @@ describe("WordByWordRenderer", () => {
     expect(container.textContent).not.toMatch(/[A-Za-z]/);
   });
 });
+
+describe("WordByWordRenderer trailing content (the rosette)", () => {
+  it("renders it inside the Arabic paragraph, after the last word, and it is not a word", () => {
+    const { container } = render(
+      <WordByWordRenderer words={words} activeWordIndex={-1} showColors trailing={<span data-testid="trail">7</span>} />,
+    );
+    const paragraph = container.querySelector('p[lang="ar"]');
+    expect(paragraph?.lastElementChild).toHaveAttribute("data-testid", "trail");
+    expect(wordEls(container)).toHaveLength(words.length);
+  });
+
+  it("a click on it neither seeks nor names a rule", () => {
+    useTajwidRuleBarStore.setState({ rule: null });
+    const onWordClick = vi.fn();
+    const { container } = render(
+      <WordByWordRenderer
+        words={words}
+        activeWordIndex={-1}
+        showColors
+        onWordClick={onWordClick}
+        trailing={<span data-testid="trail">7</span>}
+      />,
+    );
+    fireEvent.click(container.querySelector('[data-testid="trail"]')!);
+    expect(onWordClick).not.toHaveBeenCalled();
+    expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+  });
+});

@@ -13,6 +13,8 @@ type TajwidTextRendererProps = {
   className?: string;
   /** Optional style for the wrapper (e.g. fontSize). */
   style?: React.CSSProperties;
+  /** Rendered inside the paragraph after the text: the ayah's rosette. */
+  trailing?: React.ReactNode;
 };
 
 export function TajwidTextRenderer({
@@ -20,6 +22,7 @@ export function TajwidTextRenderer({
   showColors,
   className = "",
   style,
+  trailing,
 }: TajwidTextRendererProps) {
   const baseClass = "font-arabic leading-[1.9]";
   const wrapperClass = [baseClass, className].filter(Boolean).join(" ");
@@ -39,6 +42,7 @@ export function TajwidTextRenderer({
           {stripWaqfSigns(seg.text)}
         </span>
       ))}
+      {trailing}
     </p>
   );
 }

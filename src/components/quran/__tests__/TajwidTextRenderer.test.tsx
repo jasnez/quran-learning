@@ -99,3 +99,22 @@ describe("TajwidTextRenderer", () => {
     expect(wrapper?.className).toMatch(/leading-\[1\.[89]\]|leading-\[2\]|leading-loose|arabic-leading/);
   });
 });
+
+describe("TajwidTextRenderer trailing content (the rosette)", () => {
+  it("renders it inside the Arabic paragraph, after the last piece of text", () => {
+    const { container } = render(
+      <TajwidTextRenderer segments={segments} showColors trailing={<span data-testid="trail">7</span>} />,
+    );
+    const paragraph = container.querySelector('p[lang="ar"]');
+    expect(paragraph?.lastElementChild).toHaveAttribute("data-testid", "trail");
+  });
+
+  it("a click on it names no rule", () => {
+    useTajwidRuleBarStore.setState({ rule: null });
+    const { container } = render(
+      <TajwidTextRenderer segments={segments} showColors trailing={<span data-testid="trail">7</span>} />,
+    );
+    fireEvent.click(container.querySelector('[data-testid="trail"]')!);
+    expect(useTajwidRuleBarStore.getState().rule).toBeNull();
+  });
+});

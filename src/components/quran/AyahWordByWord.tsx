@@ -27,6 +27,7 @@ const MemoWordByWordRenderer = memo(
     prev.showColors === next.showColors &&
     prev.onWordClick === next.onWordClick &&
     prev.className === next.className &&
+    prev.trailing === next.trailing &&
     shallowEqualStyle(prev.style, next.style),
 );
 
@@ -41,6 +42,9 @@ export type AyahWordByWordProps = {
   onSeekMs?: (ayahRelativeMs: number) => void;
   className?: string;
   style?: React.CSSProperties;
+  /** Rendered inside the Arabic paragraph after the text: the ayah's rosette. Memoize it in the
+   *  caller, or the word list re-renders on every frame of the playing ayah. */
+  trailing?: React.ReactNode;
 };
 
 /**
@@ -55,6 +59,7 @@ export function AyahWordByWord({
   onSeekMs,
   className,
   style,
+  trailing,
 }: AyahWordByWordProps) {
   const words = useMemo(
     () => splitTajwidIntoWords(ayah.tajwidSegments, ayah.id),
@@ -85,7 +90,13 @@ export function AyahWordByWord({
       ayah.tajwidSegments.length > 0 ? ayah.tajwidSegments : [{ text: ayah.arabicText, rule: "normal" as const }];
     return (
       <>
-        <TajwidTextRenderer segments={segments} showColors={showColors} className={className} style={style} />
+        <TajwidTextRenderer
+          segments={segments}
+          showColors={showColors}
+          className={className}
+          style={style}
+          trailing={trailing}
+        />
         {verse && (
           <p className="mt-2 text-xs text-ink-muted">
             Za ovaj ajet nema praćenja riječ po riječ.
@@ -104,6 +115,7 @@ export function AyahWordByWord({
       onWordClick={hasSeek ? handleWordClick : undefined}
       className={className}
       style={style}
+      trailing={trailing}
     />
   );
 }
