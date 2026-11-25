@@ -1,6 +1,9 @@
 # Phase 4 "ekrani": design
 
-Date: 2026-11-25. Status: draft for the owner's approval. No code is written before that.
+Date: 2026-11-25. Status: approved by the owner on 2026-11-25, with the proposals for O1, O2 and O3
+(three PRs; the Harfovi step shows "28 harfova" and is never marked finished; the four left-out
+handoff items stay out). Mockups shown before the approval:
+https://claude.ai/artifact/BPb3izsjJvLkYoGzCGnePa.
 
 Sources: final report "Finalni izvjestaj i plan" (tab Plan, Phase 4), developer handoff "Tezhib u
 kodu" (sections Prostor i pokret, Ornament, Komponente, Ekrani), design system "Tezhib"
@@ -153,7 +156,7 @@ Existing components are changed where one exists; none gets a twin.
 | `EndNav` | new | Two quiet cards (previous left, next right) and one "all" link. Surahs, juz and lessons. |
 | `PathSteps` | new | "Tvoj put": four steps with a number in text (D9). |
 | `NameRow` | `NameCard.tsx` | One of the 99 names as a list row that plays on tap. |
-| icons | 10 files with local SVG icon functions, plus Lucide | One `icons.tsx`: Lucide for common actions, own icons (dova, mushaf, harfovi, names) from the handoff, same 1.75 stroke. |
+| icons | 10 files with local SVG icon functions, plus Lucide | One `icons.tsx`: Lucide at 1.75 stroke everywhere, plus the few filled shapes Lucide lacks (play, pause, stop). The handoff's own icons for Ucenje and Dove read poorly at 24 px (seen on the mockups), so the tab bar keeps today's Lucide icons; own icons wait until they are redrawn. |
 
 **The selected style.** One look everywhere: `accent-wash` fill, `accent-text` text and a 1.5 px
 `accent-text` border. The handoff gives the choice pill no border; measured, the wash against its
@@ -391,7 +394,7 @@ Playwright Chromium).
 - File and test names; whether `AyahCard` is renamed (if so, as its own `refactor:` commit).
 - The Tailwind 4 form of the tokens (`@theme` names versus plain variables).
 
-## Needs the owner's answer
+## Owner's answers (2026-11-25: the proposal in each)
 
 - **O1. How many PRs.** Three (my proposal: six deployments), two (reader and learning together, then
   everything else: four deployments, larger reviews), or the plan's four (eight deployments).
