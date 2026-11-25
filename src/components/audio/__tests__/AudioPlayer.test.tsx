@@ -191,10 +191,37 @@ describe("AudioPlayer", () => {
     expect(screen.getByRole("region", { name: "Kontrole zvuka" })).toBeInTheDocument();
   });
 
+  // globals.css counts the bar in --bars-bottom from this attribute where :has() is missing.
+  it("marks the root while the bar is in the page", () => {
+    const root = document.documentElement;
+    const { unmount } = render(<AudioPlayer />);
+    expect(root).toHaveAttribute("data-has-audio");
+    unmount();
+    expect(root).not.toHaveAttribute("data-has-audio");
+  });
+
+  it("does not mark the root when no audio is loaded", () => {
+    playerState.activeAudioSrc = null;
+    render(<AudioPlayer />);
+    expect(document.documentElement).not.toHaveAttribute("data-has-audio");
+  });
+
   it("shows surah and ayah label", () => {
     render(<AudioPlayer />);
     // Surah name and ayah number in one phrase, e.g. "El-Fātiḥa, 3. ajet".
-    expect(screen.getAllByText(/El-Fātiḥa, 3\. ajet/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByTestId("player-title")).toHaveTextContent("El-Fātiḥa, 3. ajet");
+  });
+
+  // At 375 px the label column is about 107 px: "El-Beqare, 286. ajet" was cut in the number.
+  it("on a phone gives the first line to the surah name and moves the ayah to the second line", () => {
+    render(<AudioPlayer />);
+    const title = screen.getByTestId("player-title");
+    expect(title).toHaveClass("truncate");
+    expect(within(title).getByText(", 3. ajet")).toHaveClass("max-md:hidden");
+    const meta = screen.getByTestId("player-meta");
+    expect(within(meta).getByText("3. ajet ·")).toHaveClass("md:hidden");
+    expect(within(meta).getByText("· Mishary Alafasy")).toHaveClass("max-md:hidden");
+    expect(meta).toHaveTextContent(/0:10 \/ 0:45/);
   });
 
   it("shows play button when paused", () => {

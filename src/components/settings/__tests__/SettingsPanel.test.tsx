@@ -327,6 +327,13 @@ describe("SettingsPanel", () => {
     });
   });
 
+  it("announces the letter size with what it is, not a bare number", () => {
+    render(<SettingsPanel isOpen={true} onClose={() => {}} />);
+    const live = screen.getByText("28").closest("[aria-live='polite']")!;
+    expect(live).toHaveTextContent("Veličina slova: 28");
+    expect(screen.getByText("Veličina slova:")).toHaveClass("sr-only");
+  });
+
   it("font size decrease button calls setArabicFontSize with smaller value", async () => {
     render(<SettingsPanel isOpen={true} onClose={() => {}} />);
     const decrease = screen.getByRole("button", { name: "Manja slova" });

@@ -21,14 +21,23 @@ export function useActiveAyahObserver(ayahs: readonly Ayah[]): void {
       .filter((el): el is Element => el != null);
     if (elements.length === 0) return;
 
+    // The observer reports changes only: an ayah that stays in the band is not in the next
+    // report. So the set remembers who is in the band, and the topmost of them all counts.
+    const order = new Map(elements.map((el, index) => [el, index]));
+    const inBand = new Set<number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const top = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        const id = top?.target.getAttribute("data-ayah-id");
-        if (!id) return;
-        const ayahNumber = parseInt(id.split(":")[1] ?? "1", 10);
+        for (const entry of entries) {
+          const index = order.get(entry.target);
+          if (index == null) continue;
+          if (entry.isIntersecting) inBand.add(index);
+          else inBand.delete(index);
+        }
+        // An empty band (a gap between two ayahs) keeps the last ayah.
+        if (inBand.size === 0) return;
+        const id = elements[Math.min(...inBand)].getAttribute("data-ayah-id");
+        const ayahNumber = parseInt(id?.split(":")[1] ?? "", 10);
         if (Number.isFinite(ayahNumber)) setAyahNumber(ayahNumber);
       },
       // A band in the upper half of the screen: the ayah being read, not the one scrolling in.

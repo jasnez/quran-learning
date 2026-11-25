@@ -169,7 +169,9 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   >
                     <Minus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                   </button>
+                  {/* Announced on change: with its name, a bare "28" says nothing. */}
                   <span className="min-w-[3rem] text-center tabular-nums text-ink" aria-live="polite">
+                    <span className="sr-only">Veličina slova: </span>
                     {arabicFontSize}
                   </span>
                   <button

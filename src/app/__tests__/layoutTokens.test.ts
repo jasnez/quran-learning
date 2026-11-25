@@ -47,7 +47,7 @@ describe("layout tokens", () => {
   it("counts the tab bar only under 48rem and the player only while it is in the page", () => {
     expect(values("--bar-nav-now")).toEqual(["0px", "var(--bar-nav)"]);
     expect(CSS).toMatch(/@media \(width < 48rem\)\s*\{\s*:root\s*\{[^}]*--bar-nav-now:\s*var\(--bar-nav\)/);
-    expect(values("--bar-player-now")).toEqual(["0px", "var(--bar-player)"]);
+    expect(values("--bar-player-now")).toEqual(["0px", "var(--bar-player)", "var(--bar-player)"]);
     expect(CSS).toMatch(/:root:has\(\[data-audio-player\]\)\s*\{[^}]*--bar-player-now:\s*var\(--bar-player\)/);
   });
 
@@ -55,6 +55,13 @@ describe("layout tokens", () => {
     expect(values("--bars-bottom")).toEqual([
       "calc(var(--bar-nav-now) + var(--bar-player-now) + env(safe-area-inset-bottom, 0px))",
     ]);
+  });
+
+  // Without :has() the root cannot see the player, so the player also sets an attribute on the
+  // root (AudioPlayer.test.tsx). A rule of its own: in a selector list the unknown :has() would
+  // drop the whole rule.
+  it("counts the player from the root's attribute too, for browsers without :has()", () => {
+    expect(CSS).toMatch(/(?:^|\})\s*:root\[data-has-audio\]\s*\{\s*--bar-player-now:\s*var\(--bar-player\);\s*\}/);
   });
 
   it("keeps scrolled-to and focused elements clear of the bottom bars with one rule", () => {

@@ -190,8 +190,16 @@ html[data-arabic-font="naskh"] {
   }
 }
 
-/* Without :has() the player is not counted: the page then ends a little under it. */
+/*
+ * The player counts while it is in the page. The second rule says the same from an attribute the
+ * player sets on the root, for browsers without :has(). Two rules, not a selector list: an
+ * unknown selector would drop the whole list.
+ */
 :root:has([data-audio-player]) {
+  --bar-player-now: var(--bar-player);
+}
+
+:root[data-has-audio] {
   --bar-player-now: var(--bar-player);
 }
 

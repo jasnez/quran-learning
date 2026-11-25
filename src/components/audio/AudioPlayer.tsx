@@ -336,6 +336,16 @@ export function AudioPlayer() {
     if (activeAudioSrc) audioManager.setPlaybackRate(playbackSpeed);
   }, [activeAudioSrc, playbackSpeed]);
 
+  // The root says that the bar is in the page (globals.css counts it in --bars-bottom), for
+  // browsers without :has().
+  const hasAudio = !!activeAudioSrc;
+  useEffect(() => {
+    if (!hasAudio) return;
+    const root = document.documentElement;
+    root.setAttribute("data-has-audio", "");
+    return () => root.removeAttribute("data-has-audio");
+  }, [hasAudio]);
+
   const surahName = useMemo(() => {
     if (currentSurahId == null) return null;
     const n = Number(currentSurahId);
@@ -360,6 +370,7 @@ export function AudioPlayer() {
   if (!activeAudioSrc) return null;
 
   const ayahNum = ayahNumberFromId(currentAyahId);
+  const ayahLabel = `${ayahNum}. ajet`;
   const safeDuration = duration > 0 ? duration : 1;
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -382,11 +393,16 @@ export function AudioPlayer() {
         <div className="flex min-h-11 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
-            <span className="truncate text-sm font-medium text-ink md:text-[15px]">
-              {surahName ? `${surahName}, ${ayahNum}. ajet` : `Sura ${currentSurahId ?? "—"}, ${ayahNum}. ajet`}
+            {/* On a phone this column is about 107 px wide: the name alone fits the first line,
+                and the ayah opens the second one, where the reciter makes room for it. */}
+            <span data-testid="player-title" className="truncate text-sm font-medium text-ink md:text-[15px]">
+              {surahName ?? `Sura ${currentSurahId ?? "—"}`}
+              <span className="max-md:hidden">, {ayahLabel}</span>
             </span>
-            <span className="truncate text-[11px] tabular-nums text-ink-muted md:text-xs">
-              {formatTime(currentTime)} / {formatTime(duration)} · Mishary Alafasy
+            <span data-testid="player-meta" className="truncate text-[11px] tabular-nums text-ink-muted md:text-xs">
+              <span className="md:hidden">{ayahLabel} · </span>
+              {formatTime(currentTime)} / {formatTime(duration)}
+              <span className="max-md:hidden"> · Mishary Alafasy</span>
               {/* Repeat has no button in the bar, so the bar says when it is on. */}
               {repeatMode !== "off" && ` · Ponavljanje: ${repeatStateWord(repeatMode)}`}
             </span>
