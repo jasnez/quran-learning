@@ -31,7 +31,7 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
 
   return (
     <aside
-      className="hidden lg:block lg:sticky lg:top-[calc(var(--app-header-offset)+1rem)] lg:max-h-[calc(100vh-6rem)] lg:w-44 lg:flex-shrink-0 lg:overflow-y-auto lg:pr-2 lg:transition-[top] lg:duration-200"
+      className="hidden lg:block lg:sticky lg:top-[calc(var(--app-header-offset)+1rem)] lg:max-h-[calc(100vh-6rem)] lg:w-56 lg:flex-shrink-0 lg:overflow-y-auto lg:pr-2 lg:transition-[top] lg:duration-200"
       aria-label="Lista ajeta"
     >
       <div>

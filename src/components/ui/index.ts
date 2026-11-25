@@ -6,4 +6,5 @@ export { ModalDialog } from "./ModalDialog";
 export { ChoiceGroup } from "./ChoiceGroup";
 export { FilterChip } from "./FilterChip";
 export { Switch } from "./Switch";
+export { EndNav } from "./EndNav";
 export { SELECTED_CLASSES, IDLE_CLASSES } from "./selected";

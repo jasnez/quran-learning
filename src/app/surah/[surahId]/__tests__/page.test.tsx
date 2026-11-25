@@ -312,12 +312,12 @@ describe("Surah Reader page", () => {
     expect(learnLink).toHaveAttribute("href", "/learn/2");
   });
 
-  it("names the surah navigation links in words, without arrows", async () => {
+  it("names the neighbouring surahs in words, without arrows", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     const { container } = render(Page);
-    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
-    expect(within(nav).getByRole("link", { name: "Prethodna sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
-    expect(within(nav).getByRole("link", { name: "Sljedeća sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
+    expect(within(nav).getByRole("link", { name: "Prethodna sura Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
+    expect(within(nav).getByRole("link", { name: "Sljedeća sura Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
     expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
     expect(within(nav).getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
     expect(nav.textContent).not.toMatch(/[←→]/);
@@ -327,9 +327,41 @@ describe("Surah Reader page", () => {
   it("has exactly one Sve sure link in the nav of the first surah (no previous surah)", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
     expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
     expect(within(nav).queryByRole("link", { name: /^Prethodna/ })).toBeNull();
+  });
+
+  // Phase 4, D4: reading comes before controls.
+  it("puts the frame first, then the ayahs, then the way to the neighbouring surahs", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const frame = container.querySelector("[data-surah-frame]")!;
+    const firstAyah = container.querySelector("[data-ayah-id]")!;
+    const ayahs = container.querySelectorAll("[data-ayah-id]");
+    const lastAyah = ayahs[ayahs.length - 1];
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
+    const follows = (a: Element, b: Element) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(follows(frame, firstAyah)).toBe(true);
+    expect(follows(lastAyah, nav)).toBe(true);
+  });
+
+  it("has no link to another surah before the first ayah", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const firstAyah = container.querySelector("[data-ayah-id]")!;
+    const before = [...container.querySelectorAll("a")].filter(
+      (a) => a.compareDocumentPosition(firstAyah) & Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(before.map((a) => a.getAttribute("href")).filter((href) => /^\/surah\//.test(href ?? ""))).toEqual([]);
+  });
+
+  it("adds no padding of its own and keeps the text to the reading width next to the ayah list", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    const { container } = render(Page);
+    expect((container.firstElementChild as HTMLElement).className).not.toMatch(/\bp[xy]?-\d/);
+    expect(container.querySelector("[data-reading-column]")).toHaveClass("max-w-[42rem]");
+    expect(container.querySelector("aside")).toHaveClass("lg:w-56");
   });
 
   it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {

@@ -44,4 +44,11 @@ describe("ReaderSkeleton", () => {
     expect(skeletons.length).toBe(2);
     expect(container.querySelector(".animate-pulse")).toBeInTheDocument();
   });
+
+  it("looks like the text it stands for: lines, not cards", () => {
+    const { container } = render(<ReaderSkeleton count={2} />);
+    const first = container.querySelector("[data-skeleton-ayah]")!;
+    expect(first).toHaveClass("border-t", "border-line", "py-5");
+    expect(first.className).not.toMatch(/rounded-2xl|bg-paper/);
+  });
 });
