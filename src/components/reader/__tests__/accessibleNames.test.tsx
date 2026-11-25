@@ -103,12 +103,13 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("AyahUnit names", () => {
-  it("the article is named by its number badge, and the play button says which ayah", () => {
+  it("the article is named by a hidden element, and the play button says which ayah", () => {
     render(<AyahUnit {...props(ayah("1:12"))} />);
     const article = screen.getByRole("article", { name: "12. ajet" });
     expect(within(article).getByRole("button", { name: "Pusti 12. ajet" })).toHaveAttribute("title", "Pusti 12. ajet");
-    // The badge still shows only the number; the rest is for screen readers.
-    expect(article.querySelector("[id^='ayah-number-']")?.firstChild?.textContent).toBe("12");
+    // The visible number is the rosette (ornament, hidden); the name is for screen readers.
+    expect(article.querySelector("[id^='ayah-number-']")).toHaveClass("sr-only");
+    expect(article.querySelector("[data-rosette]")).toHaveTextContent("12");
   });
 
   it("in the juz reader the names add the surah, verbatim from the data", () => {
@@ -138,10 +139,10 @@ describe("AyahUnit names", () => {
 });
 
 describe("AyahUnit page badge", () => {
-  it("shows Str. N visibly and says Stranica N to screen readers, without aria-label", () => {
+  it("shows str. N visibly and says Stranica N to screen readers, without aria-label", () => {
     const a = { ...ayah("1:5"), page: 3 };
     const { container } = render(<AyahUnit {...props(a, { showPageBadge: true })} />);
-    const visible = screen.getByText("Str. 3");
+    const visible = screen.getByText("str. 3");
     expect(visible).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("Stranica 3")).toHaveClass("sr-only");
     expect(container.querySelector("[aria-label^='Stranica']")).toBeNull();

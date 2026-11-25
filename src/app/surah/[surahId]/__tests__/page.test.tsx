@@ -262,14 +262,15 @@ describe("Surah Reader page", () => {
     expect(mockPause).toHaveBeenCalled();
   });
 
-  it("when an ayah is playing, that card has the full highlight (data-active, left border, bg-highlight)", async () => {
+  it("when an ayah is playing, that unit has the full highlight (data-active, bg-highlight, filled rosette)", async () => {
     playerState.currentAyahId = "1:1";
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     const activeCard = container.querySelector("[data-active='true']");
     expect(activeCard).toBeInTheDocument();
-    expect(activeCard?.className).toMatch(/border-l/);
+    // Not color alone: the rosette is filled and the unit says "Sluša se".
+    expect(activeCard?.querySelector("[data-rosette]")).toHaveAttribute("data-filled", "true");
     // The --tj-* colors keep 3:1 on the full highlight (4.13:1 or more), so no faded tint.
     expect(activeCard?.className.split(" ")).toContain("bg-highlight");
   });

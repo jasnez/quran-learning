@@ -107,7 +107,7 @@ beforeEach(() => {
 });
 
 describe("Active ayah highlight animation", () => {
-  it("AyahUnit has transition-colors duration-300 for active state", () => {
+  it("AyahUnit changes color over the sheet duration for the active state", () => {
     const { container } = render(
       <AyahUnit
         ayah={mockAyah}
@@ -121,7 +121,7 @@ describe("Active ayah highlight animation", () => {
     );
     const article = container.querySelector("article");
     expect(article?.className).toMatch(/transition-colors/);
-    expect(article?.className).toMatch(/duration-300/);
+    expect(article?.className).toMatch(/duration-sheet/);
   });
 });
 

@@ -134,7 +134,7 @@ export function SurahReaderContent({
       <p className={wordDataFailed ? "mb-4 text-sm text-warning-text" : "sr-only"} role="status">
         {wordDataFailed ? "Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo." : null}
       </p>
-      <ul className="space-y-6 list-none" role="list">
+      <ul className="list-none" role="list">
         {ayahs.map((ayah, index) => {
           const prevAyah = index > 0 ? ayahs[index - 1] : null;
           const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
