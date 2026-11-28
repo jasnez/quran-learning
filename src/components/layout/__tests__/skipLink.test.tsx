@@ -12,6 +12,7 @@ vi.mock("next/dynamic", () => ({ default: () => () => null }));
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useSelectedLayoutSegment: () => null,
+  useParams: () => ({}),
   useRouter: () => ({ push: vi.fn() }),
 }));
 

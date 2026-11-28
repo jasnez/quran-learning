@@ -5,7 +5,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
-import { AyahCard } from "@/components/reader/AyahCard";
+import { AyahUnit } from "@/components/reader/AyahUnit";
 import { AudioPlayer } from "@/components/audio/AudioPlayer";
 import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { TajwidLegend } from "@/components/quran/TajwidLegend";
@@ -107,9 +107,9 @@ beforeEach(() => {
 });
 
 describe("Active ayah highlight animation", () => {
-  it("AyahCard has transition-colors duration-300 for active state", () => {
+  it("AyahUnit changes color over the sheet duration for the active state", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={[mockAyah]}
         surahNameLatin="Al-Fatihah"
@@ -121,7 +121,7 @@ describe("Active ayah highlight animation", () => {
     );
     const article = container.querySelector("article");
     expect(article?.className).toMatch(/transition-colors/);
-    expect(article?.className).toMatch(/duration-300/);
+    expect(article?.className).toMatch(/duration-sheet/);
   });
 });
 

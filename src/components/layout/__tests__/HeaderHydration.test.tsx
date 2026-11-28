@@ -19,6 +19,7 @@ vi.mock("next/navigation", async (orig) => ({
   ...((await orig()) as Record<string, unknown>),
   usePathname: () => route.pathname,
   useSelectedLayoutSegment: () => route.segment,
+  useParams: () => (route.segment === "surah" ? { surahId: route.pathname.split("/")[2] } : {}),
 }));
 
 const header = (

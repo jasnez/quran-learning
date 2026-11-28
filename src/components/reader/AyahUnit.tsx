@@ -1,7 +1,7 @@
 "use client";
 
-import { memo, useEffect, useRef } from "react";
-import { Bookmark, Play, Pause } from "lucide-react";
+import { memo, useEffect, useMemo, useRef } from "react";
+import { Bookmark } from "lucide-react";
 import type { Ayah } from "@/types/quran";
 import type { QueueSource } from "@/types/audio";
 import { usePlayerStore } from "@/store/playerStore";
@@ -11,21 +11,24 @@ import { useProgressStore } from "@/store/progressStore";
 import type { VerseTimestamp } from "@/types/wordByWord";
 import { TajwidTextRenderer } from "@/components/quran/TajwidTextRenderer";
 import { AyahWordByWord } from "@/components/quran/AyahWordByWord";
+import { AyahText } from "@/components/quran/AyahText";
+import { Rosette } from "@/components/quran/Rosette";
+import { PauseIcon, PlayIcon } from "@/components/ui/icons";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import * as audioManager from "@/lib/audio/audioManager";
 import { playAyahFromMs } from "@/lib/audio/playFromWord";
 
 const ARABIC_MIN_MOBILE_PX = 24;
-/** An ayah counts as read once its card has been in view this long without a break. */
+/** An ayah counts as read once its unit has been in view this long without a break. */
 const READ_DWELL_MS = 2000;
-/** In view: at least this share of the card, or of the screen for an ayah taller than it. */
+/** In view: at least this share of the unit, or of the screen for an ayah taller than it. */
 const READ_VISIBLE_SHARE = 0.5;
-/** Steps at which the observer reports, so a tall card is seen filling half the screen. */
+/** Steps at which the observer reports, so a tall unit is seen filling half the screen. */
 const READ_THRESHOLDS = [0, 0.25, 0.5, 0.75, 1];
 
-type AyahCardProps = {
+type AyahUnitProps = {
   ayah: Ayah;
-  /** Ayahs queued when playback starts from this card (the surah in the reader, the whole juz in the juz reader). */
+  /** Ayahs queued when playback starts from this unit (the surah in the reader, the whole juz in the juz reader). */
   queueAyahs: Ayah[];
   /** What the queue represents; decides what happens when it ends. Defaults to a whole surah. */
   queueSource?: QueueSource;
@@ -38,8 +41,10 @@ type AyahCardProps = {
   wordByWord?: boolean;
   /** Word timings of this ayah for word-by-word mode; undefined while loading or unavailable. */
   wordTimestamps?: VerseTimestamp;
-  /** Show a subtle page indicator badge for the first ayah on a mushaf page. */
+  /** Name the mushaf page: for the first ayah on a page. */
   showPageBadge?: boolean;
+  /** "flow": one ayah in the text of a surah, set off by a line. "card": an ayah on its own. */
+  variant?: "flow" | "card";
 };
 
 function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
@@ -47,12 +52,18 @@ function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
   return { surahNumber: s ?? 1, ayahNumber: a ?? 1 };
 }
 
+const ACTION_BUTTON =
+  "flex h-11 w-11 items-center justify-center rounded-control transition-colors duration-press ease-standard hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text";
+
 /**
- * Memoized, and every player value is selected per card: while audio plays the clock changes on
- * every animation frame, and a surah has up to 286 cards (QA P1-9). Only the card whose own
+ * One ayah: the Arabic with its rosette, the transcription, the translation, and its actions.
+ * In a surah it flows as text, as in a mushaf; only the ayah that plays gets a background.
+ *
+ * Memoized, and every player value is selected per unit: while audio plays the clock changes on
+ * every animation frame, and a surah has up to 286 units (QA P1-9). Only the unit whose own
  * selected values change re-renders.
  */
-export const AyahCard = memo(function AyahCard({
+export const AyahUnit = memo(function AyahUnit({
   ayah,
   queueAyahs,
   queueSource = "surah",
@@ -64,10 +75,11 @@ export const AyahCard = memo(function AyahCard({
   wordByWord = false,
   wordTimestamps,
   showPageBadge,
-}: AyahCardProps) {
+  variant = "flow",
+}: AyahUnitProps) {
   const isThisAyahPlaying = usePlayerStore((s) => s.currentAyahId === ayah.id && s.isPlaying);
   // Position in this ayah's audio file for the word highlight. Only the ayah whose audio is
-  // loaded gets the clock; every other card (and a stopped player) stays at -1.
+  // loaded gets the clock; every other unit (and a stopped player) stays at -1.
   const wordTimeMs = usePlayerStore((s) =>
     wordByWord && s.currentAyahId === ayah.id && s.activeAudioSrc ? s.currentTimeMs : -1,
   );
@@ -82,13 +94,13 @@ export const AyahCard = memo(function AyahCard({
 
   const isMobile = useIsMobile();
   const effectiveFontSize = isMobile ? Math.max(ARABIC_MIN_MOBILE_PX, arabicFontSize) : arabicFontSize;
-  const cardRef = useRef<HTMLElement>(null);
+  const unitRef = useRef<HTMLElement>(null);
   const hasMarkedReadRef = useRef(false);
 
-  // Read = in view for READ_DWELL_MS without a break, so cards that scroll past (also on the
+  // Read = in view for READ_DWELL_MS without a break, so units that scroll past (also on the
   // way to a ?ayah= target) do not count (QA P2-8).
   useEffect(() => {
-    const el = cardRef.current;
+    const el = unitRef.current;
     if (!el || hasMarkedReadRef.current) return;
     let timer: ReturnType<typeof setTimeout> | null = null;
     const stopTimer = () => {
@@ -97,8 +109,8 @@ export const AyahCard = memo(function AyahCard({
     };
     const observer = new IntersectionObserver(
       (entries) => {
-        // A busy main thread can deliver several reports for this card at once (in, then out):
-        // the latest one is where the card is now.
+        // A busy main thread can deliver several reports for this unit at once (in, then out):
+        // the latest one is where the unit is now.
         const entry = entries[entries.length - 1];
         if (!entry || hasMarkedReadRef.current) return;
         const screenHeight = entry.rootBounds?.height ?? window.innerHeight;
@@ -167,133 +179,99 @@ export const AyahCard = memo(function AyahCard({
       ? ayah.tajwidSegments
       : [{ text: ayah.arabicText, rule: "normal" as const }];
 
+  // One element per (number, playing): the memoized word list compares it by identity, so a new
+  // element on every frame of the playing ayah would re-render the whole list (QA P1-9).
+  const rosette = useMemo(
+    () => <Rosette number={ayah.ayahNumber} filled={isThisAyahPlaying} />,
+    [ayah.ayahNumber, isThisAyahPlaying],
+  );
+  const arabicStyle = useMemo(() => ({ fontSize: `${effectiveFontSize}px` }), [effectiveFontSize]);
+
+  const frame =
+    variant === "card"
+      ? `rounded-card border border-line p-4 md:p-5 ${isThisAyahPlaying ? "bg-highlight" : "bg-surface"}`
+      : // The playing ayah widens into the page margin, so its text stays on the column's edge.
+        isThisAyahPlaying
+        ? "-mx-3 rounded-xl border-t border-transparent bg-highlight px-3 py-5"
+        : "border-t border-line py-5";
+
   return (
     <article
-      ref={cardRef}
+      ref={unitRef}
       id={`ayah-${ayah.id.replace(":", "-")}`}
       aria-labelledby={numberId}
       data-ayah-id={ayah.id}
       data-active={isThisAyahPlaying ? "true" : undefined}
-      className={`rounded-xl border bg-surface p-4 transition-colors duration-300 border-line md:px-6 md:py-6 ${
-        // The tajwid colors keep 3:1 or more on the full highlight in every theme (lowest 4.13:1,
-        // themeTokens.test.ts). The accent border marks the playing ayah without relying on color.
-        isThisAyahPlaying
-          ? "border-l-[3px] border-l-accent-text bg-highlight"
-          : ""
-      }`}
+      // The highlight, the filled rosette, the pause icon and "Sluša se" mark the playing ayah:
+      // never color alone. The tajwid colors keep 3:1 or more on the highlight (themeTokens.test.ts).
+      className={`transition-colors duration-sheet ease-standard ${frame}`}
     >
-      {/* Meta row */}
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <span
-          id={numberId}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-sunken text-sm font-medium text-ink-muted"
-        >
-          {ayah.ayahNumber}
-          <span className="sr-only">
-            {queueSource === "juz" ? `. ajet sure ${surahNameLatin}` : ". ajet"}
-          </span>
-        </span>
-        <div className="flex items-center gap-2">
-          {showPageBadge && ayah.page > 0 && (
-            <span className="text-xs text-ink-muted">
-              <span aria-hidden>Str. {ayah.page}</span>
-              <span className="sr-only">Stranica {ayah.page}</span>
-            </span>
-          )}
-          {isThisAyahPlaying && (
-            <span className="text-xs font-medium text-accent-text" aria-hidden>
-              Sluša se
-            </span>
-          )}
-          <button
-            type="button"
-            onClick={handleBookmark}
-            className={`min-h-[44px] min-w-[44px] rounded-lg p-3 transition-all duration-200 ease-out hover:scale-105 active:scale-95 ${
-              bookmarked
-                ? "text-accent-text hover:bg-surface-sunken"
-                : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
-            }`}
-            aria-label={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
-            title={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
-          >
-            <Bookmark
-              className={`h-5 w-5 transition-transform duration-200 ${bookmarked ? "fill-current" : ""}`}
-              aria-hidden
-            />
-          </button>
-          <button
-            type="button"
-            className="min-h-[44px] min-w-[44px] rounded-lg p-3 text-ink-muted hover:bg-surface-sunken hover:text-accent-text"
-            aria-label={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
-            title={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
-            onClick={handlePlayPause}
-          >
-            {isThisAyahPlaying ? (
-              <Pause className="h-5 w-5 fill-current" aria-hidden />
-            ) : (
-              <Play className="h-5 w-5 fill-current" aria-hidden />
-            )}
-          </button>
-        </div>
-      </div>
+      {/* The rosette is ornament; this names the ayah for screen readers. */}
+      <span id={numberId} className="sr-only">
+        {label}
+      </span>
 
-      {/* Body — single column mobile/tablet, 2-col grid lg+ when translation visible */}
-      <div
-        className={
-          showTranslation && ayah.translationBosnian
-            ? "lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start"
-            : ""
-        }
-      >
-        <div className="lg:order-1">
-          {/* Arabic */}
-          {wordByWord ? (
+      <AyahText
+        arabic={
+          wordByWord ? (
             <AyahWordByWord
               ayah={ayah}
               verse={wordTimestamps}
               currentTimeMs={wordTimeMs}
               showColors={showTajwidColors}
               onSeekMs={(ms) => playAyahFromMs(ayah, queueAyahs, ms, queueSource)}
-              className={
-                showTranslation && ayah.translationBosnian
-                  ? "text-center lg:text-right"
-                  : "text-center"
-              }
-              style={{ fontSize: `${effectiveFontSize}px` }}
+              className="text-right"
+              style={arabicStyle}
+              trailing={rosette}
             />
           ) : (
             <TajwidTextRenderer
               segments={segments}
               showColors={showTajwidColors}
-              className={
-                showTranslation && ayah.translationBosnian
-                  ? "text-center lg:text-right"
-                  : "text-center"
-              }
-              style={{ fontSize: `${effectiveFontSize}px` }}
+              className="text-right"
+              style={arabicStyle}
+              trailing={rosette}
             />
-          )}
+          )
+        }
+        transliteration={showTransliteration ? ayah.transliteration : null}
+        translation={showTranslation ? ayah.translationBosnian : null}
+      />
 
-          {showTransliteration && ayah.transliteration && (
-            <p
-              className={`mt-5 font-transliteration text-[1.125rem] leading-[1.55] md:text-[1.1875rem] text-ink-muted ${
-                showTranslation && ayah.translationBosnian
-                  ? "text-center lg:text-right"
-                  : "text-center"
-              }`}
-            >
-              {ayah.transliteration}
-            </p>
-          )}
-        </div>
-
-        {showTranslation && ayah.translationBosnian && (
-          <p className="mt-4 text-center font-read text-[1.0625rem] leading-[1.6] md:text-lg text-ink lg:order-2 lg:mt-0 lg:pt-2 lg:text-left">
-            {ayah.translationBosnian}
-          </p>
+      {/* Actions: always visible, on every width. */}
+      <div className="-ml-2.5 mt-3 flex items-center gap-1">
+        <button
+          type="button"
+          className={`${ACTION_BUTTON} ${isThisAyahPlaying ? "text-accent-text" : "text-ink-muted hover:text-ink"}`}
+          aria-label={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
+          title={isThisAyahPlaying ? `Pauziraj ${label}` : `Pusti ${label}`}
+          onClick={handlePlayPause}
+        >
+          {isThisAyahPlaying ? <PauseIcon /> : <PlayIcon />}
+        </button>
+        {/* The name carries the state ("Sačuvaj" / "Ukloni ... iz sačuvanih"), so the button has
+            no pressed attribute: that would say the state twice. */}
+        <button
+          type="button"
+          onClick={handleBookmark}
+          className={`${ACTION_BUTTON} ${bookmarked ? "text-accent-text" : "text-ink-muted hover:text-ink"}`}
+          aria-label={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
+          title={bookmarked ? `Ukloni ${label} iz sačuvanih` : `Sačuvaj ${label}`}
+        >
+          <Bookmark className={`h-5 w-5 ${bookmarked ? "fill-current" : ""}`} strokeWidth={1.75} aria-hidden />
+        </button>
+        {isThisAyahPlaying && (
+          <span className="ml-1 text-[0.8125rem] font-semibold text-accent-text" aria-hidden>
+            Sluša se
+          </span>
+        )}
+        {showPageBadge && ayah.page > 0 && (
+          <span className="ml-auto text-[0.8125rem] text-ink-muted">
+            <span aria-hidden>str. {ayah.page}</span>
+            <span className="sr-only">Stranica {ayah.page}</span>
+          </span>
         )}
       </div>
     </article>
   );
 });
-

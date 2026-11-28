@@ -15,6 +15,9 @@ export type WordByWordRendererProps = {
   onWordClick?: (wordIndex: number) => void;
   className?: string;
   style?: React.CSSProperties;
+  /** Rendered inside the paragraph after the last word: the ayah's rosette. Keep its identity
+   *  stable (useMemo) or the memoized renderer re-renders with every parent render. */
+  trailing?: React.ReactNode;
 };
 
 type WordSpanProps = {
@@ -58,7 +61,7 @@ function WordSpan({ pieces, index, isActive, isTabStop, showColors, onWordClick 
           : undefined
       }
       // Neutral background + ring: no tajwid hue, so every rule color (red, green, blue) stays readable.
-      className={`rounded px-0.5 transition-colors duration-150 ${
+      className={`rounded px-0.5 transition-colors duration-press ${
         interactive ? "cursor-pointer" : ""
       } ${
         isActive
@@ -87,6 +90,7 @@ export function WordByWordRenderer({
   onWordClick,
   className = "",
   style,
+  trailing,
 }: WordByWordRendererProps) {
   const wrapperClass = ["font-arabic leading-[1.9]", className].filter(Boolean).join(" ");
   const openRuleBar = useTajwidRuleBarStore((s) => s.open);
@@ -113,6 +117,7 @@ export function WordByWordRenderer({
           />
         </span>
       ))}
+      {trailing}
     </p>
   );
 }

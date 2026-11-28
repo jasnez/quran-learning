@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getJuzByNumber } from "@/lib/data/juzUtils";
 import { getAllSurahs, getAyahsForJuz } from "@/lib/data";
 import { AYAH_FORMS, SURAH_FORMS, formatCount } from "@/lib/format";
@@ -48,12 +47,13 @@ export default async function JuzPage({ params }: PageProps) {
   const endSurahName = allSurahs.find((s) => s.surahNumber === juz.endSurah)?.nameLatin ?? `Sura ${juz.endSurah}`;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <header className="mb-8 rounded-2xl border border-line bg-highlight px-6 py-8 text-center">
-        <h1 className="text-2xl font-read font-bold tracking-tight text-ink md:text-3xl">
+    // The same reading column as a surah page; the way back is the header's and the EndNav's.
+    <div className="mx-auto max-w-[42rem]">
+      <header className="mb-8 text-center">
+        <h1 className="font-read text-3xl font-bold leading-tight text-ink md:text-[2.5rem]">
           Džuz {juz.juz} — {juz.name}
         </h1>
-        <p className="mt-2 font-arabic text-xl text-ink" dir="rtl" lang="ar">
+        <p className="mt-2 font-arabic text-2xl text-ink" dir="rtl" lang="ar">
           {juz.nameArabic}
         </p>
         <p className="mt-2 text-sm text-ink-muted">
@@ -62,14 +62,6 @@ export default async function JuzPage({ params }: PageProps) {
         <p className="mt-1 text-sm text-ink-muted">
           {formatCount(segments.reduce((acc, s) => acc + s.ayahs.length, 0), AYAH_FORMS)} · {formatCount(juz.surahsIncluded.length, SURAH_FORMS)}
         </p>
-        <div className="mt-6">
-          <Link
-            href="/surahs?view=juz"
-            className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:bg-surface-sunken"
-          >
-            Svi džuzevi
-          </Link>
-        </div>
       </header>
 
       <JuzReaderContent juz={juz} segments={segments} />

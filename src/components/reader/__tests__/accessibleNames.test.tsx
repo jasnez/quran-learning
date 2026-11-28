@@ -9,8 +9,9 @@ import { render, screen, within, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { Ayah } from "@/types/quran";
 import surahs from "@/data/surahs.json";
-import { AyahCard } from "../AyahCard";
-import { ReaderToolbar } from "../ReaderToolbar";
+import { AyahUnit } from "../AyahUnit";
+import { SELECTED_CLASSES } from "@/components/ui";
+import { useReaderPositionStore } from "@/store/readerPositionStore";
 import { SurahAyahNav } from "../SurahAyahNav";
 import { SurahReaderContent } from "../SurahReaderContent";
 
@@ -102,25 +103,26 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 
-describe("AyahCard names", () => {
-  it("the article is named by its number badge, and the play button says which ayah", () => {
-    render(<AyahCard {...props(ayah("1:12"))} />);
+describe("AyahUnit names", () => {
+  it("the article is named by a hidden element, and the play button says which ayah", () => {
+    render(<AyahUnit {...props(ayah("1:12"))} />);
     const article = screen.getByRole("article", { name: "12. ajet" });
     expect(within(article).getByRole("button", { name: "Pusti 12. ajet" })).toHaveAttribute("title", "Pusti 12. ajet");
-    // The badge still shows only the number; the rest is for screen readers.
-    expect(article.querySelector("[id^='ayah-number-']")?.firstChild?.textContent).toBe("12");
+    // The visible number is the rosette (ornament, hidden); the name is for screen readers.
+    expect(article.querySelector("[id^='ayah-number-']")).toHaveClass("sr-only");
+    expect(article.querySelector("[data-rosette]")).toHaveTextContent("12");
   });
 
   it("in the juz reader the names add the surah, verbatim from the data", () => {
     const naba = surahs.find((s) => s.surahNumber === 78)!.nameLatin;
-    render(<AyahCard {...props(ayah("78:1"), { queueSource: "juz", surahNameLatin: naba })} />);
+    render(<AyahUnit {...props(ayah("78:1"), { queueSource: "juz", surahNameLatin: naba })} />);
     expect(screen.getByRole("article", { name: `1. ajet sure ${naba}` })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: `Pusti 1. ajet sure ${naba}` })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: `Sačuvaj 1. ajet sure ${naba}` })).toBeInTheDocument();
   });
 
   it("the bookmark button is named by its state, without aria-pressed, and the toast uses the number", async () => {
-    render(<AyahCard {...props(ayah("1:3"))} />);
+    render(<AyahUnit {...props(ayah("1:3"))} />);
     const save = screen.getByRole("button", { name: "Sačuvaj 3. ajet" });
     expect(save).not.toHaveAttribute("aria-pressed");
     expect(save).toHaveAttribute("title", "Sačuvaj 3. ajet");
@@ -129,7 +131,7 @@ describe("AyahCard names", () => {
 
     cleanup();
     bookmarkState.bookmarks = [{ id: "1-3", surahNumber: 1, ayahNumber: 3 }];
-    render(<AyahCard {...props(ayah("1:3"))} />);
+    render(<AyahUnit {...props(ayah("1:3"))} />);
     const remove = screen.getByRole("button", { name: "Ukloni 3. ajet iz sačuvanih" });
     expect(remove).not.toHaveAttribute("aria-pressed");
     await userEvent.click(remove);
@@ -137,44 +139,26 @@ describe("AyahCard names", () => {
   });
 });
 
-describe("AyahCard page badge", () => {
-  it("shows Str. N visibly and says Stranica N to screen readers, without aria-label", () => {
+describe("AyahUnit page badge", () => {
+  it("shows str. N visibly and says Stranica N to screen readers, without aria-label", () => {
     const a = { ...ayah("1:5"), page: 3 };
-    const { container } = render(<AyahCard {...props(a, { showPageBadge: true })} />);
-    const visible = screen.getByText("Str. 3");
+    const { container } = render(<AyahUnit {...props(a, { showPageBadge: true })} />);
+    const visible = screen.getByText("str. 3");
     expect(visible).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("Stranica 3")).toHaveClass("sr-only");
     expect(container.querySelector("[aria-label^='Stranica']")).toBeNull();
   });
 });
 
-describe("ReaderToolbar names", () => {
-  it("the display chips are a group named Prikaz", () => {
-    render(<ReaderToolbar />);
-    const group = screen.getByRole("group", { name: "Prikaz" });
-    expect(within(group).getByRole("button", { name: "Prijevod" })).toBeInTheDocument();
-  });
-
-  it("visible text is the name; toggles have aria-pressed and no aria-label", () => {
-    render(<ReaderToolbar />);
-    expect(screen.getByRole("button", { name: "Manja slova" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Veća slova" })).toBeInTheDocument();
-    expect(screen.getByText("Veličina slova:")).toHaveClass("sr-only");
-    expect(screen.getByRole("group", { name: "Arapsko pismo" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Moderno" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Klasično" })).toBeInTheDocument();
-    expect(screen.getByRole("group", { name: "Praćenje uz zvuk" })).toBeInTheDocument();
-    const translation = screen.getByRole("button", { name: "Prijevod", pressed: true });
-    expect(translation).not.toHaveAttribute("aria-label");
-    expect(screen.getByRole("button", { name: "Transkripcija", pressed: false })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Tedžvid boje", pressed: false })).toBeInTheDocument();
-    expect(screen.queryByLabelText("Sve postavke")).toBeNull();
-  });
-
-  it("settings is a link named by its visible text when no panel is provided", () => {
-    render(<ReaderToolbar />);
-    const link = screen.getByRole("link", { name: "Postavke" });
-    expect(link).not.toHaveAttribute("aria-label");
+describe("SurahReaderContent controls", () => {
+  // Phase 4, D3 and D4: reading settings have one entry, the gear in the global header.
+  it("has no toolbar, no second surah bar and no way into settings of its own", () => {
+    const { container } = render(<SurahReaderContent ayahs={[ayah("1:1"), ayah("1:2")]} surahNameLatin="Al-Fatihah" />);
+    expect(screen.queryByRole("toolbar")).toBeNull();
+    expect(container.querySelector("[data-testid='surah-reader-sticky-header']")).toBeNull();
+    expect(screen.queryByRole("group", { name: "Praćenje uz zvuk" })).toBeNull();
+    expect(screen.queryByRole("button", { name: /Postavke/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Postavke/ })).toBeNull();
   });
 });
 
@@ -184,6 +168,21 @@ describe("SurahAyahNav", () => {
     render(<SurahAyahNav ayahs={[ayah("1:1"), ayah("1:2")]} surahNumber={1} />);
     expect(screen.getByRole("link", { name: "2, sačuvan" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "1" })).toBeInTheDocument();
+  });
+
+  it("marks the ayah on screen (from the reader position) with the one selected style", () => {
+    useReaderPositionStore.setState({ ayahNumber: 2 });
+    render(<SurahAyahNav ayahs={[ayah("1:1"), ayah("1:2")]} surahNumber={1} />);
+    const current = screen.getByRole("link", { name: "2" });
+    expect(current).toHaveAttribute("aria-current", "true");
+    expect(current).toHaveClass(...SELECTED_CLASSES.split(" "), "border-[1.5px]");
+    expect(screen.getByRole("link", { name: "1" })).not.toHaveAttribute("aria-current");
+    useReaderPositionStore.setState({ ayahNumber: 1 });
+  });
+
+  it("names its list in plain words, without capitals", () => {
+    render(<SurahAyahNav ayahs={[ayah("1:1")]} surahNumber={1} />);
+    expect(screen.getByText("Ajeti").className).not.toMatch(/uppercase/);
   });
 });
 

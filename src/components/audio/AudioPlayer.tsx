@@ -10,6 +10,13 @@ import { getResolvedAudioUrl } from "@/lib/audio/getResolvedAudioUrl";
 import surahsData from "@/data/surahs.json";
 import type { SurahSummary } from "@/types/quran";
 import { spokenPosition } from "@/lib/spokenDuration";
+import { MoreVertical } from "lucide-react";
+import type { RepeatMode } from "@/types/settings";
+import { ChoiceGroup, Switch } from "@/components/ui";
+import { PauseIcon, PlayIcon, SkipNextIcon, SkipPrevIcon, StopIcon } from "@/components/ui/icons";
+
+const CONTROL_BUTTON =
+  "flex h-11 w-11 items-center justify-center rounded-full text-ink-muted transition-colors duration-press ease-standard hover:bg-surface-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text";
 
 function ayahNumberFromId(ayahId: string | null): string {
   if (!ayahId) return "—";
@@ -46,7 +53,7 @@ export function AudioPlayer() {
   const repeatMode = useSettingsStore((s) => s.repeatMode);
   const autoPlayNext = useSettingsStore((s) => s.autoPlayNext);
   const pauseAfterAyah = useSettingsStore((s) => s.pauseAfterAyah);
-  const cycleRepeatMode = useSettingsStore((s) => s.cycleRepeatMode);
+  const setRepeatMode = useSettingsStore((s) => s.setRepeatMode);
   const toggleAutoPlayNext = useSettingsStore((s) => s.toggleAutoPlayNext);
   const playbackSpeed = useSettingsStore((s) => s.playbackSpeed);
 
@@ -329,6 +336,16 @@ export function AudioPlayer() {
     if (activeAudioSrc) audioManager.setPlaybackRate(playbackSpeed);
   }, [activeAudioSrc, playbackSpeed]);
 
+  // The root says that the bar is in the page (globals.css counts it in --bars-bottom), for
+  // browsers without :has().
+  const hasAudio = !!activeAudioSrc;
+  useEffect(() => {
+    if (!hasAudio) return;
+    const root = document.documentElement;
+    root.setAttribute("data-has-audio", "");
+    return () => root.removeAttribute("data-has-audio");
+  }, [hasAudio]);
+
   const surahName = useMemo(() => {
     if (currentSurahId == null) return null;
     const n = Number(currentSurahId);
@@ -353,6 +370,7 @@ export function AudioPlayer() {
   if (!activeAudioSrc) return null;
 
   const ayahNum = ayahNumberFromId(currentAyahId);
+  const ayahLabel = `${ayahNum}. ajet`;
   const safeDuration = duration > 0 ? duration : 1;
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -367,19 +385,26 @@ export function AudioPlayer() {
     <div
       data-testid="audio-player"
       data-audio-player=""
-      className="fixed left-0 right-0 z-40 max-h-[70px] border-t border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90 max-md:bottom-14 md:bottom-0"
+      className="fixed left-0 right-0 bottom-[var(--bar-nav-now)] z-player h-[var(--bar-player)] border-t border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/90"
       role="region"
       aria-label="Kontrole zvuka"
     >
-      <div className="mx-auto flex max-h-[70px] max-w-7xl flex-col justify-center px-3 py-2 md:px-4 md:py-2.5">
-        <div className="flex min-h-[44px] flex-1 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+      <div className="mx-auto flex h-full max-w-7xl flex-col justify-center px-3 md:px-4">
+        <div className="flex min-h-11 items-center justify-between gap-2 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Left: label (mobile: at start; desktop: at start) */}
           <div className="flex min-w-0 flex-1 flex-col leading-tight lg:flex-none lg:justify-self-start">
-            <span className="truncate text-sm font-medium text-ink md:text-[15px]">
-              {surahName ? `${surahName}, ${ayahNum}. ajet` : `Sura ${currentSurahId ?? "—"}, ${ayahNum}. ajet`}
+            {/* On a phone this column is about 107 px wide: the name alone fits the first line,
+                and the ayah opens the second one, where the reciter makes room for it. */}
+            <span data-testid="player-title" className="truncate text-sm font-medium text-ink md:text-[15px]">
+              {surahName ?? `Sura ${currentSurahId ?? "—"}`}
+              <span className="max-md:hidden">, {ayahLabel}</span>
             </span>
-            <span className="truncate text-[11px] tabular-nums text-ink-muted md:text-xs">
-              {formatTime(currentTime)} / {formatTime(duration)} · Mishary Alafasy
+            <span data-testid="player-meta" className="truncate text-[11px] tabular-nums text-ink-muted md:text-xs">
+              <span className="md:hidden">{ayahLabel} · </span>
+              {formatTime(currentTime)} / {formatTime(duration)}
+              <span className="max-md:hidden"> · Mishary Alafasy</span>
+              {/* Repeat has no button in the bar, so the bar says when it is on. */}
+              {repeatMode !== "off" && ` · Ponavljanje: ${repeatStateWord(repeatMode)}`}
             </span>
           </div>
 
@@ -388,10 +413,10 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={() => { clearPending(); previous(); }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
+              className={CONTROL_BUTTON}
               aria-label="Prethodni ajet"
             >
-              <PrevIcon />
+              <SkipPrevIcon />
             </button>
             {isAwaitingContinue ? (
               <button
@@ -401,13 +426,13 @@ export function AudioPlayer() {
                 aria-label="Nastavi na sljedeći ajet"
               >
                 <span>{countdown != null ? `${countdown}s` : "Nastavi"}</span>
-                <NextIcon className="h-4 w-4" />
+                <SkipNextIcon className="h-4 w-4" />
               </button>
             ) : (
               <button
                 type="button"
                 onClick={isPlaying ? pause : resume}
-                className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full bg-ink text-paper hover:bg-ink/90"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-on-accent transition-colors duration-press ease-standard hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
                 aria-label={isPlaying ? "Pauziraj" : "Pusti"}
               >
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -416,10 +441,10 @@ export function AudioPlayer() {
             <button
               type="button"
               onClick={() => { clearPending(); next(); }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
+              className={CONTROL_BUTTON}
               aria-label="Sljedeći ajet"
             >
-              <NextIcon />
+              <SkipNextIcon />
             </button>
             <button
               type="button"
@@ -428,64 +453,26 @@ export function AudioPlayer() {
                 audioManager.pause();
                 stop();
               }}
-              className="flex h-11 min-h-[44px] min-w-[44px] w-11 items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
+              className={CONTROL_BUTTON}
               aria-label="Zaustavi"
             >
               <StopIcon />
             </button>
-            {/* Repeat & autoplay: inline on desktop, moved to "more" menu on mobile */}
-            <div className="hidden items-center gap-1 md:flex">
-              <button
-                type="button"
-                onClick={cycleRepeatMode}
-                aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
-                className={`flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full transition-colors md:h-10 md:w-10 md:min-w-[40px] ${
-                  repeatMode !== "off"
-                    ? "bg-accent-wash text-accent-text"
-                    : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
-                }`}
-              >
-                {repeatMode === "ayah" ? (
-                  <RepeatOneIcon className="h-4 w-4 md:h-5 md:w-5" />
-                ) : (
-                  <RepeatIcon className="h-4 w-4 md:h-5 md:w-5" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={toggleAutoPlayNext}
-                aria-label="Pusti sljedeću suru"
-                aria-pressed={autoPlayNext}
-                className={`inline-flex h-9 w-14 flex-shrink-0 items-center rounded-full border-2 border-transparent transition-colors md:h-10 md:w-16 ${
-                  autoPlayNext
-                    ? "justify-end bg-accent"
-                    : "justify-start bg-line-strong"
-                }`}
-              >
-                <span
-                  data-autoplay-thumb
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-on-accent text-accent shadow md:h-8 md:w-8"
-                  aria-hidden
-                >
-                  <PlayIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                </span>
-              </button>
-            </div>
-
-            {/* Mobile "more" menu with three dots */}
+            {/* Repeat and going on to the next surah: in the options, on every width. */}
             <MoreMenu
               isOpen={isMoreOpen}
               onToggle={() => setIsMoreOpen((v) => !v)}
+              onClose={() => setIsMoreOpen(false)}
               repeatMode={repeatMode}
               autoPlayNext={autoPlayNext}
-              onToggleRepeat={cycleRepeatMode}
+              onRepeatMode={setRepeatMode}
               onToggleAutoPlayNext={toggleAutoPlayNext}
             />
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full px-1 pb-1 md:px-2 md:pb-1.5">
+        <div className="w-full px-1 md:px-2">
           <input
             type="range"
             min={0}
@@ -494,7 +481,7 @@ export function AudioPlayer() {
             value={currentTime}
             onChange={handleSeek}
             aria-valuetext={spokenPosition(currentTime, duration)}
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-sunken transition-[width] duration-150 ease-out [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150"
+            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-surface-sunken transition-[width] duration-press ease-out [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-press"
             aria-label="Mjesto u ajetu"
           />
         </div>
@@ -503,137 +490,79 @@ export function AudioPlayer() {
   );
 }
 
-function PlayIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5 md:h-6 md:w-6"} aria-hidden>
-      <path d="M8 5v14l11-7L8 5z" />
-    </svg>
-  );
-}
-
-function PauseIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
-      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-    </svg>
-  );
-}
-
-function PrevIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
-      <path d="M6 6h2v12H6V6zm3.5 6 8.5 6V6l-8.5 6z" />
-    </svg>
-  );
-}
-
-function NextIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5 md:h-6 md:w-6"} aria-hidden>
-      <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
-    </svg>
-  );
-}
-
-function StopIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 md:h-6 md:w-6" aria-hidden>
-      <path d="M6 6h12v12H6V6z" />
-    </svg>
-  );
-}
-
-type RepeatMode = "off" | "ayah" | "surah";
+const REPEAT_OPTIONS = [
+  { value: "off", label: "Isključeno" },
+  { value: "surah", label: "Sura" },
+  { value: "ayah", label: "Ajet" },
+] as const;
 
 type MoreMenuProps = {
   isOpen: boolean;
   onToggle: () => void;
+  onClose: () => void;
   repeatMode: RepeatMode;
   autoPlayNext: boolean;
-  onToggleRepeat: () => void;
+  onRepeatMode: (mode: RepeatMode) => void;
   onToggleAutoPlayNext: () => void;
 };
 
 /**
- * The repeat and autoplay toggles on phones. A disclosure with plain toggle buttons, the same as
- * the inline desktop controls: not role="menu", which promises arrow keys (QA section 5).
+ * Repeat and going on to the next surah. A disclosure that holds a choice and a switch: not
+ * role="menu", which promises arrow keys between items (QA section 5). It floats over the page,
+ * so Escape closes it and returns focus to its button, and a click anywhere else closes it.
  */
-function MoreMenu({ isOpen, onToggle, repeatMode, autoPlayNext, onToggleRepeat, onToggleAutoPlayNext }: MoreMenuProps) {
+function MoreMenu({ isOpen, onToggle, onClose, repeatMode, autoPlayNext, onRepeatMode, onToggleAutoPlayNext }: MoreMenuProps) {
   const panelId = useId();
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) onClose();
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (wrapperRef.current?.contains(document.activeElement)) buttonRef.current?.focus();
+      onClose();
+    };
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("click", onDocClick, true);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className="relative md:hidden">
+    <div className="relative" ref={wrapperRef}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
         aria-label="Više opcija zvuka"
-        className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-full text-ink-muted hover:bg-surface-sunken hover:text-ink"
+        className={CONTROL_BUTTON}
       >
-        <span className="flex flex-col items-center">
-          <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
-          <span className="mb-0.5 block h-0.5 w-0.5 rounded-full bg-current" />
-          <span className="block h-0.5 w-0.5 rounded-full bg-current" />
-        </span>
+        <MoreVertical className="h-5 w-5" strokeWidth={1.75} aria-hidden />
       </button>
       {isOpen && (
         <div
           id={panelId}
-          className="absolute right-0 bottom-11 z-50 w-44 rounded-xl border border-line bg-surface p-2 text-xs shadow-lg"
+          className="absolute bottom-full right-0 z-float mb-2 w-64 space-y-3 rounded-card border border-line bg-surface p-3 shadow-lg"
           role="group"
           aria-label="Dodatne kontrole zvuka"
         >
-          <button
-            type="button"
-            onClick={onToggleRepeat}
-            aria-label={`Ponavljanje: ${repeatStateWord(repeatMode)}`}
-            className={`mb-1 flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] md:text-xs ${
-              repeatMode !== "off"
-                ? "bg-accent-wash text-accent-text"
-                : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
-            }`}
-          >
-            <span>Ponavljanje</span>
-            <span className="ml-2 text-[10px]">{repeatStateWord(repeatMode)}</span>
-          </button>
-          <button
-            type="button"
-            onClick={onToggleAutoPlayNext}
-            aria-pressed={autoPlayNext}
-            className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-[11px] text-ink-muted hover:bg-surface-sunken hover:text-ink"
-          >
-            <span>Pusti sljedeću suru</span>
-            <span className="ml-2 text-[10px]" aria-hidden>
-              {autoPlayNext ? "uključeno" : "isključeno"}
-            </span>
-          </button>
+          <ChoiceGroup legend="Ponavljanje" name="player-repeat-mode" options={REPEAT_OPTIONS} value={repeatMode} onChange={onRepeatMode} />
+          <Switch label="Pusti sljedeću suru" checked={autoPlayNext} onChange={onToggleAutoPlayNext} />
         </div>
       )}
     </div>
   );
 }
 
-/** The state of the repeat button as a word; the button's name is "Ponavljanje: <word>". */
-function repeatStateWord(mode: "off" | "surah" | "ayah"): string {
+/** The repeat mode as a word, for the line in the bar that says repeat is on. */
+function repeatStateWord(mode: RepeatMode): string {
   return mode === "ayah" ? "ajet" : mode === "surah" ? "sura" : "isključeno";
-}
-
-function RepeatIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
-    </svg>
-  );
-}
-
-/** Repeat-one icon: loop with "1" in center (for repeat ayah state). */
-function RepeatOneIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
-      <text x="12" y="14" textAnchor="middle" fontSize="8" fontWeight="bold" fill="currentColor" fontFamily="system-ui, sans-serif">
-        1
-      </text>
-    </svg>
-  );
 }

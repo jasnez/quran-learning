@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTajwidRuleBarStore } from "@/store/tajwidRuleBarStore";
-import { usePlayerStore } from "@/store/playerStore";
 import {
   tajwidRuleClasses,
   tajwidRuleLessonSlugs,
@@ -13,15 +12,13 @@ import {
 } from "@/lib/quran/tajwidStyles";
 
 /*
- * Above the fixed bottom bars: the mobile navigation (56px, z-50) and, when audio is loaded, the
- * player (70px, z-40); below the toast (z-50). On phones it stops short of the right edge, leaving
+ * Above the fixed bottom bars (the tab bar and, when audio is loaded, the player: --bars-bottom)
+ * and below the toast. On phones it stops short of the right edge, leaving
  * the back-to-top button (right-4, 48px) its corner. On a surface, not ink: the rule colors keep
  * 3:1 on the surface in every theme, on ink they do not.
  */
 const VISIBLE =
-  "fixed inset-x-3 max-md:right-[4.5rem] z-[45] flex items-start gap-3 rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-ink shadow-lg md:inset-x-auto md:left-1/2 md:w-[min(36rem,calc(100%-2rem))] md:-translate-x-1/2";
-const ABOVE_NAV = "max-md:bottom-16 md:bottom-4";
-const ABOVE_PLAYER = "max-md:bottom-[134px] md:bottom-[78px]";
+  "fixed inset-x-3 bottom-[calc(var(--bars-bottom)+0.5rem)] max-md:right-[4.5rem] z-infobar flex items-start gap-3 rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-ink shadow-lg md:inset-x-auto md:left-1/2 md:w-[min(36rem,calc(100%-2rem))] md:-translate-x-1/2";
 
 /**
  * Names the tajwid rule of a tapped colored letter, with one sentence and a link to the lesson.
@@ -31,7 +28,6 @@ const ABOVE_PLAYER = "max-md:bottom-[134px] md:bottom-[78px]";
 export function TajwidRuleBar() {
   const rule = useTajwidRuleBarStore((s) => s.rule);
   const close = useTajwidRuleBarStore((s) => s.close);
-  const hasAudio = usePlayerStore((s) => !!s.activeAudioSrc);
   const pathname = usePathname();
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +60,7 @@ export function TajwidRuleBar() {
         {rule ? `${tajwidRuleNames[rule]}: ${tajwidRuleSentences[rule]}` : ""}
       </p>
       {rule && (
-        <div ref={barRef} data-tajwid-rule-bar className={`${VISIBLE} ${hasAudio ? ABOVE_PLAYER : ABOVE_NAV}`}>
+        <div ref={barRef} data-tajwid-rule-bar className={VISIBLE}>
           <span aria-hidden="true" className={`text-base leading-5 ${tajwidRuleClasses[rule]}`}>
             ●
           </span>

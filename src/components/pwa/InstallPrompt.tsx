@@ -133,7 +133,7 @@ export function InstallPrompt() {
       {bannerVisible && (
         <aside
           aria-labelledby="install-prompt-title"
-          className="fixed bottom-[72px] left-2 right-2 z-40 md:bottom-4 md:left-auto md:right-4 md:max-w-md"
+          className="fixed bottom-[calc(var(--bars-bottom)+1rem)] left-2 right-2 z-infobar md:left-auto md:right-4 md:max-w-md"
         >
           <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3 shadow-lg">
             <span

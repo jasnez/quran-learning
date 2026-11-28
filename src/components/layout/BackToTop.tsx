@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePlayerStore } from "@/store/playerStore";
 import { useScrollContainer } from "@/contexts/ScrollContainerContext";
 import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
@@ -13,7 +12,6 @@ type BackToTopProps = {
 
 export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProps) {
   const [visible, setVisible] = useState(false);
-  const hasAudio = usePlayerStore((s) => !!s.activeAudioSrc);
   const scrollContext = useScrollContainer();
 
   useEffect(() => {
@@ -55,13 +53,9 @@ export function BackToTop({ scrollThreshold = DEFAULT_THRESHOLD }: BackToTopProp
       type="button"
       onClick={scrollToTop}
       data-testid="back-to-top"
-      data-above-player={hasAudio ? "true" : "false"}
       aria-label="Povratak na vrh stranice"
-      className={
-        hasAudio
-          ? "fixed right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-paper shadow-lg transition-opacity hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 max-md:bottom-[8.5rem] md:bottom-24"
-          : "fixed bottom-24 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-paper shadow-lg transition-opacity hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2 max-md:bottom-24 md:bottom-8"
-      }
+      // One gap above whatever bottom bars are in the page (tab bar, player): --bars-bottom.
+      className="fixed bottom-[calc(var(--bars-bottom)+1rem)] right-4 z-float flex h-12 w-12 items-center justify-center rounded-full bg-ink text-paper shadow-lg transition-opacity hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-accent-text focus-visible:outline-offset-2"
     >
       <span aria-hidden>
         <ChevronUpIcon className="h-6 w-6" />

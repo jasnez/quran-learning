@@ -4,3 +4,5 @@ export { TajwidTextRenderer } from "./TajwidTextRenderer";
 export { TajwidLegend } from "./TajwidLegend";
 export { WordByWordRenderer } from "./WordByWordRenderer";
 export { AyahWordByWord } from "./AyahWordByWord";
+export { Rosette } from "./Rosette";
+export { AyahText } from "./AyahText";

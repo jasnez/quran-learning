@@ -126,13 +126,14 @@ const settingsStateRef = vi.hoisted(() => ({
     playbackSpeed: 1,
     pauseAfterAyah: "off" as "off" | "3s" | "5s" | "10s" | "manual",
     cycleRepeatMode: vi.fn(),
+    setRepeatMode: vi.fn(),
     toggleAutoPlayNext: vi.fn(),
     setPauseAfterAyah: vi.fn(),
   },
 }));
 vi.mock("@/store/settingsStore", () => ({
   useSettingsStore: Object.assign(
-    vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; pauseAfterAyah: string; cycleRepeatMode: () => void; toggleAutoPlayNext: () => void; setPauseAfterAyah: () => void }) => unknown) =>
+    vi.fn((selector: (s: { repeatMode: string; autoPlayNext: boolean; playbackSpeed: number; pauseAfterAyah: string; cycleRepeatMode: () => void; setRepeatMode: (mode: string) => void; toggleAutoPlayNext: () => void; setPauseAfterAyah: () => void }) => unknown) =>
       selector(settingsStateRef.current)
     ),
     { getState: () => settingsStateRef.current }
@@ -190,10 +191,37 @@ describe("AudioPlayer", () => {
     expect(screen.getByRole("region", { name: "Kontrole zvuka" })).toBeInTheDocument();
   });
 
+  // globals.css counts the bar in --bars-bottom from this attribute where :has() is missing.
+  it("marks the root while the bar is in the page", () => {
+    const root = document.documentElement;
+    const { unmount } = render(<AudioPlayer />);
+    expect(root).toHaveAttribute("data-has-audio");
+    unmount();
+    expect(root).not.toHaveAttribute("data-has-audio");
+  });
+
+  it("does not mark the root when no audio is loaded", () => {
+    playerState.activeAudioSrc = null;
+    render(<AudioPlayer />);
+    expect(document.documentElement).not.toHaveAttribute("data-has-audio");
+  });
+
   it("shows surah and ayah label", () => {
     render(<AudioPlayer />);
     // Surah name and ayah number in one phrase, e.g. "El-Fātiḥa, 3. ajet".
-    expect(screen.getAllByText(/El-Fātiḥa, 3\. ajet/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByTestId("player-title")).toHaveTextContent("El-Fātiḥa, 3. ajet");
+  });
+
+  // At 375 px the label column is about 107 px: "El-Beqare, 286. ajet" was cut in the number.
+  it("on a phone gives the first line to the surah name and moves the ayah to the second line", () => {
+    render(<AudioPlayer />);
+    const title = screen.getByTestId("player-title");
+    expect(title).toHaveClass("truncate");
+    expect(within(title).getByText(", 3. ajet")).toHaveClass("max-md:hidden");
+    const meta = screen.getByTestId("player-meta");
+    expect(within(meta).getByText("3. ajet ·")).toHaveClass("md:hidden");
+    expect(within(meta).getByText("· Mishary Alafasy")).toHaveClass("max-md:hidden");
+    expect(meta).toHaveTextContent(/0:10 \/ 0:45/);
   });
 
   it("shows play button when paused", () => {
@@ -549,126 +577,110 @@ describe("AudioPlayer", () => {
     expect(mockNext).not.toHaveBeenCalled();
   });
 
-  it("autoplay control is a toggle switch with thumb containing play icon", () => {
+  // Phase 4, D10: the bar holds the transport; repeat and going on to the next surah are in
+  // "Više opcija zvuka" on every width, as one choice and one switch.
+  it("draws the main button in the accent", () => {
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
-    expect(thumb).toBeInTheDocument();
-    expect(autoplayBtn.querySelector("[data-autoplay-thumb] svg")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Pusti" })).toHaveClass("bg-accent", "text-on-accent");
   });
 
-  it("autoplay switch thumb is on right when on", () => {
-    settingsStateRef.current.autoPlayNext = true;
+  it("keeps repeat and autoplay out of the bar until the options are opened", () => {
     render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
-    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
-    expect(thumb?.parentElement).toHaveClass("justify-end");
+    expect(screen.queryByRole("group", { name: "Ponavljanje" })).toBeNull();
+    expect(screen.queryByRole("switch")).toBeNull();
+    expect(screen.queryByRole("button", { name: /^Ponavljanje: / })).toBeNull();
   });
 
-  it("autoplay switch thumb is on left when off", () => {
-    settingsStateRef.current.autoPlayNext = false;
-    render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    expect(autoplayBtn).toHaveAttribute("aria-pressed", "false");
-    const thumb = autoplayBtn.querySelector("[data-autoplay-thumb]");
-    expect(thumb?.parentElement).toHaveClass("justify-start");
-  });
-
-  it("shows repeat control with accessible label (surah or ayah)", () => {
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
-    expect(repeatBtn).toBeInTheDocument();
-  });
-
-  it("clicking repeat control calls cycleRepeatMode", () => {
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
-    fireEvent.click(repeatBtn);
-    expect(mockCycleRepeatMode).toHaveBeenCalledTimes(1);
-  });
-
-  it("repeat button names its state, without aria-pressed, when repeatMode is surah or ayah", () => {
-    settingsStateRef.current.repeatMode = "surah";
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
-    expect(repeatBtn).toHaveAccessibleName("Ponavljanje: sura");
-    expect(repeatBtn).not.toHaveAttribute("aria-pressed");
-  });
-
-  it("when repeatMode is ayah, repeat button shows Repeat One icon (with 1)", () => {
-    settingsStateRef.current.repeatMode = "ayah";
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
-    const svg = repeatBtn.querySelector("svg");
-    expect(svg).toBeInTheDocument();
-    expect(repeatBtn.textContent).toContain("1");
-  });
-
-  it("when repeatMode is off, repeat button shows loop icon without 1", () => {
-    settingsStateRef.current.repeatMode = "off";
-    render(<AudioPlayer />);
-    const repeatBtn = screen.getByRole("button", { name: /^Ponavljanje: / });
-    expect(repeatBtn.textContent).not.toContain("1");
-  });
-
-  it("shows autoplay next surah toggle with accessible label", () => {
-    render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    expect(autoplayBtn).toBeInTheDocument();
-  });
-
-  it("clicking autoplay toggle calls toggleAutoPlayNext", () => {
-    render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    fireEvent.click(autoplayBtn);
-    expect(mockToggleAutoPlayNext).toHaveBeenCalledTimes(1);
-  });
-
-  it("autoplay button has pressed state when autoPlayNext is true", () => {
-    settingsStateRef.current.autoPlayNext = true;
-    render(<AudioPlayer />);
-    const autoplayBtn = screen.getByRole("button", { name: "Pusti sljedeću suru" });
-    expect(autoplayBtn).toHaveAttribute("aria-pressed", "true");
-  });
-
-  it("shows compact vertical more menu icon on mobile", () => {
+  it("offers the options on every width, with a 44 px button", () => {
     render(<AudioPlayer />);
     const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
-    const wrapper = moreBtn.firstElementChild as HTMLElement | null;
-    const dots = wrapper ? wrapper.querySelectorAll("span") : [];
-    expect(dots.length).toBe(3);
-    // Dots are stacked vertically (wrapper uses flex-col), not laid out in a row
-    expect(wrapper).not.toBeNull();
-    expect(wrapper).toHaveClass("flex", "flex-col");
+    expect(moreBtn).toHaveClass("h-11", "w-11");
+    expect(moreBtn.parentElement!.className).not.toMatch(/md:hidden|hidden/);
   });
 
-  it("opens more menu panel above the player bar", () => {
+  it("opens the options above the player bar", () => {
     render(<AudioPlayer />);
     const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
+    expect(moreBtn).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(moreBtn);
-    const panel = screen.getByRole("group", { name: "Dodatne kontrole zvuka" });
-    expect(panel).toBeInTheDocument();
-    // Panel should be positioned above the control bar (using bottom offset), not below it
-    expect(panel).toHaveClass("bottom-11");
+    expect(moreBtn).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("group", { name: "Dodatne kontrole zvuka" })).toHaveClass("bottom-full");
   });
 
-  // QA section 5: role="menu" without arrow keys, and a three-state repeat as a checkbox item.
-  it("more panel holds plain toggle buttons, not ARIA menu items", () => {
-    settingsStateRef.current.repeatMode = "surah";
+  // QA section 5: role="menu" promises arrow keys between items; this is a disclosure.
+  it("is a disclosure with a choice and a switch, not an ARIA menu", () => {
     render(<AudioPlayer />);
     const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
     expect(moreBtn).not.toHaveAttribute("aria-haspopup");
     fireEvent.click(moreBtn);
-    expect(moreBtn).toHaveAttribute("aria-expanded", "true");
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
     expect(screen.queryByRole("menuitemcheckbox")).not.toBeInTheDocument();
-    const panel = within(screen.getByRole("group", { name: "Dodatne kontrole zvuka" }));
-    expect(panel.getByRole("button", { name: "Ponavljanje: sura" })).not.toHaveAttribute("aria-pressed");
-    expect(panel.getByRole("button", { name: "Pusti sljedeću suru" })).toHaveAttribute("aria-pressed", "true");
-    // State words are plain text in normal case; the autoplay one is hidden from assistive tech.
-    expect(panel.getByText("sura").className).not.toMatch(/uppercase/);
-    expect(panel.getByText("uključeno")).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("offers the three repeat modes as one choice with the current one checked", () => {
+    settingsStateRef.current.repeatMode = "surah";
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    const repeat = within(screen.getByRole("group", { name: "Ponavljanje" }));
+    expect(repeat.getByRole("radio", { name: "Isključeno" })).not.toBeChecked();
+    expect(repeat.getByRole("radio", { name: "Sura" })).toBeChecked();
+    expect(repeat.getByRole("radio", { name: "Ajet" })).not.toBeChecked();
+  });
+
+  it("choosing a repeat mode sets exactly that mode", () => {
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Ajet" }));
+    expect(settingsStateRef.current.setRepeatMode).toHaveBeenCalledWith("ayah");
+    expect(mockCycleRepeatMode).not.toHaveBeenCalled();
+  });
+
+  it("has a switch for going on to the next surah", () => {
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    const autoplay = screen.getByRole("switch", { name: "Pusti sljedeću suru" });
+    expect(autoplay).toHaveAttribute("aria-checked", "true");
+    fireEvent.click(autoplay);
+    expect(mockToggleAutoPlayNext).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows the switch off when autoplay is off", () => {
+    settingsStateRef.current.autoPlayNext = false;
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    expect(screen.getByRole("switch", { name: "Pusti sljedeću suru" })).toHaveAttribute("aria-checked", "false");
+  });
+
+  // The options float over the page on every width, so they close like any disclosure.
+  it("closes the options on Escape and returns focus to their button", () => {
+    render(<AudioPlayer />);
+    const moreBtn = screen.getByRole("button", { name: "Više opcija zvuka" });
+    fireEvent.click(moreBtn);
+    screen.getByRole("radio", { name: "Sura" }).focus();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("group", { name: "Dodatne kontrole zvuka" })).toBeNull();
+    expect(moreBtn).toHaveAttribute("aria-expanded", "false");
+    expect(moreBtn).toHaveFocus();
+  });
+
+  it("closes the options on a click outside them, and keeps them open for a click inside", () => {
+    render(<AudioPlayer />);
+    fireEvent.click(screen.getByRole("button", { name: "Više opcija zvuka" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Sura" }));
+    expect(screen.getByRole("group", { name: "Dodatne kontrole zvuka" })).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByRole("group", { name: "Dodatne kontrole zvuka" })).toBeNull();
+  });
+
+  // Repeat is no longer a button in the bar, so the bar says in words when it is on.
+  it("says in the bar that repeat is on, and nothing when it is off", () => {
+    settingsStateRef.current.repeatMode = "ayah";
+    const { unmount } = render(<AudioPlayer />);
+    expect(screen.getByText(/Ponavljanje: ajet/)).toBeInTheDocument();
+    unmount();
+    settingsStateRef.current.repeatMode = "off";
+    render(<AudioPlayer />);
+    expect(screen.queryByText(/Ponavljanje:/)).toBeNull();
   });
 });
 

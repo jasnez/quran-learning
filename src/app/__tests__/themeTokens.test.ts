@@ -96,6 +96,9 @@ const PAIRS: [string, string, number][] = [
   ),
   ...["surface-sunken", "highlight", "mark", "accent-wash"].map((bg): [string, string, number] => ["ink", bg, AA_TEXT]),
   ["accent-text", "accent-wash", AA_TEXT],
+  // The border of a chosen option: what makes it a shape on the sunken track of a ChoiceGroup,
+  // where the wash alone is 1.01:1 (light).
+  ["accent-text", "surface-sunken", NON_TEXT],
   ["on-accent", "accent", AA_TEXT],
   ["on-accent", "accent-hover", AA_TEXT],
   ["on-accent", "danger", AA_TEXT],

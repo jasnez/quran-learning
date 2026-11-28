@@ -5,7 +5,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { SurahHeader } from "../SurahHeader";
+import { SurahFrame } from "../SurahFrame";
 import type { SurahSummary, Ayah } from "@/types/quran";
 
 const mockSurah: SurahSummary = {
@@ -72,14 +72,14 @@ beforeEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("SurahHeader mobile playback", () => {
-  it("clicking 'Pusti cijelu suru' primes audioManager.play and enqueues ayahs", async () => {
+describe("SurahFrame mobile playback", () => {
+  it("clicking 'Pusti suru' primes audioManager.play and enqueues ayahs", async () => {
     const user = userEvent.setup();
     const audioManager = await import("@/lib/audio/audioManager");
 
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah]} />);
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah]} />);
 
-    const button = screen.getByRole("button", { name: /pusti cijelu suru/i });
+    const button = screen.getByRole("button", { name: "Pusti suru" });
     await user.click(button);
 
     expect(vi.mocked(audioManager.play)).toHaveBeenCalledTimes(1);
@@ -87,15 +87,15 @@ describe("SurahHeader mobile playback", () => {
     expect(mockPlay).toHaveBeenCalledWith(mockAyah);
   });
 
-  it("shows single page label when all ayahs are on one page", () => {
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah]} />);
-    expect(screen.getByText(/Stranica:\s*1/)).toBeInTheDocument();
+  it("names the page when all ayahs are on one page", () => {
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah]} />);
+    expect(screen.getByText(/, str\. 1$/)).toBeInTheDocument();
   });
 
-  it("shows page range label when ayahs span multiple pages", () => {
+  it("names the page range when ayahs span several pages", () => {
     const secondAyah: Ayah = { ...mockAyah, id: "1:2", ayahNumber: 2, page: 2 };
-    render(<SurahHeader surah={mockSurah} ayahs={[mockAyah, secondAyah]} />);
-    expect(screen.getByText(/Stranice:\s*1–2/)).toBeInTheDocument();
+    render(<SurahFrame surah={mockSurah} ayahs={[mockAyah, secondAyah]} />);
+    expect(screen.getByText(/, str\. 1–2$/)).toBeInTheDocument();
   });
 });
 

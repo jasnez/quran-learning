@@ -29,7 +29,8 @@ describe("focus visibility", () => {
   it("globals.css reserves scroll padding for the fixed bars on html", () => {
     const css = readFileSync(path.join(SRC, "app/globals.css"), "utf-8");
     expect(css).toMatch(/html\s*\{[^}]*scroll-padding-top:/);
-    expect(css).toMatch(/html\s*\{[^}]*scroll-padding-bottom:/);
-    expect(css).toMatch(/:root:has\(\[data-audio-player\]\)\s*\{[^}]*scroll-padding-bottom:/);
+    // The bottom padding follows --bars-bottom, which grows by the player while audio is loaded.
+    expect(css).toMatch(/html\s*\{[^}]*scroll-padding-bottom:\s*calc\(var\(--bars-bottom\)/);
+    expect(css).toMatch(/:root:has\(\[data-audio-player\]\)\s*\{[^}]*--bar-player-now:\s*var\(--bar-player\)/);
   });
 });

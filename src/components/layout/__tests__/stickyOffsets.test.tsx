@@ -9,8 +9,6 @@ import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, afterEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
-import { SurahReaderStickyHeader } from "@/components/reader/SurahReaderStickyHeader";
-import { ReaderToolbar } from "@/components/reader/ReaderToolbar";
 import { SearchInput } from "@/components/surahs/SearchInput";
 import type { Ayah } from "@/types/quran";
 import { readFileSync } from "node:fs";
@@ -34,8 +32,9 @@ function classes(el: Element | null): string[] {
 }
 
 describe("sticky offsets below the fixed global header (QA P1-3)", () => {
-  it("globals.css sets the header offset to the header height (h-12 = 3rem) and to 0 while the header is hidden", () => {
-    expect(globalsCss).toMatch(/:root\s*\{[^}]*--app-header-offset:\s*3rem/);
+  it("globals.css sets the header offset to the header height and to 0 while the header is hidden", () => {
+    expect(globalsCss).toMatch(/:root\s*\{[^}]*--bar-header:\s*3rem/);
+    expect(globalsCss).toMatch(/:root\s*\{[^}]*--app-header-offset:\s*var\(--bar-header\)/);
     expect(globalsCss).toMatch(
       /\[data-scroll-container\]:has\(>\s*header\[data-hidden="true"\]\)\s*\{[^}]*--app-header-offset:\s*0(px)?\s*;/
     );
@@ -50,28 +49,8 @@ describe("sticky offsets below the fixed global header (QA P1-3)", () => {
     expect(aside?.querySelector(".lg\:sticky")).toBeNull();
   });
 
-  it("surah reader header sticks right below the global header, not under it", () => {
-    const { getByTestId } = render(
-      <SurahReaderStickyHeader
-        surahNameLatin="Al-Fatiha"
-        surahNumberArabic="الفاتحة"
-        totalAyahs={7}
-        ayahs={ayahs}
-      />
-    );
-    const c = classes(getByTestId("surah-reader-sticky-header"));
-    expect(c).toContain("sticky");
-    expect(c).toContain(HEADER_OFFSET);
-    expect(c).not.toContain("top-0");
-    // Desktop shows the sticky toolbar at the same offset instead.
-    expect(c).toContain("lg:static");
-  });
-
-  it("desktop reader toolbar sticks right below the global header", () => {
-    const { getByRole } = render(<ReaderToolbar />);
-    const c = classes(getByRole("toolbar", { hidden: true }));
-    expect(c).toContain("sticky");
-    expect(c).toContain(HEADER_OFFSET);
+  it("a scrolled-to ayah clears the header: no second bar under it any more", () => {
+    expect(globalsCss).toMatch(/scroll-padding-top:\s*calc\(var\(--bar-header\) \+ 0\.5rem\)/);
   });
 
   it("mobile surah list search sticks below the global header", () => {

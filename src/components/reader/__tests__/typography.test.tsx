@@ -4,7 +4,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { AyahCard } from "../AyahCard";
+import { AyahUnit } from "../AyahUnit";
 import { SurahReaderContent } from "../SurahReaderContent";
 import type { Ayah } from "@/types/quran";
 
@@ -51,10 +51,10 @@ beforeEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("AyahCard typography and spacing", () => {
+describe("AyahUnit typography and spacing", () => {
   it("Arabic block uses font-arabic class", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -73,7 +73,7 @@ describe("AyahCard typography and spacing", () => {
   // (Elif Book), muted.
   it("transliteration is upright, 18 px, muted, in the reading face", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -93,7 +93,7 @@ describe("AyahCard typography and spacing", () => {
 
   it("translation has standard readable styling (primary)", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -108,9 +108,9 @@ describe("AyahCard typography and spacing", () => {
     expect(translation.className).toMatch(/text-ink/);
   });
 
-  it("transliteration has clear spacing above arabic block", () => {
+  it("transliteration sits 12 px under the Arabic", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -121,12 +121,12 @@ describe("AyahCard typography and spacing", () => {
       />
     );
     const transliteration = screen.getByText("Bismi Allahi");
-    expect(transliteration.className).toMatch(/mt-4|mt-5|mt-6/);
+    expect(transliteration).toHaveClass("mt-3");
   });
 
-  it("translation has clear spacing above", () => {
+  it("translation sits 8 px under the transcription", () => {
     render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -137,12 +137,12 @@ describe("AyahCard typography and spacing", () => {
       />
     );
     const translation = screen.getByText("U ime Allaha");
-    expect(translation.className).toMatch(/mt-4|mt-5|mt-6|mt-7/);
+    expect(translation).toHaveClass("mt-2");
   });
 
-  it("UI controls (ayah number, buttons) are smallest and subdued", () => {
+  it("UI controls (buttons, page) come after the text and are subdued", () => {
     const { container } = render(
-      <AyahCard
+      <AyahUnit
         ayah={mockAyah}
         queueAyahs={mockAyahs}
         surahNameLatin="Al-Fatihah"
@@ -152,20 +152,22 @@ describe("AyahCard typography and spacing", () => {
         showTajwidColors={true}
       />
     );
-    const metaRow = container.querySelector("article > div:first-child");
-    expect(metaRow).toBeInTheDocument();
-    const ayahNumberBadge = metaRow?.querySelector("span");
-    expect(ayahNumberBadge?.className).toMatch(/text-sm|text-xs/);
+    const actions = container.querySelector("article > div:last-child");
+    expect(actions).toBeInTheDocument();
+    const buttons = actions!.querySelectorAll("button");
+    expect(buttons).toHaveLength(2);
+    for (const button of buttons) expect(button.className).toMatch(/text-ink-muted/);
   });
 });
 
 describe("SurahReaderContent card spacing", () => {
-  it("ayah list has comfortable gap between cards (without excess scroll fatigue)", () => {
+  it("the ayah list adds no gap of its own: each unit has its own space and dividing line", () => {
     const { container } = render(<SurahReaderContent ayahs={mockAyahs} surahNameLatin="Al-Fatihah" />);
     const lists = container.querySelectorAll("ul");
     const ayahList = Array.from(lists).find((ul) => ul.querySelector("article"));
     expect(ayahList).toBeInTheDocument();
     // Reduced from space-y-14 to space-y-6 in mobile redesign (less scroll fatigue)
-    expect(ayahList?.className).toMatch(/space-y-[4-8]/);
+    expect(ayahList?.className).not.toMatch(/space-y-|gap-/);
+    expect(ayahList?.querySelector("article")).toHaveClass("py-5", "border-t");
   });
 });

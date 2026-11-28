@@ -79,8 +79,8 @@ vi.mock("@/components/quran", () => ({
   TajwidLegend: () => <div data-testid="tajwid-legend" />,
 }));
 
-vi.mock("../AyahCard", () => ({
-  AyahCard: ({
+vi.mock("../AyahUnit", () => ({
+  AyahUnit: ({
     ayah,
     showPageBadge,
   }: {

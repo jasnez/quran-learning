@@ -132,6 +132,7 @@
   --radius-control: 0.625rem;
   --radius-card: 0.875rem;
   --radius-sheet: 1.25rem;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   /* Type roles (Tezhib): ui for the interface, read for transcription, translation and page
@@ -155,42 +156,108 @@ html[data-arabic-font="naskh"] {
   --font-arabic: var(--font-naskh-arabic), var(--font-amiri), serif;
 }
 
-html {
-  transition: background-color 0.25s ease, color 0.25s ease;
-  /*
-   * Keep a scrolled-to or focused element clear of the fixed bars (WCAG 2.4.11).
-   * Top: header 3rem + sticky reader header + air = 7.5rem.
-   * Bottom: back-to-top button (bottom 2rem + 3rem tall = 5rem) + 1rem air = 6rem on desktop;
-   * on mobile the button sits at 6rem (nav 3.5rem + gap), so 6rem + 3rem + 1rem = 10rem.
-   * With the audio player (70px = 4.375rem): desktop button at 6rem + 3rem + 1rem = 10rem;
-   * mobile button at 8.5rem + 3rem + 1rem = 12.5rem.
-   */
-  scroll-padding-top: 7.5rem;
-  scroll-padding-bottom: 6rem;
-}
+/*
+ * Bars, layers and motion (Phase 4, D1; src/app/__tests__/layoutTokens.test.ts checks the values).
+ * Bars: the header on top; at the bottom the tab bar (phones) and the audio player (while audio
+ * is loaded). --bars-bottom adds up the bottom bars that are in the page right now, so everything
+ * that floats above them (toast, rule bar, back to top, install prompt) and the page's bottom
+ * padding use one number. The safe-area inset is 0 until viewport-fit=cover is turned on.
+ * Layers: one scale, used through the z-* utilities below; dialogs are in the top layer.
+ */
+:root {
+  --bar-header: 3rem;
+  --bar-nav: 3.5rem;
+  --bar-player: 4rem;
+  --bar-nav-now: 0px;
+  --bar-player-now: 0px;
+  --bars-bottom: calc(var(--bar-nav-now) + var(--bar-player-now) + env(safe-area-inset-bottom, 0px));
 
-:root:has([data-audio-player]) {
-  scroll-padding-bottom: 10rem;
+  --z-sticky: 10;
+  --z-float: 30;
+  --z-bars: 40;
+  --z-player: 41;
+  --z-infobar: 45;
+  --z-toast: 50;
+  --z-skip: 60;
+
+  --duration-press: 150ms;
+  --duration-sheet: 200ms;
 }
 
 @media (width < 48rem) {
-  html {
-    scroll-padding-bottom: 10rem;
-  }
-
-  :root:has([data-audio-player]) {
-    scroll-padding-bottom: 12.5rem;
+  :root {
+    --bar-nav-now: var(--bar-nav);
   }
 }
 
 /*
- * Sticky offset below the fixed global header (Header.tsx: fixed, h-12).
+ * The player counts while it is in the page. The second rule says the same from an attribute the
+ * player sets on the root, for browsers without :has(). Two rules, not a selector list: an
+ * unknown selector would drop the whole list.
+ */
+:root:has([data-audio-player]) {
+  --bar-player-now: var(--bar-player);
+}
+
+:root[data-has-audio] {
+  --bar-player-now: var(--bar-player);
+}
+
+@utility z-sticky {
+  z-index: var(--z-sticky);
+}
+
+@utility z-float {
+  z-index: var(--z-float);
+}
+
+@utility z-bars {
+  z-index: var(--z-bars);
+}
+
+@utility z-player {
+  z-index: var(--z-player);
+}
+
+@utility z-infobar {
+  z-index: var(--z-infobar);
+}
+
+@utility z-toast {
+  z-index: var(--z-toast);
+}
+
+@utility z-skip {
+  z-index: var(--z-skip);
+}
+
+@utility duration-press {
+  transition-duration: var(--duration-press);
+}
+
+@utility duration-sheet {
+  transition-duration: var(--duration-sheet);
+}
+
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+  /*
+   * Keep a scrolled-to or focused element clear of the fixed bars (WCAG 2.4.11).
+   * Top: the header and a little air (no second bar under it since Phase 4).
+   * Bottom: the bars, then the back-to-top button above them (1rem gap + 3rem tall) and air.
+   */
+  scroll-padding-top: calc(var(--bar-header) + 0.5rem);
+  scroll-padding-bottom: calc(var(--bars-bottom) + 6rem);
+}
+
+/*
+ * Sticky offset below the fixed global header (Header.tsx: fixed, as tall as --bar-header).
  * The header slides away while scrolling down (data-hidden="true"); sticky
  * elements then move up to 0 so no empty band is left above them.
- * Without :has() support the offset simply stays at 3rem.
+ * Without :has() support the offset simply stays at the header height.
  */
 :root {
-  --app-header-offset: 3rem;
+  --app-header-offset: var(--bar-header);
 }
 
 [data-scroll-container]:has(> header[data-hidden="true"]) {

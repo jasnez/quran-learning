@@ -17,6 +17,7 @@ vi.mock("../useStickyHeader", () => ({
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useSelectedLayoutSegment: () => null,
+  useParams: () => ({}),
 }));
 
 afterEach(() => cleanup());

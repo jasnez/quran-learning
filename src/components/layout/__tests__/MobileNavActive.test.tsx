@@ -64,3 +64,25 @@ describe("MobileNav active tab", () => {
     expect(currentTab()).toBeNull();
   });
 });
+
+// On a phone's reading screen the header gives the search icon's place to settings (Phase 4, D3),
+// so search must be reachable from the tab bar: first in "Više".
+describe("MobileNav search", () => {
+  it("lists Pretraga first in Više, leading to the search page", async () => {
+    route.pathname = "/surah/2";
+    route.segment = "surah";
+    render(nav);
+    const user = (await import("@testing-library/user-event")).default;
+    await user.click(screen.getByRole("button", { name: "Više opcija" }));
+    const links = screen.getByRole("list", { name: "Više opcija" }).querySelectorAll("a, button");
+    expect(links[0]).toHaveTextContent("Pretraga");
+    expect(screen.getByRole("link", { name: "Pretraga" })).toHaveAttribute("href", "/search");
+  });
+
+  it("marks Više as current on the search page", () => {
+    route.pathname = "/search";
+    route.segment = "search";
+    render(nav);
+    expect(currentTab()).toBe("Više");
+  });
+});

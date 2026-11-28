@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { TajwidRule } from "@/types/quran";
 import { tajwidRuleClasses, tajwidRuleLessonSlugs, tajwidRuleLineClasses, tajwidRuleNames } from "@/lib/quran/tajwidStyles";
 import { useSettingsStore } from "@/store/settingsStore";
-import { useToastStore } from "@/store/toastStore";
 
 type ColoredRule = Exclude<TajwidRule, "normal">;
 
@@ -19,33 +18,24 @@ const ROWS: { color: string; voice: string; rules: ColoredRule[] }[] = [
 /**
  * The key to the tajwid colors, and the keyboard and screen-reader path to the rule lessons: the
  * colored letters in the ayah text are not focusable, the rule names here are links.
+ * It sits in the settings sheet under the tajwid choice (Phase 4, D5); the one-time notice about
+ * the colors is fired by the reading screens (useTajwidNotice).
  */
-export function TajwidLegend() {
+export function TajwidLegend({ onNavigate }: { /** A lesson link was followed: a sheet around the legend closes. */ onNavigate?: () => void }) {
   const [open, setOpen] = useState(false);
-  const tajwidNoticeSeen = useSettingsStore((s) => s.tajwidNoticeSeen);
   const showLines = useSettingsStore((s) => s.showTajwidLines);
-  const markTajwidNoticeSeen = useSettingsStore((s) => s.markTajwidNoticeSeen);
-  const showToast = useToastStore((s) => s.showToast);
-
-  // The legend is shown only with the colors on: the right moment to say the colors changed.
-  useEffect(() => {
-    // Only an explicit false: the flag is missing in tests that stub part of the store.
-    if (tajwidNoticeSeen !== false) return;
-    showToast("Boje su sada kao u tedžvidskom mushafu.");
-    markTajwidNoticeSeen();
-  }, [tajwidNoticeSeen, markTajwidNoticeSeen, showToast]);
 
   return (
-    <section className="rounded-xl border border-line bg-paper/60">
+    <section>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-center gap-2 py-2.5 text-sm text-ink-muted hover:text-ink"
+        className="flex min-h-9 items-center gap-2 text-sm font-semibold text-accent-text hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
         aria-expanded={open}
         aria-controls="tajwid-legend-panel"
         id="tajwid-legend-toggle"
       >
-        <span aria-hidden className="text-ink-muted">
+        <span aria-hidden className="text-xs">
           {open ? "▼" : "▶"}
         </span>
         Šta znače boje
@@ -56,15 +46,15 @@ export function TajwidLegend() {
         aria-labelledby="tajwid-legend-toggle"
         aria-hidden={!open}
         inert={!open}
-        className={`overflow-hidden transition-[max-height] duration-200 ease-out ${
-          open ? "max-h-96 border-t border-line" : "max-h-0"
+        className={`overflow-hidden transition-[max-height] duration-sheet ease-standard ${
+          open ? "max-h-96" : "max-h-0"
         }`}
       >
-        <p className="px-4 pt-3 text-xs text-ink-muted">
+        <p className="pt-1 text-[0.8125rem] text-ink-muted">
           Boje pokazuju četiri pravila izgovora. Ostala pravila nisu obojena.
         </p>
-        <p className="px-4 pt-1 text-xs text-ink-muted">Dodirni obojeni harf za naziv pravila.</p>
-        <ul className="space-y-2.5 p-4 list-none" role="list">
+        <p className="pt-1 text-[0.8125rem] text-ink-muted">Dodirni obojeni harf za naziv pravila.</p>
+        <ul className="list-none space-y-2.5 py-3" role="list">
           {ROWS.map((row) => (
             <li key={row.color} className="flex items-start gap-3 text-sm text-ink">
               <span
@@ -90,6 +80,7 @@ export function TajwidLegend() {
                     )}
                     <Link
                       href={`/tajwid/${tajwidRuleLessonSlugs[rule]}`}
+                      onClick={onNavigate}
                       className="text-accent-text underline underline-offset-2"
                     >
                       {tajwidRuleNames[rule].toLowerCase()}

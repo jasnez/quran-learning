@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getSurahByNumber } from "@/lib/data";
-import { SurahHeader, SurahReaderContent } from "@/components/reader";
+import { SurahFrame, SurahReaderContent } from "@/components/reader";
 import { SurahAyahNav } from "@/components/reader/SurahAyahNav";
+import { EndNav } from "@/components/ui";
 
 export function generateStaticParams() {
   return Array.from({ length: 114 }, (_, i) => ({ surahId: String(i + 1) }));
@@ -72,52 +72,29 @@ export default async function SurahReaderPage({ params }: PageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <SurahHeader surah={surah} ayahs={ayahs} />
-      <nav
-        className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm"
-        aria-label="Navigacija između sura"
-      >
-        <div className="flex items-center gap-2">
-          {prevSurah ? (
-            <Link
-              href={`/surah/${prevSurah.surahNumber}`}
-              className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-ink hover:bg-surface-sunken"
-            >
-              Prethodna sura: {prevSurah.nameLatin}
-            </Link>
-          ) : null}
-        </div>
-        <div className="flex items-center gap-2">
-          {/* No prefetch: it would download a second copy of the surah on every visit (QA section 6). */}
-          <Link
-            href={`/learn/${surahNumber}`}
-            prefetch={false}
-            className="rounded-full border-2 border-accent-text bg-accent-wash px-3 py-1.5 text-sm font-medium text-accent-text hover:bg-line"
-          >
-            Uči ajet po ajet
-          </Link>
-          <Link
-            href="/surahs"
-            className="rounded-full border border-line px-3 py-1.5 text-ink-muted hover:bg-surface-sunken"
-          >
-            Sve sure
-          </Link>
-          {nextSurah && (
-            <Link
-              href={`/surah/${nextSurah.surahNumber}`}
-              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-on-accent hover:bg-accent-hover"
-            >
-              Sljedeća sura: {nextSurah.nameLatin}
-            </Link>
-          )}
-        </div>
-      </nav>
-      <div className="mt-12 lg:flex lg:items-start lg:gap-8">
-        <SurahAyahNav ayahs={ayahs} surahNumber={surahNumber} />
-        <section className="min-w-0 flex-1">
+    // No padding of its own: the shell sets the page's. Nothing stands above the first ayah but
+    // the surah's frame and its two actions; the way to other surahs is at the end.
+    <div className="mx-auto max-w-6xl lg:flex lg:items-start lg:justify-center lg:gap-12">
+      <SurahAyahNav ayahs={ayahs} surahNumber={surahNumber} />
+      <div data-reading-column className="mx-auto min-w-0 max-w-[42rem] flex-1 lg:mx-0">
+        <SurahFrame surah={surah} ayahs={ayahs} />
+        <section className="mt-5">
           <SurahReaderContent ayahs={ayahs} surahNameLatin={surah.nameLatin} />
         </section>
+        <EndNav
+          label="Susjedne sure"
+          prev={
+            prevSurah
+              ? { href: `/surah/${prevSurah.surahNumber}`, kicker: "Prethodna sura", title: prevSurah.nameLatin }
+              : undefined
+          }
+          next={
+            nextSurah
+              ? { href: `/surah/${nextSurah.surahNumber}`, kicker: "Sljedeća sura", title: nextSurah.nameLatin }
+              : undefined
+          }
+          all={{ href: "/surahs", label: "Sve sure" }}
+        />
       </div>
     </div>
   );

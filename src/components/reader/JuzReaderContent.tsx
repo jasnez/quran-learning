@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import type { JuzInfo } from "@/types/quran";
-import { commonSurahName } from "@/lib/quran/surahNames";
 import type { JuzSegment } from "@/lib/data";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
-import { AyahCard } from "./AyahCard";
+import { useTajwidNotice } from "@/components/quran/useTajwidNotice";
+import { Button, EndNav } from "@/components/ui";
+import { AyahUnit } from "./AyahUnit";
+import { SurahFrame } from "./SurahFrame";
 import type { Ayah } from "@/types/quran";
 
 const AYAHS_PER_PAGE = 20;
@@ -22,6 +23,8 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
+  // The colors are seen here; their legend is in the settings sheet.
+  useTajwidNotice();
 
   // Playback runs through the whole juz, across surah boundaries.
   const juzAyahs = useMemo(() => segments.flatMap((s) => s.ayahs), [segments]);
@@ -49,53 +52,15 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
   }
 
   return (
-    <div className="flex flex-col gap-10">
-      <nav
-        className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4 text-sm"
-        aria-label="Navigacija džuzeva"
-      >
-        <div>
-          {juz.juz > 1 ? (
-            <Link
-              href={`/juz/${juz.juz - 1}`}
-              className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-ink hover:bg-surface-sunken"
-            >
-              Džuz {juz.juz - 1}
-            </Link>
-          ) : null}
-        </div>
-        <div>
-          {juz.juz < 30 ? (
-            <Link
-              href={`/juz/${juz.juz + 1}`}
-              className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-on-accent hover:bg-accent-hover"
-            >
-              Džuz {juz.juz + 1}
-            </Link>
-          ) : null}
-        </div>
-      </nav>
-
-      <ul className="space-y-14 list-none" role="list">
+    <div>
+      <ul className="list-none space-y-10" role="list">
         {bySegment.map(({ segment, ayahs }) => (
           <li key={segment.surah.surahNumber}>
-            <div className="mb-6 rounded-xl border border-line bg-highlight px-4 py-3">
-              <p className="font-arabic text-2xl font-normal text-ink" dir="rtl" lang="ar">
-                {segment.surah.nameArabic}
-              </p>
-              <p className="mt-1 text-sm text-ink-muted">
-                {segment.surah.nameLatin}
-                {commonSurahName(segment.surah) && (
-                  <>
-                    <span className="mx-2 text-ink-muted">·</span>
-                    {commonSurahName(segment.surah)}
-                  </>
-                )}
-              </p>
-            </div>
-            {ayahs.map((ayah) => (
-              <div key={ayah.id} className="mb-10">
-                <AyahCard
+            <SurahFrame surah={segment.surah} variant="segment" />
+            <div className="mt-5">
+              {ayahs.map((ayah) => (
+                <AyahUnit
+                  key={ayah.id}
                   ayah={ayah}
                   queueAyahs={juzAyahs}
                   queueSource="juz"
@@ -105,23 +70,34 @@ export function JuzReaderContent({ juz, segments }: JuzReaderContentProps) {
                   showTranslation={showTranslation}
                   showTajwidColors={showTajwidColors}
                 />
-              </div>
-            ))}
+              ))}
+            </div>
           </li>
         ))}
       </ul>
 
       {hasMore && (
         <div className="flex justify-center py-6">
-          <button
-            type="button"
-            onClick={loadMore}
-            className="rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-ink hover:bg-surface-sunken"
-          >
+          <Button variant="secondary" onClick={loadMore}>
             Učitaj još
-          </button>
+          </Button>
         </div>
       )}
+
+      <EndNav
+        label="Susjedni džuzevi"
+        prev={
+          juz.juz > 1
+            ? { href: `/juz/${juz.juz - 1}`, kicker: "Prethodni džuz", title: `Džuz ${juz.juz - 1}` }
+            : undefined
+        }
+        next={
+          juz.juz < 30
+            ? { href: `/juz/${juz.juz + 1}`, kicker: "Sljedeći džuz", title: `Džuz ${juz.juz + 1}` }
+            : undefined
+        }
+        all={{ href: "/surahs?view=juz", label: "Svi džuzevi" }}
+      />
     </div>
   );
 }

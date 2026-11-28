@@ -97,3 +97,26 @@ describe("JuzReaderContent playback queue", () => {
     expect(document.querySelector('[data-ayah-id="2:25"]')).not.toBeInTheDocument();
   });
 });
+
+describe("JuzReaderContent layout", () => {
+  afterEach(cleanup);
+
+  it("starts each surah with a small frame (an h2) and keeps the juz links for the end", () => {
+    const { container } = render(
+      <JuzReaderContent
+        juz={{ ...juz, juz: 2 }}
+        segments={[
+          { surah: surah(1, 7), ayahs: [ayah("1:6"), ayah("1:7")] },
+          { surah: surah(2, 286), ayahs: [ayah("2:1"), ayah("2:2")] },
+        ]}
+      />,
+    );
+    const frames = container.querySelectorAll("[data-surah-frame]");
+    expect(frames).toHaveLength(2);
+    expect(screen.getByRole("heading", { level: 2, name: /Surah 1/ })).toBeInTheDocument();
+    const nav = screen.getByRole("navigation", { name: "Susjedni džuzevi" });
+    const units = container.querySelectorAll("[data-ayah-id]");
+    expect(units[units.length - 1].compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector("nav")).toBe(nav);
+  });
+});

@@ -6,15 +6,15 @@ test.describe("Audio player", () => {
   });
 
   test("audio player kontrole su vidljive", async ({ page }) => {
-    // Play controls are labelled in Bosnian ("Pusti cijelu suru", "Pusti audio").
+    // Play controls are labelled in Bosnian ("Pusti suru", "Pusti 1. ajet").
     const player = page.getByRole("button", { name: /^pusti/i }).first();
     await expect(player).toBeVisible({ timeout: 5000 });
   });
 
   test("dugme za play/pause postoji i reaguje na klik", async ({ page }) => {
-    await page.getByRole("button", { name: "Pusti cijelu suru" }).click();
-    // While audio plays, the play controls switch to "Pauza".
-    await expect(page.getByRole("button", { name: "Pauza" }).first()).toBeVisible();
+    await page.getByRole("button", { name: "Pusti suru" }).click();
+    // While audio plays, the play controls switch to "Pauziraj".
+    await expect(page.getByRole("button", { name: /^Pauziraj/ }).first()).toBeVisible();
     await expect(page.locator("body")).not.toContainText("Greška");
   });
 

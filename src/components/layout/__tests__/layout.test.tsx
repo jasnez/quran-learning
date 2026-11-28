@@ -57,6 +57,7 @@ vi.mock("next/link", () => ({
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useSelectedLayoutSegment: () => null,
+  useParams: () => ({}),
   useRouter: () => ({ push: vi.fn() }),
 }));
 
@@ -206,7 +207,7 @@ describe("AppShell", () => {
     });
   });
 
-  it("when audio player is visible and user scrolled, BackToTop sits above player (data-above-player)", async () => {
+  it("when audio player is visible and user scrolled, BackToTop sits above the bottom bars", async () => {
     const scrollY = 500;
     Object.defineProperty(window, "scrollY", { configurable: true, get: () => scrollY });
     const { container } = render(<AppShell><span>x</span></AppShell>);
@@ -216,7 +217,8 @@ describe("AppShell", () => {
       expect(btn).toBeInTheDocument();
     }, { timeout: 1000 });
     const btn = container.querySelector("[data-testid='back-to-top']");
-    expect(btn).toHaveAttribute("data-above-player", "true");
+    // The player counts in --bars-bottom in CSS; the button has no state of its own for it.
+    expect(btn).toHaveClass("bottom-[calc(var(--bars-bottom)+1rem)]");
   });
 
   it("main content wrapper allows page-level max-width (wider than max-w-2xl)", () => {
@@ -243,9 +245,9 @@ describe("AppShell", () => {
     );
     const scrollEl = container.querySelector("[data-scroll-container]");
     const main = container.querySelector("main");
-    // mobile: bottom navigation (56px) + player (70px); desktop: player only
-    expect(scrollEl).toHaveClass("max-md:pb-[126px]", "md:pb-[70px]");
-    expect(main?.className).not.toMatch(/max-md:pb-\[126px\]/);
+    // --bars-bottom adds up the tab bar (phones) and the player (while audio is loaded).
+    expect(scrollEl).toHaveClass("pb-[var(--bars-bottom)]");
+    expect(main?.className).not.toMatch(/bars-bottom/);
   });
 
   it("main has bottom padding so content clears bottom UI", () => {

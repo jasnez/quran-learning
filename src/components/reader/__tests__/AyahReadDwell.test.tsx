@@ -8,7 +8,7 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act, render } from "@testing-library/react";
-import { AyahCard } from "../AyahCard";
+import { AyahUnit } from "../AyahUnit";
 import type { Ayah } from "@/types/quran";
 
 const mockMarkAyahRead = vi.fn();
@@ -77,7 +77,7 @@ function visible(ratio: number, heightPx: number) {
 
 function renderCard() {
   render(
-    <AyahCard
+    <AyahUnit
       ayah={ayah}
       queueAyahs={[ayah]}
       surahNameLatin="El-Beqare"
@@ -100,7 +100,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("AyahCard read tracking", () => {
+describe("AyahUnit read tracking", () => {
   it("records the ayah as read after it has been in view for 2 seconds", () => {
     renderCard();
     visible(0.6, 120);

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Ayah } from "@/types/quran";
 import { useBookmarkStore } from "@/store/bookmarkStore";
+import { useReaderPositionStore } from "@/store/readerPositionStore";
+import { IDLE_CLASSES, SELECTED_CLASSES } from "@/components/ui/selected";
 import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
 type Props = {
@@ -16,34 +17,9 @@ function parseAyahId(id: string): { surahNumber: number; ayahNumber: number } {
 }
 
 export function SurahAyahNav({ ayahs, surahNumber }: Props) {
-  const [activeAyahNumber, setActiveAyahNumber] = useState<number>(1);
+  // The ayah on screen: written by the reader's one observer (useActiveAyahObserver).
+  const activeAyahNumber = useReaderPositionStore((s) => s.ayahNumber);
   const bookmarks = useBookmarkStore((s) => s.bookmarks);
-
-  useEffect(() => {
-    if (ayahs.length === 0) return;
-    const elements = ayahs
-      .map((a) => document.querySelector(`[data-ayah-id="${a.id}"]`))
-      .filter((el): el is Element => el != null);
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        const top = visible[0];
-        if (!top) return;
-        const id = top.target.getAttribute("data-ayah-id");
-        if (!id) return;
-        const ayahNum = parseInt(id.split(":")[1] ?? "1", 10);
-        if (Number.isFinite(ayahNum)) setActiveAyahNumber(ayahNum);
-      },
-      { rootMargin: "-30% 0px -50% 0px", threshold: 0 }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [ayahs]);
 
   const handleJump = (ayahId: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -55,13 +31,11 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
 
   return (
     <aside
-      className="hidden lg:block lg:sticky lg:top-[calc(var(--app-header-offset)+1rem)] lg:max-h-[calc(100vh-6rem)] lg:w-44 lg:flex-shrink-0 lg:overflow-y-auto lg:pr-2 lg:transition-[top] lg:duration-200"
+      className="hidden lg:block lg:sticky lg:top-[calc(var(--app-header-offset)+1rem)] lg:max-h-[calc(100vh-6rem)] lg:w-56 lg:flex-shrink-0 lg:overflow-y-auto lg:pr-2 lg:transition-[top] lg:duration-sheet"
       aria-label="Lista ajeta"
     >
       <div>
-        <p className="px-2 pb-2 text-[10px] font-medium uppercase tracking-wider text-ink-muted">
-          Ajeti
-        </p>
+        <p className="px-3 pb-2 text-sm font-semibold text-ink-muted">Ajeti</p>
         <ul className="space-y-0.5">
           {ayahs.map((ayah) => {
             const { ayahNumber } = parseAyahId(ayah.id);
@@ -74,10 +48,8 @@ export function SurahAyahNav({ ayahs, surahNumber }: Props) {
                 <a
                   href={`#ayah-${ayah.id.replace(":", "-")}`}
                   onClick={handleJump(ayah.id)}
-                  className={`flex items-center justify-between rounded-md px-3 py-1 text-xs tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
-                    isActive
-                      ? "bg-accent-wash font-medium text-accent-text"
-                      : "text-ink-muted hover:bg-surface-sunken hover:text-ink"
+                  className={`flex h-8 items-center justify-between rounded-lg border-[1.5px] px-3 text-sm tabular-nums transition-colors duration-press ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text ${
+                    isActive ? `font-semibold ${SELECTED_CLASSES}` : IDLE_CLASSES
                   }`}
                   aria-current={isActive ? "true" : undefined}
                 >

@@ -90,9 +90,9 @@ describe("BackToTop", () => {
     });
   });
 
-  describe("position above sticky player", () => {
-    it("when sticky player is visible, button has data-above-player true and sits above player", async () => {
-      playerStoreState = mockPlayerStore(true);
+  describe("position above the bottom bars", () => {
+    it.each([true, false])("sits one gap above the bars from CSS alone (player loaded: %s)", async (hasAudio) => {
+      playerStoreState = mockPlayerStore(hasAudio);
       scrollY = 500;
       render(<BackToTop scrollThreshold={SCROLL_THRESHOLD} />);
       fireEvent.scroll(window);
@@ -100,21 +100,16 @@ describe("BackToTop", () => {
         expect(screen.getByTestId("back-to-top")).toBeInTheDocument();
       });
       const btn = screen.getByTestId("back-to-top");
-      expect(btn).toHaveAttribute("data-above-player", "true");
-      expect(btn.className).toMatch(/bottom-\[8\.5rem\]|bottom-24|md:bottom-24/);
+      // --bars-bottom counts the tab bar and the player; the button itself asks nobody.
+      expect(btn).toHaveClass("bottom-[calc(var(--bars-bottom)+1rem)]");
+      expect(btn).not.toHaveAttribute("data-above-player");
     });
 
-    it("when sticky player is not visible, button has data-above-player false and default position", async () => {
-      playerStoreState = mockPlayerStore(false);
-      scrollY = 500;
+    it("does not subscribe to the player store", async () => {
+      const { usePlayerStore } = await import("@/store/playerStore");
+      vi.mocked(usePlayerStore).mockClear();
       render(<BackToTop scrollThreshold={SCROLL_THRESHOLD} />);
-      fireEvent.scroll(window);
-      await waitFor(() => {
-        expect(screen.getByTestId("back-to-top")).toBeInTheDocument();
-      });
-      const btn = screen.getByTestId("back-to-top");
-      expect(btn).toHaveAttribute("data-above-player", "false");
-      expect(btn.className).toMatch(/max-md:bottom-24|md:bottom-8/);
+      expect(usePlayerStore).not.toHaveBeenCalled();
     });
   });
 });

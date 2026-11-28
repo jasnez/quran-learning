@@ -129,10 +129,10 @@ beforeEach(() => {
 
 
 describe("Surah Reader page", () => {
-  it("shows SurahHeader with nameArabic, nameLatin, nameBosnian", async () => {
+  it("shows SurahFrame with nameArabic, nameLatin, nameBosnian", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    // Arapski naziv i Latin se ponavljaju (postojeći SurahHeader + novi SurahReaderStickyHeader)
+    // Arapski naziv i Latin se ponavljaju (postojeći SurahFrame + novi SurahReaderStickyHeader)
     expect(screen.getAllByText("الفاتحة").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Al-Fatihah/).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Al-Fatiha/).length).toBeGreaterThanOrEqual(1);
@@ -142,27 +142,27 @@ describe("Surah Reader page", () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(screen.getByText(/2\s*ajeta|2 ajeta/i)).toBeInTheDocument();
-    expect(screen.getByText(/meka|meccan/i)).toBeInTheDocument();
+    expect(screen.getByText(/mekanska sura/)).toBeInTheDocument();
   });
 
-  it("shows Play full surah button when ayahs are present", async () => {
+  it("shows the play-surah button when ayahs are present", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const btn = screen.getByRole("button", { name: /pusti cijelu suru/i });
+    const btn = screen.getByRole("button", { name: "Pusti suru" });
     expect(btn).toBeInTheDocument();
     btn.click();
     expect(mockSetQueue).toHaveBeenCalledWith(mockSurahDetail.ayahs);
     expect(mockPlay).toHaveBeenCalledWith(mockSurahDetail.ayahs[0]);
   });
 
-  it("when progress exists, SurahHeader shows Preslušano: X od Y ajeta and progress bar", async () => {
+  it("when progress exists, SurahFrame shows read and heard ayahs together as text", async () => {
     hoistedProgress.mockGetSurahProgress.mockImplementation((num: number) =>
       num === 1
         ? {
             surahNumber: 1,
             totalAyahs: 2,
             ayahsListened: new Set([1]),
-            ayahsRead: new Set(),
+            ayahsRead: new Set([2]),
             completionPercent: 50,
             lastAccessedAt: "",
             timeSpentMs: 0,
@@ -171,10 +171,10 @@ describe("Surah Reader page", () => {
     );
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    expect(screen.getByText("Preslušano: 1 od 2 ajeta")).toBeInTheDocument();
+    expect(screen.getByText("Pročitano: 2 od 2 ajeta")).toBeInTheDocument();
   });
 
-  it("renders an AyahCard for each ayah", async () => {
+  it("renders an AyahUnit for each ayah", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
     expect(screen.getByText("بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ")).toBeInTheDocument();
@@ -262,14 +262,15 @@ describe("Surah Reader page", () => {
     expect(mockPause).toHaveBeenCalled();
   });
 
-  it("when an ayah is playing, that card has the full highlight (data-active, left border, bg-highlight)", async () => {
+  it("when an ayah is playing, that unit has the full highlight (data-active, bg-highlight, filled rosette)", async () => {
     playerState.currentAyahId = "1:1";
     playerState.isPlaying = true;
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     const activeCard = container.querySelector("[data-active='true']");
     expect(activeCard).toBeInTheDocument();
-    expect(activeCard?.className).toMatch(/border-l/);
+    // Not color alone: the rosette is filled and the unit says "Sluša se".
+    expect(activeCard?.querySelector("[data-rosette]")).toHaveAttribute("data-filled", "true");
     // The --tj-* colors keep 3:1 on the full highlight (4.13:1 or more), so no faded tint.
     expect(activeCard?.className.split(" ")).toContain("bg-highlight");
   });
@@ -290,7 +291,7 @@ describe("Surah Reader page", () => {
     expect(container.querySelector("[data-active='true']")).not.toBeInTheDocument();
   });
 
-  it("each AyahCard has data-ayah-id attribute for scroll targeting", async () => {
+  it("each AyahUnit has data-ayah-id attribute for scroll targeting", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     const { container } = render(Page);
     expect(container.querySelector("[data-ayah-id='1:1']")).toBeInTheDocument();
@@ -311,12 +312,12 @@ describe("Surah Reader page", () => {
     expect(learnLink).toHaveAttribute("href", "/learn/2");
   });
 
-  it("names the surah navigation links in words, without arrows", async () => {
+  it("names the neighbouring surahs in words, without arrows", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
     const { container } = render(Page);
-    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
-    expect(within(nav).getByRole("link", { name: "Prethodna sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
-    expect(within(nav).getByRole("link", { name: "Sljedeća sura: Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
+    expect(within(nav).getByRole("link", { name: "Prethodna sura Al-Fatihah" })).toHaveAttribute("href", "/surah/1");
+    expect(within(nav).getByRole("link", { name: "Sljedeća sura Al-Fatihah" })).toHaveAttribute("href", "/surah/3");
     expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
     expect(within(nav).getByRole("link", { name: "Sve sure" })).toHaveAttribute("href", "/surahs");
     expect(nav.textContent).not.toMatch(/[←→]/);
@@ -326,9 +327,41 @@ describe("Surah Reader page", () => {
   it("has exactly one Sve sure link in the nav of the first surah (no previous surah)", async () => {
     const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
     render(Page);
-    const nav = screen.getByRole("navigation", { name: "Navigacija između sura" });
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
     expect(within(nav).getAllByRole("link", { name: "Sve sure" })).toHaveLength(1);
     expect(within(nav).queryByRole("link", { name: /^Prethodna/ })).toBeNull();
+  });
+
+  // Phase 4, D4: reading comes before controls.
+  it("puts the frame first, then the ayahs, then the way to the neighbouring surahs", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const frame = container.querySelector("[data-surah-frame]")!;
+    const firstAyah = container.querySelector("[data-ayah-id]")!;
+    const ayahs = container.querySelectorAll("[data-ayah-id]");
+    const lastAyah = ayahs[ayahs.length - 1];
+    const nav = screen.getByRole("navigation", { name: "Susjedne sure" });
+    const follows = (a: Element, b: Element) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(follows(frame, firstAyah)).toBe(true);
+    expect(follows(lastAyah, nav)).toBe(true);
+  });
+
+  it("has no link to another surah before the first ayah", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "2" }) });
+    const { container } = render(Page);
+    const firstAyah = container.querySelector("[data-ayah-id]")!;
+    const before = [...container.querySelectorAll("a")].filter(
+      (a) => a.compareDocumentPosition(firstAyah) & Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(before.map((a) => a.getAttribute("href")).filter((href) => /^\/surah\//.test(href ?? ""))).toEqual([]);
+  });
+
+  it("adds no padding of its own and keeps the text to the reading width next to the ayah list", async () => {
+    const Page = await SurahReaderPage({ params: Promise.resolve({ surahId: "1" }) });
+    const { container } = render(Page);
+    expect((container.firstElementChild as HTMLElement).className).not.toMatch(/\bp[xy]?-\d/);
+    expect(container.querySelector("[data-reading-column]")).toHaveClass("max-w-[42rem]");
+    expect(container.querySelector("aside")).toHaveClass("lg:w-56");
   });
 
   it("with ?ayah= in the URL still renders content (scroll/highlight handled in client)", async () => {

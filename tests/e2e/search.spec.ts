@@ -1,4 +1,14 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+/**
+ * Types the query and waits for the first result. The results come after the debounce and the
+ * download of the search index (1.2-1.5 s on the dev server), so a fixed pause is not enough.
+ */
+async function search(page: Page, query: string) {
+  await page.goto("/search");
+  await page.locator("input[type='search'], input[type='text']").first().fill(query);
+  await expect(page.locator("a[href^='/surah/']").first()).toBeVisible({ timeout: 15_000 });
+}
 
 test.describe("Pretraga", () => {
   test("stranica za pretragu se učitava", async ({ page }) => {
@@ -8,22 +18,11 @@ test.describe("Pretraga", () => {
   });
 
   test("pretraga po bosanskom tekstu vraća rezultate", async ({ page }) => {
-    await page.goto("/search");
-    const input = page.locator("input[type='search'], input[type='text']").first();
-    await input.fill("milostiv");
-    // Sačekaj rezultate
-    await page.waitForTimeout(500);
-    // Trebaju biti vidljivi rezultati ili poruka "nema rezultata"
-    const hasResults = await page.locator("a[href^='/surah/']").count();
-    const hasNoResults = await page.locator("text=/nema|nije pronađeno/i").count();
-    expect(hasResults + hasNoResults).toBeGreaterThan(0);
+    await search(page, "milostiv");
   });
 
   test("pretraga po arapskom tekstu radi", async ({ page }) => {
-    await page.goto("/search");
-    const input = page.locator("input[type='search'], input[type='text']").first();
-    await input.fill("بسم");
-    await page.waitForTimeout(500);
+    await search(page, "بسم");
     await expect(page.locator("body")).not.toContainText("Greška");
   });
 

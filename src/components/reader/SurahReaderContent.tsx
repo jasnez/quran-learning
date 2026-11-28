@@ -1,17 +1,15 @@
 "use client";
 
-import { Suspense, useEffect, useId, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import Link from "next/link";
 import type { Ayah } from "@/types/quran";
 import { useSettingsStore } from "@/store/settingsStore";
 import { usePlayerStore } from "@/store/playerStore";
 import { useChapterTimestamps } from "@/lib/audio/useChapterTimestamps";
 import { getJuzForAyah } from "@/lib/data/juzUtils";
-import surahsData from "@/data/surahs.json";
-import { TajwidLegend } from "@/components/quran";
-import { AyahCard } from "./AyahCard";
-import { SurahReaderStickyHeader } from "./SurahReaderStickyHeader";
-import { ReaderToolbar } from "./ReaderToolbar";
+import { useTajwidNotice } from "@/components/quran/useTajwidNotice";
+import { AyahUnit } from "./AyahUnit";
+import { useActiveAyahObserver } from "./useActiveAyahObserver";
 import { SurahReaderUrlEffects } from "./SurahReaderUrlEffects";
 import { preferredScrollBehavior } from "@/lib/scrollBehavior";
 
@@ -27,14 +25,16 @@ export function SurahReaderContent({
   const showTransliteration = useSettingsStore((s) => s.showTransliteration);
   const showTranslation = useSettingsStore((s) => s.showTranslation);
   const showTajwidColors = useSettingsStore((s) => s.showTajwidColors);
-  // No playback clock here: every card would re-render on each frame (QA P1-9). AyahCard reads it.
+  // No playback clock here: every card would re-render on each frame (QA P1-9). AyahUnit reads it.
   const currentAyahId = usePlayerStore((s) => s.currentAyahId);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const wordByWordMode = usePlayerStore((s) => s.wordByWordMode);
-  const setWordByWordMode = usePlayerStore((s) => s.setWordByWordMode);
 
   const prevAyahIdRef = useRef<string | null>(null);
-  const syncLabelId = useId();
+  // The ayah on screen, for the header's counter and the desktop ayah list.
+  useActiveAyahObserver(ayahs);
+  // The colors are seen here; their legend is in the settings sheet.
+  useTajwidNotice();
 
   const surahNumber = ayahs.length > 0 ? parseInt(ayahs[0].id.split(":")[0], 10) : 0;
 
@@ -69,9 +69,6 @@ export function SurahReaderContent({
     );
   }
 
-  const currentSurahMeta = (surahsData as Array<{ surahNumber: number; nameArabic: string }>).find(
-    (s) => s.surahNumber === surahNumber,
-  );
   const wordDataFailed = wordByWordMode && chapterDataError;
 
   return (
@@ -85,56 +82,12 @@ export function SurahReaderContent({
           initialAutoplay={initialAutoplay}
         />
       </Suspense>
-      <SurahReaderStickyHeader
-        surahNameLatin={surahNameLatin}
-        surahNumberArabic={currentSurahMeta?.nameArabic ?? ""}
-        totalAyahs={ayahs.length}
-        ayahs={ayahs}
-      />
-      <ReaderToolbar />
-      {showTajwidColors && (
-        <div className="mb-6">
-          <TajwidLegend />
-        </div>
-      )}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-surface p-3 lg:hidden">
-        <span id={syncLabelId} className="text-sm text-ink-muted">
-          Praćenje uz zvuk
-        </span>
-        {/* One choice between two modes: toggle buttons in a group, as in ReaderToolbar, not two switches. */}
-        <div className="flex items-center gap-2" role="group" aria-labelledby={syncLabelId}>
-          <button
-            type="button"
-            aria-pressed={!wordByWordMode}
-            onClick={() => setWordByWordMode(false)}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-              !wordByWordMode
-                ? "bg-accent-wash text-accent-text"
-                : "text-ink-muted hover:bg-surface-sunken"
-            }`}
-          >
-            Po ajetu
-          </button>
-          <button
-            type="button"
-            aria-pressed={wordByWordMode}
-            onClick={() => setWordByWordMode(true)}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-              wordByWordMode
-                ? "bg-accent-wash text-accent-text"
-                : "text-ink-muted hover:bg-surface-sunken"
-            }`}
-          >
-            Riječ po riječ
-          </button>
-        </div>
-      </div>
       {/* The status region stays in the DOM and only its text changes: a region mounted together
           with its text is often not announced. Empty, it is sr-only, so no empty box shows. */}
       <p className={wordDataFailed ? "mb-4 text-sm text-warning-text" : "sr-only"} role="status">
         {wordDataFailed ? "Praćenje riječi se nije učitalo. Provjeri internet i pokušaj ponovo." : null}
       </p>
-      <ul className="space-y-6 list-none" role="list">
+      <ul className="list-none" role="list">
         {ayahs.map((ayah, index) => {
           const prevAyah = index > 0 ? ayahs[index - 1] : null;
           const [prevSurahNum, prevAyahNum] = prevAyah ? prevAyah.id.split(":").map(Number) : [0, 0];
@@ -159,7 +112,7 @@ export function SurahReaderContent({
                   <span className="h-px flex-1 bg-line" aria-hidden />
                 </div>
               )}
-              <AyahCard
+              <AyahUnit
                 ayah={ayah}
                 queueAyahs={ayahs}
                 surahNameLatin={surahNameLatin}

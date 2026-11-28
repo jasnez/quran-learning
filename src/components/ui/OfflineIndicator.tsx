@@ -22,7 +22,7 @@ export function OfflineIndicator() {
     <div
       role="status"
       aria-live="polite"
-      className="fixed bottom-[72px] left-0 right-0 z-50 flex items-center justify-center md:bottom-4"
+      className="fixed bottom-[calc(var(--bars-bottom)+1rem)] left-0 right-0 z-toast flex items-center justify-center"
     >
       {offline && (
         <div className="flex items-center gap-2 rounded-full border border-line-strong bg-ink/95 px-4 py-2 text-sm text-paper shadow-lg backdrop-blur">

@@ -11,7 +11,7 @@ vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
 }));
 // The juz navigation is rendered; the ayah cards are not under test here.
-vi.mock("@/components/reader/AyahCard", () => ({ AyahCard: () => null }));
+vi.mock("@/components/reader/AyahUnit", () => ({ AyahUnit: () => null }));
 
 afterEach(cleanup);
 
@@ -41,8 +41,22 @@ describe("Juz page", () => {
     const overview = screen.getAllByRole("link").filter((a) => a.getAttribute("href") === "/surahs?view=juz");
     expect(overview).toHaveLength(1);
     expect(overview[0]).toHaveAccessibleName("Svi džuzevi");
-    const nav = screen.getByRole("navigation", { name: "Navigacija džuzeva" });
-    expect(nav.children).toHaveLength(2);
-    expect(nav.children[emptySlot]).toBeEmptyDOMElement();
+    const nav = screen.getByRole("navigation", { name: "Susjedni džuzevi" });
+    const cards = nav.querySelector(".grid")!;
+    expect(cards.children).toHaveLength(2);
+    expect(cards.children[emptySlot]).toBeEmptyDOMElement();
+  });
+
+  it("leads to the neighbouring juz at the end, by name", async () => {
+    render(await JuzPage({ params: Promise.resolve({ juzId: "2" }) }));
+    expect(screen.getByRole("link", { name: "Prethodni džuz Džuz 1" })).toHaveAttribute("href", "/juz/1");
+    expect(screen.getByRole("link", { name: "Sljedeći džuz Džuz 3" })).toHaveAttribute("href", "/juz/3");
+  });
+
+  it("has one h1 and no card around the title", async () => {
+    const { container } = render(await JuzPage({ params: Promise.resolve({ juzId: "1" }) }));
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(container.querySelector("header")?.className ?? "").not.toMatch(/rounded-2xl|bg-highlight/);
+    expect((container.firstElementChild as HTMLElement).className).not.toMatch(/\bp[xy]?-\d/);
   });
 });
